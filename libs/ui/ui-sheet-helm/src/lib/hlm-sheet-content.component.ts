@@ -1,14 +1,14 @@
 import {
     Component,
+    ElementRef,
+    Renderer2,
     computed,
     effect,
-    ElementRef,
     inject,
-    Input,
-    Renderer2,
+    input,
     signal,
 } from '@angular/core'
-import { radixCross1 } from '@ng-icons/radix-icons'
+import { lucideX } from '@ng-icons/lucide'
 import {
     hlm,
     injectExposedSideProvider,
@@ -41,7 +41,7 @@ export const sheetVariants = cva(
     selector: 'hlm-sheet-content',
     standalone: true,
     imports: [HlmSheetCloseDirective, BrnSheetCloseDirective, HlmIconComponent],
-    providers: [provideIcons({ radixCross1 })],
+    providers: [provideIcons({ lucideX })],
     host: {
         '[class]': '_computedClass()',
         '[attr.data-state]': 'state()',
@@ -50,7 +50,7 @@ export const sheetVariants = cva(
         <ng-content />
         <button brnSheetClose hlm>
             <span class="sr-only">Close</span>
-            <hlm-icon class="flex h-4 w-4" size="100%" name="radixCross1" />
+            <hlm-icon class="flex h-4 w-4" size="100%" name="lucideX" />
         </button>
     `,
 })
@@ -71,17 +71,11 @@ export class HlmSheetContentComponent {
         })
     }
 
-    private readonly _userCls = signal<ClassValue>('')
-    @Input()
-    set class(userCls: ClassValue) {
-        this._userCls.set(userCls)
-    }
-
-    protected _computedClass = computed(() => this._generateClass())
-    private _generateClass() {
-        return hlm(
+    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    protected _computedClass = computed(() =>
+        hlm(
             sheetVariants({ side: this._sideProvider.side() }),
-            this._userCls(),
-        )
-    }
+            this._userClass(),
+        ),
+    )
 }

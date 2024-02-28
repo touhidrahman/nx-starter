@@ -4,11 +4,12 @@ import {
     ChangeDetectionStrategy,
     Component,
     computed,
-    Input,
-    signal,
+    inject,
+    input,
     ViewEncapsulation,
 } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
+import { BrnColumnDefComponent } from '@spartan-ng/ui-table-brain'
 import { ClassValue } from 'clsx'
 
 @Component({
@@ -22,7 +23,7 @@ import { ClassValue } from 'clsx'
         <ng-template #content>
             <ng-content />
         </ng-template>
-        @if (truncate) {
+        @if (truncate()) {
         <span class="flex-1 truncate">
             <ng-container [ngTemplateOutlet]="content" />
         </span>
@@ -34,19 +35,17 @@ import { ClassValue } from 'clsx'
     encapsulation: ViewEncapsulation.None,
 })
 export class HlmTdComponent {
-    @Input({ transform: booleanAttribute })
-    public truncate = false
+    private readonly _columnDef? = inject(BrnColumnDefComponent, {
+        optional: true,
+    })
+    protected readonly truncate = input(false, { transform: booleanAttribute })
 
-    private readonly _userCls = signal<ClassValue>('')
+    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
     protected readonly _computedClass = computed(() =>
         hlm(
             'flex flex-none p-4 items-center [&:has([role=checkbox])]:pr-0',
-            this._userCls(),
+            this._columnDef?.class(),
+            this._userClass(),
         ),
     )
-
-    @Input()
-    set class(inputs: ClassValue) {
-        this._userCls.set(inputs)
-    }
 }

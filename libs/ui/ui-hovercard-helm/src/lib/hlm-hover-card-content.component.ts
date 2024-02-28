@@ -4,7 +4,7 @@ import {
     effect,
     ElementRef,
     inject,
-    Input,
+    input,
     Renderer2,
     signal,
 } from '@angular/core'
@@ -51,7 +51,7 @@ export class HlmHoverCardContentComponent {
         })
     }
 
-    private readonly _userCls = signal<ClassValue>('')
+    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
     protected readonly _computedClass = computed(() =>
         hlm(
             'z-50 w-64 rounded-md border border-border bg-popover p-4 text-popover-foreground shadow-md outline-none',
@@ -59,9 +59,4 @@ export class HlmHoverCardContentComponent {
             this._inputs,
         ),
     )
-
-    @Input()
-    set class(userCls: ClassValue) {
-        this._userCls.set(userCls)
-    }
 }

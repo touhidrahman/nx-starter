@@ -1,11 +1,12 @@
 import {
-    booleanAttribute,
     Component,
-    computed,
     EventEmitter,
-    forwardRef,
     Input,
     Output,
+    booleanAttribute,
+    computed,
+    forwardRef,
+    input,
     signal,
 } from '@angular/core'
 import { NG_VALUE_ACCESSOR } from '@angular/forms'
@@ -35,7 +36,9 @@ export const HLM_CHECKBOX_VALUE_ACCESSOR = {
             (touched)="_onTouched()"
             [disabled]="_disabled()"
             [id]="id">
-            <hlm-checkbox-checkicon [iconName]="_checkIconName()" />
+            <hlm-checkbox-checkicon
+                [class]="_checkIconClass()"
+                [iconName]="_checkIconName()" />
         </brn-checkbox>
     `,
     host: {
@@ -48,15 +51,26 @@ export const HLM_CHECKBOX_VALUE_ACCESSOR = {
     providers: [HLM_CHECKBOX_VALUE_ACCESSOR],
 })
 export class HlmCheckboxComponent {
-    private readonly _userCls = signal<ClassValue>('')
-    @Input()
-    set class(userCls: ClassValue) {
-        this._userCls.set(userCls)
-    }
-    protected readonly _checkIconName = signal<string>('radixCheck')
+    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    protected _computedClass = computed(() =>
+        hlm(
+            'group inline-flex border border-foreground shrink-0 cursor-pointer items-center rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' +
+                ' focus-visible:ring-offset-2 focus-visible:ring-offset-background data-[state=checked]:text-background data-[state=checked]:bg-primary data-[state=unchecked]:bg-background',
+            this._disabled() ? 'cursor-not-allowed opacity-50' : '',
+            this._userClass(),
+        ),
+    )
+
+    protected readonly _checkIconName = signal<string>('lucideCheck')
     @Input()
     set checkIconName(checkIconName: string) {
         this._checkIconName.set(checkIconName)
+    }
+
+    protected readonly _checkIconClass = signal<string>('')
+    @Input()
+    set checkIconClass(checkIconName: string) {
+        this._checkIconClass.set(checkIconName)
     }
 
     @Output()
@@ -100,15 +114,6 @@ export class HlmCheckboxComponent {
     /** Used to set the aria-describedby attribute on the underlying brn element. */
     @Input('aria-describedby')
     ariaDescribedby: string | null = null
-
-    protected _computedClass = computed(() =>
-        hlm(
-            'group inline-flex border border-foreground shrink-0 cursor-pointer items-center rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring' +
-                ' focus-visible:ring-offset-2 focus-visible:ring-offset-background data-[state=checked]:text-background data-[state=unchecked]:bg-foreground data-[state=checked]:bg-primary data-[state=unchecked]:bg-background',
-            this._disabled() ? 'cursor-not-allowed opacity-50' : '',
-            this._userCls(),
-        ),
-    )
 
     /** CONROL VALUE ACCESSOR */
 

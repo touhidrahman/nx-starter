@@ -1,4 +1,4 @@
-import { computed, Directive, Input, signal } from '@angular/core'
+import { computed, Directive, input } from '@angular/core'
 import { BrnAlertDialogTitleDirective } from '@spartan-ng/ui-alertdialog-brain'
 import { hlm } from '@spartan-ng/ui-core'
 import { ClassValue } from 'clsx'
@@ -12,12 +12,8 @@ import { ClassValue } from 'clsx'
     hostDirectives: [BrnAlertDialogTitleDirective],
 })
 export class HlmAlertDialogTitleDirective {
-    private readonly _userCls = signal<ClassValue>('')
+    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
     protected readonly _computedClass = computed(() =>
-        hlm('text-lg font-semibold', this._userCls()),
+        hlm('text-lg font-semibold', this._userClass()),
     )
-    @Input()
-    set class(userCls: ClassValue) {
-        this._userCls.set(userCls)
-    }
 }

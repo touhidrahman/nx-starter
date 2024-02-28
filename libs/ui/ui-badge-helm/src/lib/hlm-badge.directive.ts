@@ -3,6 +3,7 @@ import {
     computed,
     Directive,
     Input,
+    input,
     signal,
 } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
@@ -62,11 +63,17 @@ type badgeVariants = VariantProps<typeof badgeVariants>
     },
 })
 export class HlmBadgeDirective {
-    private readonly _userCls = signal<ClassValue>('')
-    @Input()
-    set class(userCls: ClassValue) {
-        this._userCls.set(userCls)
-    }
+    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    protected _computedClass = computed(() =>
+        hlm(
+            badgeVariants({
+                variant: this._variant(),
+                size: this._size(),
+                static: this._static(),
+            }),
+            this._userClass(),
+        ),
+    )
 
     private readonly _variant = signal<badgeVariants['variant']>('default')
     @Input()
@@ -84,17 +91,5 @@ export class HlmBadgeDirective {
     @Input()
     set size(size: badgeVariants['size']) {
         this._size.set(size)
-    }
-
-    protected _computedClass = computed(() => this._generateClass())
-    private _generateClass() {
-        return hlm(
-            badgeVariants({
-                variant: this._variant(),
-                size: this._size(),
-                static: this._static(),
-            }),
-            this._userCls(),
-        )
     }
 }

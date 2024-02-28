@@ -1,12 +1,12 @@
 import {
-    computed,
     Directive,
     DoCheck,
-    effect,
     ElementRef,
-    inject,
-    Input,
     Renderer2,
+    computed,
+    effect,
+    inject,
+    input,
     signal,
 } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
@@ -24,19 +24,13 @@ export class HlmProgressIndicatorDirective implements DoCheck {
     private _renderer = inject(Renderer2)
     private readonly _value = signal(0)
 
-    private readonly _userCls = signal<ClassValue>('')
-    @Input()
-    set class(userCls: ClassValue) {
-        this._userCls.set(userCls)
-    }
-
-    protected _computedClass = computed(() => this._generateClass())
-    private _generateClass() {
-        return hlm(
+    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    protected _computedClass = computed(() =>
+        hlm(
             'inline-flex transform-gpu h-full w-full flex-1 bg-primary transition-all',
-            this._userCls(),
-        )
-    }
+            this._userClass(),
+        ),
+    )
 
     constructor() {
         effect(() => {

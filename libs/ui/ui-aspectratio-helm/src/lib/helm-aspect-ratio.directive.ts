@@ -5,6 +5,7 @@ import {
     Directive,
     ElementRef,
     inject,
+    input,
     Input,
     signal,
 } from '@angular/core'
@@ -35,20 +36,15 @@ export class HlmAspectRatioDirective implements AfterViewInit {
         return `${100 / this._ratio()}%`
     })
 
-    private readonly _userCls = signal<ClassValue>('')
+    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
     protected readonly _computedClass = computed(() =>
-        hlm(`relative w-full`, this._userCls()),
+        hlm(`relative w-full`, this._userClass()),
     )
 
     @Input()
     set hlmAspectRatio(value: NumberInput) {
         const coerced = coerceNumberProperty(parseDividedString(value))
         this._ratio.set(coerced <= 0 ? 1 : coerced)
-    }
-
-    @Input()
-    set class(userCls: ClassValue) {
-        this._userCls.set(userCls)
     }
 
     ngAfterViewInit() {

@@ -1,11 +1,18 @@
-import { computed, Directive, inject, Input, signal } from '@angular/core'
+import {
+    computed,
+    Directive,
+    inject,
+    Input,
+    input,
+    signal,
+} from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
 import { BrnLabelDirective } from '@spartan-ng/ui-label-brain'
 import { cva, VariantProps } from 'class-variance-authority'
 import { ClassValue } from 'clsx'
 
 export const labelVariants = cva(
-    'text-sm font-medium leading-none [&:has([hlmInput]:disabled)]:cursor-not-allowed [&:has([hlmInput]:disabled)]:opacity-70',
+    'text-sm font-medium leading-none [&>[hlmInput]]:my-1 [&:has([hlmInput]:disabled)]:cursor-not-allowed [&:has([hlmInput]:disabled)]:opacity-70',
     {
         variants: {
             variant: {
@@ -45,6 +52,7 @@ export type LabelVariants = VariantProps<typeof labelVariants>
 export class HlmLabelDirective {
     private readonly _brn = inject(BrnLabelDirective, { host: true })
 
+    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
     protected readonly _computedClass = computed(() =>
         hlm(
             labelVariants({
@@ -52,7 +60,7 @@ export class HlmLabelDirective {
                 error: this._error(),
                 disabled: this._brn?.dataDisabled() ?? 'auto',
             }),
-            this._userCls(),
+            this._userClass(),
         ),
     )
 
@@ -66,12 +74,5 @@ export class HlmLabelDirective {
     @Input()
     set error(value: LabelVariants['error']) {
         this._error.set(value)
-    }
-
-    private readonly _userCls = signal<ClassValue>('')
-
-    @Input()
-    set class(userCls: ClassValue) {
-        this._userCls.set(userCls)
     }
 }
