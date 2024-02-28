@@ -27,15 +27,25 @@
             "@my-nx-starter/app-validation-states": [
                 "libs/app-validation-states/src/index.ts"
             ],
-            "@my-nx-starter/common-animations": ["libs/common-animations/src/index.ts"],
+            "@my-nx-starter/common-animations": [
+                "libs/common-animations/src/index.ts"
+            ],
             "@my-nx-starter/common-auth": ["libs/common-auth/src/index.ts"],
-            "@my-nx-starter/common-directives": ["libs/common-directives/src/index.ts"],
+            "@my-nx-starter/common-directives": [
+                "libs/common-directives/src/index.ts"
+            ],
             "@my-nx-starter/common-models": ["libs/common-models/src/index.ts"],
             "@my-nx-starter/common-pipes": ["libs/common-pipes/src/index.ts"],
-            "@my-nx-starter/common-services": ["libs/common-services/src/index.ts"],
-            "@my-nx-starter/material-modules": ["libs/material-modules/src/index.ts"],
+            "@my-nx-starter/common-services": [
+                "libs/common-services/src/index.ts"
+            ],
+            "@my-nx-starter/material-modules": [
+                "libs/material-modules/src/index.ts"
+            ],
             "@my-nx-starter/page-layouts": ["libs/page-layouts/src/index.ts"],
-            "@my-nx-starter/spartan-modules": ["libs/spartan-modules/src/index.ts"],
+            "@my-nx-starter/spartan-modules": [
+                "libs/spartan-modules/src/index.ts"
+            ],
             "@my-nx-starter/store": ["libs/store/src/index.ts"],
             "@my-nx-starter/utils": ["libs/utils/src/index.ts"],
             "@spartan-ng/ui-accordion-helm": [
@@ -107,9 +117,6 @@
             ],
             "@spartan-ng/ui-typography-helm": [
                 "libs/ui/ui-typography-helm/src/index.ts"
-            ],
-            "validation/Routes": [
-                "apps/validation/src/app/remote-entry/entry.routes.ts"
             ]
         }
     },
