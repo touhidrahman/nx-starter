@@ -11,7 +11,7 @@ import {
     LoginResponse,
     TokenStorageService,
 } from '@my-nx-starter/common-auth'
-import { User } from '@my-nx-starter/app-validation-models'
+import { User } from '@my-nx-starter/app-example-models'
 
 export interface AuthState {
     isLoggedIn: boolean

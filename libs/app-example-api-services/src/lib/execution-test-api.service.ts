@@ -3,8 +3,11 @@ import { Inject, Injectable } from '@angular/core'
 import {
     APP_VALIDATION_ENVIRONMENT,
     AppValidationEnvironment,
-} from '@my-nx-starter/app-validation-core'
-import { ApprovalDocument, ExecutionTest } from '@my-nx-starter/app-validation-models'
+} from '@my-nx-starter/app-example-core'
+import {
+    ApprovalDocument,
+    ExecutionTest,
+} from '@my-nx-starter/app-example-models'
 import { ApiResponse } from '@my-nx-starter/common-models'
 import { Observable, of } from 'rxjs'
 

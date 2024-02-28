@@ -5,7 +5,7 @@ import { Router, RouterModule } from '@angular/router'
 import { AlertService } from '../../main/alert/services/toast.service'
 import { HeaderOneComponent } from '../../main/headers/header-one/header-one.component'
 import { AuthApiService } from '@my-nx-starter/common-auth'
-import { User } from '@my-nx-starter/app-validation-models'
+import { User } from '@my-nx-starter/app-example-models'
 
 @Component({
     standalone: true,

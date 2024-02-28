@@ -3,10 +3,10 @@ import { HttpClient } from '@angular/common/http'
 import {
     APP_VALIDATION_ENVIRONMENT,
     AppValidationEnvironment,
-} from '@my-nx-starter/app-validation-core'
+} from '@my-nx-starter/app-example-core'
 import { ApiResponse } from '@my-nx-starter/common-models'
 import { Observable, of } from 'rxjs'
-import { Requirement } from '@my-nx-starter/app-validation-models'
+import { Requirement } from '@my-nx-starter/app-example-models'
 
 @Injectable({
     providedIn: 'root',

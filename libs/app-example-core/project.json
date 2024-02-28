@@ -1,0 +1,19 @@
+{
+    "name": "app-example-core",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/app-example-core/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/libs/app-example-core",
+                "main": "libs/app-example-core/src/index.ts",
+                "tsConfig": "libs/app-example-core/tsconfig.lib.json",
+                "assets": ["libs/app-example-core/*.md"]
+            }
+        }
+    },
+    "tags": []
+}

@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-    displayName: 'app-validation-api-services',
+    displayName: 'app-example-models',
     preset: '../../jest.preset.js',
     testEnvironment: 'node',
     transform: {
@@ -10,5 +10,5 @@ export default {
         ],
     },
     moduleFileExtensions: ['ts', 'js', 'html'],
-    coverageDirectory: '../../coverage/libs/app-validation-api-services',
+    coverageDirectory: '../../coverage/libs/app-example-models',
 }

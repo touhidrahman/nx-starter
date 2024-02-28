@@ -1,4 +1,4 @@
-import { AppValidationEnvironment } from '@my-nx-starter/app-validation-core'
+import { AppValidationEnvironment } from '@my-nx-starter/app-example-core'
 
 export const environment: AppValidationEnvironment = {
     appName: 'Material Test',

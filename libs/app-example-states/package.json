@@ -1,5 +1,5 @@
 {
-    "name": "@my-nx-starter/app-validation-api-services",
+    "name": "@my-nx-starter/app-example-states",
     "version": "0.0.1",
     "dependencies": {
         "tslib": "^2.3.0"

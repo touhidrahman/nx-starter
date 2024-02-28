@@ -5,7 +5,7 @@ import { MaterialModules } from '@my-nx-starter/material-modules'
 import { isSmallScreen } from '@my-nx-starter/utils'
 import { AuthStateService } from '../../auth/states/auth-state.service'
 import { HeaderOneComponent } from '../../headers/header-one/header-one.component'
-import { AppStateService } from '@my-nx-starter/app-validation-states'
+import { AppStateService } from '@my-nx-starter/app-example-states'
 
 @Component({
     selector: 'app-layout-sidebar',

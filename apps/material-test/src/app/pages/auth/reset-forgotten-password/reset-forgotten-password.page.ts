@@ -11,7 +11,7 @@ import { getAuthRoutes } from '../auth.routes'
 import { AuthApiService, JwtService } from '@my-nx-starter/common-auth'
 import { AlertService } from '../../../main/alert/services/toast.service'
 import { ForgotPasswordVerificationToken } from '@my-nx-starter/common-auth'
-import { User } from '@my-nx-starter/app-validation-models'
+import { User } from '@my-nx-starter/app-example-models'
 
 @Component({
     standalone: true,

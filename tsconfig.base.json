@@ -15,17 +15,17 @@
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
         "paths": {
-            "@my-nx-starter/app-validation-api-services": [
-                "libs/app-validation-api-services/src/index.ts"
+            "@my-nx-starter/app-example-api-services": [
+                "libs/app-example-api-services/src/index.ts"
             ],
-            "@my-nx-starter/app-validation-core": [
-                "libs/app-validation-core/src/index.ts"
+            "@my-nx-starter/app-example-core": [
+                "libs/app-example-core/src/index.ts"
             ],
-            "@my-nx-starter/app-validation-models": [
-                "libs/app-validation-models/src/index.ts"
+            "@my-nx-starter/app-example-models": [
+                "libs/app-example-models/src/index.ts"
             ],
-            "@my-nx-starter/app-validation-states": [
-                "libs/app-validation-states/src/index.ts"
+            "@my-nx-starter/app-example-states": [
+                "libs/app-example-states/src/index.ts"
             ],
             "@my-nx-starter/common-animations": [
                 "libs/common-animations/src/index.ts"

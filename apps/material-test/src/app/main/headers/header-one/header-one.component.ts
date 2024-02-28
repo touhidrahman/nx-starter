@@ -10,7 +10,7 @@ import {
 import { RouterModule } from '@angular/router'
 import { AuthStateService } from '../../auth/states/auth-state.service'
 import { MaterialModules } from '@my-nx-starter/material-modules'
-import { AppStateService } from '@my-nx-starter/app-validation-states'
+import { AppStateService } from '@my-nx-starter/app-example-states'
 
 @Component({
     selector: 'app-header-one',
