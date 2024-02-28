@@ -1,0 +1,72 @@
+@import './theme/material-theme.scss';
+// @import 'node_modules/@angular/material/prebuilt-themes/indigo-pink.css';
+
+:root {
+    --background: #f5f5f5;
+    --base: rgba(0, 0, 0, 0.8);
+    --base-muted: rgba(0, 0, 0, 0.54);
+
+    --contrast: rgba(255, 255, 255, 0.8);
+    --contrast-muted: rgba(255, 255, 255, 0.54);
+
+    --accent: rgb(250, 160, 64);
+    --accent-contrast: #ffffff;
+
+    --primary: rgb(7, 108, 145);
+    --primary-contrast: #ffffff;
+
+    --warn: rgb(205, 62, 71);
+    --warn-contrast: #ffffff;
+
+    color: var(--base);
+
+    .dark-theme {
+        --background: #293a51;
+        --contrast: rgba(0, 0, 0, 0.8);
+        --contrast-muted: rgba(0, 0, 0, 0.54);
+
+        --base: rgba(255, 255, 255, 0.8);
+        --base-muted: rgba(255, 255, 255, 0.54);
+
+        --primary: hotpink;
+        --accent: limegreen;
+
+        color: var(--base);
+    }
+
+    .custom-theme {
+        --base: #002868;
+        --base-muted: #0028689c;
+
+        --contrast: rgba(255, 255, 255, 0.8);
+        --contrast-muted: rgba(255, 255, 255, 0.54);
+
+        --accent: #bf0a30;
+        --accent-contrast: #002868;
+
+        --primary: #002868;
+        --primary-contrast: #ffffff;
+
+        --warn: #bf0a30;
+        --warn-contrast: #ffffff;
+
+        color: var(--base);
+    }
+}
+
+body {
+    font-family: Inter, 'Helvetica Neue', sans-serif;
+    margin: 0;
+    color: var(--base);
+    background-color: var(--background);
+}
+
+html,
+body {
+    height: 100%;
+}
+
+// override the default height 48px of the menu items, which is too large
+.mat-mdc-menu-item {
+    min-height: 32px !important;
+}

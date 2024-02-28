@@ -1,0 +1,19 @@
+{
+    "name": "common-pipes",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/common-pipes/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/libs/common-pipes",
+                "main": "libs/common-pipes/src/index.ts",
+                "tsConfig": "libs/common-pipes/tsconfig.lib.json",
+                "assets": ["libs/common-pipes/*.md"]
+            }
+        }
+    },
+    "tags": []
+}

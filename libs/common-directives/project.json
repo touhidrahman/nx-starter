@@ -1,0 +1,19 @@
+{
+    "name": "common-directives",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/common-directives/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/libs/common-directives",
+                "main": "libs/common-directives/src/index.ts",
+                "tsConfig": "libs/common-directives/tsconfig.lib.json",
+                "assets": ["libs/common-directives/*.md"]
+            }
+        }
+    },
+    "tags": []
+}

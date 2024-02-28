@@ -1,0 +1,82 @@
+{
+    "name": "material-test",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "prefix": "jsat",
+    "sourceRoot": "apps/material-test/src",
+    "tags": [],
+    "targets": {
+        "build": {
+            "executor": "@angular-devkit/build-angular:application",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/apps/material-test",
+                "index": "apps/material-test/src/index.html",
+                "browser": "apps/material-test/src/main.ts",
+                "polyfills": ["zone.js"],
+                "tsConfig": "apps/material-test/tsconfig.app.json",
+                "inlineStyleLanguage": "scss",
+                "assets": [
+                    "apps/material-test/src/favicon.ico",
+                    "apps/material-test/src/assets"
+                ],
+                "styles": ["apps/material-test/src/styles.scss"],
+                "scripts": []
+            },
+            "configurations": {
+                "production": {
+                    "fileReplacements": [
+                        {
+                            "replace": "apps/material-test/src/environment/environment.ts",
+                            "with": "apps/material-test/src/environment/environment.prod.ts"
+                        }
+                    ],
+                    "budgets": [
+                        {
+                            "type": "initial",
+                            "maximumWarning": "500kb",
+                            "maximumError": "1mb"
+                        },
+                        {
+                            "type": "anyComponentStyle",
+                            "maximumWarning": "2kb",
+                            "maximumError": "4kb"
+                        }
+                    ],
+                    "outputHashing": "all"
+                },
+                "development": {
+                    "optimization": false,
+                    "extractLicenses": false,
+                    "sourceMap": true
+                }
+            },
+            "defaultConfiguration": "production"
+        },
+        "serve": {
+            "executor": "@angular-devkit/build-angular:dev-server",
+            "configurations": {
+                "production": {
+                    "buildTarget": "material-test:build:production"
+                },
+                "development": {
+                    "buildTarget": "material-test:build:development"
+                }
+            },
+            "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+            "executor": "@angular-devkit/build-angular:extract-i18n",
+            "options": {
+                "buildTarget": "material-test:build"
+            }
+        },
+        "serve-static": {
+            "executor": "@nx/web:file-server",
+            "options": {
+                "buildTarget": "material-test:build",
+                "staticFilePath": "dist/apps/material-test/browser"
+            }
+        }
+    }
+}

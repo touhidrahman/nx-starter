@@ -1,0 +1,76 @@
+{
+    "name": "tailwind-test",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "prefix": "jsat",
+    "sourceRoot": "apps/tailwind-test/src",
+    "tags": [],
+    "targets": {
+        "build": {
+            "executor": "@angular-devkit/build-angular:application",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/apps/tailwind-test",
+                "index": "apps/tailwind-test/src/index.html",
+                "browser": "apps/tailwind-test/src/main.ts",
+                "polyfills": ["zone.js"],
+                "tsConfig": "apps/tailwind-test/tsconfig.app.json",
+                "inlineStyleLanguage": "scss",
+                "assets": [
+                    "apps/tailwind-test/src/favicon.ico",
+                    "apps/tailwind-test/src/assets"
+                ],
+                "styles": ["apps/tailwind-test/src/styles.scss"],
+                "scripts": []
+            },
+            "configurations": {
+                "production": {
+                    "budgets": [
+                        {
+                            "type": "initial",
+                            "maximumWarning": "500kb",
+                            "maximumError": "1mb"
+                        },
+                        {
+                            "type": "anyComponentStyle",
+                            "maximumWarning": "2kb",
+                            "maximumError": "4kb"
+                        }
+                    ],
+                    "outputHashing": "all"
+                },
+                "development": {
+                    "optimization": false,
+                    "extractLicenses": false,
+                    "sourceMap": true
+                }
+            },
+            "defaultConfiguration": "production"
+        },
+        "serve": {
+            "executor": "@angular-devkit/build-angular:dev-server",
+            "configurations": {
+                "production": {
+                    "buildTarget": "tailwind-test:build:production"
+                },
+                "development": {
+                    "buildTarget": "tailwind-test:build:development"
+                }
+            },
+            "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+            "executor": "@angular-devkit/build-angular:extract-i18n",
+            "options": {
+                "buildTarget": "tailwind-test:build"
+            }
+        },
+        "serve-static": {
+            "executor": "@nx/web:file-server",
+            "options": {
+                "buildTarget": "tailwind-test:build",
+                "staticFilePath": "dist/apps/tailwind-test/browser"
+            }
+        }
+    }
+}

@@ -1,0 +1,26 @@
+{
+    "name": "ui-ui-accordion-helm",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/ui/ui-accordion-helm/src",
+    "prefix": "hlm",
+    "tags": [],
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nx/angular:ng-packagr-lite",
+            "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+            "options": {
+                "project": "libs/ui/ui-accordion-helm/ng-package.json"
+            },
+            "configurations": {
+                "production": {
+                    "tsConfig": "libs/ui/ui-accordion-helm/tsconfig.lib.prod.json"
+                },
+                "development": {
+                    "tsConfig": "libs/ui/ui-accordion-helm/tsconfig.lib.json"
+                }
+            },
+            "defaultConfiguration": "production"
+        }
+    }
+}

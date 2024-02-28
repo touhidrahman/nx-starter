@@ -1,0 +1,19 @@
+{
+    "name": "common-auth",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/common-auth/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/libs/common-auth",
+                "main": "libs/common-auth/src/index.ts",
+                "tsConfig": "libs/common-auth/tsconfig.lib.json",
+                "assets": ["libs/common-auth/*.md"]
+            }
+        }
+    },
+    "tags": []
+}

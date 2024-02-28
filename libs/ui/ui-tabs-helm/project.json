@@ -1,0 +1,26 @@
+{
+    "name": "ui-ui-tabs-helm",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/ui/ui-tabs-helm/src",
+    "prefix": "hlm",
+    "tags": [],
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nx/angular:ng-packagr-lite",
+            "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+            "options": {
+                "project": "libs/ui/ui-tabs-helm/ng-package.json"
+            },
+            "configurations": {
+                "production": {
+                    "tsConfig": "libs/ui/ui-tabs-helm/tsconfig.lib.prod.json"
+                },
+                "development": {
+                    "tsConfig": "libs/ui/ui-tabs-helm/tsconfig.lib.json"
+                }
+            },
+            "defaultConfiguration": "production"
+        }
+    }
+}

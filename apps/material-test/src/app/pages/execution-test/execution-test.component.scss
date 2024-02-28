@@ -1,0 +1,41 @@
+:host {
+    display: block;
+}
+
+.table {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+th {
+    font-size: 0.75rem !important;
+    line-height: 1.25rem;
+    font-weight: 700;
+}
+
+.cell-suffix {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    color: rgba(0, 0, 0, 0.54);
+}
+
+.flex-items-center {
+    display: flex;
+    align-items: center;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    gap: 0.5rem;
+}
+
+.cell {
+    padding-top: 0.25rem;
+    vertical-align: top;
+}
+
+.et--buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1rem;
+}

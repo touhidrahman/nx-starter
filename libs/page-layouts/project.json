@@ -1,0 +1,19 @@
+{
+    "name": "page-layouts",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/page-layouts/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/libs/page-layouts",
+                "main": "libs/page-layouts/src/index.ts",
+                "tsConfig": "libs/page-layouts/tsconfig.lib.json",
+                "assets": ["libs/page-layouts/*.md"]
+            }
+        }
+    },
+    "tags": []
+}

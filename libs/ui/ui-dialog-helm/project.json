@@ -1,0 +1,26 @@
+{
+    "name": "ui-ui-dialog-helm",
+    "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/ui/ui-dialog-helm/src",
+    "prefix": "hlm",
+    "tags": [],
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nx/angular:ng-packagr-lite",
+            "outputs": ["{workspaceRoot}/dist/{projectRoot}"],
+            "options": {
+                "project": "libs/ui/ui-dialog-helm/ng-package.json"
+            },
+            "configurations": {
+                "production": {
+                    "tsConfig": "libs/ui/ui-dialog-helm/tsconfig.lib.prod.json"
+                },
+                "development": {
+                    "tsConfig": "libs/ui/ui-dialog-helm/tsconfig.lib.json"
+                }
+            },
+            "defaultConfiguration": "production"
+        }
+    }
+}

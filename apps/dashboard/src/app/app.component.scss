@@ -1,0 +1,36 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.header {
+    flex: 0 0 auto;
+    padding: 1rem;
+    padding-left: 6rem;
+}
+
+.remote-menu {
+    list-style-type: none;
+    display: flex;
+    gap: 1rem;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 6rem;
+    background-color: rgb(30 41 59);
+    color: rgb(255 255 255);
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+        0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.container {
+    width: calc(100% - 8rem);
+    padding: 1rem;
+    padding-left: 6rem;
+    background-color: rgb(241 245 249);
+}

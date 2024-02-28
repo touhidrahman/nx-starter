@@ -1,0 +1,99 @@
+{
+    "name": "validation",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "prefix": "jsat",
+    "sourceRoot": "apps/validation/src",
+    "tags": [],
+    "targets": {
+        "build": {
+            "executor": "@nx/angular:webpack-browser",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/apps/validation",
+                "index": "apps/validation/src/index.html",
+                "main": "apps/validation/src/main.ts",
+                "polyfills": ["zone.js"],
+                "tsConfig": "apps/validation/tsconfig.app.json",
+                "inlineStyleLanguage": "scss",
+                "assets": [
+                    "apps/validation/src/favicon.ico",
+                    "apps/validation/src/assets"
+                ],
+                "styles": ["apps/validation/src/styles.scss"],
+                "scripts": [],
+                "customWebpackConfig": {
+                    "path": "apps/validation/webpack.config.ts"
+                }
+            },
+            "configurations": {
+                "production": {
+                    "budgets": [
+                        {
+                            "type": "initial",
+                            "maximumWarning": "500kb",
+                            "maximumError": "1mb"
+                        },
+                        {
+                            "type": "anyComponentStyle",
+                            "maximumWarning": "2kb",
+                            "maximumError": "4kb"
+                        }
+                    ],
+                    "outputHashing": "all",
+                    "customWebpackConfig": {
+                        "path": "apps/validation/webpack.prod.config.ts"
+                    }
+                },
+                "development": {
+                    "buildOptimizer": false,
+                    "optimization": false,
+                    "vendorChunk": true,
+                    "extractLicenses": false,
+                    "sourceMap": true,
+                    "namedChunks": true
+                }
+            },
+            "defaultConfiguration": "production"
+        },
+        "serve": {
+            "executor": "@nx/angular:dev-server",
+            "options": {
+                "port": 4201,
+                "publicHost": "http://localhost:4201"
+            },
+            "configurations": {
+                "production": {
+                    "buildTarget": "validation:build:production"
+                },
+                "development": {
+                    "buildTarget": "validation:build:development"
+                }
+            },
+            "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+            "executor": "@angular-devkit/build-angular:extract-i18n",
+            "options": {
+                "buildTarget": "validation:build"
+            }
+        },
+        "serve-static": {
+            "executor": "@nx/web:file-server",
+            "defaultConfiguration": "production",
+            "options": {
+                "buildTarget": "validation:build",
+                "port": 4201,
+                "watch": false
+            },
+            "configurations": {
+                "development": {
+                    "buildTarget": "validation:build:development"
+                },
+                "production": {
+                    "buildTarget": "validation:build:production"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,137 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+@import './colors';
+
+$primary-palette: (
+    mat.define-palette(
+        (
+            100: $primary,
+            500: $primary,
+            700: $primary,
+            contrast: (
+                100: $primary-contrast,
+                500: $primary-contrast,
+                700: $primary-contrast,
+            ),
+        )
+    )
+);
+
+$accent-palette: (
+    mat.define-palette(
+        (
+            100: $accent,
+            500: $accent,
+            700: $accent,
+            contrast: (
+                100: $accent-contrast,
+                500: $accent-contrast,
+                700: $accent-contrast,
+            ),
+        )
+    )
+);
+
+$warn-palette: (
+    mat.define-palette(
+        (
+            100: $warn,
+            500: $warn,
+            700: $warn,
+            contrast: (
+                100: $warn-contrast,
+                500: $warn-contrast,
+                700: $warn-contrast,
+            ),
+        )
+    )
+);
+
+$heading-font-family: "'Inter', sans-serif";
+$regular-font-family: "'Work Sans', sans-serif";
+
+$my-app-typography: mat.define-typography-config(
+    $font-family: $regular-font-family,
+    $headline-1:
+        mat.define-typography-level(
+            $font-family: $heading-font-family,
+            $font-size: 112px,
+        ),
+    $headline-2:
+        mat.define-typography-level(
+            $font-family: $heading-font-family,
+            $font-size: 56px,
+        ),
+    $headline-3:
+        mat.define-typography-level(
+            $font-family: $heading-font-family,
+            $font-size: 45px,
+            $line-height: 48px,
+        ),
+    $headline-4:
+        mat.define-typography-level(
+            $font-family: $heading-font-family,
+            $font-size: 34px,
+            $line-height: 40px,
+        ),
+    $headline-5:
+        mat.define-typography-level(
+            $font-family: $heading-font-family,
+            $font-size: 24px,
+            $line-height: 32px,
+        ),
+    $headline-6:
+        mat.define-typography-level(
+            $font-family: $heading-font-family,
+            $font-size: 20px,
+            $line-height: 32px,
+        ),
+    $subtitle-1:
+        mat.define-typography-level(
+            $font-family: $heading-font-family,
+            $font-size: 18px,
+            $line-height: 28px,
+        ),
+    $subtitle-2:
+        mat.define-typography-level(
+            $font-family: $heading-font-family,
+            $font-size: 18px,
+            $line-height: 24px,
+        ),
+    $body-2:
+        mat.define-typography-level(
+            $font-size: 14px,
+        ),
+    $body-1:
+        mat.define-typography-level(
+            $font-size: 12px,
+        ),
+    $button:
+        mat.define-typography-level(
+            $font-size: 14px,
+        ),
+);
+
+$light-theme: (
+    color: (
+        primary: $primary-palette,
+        accent: $accent-palette,
+        warn: $warn-palette,
+        foreground: mat.$light-theme-foreground-palette,
+        background: mat.$light-theme-background-palette,
+    ),
+    typography: $my-app-typography,
+    density: -6,
+);
+
+$dark-theme: (
+    color: (
+        primary: $primary-palette,
+        accent: $accent-palette,
+        warn: $warn-palette,
+        foreground: mat.$dark-theme-foreground-palette,
+        background: mat.$dark-theme-background-palette,
+    ),
+    typography: $my-app-typography,
+    density: -6,
+);

@@ -1,0 +1,21 @@
+:host {
+    display: block;
+}
+
+.table {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+th {
+    font-size: 0.75rem !important;
+    line-height: 1.25rem;
+    font-weight: 700;
+}
+
+.cell-suffix {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    color: rgba(0, 0, 0, 0.54);
+}

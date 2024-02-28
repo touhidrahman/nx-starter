@@ -1,0 +1,15 @@
+<ng-container [ngSwitch]="layoutService.layout$ | async">
+    <jsat-layout-default *ngSwitchCase="PageLayout.Default">
+        <router-outlet></router-outlet>
+    </jsat-layout-default>
+
+    <jsat-layout-centered *ngSwitchCase="PageLayout.Center">
+        <router-outlet></router-outlet>
+    </jsat-layout-centered>
+
+    <router-outlet *ngSwitchCase="PageLayout.Blank"></router-outlet>
+
+    <jsat-layout-default *ngSwitchDefault>
+        <router-outlet></router-outlet>
+    </jsat-layout-default>
+</ng-container>

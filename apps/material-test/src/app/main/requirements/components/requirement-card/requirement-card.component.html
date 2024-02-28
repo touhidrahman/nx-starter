@@ -1,0 +1,68 @@
+<div class="rc--container">
+    <div class="rc--header">
+        <div class="rc--header-title">Title</div>
+    </div>
+
+    <div class="rc--body">
+        <div class="rc--body-top">
+            <div class="rc--body-top-section left">
+                <mat-form-field class="rc--input" appearance="outline">
+                    <mat-label>Requirement ID</mat-label>
+                    <input matInput />
+                </mat-form-field>
+                <mat-form-field class="rc--input" appearance="outline">
+                    <mat-label>Requirement Title</mat-label>
+                    <input matInput />
+                </mat-form-field>
+                <mat-form-field class="rc--input" appearance="outline">
+                    <mat-label>Product</mat-label>
+                    <input matInput />
+                </mat-form-field>
+                <mat-form-field class="rc--input" appearance="outline">
+                    <mat-label>Equipment</mat-label>
+                    <input matInput />
+                </mat-form-field>
+            </div>
+
+            <div class="rc--body-top-section right">
+                <mat-form-field class="rc--input" appearance="outline">
+                    <mat-label>Date</mat-label>
+                    <input
+                        matInput
+                        [matDatepicker]="datePicker"
+                        placeholder="Date" />
+                    <mat-datepicker-toggle
+                        matSuffix
+                        [for]="datePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #datePicker></mat-datepicker>
+                </mat-form-field>
+                <mat-form-field class="rc--input" appearance="outline">
+                    <mat-label>Requirement Revision</mat-label>
+                    <input matInput />
+                </mat-form-field>
+                <mat-form-field class="rc--input" appearance="outline">
+                    <mat-label>Market</mat-label>
+                    <input matInput />
+                </mat-form-field>
+                <mat-form-field class="rc--input" appearance="outline">
+                    <mat-label>Attribute 4</mat-label>
+                    <input matInput />
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="rc--body-content">
+            <mat-form-field class="rc--input" appearance="outline">
+                <mat-label>Description</mat-label>
+                <textarea matInput rows="5"></textarea>
+            </mat-form-field>
+        </div>
+    </div>
+
+    <div class="rc--footer">
+        <button mat-stroked-button color="primary" (click)="openDialog()">
+            Approve
+        </button>
+        <button mat-raised-button color="primary">Save</button>
+    </div>
+</div>

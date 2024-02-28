@@ -1,0 +1,19 @@
+{
+    "name": "common-services",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/common-services/src",
+    "projectType": "library",
+    "targets": {
+        "build": {
+            "executor": "@nx/js:tsc",
+            "outputs": ["{options.outputPath}"],
+            "options": {
+                "outputPath": "dist/libs/common-services",
+                "main": "libs/common-services/src/index.ts",
+                "tsConfig": "libs/common-services/tsconfig.lib.json",
+                "assets": ["libs/common-services/*.md"]
+            }
+        }
+    },
+    "tags": []
+}

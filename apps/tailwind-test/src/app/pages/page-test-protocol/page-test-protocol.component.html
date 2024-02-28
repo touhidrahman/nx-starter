@@ -1,0 +1,52 @@
+<jsat-navbar-internal></jsat-navbar-internal>
+
+<jsat-validation-test-links class="mt-4"></jsat-validation-test-links>
+
+<div class="mx-auto mt-16 grid max-w-screen-2xl grid-cols-4 gap-4">
+    <div
+        class="col-span-4 rounded-lg border border-gray-200 bg-white p-6 shadow">
+        <hlm-table class="w-full min-w-[400px]">
+            <hlm-trow>
+                <hlm-th class="">Step</hlm-th>
+                <hlm-th class="">Description</hlm-th>
+                <hlm-th class="flex-1">Expected Result</hlm-th>
+                <hlm-th class="flex-1">Actual Result Config</hlm-th>
+                <hlm-th class="flex-1 justify-end">Requirement Link</hlm-th>
+            </hlm-trow>
+            @for (item of data; track item.step) {
+            <hlm-trow>
+                <hlm-td truncate class="font-medium">{{ item.step }}</hlm-td>
+                <hlm-td class="">{{ item.description }}</hlm-td>
+                <hlm-td class="flex-1">{{ item.expected }}</hlm-td>
+                <hlm-td class="flex-1">{{ item.actual }}</hlm-td>
+                <hlm-td class="flex-1 justify-end">
+                    @for (requirement of item.requirements; track $index) {
+                    <brn-hover-card>
+                        <div
+                            hlmBadge
+                            variant="secondary"
+                            brnHoverCardTrigger
+                            class="mr-[2px] cursor-pointer">
+                            {{ requirement }}
+                        </div>
+
+                        <hlm-hover-card-content
+                            *brnHoverCardContent
+                            class="w-80">
+                            <div class="">
+                                <h3 class="text-sm" hlmCardTitle>
+                                    Requirement 101
+                                </h3>
+                                <p hlmCardDescription>
+                                    Here goes the requirement description
+                                </p>
+                            </div>
+                        </hlm-hover-card-content>
+                    </brn-hover-card>
+                    }
+                </hlm-td>
+            </hlm-trow>
+            }
+        </hlm-table>
+    </div>
+</div>
