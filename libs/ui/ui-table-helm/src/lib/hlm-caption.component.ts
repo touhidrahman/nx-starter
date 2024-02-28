@@ -1,12 +1,12 @@
 import {
-    booleanAttribute,
     ChangeDetectionStrategy,
     Component,
+    ViewEncapsulation,
+    booleanAttribute,
     computed,
     effect,
     inject,
     input,
-    ViewEncapsulation,
 } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
 import { ClassValue } from 'clsx'
@@ -33,7 +33,7 @@ export class HlmCaptionComponent {
     )
 
     private readonly hidden = input(false, { transform: booleanAttribute })
-    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    readonly _userClass = input<ClassValue>('', { alias: 'class' })
     protected readonly _computedClass = computed(() =>
         hlm(
             'text-center block mt-4 text-sm text-muted-foreground',

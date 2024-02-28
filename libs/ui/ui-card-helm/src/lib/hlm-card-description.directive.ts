@@ -1,6 +1,6 @@
-import { computed, Directive, input } from '@angular/core'
+import { Directive, computed, input } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
-import { cva, VariantProps } from 'class-variance-authority'
+import { VariantProps, cva } from 'class-variance-authority'
 import { ClassValue } from 'clsx'
 
 export const cardDescriptionVariants = cva('text-sm text-muted-foreground', {
@@ -19,7 +19,7 @@ export type CardDescriptionVariants = VariantProps<
     },
 })
 export class HlmCardDescriptionDirective {
-    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    readonly _userClass = input<ClassValue>('', { alias: 'class' })
     protected _computedClass = computed(() =>
         hlm(cardDescriptionVariants(), this._userClass()),
     )

@@ -1,4 +1,4 @@
-import { computed, Directive, input } from '@angular/core'
+import { Directive, computed, input } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
 import { ClassValue } from 'clsx'
 
@@ -14,7 +14,7 @@ import { ClassValue } from 'clsx'
     },
 })
 export class HlmCommandItemDirective {
-    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    readonly _userClass = input<ClassValue>('', { alias: 'class' })
 
     protected _computedClass = computed(() =>
         hlm(

@@ -1,12 +1,12 @@
-import { coerceNumberProperty, NumberInput } from '@angular/cdk/coercion'
+import { NumberInput, coerceNumberProperty } from '@angular/cdk/coercion'
 import {
     AfterViewInit,
-    computed,
     Directive,
     ElementRef,
+    Input,
+    computed,
     inject,
     input,
-    Input,
     signal,
 } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
@@ -36,7 +36,7 @@ export class HlmAspectRatioDirective implements AfterViewInit {
         return `${100 / this._ratio()}%`
     })
 
-    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    readonly _userClass = input<ClassValue>('', { alias: 'class' })
     protected readonly _computedClass = computed(() =>
         hlm(`relative w-full`, this._userClass()),
     )

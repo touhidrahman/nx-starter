@@ -1,4 +1,4 @@
-import { computed, Directive, inject, input } from '@angular/core'
+import { Directive, computed, inject, input } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
 import { HlmIconComponent } from '@spartan-ng/ui-icon-helm'
 import { ClassValue } from 'clsx'
@@ -18,7 +18,7 @@ export class HlmMenuItemIconDirective {
         this._menuIcon.size = 'none'
     }
 
-    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    readonly _userClass = input<ClassValue>('', { alias: 'class' })
     protected _computedClass = computed(() =>
         hlm('mr-2 h-4 w-4', this._userClass()),
     )

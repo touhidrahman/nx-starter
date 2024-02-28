@@ -1,4 +1,4 @@
-import { computed, Directive, inject, input } from '@angular/core'
+import { Directive, computed, inject, input } from '@angular/core'
 import { HlmButtonDirective } from '@spartan-ng/ui-button-helm'
 import { hlm } from '@spartan-ng/ui-core'
 import { ClassValue } from 'clsx'
@@ -14,7 +14,7 @@ import { ClassValue } from 'clsx'
 export class HlmAlertDialogCancelButtonDirective {
     private readonly _hlmBtn = inject(HlmButtonDirective, { host: true })
 
-    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    readonly _userClass = input<ClassValue>('', { alias: 'class' })
     protected readonly _computedClass = computed(() =>
         hlm('mt-2 sm:mt-0', this._userClass()),
     )

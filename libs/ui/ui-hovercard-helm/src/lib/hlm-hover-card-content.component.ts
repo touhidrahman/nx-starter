@@ -1,11 +1,11 @@
 import {
     Component,
+    ElementRef,
+    Renderer2,
     computed,
     effect,
-    ElementRef,
     inject,
     input,
-    Renderer2,
     signal,
 } from '@angular/core'
 import {
@@ -51,7 +51,7 @@ export class HlmHoverCardContentComponent {
         })
     }
 
-    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    readonly _userClass = input<ClassValue>('', { alias: 'class' })
     protected readonly _computedClass = computed(() =>
         hlm(
             'z-50 w-64 rounded-md border border-border bg-popover p-4 text-popover-foreground shadow-md outline-none',

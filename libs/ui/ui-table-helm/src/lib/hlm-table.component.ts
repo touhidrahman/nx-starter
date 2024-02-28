@@ -1,11 +1,11 @@
 import {
     ChangeDetectionStrategy,
     Component,
+    ViewEncapsulation,
     computed,
     effect,
     input,
     signal,
-    ViewEncapsulation,
 } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
 import { ClassValue } from 'clsx'
@@ -23,7 +23,7 @@ import { ClassValue } from 'clsx'
     encapsulation: ViewEncapsulation.None,
 })
 export class HlmTableComponent {
-    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    readonly _userClass = input<ClassValue>('', { alias: 'class' })
     protected readonly _computedClass = computed(() =>
         hlm(
             'flex flex-col text-sm [&_hlm-trow:last-child]:border-0',

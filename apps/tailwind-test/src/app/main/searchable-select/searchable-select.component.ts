@@ -2,11 +2,6 @@ import { CommonModule } from '@angular/common'
 import { Component, signal } from '@angular/core'
 import { SpartanModules } from '@my-nx-starter/spartan-modules'
 import { provideIcons } from '@ng-icons/core'
-import {
-    radixCaretSort,
-    radixCheck,
-    radixMagnifyingGlass,
-} from '@ng-icons/radix-icons'
 
 type Framework = { label: string; value: string }
 
@@ -16,9 +11,7 @@ type Framework = { label: string; value: string }
     imports: [CommonModule, ...SpartanModules],
     templateUrl: './searchable-select.component.html',
     styleUrl: './searchable-select.component.scss',
-    providers: [
-        provideIcons({ radixCaretSort, radixMagnifyingGlass, radixCheck }),
-    ],
+    providers: [],
 })
 export class SearchableSelectComponent {
     public frameworks = [

@@ -30,7 +30,7 @@ type MenuVariants = VariantProps<typeof menuVariants>
     template: ` <ng-content /> `,
 })
 export class HlmMenuComponent {
-    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    readonly _userClass = input<ClassValue>('', { alias: 'class' })
     protected _computedClass = computed(() =>
         hlm(menuVariants({ variant: this._variant() }), this._userClass()),
     )

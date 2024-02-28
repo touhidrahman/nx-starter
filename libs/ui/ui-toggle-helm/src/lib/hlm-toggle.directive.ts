@@ -1,6 +1,6 @@
-import { computed, Directive, Input, input, signal } from '@angular/core'
+import { Directive, Input, computed, input, signal } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
-import { cva, VariantProps } from 'class-variance-authority'
+import { VariantProps, cva } from 'class-variance-authority'
 import { ClassValue } from 'clsx'
 
 export const toggleVariants = cva(
@@ -46,7 +46,7 @@ export class HlmToggleDirective {
         this._size.set(value)
     }
 
-    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    readonly _userClass = input<ClassValue>('', { alias: 'class' })
     protected _computedClass = computed(() =>
         hlm(
             toggleVariants({ variant: this._variant(), size: this._size() }),

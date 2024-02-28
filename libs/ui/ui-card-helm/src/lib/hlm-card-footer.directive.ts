@@ -1,6 +1,6 @@
-import { computed, Directive, input } from '@angular/core'
+import { Directive, computed, input } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
-import { cva, VariantProps } from 'class-variance-authority'
+import { VariantProps, cva } from 'class-variance-authority'
 import { ClassValue } from 'clsx'
 
 export const cardFooterVariants = cva('flex p-6 pt-0', {
@@ -24,7 +24,7 @@ export type CardFooterVariants = VariantProps<typeof cardFooterVariants>
     },
 })
 export class HlmCardFooterDirective {
-    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    readonly _userClass = input<ClassValue>('', { alias: 'class' })
     protected _computedClass = computed(() =>
         hlm(
             cardFooterVariants({ direction: this.direction() }),

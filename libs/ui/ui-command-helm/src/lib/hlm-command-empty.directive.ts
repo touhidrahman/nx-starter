@@ -10,7 +10,7 @@ import { ClassValue } from 'clsx'
     },
 })
 export class HlmCommandEmptyDirective {
-    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    readonly _userClass = input<ClassValue>('', { alias: 'class' })
     protected _computedClass = computed(() =>
         hlm('py-6 text-center text-sm', this._userClass()),
     )

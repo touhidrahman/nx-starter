@@ -11,7 +11,7 @@ import { ClassValue } from 'clsx'
     },
 })
 export class HlmSheetHeaderComponent {
-    private readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    readonly _userClass = input<ClassValue>('', { alias: 'class' })
     protected _computedClass = computed(() =>
         hlm(
             'flex flex-col space-y-2 text-center sm:text-left',
