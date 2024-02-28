@@ -5,6 +5,7 @@ import { LayoutDefaultComponent } from './main/layouts/components/layout-default
 import { CommonModule } from '@angular/common'
 import { LayoutCenteredComponent } from './main/layouts/components/layout-centered/layout-centered.component'
 import { PageLayout, PageLayoutService } from '@my-nx-starter/page-layouts'
+import { toast, NgxSonnerToaster } from 'ngx-sonner';
 
 @Component({
     standalone: true,
@@ -13,6 +14,7 @@ import { PageLayout, PageLayoutService } from '@my-nx-starter/page-layouts'
         LayoutDefaultComponent,
         LayoutCenteredComponent,
         RouterModule,
+        NgxSonnerToaster,
     ],
     selector: 'jsat-root',
     templateUrl: './app.component.html',

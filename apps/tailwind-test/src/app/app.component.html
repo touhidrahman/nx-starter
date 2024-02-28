@@ -1,3 +1,5 @@
+<ngx-sonner-toaster />
+
 <ng-container [ngSwitch]="layoutService.layout$ | async">
     <jsat-layout-default *ngSwitchCase="PageLayout.Default">
         <router-outlet></router-outlet>
