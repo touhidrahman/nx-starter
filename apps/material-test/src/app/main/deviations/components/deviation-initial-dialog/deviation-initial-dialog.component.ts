@@ -4,7 +4,7 @@ import { MaterialModules } from '@my-nx-starter/material-modules'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 @Component({
-    selector: 'jsat-deviation-initial-dialog',
+    selector: 'app-deviation-initial-dialog',
     standalone: true,
     imports: [
         CommonModule,

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common'
 import { MaterialModules } from '@my-nx-starter/material-modules'
 
 @Component({
-    selector: 'jsat-approval-list',
+    selector: 'app-approval-list',
     standalone: true,
     imports: [CommonModule, ...MaterialModules],
     templateUrl: './approval-list.component.html',

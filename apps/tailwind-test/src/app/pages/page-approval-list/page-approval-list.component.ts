@@ -5,7 +5,7 @@ import { NavbarInternalComponent } from '../../main/headers/components/navbar-in
 import { SearchableSelectComponent } from '../../main/searchable-select/searchable-select.component'
 
 @Component({
-    selector: 'jsat-page-approval-list',
+    selector: 'app-page-approval-list',
     standalone: true,
     templateUrl: './page-approval-list.component.html',
     styleUrl: './page-approval-list.component.scss',

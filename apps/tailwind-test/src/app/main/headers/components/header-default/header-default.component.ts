@@ -4,7 +4,7 @@ import { SpartanModules } from '@my-nx-starter/spartan-modules'
 import { LucideAngularModule } from 'lucide-angular'
 
 @Component({
-    selector: 'jsat-header-default',
+    selector: 'app-header-default',
     standalone: true,
     imports: [CommonModule, ...SpartanModules, LucideAngularModule],
     templateUrl: './header-default.component.html',

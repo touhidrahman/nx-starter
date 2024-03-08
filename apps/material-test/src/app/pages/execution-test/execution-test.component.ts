@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog'
 import { DeviationInitialDialogComponent } from '../../main/deviations/components/deviation-initial-dialog/deviation-initial-dialog.component'
 
 @Component({
-    selector: 'jsat-execution-test',
+    selector: 'app-execution-test',
     standalone: true,
     imports: [
         CommonModule,

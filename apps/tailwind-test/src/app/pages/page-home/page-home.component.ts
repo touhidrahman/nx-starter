@@ -13,7 +13,7 @@ import { DialogApprovalComponent } from './dialog-approval/dialog-approval.compo
 import { NavbarInternalComponent } from '../../main/headers/components/navbar-internal/navbar-internal.component'
 
 @Component({
-    selector: 'jsat-page-home',
+    selector: 'app-page-home',
     standalone: true,
     imports: [
         CommonModule,

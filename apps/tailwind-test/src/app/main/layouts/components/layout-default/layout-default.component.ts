@@ -5,7 +5,7 @@ import { HeaderDefaultComponent } from '../../../headers/components/header-defau
 import { SidebarDefaultComponent } from '../../../sidebars/components/sidebar-default/sidebar-default.component'
 
 @Component({
-    selector: 'jsat-layout-default',
+    selector: 'app-layout-default',
     standalone: true,
     imports: [
         CommonModule,

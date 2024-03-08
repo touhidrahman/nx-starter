@@ -16,7 +16,7 @@ import { toast, NgxSonnerToaster } from 'ngx-sonner';
         RouterModule,
         NgxSonnerToaster,
     ],
-    selector: 'jsat-root',
+    selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
 })

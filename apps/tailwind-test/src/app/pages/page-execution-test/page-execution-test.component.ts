@@ -7,7 +7,7 @@ import { NavbarInternalComponent } from '../../main/headers/components/navbar-in
 import { ValidationTestLinksComponent } from '../../main/headers/components/validation-test-links/validation-test-links.component'
 
 @Component({
-    selector: 'jsat-page-execution-test',
+    selector: 'app-page-execution-test',
     standalone: true,
     templateUrl: './page-execution-test.component.html',
     styleUrl: './page-execution-test.component.scss',

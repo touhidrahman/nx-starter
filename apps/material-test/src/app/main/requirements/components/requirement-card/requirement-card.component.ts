@@ -6,7 +6,7 @@ import { MaterialModules } from '@my-nx-starter/material-modules'
 import { ApprovalDialogComponent } from '../../../approvals/components/approval-dialog/approval-dialog.component'
 
 @Component({
-    selector: 'jsat-requirement-card',
+    selector: 'app-requirement-card',
     standalone: true,
     imports: [CommonModule, ReactiveFormsModule, ...MaterialModules],
     templateUrl: './requirement-card.component.html',

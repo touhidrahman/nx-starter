@@ -4,7 +4,7 @@ import { SpartanModules } from '@my-nx-starter/spartan-modules'
 import { RouterModule } from '@angular/router'
 
 @Component({
-    selector: 'jsat-navbar-internal',
+    selector: 'app-navbar-internal',
     standalone: true,
     imports: [CommonModule, ...SpartanModules, RouterModule],
     templateUrl: './navbar-internal.component.html',

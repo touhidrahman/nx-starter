@@ -6,7 +6,7 @@ import { NavbarInternalComponent } from '../../main/headers/components/navbar-in
 import { ValidationTestLinksComponent } from '../../main/headers/components/validation-test-links/validation-test-links.component'
 
 @Component({
-    selector: 'jsat-page-test-protocol',
+    selector: 'app-page-test-protocol',
     standalone: true,
     imports: [
         CommonModule,

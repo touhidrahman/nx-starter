@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common'
 import { SpartanModules } from '@my-nx-starter/spartan-modules'
 
 @Component({
-    selector: 'jsat-deviation-initial-dialog',
+    selector: 'app-deviation-initial-dialog',
     standalone: true,
     imports: [CommonModule, ...SpartanModules],
     templateUrl: './deviation-initial-dialog.component.html',

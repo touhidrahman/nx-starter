@@ -6,7 +6,7 @@ import { ButtonGroupComponent } from '../../main/headers/button-group/button-gro
 import { MaterialModules } from '@my-nx-starter/material-modules'
 
 @Component({
-    selector: 'jsat-test-protocol',
+    selector: 'app-test-protocol',
     standalone: true,
     templateUrl: './test-protocol.component.html',
     styleUrl: './test-protocol.component.scss',

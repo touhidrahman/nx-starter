@@ -6,7 +6,7 @@ import { provideIcons } from '@ng-icons/core'
 type Framework = { label: string; value: string }
 
 @Component({
-    selector: 'jsat-searchable-select',
+    selector: 'app-searchable-select',
     standalone: true,
     imports: [CommonModule, ...SpartanModules],
     templateUrl: './searchable-select.component.html',

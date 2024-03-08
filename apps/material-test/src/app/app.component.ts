@@ -17,7 +17,7 @@ import { LayoutSidebarComponent } from './main/layout/layout-sidebar/layout-side
         LayoutDefaultComponent,
         LayoutSidebarComponent,
     ],
-    selector: 'jsat-root',
+    selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
 })

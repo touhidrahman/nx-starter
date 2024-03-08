@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router'
 import { SpartanModules } from '@my-nx-starter/spartan-modules'
 
 @Component({
-    selector: 'jsat-sidebar-default',
+    selector: 'app-sidebar-default',
     standalone: true,
     imports: [CommonModule, RouterModule, ...SpartanModules],
     templateUrl: './sidebar-default.component.html',

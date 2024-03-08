@@ -1,17 +1,17 @@
 <ngx-sonner-toaster />
 
 <ng-container [ngSwitch]="layoutService.layout$ | async">
-    <jsat-layout-default *ngSwitchCase="PageLayout.Default">
+    <app-layout-default *ngSwitchCase="PageLayout.Default">
         <router-outlet></router-outlet>
-    </jsat-layout-default>
+    </app-layout-default>
 
-    <jsat-layout-centered *ngSwitchCase="PageLayout.Center">
+    <app-layout-centered *ngSwitchCase="PageLayout.Center">
         <router-outlet></router-outlet>
-    </jsat-layout-centered>
+    </app-layout-centered>
 
     <router-outlet *ngSwitchCase="PageLayout.Blank"></router-outlet>
 
-    <jsat-layout-default *ngSwitchDefault>
+    <app-layout-default *ngSwitchDefault>
         <router-outlet></router-outlet>
-    </jsat-layout-default>
+    </app-layout-default>
 </ng-container>

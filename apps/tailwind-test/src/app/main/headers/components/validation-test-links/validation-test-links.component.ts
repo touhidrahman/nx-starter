@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router'
 import { SpartanModules } from '@my-nx-starter/spartan-modules'
 
 @Component({
-    selector: 'jsat-validation-test-links',
+    selector: 'app-validation-test-links',
     standalone: true,
     imports: [CommonModule, RouterModule, ...SpartanModules],
     templateUrl: './validation-test-links.component.html',

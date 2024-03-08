@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms'
 import { NgxSmartModalModule, NgxSmartModalService } from 'ngx-smart-modal'
 
 @Component({
-    selector: 'jsat-dialog-approval',
+    selector: 'app-dialog-approval',
     standalone: true,
     imports: [
         CommonModule,

@@ -2,7 +2,7 @@
     "name": "material-test",
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
     "projectType": "application",
-    "prefix": "jsat",
+    "prefix": "app",
     "sourceRoot": "apps/material-test/src",
     "tags": [],
     "targets": {
