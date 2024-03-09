@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { SpartanModules } from '@my-nx-starter/spartan-modules'
+import { SpartanModules } from '@myorg/spartan-modules'
 import { FormsModule } from '@angular/forms'
 import { NgxSmartModalModule, NgxSmartModalService } from 'ngx-smart-modal'
 

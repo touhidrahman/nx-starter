@@ -1,5 +1,5 @@
 {
-    "name": "@my-nx-starter/material-modules",
+    "name": "@myorg/material-modules",
     "version": "0.0.1",
     "dependencies": {
         "tslib": "^2.3.0"

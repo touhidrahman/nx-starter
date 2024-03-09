@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { SpartanModules } from '@my-nx-starter/spartan-modules'
+import { SpartanModules } from '@myorg/spartan-modules'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NavbarInternalComponent } from '../../main/headers/components/navbar-internal/navbar-internal.component'
 import { ValidationTestLinksComponent } from '../../main/headers/components/validation-test-links/validation-test-links.component'

@@ -4,14 +4,14 @@ import { Observable } from 'rxjs'
 import {
     APP_EXAMPLE_ENVIRONMENT,
     AppExampleEnvironment,
-} from '@my-nx-starter/app-example-core'
-import { ApiService } from '@my-nx-starter/common-services'
+} from '@myorg/app-example-core'
+import { ApiService } from '@myorg/common-services'
 import {
     User,
     UserDto,
     UserPermissions,
-} from '@my-nx-starter/app-example-models'
-import { ApiResponse } from '@my-nx-starter/common-models'
+} from '@myorg/app-example-models'
+import { ApiResponse } from '@myorg/common-models'
 
 @Injectable({
     providedIn: 'root',

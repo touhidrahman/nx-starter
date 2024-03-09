@@ -1,4 +1,4 @@
-import { AppExampleEnvironment } from '@my-nx-starter/app-example-core'
+import { AppExampleEnvironment } from '@myorg/app-example-core'
 
 export const environment: AppExampleEnvironment = {
     appName: 'Material Test',

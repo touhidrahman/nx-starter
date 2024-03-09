@@ -1,5 +1,5 @@
 {
-    "name": "@my-nx-starter/common-animations",
+    "name": "@myorg/common-animations",
     "version": "0.0.1",
     "dependencies": {
         "tslib": "^2.3.0"

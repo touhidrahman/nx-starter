@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { Component } from '@angular/core'
-import { MaterialModules } from '@my-nx-starter/material-modules'
+import { MaterialModules } from '@myorg/material-modules'
 import { ReactiveFormsModule } from '@angular/forms'
 import { NestedTreeControl } from '@angular/cdk/tree'
 import { MatTreeNestedDataSource } from '@angular/material/tree'

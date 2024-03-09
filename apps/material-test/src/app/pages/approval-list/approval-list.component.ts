@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { MaterialModules } from '@my-nx-starter/material-modules'
+import { MaterialModules } from '@myorg/material-modules'
 
 @Component({
     selector: 'app-approval-list',

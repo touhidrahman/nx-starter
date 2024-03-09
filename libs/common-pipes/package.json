@@ -1,5 +1,5 @@
 {
-    "name": "@my-nx-starter/common-pipes",
+    "name": "@myorg/common-pipes",
     "version": "0.0.1",
     "dependencies": {
         "tslib": "^2.3.0"

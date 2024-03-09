@@ -6,7 +6,7 @@ import {
     ViewContainerRef,
 } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { SpartanModules } from '@my-nx-starter/spartan-modules'
+import { SpartanModules } from '@myorg/spartan-modules'
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NgxSmartModalService } from 'ngx-smart-modal'
 import { DialogApprovalComponent } from './dialog-approval/dialog-approval.component'

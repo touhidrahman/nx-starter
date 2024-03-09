@@ -16,42 +16,42 @@
         "skipDefaultLibCheck": true,
         "baseUrl": ".",
         "paths": {
-            "@my-nx-starter/app-example-api-services": [
+            "@myorg/app-example-api-services": [
                 "libs/app-example-api-services/src/index.ts"
             ],
-            "@my-nx-starter/app-example-auth": [
+            "@myorg/app-example-auth": [
                 "libs/app-example-auth/src/index.ts"
             ],
-            "@my-nx-starter/app-example-core": [
+            "@myorg/app-example-core": [
                 "libs/app-example-core/src/index.ts"
             ],
-            "@my-nx-starter/app-example-models": [
+            "@myorg/app-example-models": [
                 "libs/app-example-models/src/index.ts"
             ],
-            "@my-nx-starter/app-example-states": [
+            "@myorg/app-example-states": [
                 "libs/app-example-states/src/index.ts"
             ],
-            "@my-nx-starter/common-animations": [
+            "@myorg/common-animations": [
                 "libs/common-animations/src/index.ts"
             ],
-            "@my-nx-starter/common-auth": ["libs/common-auth/src/index.ts"],
-            "@my-nx-starter/common-directives": [
+            "@myorg/common-auth": ["libs/common-auth/src/index.ts"],
+            "@myorg/common-directives": [
                 "libs/common-directives/src/index.ts"
             ],
-            "@my-nx-starter/common-models": ["libs/common-models/src/index.ts"],
-            "@my-nx-starter/common-pipes": ["libs/common-pipes/src/index.ts"],
-            "@my-nx-starter/common-services": [
+            "@myorg/common-models": ["libs/common-models/src/index.ts"],
+            "@myorg/common-pipes": ["libs/common-pipes/src/index.ts"],
+            "@myorg/common-services": [
                 "libs/common-services/src/index.ts"
             ],
-            "@my-nx-starter/material-modules": [
+            "@myorg/material-modules": [
                 "libs/material-modules/src/index.ts"
             ],
-            "@my-nx-starter/page-layouts": ["libs/page-layouts/src/index.ts"],
-            "@my-nx-starter/spartan-modules": [
+            "@myorg/page-layouts": ["libs/page-layouts/src/index.ts"],
+            "@myorg/spartan-modules": [
                 "libs/spartan-modules/src/index.ts"
             ],
-            "@my-nx-starter/store": ["libs/store/src/index.ts"],
-            "@my-nx-starter/utils": ["libs/utils/src/index.ts"],
+            "@myorg/store": ["libs/store/src/index.ts"],
+            "@myorg/utils": ["libs/utils/src/index.ts"],
             "@spartan-ng/ui-accordion-helm": [
                 "libs/ui/ui-accordion-helm/src/index.ts"
             ],

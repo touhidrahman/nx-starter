@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-import { ApiService } from '@my-nx-starter/common-services'
-import { User } from '@my-nx-starter/app-example-models'
+import { ApiService } from '@myorg/common-services'
+import { User } from '@myorg/app-example-models'
 
 @Injectable({
     providedIn: 'root',

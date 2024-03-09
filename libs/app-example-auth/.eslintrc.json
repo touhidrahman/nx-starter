@@ -21,7 +21,7 @@
                     "error",
                     {
                         "type": "element",
-                        "prefix": "my-nx-starter",
+                        "prefix": "myorg",
                         "style": "kebab-case"
                     }
                 ]

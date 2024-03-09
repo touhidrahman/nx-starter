@@ -1,6 +1,6 @@
 import { Route } from '@angular/router'
 import { authGuardFn } from '../../main/auth/guards/auth.guard'
-import { setLayout, PageLayout } from '@my-nx-starter/page-layouts'
+import { setLayout, PageLayout } from '@myorg/page-layouts'
 
 export type ProfileRoutes = {
     index: Route

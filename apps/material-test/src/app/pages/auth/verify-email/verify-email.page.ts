@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'
-import { AuthApiService } from '@my-nx-starter/common-auth'
+import { AuthApiService } from '@myorg/common-auth'
 import { timer } from 'rxjs'
-import { User } from '@my-nx-starter/app-example-models'
+import { User } from '@myorg/app-example-models'
 
 @Component({
     standalone: true,

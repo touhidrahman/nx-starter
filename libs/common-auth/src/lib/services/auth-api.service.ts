@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { LoginResponse } from '../models/login-response'
 import { SignupInput } from '../models/signup-input'
-import { ApiResponse } from '@my-nx-starter/common-models'
+import { ApiResponse } from '@myorg/common-models'
 import { AUTH_API_URL } from '../auth-api-url.injector'
 
 @Injectable({

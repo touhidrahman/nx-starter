@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http'
 import { Params } from '@angular/router'
 import { Observable } from 'rxjs'
 import { AbstractApiService } from './abstract-api.service'
-import { ApiResponse } from '@my-nx-starter/common-models'
+import { ApiResponse } from '@myorg/common-models'
 
 export class ApiService<T, DtoT> implements AbstractApiService<T> {
     protected apiUrl: string

@@ -3,10 +3,10 @@ import { HttpClient } from '@angular/common/http'
 import {
     APP_EXAMPLE_ENVIRONMENT,
     AppExampleEnvironment,
-} from '@my-nx-starter/app-example-core'
-import { ApiResponse } from '@my-nx-starter/common-models'
+} from '@myorg/app-example-core'
+import { ApiResponse } from '@myorg/common-models'
 import { Observable, of } from 'rxjs'
-import { Requirement } from '@my-nx-starter/app-example-models'
+import { Requirement } from '@myorg/app-example-models'
 
 @Injectable({
     providedIn: 'root',

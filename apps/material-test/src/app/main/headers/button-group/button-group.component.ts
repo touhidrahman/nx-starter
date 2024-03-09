@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { Component } from '@angular/core'
-import { MaterialModules } from '@my-nx-starter/material-modules'
+import { MaterialModules } from '@myorg/material-modules'
 import { RouterModule } from '@angular/router'
 
 @Component({

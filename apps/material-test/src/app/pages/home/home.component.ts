@@ -6,7 +6,7 @@ import { InfoTreeComponent } from '../../main/headers/info-tree/info-tree.compon
 import { HeaderInternalComponent } from '../../main/headers/header-internal/header-internal.component'
 import { RequirementCardComponent } from '../../main/requirements/components/requirement-card/requirement-card.component'
 import { ApprovalDialogComponent } from '../../main/approvals/components/approval-dialog/approval-dialog.component'
-import { MaterialModules } from '@my-nx-starter/material-modules'
+import { MaterialModules } from '@myorg/material-modules'
 
 @Component({
     selector: 'app-home',

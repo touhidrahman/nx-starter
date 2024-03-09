@@ -1,4 +1,4 @@
-import { LabelValuePair } from '@my-nx-starter/common-models'
+import { LabelValuePair } from '@myorg/common-models'
 
 export enum UserRole {
     Advertiser = 'Advertiser',

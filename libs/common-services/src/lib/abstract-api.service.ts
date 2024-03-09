@@ -1,5 +1,5 @@
 import { Params } from '@angular/router'
-import { ApiResponse } from '@my-nx-starter/common-models'
+import { ApiResponse } from '@myorg/common-models'
 import { Observable } from 'rxjs'
 
 export abstract class AbstractApiService<T> {

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'
 import { AuthStateService } from '../../../main/auth/states/auth-state.service'
-import { LoginFormService } from '@my-nx-starter/common-auth'
+import { LoginFormService } from '@myorg/common-auth'
 
 @Component({
     standalone: true,

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common'
 import { InfoTreeComponent } from '../../main/headers/info-tree/info-tree.component'
 import { HeaderInternalComponent } from '../../main/headers/header-internal/header-internal.component'
 import { ButtonGroupComponent } from '../../main/headers/button-group/button-group.component'
-import { MaterialModules } from '@my-nx-starter/material-modules'
+import { MaterialModules } from '@myorg/material-modules'
 
 @Component({
     selector: 'app-test-protocol',

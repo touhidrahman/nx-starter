@@ -4,8 +4,8 @@ import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
 import { Router, RouterModule } from '@angular/router'
 import { AlertService } from '../../main/alert/services/toast.service'
 import { HeaderOneComponent } from '../../main/headers/header-one/header-one.component'
-import { AuthApiService } from '@my-nx-starter/common-auth'
-import { User } from '@my-nx-starter/app-example-models'
+import { AuthApiService } from '@myorg/common-auth'
+import { User } from '@myorg/app-example-models'
 
 @Component({
     standalone: true,

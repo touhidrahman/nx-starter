@@ -1,5 +1,5 @@
 import { Route } from '@angular/router'
-import { setLayout, PageLayout } from '@my-nx-starter/page-layouts'
+import { setLayout, PageLayout } from '@myorg/page-layouts'
 
 export type ApprovalListRoute = {
     index: Route

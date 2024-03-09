@@ -3,12 +3,12 @@ import { Inject, Injectable } from '@angular/core'
 import {
     APP_EXAMPLE_ENVIRONMENT,
     AppExampleEnvironment,
-} from '@my-nx-starter/app-example-core'
+} from '@myorg/app-example-core'
 import {
     ApprovalDocument,
     ExecutionTest,
-} from '@my-nx-starter/app-example-models'
-import { ApiResponse } from '@my-nx-starter/common-models'
+} from '@myorg/app-example-models'
+import { ApiResponse } from '@myorg/common-models'
 import { Observable, of } from 'rxjs'
 
 @Injectable({

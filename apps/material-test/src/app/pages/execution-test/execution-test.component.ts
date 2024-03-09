@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { MaterialModules } from '@my-nx-starter/material-modules'
+import { MaterialModules } from '@myorg/material-modules'
 import { ButtonGroupComponent } from '../../main/headers/button-group/button-group.component'
 import { InfoTreeComponent } from '../../main/headers/info-tree/info-tree.component'
 import { HeaderInternalComponent } from '../../main/headers/header-internal/header-internal.component'

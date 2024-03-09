@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { Component, ViewContainerRef } from '@angular/core'
-import { SpartanModules } from '@my-nx-starter/spartan-modules'
+import { SpartanModules } from '@myorg/spartan-modules'
 import { NgxSmartModalService } from 'ngx-smart-modal'
 import { DeviationInitialDialogComponent } from '../../main/deviations/components/deviation-initial-dialog/deviation-initial-dialog.component'
 import { NavbarInternalComponent } from '../../main/headers/components/navbar-internal/navbar-internal.component'

@@ -3,15 +3,15 @@ import { Router } from '@angular/router'
 import { JwtHelperService } from '@auth0/angular-jwt'
 import { WINDOW } from '@ng-web-apis/common'
 import { Observable, map, of, timer } from 'rxjs'
-import { LocalStorageService } from '@my-nx-starter/common-services'
-import { SimpleStore } from '@my-nx-starter/store'
+import { LocalStorageService } from '@myorg/common-services'
+import { SimpleStore } from '@myorg/store'
 import { getAuthRoutes } from '../../../pages/auth/auth.routes'
 import {
     AuthApiService,
     LoginResponse,
     TokenStorageService,
-} from '@my-nx-starter/common-auth'
-import { User } from '@my-nx-starter/app-example-models'
+} from '@myorg/common-auth'
+import { User } from '@myorg/app-example-models'
 
 export interface AuthState {
     isLoggedIn: boolean

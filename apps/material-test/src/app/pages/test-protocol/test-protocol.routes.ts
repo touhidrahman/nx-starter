@@ -1,5 +1,5 @@
 import { Route } from '@angular/router'
-import { PageLayout, setLayout } from '@my-nx-starter/page-layouts'
+import { PageLayout, setLayout } from '@myorg/page-layouts'
 
 export type TestProtocolRoute = {
     index: Route

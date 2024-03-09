@@ -4,7 +4,7 @@ import { LucideIconConfig } from 'lucide-angular'
 import { LayoutDefaultComponent } from './main/layouts/components/layout-default/layout-default.component'
 import { CommonModule } from '@angular/common'
 import { LayoutCenteredComponent } from './main/layouts/components/layout-centered/layout-centered.component'
-import { PageLayout, PageLayoutService } from '@my-nx-starter/page-layouts'
+import { PageLayout, PageLayoutService } from '@myorg/page-layouts'
 import { toast, NgxSonnerToaster } from 'ngx-sonner';
 
 @Component({

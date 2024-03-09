@@ -6,10 +6,10 @@ import {
     User,
     UserPermissionKeys,
     UserRole,
-} from '@my-nx-starter/app-example-models'
-import { AuthApiService, TokenStorageService } from '@my-nx-starter/common-auth'
-import { LocalStorageService } from '@my-nx-starter/common-services'
-import { SimpleStore } from '@my-nx-starter/store'
+} from '@myorg/app-example-models'
+import { AuthApiService, TokenStorageService } from '@myorg/common-auth'
+import { LocalStorageService } from '@myorg/common-services'
+import { SimpleStore } from '@myorg/store'
 import { debounceTime, map, timer } from 'rxjs'
 
 export interface AuthState {

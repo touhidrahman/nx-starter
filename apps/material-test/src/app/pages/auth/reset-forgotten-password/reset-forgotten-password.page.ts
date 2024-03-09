@@ -8,10 +8,10 @@ import {
 } from '@angular/forms'
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'
 import { getAuthRoutes } from '../auth.routes'
-import { AuthApiService, JwtService } from '@my-nx-starter/common-auth'
+import { AuthApiService, JwtService } from '@myorg/common-auth'
 import { AlertService } from '../../../main/alert/services/toast.service'
-import { ForgotPasswordVerificationToken } from '@my-nx-starter/common-auth'
-import { User } from '@my-nx-starter/app-example-models'
+import { ForgotPasswordVerificationToken } from '@myorg/common-auth'
+import { User } from '@myorg/app-example-models'
 
 @Component({
     standalone: true,

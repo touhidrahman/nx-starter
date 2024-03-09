@@ -1,4 +1,4 @@
-import { AuthStateService } from '@my-nx-starter/app-example-auth'
+import { AuthStateService } from '@myorg/app-example-auth'
 import { Observable, catchError, of } from 'rxjs'
 
 export function appInitializerFactory(

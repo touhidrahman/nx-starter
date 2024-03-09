@@ -18,9 +18,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import {
     AUTH_API_URL,
     AuthHeaderInterceptorFn,
-} from '@my-nx-starter/common-auth'
+} from '@myorg/common-auth'
 import { environment } from '../environment/environment'
-import { APP_EXAMPLE_ENVIRONMENT } from '@my-nx-starter/app-example-core'
+import { APP_EXAMPLE_ENVIRONMENT } from '@myorg/app-example-core'
 
 export const appConfig: ApplicationConfig = {
     providers: [
