@@ -1,0 +1,9 @@
+{
+    "name": "app-example-forms",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/app-example-forms/src",
+    "prefix": "myorg",
+    "tags": [],
+    "projectType": "library",
+    "targets": {}
+}
