@@ -40,7 +40,7 @@ export class ContentApiService extends ApiService<Content, ContentDto> {
         )
     }
 
-    findByOrganizationId(organizationId: string, params: Params = {}) {
+    findByOrganizationId(organizationId: string, params: Params = {}): Observable<ApiResponse<Content[]>> {
         return this.find(shake({ ...params, organizationId }))
     }
 

@@ -12,7 +12,6 @@ interface ContentListStateQueryParams {
     orderBy: 'asc' | 'desc'
     sortBy: keyof Content | ''
     managerId?: string
-    siteId?: string
     status?: string
     type?: string
     search: string
@@ -24,7 +23,6 @@ const initialQueryState: ContentListStateQueryParams = {
     orderBy: 'desc',
     sortBy: 'createdAt',
     managerId: undefined,
-    siteId: undefined,
     status: undefined,
     type: undefined,
     search: '',
@@ -71,7 +69,6 @@ export class ContentListStateService
 
     init() {
         this.runFiltering()
-        this.onChangeSelectedSite()
     }
 
     ngOnDestroy(): void {
@@ -99,9 +96,8 @@ export class ContentListStateService
 
         return this.contentApiService
             .findByOrganizationId(
-                this.appStateService.getState().organization?.id,
+                this.appStateService.getState().organization?.id ?? '',
                 shake({
-                    siteId: query.siteId,
                     managerId: query.managerId,
                     type: query.type,
                     status: query.status,
@@ -117,10 +113,10 @@ export class ContentListStateService
                     return {
                         contents:
                             query.page === 1
-                                ? contents
-                                : [...this.getResult().contents, ...contents],
-                        totalPages: tuiCeil(meta.total / query.size),
-                        totalResults: meta.total,
+                                ? (contents ?? [])
+                                : [...this.getResult().contents, ...(contents ?? [])],
+                        totalPages: Math.ceil(meta?.total ?? 0 / query.size),
+                        totalResults: meta?.total ?? 0,
                     }
                 }),
             )
@@ -144,11 +140,4 @@ export class ContentListStateService
             })
     }
 
-    private onChangeSelectedSite() {
-        this.siteStateService.select('selectedSite').subscribe({
-            next: (selectedSite) => {
-                this.setQuery({ siteId: selectedSite?.id, page: 1 })
-            },
-        })
-    }
 }

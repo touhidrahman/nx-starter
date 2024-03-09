@@ -19,24 +19,24 @@ export class ProfileStateService extends SimpleStore<ProfileState> {
         super(initialState)
     }
 
-    saveProfilePicInStore(imageIdentifier: string) {
-        this.profileApiService
-            .getProfilePic(imageIdentifier)
-            .pipe(take(1))
-            .subscribe((res: { image_url: string }) => {
-                this.setState({
-                    profilePicUrlMap: this.getState().profilePicUrlMap.set(
-                        imageIdentifier,
-                        res.image_url,
-                    ),
-                })
-            })
-    }
+    // saveProfilePicInStore(imageIdentifier: string) {
+    //     this.profileApiService
+    //         .getProfilePic(imageIdentifier)
+    //         .pipe(take(1))
+    //         .subscribe((res: { image_url: string }) => {
+    //             this.setState({
+    //                 profilePicUrlMap: this.getState().profilePicUrlMap.set(
+    //                     imageIdentifier,
+    //                     res.image_url,
+    //                 ),
+    //             })
+    //         })
+    // }
 
-    getProfilePicFromStore(imageIdentifier: string): string {
-        if (!this.getState().profilePicUrlMap.has(imageIdentifier)) {
-            this.saveProfilePicInStore(imageIdentifier)
-        }
-        return this.getState().profilePicUrlMap.get(imageIdentifier)
-    }
+    // getProfilePicFromStore(imageIdentifier: string): string {
+    //     if (!this.getState().profilePicUrlMap.has(imageIdentifier)) {
+    //         this.saveProfilePicInStore(imageIdentifier)
+    //     }
+    //     return this.getState().profilePicUrlMap.get(imageIdentifier)
+    // }
 }

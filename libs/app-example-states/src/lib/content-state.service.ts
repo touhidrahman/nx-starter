@@ -74,20 +74,18 @@ export class ContentStateService extends SimpleStore<ContentState> implements On
 
     private continueLoadingContents() {
         combineLatest([
-            this.siteStateService.select('selectedSite').pipe(filter((site) => !!site)),
             this.select('search').pipe(distinctUntilChanged()),
         ])
             .pipe(
                 tap(() => this.setState({ loading: true })),
-                switchMap(([site, search]) => {
+                switchMap(([search]) => {
                     return this.contentApiService.find({
-                        siteId: site?.id,
                         search,
                         page: 1,
                         size: 20,
                         sortBy: 'createdAt',
                         orderBy: 'desc',
-                        organizationId: this.appStateService.getState().organization.id,
+                        organizationId: this.appStateService.getState().organization?.id ?? '',
                     })
                 }),
                 shareReplay({ refCount: true, bufferSize: 1 }),

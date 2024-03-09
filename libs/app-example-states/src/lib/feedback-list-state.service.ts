@@ -81,7 +81,7 @@ export class FeedbackListStateService extends SimpleStore<FeedbackListState> {
                         feedbacks: data.data,
                         loading: false,
                         totalResults: data.meta?.total,
-                        totalPages: tuiCeil(data.meta?.total ?? 0 / PAGE_SIZE),
+                        totalPages: Math.ceil(data.meta?.total ?? 0 / PAGE_SIZE),
                     })
                 },
                 error: (error) => {
