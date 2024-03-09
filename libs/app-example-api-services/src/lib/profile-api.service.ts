@@ -19,7 +19,7 @@ export class ProfileApiService {
         @Inject(APP_EXAMPLE_ENVIRONMENT)
         private env: AppExampleEnvironment,
     ) {
-        this.apiUrl = `${env.apiUrl}/v2/profile`
+        this.apiUrl = `${env.apiUrl}/v1/profile`
     }
 
     uploadProfilePic(attachments: FormData): Observable<ApiResponse<User>> {

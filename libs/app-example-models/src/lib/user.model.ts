@@ -18,11 +18,12 @@ export interface UserDto {
     isOwner: boolean
     lastName: string
     organizationId: string
-    forumUserId?: string
     permissions: UserPermissions
     profileImage?: string
     role: UserRole
-    teamId?: string
+    preferredCurrency: 'USD' | 'BDT'
+    preferredLanguage: 'en' | 'bn'
+
 }
 
 export interface User extends UserDto {

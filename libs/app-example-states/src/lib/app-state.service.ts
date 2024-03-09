@@ -1,5 +1,23 @@
 import { Injectable } from '@angular/core'
-import { BehaviorSubject } from 'rxjs'
+import { UserApiService } from '@myorg/app-example-api-services'
+import { AuthStateService } from '@myorg/app-example-auth'
+import { Organization } from '@myorg/app-example-models'
+import { SimpleStore } from '@myorg/store'
+import { BehaviorSubject, filter } from 'rxjs'
+
+export interface AppState {
+    currency: 'USD' | 'BDT'
+    language: 'en' | 'bn'
+    theme: 'dark' | 'light'
+    organization: Organization | null
+}
+
+export const initialState: AppState = {
+    currency: 'BDT',
+    language: 'bn',
+    theme: 'light',
+    organization: null,
+}
 
 /**
  * Stores crucial information and functionalities for the app's full lifecycle
@@ -7,9 +25,17 @@ import { BehaviorSubject } from 'rxjs'
 @Injectable({
     providedIn: 'root',
 })
-export class AppStateService {
+export class AppStateService extends SimpleStore<AppState> {
     private loadingSubject = new BehaviorSubject<boolean>(true)
     appName = 'Material Test'
+
+    constructor(
+        private authStateService: AuthStateService,
+        private userApiService: UserApiService,
+    ) {
+        super(initialState)
+        this.loadOrganizationAfterLogin()
+    }
 
     get loading(): boolean {
         return this.loadingSubject.value
@@ -25,5 +51,22 @@ export class AppStateService {
 
     setLoading(loading: boolean): void {
         this.loadingSubject.next(loading)
+    }
+
+
+    private loadOrganizationAfterLogin() {
+        this.authStateService
+            .select('user')
+            .pipe(filter((user) => Boolean(user)))
+            .subscribe({
+                next: (user) => {
+                    this.setState({
+                        organization: user?.organization,
+                        currency: user?.preferredCurrency,
+                        language: user?.preferredLanguage,
+
+                    })
+                },
+            })
     }
 }

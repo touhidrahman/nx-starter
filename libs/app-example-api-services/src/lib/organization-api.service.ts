@@ -11,8 +11,8 @@ import { ApiService } from '@myorg/common-services'
     providedIn: 'root',
 })
 export class OrganizationApiService extends ApiService<
-    OrganizationDto,
-    Organization
+    Organization,
+    OrganizationDto
 > {
     constructor(
         protected override http: HttpClient,
