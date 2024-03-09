@@ -19,6 +19,9 @@
             "@my-nx-starter/app-example-api-services": [
                 "libs/app-example-api-services/src/index.ts"
             ],
+            "@my-nx-starter/app-example-auth": [
+                "libs/app-example-auth/src/index.ts"
+            ],
             "@my-nx-starter/app-example-core": [
                 "libs/app-example-core/src/index.ts"
             ],

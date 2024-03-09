@@ -1,0 +1,9 @@
+{
+    "name": "app-example-auth",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "sourceRoot": "libs/app-example-auth/src",
+    "prefix": "my-nx-starter",
+    "tags": [],
+    "projectType": "library",
+    "targets": {}
+}

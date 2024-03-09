@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http'
 import { Params } from '@angular/router'
 import { Observable } from 'rxjs'
 import { AbstractApiService } from './abstract-api.service'
+import { ApiResponse } from '@my-nx-starter/common-models'
 
 export class ApiService<T, DtoT> implements AbstractApiService<T> {
     protected apiUrl: string
@@ -10,38 +11,43 @@ export class ApiService<T, DtoT> implements AbstractApiService<T> {
         this.apiUrl = apiUrl
     }
 
-    findById(id: string): Observable<T> {
-        return this.http.get<T>(`${this.apiUrl}/${id}`)
-    }
-
-    find(params: Params = {}): Observable<T[]> {
-        return this.http.get<T[]>(this.apiUrl, { params })
-    }
-
-    search(term: string): Observable<T[]> {
-        return this.http.get<T[]>(this.apiUrl, { params: { search: term } })
-    }
-
     count(params: Params = {}): Observable<number> {
         return this.http.get<number>(`${this.apiUrl}/count`, { params })
     }
 
-    create(dto: DtoT | Partial<T>): Observable<T> {
-        return this.http.post<T>(this.apiUrl, dto)
+    findById(id: string): Observable<ApiResponse<T>> {
+        return this.http.get<ApiResponse<T>>(`${this.apiUrl}/${id}`)
     }
 
-    createMany(dto: DtoT[] | Partial<T>[]): Observable<T[]> {
-        return this.http.post<T[]>(this.apiUrl, dto)
+    find(params: Params = {}): Observable<ApiResponse<T[]>> {
+        return this.http.get<ApiResponse<T[]>>(this.apiUrl, { params })
     }
 
-    update(id: string, body: DtoT | Partial<T>): Observable<T> {
-        return this.http.patch<T>(`${this.apiUrl}/${id}`, {
-            ...body,
-            id: undefined,
+    search(term: string): Observable<ApiResponse<T[]>> {
+        return this.http.get<ApiResponse<T[]>>(this.apiUrl, {
+            params: { search: term },
         })
     }
 
-    delete(id: string): Observable<void> {
-        return this.http.delete<void>(`${this.apiUrl}/${id}`)
+    create(dto: DtoT | Partial<T>): Observable<ApiResponse<T>> {
+        return this.http.post<ApiResponse<T>>(this.apiUrl, dto)
+    }
+
+    update(id: string, body: DtoT | Partial<T>): Observable<ApiResponse<T>> {
+        return this.http.patch<ApiResponse<T>>(`${this.apiUrl}/${id}`, body)
+    }
+
+    delete(id: string): Observable<ApiResponse<unknown>> {
+        return this.http.delete<ApiResponse<unknown>>(`${this.apiUrl}/${id}`)
+    }
+
+    deleteMany(ids: string[]): Observable<ApiResponse<unknown>> {
+        return this.http.delete<ApiResponse<unknown>>(`${this.apiUrl}`, {
+            body: ids,
+        })
+    }
+
+    createMany(dto: Partial<T>[]): Observable<ApiResponse<T[]>> {
+        return this.http.post<ApiResponse<T[]>>(`${this.apiUrl}/many`, dto)
     }
 }

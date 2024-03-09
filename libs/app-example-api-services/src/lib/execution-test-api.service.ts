@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http'
 import { Inject, Injectable } from '@angular/core'
 import {
-    APP_VALIDATION_ENVIRONMENT,
-    AppValidationEnvironment,
+    APP_EXAMPLE_ENVIRONMENT,
+    AppExampleEnvironment,
 } from '@my-nx-starter/app-example-core'
 import {
     ApprovalDocument,
@@ -17,8 +17,8 @@ import { Observable, of } from 'rxjs'
 export class ExecutionTestApiService {
     constructor(
         private http: HttpClient,
-        @Inject(APP_VALIDATION_ENVIRONMENT)
-        private env: AppValidationEnvironment,
+        @Inject(APP_EXAMPLE_ENVIRONMENT)
+        private env: AppExampleEnvironment,
     ) {}
 
     find(): Observable<ApiResponse<ExecutionTest[]>> {

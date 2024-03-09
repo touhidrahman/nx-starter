@@ -1,5 +1,5 @@
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms'
-import { Observable, tap, throwError } from 'rxjs'
+import { Observable, map, tap, throwError } from 'rxjs'
 import { AbstractApiService } from './abstract-api.service'
 
 export abstract class AbstractFormService<T> {
@@ -40,6 +40,7 @@ export abstract class AbstractFormService<T> {
         return this.apiService
             .findById(id)
             .pipe(
+                map(({data: value}) => value as T & { id?: string }),
                 tap((value) => this.setFormValue(value as T & { id?: string })),
             )
     }
@@ -55,12 +56,12 @@ export abstract class AbstractFormService<T> {
     protected create$(resetForm = false): Observable<T> {
         return this.apiService
             .create(this.getFormValue())
-            .pipe(tap(() => resetForm && this.setFormValue(null)))
+            .pipe(map(({data: value}) => value as T), tap(() => resetForm && this.setFormValue(null)))
     }
 
     protected update$(id: string, resetForm = false): Observable<T> {
         return this.apiService
             .update(id, this.getFormValue())
-            .pipe(tap(() => resetForm && this.setFormValue(null)))
+            .pipe(map(({data: value}) => value as T), tap(() => resetForm && this.setFormValue(null)))
     }
 }

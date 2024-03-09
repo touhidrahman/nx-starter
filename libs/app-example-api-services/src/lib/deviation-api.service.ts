@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http'
 import { Inject, Injectable } from '@angular/core'
 import {
-    APP_VALIDATION_ENVIRONMENT,
-    AppValidationEnvironment,
+    APP_EXAMPLE_ENVIRONMENT,
+    AppExampleEnvironment,
 } from '@my-nx-starter/app-example-core'
 import { Deviation } from '@my-nx-starter/app-example-models'
 import { ApiResponse } from '@my-nx-starter/common-models'
@@ -14,8 +14,8 @@ import { Observable, of } from 'rxjs'
 export class DeviationApiService {
     constructor(
         private http: HttpClient,
-        @Inject(APP_VALIDATION_ENVIRONMENT)
-        private env: AppValidationEnvironment,
+        @Inject(APP_EXAMPLE_ENVIRONMENT)
+        private env: AppExampleEnvironment,
     ) {}
 
     find(): Observable<ApiResponse<Deviation[]>> {

@@ -1,2 +1,3 @@
-export * from './lib/app-validation-environment.model'
-export * from './lib/app-validation-environment.injector'
+export * from './lib/app-example-environment.model'
+export * from './lib/app-example-environment.injector'
+export * from './lib/app-initializer'

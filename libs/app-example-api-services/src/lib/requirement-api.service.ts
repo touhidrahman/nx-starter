@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import {
-    APP_VALIDATION_ENVIRONMENT,
-    AppValidationEnvironment,
+    APP_EXAMPLE_ENVIRONMENT,
+    AppExampleEnvironment,
 } from '@my-nx-starter/app-example-core'
 import { ApiResponse } from '@my-nx-starter/common-models'
 import { Observable, of } from 'rxjs'
@@ -14,8 +14,8 @@ import { Requirement } from '@my-nx-starter/app-example-models'
 export class RequirementApiService {
     constructor(
         private http: HttpClient,
-        @Inject(APP_VALIDATION_ENVIRONMENT)
-        private env: AppValidationEnvironment,
+        @Inject(APP_EXAMPLE_ENVIRONMENT)
+        private env: AppExampleEnvironment,
     ) {}
 
     find(): Observable<ApiResponse<Requirement[]>> {

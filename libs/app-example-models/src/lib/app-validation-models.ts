@@ -1,10 +1,4 @@
-export interface User {
-    firstName: string
-    lastName: string
-    email: string
-    id: string
-    // TODO: add more fields
-}
+import { User } from "./user.model"
 
 export interface Requirement {
     id: string
