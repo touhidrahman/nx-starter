@@ -5,7 +5,7 @@ import { LayoutDefaultComponent } from './main/layouts/components/layout-default
 import { CommonModule } from '@angular/common'
 import { LayoutCenteredComponent } from './main/layouts/components/layout-centered/layout-centered.component'
 import { PageLayout, PageLayoutService } from '@myorg/page-layouts'
-import { toast, NgxSonnerToaster } from 'ngx-sonner';
+import { toast, NgxSonnerToaster } from 'ngx-sonner'
 
 @Component({
     standalone: true,

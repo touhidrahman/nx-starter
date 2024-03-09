@@ -1,34 +1,34 @@
 {
-    "name": "tailwind-test",
+    "name": "example-tailwind",
     "$schema": "../../node_modules/nx/schemas/project-schema.json",
     "projectType": "application",
     "prefix": "app",
-    "sourceRoot": "apps/tailwind-test/src",
+    "sourceRoot": "apps/example-tailwind/src",
     "tags": [],
     "targets": {
         "build": {
             "executor": "@angular-devkit/build-angular:application",
             "outputs": ["{options.outputPath}"],
             "options": {
-                "outputPath": "dist/apps/tailwind-test",
-                "index": "apps/tailwind-test/src/index.html",
-                "browser": "apps/tailwind-test/src/main.ts",
+                "outputPath": "dist/apps/example-tailwind",
+                "index": "apps/example-tailwind/src/index.html",
+                "browser": "apps/example-tailwind/src/main.ts",
                 "polyfills": ["zone.js"],
-                "tsConfig": "apps/tailwind-test/tsconfig.app.json",
+                "tsConfig": "apps/example-tailwind/tsconfig.app.json",
                 "inlineStyleLanguage": "scss",
                 "assets": [
-                    "apps/tailwind-test/src/favicon.ico",
-                    "apps/tailwind-test/src/assets"
+                    "apps/example-tailwind/src/favicon.ico",
+                    "apps/example-tailwind/src/assets"
                 ],
-                "styles": ["apps/tailwind-test/src/styles.scss"],
+                "styles": ["apps/example-tailwind/src/styles.scss"],
                 "scripts": []
             },
             "configurations": {
                 "production": {
                     "fileReplacements": [
                         {
-                            "replace": "apps/tailwind-test/src/environment/environment.ts",
-                            "with": "apps/tailwind-test/src/environment/environment.prod.ts"
+                            "replace": "apps/example-tailwind/src/environment/environment.ts",
+                            "with": "apps/example-tailwind/src/environment/environment.prod.ts"
                         }
                     ],
                     "budgets": [
@@ -57,10 +57,10 @@
             "executor": "@angular-devkit/build-angular:dev-server",
             "configurations": {
                 "production": {
-                    "buildTarget": "tailwind-test:build:production"
+                    "buildTarget": "example-tailwind:build:production"
                 },
                 "development": {
-                    "buildTarget": "tailwind-test:build:development"
+                    "buildTarget": "example-tailwind:build:development"
                 }
             },
             "defaultConfiguration": "development"
@@ -68,14 +68,14 @@
         "extract-i18n": {
             "executor": "@angular-devkit/build-angular:extract-i18n",
             "options": {
-                "buildTarget": "tailwind-test:build"
+                "buildTarget": "example-tailwind:build"
             }
         },
         "serve-static": {
             "executor": "@nx/web:file-server",
             "options": {
-                "buildTarget": "tailwind-test:build",
-                "staticFilePath": "dist/apps/tailwind-test/browser"
+                "buildTarget": "example-tailwind:build",
+                "staticFilePath": "dist/apps/example-tailwind/browser"
             }
         }
     }

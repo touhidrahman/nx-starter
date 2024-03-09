@@ -1,9 +1,9 @@
 /* eslint-disable */
 export default {
-    displayName: 'tailwind-test',
+    displayName: 'example-tailwind',
     preset: '../../jest.preset.js',
     setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
-    coverageDirectory: '../../coverage/apps/tailwind-test',
+    coverageDirectory: '../../coverage/apps/example-tailwind',
     transform: {
         '^.+\\.(ts|mjs|js|html)$': [
             'jest-preset-angular',
