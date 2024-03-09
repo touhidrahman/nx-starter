@@ -15,10 +15,7 @@ import {
     withInterceptors,
 } from '@angular/common/http'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import {
-    AUTH_API_URL,
-    AuthHeaderInterceptorFn,
-} from '@myorg/common-auth'
+import { AUTH_API_URL, AuthHeaderInterceptorFn } from '@myorg/common-auth'
 import { environment } from '../environment/environment'
 import { APP_EXAMPLE_ENVIRONMENT } from '@myorg/app-example-core'
 
