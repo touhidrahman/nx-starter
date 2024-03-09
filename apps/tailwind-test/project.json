@@ -25,6 +25,12 @@
             },
             "configurations": {
                 "production": {
+                    "fileReplacements": [
+                        {
+                            "replace": "apps/tailwind-test/src/environment/environment.ts",
+                            "with": "apps/tailwind-test/src/environment/environment.prod.ts"
+                        }
+                    ],
                     "budgets": [
                         {
                             "type": "initial",

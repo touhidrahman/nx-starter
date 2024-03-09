@@ -1,8 +1,8 @@
-import { AppValidationEnvironment } from '@my-nx-starter/app-example-core'
+import { AppExampleEnvironment } from '@my-nx-starter/app-example-core'
 
-export const environment: AppValidationEnvironment = {
+export const environment: AppExampleEnvironment = {
     appName: 'Material Test - Dev',
     production: false,
     apiUrl: 'http://localhost:3000/api',
-    authApiUrl: 'http://localhost:3000/api/auth',
+    authApiUrl: 'http://localhost:3000/api/v1/auth',
 }

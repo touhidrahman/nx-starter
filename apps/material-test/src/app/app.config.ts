@@ -20,7 +20,7 @@ import {
     AuthHeaderInterceptorFn,
 } from '@my-nx-starter/common-auth'
 import { environment } from '../environment/environment'
-import { APP_EXAMPLE_ENVIRONMENT } from '../../../../libs/app-validation-core/src/lib/app-validation-environment.injector'
+import { APP_EXAMPLE_ENVIRONMENT } from '@my-nx-starter/app-example-core'
 
 export const appConfig: ApplicationConfig = {
     providers: [
