@@ -1,4 +1,4 @@
-import { Directive, computed, inject, input } from '@angular/core'
+import { computed, Directive, inject, input } from '@angular/core'
 import { BrnAccordionDirective } from '@spartan-ng/ui-accordion-brain'
 import { hlm } from '@spartan-ng/ui-core'
 import { ClassValue } from 'clsx'
@@ -19,12 +19,12 @@ import { ClassValue } from 'clsx'
 export class HlmAccordionDirective {
     private readonly _brn = inject(BrnAccordionDirective)
 
-    readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    public readonly userClass = input<ClassValue>('', { alias: 'class' })
     protected readonly _computedClass = computed(() =>
         hlm(
             'flex',
             this._brn.orientation === 'horizontal' ? 'flex-row' : 'flex-col',
-            this._userClass(),
+            this.userClass(),
         ),
     )
 }

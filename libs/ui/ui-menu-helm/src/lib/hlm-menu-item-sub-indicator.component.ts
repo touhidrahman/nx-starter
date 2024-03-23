@@ -17,8 +17,8 @@ import { ClassValue } from 'clsx'
     },
 })
 export class HlmMenuItemSubIndicatorComponent {
-    readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    public readonly userClass = input<ClassValue>('', { alias: 'class' })
     protected _computedClass = computed(() =>
-        hlm('inline-block ml-auto h-4 w-4', this._userClass()),
+        hlm('inline-block ml-auto h-4 w-4', this.userClass()),
     )
 }

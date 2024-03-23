@@ -1,6 +1,6 @@
-import { Directive, Input, computed, input, signal } from '@angular/core'
+import { computed, Directive, Input, input, signal } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
-import { VariantProps, cva } from 'class-variance-authority'
+import { cva, VariantProps } from 'class-variance-authority'
 import { ClassValue } from 'clsx'
 
 export const inputVariants = cva(
@@ -45,11 +45,11 @@ export class HlmInputDirective {
         this._error.set(value)
     }
 
-    readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    public readonly userClass = input<ClassValue>('', { alias: 'class' })
     protected _computedClass = computed(() =>
         hlm(
             inputVariants({ size: this._size(), error: this._error() }),
-            this._userClass(),
+            this.userClass(),
         ),
     )
 }

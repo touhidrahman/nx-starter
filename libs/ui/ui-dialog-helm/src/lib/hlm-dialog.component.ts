@@ -7,7 +7,6 @@ import {
 import {
     BrnDialogComponent,
     BrnDialogOverlayComponent,
-    provideBrnDialog,
 } from '@spartan-ng/ui-dialog-brain'
 import { HlmDialogOverlayDirective } from './hlm-dialog-overlay.directive'
 
@@ -20,7 +19,6 @@ import { HlmDialogOverlayDirective } from './hlm-dialog-overlay.directive'
         HlmDialogOverlayDirective,
     ],
     providers: [
-        provideBrnDialog(),
         {
             provide: BrnDialogComponent,
             useExisting: forwardRef(() => HlmDialogComponent),

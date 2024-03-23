@@ -1,13 +1,13 @@
 import {
-    Directive,
-    Input,
     booleanAttribute,
     computed,
+    Directive,
+    Input,
     input,
     signal,
 } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
-import { VariantProps, cva } from 'class-variance-authority'
+import { cva, VariantProps } from 'class-variance-authority'
 import { ClassValue } from 'clsx'
 
 export const badgeVariants = cva(
@@ -63,7 +63,7 @@ type badgeVariants = VariantProps<typeof badgeVariants>
     },
 })
 export class HlmBadgeDirective {
-    readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    public readonly userClass = input<ClassValue>('', { alias: 'class' })
     protected _computedClass = computed(() =>
         hlm(
             badgeVariants({
@@ -71,7 +71,7 @@ export class HlmBadgeDirective {
                 size: this._size(),
                 static: this._static(),
             }),
-            this._userClass(),
+            this.userClass(),
         ),
     )
 

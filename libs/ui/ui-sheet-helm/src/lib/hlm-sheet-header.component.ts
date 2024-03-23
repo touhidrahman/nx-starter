@@ -11,11 +11,11 @@ import { ClassValue } from 'clsx'
     },
 })
 export class HlmSheetHeaderComponent {
-    readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    public readonly userClass = input<ClassValue>('', { alias: 'class' })
     protected _computedClass = computed(() =>
         hlm(
             'flex flex-col space-y-2 text-center sm:text-left',
-            this._userClass(),
+            this.userClass(),
         ),
     )
 }

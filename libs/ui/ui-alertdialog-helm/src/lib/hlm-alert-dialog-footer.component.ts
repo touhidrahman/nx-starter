@@ -1,9 +1,9 @@
 import {
     ChangeDetectionStrategy,
     Component,
-    ViewEncapsulation,
     computed,
     input,
+    ViewEncapsulation,
 } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
 import { ClassValue } from 'clsx'
@@ -19,11 +19,11 @@ import { ClassValue } from 'clsx'
     encapsulation: ViewEncapsulation.None,
 })
 export class HlmAlertDialogFooterComponent {
-    readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    public readonly userClass = input<ClassValue>('', { alias: 'class' })
     protected readonly _computedClass = computed(() =>
         hlm(
             'flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2',
-            this._userClass(),
+            this.userClass(),
         ),
     )
 }

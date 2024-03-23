@@ -1,9 +1,9 @@
 import {
     ChangeDetectionStrategy,
     Component,
-    ViewEncapsulation,
     computed,
     input,
+    ViewEncapsulation,
 } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
 import { ClassValue } from 'clsx'
@@ -20,11 +20,11 @@ import { ClassValue } from 'clsx'
     encapsulation: ViewEncapsulation.None,
 })
 export class HlmTrowComponent {
-    readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    public readonly userClass = input<ClassValue>('', { alias: 'class' })
     protected _computedClass = computed(() =>
         hlm(
             'flex flex border-b border-border transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted',
-            this._userClass(),
+            this.userClass(),
         ),
     )
 }

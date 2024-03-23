@@ -1,12 +1,12 @@
 import { NgTemplateOutlet } from '@angular/common'
 import {
+    booleanAttribute,
     ChangeDetectionStrategy,
     Component,
-    ViewEncapsulation,
-    booleanAttribute,
     computed,
     inject,
     input,
+    ViewEncapsulation,
 } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
 import { BrnColumnDefComponent } from '@spartan-ng/ui-table-brain'
@@ -38,14 +38,14 @@ export class HlmThComponent {
     private readonly _columnDef? = inject(BrnColumnDefComponent, {
         optional: true,
     })
-    readonly truncate = input(false, { transform: booleanAttribute })
+    public readonly truncate = input(false, { transform: booleanAttribute })
 
-    readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    public readonly userClass = input<ClassValue>('', { alias: 'class' })
     protected readonly _computedClass = computed(() =>
         hlm(
             'flex flex-none h-12 px-4 text-sm items-center font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0',
             this._columnDef?.class(),
-            this._userClass(),
+            this.userClass(),
         ),
     )
 }

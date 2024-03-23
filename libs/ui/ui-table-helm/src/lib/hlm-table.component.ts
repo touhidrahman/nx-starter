@@ -1,11 +1,11 @@
 import {
     ChangeDetectionStrategy,
     Component,
-    ViewEncapsulation,
     computed,
     effect,
     input,
     signal,
+    ViewEncapsulation,
 } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
 import { ClassValue } from 'clsx'
@@ -23,16 +23,16 @@ import { ClassValue } from 'clsx'
     encapsulation: ViewEncapsulation.None,
 })
 export class HlmTableComponent {
-    readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    public readonly userClass = input<ClassValue>('', { alias: 'class' })
     protected readonly _computedClass = computed(() =>
         hlm(
             'flex flex-col text-sm [&_hlm-trow:last-child]:border-0',
-            this._userClass(),
+            this.userClass(),
         ),
     )
 
     // we aria-labelledby to be settable from outside but use the input by default.
-    private readonly _labeledByInput = input<string | null | undefined>(
+    public readonly _labeledByInput = input<string | null | undefined>(
         undefined,
         { alias: 'aria-labelledby' },
     )

@@ -1,4 +1,4 @@
-import { Directive, computed, input } from '@angular/core'
+import { computed, Directive, input } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
 import { BrnSheetTitleDirective } from '@spartan-ng/ui-sheet-brain'
 import { ClassValue } from 'clsx'
@@ -12,8 +12,8 @@ import { ClassValue } from 'clsx'
     hostDirectives: [BrnSheetTitleDirective],
 })
 export class HlmSheetTitleDirective {
-    readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    public readonly userClass = input<ClassValue>('', { alias: 'class' })
     protected _computedClass = computed(() =>
-        hlm('text-lg font-semibold', this._userClass()),
+        hlm('text-lg font-semibold', this.userClass()),
     )
 }

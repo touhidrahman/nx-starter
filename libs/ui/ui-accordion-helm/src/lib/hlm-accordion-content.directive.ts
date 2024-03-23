@@ -1,4 +1,4 @@
-import { Directive, computed, inject, input } from '@angular/core'
+import { computed, Directive, inject, input } from '@angular/core'
 import { BrnAccordionContentComponent } from '@spartan-ng/ui-accordion-brain'
 import { hlm } from '@spartan-ng/ui-core'
 import { ClassValue } from 'clsx'
@@ -16,13 +16,13 @@ export class HlmAccordionContentDirective {
         optional: true,
     })
 
-    readonly _userClass = input<ClassValue>('', { alias: 'class' })
+    public readonly userClass = input<ClassValue>('', { alias: 'class' })
     protected readonly _computedClass = computed(() => {
         const gridRows =
             this._brn?.state() === 'open'
                 ? 'grid-rows-[1fr]'
                 : 'grid-rows-[0fr]'
-        return hlm('text-sm transition-all grid', gridRows, this._userClass())
+        return hlm('text-sm transition-all grid', gridRows, this.userClass())
     })
 
     constructor() {
