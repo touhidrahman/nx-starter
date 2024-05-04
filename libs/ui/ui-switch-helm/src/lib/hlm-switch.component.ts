@@ -15,7 +15,7 @@ import {
     BrnSwitchComponent,
     BrnSwitchThumbComponent,
 } from '@spartan-ng/ui-switch-brain'
-import { ClassValue } from 'clsx'
+import type { ClassValue } from 'clsx'
 import { HlmSwitchThumbDirective } from './hlm-switch-thumb.directive'
 
 export const HLM_SWITCH_VALUE_ACCESSOR = {

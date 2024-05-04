@@ -1,16 +1,16 @@
 import {
     ChangeDetectionStrategy,
     Component,
+    Input,
+    ViewEncapsulation,
     computed,
     input,
-    Input,
     signal,
-    ViewEncapsulation,
 } from '@angular/core'
 import { BrnAvatarComponent } from '@spartan-ng/ui-avatar-brain'
 import { hlm } from '@spartan-ng/ui-core'
-import { cva, VariantProps } from 'class-variance-authority'
-import { ClassValue } from 'clsx'
+import { cva, type VariantProps } from 'class-variance-authority'
+import type { ClassValue } from 'clsx'
 
 export const avatarVariants = cva(
     'relative flex shrink-0 overflow-hidden rounded-full',

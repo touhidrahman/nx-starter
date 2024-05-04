@@ -2,10 +2,10 @@ import { NgComponentOutlet } from '@angular/common'
 import {
     ChangeDetectionStrategy,
     Component,
+    ViewEncapsulation,
     computed,
     inject,
     input,
-    ViewEncapsulation,
 } from '@angular/core'
 import { lucideX } from '@ng-icons/lucide'
 import { hlm } from '@spartan-ng/ui-core'
@@ -15,7 +15,7 @@ import {
     injectBrnDialogContext,
 } from '@spartan-ng/ui-dialog-brain'
 import { HlmIconComponent, provideIcons } from '@spartan-ng/ui-icon-helm'
-import { ClassValue } from 'clsx'
+import type { ClassValue } from 'clsx'
 import { HlmDialogCloseDirective } from './hlm-dialog-close.directive'
 
 @Component({

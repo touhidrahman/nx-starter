@@ -1,4 +1,4 @@
-import { Directive, inject, Input, TemplateRef } from '@angular/core'
+import { Directive, Input, inject, type TemplateRef } from '@angular/core'
 import { BrnTooltipTriggerDirective } from '@spartan-ng/ui-tooltip-brain'
 
 @Directive({
@@ -41,8 +41,7 @@ export class HlmTooltipTriggerDirective {
     }
 
     @Input()
-    set hlmTooltipTrigger(value: TemplateRef<unknown> | null | string) {
-        if (typeof value === 'string') return
+    set hlmTooltipTrigger(value: string | TemplateRef<unknown> | null) {
         this._brnTooltipTrigger.content = value
     }
 }

@@ -69,6 +69,7 @@
             "@spartan-ng/ui-dialog-helm": [
                 "libs/ui/ui-dialog-helm/src/index.ts"
             ],
+            "@spartan-ng/ui-helm-helm": ["libs/ui/ui-helm-helm/src/index.ts"],
             "@spartan-ng/ui-hovercard-helm": [
                 "libs/ui/ui-hovercard-helm/src/index.ts"
             ],
@@ -100,6 +101,9 @@
             "@spartan-ng/ui-sheet-helm": ["libs/ui/ui-sheet-helm/src/index.ts"],
             "@spartan-ng/ui-skeleton-helm": [
                 "libs/ui/ui-skeleton-helm/src/index.ts"
+            ],
+            "@spartan-ng/ui-sonner-helm": [
+                "libs/ui/ui-sonner-helm/src/index.ts"
             ],
             "@spartan-ng/ui-spinner-helm": [
                 "libs/ui/ui-spinner-helm/src/index.ts"

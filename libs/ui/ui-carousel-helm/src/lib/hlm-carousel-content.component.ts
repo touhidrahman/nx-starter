@@ -7,7 +7,7 @@ import {
     input,
 } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
-import { ClassValue } from 'clsx'
+import type { ClassValue } from 'clsx'
 import { HlmCarouselComponent } from './hlm-carousel.component'
 
 @Component({

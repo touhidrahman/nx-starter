@@ -1,8 +1,8 @@
 import {
     ChangeDetectionStrategy,
     Component,
-    forwardRef,
     ViewEncapsulation,
+    forwardRef,
 } from '@angular/core'
 import {
     BrnDialogComponent,

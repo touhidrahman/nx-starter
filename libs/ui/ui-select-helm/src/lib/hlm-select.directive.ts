@@ -1,6 +1,6 @@
-import { computed, Directive, Input, signal } from '@angular/core'
+import { Directive, computed, input } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
-import { ClassValue } from 'clsx'
+import type { ClassValue } from 'clsx'
 
 @Directive({
     // eslint-disable-next-line @angular-eslint/directive-selector
@@ -11,13 +11,8 @@ import { ClassValue } from 'clsx'
     },
 })
 export class HlmSelectDirective {
-    private readonly _classNames = signal<ClassValue>('')
-    // eslint-disable-next-line @angular-eslint/no-input-rename
-    @Input({ alias: 'class' })
-    set _class(classNames: ClassValue) {
-        this._classNames.set(classNames)
-    }
+    public readonly userClass = input<ClassValue>('', { alias: 'class' })
     protected readonly _computedClass = computed(() =>
-        hlm('', this._classNames()),
+        hlm('space-y-2', this.userClass()),
     )
 }

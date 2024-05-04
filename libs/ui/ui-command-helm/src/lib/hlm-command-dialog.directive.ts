@@ -9,7 +9,7 @@ import {
     signal,
 } from '@angular/core'
 import { hlm, injectExposesStateProvider } from '@spartan-ng/ui-core'
-import { ClassValue } from 'clsx'
+import type { ClassValue } from 'clsx'
 import { HlmCommandDirective } from './hlm-command.directive'
 
 @Directive({

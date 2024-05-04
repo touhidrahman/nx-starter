@@ -7,11 +7,16 @@
 ## Notes
 
 ### Common dependencies by Spartan-Ng
-- ngx-scrollbar
-- embla-carousel
-- clsx
+
+-   ngx-scrollbar
+-   embla-carousel
+-   clsx
 
 ## Common Tasks
+
+### Updating spartan UI
+
+Run `npm run update-spartan-cli` to upgrade spartan cli. Remove `libs/ui` directory. Remove all `@spartan/*` paths from `tsconfig.base.json`. Then run `npm run spartan-ui` and follow instructions.
 
 ### Setup tailwind for a new project
 

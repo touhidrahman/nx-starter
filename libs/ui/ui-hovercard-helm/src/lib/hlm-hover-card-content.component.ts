@@ -1,11 +1,11 @@
 import {
     Component,
+    ElementRef,
+    Renderer2,
     computed,
     effect,
-    ElementRef,
     inject,
     input,
-    Renderer2,
     signal,
 } from '@angular/core'
 import {
@@ -13,7 +13,7 @@ import {
     injectExposedSideProvider,
     injectExposesStateProvider,
 } from '@spartan-ng/ui-core'
-import { ClassValue } from 'clsx'
+import type { ClassValue } from 'clsx'
 
 @Component({
     selector: 'hlm-hover-card-content',
