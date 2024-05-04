@@ -20,6 +20,20 @@ body {
 }
 
 :root {
+    --success: 133 100% 36%;
+    --success-foreground: 133 100% 97%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 48 96% 89%;
+}
+
+.dark {
+    --success: 133 100% 36%;
+    --success-foreground: 133 100% 97%;
+    --warning: 48 96% 89%;
+    --warning-foreground: 38 92% 50%;
+}
+
+:root {
     --background: 0 0% 95%;
     --foreground: 222.2 84% 4.9%;
     --muted: 210 40% 96.1%;

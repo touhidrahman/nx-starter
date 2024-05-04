@@ -1,7 +1,6 @@
 import {
     BrnAccordionContentComponent,
     BrnAccordionDirective,
-    BrnAccordionImports,
     BrnAccordionItemDirective,
     BrnAccordionTriggerDirective,
 } from '@spartan-ng/ui-accordion-brain'
@@ -11,26 +10,17 @@ import {
     BrnAlertDialogComponent,
     BrnAlertDialogContentDirective,
     BrnAlertDialogDescriptionDirective,
-    BrnAlertDialogImports,
     BrnAlertDialogOverlayComponent,
     BrnAlertDialogTitleDirective,
     BrnAlertDialogTriggerDirective,
 } from '@spartan-ng/ui-alertdialog-brain'
 import { HlmAlertDialogImports } from '@spartan-ng/ui-alertdialog-helm'
 import { HlmAspectRatioModule } from '@spartan-ng/ui-aspectratio-helm'
-import {
-    HlmAvatarComponent,
-    HlmAvatarFallbackDirective,
-    HlmAvatarImageDirective,
-    HlmAvatarImports,
-} from '@spartan-ng/ui-avatar-helm'
+import { HlmAvatarImports } from '@spartan-ng/ui-avatar-helm'
 import { HlmBadgeModule } from '@spartan-ng/ui-badge-helm'
 import { HlmButtonModule } from '@spartan-ng/ui-button-helm'
 import { HlmCardImports } from '@spartan-ng/ui-card-helm'
-import {
-    BrnCheckboxComponent,
-    BrnCheckboxImports,
-} from '@spartan-ng/ui-checkbox-brain'
+import { BrnCheckboxComponent } from '@spartan-ng/ui-checkbox-brain'
 import { HlmCheckboxImports } from '@spartan-ng/ui-checkbox-helm'
 import {
     BrnCollapsibleComponent,
@@ -58,11 +48,7 @@ import { HlmDialogImports } from '@spartan-ng/ui-dialog-helm'
 import { BrnHoverCardModule } from '@spartan-ng/ui-hovercard-brain'
 import { HlmHoverCardImports } from '@spartan-ng/ui-hovercard-helm'
 import { HlmIconComponent, HlmIconModule } from '@spartan-ng/ui-icon-helm'
-import {
-    HlmInputDirective,
-    HlmInputErrorDirective,
-    HlmInputModule,
-} from '@spartan-ng/ui-input-helm'
+import { HlmInputModule } from '@spartan-ng/ui-input-helm'
 import { HlmLabelModule } from '@spartan-ng/ui-label-helm'
 import {
     BrnContextMenuTriggerDirective,
@@ -95,6 +81,8 @@ import {
 } from '@spartan-ng/ui-radiogroup-brain'
 import { HlmRadioGroupImports } from '@spartan-ng/ui-radiogroup-helm'
 import { HlmScrollAreaModule } from '@spartan-ng/ui-scrollarea-helm'
+import { BrnSelectImports } from '@spartan-ng/ui-select-brain'
+import { HlmSelectImports } from '@spartan-ng/ui-select-helm'
 import { BrnSeparatorComponent } from '@spartan-ng/ui-separator-brain'
 import { HlmSeparatorModule } from '@spartan-ng/ui-separator-helm'
 import { BrnSheetImports } from '@spartan-ng/ui-sheet-brain'
@@ -129,8 +117,6 @@ import {
     HlmSmallDirective,
     HlmUlDirective,
 } from '@spartan-ng/ui-typography-helm'
-// import { BrnSelectImports } from '@spartan-ng/ui-select-brain'
-// import { HlmSelectImports } from '@spartan-ng/ui-select-helm'
 
 export const BrainImports = [
     BrnAccordionContentComponent,
@@ -147,6 +133,14 @@ export const BrainImports = [
     BrnCollapsibleComponent,
     BrnCollapsibleContentComponent,
     BrnCollapsibleTriggerDirective,
+    BrnCommandComponent,
+    BrnCommandEmptyDirective,
+    BrnCommandGroupComponent,
+    BrnCommandInputDirective,
+    BrnCommandItemDirective,
+    BrnCommandListComponent,
+    BrnCommandLoaderDirective,
+    BrnCommandSeparatorComponent,
     BrnContextMenuTriggerDirective,
     BrnDialogContentDirective,
     BrnDialogTriggerDirective,
@@ -166,26 +160,19 @@ export const BrainImports = [
     BrnTableModule,
     BrnTabsDirective,
     BrnToggleModule,
-    // BrnCommandComponent,
-    // BrnCommandEmptyDirective,
-    // BrnCommandGroupComponent,
-    // BrnCommandInputDirective,
-    // BrnCommandItemDirective,
-    // BrnCommandListComponent,
-    // BrnCommandLoaderDirective,
-    // BrnCommandSeparatorComponent,
 
-    // ...BrnCommandImports,
-    // ...BrnSheetImports,
-    // ...BrnTableImports,
-    // ...BrnTooltipImports,
-    // ...BrnRadioGroupImports,
-    // ...BrnSwitchImports,
-    // ...BrnPopoverImports,
-    // ...BrnProgressImports,
-    // ...BrnCollapsibleImports,
-    // ...BrnMenuBarImports,
-    // ...BrnMenuImports,
+    ...BrnCollapsibleImports,
+    ...BrnCommandImports,
+    ...BrnMenuBarImports,
+    ...BrnMenuImports,
+    ...BrnPopoverImports,
+    ...BrnProgressImports,
+    ...BrnRadioGroupImports,
+    ...BrnSelectImports,
+    ...BrnSheetImports,
+    ...BrnSwitchImports,
+    ...BrnTableImports,
+    ...BrnTooltipImports,
 ]
 
 export const HelmImports = [
@@ -203,7 +190,7 @@ export const HelmImports = [
     ...HlmPopoverImports,
     ...HlmProgressImports,
     ...HlmRadioGroupImports,
-    // ...HlmSelectImports,
+    ...HlmSelectImports,
     ...HlmSheetImports,
     ...HlmSwitchImports,
     ...HlmTooltipImports,
