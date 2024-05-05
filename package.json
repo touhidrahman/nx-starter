@@ -7,6 +7,7 @@
         "format": "nx format:write all",
         "dev": "nx serve",
         "dev:app1": "nx serve example-tailwind",
+        "dev:server": "tsx watch apps/example-server/src/main.ts",
         "update1": "nx migrate latest --verbose",
         "update2": "nx migrate --run-migrations",
         "update3": "rm migrations.json",
@@ -31,6 +32,7 @@
         "@capacitor/haptics": "^5.0.0",
         "@capacitor/keyboard": "^5.0.0",
         "@capacitor/status-bar": "^5.0.0",
+        "@hono/node-server": "^1.11.1",
         "@ionic/angular": "^7.0.0",
         "@ng-icons/core": "^25.6.1",
         "@ng-icons/lucide": "^26.5.0",
@@ -66,6 +68,7 @@
         "clsx": "^1.2.1",
         "dayjs": "^1.11.11",
         "embla-carousel-angular": "^14.1.0",
+        "hono": "^4.3.2",
         "ionicons": "^7.0.0",
         "lucide-angular": "^0.378.0",
         "ngx-scrollbar": "^13.0.3",
@@ -133,6 +136,7 @@
         "tailwindcss-animate": "^1.0.7",
         "ts-jest": "^29.1.0",
         "ts-node": "10.9.2",
+        "tsx": "^4.9.1",
         "typescript": "5.4.5"
     },
     "lint-staged": {

@@ -2,8 +2,13 @@
     "extends": "./tsconfig.json",
     "compilerOptions": {
         "outDir": "../../dist/out-tsc",
-        "module": "commonjs",
-        "types": ["node"]
+        "target": "ESNext",
+        "module": "ESNext",
+        "moduleResolution": "Bundler",
+        "strict": true,
+        "types": ["node"],
+        "jsx": "react-jsx",
+        "jsxImportSource": "hono/jsx"
     },
     "exclude": ["jest.config.ts", "src/**/*.spec.ts", "src/**/*.test.ts"],
     "include": ["src/**/*.ts"]
