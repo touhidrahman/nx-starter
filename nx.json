@@ -44,6 +44,11 @@
             "cache": true,
             "dependsOn": ["^build"],
             "inputs": ["production", "^production"]
+        },
+        "@nx/esbuild:esbuild": {
+            "cache": true,
+            "dependsOn": ["^build"],
+            "inputs": ["production", "^production"]
         }
     },
     "plugins": [
@@ -57,7 +62,8 @@
             "plugin": "@nx/jest/plugin",
             "options": {
                 "targetName": "test"
-            }
+            },
+            "exclude": ["apps/example-server-e2e/**/*"]
         },
         {
             "plugin": "@nx/cypress/plugin",
