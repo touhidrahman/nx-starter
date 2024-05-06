@@ -22,6 +22,10 @@ Run `npm run update-spartan-cli` to upgrade spartan cli. Remove `libs/ui` direct
 
 `npx nx generate @nrwl/angular:setup-tailwind <<app_name>>`
 
+### Prepare git hooks
+
+Run `npm run prepare` which will create `.husky/precommit` file. Open the file and write `npm run pre-commit`.
+
 ## Start the app
 
 To start the development server run `nx serve tailwind-test`. Open your browser and navigate to http://localhost:4200/. Happy coding!
