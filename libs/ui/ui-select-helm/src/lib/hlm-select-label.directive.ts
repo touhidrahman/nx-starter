@@ -1,10 +1,10 @@
 import {
     Directive,
+    type OnInit,
     computed,
     inject,
     input,
     signal,
-    type OnInit,
 } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
 import { BrnSelectLabelDirective } from '@spartan-ng/ui-select-brain'

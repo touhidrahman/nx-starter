@@ -1,5 +1,6 @@
 import {
     Directive,
+    type DoCheck,
     ElementRef,
     Renderer2,
     computed,
@@ -7,7 +8,6 @@ import {
     inject,
     input,
     signal,
-    type DoCheck,
 } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
 import type { ClassValue } from 'clsx'

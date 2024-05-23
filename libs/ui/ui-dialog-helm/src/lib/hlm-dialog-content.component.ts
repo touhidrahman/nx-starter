@@ -41,7 +41,7 @@ import { HlmDialogCloseDirective } from './hlm-dialog-close.directive'
 
         <button brnDialogClose hlm>
             <span class="sr-only">Close</span>
-            <hlm-icon class="flex h-4 w-4" size="none" name="lucideX" />
+            <hlm-icon class="flex w-4 h-4" size="none" name="lucideX" />
         </button>
     `,
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -53,9 +53,9 @@ export class HlmDialogContentComponent {
 
     public readonly state = computed(() => this._dialogRef?.state() ?? 'closed')
 
-    public readonly component = this._dialogContext?.['$component']
+    public readonly component = this._dialogContext?.$component
     private readonly _dynamicComponentClass =
-        this._dialogContext?.['$dynamicComponentClass']
+        this._dialogContext?.$dynamicComponentClass
 
     public readonly userClass = input<ClassValue>('', { alias: 'class' })
     protected readonly _computedClass = computed(() =>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { TestBed, type ComponentFixture } from '@angular/core/testing'
+import { type ComponentFixture, TestBed } from '@angular/core/testing'
 import { HlmAspectRatioDirective } from './helm-aspect-ratio.directive'
 
 @Component({
@@ -40,7 +40,7 @@ describe('HelmAspectRatioDirective', () => {
         fixture.detectChanges()
         const div = fixture.nativeElement.querySelector('div')
         expect(div.style.paddingBottom).toEqual(
-            100 / (component.ratio || 1) + '%',
+            `${100 / (component.ratio || 1)}%`,
         )
     })
 

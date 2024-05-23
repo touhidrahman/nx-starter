@@ -8,7 +8,7 @@ import {
 } from '@angular/core'
 import { hlm } from '@spartan-ng/ui-core'
 import { BrnMenuItemDirective } from '@spartan-ng/ui-menu-brain'
-import { cva, type VariantProps } from 'class-variance-authority'
+import { type VariantProps, cva } from 'class-variance-authority'
 import type { ClassValue } from 'clsx'
 
 export const hlmMenuItemVariants = cva(
