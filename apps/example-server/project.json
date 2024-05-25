@@ -14,7 +14,7 @@
                 "outputPath": "dist/apps/example-server",
                 "format": ["cjs"],
                 "bundle": false,
-                "main": "apps/example-server/src/main.ts",
+                "main": "apps/example-server/src/index.ts",
                 "tsConfig": "apps/example-server/tsconfig.app.json",
                 "assets": ["apps/example-server/src/assets"],
                 "generatePackageJson": true,
