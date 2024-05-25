@@ -1,0 +1,114 @@
+{
+    "id": "5c2c05bf-699c-445f-986d-8d2d1fb87372",
+    "prevId": "00000000-0000-0000-0000-000000000000",
+    "version": "6",
+    "dialect": "postgresql",
+    "tables": {
+        "public.users": {
+            "name": "users",
+            "schema": "",
+            "columns": {
+                "id": {
+                    "name": "id",
+                    "type": "serial",
+                    "primaryKey": true,
+                    "notNull": true
+                },
+                "firstName": {
+                    "name": "firstName",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "lastName": {
+                    "name": "lastName",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "email": {
+                    "name": "email",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "password": {
+                    "name": "password",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "last_login": {
+                    "name": "last_login",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "type": {
+                    "name": "type",
+                    "type": "type",
+                    "typeSchema": "public",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "'user'"
+                },
+                "role": {
+                    "name": "role",
+                    "type": "role",
+                    "typeSchema": "public",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "'client'"
+                },
+                "is_verified": {
+                    "name": "is_verified",
+                    "type": "boolean",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": false
+                },
+                "created_at": {
+                    "name": "created_at",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "now()"
+                },
+                "updated_at": {
+                    "name": "updated_at",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": true
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {
+                "users_email_unique": {
+                    "name": "users_email_unique",
+                    "nullsNotDistinct": false,
+                    "columns": ["email"]
+                }
+            }
+        }
+    },
+    "enums": {
+        "public.role": {
+            "name": "role",
+            "schema": "public",
+            "values": ["client", "vendor_member", "vendor_owner"]
+        },
+        "public.type": {
+            "name": "type",
+            "schema": "public",
+            "values": ["user", "admin", "superadmin"]
+        }
+    },
+    "schemas": {},
+    "_meta": {
+        "columns": {},
+        "schemas": {},
+        "tables": {}
+    }
+}
