@@ -1,26 +1,25 @@
 import { serve } from '@hono/node-server'
 import 'dotenv/config'
-import { getTableColumns } from 'drizzle-orm'
 import { Hono } from 'hono'
+import { compress } from 'hono/compress'
+import { cors } from 'hono/cors'
+import { showRoutes } from 'hono/dev'
 import { logger } from 'hono/logger'
 import { poweredBy } from 'hono/powered-by'
-import { random } from 'radash'
-import { db } from './core/db/db'
-import { usersTable } from './core/db/schema'
-import authRoutes from './main/auth'
-
-export type Env = {
-    NODE_ENV: string
-    PORT: number
-    DATABASE_URL: string
-}
+import { secureHeaders } from 'hono/secure-headers'
+import auth from './main/auth'
+import password from './main/password'
+import user from './main/user'
 
 const port = Number.parseInt(process.env.PORT ?? '3000')
 
-const app = new Hono()
+const app = new Hono().basePath('v1')
 
 app.use(poweredBy())
 app.use(logger())
+app.use(secureHeaders())
+app.use(cors())
+app.use(compress())
 
 app.get('/', (c) => {
     return c.json({
@@ -30,19 +29,14 @@ app.get('/', (c) => {
     })
 })
 
-// app.post('/test', async (c) => {
-//     await db.insert(usersTable).values({
-//         name: 'John Doe',
-//         age: 30,
-//         email: `john${random(1, 999)}@doe.com`,
-//     })
+app.route('auth', auth)
+app.route('password', password)
+app.route('users', user)
 
-//     const user = await db.select({...getTableColumns(usersTable)}).from(usersTable)
-
-//     return c.json({ data: user, message: 'User created' })
-// })
-
-app.route('v1/auth', authRoutes)
+process.env.NODE_ENV == 'development' &&
+    showRoutes(app, {
+        verbose: true,
+    })
 
 console.log(`Server is running on port ${port}`)
 

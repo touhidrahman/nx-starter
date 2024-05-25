@@ -1,25 +1,38 @@
-import { randomBytes, randomUUID } from 'node:crypto'
-import { access } from 'node:fs'
 import * as argon2 from 'argon2'
 import dayjs from 'dayjs'
 import { and, eq } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { HTTPException } from 'hono/http-exception'
-import { decode, sign, verify } from 'hono/jwt'
-import { logger } from 'hono/logger'
+import { sign, verify } from 'hono/jwt'
+import { randomBytes } from 'node:crypto'
 import { db } from '../core/db/db'
-import { usersTable } from '../core/db/schema'
+import { roleEnum, userTypeEnum, usersTable } from '../core/db/schema'
+import { zValidator } from '@hono/zod-validator'
+import { z } from 'zod'
+import { checkSecretsMiddleware } from '../core/middlewares/check-secrets.middleware'
+
+const loginSchema = z.object({
+    email: z.string().email(),
+    password: z.string(),
+})
+
+const registerSchema = z.object({
+    email: z.string().email(),
+    password: z.string(),
+    firstName: z.string(),
+    lastName: z.string(),
+    role: z.enum(roleEnum.enumValues).optional().default('client'),
+    type: z.enum(userTypeEnum.enumValues).optional().default('user'),
+})
+const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET ?? ''
+const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET ?? ''
 
 const app = new Hono()
 
-app.post('/login', async (c) => {
-    const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET
-    const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET
-    if (!accessTokenSecret || !refreshTokenSecret) {
-        throw new HTTPException(500, { message: 'Internal server error' })
-    }
+app.use(checkSecretsMiddleware)
 
-    const { email, password } = await c.req.json()
+app.post('/login', zValidator('json', loginSchema), async (c) => {
+    const { email, password } = c.req.valid('json')
 
     const users = await db
         .select()
@@ -79,20 +92,9 @@ app.post('/login', async (c) => {
     }
 })
 
-app.post('/register', async (c) => {
-    const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET
-    if (!refreshTokenSecret) {
-        throw new HTTPException(500, { message: 'Internal server error' })
-    }
-
-    const {
-        email,
-        password,
-        firstName,
-        lastName,
-        role = 'client',
-        type = 'user',
-    } = await c.req.json()
+app.post('/register', zValidator('json', registerSchema), async (c) => {
+    const { email, password, firstName, lastName, role, type } =
+        c.req.valid('json')
     const hash = await argon2.hash(password)
 
     try {
@@ -125,97 +127,38 @@ app.post('/register', async (c) => {
     }
 })
 
-app.post('/verify-email/:token', async (c) => {
-    const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET
-    if (!refreshTokenSecret) {
-        throw new HTTPException(500, { message: 'Internal server error' })
-    }
-    const { token } = c.req.param()
-    const verificationToken = token.split('&')
-    const { email, sub, exp } = await verify(
-        verificationToken[1],
-        refreshTokenSecret,
-    )
-    if (exp && exp < dayjs().valueOf())
-        return c.json({ message: 'Token expired' })
-    // update user verified status
-    if (!email || !sub) return c.json({ message: 'Invalid token' })
+app.post(
+    '/verify-email/:token',
+    zValidator('param', z.object({ token: z.string() })),
+    async (c) => {
+        const { token } = c.req.valid('param')
+        const verificationToken = token.split('&')
+        const { email, sub, exp } = await verify(
+            verificationToken[1],
+            process.env.REFRESH_TOKEN_SECRET ?? '',
+        )
+        if (exp && exp < dayjs().valueOf())
+            return c.json({ message: 'Token expired' })
+        // update user verified status
+        if (!email || !sub) return c.json({ message: 'Invalid token' })
 
-    try {
-        await db
-            .update(usersTable)
-            .set({ verified: true })
-            .where(
-                and(
-                    eq(usersTable.id, Number(sub)),
-                    eq(usersTable.email, String(email)),
-                ),
-            )
+        try {
+            await db
+                .update(usersTable)
+                .set({ verified: true })
+                .where(
+                    and(
+                        eq(usersTable.id, Number(sub)),
+                        eq(usersTable.email, String(email)),
+                    ),
+                )
 
-        return c.json({ message: 'Email verified' })
-    } catch (error) {
-        c.status(400)
-        return c.json({ message: 'Invalid token' })
-    }
-})
-app.post('/forgot-password', async (c) => {
-    const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET
-    if (!refreshTokenSecret) {
-        throw new HTTPException(500, { message: 'Internal server error' })
-    }
-
-    const { email } = await c.req.json()
-    const users = await db
-        .select()
-        .from(usersTable)
-        .where(eq(usersTable.email, email))
-    if (users.length === 0) {
-        c.status(400)
-        return c.json({ message: 'Invalid email' })
-    }
-
-    const user = users[0]
-    const token = await sign(
-        { email, sub: user.id, exp: dayjs().add(120, 'minute').valueOf() },
-        refreshTokenSecret,
-    )
-    // send email with reset password link
-    console.log('TCL: | app.post | token:', token)
-
-    return c.json({ message: 'Reset password link sent' })
-})
-
-app.post('/reset-password/:token', async (c) => {
-    const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET
-    if (!refreshTokenSecret) {
-        throw new HTTPException(500, { message: 'Internal server error' })
-    }
-    const { token } = c.req.param()
-    const { email, sub, exp } = await verify(token, refreshTokenSecret)
-    if (exp && exp < dayjs().valueOf())
-        return c.json({ message: 'Token expired' })
-    // update user password
-    if (!email || !sub) return c.json({ message: 'Invalid token' })
-
-    const { password } = await c.req.json()
-    const hash = await argon2.hash(password)
-
-    try {
-        await db
-            .update(usersTable)
-            .set({ password: hash })
-            .where(
-                and(
-                    eq(usersTable.id, Number(sub)),
-                    eq(usersTable.email, String(email)),
-                ),
-            )
-
-        return c.json({ message: 'Password reset successful' })
-    } catch (error) {
-        c.status(400)
-        return c.json({ message: 'Invalid token' })
-    }
-})
+            return c.json({ message: 'Email verified' })
+        } catch (error) {
+            c.status(400)
+            return c.json({ message: 'Invalid token' })
+        }
+    },
+)
 
 export default app
