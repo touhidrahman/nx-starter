@@ -1,3 +1,4 @@
+import { zValidator } from '@hono/zod-validator'
 import * as argon2 from 'argon2'
 import dayjs from 'dayjs'
 import { and, eq } from 'drizzle-orm'
@@ -5,11 +6,11 @@ import { Hono } from 'hono'
 import { HTTPException } from 'hono/http-exception'
 import { sign, verify } from 'hono/jwt'
 import { randomBytes } from 'node:crypto'
+import { z } from 'zod'
 import { db } from '../core/db/db'
 import { roleEnum, userTypeEnum, usersTable } from '../core/db/schema'
-import { zValidator } from '@hono/zod-validator'
-import { z } from 'zod'
 import { checkSecretsMiddleware } from '../core/middlewares/check-secrets.middleware'
+import { safeUser } from '../core/utils/user.util'
 
 const loginSchema = z.object({
     email: z.string().email(),
@@ -81,8 +82,7 @@ app.post('/login', zValidator('json', loginSchema), async (c) => {
                 accessToken,
                 refreshToken,
                 user: {
-                    ...user,
-                    password: undefined,
+                    ...safeUser(user),
                     lastLogin: now.toISOString(),
                 },
             },

@@ -7,16 +7,27 @@ import { sign, verify } from 'hono/jwt'
 import { db } from '../core/db/db'
 import { usersTable } from '../core/db/schema'
 import { checkSecretsMiddleware } from '../core/middlewares/check-secrets.middleware'
+import { z } from 'zod'
+import { zValidator } from '@hono/zod-validator'
 
 const app = new Hono()
 
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET ?? ''
 const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET ?? ''
+const emailSchema = z.object({
+    email: z.string().email(),
+})
+const changePasswordSchema = z.object({
+    email: z.string().email(),
+    currentPassword: z.string(),
+    newPassword: z.string(),
+    confirmNewPassword: z.string(),
+})
 
 app.use(checkSecretsMiddleware)
 
-app.post('/forgot', async (c) => {
-    const { email } = await c.req.json()
+app.post('/forgot', zValidator('json', emailSchema), async (c) => {
+    const { email } = await c.req.valid('json')
     const users = await db
         .select()
         .from(usersTable)
@@ -69,9 +80,9 @@ app.post('/reset/:token', async (c) => {
     }
 })
 
-app.post('/change', async (c) => {
+app.post('/change', zValidator('json', changePasswordSchema), async (c) => {
     const { email, currentPassword, newPassword, confirmNewPassword } =
-        await c.req.json()
+        c.req.valid('json')
     if (confirmNewPassword !== newPassword) {
         c.status(400)
         return c.json({ message: 'Passwords do not match' })

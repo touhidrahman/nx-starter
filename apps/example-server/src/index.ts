@@ -28,10 +28,12 @@ app.get('/', (c) => {
         meta: { port: port },
     })
 })
+app.notFound((c) => c.json({ message: 'Not Found', ok: false }, 404))
 
 app.route('auth', auth)
 app.route('password', password)
 app.route('users', user)
+// app.route('admin/users', adminUser)
 
 process.env.NODE_ENV == 'development' &&
     showRoutes(app, {
