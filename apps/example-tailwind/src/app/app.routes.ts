@@ -19,6 +19,14 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
+        path: 'account-verified',
+        loadComponent: () =>
+            import('./pages/page-account-verified/page-account-verified.component').then(
+                (m) => m.PageAccountVerifiedComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
         path: 'login',
         loadComponent: () =>
             import('./pages/page-login/page-login.component').then(
@@ -47,6 +55,14 @@ export const appRoutes: Route[] = [
         loadComponent: () =>
             import('./pages/page-reset-password/page-reset-password.component').then(
                 (m) => m.PageResetPasswordComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'profile',
+        loadComponent: () =>
+            import('./pages/page-profile/page-profile.component').then(
+                (m) => m.PageProfileComponent,
             ),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
