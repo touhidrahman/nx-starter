@@ -11,6 +11,62 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
+        path: 'account-created',
+        loadComponent: () =>
+            import('./pages/page-account-created/page-account-created.component').then(
+                (m) => m.PageAccountCreatedComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'account-verified',
+        loadComponent: () =>
+            import('./pages/page-account-verified/page-account-verified.component').then(
+                (m) => m.PageAccountVerifiedComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'login',
+        loadComponent: () =>
+            import('./pages/page-login/page-login.component').then(
+                (m) => m.PageLoginComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'signup',
+        loadComponent: () =>
+            import('./pages/page-signup/page-sign-up.component').then(
+                (m) => m.PageSignUpComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'forgot-password',
+        loadComponent: () =>
+            import('./pages/page-forgot-password/page-forgot-password.component').then(
+                (m) => m.PageForgotPasswordComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'reset-password',
+        loadComponent: () =>
+            import('./pages/page-reset-password/page-reset-password.component').then(
+                (m) => m.PageResetPasswordComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'profile',
+        loadComponent: () =>
+            import('./pages/page-profile/page-profile.component').then(
+                (m) => m.PageProfileComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
         path: 'test-protocol',
         loadComponent: () =>
             import(
