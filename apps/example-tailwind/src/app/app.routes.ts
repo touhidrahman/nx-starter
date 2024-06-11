@@ -67,6 +67,14 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
+        path: 'admin-userlist',
+        loadComponent: () =>
+            import('./pages/page-admin-userlist/page-admin-userlist.component').then(
+                (m) => m.PageAdminUserlistComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
         path: 'test-protocol',
         loadComponent: () =>
             import(
