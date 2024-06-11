@@ -11,6 +11,22 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
+        path: 'dashboard-home',
+        loadComponent: () =>
+            import('./pages/page-dashboard-home/page-dashboard-home.component').then(
+                (m) => m.PageDashboardHomeComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'dashboard-case',
+        loadComponent: () =>
+            import('./pages/page-case/page-case.component').then(
+                (m) => m.PageCaseComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
         path: 'account-created',
         loadComponent: () =>
             import('./pages/page-account-created/page-account-created.component').then(
@@ -63,6 +79,14 @@ export const appRoutes: Route[] = [
         loadComponent: () =>
             import('./pages/page-profile/page-profile.component').then(
                 (m) => m.PageProfileComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'dashboard/cases',
+        loadComponent: () =>
+            import('./pages/page-cases/page-cases.component').then(
+                (m) => m.PageCasesComponent,
             ),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
