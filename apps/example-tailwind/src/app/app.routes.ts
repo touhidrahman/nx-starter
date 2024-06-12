@@ -83,10 +83,17 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
+<<<<<<< HEAD
         path: 'dashboard/cases',
         loadComponent: () =>
             import('./pages/page-cases/page-cases.component').then(
                 (m) => m.PageCasesComponent,
+=======
+        path: 'admin-userlist',
+        loadComponent: () =>
+            import('./pages/page-admin-userlist/page-admin-userlist.component').then(
+                (m) => m.PageAdminUserlistComponent,
+>>>>>>> main
             ),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
