@@ -1,5 +1,5 @@
 {
-    "name": "ui-ui-menu-helm",
+    "name": "ui-menu-helm",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "libs/ui/ui-menu-helm/src",
     "prefix": "hlm",

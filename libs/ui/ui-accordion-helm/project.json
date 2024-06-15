@@ -1,5 +1,5 @@
 {
-    "name": "ui-ui-accordion-helm",
+    "name": "ui-accordion-helm",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "libs/ui/ui-accordion-helm/src",
     "prefix": "hlm",

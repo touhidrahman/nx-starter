@@ -1,7 +1,7 @@
-# ui-ui-tooltip-helm
+# ui-tooltip-helm
 
 This library was generated with [Nx](https://nx.dev).
 
 ## Running unit tests
 
-Run `nx test ui-ui-tooltip-helm` to execute the unit tests.
+Run `nx test ui-tooltip-helm` to execute the unit tests.

@@ -1,5 +1,5 @@
 {
-    "name": "ui-ui-scrollarea-helm",
+    "name": "ui-scrollarea-helm",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "libs/ui/ui-scrollarea-helm/src",
     "prefix": "hlm",

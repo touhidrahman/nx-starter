@@ -1,5 +1,5 @@
 {
-    "name": "ui-ui-radiogroup-helm",
+    "name": "ui-radiogroup-helm",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "libs/ui/ui-radiogroup-helm/src",
     "prefix": "hlm",

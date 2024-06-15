@@ -1,5 +1,5 @@
 {
-    "name": "ui-ui-tooltip-helm",
+    "name": "ui-tooltip-helm",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "libs/ui/ui-tooltip-helm/src",
     "prefix": "hlm",

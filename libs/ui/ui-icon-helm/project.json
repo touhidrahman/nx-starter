@@ -1,5 +1,5 @@
 {
-    "name": "ui-ui-icon-helm",
+    "name": "ui-icon-helm",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "libs/ui/ui-icon-helm/src",
     "prefix": "hlm",

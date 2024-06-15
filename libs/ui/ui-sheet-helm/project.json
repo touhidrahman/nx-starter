@@ -1,5 +1,5 @@
 {
-    "name": "ui-ui-sheet-helm",
+    "name": "ui-sheet-helm",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "libs/ui/ui-sheet-helm/src",
     "prefix": "hlm",
