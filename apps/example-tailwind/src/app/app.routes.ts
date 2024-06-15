@@ -11,19 +11,35 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
+        path: 'dashboard-home',
+        loadComponent: () =>
+            import(
+                './pages/page-dashboard-home/page-dashboard-home.component'
+            ).then((m) => m.PageDashboardHomeComponent),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'dashboard-case',
+        loadComponent: () =>
+            import('./pages/page-case/page-case.component').then(
+                (m) => m.PageCaseComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
         path: 'account-created',
         loadComponent: () =>
-            import('./pages/page-account-created/page-account-created.component').then(
-                (m) => m.PageAccountCreatedComponent,
-            ),
+            import(
+                './pages/page-account-created/page-account-created.component'
+            ).then((m) => m.PageAccountCreatedComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
         path: 'account-verified',
         loadComponent: () =>
-            import('./pages/page-account-verified/page-account-verified.component').then(
-                (m) => m.PageAccountVerifiedComponent,
-            ),
+            import(
+                './pages/page-account-verified/page-account-verified.component'
+            ).then((m) => m.PageAccountVerifiedComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
@@ -45,17 +61,17 @@ export const appRoutes: Route[] = [
     {
         path: 'forgot-password',
         loadComponent: () =>
-            import('./pages/page-forgot-password/page-forgot-password.component').then(
-                (m) => m.PageForgotPasswordComponent,
-            ),
+            import(
+                './pages/page-forgot-password/page-forgot-password.component'
+            ).then((m) => m.PageForgotPasswordComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
         path: 'reset-password',
         loadComponent: () =>
-            import('./pages/page-reset-password/page-reset-password.component').then(
-                (m) => m.PageResetPasswordComponent,
-            ),
+            import(
+                './pages/page-reset-password/page-reset-password.component'
+            ).then((m) => m.PageResetPasswordComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
@@ -67,11 +83,20 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
+        path: 'dashboard/cases',
+        loadComponent: () =>
+            import('./pages/page-cases/page-cases.component').then(
+                (m) => m.PageCasesComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+
+    {
         path: 'admin-userlist',
         loadComponent: () =>
-            import('./pages/page-admin-userlist/page-admin-userlist.component').then(
-                (m) => m.PageAdminUserlistComponent,
-            ),
+            import(
+                './pages/page-admin-userlist/page-admin-userlist.component'
+            ).then((m) => m.PageAdminUserlistComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {

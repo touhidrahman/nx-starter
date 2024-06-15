@@ -1,0 +1,46 @@
+<div>
+    <a class="flex justify-center pt-2">
+        <img
+            [routerLink]="['/']"
+            src="assets/logo/sheresta.png"
+            class="h-16 w-48 cursor-pointer"
+            alt="" />
+    </a>
+</div>
+<div class="px-2 space-y-6">
+    <ul class="mt-6 space-y-1">
+        <li>
+            <a
+                [routerLink]="['/dashboard-home']"
+                routerLinkActive="bg-green-800 hover:text-black text-white"
+                class="block text-black hover:bg-green-100 rounded-sm px-4 py-2 text-sm font-medium">
+                Home
+            </a>
+        </li>
+        <li>
+            <a
+                [routerLink]="['/dashboard/cases']"
+                routerLinkActive="bg-green-800 hover:text-black text-white"
+                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
+                User
+            </a>
+        </li>
+        <li>
+            <a
+                [routerLink]="['/dashboard/clients']"
+                routerLinkActive="bg-green-800 hover:text-black text-white"
+                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
+                Feedback
+            </a>
+        </li>
+        <li>
+            <a
+                [routerLink]="['/dashboard/documents']"
+                routerLinkActive="bg-green-800 hover:text-black text-white"
+                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
+                Release Notes
+            </a>
+        </li>
+    </ul>
+</div>
+
