@@ -1,5 +1,5 @@
 {
-    "name": "ui-ui-toggle-helm",
+    "name": "ui-toggle-helm",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "libs/ui/ui-toggle-helm/src",
     "prefix": "hlm",

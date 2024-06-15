@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-    displayName: 'ui-ui-command-helm',
+    displayName: 'ui-command-helm',
     preset: '../../../jest.preset.js',
     setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
     coverageDirectory: '../../../coverage/libs/ui/ui-command-helm',

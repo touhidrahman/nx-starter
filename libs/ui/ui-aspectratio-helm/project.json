@@ -1,5 +1,5 @@
 {
-    "name": "ui-ui-aspectratio-helm",
+    "name": "ui-aspectratio-helm",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "libs/ui/ui-aspectratio-helm/src",
     "prefix": "hlm",

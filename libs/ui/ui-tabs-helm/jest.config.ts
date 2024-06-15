@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-    displayName: 'ui-ui-tabs-helm',
+    displayName: 'ui-tabs-helm',
     preset: '../../../jest.preset.js',
     setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
     coverageDirectory: '../../../coverage/libs/ui/ui-tabs-helm',

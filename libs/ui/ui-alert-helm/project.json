@@ -1,5 +1,5 @@
 {
-    "name": "ui-ui-alert-helm",
+    "name": "ui-alert-helm",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "libs/ui/ui-alert-helm/src",
     "prefix": "hlm",

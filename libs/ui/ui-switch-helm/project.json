@@ -1,5 +1,5 @@
 {
-    "name": "ui-ui-switch-helm",
+    "name": "ui-switch-helm",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "libs/ui/ui-switch-helm/src",
     "prefix": "hlm",

@@ -1,5 +1,5 @@
 {
-    "name": "ui-ui-command-helm",
+    "name": "ui-command-helm",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "libs/ui/ui-command-helm/src",
     "prefix": "hlm",

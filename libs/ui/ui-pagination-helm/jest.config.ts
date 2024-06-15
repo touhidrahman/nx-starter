@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-    displayName: 'ui-ui-pagination-helm',
+    displayName: 'ui-pagination-helm',
     preset: '../../../jest.preset.js',
     setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
     coverageDirectory: '../../../coverage/libs/ui/ui-pagination-helm',

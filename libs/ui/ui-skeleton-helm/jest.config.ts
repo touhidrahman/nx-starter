@@ -1,6 +1,6 @@
 /* eslint-disable */
 export default {
-    displayName: 'ui-ui-skeleton-helm',
+    displayName: 'ui-skeleton-helm',
     preset: '../../../jest.preset.js',
     setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
     coverageDirectory: '../../../coverage/libs/ui/ui-skeleton-helm',

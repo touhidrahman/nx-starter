@@ -1,5 +1,5 @@
 {
-    "name": "ui-ui-popover-helm",
+    "name": "ui-popover-helm",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "libs/ui/ui-popover-helm/src",
     "prefix": "hlm",

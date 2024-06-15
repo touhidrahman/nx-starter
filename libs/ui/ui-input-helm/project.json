@@ -1,5 +1,5 @@
 {
-    "name": "ui-ui-input-helm",
+    "name": "ui-input-helm",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "libs/ui/ui-input-helm/src",
     "prefix": "hlm",

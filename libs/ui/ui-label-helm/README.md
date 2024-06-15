@@ -1,7 +1,7 @@
-# ui-ui-label-helm
+# ui-label-helm
 
 This library was generated with [Nx](https://nx.dev).
 
 ## Running unit tests
 
-Run `nx test ui-ui-label-helm` to execute the unit tests.
+Run `nx test ui-label-helm` to execute the unit tests.

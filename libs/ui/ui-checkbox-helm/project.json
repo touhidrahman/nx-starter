@@ -1,5 +1,5 @@
 {
-    "name": "ui-ui-checkbox-helm",
+    "name": "ui-checkbox-helm",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "libs/ui/ui-checkbox-helm/src",
     "prefix": "hlm",

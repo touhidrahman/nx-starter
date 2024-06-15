@@ -1,5 +1,5 @@
 {
-    "name": "ui-ui-separator-helm",
+    "name": "ui-separator-helm",
     "$schema": "../../../node_modules/nx/schemas/project-schema.json",
     "sourceRoot": "libs/ui/ui-separator-helm/src",
     "prefix": "hlm",
