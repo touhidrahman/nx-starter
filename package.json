@@ -9,6 +9,7 @@
         "dev": "nx serve",
         "dev:app1": "nx serve example-tailwind",
         "dev:app2": "nx serve example-material",
+        "dev:app3": "nx serve example-ionic",
         "dev:server": "nx run example-server:serve",
         "dev:server2": "tsx watch apps/example-server/src/index.ts",
         "server:db:generate": "cd apps/example-server && npx drizzle-kit generate",
