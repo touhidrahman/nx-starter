@@ -10,6 +10,7 @@ import { secureHeaders } from 'hono/secure-headers'
 import auth from './main/auth'
 import password from './main/password'
 import user from './main/user'
+import vendor from './main/vendor'
 
 const port = Number.parseInt(process.env.PORT ?? '3000')
 
@@ -33,6 +34,7 @@ app.notFound((c) => c.json({ message: 'Not Found', ok: false }, 404))
 app.route('auth', auth)
 app.route('password', password)
 app.route('users', user)
+app.route('vendors', vendor)
 // app.route('admin/users', adminUser)
 
 process.env.NODE_ENV == 'development' &&
