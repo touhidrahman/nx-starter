@@ -8,7 +8,7 @@ import { db } from '../core/db/db'
 import { checkSecretsMiddleware } from '../core/middlewares/check-secrets.middleware'
 import { z } from 'zod'
 import { zValidator } from '@hono/zod-validator'
-import { usersTable } from '../core/db/schema/auth.schema'
+import { usersTable } from '../core/db/schema/user.schema'
 
 const app = new Hono()
 

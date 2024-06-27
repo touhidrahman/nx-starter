@@ -1,4 +1,4 @@
-import { SelectUser } from '../db/schema/auth.schema'
+import { SelectUser } from '../db/schema/user.schema'
 
 export function safeUser(user: SelectUser) {
     return {

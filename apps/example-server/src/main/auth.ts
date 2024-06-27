@@ -10,11 +10,7 @@ import { z } from 'zod'
 import { db } from '../core/db/db'
 import { checkSecretsMiddleware } from '../core/middlewares/check-secrets.middleware'
 import { safeUser } from '../core/utils/user.util'
-import {
-    roleEnum,
-    userTypeEnum,
-    usersTable,
-} from '../core/db/schema/auth.schema'
+import { userTypeEnum, usersTable } from '../core/db/schema/user.schema'
 
 const loginSchema = z.object({
     email: z.string().email(),
@@ -26,7 +22,6 @@ const registerSchema = z.object({
     password: z.string(),
     firstName: z.string(),
     lastName: z.string(),
-    role: z.enum(roleEnum.enumValues).optional().default('client'),
     type: z.enum(userTypeEnum.enumValues).optional().default('user'),
 })
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET ?? ''
@@ -59,7 +54,6 @@ app.post('/login', zValidator('json', loginSchema), async (c) => {
         const accessToken = await sign(
             {
                 email: user.email,
-                role: user.role,
                 type: user.type,
                 sub: user.id,
                 exp: now.add(15, 'minute').valueOf(),
@@ -97,8 +91,7 @@ app.post('/login', zValidator('json', loginSchema), async (c) => {
 })
 
 app.post('/register', zValidator('json', registerSchema), async (c) => {
-    const { email, password, firstName, lastName, role, type } =
-        c.req.valid('json')
+    const { email, password, firstName, lastName, type } = c.req.valid('json')
     const hash = await argon2.hash(password)
 
     try {
@@ -109,7 +102,6 @@ app.post('/register', zValidator('json', registerSchema), async (c) => {
                 password: hash,
                 firstName,
                 lastName,
-                role,
                 type,
             })
             .returning({ id: usersTable.id })
