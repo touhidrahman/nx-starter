@@ -1,7 +1,5 @@
 {
-    "id": "5c2c05bf-699c-445f-986d-8d2d1fb87372",
-    "prevId": "00000000-0000-0000-0000-000000000000",
-    "version": "6",
+    "version": "7",
     "dialect": "postgresql",
     "tables": {
         "public.users": {
@@ -87,8 +85,8 @@
             "uniqueConstraints": {
                 "users_email_unique": {
                     "name": "users_email_unique",
-                    "nullsNotDistinct": false,
-                    "columns": ["email"]
+                    "columns": ["email"],
+                    "nullsNotDistinct": false
                 }
             }
         }
@@ -107,8 +105,10 @@
     },
     "schemas": {},
     "_meta": {
-        "columns": {},
         "schemas": {},
-        "tables": {}
-    }
+        "tables": {},
+        "columns": {}
+    },
+    "id": "5c2c05bf-699c-445f-986d-8d2d1fb87372",
+    "prevId": "00000000-0000-0000-0000-000000000000"
 }

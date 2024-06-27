@@ -11,7 +11,7 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
-        path: 'dashboard-home',
+        path: 'dashboard/home',
         loadComponent: () =>
             import(
                 './pages/page-dashboard-home/page-dashboard-home.component'
@@ -19,7 +19,7 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
-        path: 'dashboard-case',
+        path: 'dashboard/case/:id',
         loadComponent: () =>
             import('./pages/page-case/page-case.component').then(
                 (m) => m.PageCaseComponent,
@@ -32,7 +32,7 @@ export const appRoutes: Route[] = [
             import(
                 './pages/page-account-created/page-account-created.component'
             ).then((m) => m.PageAccountCreatedComponent),
-        resolve: { layout: setLayout(PageLayout.Default) },
+        resolve: { layout: setLayout(PageLayout.Center) },
     },
     {
         path: 'account-verified',
@@ -40,7 +40,7 @@ export const appRoutes: Route[] = [
             import(
                 './pages/page-account-verified/page-account-verified.component'
             ).then((m) => m.PageAccountVerifiedComponent),
-        resolve: { layout: setLayout(PageLayout.Default) },
+        resolve: { layout: setLayout(PageLayout.Center) },
     },
     {
         path: 'login',
@@ -48,7 +48,7 @@ export const appRoutes: Route[] = [
             import('./pages/page-login/page-login.component').then(
                 (m) => m.PageLoginComponent,
             ),
-        resolve: { layout: setLayout(PageLayout.Default) },
+        resolve: { layout: setLayout(PageLayout.Center) },
     },
     {
         path: 'signup',
@@ -56,7 +56,7 @@ export const appRoutes: Route[] = [
             import('./pages/page-signup/page-sign-up.component').then(
                 (m) => m.PageSignUpComponent,
             ),
-        resolve: { layout: setLayout(PageLayout.Default) },
+        resolve: { layout: setLayout(PageLayout.Center) },
     },
     {
         path: 'forgot-password',
@@ -64,7 +64,7 @@ export const appRoutes: Route[] = [
             import(
                 './pages/page-forgot-password/page-forgot-password.component'
             ).then((m) => m.PageForgotPasswordComponent),
-        resolve: { layout: setLayout(PageLayout.Default) },
+        resolve: { layout: setLayout(PageLayout.Center) },
     },
     {
         path: 'reset-password',
@@ -72,7 +72,7 @@ export const appRoutes: Route[] = [
             import(
                 './pages/page-reset-password/page-reset-password.component'
             ).then((m) => m.PageResetPasswordComponent),
-        resolve: { layout: setLayout(PageLayout.Default) },
+        resolve: { layout: setLayout(PageLayout.Center) },
     },
     {
         path: 'profile',
@@ -97,31 +97,6 @@ export const appRoutes: Route[] = [
             import(
                 './pages/page-admin-userlist/page-admin-userlist.component'
             ).then((m) => m.PageAdminUserlistComponent),
-        resolve: { layout: setLayout(PageLayout.Default) },
-    },
-    {
-        path: 'test-protocol',
-        loadComponent: () =>
-            import(
-                './pages/page-test-protocol/page-test-protocol.component'
-            ).then((m) => m.PageTestProtocolComponent),
-        resolve: { layout: setLayout(PageLayout.Default) },
-    },
-    {
-        path: 'execution-test',
-        title: 'Execution Test',
-        loadComponent: () =>
-            import(
-                './pages/page-execution-test/page-execution-test.component'
-            ).then((m) => m.PageExecutionTestComponent),
-        resolve: { layout: setLayout(PageLayout.Default) },
-    },
-    {
-        path: 'approvals',
-        loadComponent: () =>
-            import(
-                './pages/page-approval-list/page-approval-list.component'
-            ).then((m) => m.PageApprovalListComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
