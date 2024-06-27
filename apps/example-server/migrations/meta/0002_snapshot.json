@@ -1,0 +1,387 @@
+{
+    "id": "5e7596bc-2edb-4938-a37a-2f94645262f8",
+    "prevId": "20bf9871-904d-4b6f-98ee-2004e0ad8624",
+    "version": "7",
+    "dialect": "postgresql",
+    "tables": {
+        "public.permissions": {
+            "name": "permissions",
+            "schema": "",
+            "columns": {
+                "id": {
+                    "name": "id",
+                    "type": "serial",
+                    "primaryKey": true,
+                    "notNull": true
+                },
+                "name": {
+                    "name": "name",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {
+                "permissions_name_unique": {
+                    "name": "permissions_name_unique",
+                    "nullsNotDistinct": false,
+                    "columns": ["name"]
+                }
+            }
+        },
+        "public.role_permissions": {
+            "name": "role_permissions",
+            "schema": "",
+            "columns": {
+                "role_id": {
+                    "name": "role_id",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "permission_id": {
+                    "name": "permission_id",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {
+                "role_permissions_role_id_roles_id_fk": {
+                    "name": "role_permissions_role_id_roles_id_fk",
+                    "tableFrom": "role_permissions",
+                    "tableTo": "roles",
+                    "columnsFrom": ["role_id"],
+                    "columnsTo": ["id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                },
+                "role_permissions_permission_id_permissions_id_fk": {
+                    "name": "role_permissions_permission_id_permissions_id_fk",
+                    "tableFrom": "role_permissions",
+                    "tableTo": "permissions",
+                    "columnsFrom": ["permission_id"],
+                    "columnsTo": ["id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {
+                "role_permissions_role_id_permission_id_pk": {
+                    "name": "role_permissions_role_id_permission_id_pk",
+                    "columns": ["role_id", "permission_id"]
+                }
+            },
+            "uniqueConstraints": {}
+        },
+        "public.roles": {
+            "name": "roles",
+            "schema": "",
+            "columns": {
+                "id": {
+                    "name": "id",
+                    "type": "serial",
+                    "primaryKey": true,
+                    "notNull": true
+                },
+                "name": {
+                    "name": "name",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "parent_role_id": {
+                    "name": "parent_role_id",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": false
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {
+                "roles_parent_role_id_roles_id_fk": {
+                    "name": "roles_parent_role_id_roles_id_fk",
+                    "tableFrom": "roles",
+                    "tableTo": "roles",
+                    "columnsFrom": ["parent_role_id"],
+                    "columnsTo": ["id"],
+                    "onDelete": "no action",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {
+                "roles_name_unique": {
+                    "name": "roles_name_unique",
+                    "nullsNotDistinct": false,
+                    "columns": ["name"]
+                }
+            }
+        },
+        "public.user_roles": {
+            "name": "user_roles",
+            "schema": "",
+            "columns": {
+                "user_id": {
+                    "name": "user_id",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "role_id": {
+                    "name": "role_id",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {
+                "user_roles_user_id_users_id_fk": {
+                    "name": "user_roles_user_id_users_id_fk",
+                    "tableFrom": "user_roles",
+                    "tableTo": "users",
+                    "columnsFrom": ["user_id"],
+                    "columnsTo": ["id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                },
+                "user_roles_role_id_roles_id_fk": {
+                    "name": "user_roles_role_id_roles_id_fk",
+                    "tableFrom": "user_roles",
+                    "tableTo": "roles",
+                    "columnsFrom": ["role_id"],
+                    "columnsTo": ["id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {
+                "user_roles_user_id_role_id_pk": {
+                    "name": "user_roles_user_id_role_id_pk",
+                    "columns": ["user_id", "role_id"]
+                }
+            },
+            "uniqueConstraints": {}
+        },
+        "public.users": {
+            "name": "users",
+            "schema": "",
+            "columns": {
+                "id": {
+                    "name": "id",
+                    "type": "serial",
+                    "primaryKey": true,
+                    "notNull": true
+                },
+                "firstName": {
+                    "name": "firstName",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "lastName": {
+                    "name": "lastName",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "email": {
+                    "name": "email",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "password": {
+                    "name": "password",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "last_login": {
+                    "name": "last_login",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "type": {
+                    "name": "type",
+                    "type": "type",
+                    "typeSchema": "public",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "'user'"
+                },
+                "role": {
+                    "name": "role",
+                    "type": "role",
+                    "typeSchema": "public",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "'client'"
+                },
+                "is_verified": {
+                    "name": "is_verified",
+                    "type": "boolean",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": false
+                },
+                "created_at": {
+                    "name": "created_at",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "now()"
+                },
+                "updated_at": {
+                    "name": "updated_at",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": true
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {
+                "users_email_unique": {
+                    "name": "users_email_unique",
+                    "nullsNotDistinct": false,
+                    "columns": ["email"]
+                }
+            }
+        },
+        "public.vendors": {
+            "name": "vendors",
+            "schema": "",
+            "columns": {
+                "id": {
+                    "name": "id",
+                    "type": "serial",
+                    "primaryKey": true,
+                    "notNull": true
+                },
+                "name": {
+                    "name": "name",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "email": {
+                    "name": "email",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "phone": {
+                    "name": "phone",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "address": {
+                    "name": "address",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "city": {
+                    "name": "city",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "country": {
+                    "name": "country",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "post_code": {
+                    "name": "post_code",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "is_verified": {
+                    "name": "is_verified",
+                    "type": "boolean",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": false
+                },
+                "verified_on": {
+                    "name": "verified_on",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "is_trialing": {
+                    "name": "is_trialing",
+                    "type": "boolean",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": true
+                },
+                "next_billing_date": {
+                    "name": "next_billing_date",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "next_renewal_date": {
+                    "name": "next_renewal_date",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "subscription": {
+                    "name": "subscription",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "created_at": {
+                    "name": "created_at",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "now()"
+                },
+                "updated_at": {
+                    "name": "updated_at",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": true
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        }
+    },
+    "enums": {
+        "public.role": {
+            "name": "role",
+            "schema": "public",
+            "values": ["client", "vendor_member", "vendor_owner"]
+        },
+        "public.type": {
+            "name": "type",
+            "schema": "public",
+            "values": ["user", "admin", "superadmin"]
+        }
+    },
+    "schemas": {},
+    "_meta": {
+        "columns": {},
+        "schemas": {},
+        "tables": {}
+    }
+}

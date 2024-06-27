@@ -15,6 +15,13 @@
             "when": 1719297679683,
             "tag": "0001_overconfident_cammi",
             "breakpoints": true
+        },
+        {
+            "idx": 2,
+            "version": "7",
+            "when": 1719474457651,
+            "tag": "0002_mighty_kree",
+            "breakpoints": true
         }
     ]
 }

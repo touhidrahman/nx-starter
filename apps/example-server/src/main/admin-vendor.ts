@@ -1,7 +1,7 @@
 import { zValidator } from '@hono/zod-validator'
 import { eq, getTableColumns, inArray } from 'drizzle-orm'
-import { Hono } from 'hono'
-import { jwt } from 'hono/jwt'
+import { Context, Hono, Next } from 'hono'
+import { decode, jwt } from 'hono/jwt'
 import { toInt } from 'radash'
 import { db } from '../core/db/db'
 import { idsSchema } from '../core/db/schema/common.schema'
@@ -16,11 +16,18 @@ const app = new Hono()
 const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 
 const authMiddleware = jwt({ secret })
+const isSuperAdmin = async (ctx: Context, next: Next) => {
+    const payload = ctx.get('jwtPayload')
+    console.log('TCL: | isSuperAdmin | payload:', payload)
+    if (payload.type !== 'user') {
+        return ctx.json({ error: 'Unauthorized' }, 403)
+    }
 
-// Get all vendors
-// TODO: implement pagination
-app.get('/', async (c) => {
-    console.log('TCL: ~ here ')
+    return next()
+}
+
+// Mark a vendor as verified
+app.get('/verify', authMiddleware, isSuperAdmin, async (c) => {
     const result = await db
         .select({ ...getTableColumns(vendorsTable) })
         .from(vendorsTable)

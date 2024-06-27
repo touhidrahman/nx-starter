@@ -2,16 +2,15 @@ import { SQL, eq, getTableColumns, sql } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { jwt } from 'hono/jwt'
 import { db } from '../core/db/db'
-import { usersTable } from '../core/db/schema'
 import { safeUser } from '../core/utils/user.util'
 import { z } from 'zod'
+import { usersTable } from '../core/db/schema/auth.schema'
 
 const app = new Hono()
 
 const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 
 const authMiddleware = jwt({ secret })
-
 
 app.get('/me', authMiddleware, async (c) => {
     const payload = c.get('jwtPayload')
@@ -36,13 +35,16 @@ app.post('/invite', authMiddleware, async (c) => {
     const body = await c.req.json()
     const parsedBody = inviteSchema.parse(body)
 
-    const newUser = await db.insert(usersTable).values({
-        firstName: parsedBody.firstName,
-        lastName: parsedBody.lastName,
-        email: parsedBody.email,
-        password: 'temporarypassword',
-        role: parsedBody.role,
-    }).returning()
+    const newUser = await db
+        .insert(usersTable)
+        .values({
+            firstName: parsedBody.firstName,
+            lastName: parsedBody.lastName,
+            email: parsedBody.email,
+            password: 'temporarypassword',
+            role: parsedBody.role,
+        })
+        .returning()
 
     return c.json({ data: newUser, message: 'User invited' })
 })
@@ -75,9 +77,7 @@ app.put('/update/:id', authMiddleware, async (c) => {
 app.delete('/delete/:id', authMiddleware, async (c) => {
     const userId = parseInt(c.req.param('id'), 10)
 
-    await db
-        .delete(usersTable)
-        .where(eq(usersTable.id, userId))
+    await db.delete(usersTable).where(eq(usersTable.id, userId))
 
     return c.json({ message: 'User deleted' })
 })
@@ -129,7 +129,17 @@ app.get('/search', authMiddleware, async (c) => {
     const users = await db
         .select({ ...getTableColumns(usersTable) })
         .from(usersTable)
-        .where(conditions.length ? sql`${conditions.reduce((acc, condition, index) => index === 0 ? condition : sql`${acc} AND ${condition}`, sql``)}` : undefined)
+        .where(
+            conditions.length
+                ? sql`${conditions.reduce(
+                      (acc, condition, index) =>
+                          index === 0
+                              ? condition
+                              : sql`${acc} AND ${condition}`,
+                      sql``,
+                  )}`
+                : undefined,
+        )
         .limit(10)
 
     return c.json({ data: users.map(safeUser), message: 'Search results' })

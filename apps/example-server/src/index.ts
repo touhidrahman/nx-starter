@@ -11,6 +11,7 @@ import auth from './main/auth'
 import password from './main/password'
 import user from './main/user'
 import vendor from './main/vendor'
+import adminVendor from './main/admin-vendor'
 
 const port = Number.parseInt(process.env.PORT ?? '3000')
 
@@ -36,11 +37,16 @@ app.route('password', password)
 app.route('users', user)
 app.route('vendors', vendor)
 // app.route('admin/users', adminUser)
+app.route('admin/vendors', adminVendor)
 
-process.env.NODE_ENV == 'development' &&
+if (
+    process.env.NODE_ENV === 'development' ||
+    process.env.NODE_ENV === 'local'
+) {
     showRoutes(app, {
         verbose: true,
     })
+}
 
 console.log(`Server is running on port ${port}`)
 

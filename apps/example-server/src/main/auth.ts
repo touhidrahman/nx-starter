@@ -8,9 +8,13 @@ import { sign, verify } from 'hono/jwt'
 import { randomBytes } from 'node:crypto'
 import { z } from 'zod'
 import { db } from '../core/db/db'
-import { roleEnum, userTypeEnum, usersTable } from '../core/db/schema'
 import { checkSecretsMiddleware } from '../core/middlewares/check-secrets.middleware'
 import { safeUser } from '../core/utils/user.util'
+import {
+    roleEnum,
+    userTypeEnum,
+    usersTable,
+} from '../core/db/schema/auth.schema'
 
 const loginSchema = z.object({
     email: z.string().email(),
