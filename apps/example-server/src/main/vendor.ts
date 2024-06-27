@@ -1,11 +1,15 @@
-import { SQL, eq, getTableColumns, inArray, sql } from 'drizzle-orm'
+import { zValidator } from '@hono/zod-validator'
+import { eq, getTableColumns, inArray } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { jwt } from 'hono/jwt'
-import { db } from '../core/db/db'
-import { InsertVendor, usersTable, vendorsTable } from '../core/db/schema'
-import { safeUser } from '../core/utils/user.util'
-import { z } from 'zod'
 import { toInt } from 'radash'
+import { db } from '../core/db/db'
+import {
+    idsSchema,
+    insertVendorSchema,
+    updateVendorSchema,
+    vendorsTable,
+} from '../core/db/schema'
 
 const app = new Hono()
 
@@ -34,63 +38,37 @@ app.get('/:id', async (c) => {
         .from(vendorsTable)
         .where(eq(vendorsTable.id, id))
         .limit(1)
+
     if (result.length === 0) {
         return c.json({ error: 'Vendor not found' }, 404)
     }
+
     return c.json({ data: result[0], message: 'Vendor details' })
 })
 
 // Create a new vendor
-app.post('/', async (c) => {
-    const vendorValidationSchema = z.object({
-        name: z.string().min(1),
-        email: z.string().email(),
-        phone: z.string(),
-        address: z.string(),
-        city: z.string(),
-        country: z.string(),
-        postCode: z.string(),
-        verified: z.boolean().default(false),
-        verifiedOn: z.date().optional(),
-        isTrialing: z.boolean().default(true),
-        nextBillingDate: z.date().optional(),
-        nextRenewalDate: z.date().optional(),
-        subscription: z.string().optional(),
-    })
-    const body = await c.req.json()
-    const vendor: InsertVendor = vendorValidationSchema.parse(body)
-    const result = await db.insert(vendorsTable).values(vendor).returning()
+app.post('/', zValidator('json', insertVendorSchema), async (c) => {
+    const body = await c.req.valid('json')
+    const result = await db.insert(vendorsTable).values(body).returning()
+
     return c.json({ data: result, message: 'Vendor created' }, 201)
 })
 
 // Update a vendor by ID
-app.put('/:id', async (c) => {
+app.put('/:id', zValidator('json', updateVendorSchema), async (c) => {
     const id = toInt(c.req.param('id'))
-    const vendorValidationSchema = z.object({
-        name: z.string().min(1).optional(),
-        email: z.string().email().optional(),
-        phone: z.string().optional(),
-        address: z.string().optional(),
-        city: z.string().optional(),
-        country: z.string().optional(),
-        postCode: z.string().optional(),
-        verified: z.boolean().optional(),
-        verifiedOn: z.date().optional(),
-        isTrialing: z.boolean().optional(),
-        nextBillingDate: z.date().optional(),
-        nextRenewalDate: z.date().optional(),
-        subscription: z.string().optional(),
-    })
-    const body = await c.req.json()
-    const vendorUpdates = vendorValidationSchema.parse(body)
+
+    const body = await c.req.valid('json')
     const result = await db
         .update(vendorsTable)
-        .set(vendorUpdates)
+        .set(body)
         .where(eq(vendorsTable.id, id))
         .returning()
+
     if (result.length === 0) {
         return c.json({ error: 'Vendor not found' }, 404)
     }
+
     return c.json({ data: result[0], message: 'Vendor updated' })
 })
 
@@ -101,19 +79,22 @@ app.delete('/:id', async (c) => {
         .delete(vendorsTable)
         .where(eq(vendorsTable.id, id))
         .returning()
+
     if (result.length === 0) {
         return c.json({ error: 'Vendor not found' }, 404)
     }
-    return c.json({ message: 'Vendor deleted' })
+
+    return c.json({ data: result, message: 'Vendor deleted' })
 })
 
-// Delete all vendors
-app.delete('/', async (c) => {
+// Delete many vendors
+app.delete('/', zValidator('json', idsSchema), async (c) => {
     const { ids } = await c.req.json()
     const result = await db
         .delete(vendorsTable)
         .where(inArray(vendorsTable.id, ids))
         .returning()
+
     return c.json({
         message: 'Vendors with given IDs deleted',
         count: result.length,
