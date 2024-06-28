@@ -14,12 +14,14 @@ const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 
 // Groups cannot be modified other than owner
 const hasAccessToGroup = async (ctx: Context, next: Next) => {
-    const { sub: userId, role } = ctx.get('jwtPayload')
-    if (role === 'admin') {
+    const payload = await ctx.get('jwtPayload')
+    if (!payload) return ctx.json({ error: 'Unauthorized' }, 403)
+
+    if (payload?.role === 'admin') {
         return next()
     }
 
-    if (role !== 'owner') {
+    if (payload?.role !== 'owner') {
         return ctx.json({ error: 'Unauthorized' }, 403)
     }
 
@@ -31,7 +33,7 @@ const hasAccessToGroup = async (ctx: Context, next: Next) => {
         .where(
             and(
                 eq(groupToUsersTable.groupId, id),
-                eq(groupToUsersTable.userId, userId),
+                eq(groupToUsersTable.userId, payload?.sub),
             ),
         )
         .limit(1)
@@ -125,6 +127,7 @@ app.post('/', zValidator('json', zInsertGroup), jwt({ secret }), async (c) => {
 app.put(
     '/:id',
     zValidator('json', zUpdateGroup),
+    jwt({ secret }),
     hasAccessToGroup,
     async (c) => {
         const id = toInt(c.req.param('id'))
@@ -172,50 +175,38 @@ app.post(
         const role = body.role
 
         try {
-            const result = await db.transaction(async (trx) => {
-                const [group] = await trx
-                    .select()
-                    .from(groupsTable)
-                    .where(eq(groupsTable.id, id))
-                    .limit(1)
+            const [user] = await db
+                .select()
+                .from(usersTable)
+                .where(eq(usersTable.id, userId))
+                .limit(1)
 
-                if (!group) {
-                    return c.json({ error: 'Group not found' }, 404)
-                }
+            if (!user) {
+                return c.json({ error: 'User not found' }, 404)
+            }
 
-                const [user] = await trx
-                    .select()
-                    .from(usersTable)
-                    .where(eq(usersTable.id, userId))
-                    .limit(1)
+            const [groupUser] = await db
+                .select()
+                .from(groupToUsersTable)
+                .where(
+                    and(
+                        eq(groupToUsersTable.groupId, id),
+                        eq(groupToUsersTable.userId, userId),
+                    ),
+                )
+                .limit(1)
 
-                if (!user) {
-                    return c.json({ error: 'User not found' }, 404)
-                }
+            if (groupUser) {
+                return c.json({ error: 'User already in group' }, 400)
+            }
 
-                const [groupUser] = await trx
-                    .select()
-                    .from(groupToUsersTable)
-                    .where(
-                        and(
-                            eq(groupToUsersTable.groupId, id),
-                            eq(groupToUsersTable.userId, userId),
-                        ),
-                    )
-                    .limit(1)
-
-                if (groupUser) {
-                    return c.json({ error: 'User already in group' }, 400)
-                }
-
-                await trx.insert(groupToUsersTable).values({
-                    groupId: id,
-                    userId,
-                    role,
-                })
+            await db.insert(groupToUsersTable).values({
+                groupId: id,
+                userId,
+                role,
             })
 
-            return c.json({ data: result, message: 'User added to group' }, 201)
+            return c.json({ data: '', message: 'User added to group' }, 201)
         } catch (error) {
             return c.json({ error: 'Error adding user to group' }, 500)
         }
