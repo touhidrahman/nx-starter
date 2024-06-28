@@ -10,14 +10,14 @@ import { z } from 'zod'
 import { db } from '../core/db/db'
 import { checkSecretsMiddleware } from '../core/middlewares/check-secrets.middleware'
 import { safeUser } from '../core/utils/user.util'
-import { userTypeEnum, usersTable } from '../core/db/schema/user.schema'
+import { userTypeEnum, usersTable } from '../core/db/schema'
 
-const loginSchema = z.object({
+const zLogin = z.object({
     email: z.string().email(),
     password: z.string(),
 })
 
-const registerSchema = z.object({
+const zRegister = z.object({
     email: z.string().email(),
     password: z.string(),
     firstName: z.string(),
@@ -31,7 +31,7 @@ const app = new Hono()
 
 app.use(checkSecretsMiddleware)
 
-app.post('/login', zValidator('json', loginSchema), async (c) => {
+app.post('/login', zValidator('json', zLogin), async (c) => {
     const { email, password } = c.req.valid('json')
 
     const users = await db
@@ -90,7 +90,7 @@ app.post('/login', zValidator('json', loginSchema), async (c) => {
     }
 })
 
-app.post('/register', zValidator('json', registerSchema), async (c) => {
+app.post('/register', zValidator('json', zRegister), async (c) => {
     const { email, password, firstName, lastName, type } = c.req.valid('json')
     const hash = await argon2.hash(password)
 

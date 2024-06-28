@@ -11,7 +11,7 @@ import auth from './main/auth'
 import password from './main/password'
 import user from './main/user'
 import group from './main/group'
-import adminGroup from './main/admin-group'
+import adminGroup from './main/admin/admin-group'
 
 const port = Number.parseInt(process.env.PORT ?? '3000')
 
