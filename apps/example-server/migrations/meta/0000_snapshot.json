@@ -1,5 +1,5 @@
 {
-    "id": "e988148d-028e-46df-8220-20e4867a565c",
+    "id": "909b94d1-695b-4656-9894-9bf4189a6b61",
     "prevId": "00000000-0000-0000-0000-000000000000",
     "version": "7",
     "dialect": "postgresql",
@@ -70,10 +70,11 @@
                 },
                 "type": {
                     "name": "type",
-                    "type": "type",
+                    "type": "groupType",
                     "typeSchema": "public",
                     "primaryKey": false,
-                    "notNull": true
+                    "notNull": true,
+                    "default": "'client'"
                 },
                 "name": {
                     "name": "name",
@@ -252,7 +253,7 @@
                 },
                 "type": {
                     "name": "type",
-                    "type": "type",
+                    "type": "userType",
                     "typeSchema": "public",
                     "primaryKey": false,
                     "notNull": true,
@@ -292,15 +293,20 @@
         }
     },
     "enums": {
-        "public.type": {
-            "name": "type",
+        "public.groupType": {
+            "name": "groupType",
             "schema": "public",
-            "values": ["user", "moderator", "admin"]
+            "values": ["client", "vendor"]
         },
         "public.role": {
             "name": "role",
             "schema": "public",
             "values": ["guest", "member", "owner"]
+        },
+        "public.userType": {
+            "name": "userType",
+            "schema": "public",
+            "values": ["user", "moderator", "admin"]
         }
     },
     "schemas": {},

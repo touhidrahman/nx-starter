@@ -1,11 +1,17 @@
 DO $$ BEGIN
- CREATE TYPE "public"."type" AS ENUM('user', 'moderator', 'admin');
+ CREATE TYPE "public"."groupType" AS ENUM('client', 'vendor');
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  CREATE TYPE "public"."role" AS ENUM('guest', 'member', 'owner');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ CREATE TYPE "public"."userType" AS ENUM('user', 'moderator', 'admin');
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;
@@ -19,7 +25,7 @@ CREATE TABLE IF NOT EXISTS "group_users" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "groups" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"type" "type" NOT NULL,
+	"type" "groupType" DEFAULT 'client' NOT NULL,
 	"name" text NOT NULL,
 	"email" text,
 	"phone" text,
@@ -51,7 +57,7 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"email" text NOT NULL,
 	"password" text NOT NULL,
 	"last_login" timestamp,
-	"type" "type" DEFAULT 'user' NOT NULL,
+	"type" "userType" DEFAULT 'user' NOT NULL,
 	"is_verified" boolean DEFAULT false NOT NULL,
 	"created_at" timestamp DEFAULT now() NOT NULL,
 	"updated_at" timestamp NOT NULL,

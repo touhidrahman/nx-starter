@@ -12,7 +12,7 @@ import {
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
-export const userTypeEnum = pgEnum('type', ['user', 'moderator', 'admin'])
+export const userTypeEnum = pgEnum('userType', ['user', 'moderator', 'admin'])
 
 export const usersTable = pgTable('users', {
     id: serial('id').primaryKey(),
@@ -34,11 +34,11 @@ export const usersRelations = relations(usersTable, ({ many }) => ({
 }))
 
 export const roleEnum = pgEnum('role', ['guest', 'member', 'owner'])
-export const groupTypeEnum = pgEnum('type', ['client', 'vendor'])
+export const groupTypeEnum = pgEnum('groupType', ['client', 'vendor'])
 
 export const groupsTable = pgTable('groups', {
     id: serial('id').primaryKey(),
-    type: groupTypeEnum('type').notNull(),
+    type: groupTypeEnum('type').notNull().default('client'),
     name: text('name').notNull(),
     email: text('email'),
     phone: text('phone'),

@@ -8,22 +8,11 @@ import { sign, verify } from 'hono/jwt'
 import { randomBytes } from 'node:crypto'
 import { z } from 'zod'
 import { db } from '../core/db/db'
+import { groupToUsersTable, groupsTable, usersTable } from '../core/db/schema'
 import { checkSecretsMiddleware } from '../core/middlewares/check-secrets.middleware'
+import { zLogin, zRegister } from '../core/models/auth.schema'
 import { safeUser } from '../core/utils/user.util'
-import { userTypeEnum, usersTable } from '../core/db/schema'
 
-const zLogin = z.object({
-    email: z.string().email(),
-    password: z.string(),
-})
-
-const zRegister = z.object({
-    email: z.string().email(),
-    password: z.string(),
-    firstName: z.string(),
-    lastName: z.string(),
-    type: z.enum(userTypeEnum.enumValues).optional().default('user'),
-})
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET ?? ''
 const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET ?? ''
 
@@ -38,23 +27,25 @@ app.post('/login', zValidator('json', zLogin), async (c) => {
         .select()
         .from(usersTable)
         .where(eq(usersTable.email, email))
+
     if (users.length === 0) {
-        c.status(400)
-        return c.json({ message: 'Invalid email or password' })
+        return c.json({ message: 'Invalid email or password' }, 400)
     }
 
     try {
         const user = users[0]
         if (!(await argon2.verify(user.password, password))) {
-            c.status(400)
-            return c.json({ message: 'Invalid email or password' })
+            return c.json({ message: 'Invalid email or password' }, 400)
         }
 
+        const group = await getGroup(user.id)
         const now = dayjs()
         const accessToken = await sign(
             {
                 email: user.email,
                 type: user.type,
+                role: group?.role ?? '',
+                group: { id: group?.id ?? '', type: group?.type ?? '' },
                 sub: user.id,
                 exp: now.add(15, 'minute').valueOf(),
             },
@@ -113,13 +104,11 @@ app.post('/register', zValidator('json', zRegister), async (c) => {
             refreshTokenSecret,
         )
         const verificationToken = `${random}&${token}`
-        console.log('TCL: | app.post | verificationToken:', verificationToken)
+        console.log('TCL: | verificationToken:', verificationToken)
 
-        c.status(201)
-        return c.json({ message: 'Account created' })
+        return c.json({ message: 'Account created' }, 201)
     } catch (e) {
-        c.status(400)
-        return c.json({ message: 'Email already exists' })
+        return c.json({ message: 'Email already exists' }, 400)
     }
 })
 
@@ -134,9 +123,9 @@ app.post(
             process.env.REFRESH_TOKEN_SECRET ?? '',
         )
         if (exp && exp < dayjs().valueOf())
-            return c.json({ message: 'Token expired' })
+            return c.json({ message: 'Token expired' }, 400)
         // update user verified status
-        if (!email || !sub) return c.json({ message: 'Invalid token' })
+        if (!email || !sub) return c.json({ message: 'Invalid token' }, 400)
 
         try {
             await db
@@ -149,12 +138,29 @@ app.post(
                     ),
                 )
 
-            return c.json({ message: 'Email verified' })
+            return c.json({ message: 'Email verified' }, 200)
         } catch (error) {
-            c.status(400)
-            return c.json({ message: 'Invalid token' })
+            return c.json({ message: 'Invalid token' }, 400)
         }
     },
 )
+
+async function getGroup(userId: number) {
+    const results = await db
+        .select({
+            id: groupsTable.id,
+            type: groupsTable.type,
+            role: groupToUsersTable.role,
+        })
+        .from(groupsTable)
+        .innerJoin(
+            groupToUsersTable,
+            eq(groupsTable.id, groupToUsersTable.groupId),
+        )
+        .where(eq(groupToUsersTable.userId, userId))
+        .limit(1)
+
+    return results?.[0] ?? null
+}
 
 export default app
