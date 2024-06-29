@@ -1,11 +1,39 @@
 {
-    "id": "909b94d1-695b-4656-9894-9bf4189a6b61",
+    "id": "c22fb578-cf95-4d55-a7b0-28db8e1121a3",
     "prevId": "00000000-0000-0000-0000-000000000000",
     "version": "7",
     "dialect": "postgresql",
     "tables": {
-        "public.group_users": {
-            "name": "group_users",
+        "public.application_areas": {
+            "name": "application_areas",
+            "schema": "",
+            "columns": {
+                "id": {
+                    "name": "id",
+                    "type": "serial",
+                    "primaryKey": true,
+                    "notNull": true
+                },
+                "area": {
+                    "name": "area",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "description": {
+                    "name": "description",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "public.groups_to_users": {
+            "name": "groups_to_users",
             "schema": "",
             "columns": {
                 "user_id": {
@@ -20,39 +48,60 @@
                     "primaryKey": false,
                     "notNull": true
                 },
-                "role": {
-                    "name": "role",
-                    "type": "role",
-                    "typeSchema": "public",
+                "role_id": {
+                    "name": "role_id",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "is_default": {
+                    "name": "is_default",
+                    "type": "boolean",
                     "primaryKey": false,
                     "notNull": true,
-                    "default": "'member'"
+                    "default": false
+                },
+                "is_owner": {
+                    "name": "is_owner",
+                    "type": "boolean",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": false
                 }
             },
             "indexes": {},
             "foreignKeys": {
-                "group_users_user_id_users_id_fk": {
-                    "name": "group_users_user_id_users_id_fk",
-                    "tableFrom": "group_users",
+                "groups_to_users_user_id_users_id_fk": {
+                    "name": "groups_to_users_user_id_users_id_fk",
+                    "tableFrom": "groups_to_users",
                     "tableTo": "users",
                     "columnsFrom": ["user_id"],
                     "columnsTo": ["id"],
                     "onDelete": "cascade",
                     "onUpdate": "no action"
                 },
-                "group_users_group_id_groups_id_fk": {
-                    "name": "group_users_group_id_groups_id_fk",
-                    "tableFrom": "group_users",
+                "groups_to_users_group_id_groups_id_fk": {
+                    "name": "groups_to_users_group_id_groups_id_fk",
+                    "tableFrom": "groups_to_users",
                     "tableTo": "groups",
                     "columnsFrom": ["group_id"],
                     "columnsTo": ["id"],
                     "onDelete": "cascade",
                     "onUpdate": "no action"
+                },
+                "groups_to_users_role_id_roles_id_fk": {
+                    "name": "groups_to_users_role_id_roles_id_fk",
+                    "tableFrom": "groups_to_users",
+                    "tableTo": "roles",
+                    "columnsFrom": ["role_id"],
+                    "columnsTo": ["id"],
+                    "onDelete": "no action",
+                    "onUpdate": "no action"
                 }
             },
             "compositePrimaryKeys": {
-                "group_users_user_id_group_id_pk": {
-                    "name": "group_users_user_id_group_id_pk",
+                "groups_to_users_user_id_group_id_pk": {
+                    "name": "groups_to_users_user_id_group_id_pk",
                     "columns": ["user_id", "group_id"]
                 }
             },
@@ -147,6 +196,103 @@
             },
             "indexes": {},
             "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "public.permissions": {
+            "name": "permissions",
+            "schema": "",
+            "columns": {
+                "group_id": {
+                    "name": "group_id",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "role_id": {
+                    "name": "role_id",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "area": {
+                    "name": "area",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "access": {
+                    "name": "access",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": 1
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {
+                "permissions_group_id_groups_id_fk": {
+                    "name": "permissions_group_id_groups_id_fk",
+                    "tableFrom": "permissions",
+                    "tableTo": "groups",
+                    "columnsFrom": ["group_id"],
+                    "columnsTo": ["id"],
+                    "onDelete": "no action",
+                    "onUpdate": "no action"
+                },
+                "permissions_role_id_roles_id_fk": {
+                    "name": "permissions_role_id_roles_id_fk",
+                    "tableFrom": "permissions",
+                    "tableTo": "roles",
+                    "columnsFrom": ["role_id"],
+                    "columnsTo": ["id"],
+                    "onDelete": "no action",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {
+                "permissions_group_id_role_id_area_pk": {
+                    "name": "permissions_group_id_role_id_area_pk",
+                    "columns": ["group_id", "role_id", "area"]
+                }
+            },
+            "uniqueConstraints": {}
+        },
+        "public.roles": {
+            "name": "roles",
+            "schema": "",
+            "columns": {
+                "id": {
+                    "name": "id",
+                    "type": "serial",
+                    "primaryKey": true,
+                    "notNull": true
+                },
+                "group_id": {
+                    "name": "group_id",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "name": {
+                    "name": "name",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {
+                "roles_group_id_groups_id_fk": {
+                    "name": "roles_group_id_groups_id_fk",
+                    "tableFrom": "roles",
+                    "tableTo": "groups",
+                    "columnsFrom": ["group_id"],
+                    "columnsTo": ["id"],
+                    "onDelete": "no action",
+                    "onUpdate": "no action"
+                }
+            },
             "compositePrimaryKeys": {},
             "uniqueConstraints": {}
         },
@@ -297,11 +443,6 @@
             "name": "groupType",
             "schema": "public",
             "values": ["client", "vendor"]
-        },
-        "public.role": {
-            "name": "role",
-            "schema": "public",
-            "values": ["guest", "member", "owner"]
         },
         "public.userType": {
             "name": "userType",

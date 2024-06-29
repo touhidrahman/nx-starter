@@ -12,6 +12,8 @@ import { groupToUsersTable, groupsTable, usersTable } from '../core/db/schema'
 import { checkSecretsMiddleware } from '../core/middlewares/check-secrets.middleware'
 import { zLogin, zRegister } from '../core/models/auth.schema'
 import { safeUser } from '../core/utils/user.util'
+import { getDefaultGroup, getGroup } from './group/group.service'
+import { toInt } from 'radash'
 
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET ?? ''
 const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET ?? ''
@@ -22,6 +24,7 @@ app.use(checkSecretsMiddleware)
 
 app.post('/login', zValidator('json', zLogin), async (c) => {
     const { email, password } = c.req.valid('json')
+    const groupId = c.req.query('groupId')
 
     const users = await db
         .select()
@@ -38,14 +41,17 @@ app.post('/login', zValidator('json', zLogin), async (c) => {
             return c.json({ message: 'Invalid email or password' }, 400)
         }
 
-        const group = await getGroup(user.id)
+        const group = groupId
+            ? await getGroup(toInt(groupId))
+            : await getDefaultGroup(user.id)
         const now = dayjs()
         const accessToken = await sign(
             {
                 email: user.email,
                 type: user.type,
-                role: group?.role ?? '',
-                group: { id: group?.id ?? '', type: group?.type ?? '' },
+                roleId: group?.roleId ?? '',
+                groupId: group?.id ?? '',
+                groupType: group?.type ?? '',
                 sub: user.id,
                 exp: now.add(15, 'minute').valueOf(),
             },
@@ -144,23 +150,5 @@ app.post(
         }
     },
 )
-
-async function getGroup(userId: number) {
-    const results = await db
-        .select({
-            id: groupsTable.id,
-            type: groupsTable.type,
-            role: groupToUsersTable.role,
-        })
-        .from(groupsTable)
-        .innerJoin(
-            groupToUsersTable,
-            eq(groupsTable.id, groupToUsersTable.groupId),
-        )
-        .where(eq(groupToUsersTable.userId, userId))
-        .limit(1)
-
-    return results?.[0] ?? null
-}
 
 export default app

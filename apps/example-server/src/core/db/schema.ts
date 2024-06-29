@@ -1,6 +1,8 @@
 import { relations } from 'drizzle-orm'
 import {
     boolean,
+    foreignKey,
+    index,
     integer,
     pgEnum,
     pgTable,
@@ -33,8 +35,15 @@ export const usersRelations = relations(usersTable, ({ many }) => ({
     usersToGroups: many(groupToUsersTable),
 }))
 
-export const roleEnum = pgEnum('role', ['guest', 'member', 'owner'])
 export const groupTypeEnum = pgEnum('groupType', ['client', 'vendor'])
+
+export const rolesTable = pgTable('roles', {
+    id: serial('id').primaryKey(),
+    groupId: integer('group_id')
+        .references(() => groupsTable.id)
+        .notNull(),
+    name: text('name').notNull(),
+})
 
 export const groupsTable = pgTable('groups', {
     id: serial('id').primaryKey(),
@@ -59,7 +68,7 @@ export const groupsRelations = relations(groupsTable, ({ many }) => ({
 }))
 
 export const groupToUsersTable = pgTable(
-    'group_users',
+    'groups_to_users',
     {
         userId: integer('user_id')
             .references(() => usersTable.id, { onDelete: 'cascade' })
@@ -67,10 +76,13 @@ export const groupToUsersTable = pgTable(
         groupId: integer('group_id')
             .references(() => groupsTable.id, { onDelete: 'cascade' })
             .notNull(),
-        role: roleEnum('role').notNull().default('member'),
+        roleId: integer('role_id').references(() => rolesTable.id),
+        isDefault: boolean('is_default').notNull().default(false),
+        isOwner: boolean('is_owner').notNull().default(false),
     },
     (table) => {
         return {
+            // one user can be in a group only once
             pk: primaryKey({ columns: [table.userId, table.groupId] }),
         }
     },
@@ -89,6 +101,34 @@ export const usersToGroupsRelations = relations(
         }),
     }),
 )
+
+export const permissionsTable = pgTable(
+    'permissions',
+    {
+        groupId: integer('group_id')
+            .references(() => groupsTable.id)
+            .notNull(),
+        roleId: integer('role_id')
+            .references(() => rolesTable.id)
+            .notNull(),
+        area: text('area').notNull(),
+        access: integer('access').notNull().default(1), // refer to README.md for access levels
+    },
+    (table) => {
+        return {
+            pk: primaryKey({
+                columns: [table.groupId, table.roleId, table.area],
+            }),
+        }
+    },
+)
+
+// to keep a list of areas/resources/entities in the application to attach permissions to. Usually the table names
+export const applicationAreasTable = pgTable('application_areas', {
+    id: serial('id').primaryKey(),
+    area: text('area').notNull(),
+    description: text('description'),
+})
 
 export const subscriptionTable = pgTable('subscription', {
     id: serial('id').primaryKey(),

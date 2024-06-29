@@ -1,47 +1,50 @@
 import { zValidator } from '@hono/zod-validator'
-import { and, eq, getTableColumns } from 'drizzle-orm'
+import { and, count, eq, getTableColumns } from 'drizzle-orm'
 import { Context, Hono, Next } from 'hono'
 import { jwt } from 'hono/jwt'
 import { toInt } from 'radash'
 import { db } from '../core/db/db'
-import { groupToUsersTable, groupsTable, usersTable } from '../core/db/schema'
+import {
+    groupToUsersTable,
+    groupsTable,
+    permissionsTable,
+    usersTable,
+} from '../core/db/schema'
 import { zInsertGroup, zUpdateGroup } from '../core/models/group.schema'
 import { z } from 'zod'
+import { isGroupOwner } from '../core/middlewares/is-group-owner.middleware'
 
 const app = new Hono()
 
 const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 
-// Groups cannot be modified other than owner
-const hasAccessToGroup = async (ctx: Context, next: Next) => {
-    const payload = await ctx.get('jwtPayload')
-    if (!payload) return ctx.json({ error: 'Unauthorized' }, 403)
+function hasPermission(area: string, requiredLevel: 1 | 2 | 3 | 4) {
+    return async (ctx: Context, next: Next) => {
+        const payload = await ctx.get('jwtPayload')
+        if (!payload) return ctx.json({ error: 'Unauthorized' }, 403)
 
-    if (payload?.role === 'admin') {
+        // check in permissions table
+        const record = await db
+            .select()
+            .from(permissionsTable)
+            .where(
+                and(
+                    eq(permissionsTable.roleId, payload?.roleId),
+                    eq(permissionsTable.area, area),
+                ),
+            )
+            .limit(1)
+
+        if (record.length === 0) {
+            return ctx.json({ error: 'Unauthorized' }, 403)
+        }
+
+        if (record[0].access < requiredLevel) {
+            return ctx.json({ error: 'Unauthorized' }, 403)
+        }
+
         return next()
     }
-
-    if (payload?.role !== 'owner') {
-        return ctx.json({ error: 'Unauthorized' }, 403)
-    }
-
-    const id = toInt(ctx.req.param('id'))
-
-    const record = await db
-        .select({ role: groupToUsersTable.role })
-        .from(groupToUsersTable)
-        .where(
-            and(
-                eq(groupToUsersTable.groupId, id),
-                eq(groupToUsersTable.userId, payload?.sub),
-            ),
-        )
-        .limit(1)
-    if (record.length === 0) {
-        return ctx.json({ error: 'Unauthorized' }, 403)
-    }
-
-    return next()
 }
 
 // Get my Groups
@@ -62,7 +65,7 @@ app.get('/', jwt({ secret }), async (c) => {
 })
 
 // Get a Group by ID
-app.get('/:id', jwt({ secret }), hasAccessToGroup, async (c) => {
+app.get('/:id', jwt({ secret }), isGroupOwner, async (c) => {
     const id = toInt(c.req.param('id'))
     const user = c.get('jwtPayload')
 
@@ -88,7 +91,7 @@ app.get('/:id', jwt({ secret }), hasAccessToGroup, async (c) => {
 // Create a new Group. Can create only one group
 app.post('/', zValidator('json', zInsertGroup), jwt({ secret }), async (c) => {
     const body = await c.req.valid('json')
-    const userId = await c.get('jwtPayload').sub
+    const { sub: userId, roleId } = await c.get('jwtPayload')
 
     try {
         // check if group already created where he is a owner
@@ -98,7 +101,8 @@ app.post('/', zValidator('json', zInsertGroup), jwt({ secret }), async (c) => {
             .where(
                 and(
                     eq(groupToUsersTable.userId, userId),
-                    eq(groupToUsersTable.role, 'owner'),
+                    eq(groupToUsersTable.roleId, roleId),
+                    eq(groupToUsersTable.isOwner, true),
                 ),
             )
             .limit(1)
@@ -114,7 +118,8 @@ app.post('/', zValidator('json', zInsertGroup), jwt({ secret }), async (c) => {
         await db.insert(groupToUsersTable).values({
             groupId: newGroup.id,
             userId: userId,
-            role: 'owner',
+            isOwner: true,
+            isDefault: true,
         })
 
         return c.json({ data: newGroup, message: 'Group created' }, 201)
@@ -128,10 +133,10 @@ app.put(
     '/:id',
     zValidator('json', zUpdateGroup),
     jwt({ secret }),
-    hasAccessToGroup,
+    isGroupOwner,
+    hasPermission('Group', 2),
     async (c) => {
         const id = toInt(c.req.param('id'))
-
         const body = await c.req.valid('json')
         const result = await db
             .update(groupsTable)
@@ -148,31 +153,35 @@ app.put(
 )
 
 // Delete a Group by ID
-app.delete('/:id', jwt({ secret }), hasAccessToGroup, async (c) => {
-    const id = toInt(c.req.param('id'))
-    const result = await db
-        .delete(groupsTable)
-        .where(eq(groupsTable.id, id))
-        .returning()
+app.delete(
+    '/:id',
+    jwt({ secret }),
+    isGroupOwner,
+    hasPermission('Group', 4),
+    async (c) => {
+        const id = toInt(c.req.param('id'))
+        const result = await db
+            .delete(groupsTable)
+            .where(eq(groupsTable.id, id))
+            .returning()
 
-    if (result.length === 0) {
-        return c.json({ error: 'Group not found' }, 404)
-    }
+        if (result.length === 0) {
+            return c.json({ error: 'Group not found' }, 404)
+        }
 
-    return c.json({ data: result, message: 'Group deleted' })
-})
+        return c.json({ data: result, message: 'Group deleted' })
+    },
+)
 
 // add user to a group
 app.post(
     '/:id/add-user',
-    zValidator('json', z.object({ userId: z.string(), role: z.string() })),
+    zValidator('json', z.object({ userId: z.number(), roleId: z.number() })),
     jwt({ secret }),
-    hasAccessToGroup,
+    isGroupOwner,
     async (c) => {
         const id = toInt(c.req.param('id'))
-        const body = await c.req.json()
-        const userId = body.userId
-        const role = body.role
+        const { userId, roleId } = await c.req.valid('json')
 
         try {
             const [user] = await db
@@ -203,8 +212,26 @@ app.post(
             await db.insert(groupToUsersTable).values({
                 groupId: id,
                 userId,
-                role,
+                roleId,
             })
+
+            const userGroups = await db
+                .select({ count: count() })
+                .from(groupToUsersTable)
+                .where(eq(groupToUsersTable.userId, userId))
+
+            // make the group default for the inserted user
+            if (userGroups[0].count === 1) {
+                await db
+                    .update(groupToUsersTable)
+                    .set({ isDefault: true })
+                    .where(
+                        and(
+                            eq(groupToUsersTable.userId, userId),
+                            eq(groupToUsersTable.groupId, id),
+                        ),
+                    )
+            }
 
             return c.json({ data: '', message: 'User added to group' }, 201)
         } catch (error) {
