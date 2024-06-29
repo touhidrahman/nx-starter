@@ -1,23 +1,23 @@
 import { eq, and } from 'drizzle-orm'
 import { db } from '../../core/db/db'
-import { groupsTable, groupToUsersTable } from '../../core/db/schema'
+import { groupsTable, groupsToUsersTable } from '../../core/db/schema'
 
 export async function getDefaultGroup(userId: number) {
     const results = await db
         .select({
             id: groupsTable.id,
             type: groupsTable.type,
-            roleId: groupToUsersTable.roleId,
+            roleId: groupsToUsersTable.roleId,
         })
         .from(groupsTable)
         .innerJoin(
-            groupToUsersTable,
-            eq(groupsTable.id, groupToUsersTable.groupId),
+            groupsToUsersTable,
+            eq(groupsTable.id, groupsToUsersTable.groupId),
         )
         .where(
             and(
-                eq(groupToUsersTable.isDefault, true),
-                eq(groupToUsersTable.userId, userId),
+                eq(groupsToUsersTable.isDefault, true),
+                eq(groupsToUsersTable.userId, userId),
             ),
         )
         .limit(1)
@@ -30,12 +30,12 @@ export async function getGroup(id: number) {
         .select({
             id: groupsTable.id,
             type: groupsTable.type,
-            roleId: groupToUsersTable.roleId,
+            roleId: groupsToUsersTable.roleId,
         })
         .from(groupsTable)
         .innerJoin(
-            groupToUsersTable,
-            eq(groupsTable.id, groupToUsersTable.groupId),
+            groupsToUsersTable,
+            eq(groupsTable.id, groupsToUsersTable.groupId),
         )
         .where(and(eq(groupsTable.id, id)))
         .limit(1)

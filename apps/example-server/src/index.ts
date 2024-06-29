@@ -12,6 +12,8 @@ import passwordRoutes from './main/password/password.routes'
 import userRoutes from './main/user/user.routes'
 import groupRoutes from './main/group/group.routes'
 import adminGroupRoutes from './main/admin/admin-group.routes'
+import adminUserRoutes from './main/admin/admin-user.routes'
+import adminSeedRoutes from './main/admin/admin-seed.routes'
 
 const port = Number.parseInt(process.env.PORT ?? '3000')
 
@@ -36,7 +38,8 @@ app.route('auth', authRoutes)
 app.route('password', passwordRoutes)
 app.route('users', userRoutes)
 app.route('groups', groupRoutes)
-// app.route('admin/users', adminUserRoutes)
+app.route('admin/seed', adminSeedRoutes)
+app.route('admin/users', adminUserRoutes)
 app.route('admin/groups', adminGroupRoutes)
 
 if (

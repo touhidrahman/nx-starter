@@ -9,7 +9,7 @@ import { randomBytes } from 'node:crypto'
 import { z } from 'zod'
 import { db } from '../../core/db/db'
 import {
-    groupToUsersTable,
+    groupsToUsersTable,
     groupsTable,
     usersTable,
 } from '../../core/db/schema'

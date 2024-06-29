@@ -32,7 +32,7 @@ export const usersTable = pgTable('users', {
 })
 
 export const usersRelations = relations(usersTable, ({ many }) => ({
-    usersToGroups: many(groupToUsersTable),
+    usersToGroups: many(groupsToUsersTable),
 }))
 
 export const groupTypeEnum = pgEnum('groupType', ['client', 'vendor'])
@@ -64,10 +64,10 @@ export const groupsTable = pgTable('groups', {
 })
 
 export const groupsRelations = relations(groupsTable, ({ many }) => ({
-    usersToGroups: many(groupToUsersTable),
+    usersToGroups: many(groupsToUsersTable),
 }))
 
-export const groupToUsersTable = pgTable(
+export const groupsToUsersTable = pgTable(
     'groups_to_users',
     {
         userId: integer('user_id')
@@ -89,14 +89,14 @@ export const groupToUsersTable = pgTable(
 )
 
 export const usersToGroupsRelations = relations(
-    groupToUsersTable,
+    groupsToUsersTable,
     ({ one }) => ({
         group: one(groupsTable, {
-            fields: [groupToUsersTable.groupId],
+            fields: [groupsToUsersTable.groupId],
             references: [groupsTable.id],
         }),
         user: one(usersTable, {
-            fields: [groupToUsersTable.userId],
+            fields: [groupsToUsersTable.userId],
             references: [usersTable.id],
         }),
     }),
