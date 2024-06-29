@@ -7,24 +7,18 @@ import { HTTPException } from 'hono/http-exception'
 import { sign, verify } from 'hono/jwt'
 import { randomBytes } from 'node:crypto'
 import { z } from 'zod'
-import { db } from '../core/db/db'
-import { roleEnum, userTypeEnum, usersTable } from '../core/db/schema'
-import { checkSecretsMiddleware } from '../core/middlewares/check-secrets.middleware'
-import { safeUser } from '../core/utils/user.util'
+import { db } from '../../core/db/db'
+import {
+    groupToUsersTable,
+    groupsTable,
+    usersTable,
+} from '../../core/db/schema'
+import { checkSecretsMiddleware } from '../../core/middlewares/check-secrets.middleware'
+import { zLogin, zRegister } from './auth.schema'
+import { safeUser } from '../user/user.util'
+import { getDefaultGroup, getGroup } from '../group/group.service'
+import { toInt } from 'radash'
 
-const loginSchema = z.object({
-    email: z.string().email(),
-    password: z.string(),
-})
-
-const registerSchema = z.object({
-    email: z.string().email(),
-    password: z.string(),
-    firstName: z.string(),
-    lastName: z.string(),
-    role: z.enum(roleEnum.enumValues).optional().default('client'),
-    type: z.enum(userTypeEnum.enumValues).optional().default('user'),
-})
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET ?? ''
 const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET ?? ''
 
@@ -32,31 +26,36 @@ const app = new Hono()
 
 app.use(checkSecretsMiddleware)
 
-app.post('/login', zValidator('json', loginSchema), async (c) => {
+app.post('/login', zValidator('json', zLogin), async (c) => {
     const { email, password } = c.req.valid('json')
+    const groupId = c.req.query('groupId')
 
     const users = await db
         .select()
         .from(usersTable)
         .where(eq(usersTable.email, email))
+
     if (users.length === 0) {
-        c.status(400)
-        return c.json({ message: 'Invalid email or password' })
+        return c.json({ message: 'Invalid email or password' }, 400)
     }
 
     try {
         const user = users[0]
         if (!(await argon2.verify(user.password, password))) {
-            c.status(400)
-            return c.json({ message: 'Invalid email or password' })
+            return c.json({ message: 'Invalid email or password' }, 400)
         }
 
+        const group = groupId
+            ? await getGroup(toInt(groupId))
+            : await getDefaultGroup(user.id)
         const now = dayjs()
         const accessToken = await sign(
             {
                 email: user.email,
-                role: user.role,
                 type: user.type,
+                roleId: group?.roleId ?? '',
+                groupId: group?.id ?? '',
+                groupType: group?.type ?? '',
                 sub: user.id,
                 exp: now.add(15, 'minute').valueOf(),
             },
@@ -92,9 +91,8 @@ app.post('/login', zValidator('json', loginSchema), async (c) => {
     }
 })
 
-app.post('/register', zValidator('json', registerSchema), async (c) => {
-    const { email, password, firstName, lastName, role, type } =
-        c.req.valid('json')
+app.post('/register', zValidator('json', zRegister), async (c) => {
+    const { email, password, firstName, lastName, type } = c.req.valid('json')
     const hash = await argon2.hash(password)
 
     try {
@@ -105,7 +103,6 @@ app.post('/register', zValidator('json', registerSchema), async (c) => {
                 password: hash,
                 firstName,
                 lastName,
-                role,
                 type,
             })
             .returning({ id: usersTable.id })
@@ -117,13 +114,11 @@ app.post('/register', zValidator('json', registerSchema), async (c) => {
             refreshTokenSecret,
         )
         const verificationToken = `${random}&${token}`
-        console.log('TCL: | app.post | verificationToken:', verificationToken)
+        console.log('TCL: | verificationToken:', verificationToken)
 
-        c.status(201)
-        return c.json({ message: 'Account created' })
+        return c.json({ message: 'Account created' }, 201)
     } catch (e) {
-        c.status(400)
-        return c.json({ message: 'Email already exists' })
+        return c.json({ message: 'Email already exists' }, 400)
     }
 })
 
@@ -138,9 +133,9 @@ app.post(
             process.env.REFRESH_TOKEN_SECRET ?? '',
         )
         if (exp && exp < dayjs().valueOf())
-            return c.json({ message: 'Token expired' })
+            return c.json({ message: 'Token expired' }, 400)
         // update user verified status
-        if (!email || !sub) return c.json({ message: 'Invalid token' })
+        if (!email || !sub) return c.json({ message: 'Invalid token' }, 400)
 
         try {
             await db
@@ -153,10 +148,9 @@ app.post(
                     ),
                 )
 
-            return c.json({ message: 'Email verified' })
+            return c.json({ message: 'Email verified' }, 200)
         } catch (error) {
-            c.status(400)
-            return c.json({ message: 'Invalid token' })
+            return c.json({ message: 'Invalid token' }, 400)
         }
     },
 )

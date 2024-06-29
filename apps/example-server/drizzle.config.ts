@@ -8,4 +8,6 @@ export default defineConfig({
     },
     schema: './src/core/db/schema.ts',
     out: './migrations',
+    verbose: true,
+    strict: true,
 })

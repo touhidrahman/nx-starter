@@ -1,7 +1,362 @@
 {
+    "id": "c22fb578-cf95-4d55-a7b0-28db8e1121a3",
+    "prevId": "00000000-0000-0000-0000-000000000000",
     "version": "7",
     "dialect": "postgresql",
     "tables": {
+        "public.application_areas": {
+            "name": "application_areas",
+            "schema": "",
+            "columns": {
+                "id": {
+                    "name": "id",
+                    "type": "serial",
+                    "primaryKey": true,
+                    "notNull": true
+                },
+                "area": {
+                    "name": "area",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "description": {
+                    "name": "description",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "public.groups_to_users": {
+            "name": "groups_to_users",
+            "schema": "",
+            "columns": {
+                "user_id": {
+                    "name": "user_id",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "group_id": {
+                    "name": "group_id",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "role_id": {
+                    "name": "role_id",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "is_default": {
+                    "name": "is_default",
+                    "type": "boolean",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": false
+                },
+                "is_owner": {
+                    "name": "is_owner",
+                    "type": "boolean",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": false
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {
+                "groups_to_users_user_id_users_id_fk": {
+                    "name": "groups_to_users_user_id_users_id_fk",
+                    "tableFrom": "groups_to_users",
+                    "tableTo": "users",
+                    "columnsFrom": ["user_id"],
+                    "columnsTo": ["id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                },
+                "groups_to_users_group_id_groups_id_fk": {
+                    "name": "groups_to_users_group_id_groups_id_fk",
+                    "tableFrom": "groups_to_users",
+                    "tableTo": "groups",
+                    "columnsFrom": ["group_id"],
+                    "columnsTo": ["id"],
+                    "onDelete": "cascade",
+                    "onUpdate": "no action"
+                },
+                "groups_to_users_role_id_roles_id_fk": {
+                    "name": "groups_to_users_role_id_roles_id_fk",
+                    "tableFrom": "groups_to_users",
+                    "tableTo": "roles",
+                    "columnsFrom": ["role_id"],
+                    "columnsTo": ["id"],
+                    "onDelete": "no action",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {
+                "groups_to_users_user_id_group_id_pk": {
+                    "name": "groups_to_users_user_id_group_id_pk",
+                    "columns": ["user_id", "group_id"]
+                }
+            },
+            "uniqueConstraints": {}
+        },
+        "public.groups": {
+            "name": "groups",
+            "schema": "",
+            "columns": {
+                "id": {
+                    "name": "id",
+                    "type": "serial",
+                    "primaryKey": true,
+                    "notNull": true
+                },
+                "type": {
+                    "name": "type",
+                    "type": "groupType",
+                    "typeSchema": "public",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "'client'"
+                },
+                "name": {
+                    "name": "name",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "email": {
+                    "name": "email",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "phone": {
+                    "name": "phone",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "address": {
+                    "name": "address",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "city": {
+                    "name": "city",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "country": {
+                    "name": "country",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "post_code": {
+                    "name": "post_code",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "is_verified": {
+                    "name": "is_verified",
+                    "type": "boolean",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": false
+                },
+                "verified_on": {
+                    "name": "verified_on",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "created_at": {
+                    "name": "created_at",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "now()"
+                },
+                "updated_at": {
+                    "name": "updated_at",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": true
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "public.permissions": {
+            "name": "permissions",
+            "schema": "",
+            "columns": {
+                "group_id": {
+                    "name": "group_id",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "role_id": {
+                    "name": "role_id",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "area": {
+                    "name": "area",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "access": {
+                    "name": "access",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": 1
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {
+                "permissions_group_id_groups_id_fk": {
+                    "name": "permissions_group_id_groups_id_fk",
+                    "tableFrom": "permissions",
+                    "tableTo": "groups",
+                    "columnsFrom": ["group_id"],
+                    "columnsTo": ["id"],
+                    "onDelete": "no action",
+                    "onUpdate": "no action"
+                },
+                "permissions_role_id_roles_id_fk": {
+                    "name": "permissions_role_id_roles_id_fk",
+                    "tableFrom": "permissions",
+                    "tableTo": "roles",
+                    "columnsFrom": ["role_id"],
+                    "columnsTo": ["id"],
+                    "onDelete": "no action",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {
+                "permissions_group_id_role_id_area_pk": {
+                    "name": "permissions_group_id_role_id_area_pk",
+                    "columns": ["group_id", "role_id", "area"]
+                }
+            },
+            "uniqueConstraints": {}
+        },
+        "public.roles": {
+            "name": "roles",
+            "schema": "",
+            "columns": {
+                "id": {
+                    "name": "id",
+                    "type": "serial",
+                    "primaryKey": true,
+                    "notNull": true
+                },
+                "group_id": {
+                    "name": "group_id",
+                    "type": "integer",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "name": {
+                    "name": "name",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {
+                "roles_group_id_groups_id_fk": {
+                    "name": "roles_group_id_groups_id_fk",
+                    "tableFrom": "roles",
+                    "tableTo": "groups",
+                    "columnsFrom": ["group_id"],
+                    "columnsTo": ["id"],
+                    "onDelete": "no action",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
+        "public.subscription": {
+            "name": "subscription",
+            "schema": "",
+            "columns": {
+                "id": {
+                    "name": "id",
+                    "type": "serial",
+                    "primaryKey": true,
+                    "notNull": true
+                },
+                "current_plan": {
+                    "name": "current_plan",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "is_trialing": {
+                    "name": "is_trialing",
+                    "type": "boolean",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": true
+                },
+                "start_date": {
+                    "name": "start_date",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "end_date": {
+                    "name": "end_date",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "autorenewal": {
+                    "name": "autorenewal",
+                    "type": "boolean",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": true
+                },
+                "created_at": {
+                    "name": "created_at",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "now()"
+                },
+                "updated_at": {
+                    "name": "updated_at",
+                    "type": "timestamp",
+                    "primaryKey": false,
+                    "notNull": true
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
         "public.users": {
             "name": "users",
             "schema": "",
@@ -12,14 +367,14 @@
                     "primaryKey": true,
                     "notNull": true
                 },
-                "firstName": {
-                    "name": "firstName",
+                "first_name": {
+                    "name": "first_name",
                     "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
-                "lastName": {
-                    "name": "lastName",
+                "last_name": {
+                    "name": "last_name",
                     "type": "text",
                     "primaryKey": false,
                     "notNull": true
@@ -44,19 +399,11 @@
                 },
                 "type": {
                     "name": "type",
-                    "type": "type",
+                    "type": "userType",
                     "typeSchema": "public",
                     "primaryKey": false,
                     "notNull": true,
                     "default": "'user'"
-                },
-                "role": {
-                    "name": "role",
-                    "type": "role",
-                    "typeSchema": "public",
-                    "primaryKey": false,
-                    "notNull": true,
-                    "default": "'client'"
                 },
                 "is_verified": {
                     "name": "is_verified",
@@ -85,30 +432,28 @@
             "uniqueConstraints": {
                 "users_email_unique": {
                     "name": "users_email_unique",
-                    "columns": ["email"],
-                    "nullsNotDistinct": false
+                    "nullsNotDistinct": false,
+                    "columns": ["email"]
                 }
             }
         }
     },
     "enums": {
-        "public.role": {
-            "name": "role",
+        "public.groupType": {
+            "name": "groupType",
             "schema": "public",
-            "values": ["client", "vendor_member", "vendor_owner"]
+            "values": ["client", "vendor"]
         },
-        "public.type": {
-            "name": "type",
+        "public.userType": {
+            "name": "userType",
             "schema": "public",
-            "values": ["user", "admin", "superadmin"]
+            "values": ["user", "moderator", "admin"]
         }
     },
     "schemas": {},
     "_meta": {
+        "columns": {},
         "schemas": {},
-        "tables": {},
-        "columns": {}
-    },
-    "id": "5c2c05bf-699c-445f-986d-8d2d1fb87372",
-    "prevId": "00000000-0000-0000-0000-000000000000"
+        "tables": {}
+    }
 }

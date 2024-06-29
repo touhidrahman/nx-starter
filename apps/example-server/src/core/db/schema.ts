@@ -1,8 +1,12 @@
-import dayjs from 'dayjs'
+import { relations } from 'drizzle-orm'
 import {
     boolean,
+    foreignKey,
+    index,
+    integer,
     pgEnum,
     pgTable,
+    primaryKey,
     serial,
     text,
     timestamp,
@@ -10,41 +14,16 @@ import {
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 
-// Define a schema for a date-time string
-const dateTimeStringSchema = z.string().refine(
-    (val) => {
-        // Check if the string is a valid date-time format
-        return !isNaN(Date.parse(val))
-    },
-    {
-        message: 'Invalid date-time string',
-    },
-)
-
-export const idsSchema = z.object({
-    ids: z.array(z.coerce.number()),
-})
-
-//////////////////////////////////////////////////////
-//                     USER                         //
-//////////////////////////////////////////////////////
-
-export const userTypeEnum = pgEnum('type', ['user', 'admin', 'superadmin'])
-export const roleEnum = pgEnum('role', [
-    'client',
-    'vendor_member',
-    'vendor_owner',
-])
+export const userTypeEnum = pgEnum('userType', ['user', 'moderator', 'admin'])
 
 export const usersTable = pgTable('users', {
     id: serial('id').primaryKey(),
-    firstName: text('firstName').notNull(),
-    lastName: text('lastName').notNull(),
+    firstName: text('first_name').notNull(),
+    lastName: text('last_name').notNull(),
     email: text('email').notNull().unique(),
     password: text('password').notNull(),
     lastLogin: timestamp('last_login'),
     type: userTypeEnum('type').notNull().default('user'),
-    role: roleEnum('role').notNull().default('client'),
     verified: boolean('is_verified').notNull().default(false),
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at')
@@ -52,28 +31,23 @@ export const usersTable = pgTable('users', {
         .$onUpdate(() => new Date()),
 })
 
-export type InsertUser = typeof usersTable.$inferInsert
-export type SelectUser = typeof usersTable.$inferSelect
+export const usersRelations = relations(usersTable, ({ many }) => ({
+    usersToGroups: many(groupToUsersTable),
+}))
 
-export const insertUserSchema = createInsertSchema(usersTable, {
-    email: (schema) => schema.email.email(),
-})
-export const selectUserSchema = createSelectSchema(usersTable)
-export const updateUserSchema = insertUserSchema.omit({
-    email: true,
-    password: true,
-    id: true,
-    role: true,
-    type: true,
-    verified: true,
-})
+export const groupTypeEnum = pgEnum('groupType', ['client', 'vendor'])
 
-//////////////////////////////////////////////////////
-//                   VENDOR                         //
-//////////////////////////////////////////////////////
-
-export const vendorsTable = pgTable('vendors', {
+export const rolesTable = pgTable('roles', {
     id: serial('id').primaryKey(),
+    groupId: integer('group_id')
+        .references(() => groupsTable.id)
+        .notNull(),
+    name: text('name').notNull(),
+})
+
+export const groupsTable = pgTable('groups', {
+    id: serial('id').primaryKey(),
+    type: groupTypeEnum('type').notNull().default('client'),
     name: text('name').notNull(),
     email: text('email'),
     phone: text('phone'),
@@ -83,31 +57,88 @@ export const vendorsTable = pgTable('vendors', {
     postCode: text('post_code'),
     verified: boolean('is_verified').notNull().default(false),
     verifiedOn: timestamp('verified_on'),
-    isTrialing: boolean('is_trialing').notNull().default(true),
-    nextBillingDate: timestamp('next_billing_date'),
-    nextRenewalDate: timestamp('next_renewal_date'),
-    subscription: text('subscription'),
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at')
         .notNull()
         .$onUpdate(() => new Date()),
 })
 
-export type InsertVendor = typeof vendorsTable.$inferInsert
-export type SelectVendor = typeof vendorsTable.$inferSelect
+export const groupsRelations = relations(groupsTable, ({ many }) => ({
+    usersToGroups: many(groupToUsersTable),
+}))
 
-export const insertVendorSchema = createInsertSchema(vendorsTable, {
-    email: (schema) => schema.email.email(),
-    nextRenewalDate: z.coerce.date(),
-    nextBillingDate: z.coerce.date(),
-    verifiedOn: z.coerce.date(),
+export const groupToUsersTable = pgTable(
+    'groups_to_users',
+    {
+        userId: integer('user_id')
+            .references(() => usersTable.id, { onDelete: 'cascade' })
+            .notNull(),
+        groupId: integer('group_id')
+            .references(() => groupsTable.id, { onDelete: 'cascade' })
+            .notNull(),
+        roleId: integer('role_id').references(() => rolesTable.id),
+        isDefault: boolean('is_default').notNull().default(false),
+        isOwner: boolean('is_owner').notNull().default(false),
+    },
+    (table) => {
+        return {
+            // one user can be in a group only once
+            pk: primaryKey({ columns: [table.userId, table.groupId] }),
+        }
+    },
+)
+
+export const usersToGroupsRelations = relations(
+    groupToUsersTable,
+    ({ one }) => ({
+        group: one(groupsTable, {
+            fields: [groupToUsersTable.groupId],
+            references: [groupsTable.id],
+        }),
+        user: one(usersTable, {
+            fields: [groupToUsersTable.userId],
+            references: [usersTable.id],
+        }),
+    }),
+)
+
+export const permissionsTable = pgTable(
+    'permissions',
+    {
+        groupId: integer('group_id')
+            .references(() => groupsTable.id)
+            .notNull(),
+        roleId: integer('role_id')
+            .references(() => rolesTable.id)
+            .notNull(),
+        area: text('area').notNull(),
+        access: integer('access').notNull().default(1), // refer to README.md for access levels
+    },
+    (table) => {
+        return {
+            pk: primaryKey({
+                columns: [table.groupId, table.roleId, table.area],
+            }),
+        }
+    },
+)
+
+// to keep a list of areas/resources/entities in the application to attach permissions to. Usually the table names
+export const applicationAreasTable = pgTable('application_areas', {
+    id: serial('id').primaryKey(),
+    area: text('area').notNull(),
+    description: text('description'),
 })
-export const selectVendorSchema = createSelectSchema(vendorsTable)
-export const updateVendorSchema = insertVendorSchema.omit({
-    // public facing API cannot update these fields
-    isTrialing: true,
-    nextBillingDate: true,
-    nextRenewalDate: true,
-    verified: true,
-    verifiedOn: true,
+
+export const subscriptionTable = pgTable('subscription', {
+    id: serial('id').primaryKey(),
+    currentPlan: text('current_plan').notNull(),
+    isTrialing: boolean('is_trialing').notNull().default(true),
+    startDate: timestamp('start_date').notNull(),
+    endDate: timestamp('end_date'),
+    autorenewal: boolean('autorenewal').notNull().default(true),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+    updatedAt: timestamp('updated_at')
+        .notNull()
+        .$onUpdate(() => new Date()),
 })

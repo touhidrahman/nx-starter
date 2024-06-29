@@ -4,11 +4,11 @@ import { and, eq } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { HTTPException } from 'hono/http-exception'
 import { sign, verify } from 'hono/jwt'
-import { db } from '../core/db/db'
-import { usersTable } from '../core/db/schema'
-import { checkSecretsMiddleware } from '../core/middlewares/check-secrets.middleware'
+import { db } from '../../core/db/db'
+import { checkSecretsMiddleware } from '../../core/middlewares/check-secrets.middleware'
 import { z } from 'zod'
 import { zValidator } from '@hono/zod-validator'
+import { usersTable } from '../../core/db/schema'
 
 const app = new Hono()
 

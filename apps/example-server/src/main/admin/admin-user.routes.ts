@@ -1,7 +1,7 @@
 import { getTableColumns } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { db } from '../core/db/db'
-import { usersTable } from '../core/db/schema'
+import { db } from '../../core/db/db'
+import { usersTable } from '../../core/db/schema'
 
 const app = new Hono().basePath('admin')
 
