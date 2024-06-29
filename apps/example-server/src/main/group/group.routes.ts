@@ -3,16 +3,16 @@ import { and, count, eq, getTableColumns } from 'drizzle-orm'
 import { Context, Hono, Next } from 'hono'
 import { jwt } from 'hono/jwt'
 import { toInt } from 'radash'
-import { db } from '../core/db/db'
+import { db } from '../../core/db/db'
 import {
     groupToUsersTable,
     groupsTable,
     permissionsTable,
     usersTable,
-} from '../core/db/schema'
-import { zInsertGroup, zUpdateGroup } from '../core/models/group.schema'
+} from '../../core/db/schema'
+import { zInsertGroup, zUpdateGroup } from '../../core/models/group.schema'
 import { z } from 'zod'
-import { isGroupOwner } from '../core/middlewares/is-group-owner.middleware'
+import { isGroupOwner } from '../../core/middlewares/is-group-owner.middleware'
 
 const app = new Hono()
 

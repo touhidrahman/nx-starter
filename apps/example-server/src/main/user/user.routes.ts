@@ -1,10 +1,10 @@
 import { SQL, eq, getTableColumns, sql } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { jwt } from 'hono/jwt'
-import { db } from '../core/db/db'
-import { safeUser } from '../core/utils/user.util'
+import { db } from '../../core/db/db'
+import { safeUser } from './user.util'
 import { z } from 'zod'
-import { usersTable } from '../core/db/schema'
+import { usersTable } from '../../core/db/schema'
 
 const app = new Hono()
 

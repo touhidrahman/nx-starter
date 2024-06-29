@@ -1,4 +1,4 @@
-import { SelectUser } from '../models/user.schema'
+import { SelectUser } from '../../core/models/user.schema'
 
 export function safeUser(user: SelectUser) {
     return {

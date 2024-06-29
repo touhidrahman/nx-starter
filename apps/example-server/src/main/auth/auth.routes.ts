@@ -7,12 +7,16 @@ import { HTTPException } from 'hono/http-exception'
 import { sign, verify } from 'hono/jwt'
 import { randomBytes } from 'node:crypto'
 import { z } from 'zod'
-import { db } from '../core/db/db'
-import { groupToUsersTable, groupsTable, usersTable } from '../core/db/schema'
-import { checkSecretsMiddleware } from '../core/middlewares/check-secrets.middleware'
-import { zLogin, zRegister } from '../core/models/auth.schema'
-import { safeUser } from '../core/utils/user.util'
-import { getDefaultGroup, getGroup } from './group/group.service'
+import { db } from '../../core/db/db'
+import {
+    groupToUsersTable,
+    groupsTable,
+    usersTable,
+} from '../../core/db/schema'
+import { checkSecretsMiddleware } from '../../core/middlewares/check-secrets.middleware'
+import { zLogin, zRegister } from '../../core/models/auth.schema'
+import { safeUser } from '../user/user.util'
+import { getDefaultGroup, getGroup } from '../group/group.service'
 import { toInt } from 'radash'
 
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET ?? ''
