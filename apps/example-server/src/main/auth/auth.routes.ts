@@ -14,7 +14,7 @@ import {
     usersTable,
 } from '../../core/db/schema'
 import { checkSecretsMiddleware } from '../../core/middlewares/check-secrets.middleware'
-import { zLogin, zRegister } from '../../core/models/auth.schema'
+import { zLogin, zRegister } from './auth.schema'
 import { safeUser } from '../user/user.util'
 import { getDefaultGroup, getGroup } from '../group/group.service'
 import { toInt } from 'radash'

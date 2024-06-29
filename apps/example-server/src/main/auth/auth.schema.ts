@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { userTypeEnum } from '../db/schema'
+import { userTypeEnum } from '../../core/db/schema'
 
 export const zLogin = z.object({
     email: z.string().email(),

@@ -10,7 +10,7 @@ import {
     permissionsTable,
     usersTable,
 } from '../../core/db/schema'
-import { zInsertGroup, zUpdateGroup } from '../../core/models/group.schema'
+import { zInsertGroup, zUpdateGroup } from './group.schema'
 import { z } from 'zod'
 import { isGroupOwner } from '../../core/middlewares/is-group-owner.middleware'
 
