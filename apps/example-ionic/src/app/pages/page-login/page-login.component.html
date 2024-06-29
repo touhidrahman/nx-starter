@@ -1,0 +1,40 @@
+<body>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title>Login</ion-card-title>
+        </ion-card-header>
+
+        <ion-card-content>
+            <ion-input
+                type="email"
+                label="Email"
+                label-placement="floating"
+                fill="outline"
+                placeholder="Enter your email"
+                errorText="Invalid email"
+                ngModel
+                email></ion-input>
+
+            <ion-input
+                type="password"
+                label="Password"
+                label-placement="floating"
+                fill="outline"
+                placeholder="Enter your Password"
+                errorText="Invalid password"
+                ngModel
+                email></ion-input>
+
+            <div>
+                <ion-button size="large" color="success" expand="block"
+                    >Login</ion-button
+                >
+                <p>
+                    <ion-text [routerLink]="['/forgot-password']" color="primary"
+                        >Forgot your password?</ion-text
+                    >
+                </p>
+            </div>
+        </ion-card-content>
+    </ion-card>
+</body>
