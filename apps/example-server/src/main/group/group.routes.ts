@@ -5,7 +5,7 @@ import { jwt } from 'hono/jwt'
 import { toInt } from 'radash'
 import { db } from '../../core/db/db'
 import {
-    groupToUsersTable,
+    groupsToUsersTable,
     groupsTable,
     permissionsTable,
     usersTable,
@@ -54,10 +54,10 @@ app.get('/', jwt({ secret }), async (c) => {
         .select({ ...getTableColumns(groupsTable) })
         .from(groupsTable)
         .innerJoin(
-            groupToUsersTable,
-            eq(groupsTable.id, groupToUsersTable.groupId),
+            groupsToUsersTable,
+            eq(groupsTable.id, groupsToUsersTable.groupId),
         )
-        .where(eq(groupToUsersTable.userId, user.sub))
+        .where(eq(groupsToUsersTable.userId, user.sub))
         .limit(10)
         .offset(0)
 
@@ -73,11 +73,14 @@ app.get('/:id', jwt({ secret }), isGroupOwner, async (c) => {
         .select({ ...getTableColumns(groupsTable) })
         .from(groupsTable)
         .innerJoin(
-            groupToUsersTable,
-            eq(groupsTable.id, groupToUsersTable.groupId),
+            groupsToUsersTable,
+            eq(groupsTable.id, groupsToUsersTable.groupId),
         )
         .where(
-            and(eq(groupToUsersTable.userId, user.sub), eq(groupsTable.id, id)),
+            and(
+                eq(groupsToUsersTable.userId, user.sub),
+                eq(groupsTable.id, id),
+            ),
         )
         .limit(1)
 
@@ -97,12 +100,12 @@ app.post('/', zValidator('json', zInsertGroup), jwt({ secret }), async (c) => {
         // check if group already created where he is a owner
         const group = await db
             .select()
-            .from(groupToUsersTable)
+            .from(groupsToUsersTable)
             .where(
                 and(
-                    eq(groupToUsersTable.userId, userId),
-                    eq(groupToUsersTable.roleId, roleId),
-                    eq(groupToUsersTable.isOwner, true),
+                    eq(groupsToUsersTable.userId, userId),
+                    eq(groupsToUsersTable.roleId, roleId),
+                    eq(groupsToUsersTable.isOwner, true),
                 ),
             )
             .limit(1)
@@ -115,7 +118,7 @@ app.post('/', zValidator('json', zInsertGroup), jwt({ secret }), async (c) => {
 
         const [newGroup] = await db.insert(groupsTable).values(body).returning()
         // Insert a new entry into group_users
-        await db.insert(groupToUsersTable).values({
+        await db.insert(groupsToUsersTable).values({
             groupId: newGroup.id,
             userId: userId,
             isOwner: true,
@@ -196,11 +199,11 @@ app.post(
 
             const [groupUser] = await db
                 .select()
-                .from(groupToUsersTable)
+                .from(groupsToUsersTable)
                 .where(
                     and(
-                        eq(groupToUsersTable.groupId, id),
-                        eq(groupToUsersTable.userId, userId),
+                        eq(groupsToUsersTable.groupId, id),
+                        eq(groupsToUsersTable.userId, userId),
                     ),
                 )
                 .limit(1)
@@ -209,7 +212,7 @@ app.post(
                 return c.json({ error: 'User already in group' }, 400)
             }
 
-            await db.insert(groupToUsersTable).values({
+            await db.insert(groupsToUsersTable).values({
                 groupId: id,
                 userId,
                 roleId,
@@ -217,18 +220,18 @@ app.post(
 
             const userGroups = await db
                 .select({ count: count() })
-                .from(groupToUsersTable)
-                .where(eq(groupToUsersTable.userId, userId))
+                .from(groupsToUsersTable)
+                .where(eq(groupsToUsersTable.userId, userId))
 
             // make the group default for the inserted user
             if (userGroups[0].count === 1) {
                 await db
-                    .update(groupToUsersTable)
+                    .update(groupsToUsersTable)
                     .set({ isDefault: true })
                     .where(
                         and(
-                            eq(groupToUsersTable.userId, userId),
-                            eq(groupToUsersTable.groupId, id),
+                            eq(groupsToUsersTable.userId, userId),
+                            eq(groupsToUsersTable.groupId, id),
                         ),
                     )
             }
