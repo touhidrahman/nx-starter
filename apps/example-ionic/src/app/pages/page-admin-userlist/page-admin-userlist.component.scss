@@ -1,0 +1,49 @@
+ion-item {
+    display: flex; /* Allow for flexible item arrangement */
+    align-items: center; /* Vertically center content within the item */
+}
+
+ion-item .label-container {
+    flex: 1; /* Allow label container to grow and fill remaining space */
+    background: linear-gradient(to right, #ffffff, #d1fad5, #ffffff);
+}
+
+ion-item .icons {
+    display: flex;
+    justify-content: flex-end; /* Align icons to the right side */
+    gap: 6px; /* Maintain spacing between icons */
+}
+ion-item .name {
+    font-weight: bold;
+}
+ion-item .mail {
+    font-size: small;
+}
+
+ion-item .icons ion-icon {
+    font-size: 24px; /* Adjust icon size as needed */
+}
+
+.title-button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Center title and button vertically */
+    padding: 10px; /* Add optional padding for spacing */
+}
+
+ion-title.title {
+    font-size: 2em; /* Increase title font size significantly */
+    font-weight: bold; /* Make title bolder */
+}
+
+.person-icon {
+    margin-right: 6px;
+}
+
+.button-invite {
+    padding: 0px 20px;
+}
+
+ion-searchbar {
+    padding: 12px 30px;
+}

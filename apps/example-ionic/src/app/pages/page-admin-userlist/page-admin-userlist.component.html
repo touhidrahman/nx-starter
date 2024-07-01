@@ -1,0 +1,26 @@
+<ion-content [fullscreen]="true">
+    <div class="title-button-container">
+        <ion-title class="title" size="large">Users</ion-title>
+        <ion-button class="button-invite" color="dark">
+            <span class="person-icon"
+                ><ion-icon name="person-add-outline"></ion-icon
+            ></span>
+            Invite User</ion-button
+        >
+    </div>
+    <ion-searchbar></ion-searchbar>
+
+    <ion-item *ngFor="let user of users">
+        <ion-avatar aria-hidden="true" slot="start">
+            <img alt="" [src]="user.avatarUrl" />
+        </ion-avatar>
+        <ion-list class="label-container">
+            <ion-label class="name">{{ user.name }}</ion-label>
+            <ion-label class="mail">{{ user.mail }}</ion-label>
+        </ion-list>
+        <ion-list class="icons">
+            <ion-icon name="create-outline"></ion-icon>
+            <ion-icon name="trash-outline"></ion-icon>
+        </ion-list>
+    </ion-item>
+</ion-content>
