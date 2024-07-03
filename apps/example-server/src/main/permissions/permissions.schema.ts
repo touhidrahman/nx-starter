@@ -1,4 +1,5 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
+import { z } from 'zod'
 import { permissionsTable } from '../../core/db/schema'
 
 export type InsertPermission = typeof permissionsTable.$inferInsert
@@ -16,4 +17,16 @@ export const zUpdatePermission = zInsertPermission.omit({
     groupId: true,
     roleId: true,
     area: true,
+})
+
+export const zDeletePermission = z.object({
+    permissions: z
+        .array(
+            z.object({
+                groupId: z.number(),
+                roleId: z.number(),
+                area: z.string(),
+            }),
+        )
+        .min(1),
 })

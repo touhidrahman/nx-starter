@@ -1,9 +1,13 @@
 import { eq, getTableColumns } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { jwt } from 'hono/jwt'
-import { z } from 'zod'
 import { db } from '../../core/db/db'
 import { applicationAreasTable } from '../../core/db/schema'
+import { isAdmin } from '../../core/middlewares/is-admin.middleware'
+import {
+    zInsertApplicationArea,
+    zUpdateApplicationArea,
+} from './application-areas.schema'
 
 const app = new Hono()
 
@@ -11,23 +15,11 @@ const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 
 const authMiddleware = jwt({ secret })
 
-// Define Zod validators here
-const zInsertApplicationArea = z.object({
-    area: z.string().min(1, { message: 'Area cannot be empty' }),
-    description: z.string().optional(),
-})
-
-const zUpdateApplicationArea = z.object({
-    area: z.string().optional(),
-    description: z.string().optional(),
-})
-
 // List all application areas
-app.get('/application-areas', authMiddleware, async (c) => {
+app.get('/application-areas', authMiddleware, isAdmin, async (c) => {
     const applicationAreas = await db
         .select({ ...getTableColumns(applicationAreasTable) })
         .from(applicationAreasTable)
-        .limit(10)
 
     return c.json({
         data: applicationAreas,
@@ -36,7 +28,7 @@ app.get('/application-areas', authMiddleware, async (c) => {
 })
 
 // Find one application area by ID
-app.get('/application-areas/:id', authMiddleware, async (c) => {
+app.get('/application-areas/:id', authMiddleware, isAdmin, async (c) => {
     const areaId = parseInt(c.req.param('id'), 10)
 
     const applicationAreas = await db
@@ -56,7 +48,7 @@ app.get('/application-areas/:id', authMiddleware, async (c) => {
 })
 
 // Create a new application area
-app.post('/application-areas', authMiddleware, async (c) => {
+app.post('/application-areas', authMiddleware, isAdmin, async (c) => {
     const body = await c.req.json()
     const parsedBody = zInsertApplicationArea.parse(body)
 
@@ -72,7 +64,7 @@ app.post('/application-areas', authMiddleware, async (c) => {
 })
 
 // Update an application area
-app.put('/application-areas/:id', authMiddleware, async (c) => {
+app.put('/application-areas/:id', authMiddleware, isAdmin, async (c) => {
     const body = await c.req.json()
     const parsedBody = zUpdateApplicationArea.parse(body)
     const areaId = parseInt(c.req.param('id'), 10)
@@ -90,7 +82,7 @@ app.put('/application-areas/:id', authMiddleware, async (c) => {
 })
 
 // Delete an application area
-app.delete('/application-areas/:id', authMiddleware, async (c) => {
+app.delete('/application-areas/:id', authMiddleware, isAdmin, async (c) => {
     const areaId = parseInt(c.req.param('id'), 10)
 
     await db
