@@ -62,8 +62,12 @@ const routes: Routes = [
             import('./pages/page-case/page-case.component').then(
                 (m) => m.PageCaseComponent)
     },
-
-
+    {
+        path: 'admin/userlist',
+        loadComponent: () =>
+            import('./pages/page-admin-userlist/page-admin-userlist.component').then(
+                (m) => m.PageAdminUserlistComponent)
+    },
 ]
 
 @NgModule({
