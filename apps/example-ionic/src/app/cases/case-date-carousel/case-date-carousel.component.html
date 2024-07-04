@@ -1,0 +1,18 @@
+<div *ngIf="slides.length > 0">
+    <swiper-container
+        [modules]="swipeModules"
+        [slidesPerView]="1.2"
+        [autoplay]="true">
+        <swiper-slide *ngFor="let slide of slides">
+            <ion-card class="card">
+                <ion-card-header>
+                    <ion-card-title class="card-title">{{ slide.title }}</ion-card-title>
+                </ion-card-header>
+
+                <ion-card-content class="card-content">
+                    {{ slide.content }}
+                </ion-card-content>
+            </ion-card>
+        </swiper-slide>
+    </swiper-container>
+</div>

@@ -1,0 +1,25 @@
+.card{
+    background: linear-gradient(
+        to bottom right,
+        white,
+        rgb(209, 255, 224),
+        white
+    );
+    height: 13rem;
+}
+
+.card-title{
+    text-align: center;
+    font-weight: 500;
+    font-size: 3.75rem;
+    line-height: 1;
+}
+
+
+.card-content {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* number of lines to show */
+            line-clamp: 4;
+    -webkit-box-orient: vertical;
+}

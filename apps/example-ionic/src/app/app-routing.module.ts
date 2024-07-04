@@ -51,13 +51,23 @@ const routes: Routes = [
                 (m) => m.PageAccountVerifiedComponent)
     },
     {
+        path: 'dashboard/cases',
+        loadComponent: () =>
+            import('./pages/page-cases/page-cases.component').then(
+                (m) => m.PageCasesComponent)
+    },
+    {
+        path: 'dashboard/cases/:id',
+        loadComponent: () =>
+            import('./pages/page-case/page-case.component').then(
+                (m) => m.PageCaseComponent)
+    },
+    {
         path: 'admin/userlist',
         loadComponent: () =>
             import('./pages/page-admin-userlist/page-admin-userlist.component').then(
                 (m) => m.PageAdminUserlistComponent)
     },
-
-
 ]
 
 @NgModule({
