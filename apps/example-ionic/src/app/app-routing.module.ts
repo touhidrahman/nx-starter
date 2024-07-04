@@ -50,6 +50,12 @@ const routes: Routes = [
             import('./pages/page-account-verified/page-account-verified.component').then(
                 (m) => m.PageAccountVerifiedComponent)
     },
+    {
+        path: 'admin/userlist',
+        loadComponent: () =>
+            import('./pages/page-admin-userlist/page-admin-userlist.component').then(
+                (m) => m.PageAdminUserlistComponent)
+    },
 
 
 ]
