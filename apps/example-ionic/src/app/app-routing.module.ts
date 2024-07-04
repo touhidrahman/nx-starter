@@ -50,6 +50,18 @@ const routes: Routes = [
             import('./pages/page-account-verified/page-account-verified.component').then(
                 (m) => m.PageAccountVerifiedComponent)
     },
+    {
+        path: 'dashboard/cases',
+        loadComponent: () =>
+            import('./pages/page-cases/page-cases.component').then(
+                (m) => m.PageCasesComponent)
+    },
+    {
+        path: 'dashboard/cases/:id',
+        loadComponent: () =>
+            import('./pages/page-case/page-case.component').then(
+                (m) => m.PageCaseComponent)
+    },
 
 
 ]
