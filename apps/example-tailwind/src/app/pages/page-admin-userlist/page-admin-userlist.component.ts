@@ -18,6 +18,23 @@ import { HlmButtonDirective } from '@spartan-ng/ui-button-helm'
 import { provideIcons } from '@ng-icons/core'
 import { HlmIconComponent } from '@spartan-ng/ui-icon-helm'
 import { lucideCog, lucideSearch, lucideTrash2 } from '@ng-icons/lucide'
+import { HlmBadgeDirective } from '@spartan-ng/ui-badge-helm'
+import {
+    HlmCaptionComponent,
+    HlmTableComponent,
+    HlmTdComponent,
+    HlmThComponent,
+    HlmTrowComponent,
+} from '@spartan-ng/ui-table-helm'
+import { HlmCheckboxComponent } from '../../../../../../libs/ui/ui-checkbox-helm/src/lib/hlm-checkbox.component'
+import { FormsModule } from '@angular/forms'
+import { BrnRadioComponent } from '@spartan-ng/ui-radiogroup-brain'
+import {
+    HlmRadioDirective,
+    HlmRadioIndicatorComponent,
+} from '@spartan-ng/ui-radiogroup-helm'
+import { BrnSelectImports } from '@spartan-ng/ui-select-brain'
+import { HlmSelectImports } from '@spartan-ng/ui-select-helm'
 
 interface User {
     firstName: string
@@ -30,28 +47,58 @@ interface User {
 @Component({
     selector: 'app-page-admin-userlist',
     standalone: true,
+    templateUrl: './page-admin-userlist.component.html',
+    styleUrl: './page-admin-userlist.component.scss',
+    providers: [provideIcons({ lucideCog, lucideTrash2, lucideSearch })],
     imports: [
         CommonModule,
         BrnDialogTriggerDirective,
         BrnDialogContentDirective,
         HlmIconComponent,
-
+        HlmBadgeDirective,
         HlmDialogComponent,
         HlmDialogContentComponent,
         HlmDialogHeaderComponent,
         HlmDialogFooterComponent,
         HlmDialogTitleDirective,
         HlmDialogDescriptionDirective,
-
         HlmLabelDirective,
         HlmInputDirective,
         HlmButtonDirective,
+        HlmTableComponent,
+        HlmTrowComponent,
+        HlmThComponent,
+        HlmTdComponent,
+        HlmCaptionComponent,
+        HlmCheckboxComponent,
+        FormsModule,
+        BrnRadioComponent,
+        HlmRadioIndicatorComponent,
+        HlmRadioDirective,
+        BrnSelectImports,
+        HlmSelectImports,
     ],
-    templateUrl: './page-admin-userlist.component.html',
-    styleUrl: './page-admin-userlist.component.scss',
-    providers: [provideIcons({ lucideCog, lucideTrash2, lucideSearch })],
 })
 export class PageAdminUserlistComponent {
+    permissions = [
+        {
+            name: 'Case',
+            read: false,
+            create: false,
+            edit: false,
+            delete: false,
+            none: false,
+        },
+        {
+            name: 'Contact',
+            read: false,
+            create: false,
+            edit: false,
+            delete: false,
+            none: false,
+        },
+    ]
+
     users: User[] = [
         {
             firstName: 'John',

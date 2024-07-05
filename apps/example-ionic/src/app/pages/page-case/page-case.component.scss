@@ -1,0 +1,109 @@
+.case-text {
+    display: grid;
+    font-weight: 400;
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+
+.header-part {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.date {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+
+.tribunal {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+}
+
+.case-card {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.title {
+    text-align: center;
+    font-weight: 700;
+}
+
+.name {
+    text-align: center;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1rem;
+    color: rgb(11, 49, 0);
+}
+
+.card-pinned {
+    background: linear-gradient(
+        to bottom right,
+        white,
+        rgb(209, 255, 224),
+        white
+    );
+    height: 6rem;
+    margin-top: 1rem;
+}
+.overview-card {
+    background: linear-gradient(
+        to bottom right,
+        white,
+        rgb(209, 255, 224),
+        white
+    );
+    height: 6rem;
+    margin-top: 1rem;
+}
+
+.card {
+    background: linear-gradient(
+        to bottom right,
+        white,
+        rgb(209, 255, 224),
+        white
+    );
+    height: 8rem;
+    margin-top: 1rem;
+}
+
+.text-vs {
+    font-weight: 700;
+}
+
+.title-text {
+    font-weight: 700;
+    margin-left: 1rem;
+}
+
+.overview {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    width: 100%;
+
+}
+
+.documents-section {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    width: 50%;
+}
+
+.notes-history {
+    display: flex;
+    justify-content: space-between;
+}

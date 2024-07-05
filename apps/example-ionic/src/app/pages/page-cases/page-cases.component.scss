@@ -1,0 +1,42 @@
+.title-section {
+    display: flex;
+    align-items: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    justify-content: space-between;
+}
+.title {
+    font-weight: 700;
+}
+.title-pin {
+    font-weight: 700;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.content-pinned {
+    margin-top: 4rem;
+}
+
+.text-pinned {
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+}
+
+.card-pinned {
+    background: linear-gradient(
+        to bottom right,
+        white,
+        rgb(190, 255, 212),
+        white
+    );
+}
+
+.carousel{
+    margin-bottom: 1.5rem;
+}

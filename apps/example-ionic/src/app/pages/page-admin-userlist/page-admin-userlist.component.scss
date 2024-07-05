@@ -1,0 +1,53 @@
+ion-item {
+    display: flex;
+    align-items: center;
+}
+
+ion-item .label-container {
+    flex: 1;
+    padding: 1rem;
+    background: linear-gradient(to right, #ffffff, #b7ffc9, #ffffff);
+}
+
+ion-item .icons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 6px;
+}
+ion-item .name {
+    font-weight: bold;
+}
+ion-item .mail {
+    font-size: small;
+}
+
+ion-item .icons ion-icon {
+    font-size: 24px;
+}
+
+.title-button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+ion-title.title {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.person-icon {
+    margin-right: 6px;
+}
+.button-invite {
+    margin-right: 1.5rem;
+}
+
+ion-searchbar {
+    padding: 12px 30px;
+}
+
+
