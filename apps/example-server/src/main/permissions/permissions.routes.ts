@@ -17,7 +17,7 @@ app.get('/permissions', authMiddleware, async (c) => {
     const permissions = await db
         .select({ ...getTableColumns(permissionsTable) })
         .from(permissionsTable)
-        .limit(100) // Adjust limit as needed
+        .limit(100)
 
     return c.json({ data: permissions, message: 'Permissions list' })
 })

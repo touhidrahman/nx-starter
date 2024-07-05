@@ -17,7 +17,7 @@ app.get('/tasks', authMiddleware, async (c) => {
     const tasks = await db
         .select({ ...getTableColumns(tasksTable) })
         .from(tasksTable)
-        .limit(100) // Adjust limit as needed
+        .limit(100)
 
     return c.json({ data: tasks, message: 'Tasks list' })
 })
@@ -52,7 +52,7 @@ app.post(
     },
 )
 
-// PUT /tasks/:id - update
+// PATCH /tasks/:id - update
 app.patch(
     '/tasks/:id',
     zValidator('json', zUpdateTask),
