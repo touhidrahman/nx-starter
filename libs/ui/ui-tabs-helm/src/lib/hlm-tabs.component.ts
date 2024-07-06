@@ -13,6 +13,7 @@ import { BrnTabsDirective } from '@spartan-ng/ui-tabs-brain'
                 'activationMode',
                 'brnTabs: tab',
             ],
+            outputs: ['tabActivated'],
         },
     ],
     template: '<ng-content/>',
