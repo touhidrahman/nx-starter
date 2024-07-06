@@ -486,17 +486,17 @@ export const messagesTable = pgTable('messages', {
     clientUserId: integer('client_user_id')
         .references(() => usersTable.id)
         .notNull(),
-    ccUserId: integer('cc_user_id')
-        .array()
-        .references(() => usersTable.id), // Array of Foreign Keys
+    // ccUserId: integer('cc_user_id')
+    //     .array()
+    //     .references(() => usersTable.id), // Array of Foreign Keys
     readableByVendorGroup: boolean('readable_by_vendor_group').notNull(),
     readableByClientGroup: boolean('readable_by_client_group').notNull(),
     date: timestamp('date').notNull(),
     replyByDate: timestamp('reply_by_date'),
     message: text('message').notNull(),
-    attachmentDocumentSharingIds: integer('attachment_document_sharing_ids')
-        .array()
-        .references(() => documentSharingTable.id), // Array of Foreign Keys
+    // attachmentDocumentSharingIds: integer('attachment_document_sharing_ids')
+    //     .array()
+    //     .references(() => documentSharingTable.id), // Array of Foreign Keys
 })
 
 export const messagesRelations = relations(messagesTable, ({ one, many }) => ({
