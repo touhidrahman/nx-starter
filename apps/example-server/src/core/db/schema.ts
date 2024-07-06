@@ -351,7 +351,6 @@ export const eventsTable = pgTable('events', {
         .references(() => groupsTable.id)
         .notNull(),
     status: statusEnum('status').notNull(),
-    // caseId: integer('case_id').references(() => casesTable.id),
     caseId: integer('case_id')
         .references(() => casesTable.id)
         .notNull(),
