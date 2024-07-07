@@ -1,0 +1,54 @@
+.embla__slide {
+    flex: 0 0 100%;
+}
+.carousel-section {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    border-radius: 0.75rem;
+
+    padding: 1rem;
+
+    backdrop-filter: blur(10px);
+}
+
+.embla {
+    width: 100%;
+    overflow: hidden;
+}
+
+.embla__container {
+    display: flex;
+}
+
+.embla__slide {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    align-items: center;
+}
+
+.slide-content {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.text-group {
+    text-align: start;
+}
+
+.text-bold {
+    font-weight: bold;
+    color: rgba(226, 232, 240, 1);
+}
+
+.text-small {
+    font-size: 0.875rem;
+    color: rgba(203, 213, 225, 1);
+}
+
+.text-main {
+    margin-top: 0.5rem;
+    color: white;
+}

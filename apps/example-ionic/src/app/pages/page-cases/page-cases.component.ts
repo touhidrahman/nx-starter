@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { IonicModule } from '@ionic/angular'
 import { CaseDateCarouselComponent } from '../../cases/case-date-carousel/case-date-carousel.component'
+import { CasesCarouselComponent } from "../../cases/cases-carousel/cases-carousel.component";
 
 @Component({
     selector: 'myorg-page-cases',
     standalone: true,
-    imports: [CommonModule, IonicModule, CaseDateCarouselComponent],
     templateUrl: './page-cases.component.html',
     styleUrl: './page-cases.component.scss',
+    imports: [CommonModule, IonicModule, CaseDateCarouselComponent, CasesCarouselComponent]
 })
 export class PageCasesComponent implements OnInit {
     slides: any[] = []
