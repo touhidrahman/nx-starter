@@ -22,6 +22,12 @@ const checkCaseOwnershipMiddleware = async (ctx: Context, next: Next) => {
     }
 
     const caseId = parseInt(ctx.req.param('id'), 10)
+    if (isNaN(caseId)) {
+        return ctx.json(
+            { error: 'Invalid ID', message: 'Case ID must be a number' },
+            400,
+        )
+    }
 
     const caseItem = await db
         .select({ ...getTableColumns(casesTable) })
@@ -71,19 +77,13 @@ app.get('/:id', authMiddleware, checkCaseOwnershipMiddleware, async (c) => {
 })
 
 // POST  - create one
-app.post(
-    '',
-    zValidator('json', zInsertCase),
-    authMiddleware,
-    checkCaseOwnershipMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
+app.post('', zValidator('json', zInsertCase), authMiddleware, async (c) => {
+    const body = c.req.valid('json')
 
-        const newCase = await db.insert(casesTable).values(body).returning()
+    const newCase = await db.insert(casesTable).values(body).returning()
 
-        return c.json({ data: newCase, message: 'Case created' })
-    },
-)
+    return c.json({ data: newCase, message: 'Case created' })
+})
 
 // PATCH /:id - update
 app.patch(
@@ -115,20 +115,14 @@ app.delete('/:id', authMiddleware, checkCaseOwnershipMiddleware, async (c) => {
 })
 
 // DELETE  - delete many
-app.delete(
-    '',
-    zValidator('json', zDeleteCase),
-    authMiddleware,
-    checkCaseOwnershipMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
+app.delete('', zValidator('json', zDeleteCase), authMiddleware, async (c) => {
+    const body = c.req.valid('json')
 
-        for (const caseId of body.caseIds) {
-            await db.delete(casesTable).where(eq(casesTable.id, caseId))
-        }
+    for (const caseId of body.caseIds) {
+        await db.delete(casesTable).where(eq(casesTable.id, caseId))
+    }
 
-        return c.json({ message: 'Cases deleted' })
-    },
-)
+    return c.json({ message: 'Cases deleted' })
+})
 
 export default app
