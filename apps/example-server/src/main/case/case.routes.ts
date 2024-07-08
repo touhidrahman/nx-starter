@@ -1,6 +1,6 @@
 import { zValidator } from '@hono/zod-validator'
 import { eq, getTableColumns } from 'drizzle-orm'
-import { Hono } from 'hono'
+import { Context, Hono, Next } from 'hono'
 import { jwt } from 'hono/jwt'
 import { db } from '../../core/db/db'
 import { casesTable } from '../../core/db/schema'
@@ -12,8 +12,40 @@ const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 
 const authMiddleware = jwt({ secret })
 
-// GET /cases - list all
-app.get('/cases', authMiddleware, async (c) => {
+const checkCaseOwnershipMiddleware = async (ctx: Context, next: Next) => {
+    const payload = await ctx.get('jwtPayload')
+    if (!payload) {
+        return ctx.json(
+            { error: 'Unauthorized', message: 'Not authenticated' },
+            403,
+        )
+    }
+
+    const caseId = parseInt(ctx.req.param('id'), 10)
+
+    const caseItem = await db
+        .select({ ...getTableColumns(casesTable) })
+        .from(casesTable)
+        .where(eq(casesTable.id, caseId))
+        .limit(1)
+
+    if (caseItem.length === 0) {
+        return ctx.json({ error: 'Not found', message: 'Case not found' }, 404)
+    }
+
+    if (caseItem[0].groupId !== payload.groupId) {
+        return ctx.json(
+            { error: 'Unauthorized', message: 'Access denied' },
+            403,
+        )
+    }
+
+    ctx.set('caseItem', caseItem[0])
+    await next()
+}
+
+// GET  - list all
+app.get('', authMiddleware, async (c) => {
     const cases = await db
         .select({ ...getTableColumns(casesTable) })
         .from(casesTable)
@@ -22,8 +54,8 @@ app.get('/cases', authMiddleware, async (c) => {
     return c.json({ data: cases, message: 'Cases list' })
 })
 
-// GET /cases/:id - find one
-app.get('/cases/:id', authMiddleware, async (c) => {
+// GET /:id - find one
+app.get('/:id', authMiddleware, checkCaseOwnershipMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
     const caseItem = await db
         .select({ ...getTableColumns(casesTable) })
@@ -38,11 +70,12 @@ app.get('/cases/:id', authMiddleware, async (c) => {
     return c.json({ data: caseItem[0], message: 'Case found' })
 })
 
-// POST /cases - create one
+// POST  - create one
 app.post(
-    '/cases',
+    '',
     zValidator('json', zInsertCase),
     authMiddleware,
+    checkCaseOwnershipMiddleware,
     async (c) => {
         const body = c.req.valid('json')
 
@@ -52,11 +85,12 @@ app.post(
     },
 )
 
-// PATCH /cases/:id - update
+// PATCH /:id - update
 app.patch(
-    '/cases/:id',
+    '/:id',
     zValidator('json', zUpdateCase),
     authMiddleware,
+    checkCaseOwnershipMiddleware,
     async (c) => {
         const id = parseInt(c.req.param('id'), 10)
         const body = c.req.valid('json')
@@ -71,8 +105,8 @@ app.patch(
     },
 )
 
-// DELETE /cases/:id - delete
-app.delete('/cases/:id', authMiddleware, async (c) => {
+// DELETE /:id - delete
+app.delete('/:id', authMiddleware, checkCaseOwnershipMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
 
     await db.delete(casesTable).where(eq(casesTable.id, id))
@@ -80,11 +114,12 @@ app.delete('/cases/:id', authMiddleware, async (c) => {
     return c.json({ message: 'Case deleted' })
 })
 
-// DELETE /cases - delete many
+// DELETE  - delete many
 app.delete(
-    '/cases',
+    '',
     zValidator('json', zDeleteCase),
     authMiddleware,
+    checkCaseOwnershipMiddleware,
     async (c) => {
         const body = c.req.valid('json')
 

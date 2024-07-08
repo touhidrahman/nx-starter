@@ -17,7 +17,7 @@ const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 const authMiddleware = jwt({ secret })
 
 // GET /subscriptions - list all
-app.get('/subscriptions', authMiddleware, async (c) => {
+app.get('', authMiddleware, async (c) => {
     const subscriptions = await db
         .select({ ...getTableColumns(subscriptionsTable) })
         .from(subscriptionsTable)
@@ -27,7 +27,7 @@ app.get('/subscriptions', authMiddleware, async (c) => {
 })
 
 // GET /subscriptions/:id - find one
-app.get('/subscriptions/:id', authMiddleware, async (c) => {
+app.get('/:id', authMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
     const subscription = await db
         .select({ ...getTableColumns(subscriptionsTable) })
@@ -44,7 +44,7 @@ app.get('/subscriptions/:id', authMiddleware, async (c) => {
 
 // POST /subscriptions - create one
 app.post(
-    '/subscriptions',
+    '',
     zValidator('json', zInsertSubscription),
     authMiddleware,
     async (c) => {
@@ -64,7 +64,7 @@ app.post(
 
 // PATCH /subscriptions/:id - update
 app.patch(
-    '/subscriptions/:id',
+    '/:id',
     zValidator('json', zUpdateSubscription),
     authMiddleware,
     async (c) => {
@@ -85,7 +85,7 @@ app.patch(
 )
 
 // DELETE /subscriptions/:id - delete
-app.delete('/subscriptions/:id', authMiddleware, async (c) => {
+app.delete('/:id', authMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
 
     await db.delete(subscriptionsTable).where(eq(subscriptionsTable.id, id))
@@ -95,7 +95,7 @@ app.delete('/subscriptions/:id', authMiddleware, async (c) => {
 
 // DELETE /subscriptions - delete many
 app.delete(
-    '/subscriptions',
+    '',
     zValidator('json', zDeleteSubscription),
     authMiddleware,
     async (c) => {

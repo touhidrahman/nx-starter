@@ -13,7 +13,7 @@ const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 const authMiddleware = jwt({ secret })
 
 // GET /courts - list all
-app.get('/courts', authMiddleware, async (c) => {
+app.get('', authMiddleware, async (c) => {
     const courts = await db
         .select({ ...getTableColumns(courtsTable) })
         .from(courtsTable)
@@ -22,7 +22,7 @@ app.get('/courts', authMiddleware, async (c) => {
 })
 
 // GET /courts/:id - find one
-app.get('/courts/:id', authMiddleware, async (c) => {
+app.get('/:id', authMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
     const court = await db
         .select({ ...getTableColumns(courtsTable) })
@@ -38,18 +38,13 @@ app.get('/courts/:id', authMiddleware, async (c) => {
 })
 
 // POST /courts - create one
-app.post(
-    '/courts',
-    zValidator('json', zInsertCourt),
-    authMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
+app.post('', zValidator('json', zInsertCourt), authMiddleware, async (c) => {
+    const body = c.req.valid('json')
 
-        const newCourt = await db.insert(courtsTable).values(body).returning()
+    const newCourt = await db.insert(courtsTable).values(body).returning()
 
-        return c.json({ data: newCourt, message: 'Court created' })
-    },
-)
+    return c.json({ data: newCourt, message: 'Court created' })
+})
 
 // PATCH /courts/:id - update
 app.patch(
@@ -71,7 +66,7 @@ app.patch(
 )
 
 // DELETE /courts/:id - delete
-app.delete('/courts/:id', authMiddleware, async (c) => {
+app.delete('/:id', authMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
 
     await db.delete(courtsTable).where(eq(courtsTable.id, id))
@@ -80,19 +75,14 @@ app.delete('/courts/:id', authMiddleware, async (c) => {
 })
 
 // DELETE /courts - delete many
-app.delete(
-    '/courts',
-    zValidator('json', zDeleteCourt),
-    authMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
+app.delete('', zValidator('json', zDeleteCourt), authMiddleware, async (c) => {
+    const body = c.req.valid('json')
 
-        for (const courtId of body.courtIds) {
-            await db.delete(courtsTable).where(eq(courtsTable.id, courtId))
-        }
+    for (const courtId of body.courtIds) {
+        await db.delete(courtsTable).where(eq(courtsTable.id, courtId))
+    }
 
-        return c.json({ message: 'Court entries deleted' })
-    },
-)
+    return c.json({ message: 'Court entries deleted' })
+})
 
 export default app
