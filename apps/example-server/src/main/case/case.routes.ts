@@ -52,9 +52,11 @@ const checkCaseOwnershipMiddleware = async (ctx: Context, next: Next) => {
 
 // GET  - list all
 app.get('', authMiddleware, async (c) => {
+    const payload = await c.get('jwtPayload')
     const cases = await db
         .select({ ...getTableColumns(casesTable) })
         .from(casesTable)
+        .where(eq(casesTable.groupId, payload.groupId))
         .limit(100)
 
     return c.json({ data: cases, message: 'Cases list' })
