@@ -1,6 +1,6 @@
 import { zValidator } from '@hono/zod-validator'
 import { eq, getTableColumns } from 'drizzle-orm'
-import { Hono } from 'hono'
+import { Context, Hono, Next } from 'hono'
 import { jwt } from 'hono/jwt'
 import { db } from '../../core/db/db'
 import { casesTable } from '../../core/db/schema'
@@ -12,18 +12,58 @@ const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 
 const authMiddleware = jwt({ secret })
 
-// GET /cases - list all
-app.get('/cases', authMiddleware, async (c) => {
+const checkCaseOwnershipMiddleware = async (ctx: Context, next: Next) => {
+    const payload = await ctx.get('jwtPayload')
+    if (!payload) {
+        return ctx.json(
+            { error: 'Unauthorized', message: 'Not authenticated' },
+            403,
+        )
+    }
+
+    const caseId = parseInt(ctx.req.param('id'), 10)
+    if (isNaN(caseId)) {
+        return ctx.json(
+            { error: 'Invalid ID', message: 'Case ID must be a number' },
+            400,
+        )
+    }
+
+    const caseItem = await db
+        .select({ ...getTableColumns(casesTable) })
+        .from(casesTable)
+        .where(eq(casesTable.id, caseId))
+        .limit(1)
+
+    if (caseItem.length === 0) {
+        return ctx.json({ error: 'Not found', message: 'Case not found' }, 404)
+    }
+
+    if (caseItem[0].groupId !== payload.groupId) {
+        return ctx.json(
+            { error: 'Unauthorized', message: 'Access denied' },
+            403,
+        )
+    }
+
+    ctx.set('caseItem', caseItem[0])
+    await next()
+}
+
+// GET  - list all
+app.get('', authMiddleware, async (c) => {
+    const payload = await c.get('jwtPayload')
     const cases = await db
         .select({ ...getTableColumns(casesTable) })
         .from(casesTable)
+        .where(eq(casesTable.groupId, payload.groupId))
         .limit(100)
 
     return c.json({ data: cases, message: 'Cases list' })
 })
 
-// GET /cases/:id - find one
-app.get('/cases/:id', authMiddleware, async (c) => {
+// GET /:id - find one
+app.get('/:id', authMiddleware, checkCaseOwnershipMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
     const caseItem = await db
         .select({ ...getTableColumns(casesTable) })
@@ -38,25 +78,21 @@ app.get('/cases/:id', authMiddleware, async (c) => {
     return c.json({ data: caseItem[0], message: 'Case found' })
 })
 
-// POST /cases - create one
-app.post(
-    '/cases',
-    zValidator('json', zInsertCase),
-    authMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
+// POST  - create one
+app.post('', zValidator('json', zInsertCase), authMiddleware, async (c) => {
+    const body = c.req.valid('json')
 
-        const newCase = await db.insert(casesTable).values(body).returning()
+    const newCase = await db.insert(casesTable).values(body).returning()
 
-        return c.json({ data: newCase, message: 'Case created' })
-    },
-)
+    return c.json({ data: newCase, message: 'Case created' })
+})
 
-// PATCH /cases/:id - update
+// PATCH /:id - update
 app.patch(
-    '/cases/:id',
+    '/:id',
     zValidator('json', zUpdateCase),
     authMiddleware,
+    checkCaseOwnershipMiddleware,
     async (c) => {
         const id = parseInt(c.req.param('id'), 10)
         const body = c.req.valid('json')
@@ -71,8 +107,8 @@ app.patch(
     },
 )
 
-// DELETE /cases/:id - delete
-app.delete('/cases/:id', authMiddleware, async (c) => {
+// DELETE /:id - delete
+app.delete('/:id', authMiddleware, checkCaseOwnershipMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
 
     await db.delete(casesTable).where(eq(casesTable.id, id))
@@ -80,20 +116,15 @@ app.delete('/cases/:id', authMiddleware, async (c) => {
     return c.json({ message: 'Case deleted' })
 })
 
-// DELETE /cases - delete many
-app.delete(
-    '/cases',
-    zValidator('json', zDeleteCase),
-    authMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
+// DELETE  - delete many
+app.delete('', zValidator('json', zDeleteCase), authMiddleware, async (c) => {
+    const body = c.req.valid('json')
 
-        for (const caseId of body.caseIds) {
-            await db.delete(casesTable).where(eq(casesTable.id, caseId))
-        }
+    for (const caseId of body.caseIds) {
+        await db.delete(casesTable).where(eq(casesTable.id, caseId))
+    }
 
-        return c.json({ message: 'Cases deleted' })
-    },
-)
+    return c.json({ message: 'Cases deleted' })
+})
 
 export default app

@@ -17,7 +17,7 @@ const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 const authMiddleware = jwt({ secret })
 
 // GET /profile - list all
-app.get('/profile', authMiddleware, async (c) => {
+app.get('', authMiddleware, async (c) => {
     const profiles = await db
         .select({ ...getTableColumns(profileTable) })
         .from(profileTable)
@@ -26,7 +26,7 @@ app.get('/profile', authMiddleware, async (c) => {
 })
 
 // GET /profile/:id - find one
-app.get('/profile/:id', authMiddleware, async (c) => {
+app.get('/:id', authMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
     const profile = await db
         .select({ ...getTableColumns(profileTable) })
@@ -42,25 +42,17 @@ app.get('/profile/:id', authMiddleware, async (c) => {
 })
 
 // POST /profile - create one
-app.post(
-    '/profile',
-    zValidator('json', zInsertProfile),
-    authMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
+app.post('', zValidator('json', zInsertProfile), authMiddleware, async (c) => {
+    const body = c.req.valid('json')
 
-        const newProfile = await db
-            .insert(profileTable)
-            .values(body)
-            .returning()
+    const newProfile = await db.insert(profileTable).values(body).returning()
 
-        return c.json({ data: newProfile, message: 'Profile created' })
-    },
-)
+    return c.json({ data: newProfile, message: 'Profile created' })
+})
 
 // PATCH /profile/:id - update
 app.patch(
-    '/profile/:id',
+    '/:id',
     zValidator('json', zUpdateProfile),
     authMiddleware,
     async (c) => {
@@ -78,7 +70,7 @@ app.patch(
 )
 
 // DELETE /profile/:id - delete
-app.delete('/profile/:id', authMiddleware, async (c) => {
+app.delete('/:id', authMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
 
     await db.delete(profileTable).where(eq(profileTable.userId, id))
@@ -88,7 +80,7 @@ app.delete('/profile/:id', authMiddleware, async (c) => {
 
 // DELETE /profile - delete many
 app.delete(
-    '/profile',
+    '',
     zValidator('json', zDeleteProfile),
     authMiddleware,
     async (c) => {

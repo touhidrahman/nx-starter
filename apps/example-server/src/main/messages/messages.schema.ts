@@ -5,18 +5,7 @@ import { messagesTable } from '../../core/db/schema'
 export type InsertMessage = typeof messagesTable.$inferInsert
 export type SelectMessage = typeof messagesTable.$inferSelect
 
-export const zInsertMessage = createInsertSchema(messagesTable, {
-    vendorUserId: (schema) => schema.vendorUserId,
-    clientUserId: (schema) => schema.clientUserId,
-    ccUserId: (schema) => schema.ccUserId,
-    readableByVendorGroup: (schema) => schema.readableByVendorGroup,
-    readableByClientGroup: (schema) => schema.readableByClientGroup,
-    date: (schema) => schema.date,
-    replyByDate: (schema) => schema.replyByDate,
-    message: (schema) => schema.message,
-    attachmentDocumentSharingIds: (schema) =>
-        schema.attachmentDocumentSharingIds,
-})
+export const zInsertMessage = createInsertSchema(messagesTable)
 
 export const zSelectMessage = createSelectSchema(messagesTable)
 

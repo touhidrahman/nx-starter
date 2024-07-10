@@ -16,7 +16,7 @@ const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 const authMiddleware = jwt({ secret })
 
 // List all application areas
-app.get('/application-areas', authMiddleware, isAdmin, async (c) => {
+app.get('', authMiddleware, isAdmin, async (c) => {
     const applicationAreas = await db
         .select({ ...getTableColumns(applicationAreasTable) })
         .from(applicationAreasTable)
@@ -28,7 +28,7 @@ app.get('/application-areas', authMiddleware, isAdmin, async (c) => {
 })
 
 // Find one application area by ID
-app.get('/application-areas/:id', authMiddleware, isAdmin, async (c) => {
+app.get('/:id', authMiddleware, isAdmin, async (c) => {
     const areaId = parseInt(c.req.param('id'), 10)
 
     const applicationAreas = await db
@@ -48,7 +48,7 @@ app.get('/application-areas/:id', authMiddleware, isAdmin, async (c) => {
 })
 
 // Create a new application area
-app.post('/application-areas', authMiddleware, isAdmin, async (c) => {
+app.post('', authMiddleware, isAdmin, async (c) => {
     const body = await c.req.json()
     const parsedBody = zInsertApplicationArea.parse(body)
 
@@ -64,7 +64,7 @@ app.post('/application-areas', authMiddleware, isAdmin, async (c) => {
 })
 
 // Update an application area
-app.put('/application-areas/:id', authMiddleware, isAdmin, async (c) => {
+app.put('/:id', authMiddleware, isAdmin, async (c) => {
     const body = await c.req.json()
     const parsedBody = zUpdateApplicationArea.parse(body)
     const areaId = parseInt(c.req.param('id'), 10)
@@ -82,7 +82,7 @@ app.put('/application-areas/:id', authMiddleware, isAdmin, async (c) => {
 })
 
 // Delete an application area
-app.delete('/application-areas/:id', authMiddleware, isAdmin, async (c) => {
+app.delete('/:id', authMiddleware, isAdmin, async (c) => {
     const areaId = parseInt(c.req.param('id'), 10)
 
     await db

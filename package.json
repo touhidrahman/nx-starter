@@ -49,6 +49,8 @@
         "@ngneat/dialog": "^5.1.0",
         "@ngneat/overview": "^5.1.1",
         "@ngneat/until-destroy": "^10.0.0",
+        "@ngrx/operators": "^18.0.1",
+        "@ngrx/signals": "^17.2.0",
         "@ngxpert/cmdk": "^2.0.0",
         "@nx/angular": "19.4.1",
         "@spartan-ng/ui-accordion-brain": "0.0.1-alpha.352",

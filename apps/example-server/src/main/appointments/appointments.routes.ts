@@ -17,7 +17,7 @@ const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 const authMiddleware = jwt({ secret })
 
 // GET /appointments - list all
-app.get('/appointments', authMiddleware, async (c) => {
+app.get('', authMiddleware, async (c) => {
     const appointments = await db
         .select({ ...getTableColumns(appointmentsTable) })
         .from(appointmentsTable)
@@ -27,7 +27,7 @@ app.get('/appointments', authMiddleware, async (c) => {
 })
 
 // GET /appointments/:id - find one
-app.get('/appointments/:id', authMiddleware, async (c) => {
+app.get('/:id', authMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
     const appointment = await db
         .select({ ...getTableColumns(appointmentsTable) })
@@ -44,7 +44,7 @@ app.get('/appointments/:id', authMiddleware, async (c) => {
 
 // POST /appointments - create one
 app.post(
-    '/appointments',
+    '',
     zValidator('json', zInsertAppointment),
     authMiddleware,
     async (c) => {
@@ -61,7 +61,7 @@ app.post(
 
 // PATCH /appointments/:id - update
 app.patch(
-    '/appointments/:id',
+    '/:id',
     zValidator('json', zUpdateAppointment),
     authMiddleware,
     async (c) => {
@@ -82,7 +82,7 @@ app.patch(
 )
 
 // DELETE /appointments/:id - delete
-app.delete('/appointments/:id', authMiddleware, async (c) => {
+app.delete('/:id', authMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
 
     await db.delete(appointmentsTable).where(eq(appointmentsTable.id, id))
@@ -92,7 +92,7 @@ app.delete('/appointments/:id', authMiddleware, async (c) => {
 
 // DELETE /appointments - delete many
 app.delete(
-    '/appointments',
+    '',
     zValidator('json', zDeleteAppointment),
     authMiddleware,
     async (c) => {
