@@ -5,16 +5,7 @@ import { documentsTable } from '../../core/db/schema'
 export type InsertDocument = typeof documentsTable.$inferInsert
 export type SelectDocument = typeof documentsTable.$inferSelect
 
-export const zInsertDocument = createInsertSchema(documentsTable, {
-    filename: (schema) => schema.filename,
-    url: (schema) => schema.url,
-    mimetype: (schema) => schema.mimetype,
-    size: (schema) => schema.size,
-    linkedEntity: (schema) => schema.linkedEntity,
-    linkedId: (schema) => schema.linkedId,
-    description: (schema) => schema.description.optional(),
-    groupId: (schema) => schema.groupId,
-})
+export const zInsertDocument = createInsertSchema(documentsTable)
 
 export const zSelectDocument = createSelectSchema(documentsTable)
 

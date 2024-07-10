@@ -8,29 +8,16 @@ interface TableWithGroupId {
 }
 
 const checkOwnershipMiddlewareFactory = <T extends TableWithGroupId>(
+    // todo: if i give the table as a generic, it's giving ts error
     table: any,
+    // table: SQL<T>,
     tableName: string,
     groupIdColumn = 'groupId',
 ) => {
     return async (ctx: Context, next: Next) => {
         const payload = await ctx.get('jwtPayload')
-        if (!payload) {
-            return ctx.json(
-                { error: 'Unauthorized', message: 'Not authenticated' },
-                403,
-            )
-        }
 
         const id = parseInt(ctx.req.param('id'), 10)
-        if (isNaN(id)) {
-            return ctx.json(
-                {
-                    error: 'Invalid ID',
-                    message: `${tableName} ID must be a number`,
-                },
-                400,
-            )
-        }
 
         const item = await db
             .select()
