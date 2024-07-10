@@ -28,6 +28,7 @@
             "@myorg/app-example-states": [
                 "libs/app-example-states/src/index.ts"
             ],
+            "@myorg/app-example-store": ["libs/app-example-store/src/index.ts"],
             "@myorg/common-animations": ["libs/common-animations/src/index.ts"],
             "@myorg/common-auth": ["libs/common-auth/src/index.ts"],
             "@myorg/common-directives": ["libs/common-directives/src/index.ts"],

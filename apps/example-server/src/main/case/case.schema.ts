@@ -5,15 +5,7 @@ import { casesTable } from '../../core/db/schema'
 export type InsertCase = typeof casesTable.$inferInsert
 export type SelectCase = typeof casesTable.$inferSelect
 
-export const zInsertCase = createInsertSchema(casesTable, {
-    number: (schema) => schema.number,
-    name: (schema) => schema.name,
-    defendant: (schema) => schema.defendant,
-    plaintiffName: (schema) => schema.plaintiffName,
-    plaintiffGroupId: (schema) => schema.plaintiffGroupId,
-    groupId: (schema) => schema.groupId,
-    court: (schema) => schema.court,
-})
+export const zInsertCase = createInsertSchema(casesTable)
 
 export const zSelectCase = createSelectSchema(casesTable)
 
