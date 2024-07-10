@@ -17,7 +17,7 @@ const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 const authMiddleware = jwt({ secret })
 
 // GET /storage - list all
-app.get('/storage', authMiddleware, async (c) => {
+app.get('', authMiddleware, async (c) => {
     const storage = await db
         .select({ ...getTableColumns(storageTable) })
         .from(storageTable)
@@ -27,7 +27,7 @@ app.get('/storage', authMiddleware, async (c) => {
 })
 
 // GET /storage/:id - find one
-app.get('/storage/:id', authMiddleware, async (c) => {
+app.get('/:id', authMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
     const storage = await db
         .select({ ...getTableColumns(storageTable) })
@@ -43,25 +43,17 @@ app.get('/storage/:id', authMiddleware, async (c) => {
 })
 
 // POST /storage - create one
-app.post(
-    '/storage',
-    zValidator('json', zInsertStorage),
-    authMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
+app.post('', zValidator('json', zInsertStorage), authMiddleware, async (c) => {
+    const body = c.req.valid('json')
 
-        const newStorage = await db
-            .insert(storageTable)
-            .values(body)
-            .returning()
+    const newStorage = await db.insert(storageTable).values(body).returning()
 
-        return c.json({ data: newStorage, message: 'Storage created' })
-    },
-)
+    return c.json({ data: newStorage, message: 'Storage created' })
+})
 
 // PATCH /storage/:id - update
 app.patch(
-    '/storage/:id',
+    '/:id',
     zValidator('json', zUpdateStorage),
     authMiddleware,
     async (c) => {
@@ -79,7 +71,7 @@ app.patch(
 )
 
 // DELETE /storage/:id - delete
-app.delete('/storage/:id', authMiddleware, async (c) => {
+app.delete('/:id', authMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
 
     await db.delete(storageTable).where(eq(storageTable.id, id))
@@ -89,7 +81,7 @@ app.delete('/storage/:id', authMiddleware, async (c) => {
 
 // DELETE /storage - delete many
 app.delete(
-    '/storage',
+    '',
     zValidator('json', zDeleteStorage),
     authMiddleware,
     async (c) => {

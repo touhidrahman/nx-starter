@@ -17,7 +17,7 @@ const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 const authMiddleware = jwt({ secret })
 
 // GET /documentSharing - list all
-app.get('/documents-sharing', authMiddleware, async (c) => {
+app.get('', authMiddleware, async (c) => {
     const documentSharings = await db
         .select({ ...getTableColumns(documentSharingTable) })
         .from(documentSharingTable)
@@ -27,7 +27,7 @@ app.get('/documents-sharing', authMiddleware, async (c) => {
 })
 
 // GET /documentSharing/:id - find one
-app.get('/documents-sharing/:id', authMiddleware, async (c) => {
+app.get('/:id', authMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
     const documentSharing = await db
         .select({ ...getTableColumns(documentSharingTable) })
@@ -47,7 +47,7 @@ app.get('/documents-sharing/:id', authMiddleware, async (c) => {
 
 // POST /documentSharing - create one
 app.post(
-    '/documents-sharing',
+    '',
     zValidator('json', zInsertDocumentSharing),
     authMiddleware,
     async (c) => {
@@ -67,7 +67,7 @@ app.post(
 
 // PATCH /documentSharing/:id - update
 app.patch(
-    '/documents-sharing/:id',
+    '/:id',
     zValidator('json', zUpdateDocumentSharing),
     authMiddleware,
     async (c) => {
@@ -88,7 +88,7 @@ app.patch(
 )
 
 // DELETE /documentSharing/:id - delete
-app.delete('/documents-sharing/:id', authMiddleware, async (c) => {
+app.delete('/:id', authMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
 
     await db.delete(documentSharingTable).where(eq(documentSharingTable.id, id))
@@ -98,7 +98,7 @@ app.delete('/documents-sharing/:id', authMiddleware, async (c) => {
 
 // DELETE /documentSharing - delete many
 app.delete(
-    '/documents-sharing',
+    '',
     zValidator('json', zDeleteDocumentSharing),
     authMiddleware,
     async (c) => {

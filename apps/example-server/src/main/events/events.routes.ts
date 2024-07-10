@@ -13,7 +13,7 @@ const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 const authMiddleware = jwt({ secret })
 
 // GET /events - list all
-app.get('/events', authMiddleware, async (c) => {
+app.get('', authMiddleware, async (c) => {
     const events = await db
         .select({ ...getTableColumns(eventsTable) })
         .from(eventsTable)
@@ -23,7 +23,7 @@ app.get('/events', authMiddleware, async (c) => {
 })
 
 // GET /events/:id - find one
-app.get('/events/:id', authMiddleware, async (c) => {
+app.get('/:id', authMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
     const event = await db
         .select({ ...getTableColumns(eventsTable) })
@@ -39,22 +39,17 @@ app.get('/events/:id', authMiddleware, async (c) => {
 })
 
 // POST /events - create one
-app.post(
-    '/events',
-    zValidator('json', zInsertEvent),
-    authMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
+app.post('', zValidator('json', zInsertEvent), authMiddleware, async (c) => {
+    const body = c.req.valid('json')
 
-        const newEvent = await db.insert(eventsTable).values(body).returning()
+    const newEvent = await db.insert(eventsTable).values(body).returning()
 
-        return c.json({ data: newEvent, message: 'Event created' })
-    },
-)
+    return c.json({ data: newEvent, message: 'Event created' })
+})
 
 // PATCH /events/:id - update
 app.patch(
-    '/events/:id',
+    '/:id',
     zValidator('json', zUpdateEvent),
     authMiddleware,
     async (c) => {
@@ -72,7 +67,7 @@ app.patch(
 )
 
 // DELETE /events/:id - delete
-app.delete('/events/:id', authMiddleware, async (c) => {
+app.delete('/:id', authMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
 
     await db.delete(eventsTable).where(eq(eventsTable.id, id))
@@ -81,19 +76,14 @@ app.delete('/events/:id', authMiddleware, async (c) => {
 })
 
 // DELETE /events - delete many
-app.delete(
-    '/events',
-    zValidator('json', zDeleteEvent),
-    authMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
+app.delete('', zValidator('json', zDeleteEvent), authMiddleware, async (c) => {
+    const body = c.req.valid('json')
 
-        for (const eventId of body.eventIds) {
-            await db.delete(eventsTable).where(eq(eventsTable.id, eventId))
-        }
+    for (const eventId of body.eventIds) {
+        await db.delete(eventsTable).where(eq(eventsTable.id, eventId))
+    }
 
-        return c.json({ message: 'Events deleted' })
-    },
-)
+    return c.json({ message: 'Events deleted' })
+})
 
 export default app

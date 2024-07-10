@@ -17,7 +17,7 @@ const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 const authMiddleware = jwt({ secret })
 
 // GET /documents - list all
-app.get('/documents', authMiddleware, async (c) => {
+app.get('', authMiddleware, async (c) => {
     const documents = await db
         .select({ ...getTableColumns(documentsTable) })
         .from(documentsTable)
@@ -27,7 +27,7 @@ app.get('/documents', authMiddleware, async (c) => {
 })
 
 // GET /documents/:id - find one
-app.get('/documents/:id', authMiddleware, async (c) => {
+app.get('/:id', authMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
     const document = await db
         .select({ ...getTableColumns(documentsTable) })
@@ -43,25 +43,17 @@ app.get('/documents/:id', authMiddleware, async (c) => {
 })
 
 // POST /documents - create one
-app.post(
-    '/documents',
-    zValidator('json', zInsertDocument),
-    authMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
+app.post('', zValidator('json', zInsertDocument), authMiddleware, async (c) => {
+    const body = c.req.valid('json')
 
-        const newDocument = await db
-            .insert(documentsTable)
-            .values(body)
-            .returning()
+    const newDocument = await db.insert(documentsTable).values(body).returning()
 
-        return c.json({ data: newDocument, message: 'Document created' })
-    },
-)
+    return c.json({ data: newDocument, message: 'Document created' })
+})
 
 // PATCH /documents/:id - update
 app.patch(
-    '/documents/:id',
+    '/:id',
     zValidator('json', zUpdateDocument),
     authMiddleware,
     async (c) => {
@@ -79,7 +71,7 @@ app.patch(
 )
 
 // DELETE /documents/:id - delete
-app.delete('/documents/:id', authMiddleware, async (c) => {
+app.delete('/:id', authMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
 
     await db.delete(documentsTable).where(eq(documentsTable.id, id))
@@ -89,7 +81,7 @@ app.delete('/documents/:id', authMiddleware, async (c) => {
 
 // DELETE /documents - delete many
 app.delete(
-    '/documents',
+    '',
     zValidator('json', zDeleteDocument),
     authMiddleware,
     async (c) => {

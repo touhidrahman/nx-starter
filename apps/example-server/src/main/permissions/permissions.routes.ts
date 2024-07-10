@@ -13,7 +13,7 @@ const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 const authMiddleware = jwt({ secret })
 
 // GET /permissions - list all
-app.get('/permissions', authMiddleware, async (c) => {
+app.get('', authMiddleware, async (c) => {
     const permissions = await db
         .select({ ...getTableColumns(permissionsTable) })
         .from(permissionsTable)
@@ -24,7 +24,7 @@ app.get('/permissions', authMiddleware, async (c) => {
 
 // POST /permissions - create one
 app.post(
-    '/permissions',
+    '',
     zValidator('json', zInsertPermission),
     authMiddleware,
     async (c) => {
@@ -41,7 +41,7 @@ app.post(
 
 // DELETE /permissions - delete many
 app.delete(
-    '/permissions',
+    '',
     zValidator('json', zDeletePermission),
     authMiddleware,
     async (c) => {

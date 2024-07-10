@@ -17,7 +17,7 @@ const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 const authMiddleware = jwt({ secret })
 
 // GET /messages - list all
-app.get('/messages', authMiddleware, async (c) => {
+app.get('', authMiddleware, async (c) => {
     const messages = await db
         .select({ ...getTableColumns(messagesTable) })
         .from(messagesTable)
@@ -27,7 +27,7 @@ app.get('/messages', authMiddleware, async (c) => {
 })
 
 // GET /messages/:id - find one
-app.get('/messages/:id', authMiddleware, async (c) => {
+app.get('/:id', authMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
     const message = await db
         .select({ ...getTableColumns(messagesTable) })
@@ -43,25 +43,17 @@ app.get('/messages/:id', authMiddleware, async (c) => {
 })
 
 // POST /messages - create one
-app.post(
-    '/messages',
-    zValidator('json', zInsertMessage),
-    authMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
+app.post('', zValidator('json', zInsertMessage), authMiddleware, async (c) => {
+    const body = c.req.valid('json')
 
-        const newMessage = await db
-            .insert(messagesTable)
-            .values(body)
-            .returning()
+    const newMessage = await db.insert(messagesTable).values(body).returning()
 
-        return c.json({ data: newMessage, message: 'Message created' })
-    },
-)
+    return c.json({ data: newMessage, message: 'Message created' })
+})
 
 // PATCH /messages/:id - update
 app.patch(
-    '/messages/:id',
+    '/:id',
     zValidator('json', zUpdateMessage),
     authMiddleware,
     async (c) => {
@@ -79,7 +71,7 @@ app.patch(
 )
 
 // DELETE /messages/:id - delete
-app.delete('/messages/:id', authMiddleware, async (c) => {
+app.delete('/:id', authMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
 
     await db.delete(messagesTable).where(eq(messagesTable.id, id))
@@ -89,7 +81,7 @@ app.delete('/messages/:id', authMiddleware, async (c) => {
 
 // DELETE /messages - delete many
 app.delete(
-    '/messages',
+    '',
     zValidator('json', zDeleteMessage),
     authMiddleware,
     async (c) => {

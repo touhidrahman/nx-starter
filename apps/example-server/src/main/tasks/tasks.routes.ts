@@ -13,7 +13,7 @@ const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 const authMiddleware = jwt({ secret })
 
 // GET /tasks - list all
-app.get('/tasks', authMiddleware, async (c) => {
+app.get('', authMiddleware, async (c) => {
     const tasks = await db
         .select({ ...getTableColumns(tasksTable) })
         .from(tasksTable)
@@ -23,7 +23,7 @@ app.get('/tasks', authMiddleware, async (c) => {
 })
 
 // GET /tasks/:id - find one
-app.get('/tasks/:id', authMiddleware, async (c) => {
+app.get('/:id', authMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
     const task = await db
         .select({ ...getTableColumns(tasksTable) })
@@ -39,22 +39,17 @@ app.get('/tasks/:id', authMiddleware, async (c) => {
 })
 
 // POST /tasks - create one
-app.post(
-    '/tasks',
-    zValidator('json', zInsertTask),
-    authMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
+app.post('', zValidator('json', zInsertTask), authMiddleware, async (c) => {
+    const body = c.req.valid('json')
 
-        const newTask = await db.insert(tasksTable).values(body).returning()
+    const newTask = await db.insert(tasksTable).values(body).returning()
 
-        return c.json({ data: newTask, message: 'Task created' })
-    },
-)
+    return c.json({ data: newTask, message: 'Task created' })
+})
 
 // PATCH /tasks/:id - update
 app.patch(
-    '/tasks/:id',
+    '/:id',
     zValidator('json', zUpdateTask),
     authMiddleware,
     async (c) => {
@@ -72,7 +67,7 @@ app.patch(
 )
 
 // DELETE /tasks/:id - delete
-app.delete('/tasks/:id', authMiddleware, async (c) => {
+app.delete('/:id', authMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
 
     await db.delete(tasksTable).where(eq(tasksTable.id, id))
@@ -81,19 +76,14 @@ app.delete('/tasks/:id', authMiddleware, async (c) => {
 })
 
 // DELETE /tasks - delete many
-app.delete(
-    '/tasks',
-    zValidator('json', zDeleteTask),
-    authMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
+app.delete('', zValidator('json', zDeleteTask), authMiddleware, async (c) => {
+    const body = c.req.valid('json')
 
-        for (const taskId of body.taskIds) {
-            await db.delete(tasksTable).where(eq(tasksTable.id, taskId))
-        }
+    for (const taskId of body.taskIds) {
+        await db.delete(tasksTable).where(eq(tasksTable.id, taskId))
+    }
 
-        return c.json({ message: 'Tasks deleted' })
-    },
-)
+    return c.json({ message: 'Tasks deleted' })
+})
 
 export default app
