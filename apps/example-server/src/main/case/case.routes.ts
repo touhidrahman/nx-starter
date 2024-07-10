@@ -1,33 +1,18 @@
 import { zValidator } from '@hono/zod-validator'
-import { eq, getTableColumns } from 'drizzle-orm'
+import { and, eq, getTableColumns } from 'drizzle-orm'
 import { Context, Hono, Next } from 'hono'
-import { jwt } from 'hono/jwt'
+import { z } from 'zod'
 import { db } from '../../core/db/db'
 import { casesTable } from '../../core/db/schema'
+import { authMiddleware } from '../../core/middlewares/auth.middleware'
 import { zDeleteCase, zInsertCase, zUpdateCase } from './case.schema'
 
 const app = new Hono()
 
-const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
-
-const authMiddleware = jwt({ secret })
-
 const checkCaseOwnershipMiddleware = async (ctx: Context, next: Next) => {
     const payload = await ctx.get('jwtPayload')
-    if (!payload) {
-        return ctx.json(
-            { error: 'Unauthorized', message: 'Not authenticated' },
-            403,
-        )
-    }
 
     const caseId = parseInt(ctx.req.param('id'), 10)
-    if (isNaN(caseId)) {
-        return ctx.json(
-            { error: 'Invalid ID', message: 'Case ID must be a number' },
-            400,
-        )
-    }
 
     const caseItem = await db
         .select({ ...getTableColumns(casesTable) })
@@ -63,20 +48,26 @@ app.get('', authMiddleware, async (c) => {
 })
 
 // GET /:id - find one
-app.get('/:id', authMiddleware, checkCaseOwnershipMiddleware, async (c) => {
-    const id = parseInt(c.req.param('id'), 10)
-    const caseItem = await db
-        .select({ ...getTableColumns(casesTable) })
-        .from(casesTable)
-        .where(eq(casesTable.id, id))
-        .limit(1)
+app.get(
+    '/:id',
+    authMiddleware,
+    zValidator('param', z.object({ id: z.coerce.number() })),
+    checkCaseOwnershipMiddleware,
+    async (c) => {
+        const id = parseInt(c.req.param('id'), 10)
+        const caseItem = await db
+            .select({ ...getTableColumns(casesTable) })
+            .from(casesTable)
+            .where(eq(casesTable.id, id))
+            .limit(1)
 
-    if (caseItem.length === 0) {
-        return c.json({ message: 'Case not found' }, 404)
-    }
+        if (caseItem.length === 0) {
+            return c.json({ message: 'Case not found' }, 404)
+        }
 
-    return c.json({ data: caseItem[0], message: 'Case found' })
-})
+        return c.json({ data: caseItem[0], message: 'Case found' })
+    },
+)
 
 // POST  - create one
 app.post('', zValidator('json', zInsertCase), authMiddleware, async (c) => {
@@ -90,17 +81,24 @@ app.post('', zValidator('json', zInsertCase), authMiddleware, async (c) => {
 // PATCH /:id - update
 app.patch(
     '/:id',
+    zValidator('param', z.object({ id: z.coerce.number() })),
     zValidator('json', zUpdateCase),
     authMiddleware,
     checkCaseOwnershipMiddleware,
     async (c) => {
         const id = parseInt(c.req.param('id'), 10)
         const body = c.req.valid('json')
+        const payload = await c.get('jwtPayload')
 
         const updatedCase = await db
             .update(casesTable)
             .set(body)
-            .where(eq(casesTable.id, id))
+            .where(
+                and(
+                    eq(casesTable.id, id),
+                    eq(casesTable.groupId, payload.groupId),
+                ),
+            )
             .returning()
 
         return c.json({ data: updatedCase, message: 'Case updated' })
@@ -108,13 +106,19 @@ app.patch(
 )
 
 // DELETE /:id - delete
-app.delete('/:id', authMiddleware, checkCaseOwnershipMiddleware, async (c) => {
-    const id = parseInt(c.req.param('id'), 10)
+app.delete(
+    '/:id',
+    zValidator('param', z.object({ id: z.coerce.number() })),
+    authMiddleware,
+    checkCaseOwnershipMiddleware,
+    async (c) => {
+        const id = parseInt(c.req.param('id'), 10)
 
-    await db.delete(casesTable).where(eq(casesTable.id, id))
+        await db.delete(casesTable).where(eq(casesTable.id, id))
 
-    return c.json({ message: 'Case deleted' })
-})
+        return c.json({ message: 'Case deleted' })
+    },
+)
 
 // DELETE  - delete many
 app.delete('', zValidator('json', zDeleteCase), authMiddleware, async (c) => {
