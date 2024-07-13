@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core'
+import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { SpartanModules } from '@myorg/spartan-modules'
 import { RouterModule } from '@angular/router'
@@ -9,7 +9,7 @@ import {
 } from '@myorg/common-auth'
 import { ReactiveFormsModule } from '@angular/forms'
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
-import { Router } from '@angular/router'
+
 
 @Component({
     selector: 'app-page-sign-up',
@@ -23,36 +23,37 @@ import { Router } from '@angular/router'
     ],
     templateUrl: './page-sign-up.component.html',
     styleUrls: ['./page-sign-up.component.scss'],
-    providers: [RegisterFormService, AuthApiService],
+    providers: [RegisterFormService],
 })
 export class PageSignUpComponent {
-    errorMessage: string | null = null
+    constructor(public registerFormService: RegisterFormService,
+        private authApiService: AuthApiService<any>
 
-    constructor(
-        public registerFormService: RegisterFormService,
-        private authApiService: AuthApiService<any>,
-        private router: Router,
     ) {}
+    signup() {
+        const formValues = this.registerFormService.getValue();
+        const signupInput: SignupInput = {
+            email: formValues.email,
+            password: formValues.password,
+            passwordConfirmation: formValues.passwordConfirmation,
+            firstName: formValues.firstName,
+            lastName: formValues.lastName,
+        };
 
-    onSubmit(): void {
-        if (this.registerFormService.form.invalid) {
-            return
-        }
-
-        const signupData: SignupInput = this.registerFormService.getValue()
-
-        this.authApiService.register(signupData).subscribe({
+        this.authApiService.register(signupInput).subscribe({
             next: (response) => {
                 if (response.data) {
-                    this.router.navigate(['/login'])
+                    console.log('Registration successful:', response.data);
+
                 } else {
-                    this.errorMessage =
-                        response.message || 'Registration failed'
+                    console.error('Registration failed:', response.error);
+
                 }
             },
             error: (error) => {
-                this.errorMessage = error.error.message || 'An error occurred'
+                console.error('An error occurred:', error);
+
             },
-        })
+        });
     }
 }

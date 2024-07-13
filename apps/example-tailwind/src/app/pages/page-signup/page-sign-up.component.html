@@ -1,6 +1,6 @@
 <section class="w-full mt-6 p-4" hlmCard>
     <h2 class="text-2xl mt-4 font-bold mb-6 text-center">Sign Up</h2>
-    <form [formGroup]="registerFormService.form" (ngSubmit)="onSubmit()">
+    <form [formGroup]="registerFormService.form" (ngSubmit)="signup()">
         <div hlmCardContent>
             <div class="mb-4">
                 <label for="firstName" class="block text-sm font-bold mb-2"
@@ -62,12 +62,9 @@
                 class="text-red-500 text-sm mb-4">
                 Passwords do not match.
             </div>
-            <div *ngIf="errorMessage" class="text-red-500 text-sm mb-4">
-                {{ errorMessage }}
-            </div>
             <div class="flex items-center justify-between">
                 <button
-                    type="submit"
+
                     hlmBtn
                     class="bg-success text-success-foreground hover:bg-green-400">
                     Sign Up
