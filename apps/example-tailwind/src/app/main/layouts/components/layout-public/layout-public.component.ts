@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { HeaderPublicComponent } from "../../../headers/components/header-public/header-public.component";
+import { HeaderPublicComponent } from '../../../headers/components/header-public/header-public.component'
 
 @Component({
     selector: 'app-layout-public',

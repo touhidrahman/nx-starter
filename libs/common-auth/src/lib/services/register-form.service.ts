@@ -26,14 +26,10 @@ export class RegisterFormService {
                 email: ['', [required, email]],
                 password: [
                     '',
-                    [
-                        required,
-                        minLength(8),
-                        maxLength(32),
-                        pattern(
-                            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-                        ),
-                    ],
+                    required,
+                    minLength(8),
+                    maxLength(32),
+                    pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/),
                 ],
                 passwordConfirmation: ['', required],
                 firstName: ['', required],
@@ -51,9 +47,7 @@ export class RegisterFormService {
 const confirmPasswordValidator: ValidatorFn = (
     control: AbstractControl,
 ): ValidationErrors | null => {
-    const password = control.get('password')?.value
-    const passwordConfirmation = control.get('passwordConfirmation')?.value
-    return password === passwordConfirmation
+    return control.value.password === control.value.passwordConfirmation
         ? null
         : { passwordNotMatched: true }
 }

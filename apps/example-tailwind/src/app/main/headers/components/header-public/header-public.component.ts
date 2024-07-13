@@ -6,7 +6,7 @@ import { SpartanModules } from '@myorg/spartan-modules'
 @Component({
     selector: 'app-header-public',
     standalone: true,
-    imports: [CommonModule,RouterModule,...SpartanModules],
+    imports: [CommonModule, RouterModule, ...SpartanModules],
     templateUrl: './header-public.component.html',
     styleUrl: './header-public.component.scss',
 })

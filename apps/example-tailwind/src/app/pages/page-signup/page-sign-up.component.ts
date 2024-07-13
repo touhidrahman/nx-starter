@@ -2,7 +2,11 @@ import { Component, Inject } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { SpartanModules } from '@myorg/spartan-modules'
 import { RouterModule } from '@angular/router'
-import { AuthApiService, RegisterFormService } from '@myorg/common-auth'
+import {
+    AuthApiService,
+    RegisterFormService,
+    SignupInput,
+} from '@myorg/common-auth'
 import { ReactiveFormsModule } from '@angular/forms'
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
 import { Router } from '@angular/router'
@@ -30,21 +34,25 @@ export class PageSignUpComponent {
         private router: Router,
     ) {}
 
-    onSubmit() {
-        if (this.registerFormService.form.valid) {
-            const signupData = this.registerFormService.getValue()
-            this.authApiService.register(signupData).subscribe({
-                next: (response: any) => {
-                    console.log('Registration successful', response)
-                    this.router.navigate(['/login'])
-                },
-                error: (error: any) => {
-                    console.error('Registration failed', error)
-                    this.errorMessage = 'Registration failed. Please try again.'
-                },
-            })
-        } else {
-            console.log('Form is invalid')
+    onSubmit(): void {
+        if (this.registerFormService.form.invalid) {
+            return
         }
+
+        const signupData: SignupInput = this.registerFormService.getValue()
+
+        this.authApiService.register(signupData).subscribe({
+            next: (response) => {
+                if (response.data) {
+                    this.router.navigate(['/login'])
+                } else {
+                    this.errorMessage =
+                        response.message || 'Registration failed'
+                }
+            },
+            error: (error) => {
+                this.errorMessage = error.error.message || 'An error occurred'
+            },
+        })
     }
 }
