@@ -5,14 +5,7 @@ import { documentSharingTable } from '../../core/db/schema'
 export type InsertDocumentSharing = typeof documentSharingTable.$inferInsert
 export type SelectDocumentSharing = typeof documentSharingTable.$inferSelect
 
-export const zInsertDocumentSharing = createInsertSchema(documentSharingTable, {
-    senderGroupId: (schema) => schema.senderGroupId,
-    receiverGroupId: (schema) => schema.receiverGroupId,
-    documentId: (schema) => schema.documentId,
-    senderUserId: (schema) => schema.senderUserId,
-    receiverUserId: (schema) => schema.receiverUserId,
-    expiryDate: (schema) => schema.expiryDate,
-})
+export const zInsertDocumentSharing = createInsertSchema(documentSharingTable)
 
 export const zSelectDocumentSharing = createSelectSchema(documentSharingTable)
 
