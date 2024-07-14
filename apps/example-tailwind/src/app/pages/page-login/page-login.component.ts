@@ -13,9 +13,9 @@ import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
     imports: [
         CommonModule,
         ...SpartanModules,
+        ReactiveFormsModule,
         RouterModule,
         HlmInputDirective,
-        ReactiveFormsModule,
     ],
     templateUrl: './page-login.component.html',
     styleUrl: './page-login.component.scss',
@@ -26,6 +26,7 @@ export class PageLoginComponent {
         public loginFormService: LoginFormService,
         private authStateService: AuthStateService,
     ) {}
+
     login() {
         const formValues = this.loginFormService.getValue()
 
