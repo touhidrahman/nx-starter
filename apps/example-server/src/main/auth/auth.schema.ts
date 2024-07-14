@@ -9,8 +9,8 @@ export const zLogin = z.object({
 export const zRegister = z.object({
     email: z.string().email(),
     password: z.string(),
-    firstName: z.string(),
-    lastName: z.string(),
+    firstName: z.string().min(1, { message: 'First name is required' }),
+    lastName: z.string().min(1, { message: 'Last name is required' }),
     type: z.enum(userTypeEnum.enumValues).optional().default('user'),
 })
 
