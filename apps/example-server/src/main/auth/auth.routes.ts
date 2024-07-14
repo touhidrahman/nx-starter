@@ -6,18 +6,14 @@ import { Hono } from 'hono'
 import { HTTPException } from 'hono/http-exception'
 import { sign, verify } from 'hono/jwt'
 import { randomBytes } from 'node:crypto'
+import { toInt } from 'radash'
 import { z } from 'zod'
 import { db } from '../../core/db/db'
-import {
-    groupsToUsersTable,
-    groupsTable,
-    usersTable,
-} from '../../core/db/schema'
+import { usersTable } from '../../core/db/schema'
 import { checkSecretsMiddleware } from '../../core/middlewares/check-secrets.middleware'
-import { zLogin, zRegister } from './auth.schema'
-import { safeUser } from '../user/user.util'
 import { getDefaultGroup, getGroup } from '../group/group.service'
-import { toInt } from 'radash'
+import { safeUser } from '../user/user.util'
+import { zLogin, zRegister } from './auth.schema'
 
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET ?? ''
 const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET ?? ''

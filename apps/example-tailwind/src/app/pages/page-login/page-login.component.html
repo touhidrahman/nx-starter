@@ -1,10 +1,12 @@
 <div class="flex items-center justify-center min-h-fit">
     <section class="w-full mt-32 p-4 max-w-md" hlmCard>
         <h2 class="text-2xl mt-4 font-bold mb-6 text-center">Login</h2>
-        <form>
-            <div hlmCardContent>
+        <div>
+            <form (ngSubmit)="login()" [formGroup]="loginFormService.loginForm">
                 <div class="mb-4">
-                    <label for="email" class="block text-sm font-bold mb-2">Email</label>
+                    <label for="email" class="block text-sm font-bold mb-2"
+                        >Email</label
+                    >
                     <input
                         class="w-96"
                         hlmInput
@@ -13,7 +15,9 @@
                         formControlName="email" />
                 </div>
                 <div class="mb-4">
-                    <label for="password" class="block text-sm font-bold mb-2">Password</label>
+                    <label for="password" class="block text-sm font-bold mb-2"
+                        >Password</label
+                    >
                     <input
                         class="w-96"
                         placeholder="Password"
@@ -23,8 +27,8 @@
                 </div>
                 <div class="flex items-center justify-between">
                     <button
-                        type="submit"
                         hlmBtn
+                        type="submit"
                         class="bg-success text-success-foreground hover:bg-green-400">
                         Sign In
                     </button>
@@ -34,7 +38,7 @@
                         Forgot Password?
                     </a>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </section>
 </div>

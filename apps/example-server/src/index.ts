@@ -29,13 +29,31 @@ import tasksRoutes from './main/tasks/tasks.routes'
 import userRoutes from './main/user/user.routes'
 
 const port = Number.parseInt(process.env.PORT ?? '3000')
+const nodeEnv = process.env.NODE_ENV ?? 'development'
 
 const app = new Hono().basePath('v1')
 
 app.use(poweredBy())
 app.use(logger())
 app.use(secureHeaders())
-app.use(cors())
+
+console.log('🚀 ~ nodeEnv:', nodeEnv)
+const corsOptions = {
+    // origin: nodeEnv === 'production' ? 'https://api.courts.gov.bd' : '*',
+    origin: ['http://localhost:4200'],
+    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: [
+        'Origin',
+        'X-Requested-With',
+        'Content-Type',
+        'Accept',
+        'Authorization',
+    ],
+    exposedHeaders: ['x-auth-token', 'X-Organization-ID'],
+    credentials: true,
+}
+app.use('/', cors(corsOptions))
+
 app.use(compress())
 
 app.get('/', (c) => {

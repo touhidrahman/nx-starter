@@ -1,6 +1,7 @@
 import { zValidator } from '@hono/zod-validator'
 import { and, eq, getTableColumns } from 'drizzle-orm'
 import { Context, Hono, Next } from 'hono'
+import { toInt } from 'radash'
 import { z } from 'zod'
 import { db } from '../../core/db/db'
 import { casesTable } from '../../core/db/schema'
@@ -38,13 +39,22 @@ const checkCaseOwnershipMiddleware = async (ctx: Context, next: Next) => {
 // GET  - list all
 app.get('', authMiddleware, async (c) => {
     const payload = await c.get('jwtPayload')
-    const cases = await db
-        .select({ ...getTableColumns(casesTable) })
-        .from(casesTable)
-        .where(eq(casesTable.groupId, payload.groupId))
-        .limit(100)
 
-    return c.json({ data: cases, message: 'Cases list' })
+    try {
+        const groupId = toInt(payload.groupId)
+        const cases = await db
+            .select({ ...getTableColumns(casesTable) })
+            .from(casesTable)
+            .where(eq(casesTable.groupId, groupId))
+            .limit(100)
+
+        return c.json({ data: cases, message: 'Cases list' })
+    } catch (error: any) {
+        return c.json(
+            { error: 'Internal server error', message: error.message },
+            500,
+        )
+    }
 })
 
 // GET /:id - find one
