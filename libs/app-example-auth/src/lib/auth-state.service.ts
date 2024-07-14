@@ -58,6 +58,10 @@ export class AuthStateService extends SimpleStore<AuthState> {
         return this.getState().user?.role ?? null
     }
 
+    getLoginStatus(): boolean {
+        return this.getState().isLoggedIn
+    }
+
     getOrganizationId(): string | null {
         return this.getState().user?.organizationId ?? null
     }

@@ -26,10 +26,10 @@ export class RegisterFormService {
                 email: ['', [required, email]],
                 password: [
                     '',
-                    required,
+                   [ required,
                     minLength(8),
                     maxLength(32),
-                    pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/),
+                    pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/),]
                 ],
                 passwordConfirmation: ['', required],
                 firstName: ['', required],
