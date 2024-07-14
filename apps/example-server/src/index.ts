@@ -37,23 +37,7 @@ app.use(poweredBy())
 app.use(logger())
 app.use(secureHeaders())
 
-console.log('🚀 ~ nodeEnv:', nodeEnv)
-const corsOptions = {
-    // origin: nodeEnv === 'production' ? 'https://api.courts.gov.bd' : '*',
-    origin: ['http://localhost:4200'],
-    allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-    allowedHeaders: [
-        'Origin',
-        'X-Requested-With',
-        'Content-Type',
-        'Accept',
-        'Authorization',
-    ],
-    exposedHeaders: ['x-auth-token', 'X-Organization-ID'],
-    credentials: true,
-}
 app.use(cors())
-
 app.use(compress())
 
 app.get('/', (c) => {

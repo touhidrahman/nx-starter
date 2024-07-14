@@ -13,3 +13,18 @@ export const zRegister = z.object({
     lastName: z.string(),
     type: z.enum(userTypeEnum.enumValues).optional().default('user'),
 })
+
+export const zChangePassword = z.object({
+    userId: z.coerce.number(),
+    currentPassword: z.string(),
+    password: z.string().min(8).max(32),
+})
+
+export const zForgotPassword = z.object({
+    email: z.string().email(),
+})
+
+export const zResetPassword = z.object({
+    email: z.string().email(),
+    password: z.string().min(8).max(32),
+})
