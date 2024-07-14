@@ -1,0 +1,117 @@
+<nav class="bg-white text-gray-700 w-full shadow-sm">
+    <div class="flex flex-wrap items-center justify-between mx-auto px-4 py-4">
+        <div>
+            <hlm-icon size="lg" name="lucideAlignJustify" />
+        </div>
+
+        <div class="flex items-center gap-4">
+            <div class="relative w-80">
+                <input
+                    class="w-full rounded-full bg-green-50 px-4 py-2 pl-10"
+                    placeholder="Search" />
+                <div
+                    class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <hlm-icon size="sm" name="lucideSearch" />
+                </div>
+            </div>
+            <div class="flex gap-4">
+                <button
+                    hlmBtn
+                    class="bg-success button-small text-success-foreground hover:bg-green-400"
+                    [routerLink]="['/signup']">
+                    Sign Up
+                </button>
+                <button
+                    hlmBtn
+                    [routerLink]="['/login']"
+                    variant="default"
+                    class="button-small">
+                    Login
+                </button>
+            </div>
+            <button
+                hlmBtn
+                size="default"
+                variant="ghost"
+                class="p-0"
+                [brnMenuTriggerFor]="menu">
+                <hlm-avatar variant="medium">
+                    <img
+                        src="/assets/avatar.png"
+                        alt="User image"
+                        hlmAvatarImage />
+                    <span class="bg-destructive text-white" hlmAvatarFallback
+                        >RG</span
+                    >
+                </hlm-avatar>
+            </button>
+        </div>
+
+        <ng-template #menu>
+            <hlm-menu class="w-56">
+                <hlm-menu-label>John Doe</hlm-menu-label>
+                <hlm-menu-separator />
+                <hlm-menu-group>
+                    <button hlmMenuItem>
+                        <lucide-icon name="user" hlmMenuIcon />
+                        <span>Profile</span>
+                        <hlm-menu-shortcut></hlm-menu-shortcut>
+                    </button>
+
+                    <button hlmMenuItem>
+                        <lucide-icon name="settings" hlmMenuIcon />
+                        <span>Settings</span>
+                        <hlm-menu-shortcut></hlm-menu-shortcut>
+                    </button>
+
+                    <button hlmMenuItem>
+                        <lucide-icon name="keyboard" hlmMenuIcon />
+                        <span>Keyboard Shortcuts</span>
+                        <hlm-menu-shortcut></hlm-menu-shortcut>
+                    </button>
+
+                    <button hlmMenuItem>
+                        <lucide-icon name="users" hlmMenuIcon />
+                        <span>Team</span>
+                        <hlm-menu-shortcut></hlm-menu-shortcut>
+                    </button>
+
+                    <button hlmMenuItem [brnMenuTriggerFor]="submenuTpl">
+                        <lucide-icon name="headset" hlmMenuIcon />
+                        <span>Support</span>
+                        <hlm-menu-item-sub-indicator />
+                    </button>
+                </hlm-menu-group>
+
+                <hlm-menu-separator />
+
+                <button hlmMenuItem>
+                    <lucide-icon name="log-out" hlmMenuIcon />
+                    <span>Logout</span>
+                    <hlm-menu-shortcut></hlm-menu-shortcut>
+                </button>
+            </hlm-menu>
+        </ng-template>
+
+        <ng-template #submenuTpl>
+            <hlm-sub-menu>
+                <button hlmMenuItem>
+                    <lucide-icon name="mail" hlmMenuIcon />
+                    Email
+                </button>
+
+                <button hlmMenuItem>
+                    <lucide-icon
+                        name="message-circle"
+                        hlmMenuIcon></lucide-icon>
+                    Message
+                </button>
+                <hlm-menu-separator />
+                <button hlmMenuItem>
+                    <lucide-icon name="plus-circle" hlmMenuIcon />
+                    <span>More</span>
+                </button>
+            </hlm-sub-menu>
+        </ng-template>
+    </div>
+</nav>
