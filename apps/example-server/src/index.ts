@@ -52,7 +52,7 @@ const corsOptions = {
     exposedHeaders: ['x-auth-token', 'X-Organization-ID'],
     credentials: true,
 }
-app.use('/', cors(corsOptions))
+app.use(cors())
 
 app.use(compress())
 

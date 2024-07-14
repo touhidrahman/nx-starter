@@ -2,7 +2,7 @@
     <section class="w-full mt-32 p-4 max-w-md" hlmCard>
         <h2 class="text-2xl mt-4 font-bold mb-6 text-center">Login</h2>
         <div>
-            <form (ngSubmit)="login()" [formGroup]="loginFormService.loginForm">
+            <div (ngSubmit)="login()" [formGroup]="loginFormService.loginForm">
                 <div class="mb-4">
                     <label for="email" class="block text-sm font-bold mb-2"
                         >Email</label
@@ -28,7 +28,7 @@
                 <div class="flex items-center justify-between">
                     <button
                         hlmBtn
-                        type="submit"
+                        (click)="login()"
                         class="bg-success text-success-foreground hover:bg-green-400">
                         Sign In
                     </button>
@@ -38,7 +38,7 @@
                         Forgot Password?
                     </a>
                 </div>
-            </form>
+            </div>
         </div>
     </section>
 </div>
