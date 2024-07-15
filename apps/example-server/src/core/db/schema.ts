@@ -126,19 +126,6 @@ export const applicationAreasTable = pgTable('application_areas', {
     description: text('description'),
 })
 
-export const subscriptionTable = pgTable('subscription', {
-    id: serial('id').primaryKey(),
-    currentPlan: text('current_plan').notNull(),
-    isTrialing: boolean('is_trialing').notNull().default(true),
-    startDate: timestamp('start_date').notNull(),
-    endDate: timestamp('end_date'),
-    autorenewal: boolean('autorenewal').notNull().default(true),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
-        .notNull()
-        .$onUpdate(() => new Date()),
-})
-
 // section: tasks
 
 export const taskStatusEnum = pgEnum('taskStatus', [

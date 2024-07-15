@@ -7,7 +7,7 @@ interface TableWithGroupId {
     id: number
 }
 
-const checkOwnershipMiddlewareFactory = <T extends TableWithGroupId>(
+const checkOwnershipMiddleware = <T extends TableWithGroupId>(
     // todo: if i give the table as a generic, it's giving ts error
     table: any,
     // table: SQL<T>,
@@ -19,29 +19,36 @@ const checkOwnershipMiddlewareFactory = <T extends TableWithGroupId>(
 
         const id = parseInt(ctx.req.param('id'), 10)
 
-        const item = await db
-            .select()
-            .from(table)
-            .where(eq(table.id, id))
-            .limit(1)
+        try {
+            const item = await db
+                .select()
+                .from(table)
+                .where(eq(table.id, id))
+                .limit(1)
 
-        if (item.length === 0) {
+            if (item.length === 0) {
+                return ctx.json(
+                    { error: 'Not found', message: `${tableName} not found` },
+                    404,
+                )
+            }
+
+            if (item[0][groupIdColumn] !== payload.groupId) {
+                return ctx.json(
+                    { error: 'Unauthorized', message: 'Access denied' },
+                    403,
+                )
+            }
+
+            ctx.set(`${tableName}Item`, item[0])
+            await next()
+        } catch (error: any) {
             return ctx.json(
-                { error: 'Not found', message: `${tableName} not found` },
-                404,
+                { error: 'Internal server error', message: error.message },
+                500,
             )
         }
-
-        if (item[0][groupIdColumn] !== payload.groupId) {
-            return ctx.json(
-                { error: 'Unauthorized', message: 'Access denied' },
-                403,
-            )
-        }
-
-        ctx.set(`${tableName}Item`, item[0])
-        await next()
     }
 }
 
-export default checkOwnershipMiddlewareFactory
+export default checkOwnershipMiddleware
