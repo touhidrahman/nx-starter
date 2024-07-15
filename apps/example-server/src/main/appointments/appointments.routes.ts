@@ -1,9 +1,12 @@
 import { zValidator } from '@hono/zod-validator'
-import { eq, getTableColumns } from 'drizzle-orm'
+import { and, eq, getTableColumns } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { jwt } from 'hono/jwt'
+import { toInt } from 'radash'
+import { z } from 'zod'
 import { db } from '../../core/db/db'
 import { appointmentsTable } from '../../core/db/schema'
+import { authMiddleware } from '../../core/middlewares/auth.middleware'
+import checkAppointmentOwnershipMiddleware from '../../core/middlewares/check-ownership.middleware'
 import {
     zDeleteAppointment,
     zInsertAppointment,
@@ -12,35 +15,48 @@ import {
 
 const app = new Hono()
 
-const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
-
-const authMiddleware = jwt({ secret })
-
 // GET /appointments - list all
 app.get('', authMiddleware, async (c) => {
-    const appointments = await db
-        .select({ ...getTableColumns(appointmentsTable) })
-        .from(appointmentsTable)
-        .limit(100)
+    const payload = await c.get('jwtPayload')
 
-    return c.json({ data: appointments, message: 'Appointments list' })
+    try {
+        const groupId = toInt(payload.groupId)
+        const appointments = await db
+            .select({ ...getTableColumns(appointmentsTable) })
+            .from(appointmentsTable)
+            .where(eq(appointmentsTable.groupId, groupId))
+            .limit(100)
+
+        return c.json({ data: appointments, message: 'Appointments list' })
+    } catch (error: any) {
+        return c.json(
+            { error: 'Internal server error', message: error.message },
+            500,
+        )
+    }
 })
 
 // GET /appointments/:id - find one
-app.get('/:id', authMiddleware, async (c) => {
-    const id = parseInt(c.req.param('id'), 10)
-    const appointment = await db
-        .select({ ...getTableColumns(appointmentsTable) })
-        .from(appointmentsTable)
-        .where(eq(appointmentsTable.id, id))
-        .limit(1)
+app.get(
+    '/:id',
+    authMiddleware,
+    zValidator('param', z.object({ id: z.coerce.number() })),
+    checkAppointmentOwnershipMiddleware(appointmentsTable, 'Appointment'),
+    async (c) => {
+        const id = parseInt(c.req.param('id'), 10)
+        const appointment = await db
+            .select({ ...getTableColumns(appointmentsTable) })
+            .from(appointmentsTable)
+            .where(eq(appointmentsTable.id, id))
+            .limit(1)
 
-    if (appointment.length === 0) {
-        return c.json({ message: 'Appointment not found' }, 404)
-    }
+        if (appointment.length === 0) {
+            return c.json({ message: 'Appointment not found' }, 404)
+        }
 
-    return c.json({ data: appointment[0], message: 'Appointment found' })
-})
+        return c.json({ data: appointment[0], message: 'Appointment found' })
+    },
+)
 
 // POST /appointments - create one
 app.post(
@@ -62,16 +78,24 @@ app.post(
 // PATCH /appointments/:id - update
 app.patch(
     '/:id',
+    zValidator('param', z.object({ id: z.coerce.number() })),
     zValidator('json', zUpdateAppointment),
     authMiddleware,
+    checkAppointmentOwnershipMiddleware(appointmentsTable, 'Appointment'),
     async (c) => {
         const id = parseInt(c.req.param('id'), 10)
         const body = c.req.valid('json')
+        const payload = await c.get('jwtPayload')
 
         const updatedAppointment = await db
             .update(appointmentsTable)
             .set(body)
-            .where(eq(appointmentsTable.id, id))
+            .where(
+                and(
+                    eq(appointmentsTable.id, id),
+                    eq(appointmentsTable.groupId, payload.groupId),
+                ),
+            )
             .returning()
 
         return c.json({
@@ -82,13 +106,19 @@ app.patch(
 )
 
 // DELETE /appointments/:id - delete
-app.delete('/:id', authMiddleware, async (c) => {
-    const id = parseInt(c.req.param('id'), 10)
+app.delete(
+    '/:id',
+    zValidator('param', z.object({ id: z.coerce.number() })),
+    authMiddleware,
+    checkAppointmentOwnershipMiddleware(appointmentsTable, 'Appointment'),
+    async (c) => {
+        const id = parseInt(c.req.param('id'), 10)
 
-    await db.delete(appointmentsTable).where(eq(appointmentsTable.id, id))
+        await db.delete(appointmentsTable).where(eq(appointmentsTable.id, id))
 
-    return c.json({ message: 'Appointment deleted' })
-})
+        return c.json({ message: 'Appointment deleted' })
+    },
+)
 
 // DELETE /appointments - delete many
 app.delete(
@@ -97,11 +127,24 @@ app.delete(
     authMiddleware,
     async (c) => {
         const body = c.req.valid('json')
+        const payload = await c.get('jwtPayload')
 
-        for (const appointmentId of body.appointmentIds) {
-            await db
-                .delete(appointmentsTable)
-                .where(eq(appointmentsTable.id, appointmentId))
+        try {
+            for (const appointmentId of body.appointmentIds) {
+                await db
+                    .delete(appointmentsTable)
+                    .where(
+                        and(
+                            eq(appointmentsTable.id, appointmentId),
+                            eq(appointmentsTable.groupId, payload.groupId),
+                        ),
+                    )
+            }
+        } catch (error: any) {
+            return c.json(
+                { error: 'Internal server error', message: error.message },
+                500,
+            )
         }
 
         return c.json({ message: 'Appointments deleted' })

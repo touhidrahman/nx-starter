@@ -1,13 +1,13 @@
-import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { SpartanModules } from '@myorg/spartan-modules'
+import { Component } from '@angular/core'
+import { ReactiveFormsModule } from '@angular/forms'
 import { Router, RouterModule } from '@angular/router'
 import {
     AuthApiService,
     RegisterFormService,
     SignupInput,
 } from '@myorg/common-auth'
-import { ReactiveFormsModule } from '@angular/forms'
+import { SpartanModules } from '@myorg/spartan-modules'
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
 
 @Component({
@@ -28,9 +28,14 @@ export class PageSignUpComponent {
     constructor(
         public registerFormService: RegisterFormService,
         private authApiService: AuthApiService<any>,
-        private route: Router,
+        private router: Router,
     ) {}
+
     signup() {
+        if (this.registerFormService.form.invalid) {
+            return
+        }
+
         const formValues = this.registerFormService.getValue()
         const signupInput: SignupInput = {
             email: formValues.email,
@@ -42,8 +47,8 @@ export class PageSignUpComponent {
 
         this.authApiService.register(signupInput).subscribe({
             next: (response) => {
-                if (response.message==="Account created") {
-                    this.route.navigate(["/account-created"])
+                if (response.message === 'Account created') {
+                    this.router.navigate(['/account-created'])
                 } else {
                     console.error('Registration failed:', response.error)
                 }

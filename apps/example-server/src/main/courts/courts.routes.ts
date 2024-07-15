@@ -1,16 +1,12 @@
 import { zValidator } from '@hono/zod-validator'
 import { eq, getTableColumns } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { jwt } from 'hono/jwt'
 import { db } from '../../core/db/db'
 import { courtsTable } from '../../core/db/schema'
+import { authMiddleware } from '../../core/middlewares/auth.middleware'
 import { zDeleteCourt, zInsertCourt, zUpdateCourt } from './courts.schema'
 
 const app = new Hono()
-
-const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
-
-const authMiddleware = jwt({ secret })
 
 // GET /courts - list all
 app.get('', authMiddleware, async (c) => {

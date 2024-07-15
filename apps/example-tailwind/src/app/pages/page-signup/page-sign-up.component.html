@@ -11,6 +11,15 @@
                     hlmInput
                     placeholder="Enter your firstname"
                     formControlName="firstName" />
+                <div
+                    *ngIf="
+                        registerFormService.form.get('firstName')!.invalid &&
+                        registerFormService.form.get('firstName')!.touched &&
+                        registerFormService.form.get('firstName')!.dirty
+                    "
+                    class="text-red-500 text-sm whitespace-pre-wrap w-full md:w-96 mt-4">
+                    First name is required
+                </div>
             </div>
             <div class="mb-4">
                 <label for="lastName" class="block text-sm font-bold mb-2"
@@ -21,6 +30,14 @@
                     hlmInput
                     placeholder="Enter your lastname"
                     formControlName="lastName" />
+                <div
+                    *ngIf="
+                        registerFormService.form.get('lastName')!.invalid &&
+                        registerFormService.form.get('lastName')!.touched
+                    "
+                    class="text-red-500 text-sm whitespace-pre-wrap w-full md:w-96 mt-4">
+                    Last name is required
+                </div>
             </div>
             <div class="mb-4">
                 <label for="email" class="block text-sm font-bold mb-2"
@@ -32,6 +49,14 @@
                     placeholder="Email"
                     type="email"
                     formControlName="email" />
+                <div
+                    *ngIf="
+                        registerFormService.form.get('email')!.invalid &&
+                        registerFormService.form.get('email')!.touched
+                    "
+                    class="text-red-500 text-sm whitespace-pre-wrap w-full md:w-96 mt-4">
+                    Valid email is required
+                </div>
             </div>
             <div class="mb-4">
                 <label for="password" class="block text-sm font-bold mb-2"
@@ -43,7 +68,40 @@
                     hlmInput
                     type="password"
                     formControlName="password" />
+                <div
+                    *ngIf="
+                        registerFormService.form.get('password')!.touched &&
+                        registerFormService.form.get('password')!.dirty &&
+                        registerFormService.form.get('password')!
+                            .errors as errors
+                    "
+                    class="text-red-500 text-sm whitespace-pre-wrap w-full md:w-96 mt-4">
+                    <ng-container *ngIf="errors['required']"
+                        >Password is required.</ng-container
+                    >
+                    <ng-container
+                        *ngIf="errors['minlength'] && !errors['required']"
+                        >Password must be at least 8 characters
+                        long.</ng-container
+                    >
+                    <ng-container
+                        *ngIf="errors['maxlength'] && !errors['required']"
+                        >Password cannot be more than 32 characters
+                        long.</ng-container
+                    >
+                    <ng-container
+                        *ngIf="
+                            errors['pattern'] &&
+                            !errors['required'] &&
+                            !errors['minlength'] &&
+                            !errors['maxlength']
+                        "
+                        >Password must contain at least one uppercase letter,
+                        one lowercase letter, and one number.</ng-container
+                    >
+                </div>
             </div>
+
             <div class="mb-4">
                 <label
                     for="passwordConfirmation"
@@ -56,6 +114,18 @@
                     hlmInput
                     type="password"
                     formControlName="passwordConfirmation" />
+                <div
+                    *ngIf="
+                        registerFormService.form.get('passwordConfirmation')!
+                            .invalid &&
+                        registerFormService.form.get('passwordConfirmation')!
+                            .touched &&
+                        registerFormService.form.get('passwordConfirmation')!
+                            .dirty
+                    "
+                    class="text-red-500 text-sm">
+                    Password confirmation is required
+                </div>
             </div>
             <div
                 *ngIf="registerFormService.form.hasError('passwordNotMatched')"

@@ -1,1 +1,17 @@
-<app-nx-welcome></app-nx-welcome> <router-outlet></router-outlet>
+<ngx-sonner-toaster richColors />
+
+<ng-container [ngSwitch]="layoutService.layout$ | async">
+    <app-layout-default *ngSwitchCase="PageLayout.Default">
+        <router-outlet></router-outlet>
+    </app-layout-default>
+
+    <app-layout-centered *ngSwitchCase="PageLayout.Center">
+        <router-outlet></router-outlet>
+    </app-layout-centered>
+
+    <router-outlet *ngSwitchCase="PageLayout.Blank"></router-outlet>
+
+    <app-layout-default *ngSwitchDefault>
+        <router-outlet></router-outlet>
+    </app-layout-default>
+</ng-container>
