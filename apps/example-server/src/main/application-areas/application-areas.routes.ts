@@ -1,8 +1,8 @@
 import { eq, getTableColumns } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { jwt } from 'hono/jwt'
 import { db } from '../../core/db/db'
 import { applicationAreasTable } from '../../core/db/schema'
+import { authMiddleware } from '../../core/middlewares/auth.middleware'
 import { isAdmin } from '../../core/middlewares/is-admin.middleware'
 import {
     zInsertApplicationArea,
@@ -10,10 +10,6 @@ import {
 } from './application-areas.schema'
 
 const app = new Hono()
-
-const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
-
-const authMiddleware = jwt({ secret })
 
 // List all application areas
 app.get('', authMiddleware, isAdmin, async (c) => {

@@ -1,32 +1,149 @@
-<body class="bg-gray-100 flex items-center justify-center min-h-[80vh]">
-    <div class="bg-white p-6 rounded-xl shadow-lg w-full max-w-sm">
-        <h2 class="text-2xl font-bold mb-6 text-center">Sign Up</h2>
-        <form>
+<section class="w-full mt-6 p-4" hlmCard>
+    <h2 class="text-2xl mt-4 font-bold mb-6 text-center">Sign Up</h2>
+    <form [formGroup]="registerFormService.form" (ngSubmit)="signup()">
+        <div hlmCardContent>
             <div class="mb-4">
-                <label for="name" class="block text-sm font-bold mb-2">Name</label>
-                <input type="text" id="name" name="name" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                <label for="firstName" class="block text-sm font-bold mb-2"
+                    >First Name</label
+                >
+                <input
+                    class="w-full md:w-96"
+                    hlmInput
+                    placeholder="Enter your firstname"
+                    formControlName="firstName" />
+                <div
+                    *ngIf="
+                        registerFormService.form.get('firstName')!.invalid &&
+                        registerFormService.form.get('firstName')!.touched &&
+                        registerFormService.form.get('firstName')!.dirty
+                    "
+                    class="text-red-500 text-sm whitespace-pre-wrap w-full md:w-96 mt-4">
+                    First name is required
+                </div>
             </div>
             <div class="mb-4">
-                <label for="email" class="block  text-sm font-bold mb-2">Email</label>
-                <input type="email" id="email" name="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+                <label for="lastName" class="block text-sm font-bold mb-2"
+                    >Last Name</label
+                >
+                <input
+                    class="w-full md:w-96"
+                    hlmInput
+                    placeholder="Enter your lastname"
+                    formControlName="lastName" />
+                <div
+                    *ngIf="
+                        registerFormService.form.get('lastName')!.invalid &&
+                        registerFormService.form.get('lastName')!.touched
+                    "
+                    class="text-red-500 text-sm whitespace-pre-wrap w-full md:w-96 mt-4">
+                    Last name is required
+                </div>
             </div>
-            <div class="mb-6">
-                <label for="password" class="block text-sm font-bold mb-2">Password</label>
-                <input type="password" id="password" name="password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+            <div class="mb-4">
+                <label for="email" class="block text-sm font-bold mb-2"
+                    >Email</label
+                >
+                <input
+                    class="w-full md:w-96"
+                    hlmInput
+                    placeholder="Email"
+                    type="email"
+                    formControlName="email" />
+                <div
+                    *ngIf="
+                        registerFormService.form.get('email')!.invalid &&
+                        registerFormService.form.get('email')!.touched
+                    "
+                    class="text-red-500 text-sm whitespace-pre-wrap w-full md:w-96 mt-4">
+                    Valid email is required
+                </div>
             </div>
-            <div class="mb-6">
-                <label for="confirm-password" class="block text-sm font-bold mb-2">Confirm Password</label>
-                <input type="password" id="confirm-password" name="confirm-password" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required>
+            <div class="mb-4">
+                <label for="password" class="block text-sm font-bold mb-2"
+                    >Password</label
+                >
+                <input
+                    class="w-full md:w-96"
+                    placeholder="Password"
+                    hlmInput
+                    type="password"
+                    formControlName="password" />
+                <div
+                    *ngIf="
+                        registerFormService.form.get('password')!.touched &&
+                        registerFormService.form.get('password')!.dirty &&
+                        registerFormService.form.get('password')!
+                            .errors as errors
+                    "
+                    class="text-red-500 text-sm whitespace-pre-wrap w-full md:w-96 mt-4">
+                    <ng-container *ngIf="errors['required']"
+                        >Password is required.</ng-container
+                    >
+                    <ng-container
+                        *ngIf="errors['minlength'] && !errors['required']"
+                        >Password must be at least 8 characters
+                        long.</ng-container
+                    >
+                    <ng-container
+                        *ngIf="errors['maxlength'] && !errors['required']"
+                        >Password cannot be more than 32 characters
+                        long.</ng-container
+                    >
+                    <ng-container
+                        *ngIf="
+                            errors['pattern'] &&
+                            !errors['required'] &&
+                            !errors['minlength'] &&
+                            !errors['maxlength']
+                        "
+                        >Password must contain at least one uppercase letter,
+                        one lowercase letter, and one number.</ng-container
+                    >
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label
+                    for="passwordConfirmation"
+                    class="block text-sm font-bold mb-2"
+                    >Confirm Password</label
+                >
+                <input
+                    class="w-full md:w-96"
+                    placeholder="Confirm Password"
+                    hlmInput
+                    type="password"
+                    formControlName="passwordConfirmation" />
+                <div
+                    *ngIf="
+                        registerFormService.form.get('passwordConfirmation')!
+                            .invalid &&
+                        registerFormService.form.get('passwordConfirmation')!
+                            .touched &&
+                        registerFormService.form.get('passwordConfirmation')!
+                            .dirty
+                    "
+                    class="text-red-500 text-sm">
+                    Password confirmation is required
+                </div>
+            </div>
+            <div
+                *ngIf="registerFormService.form.hasError('passwordNotMatched')"
+                class="text-red-500 text-sm mb-4">
+                Passwords do not match.
             </div>
             <div class="flex items-center justify-between">
-                <button type="submit" hlmBtn
-                class="bg-success text-success-foreground hover:bg-green-400">
+                <button
+                    hlmBtn
+                    class="bg-success text-success-foreground hover:bg-green-400">
                     Sign Up
                 </button>
-                <a [routerLink]="['/login']" class="inline-block align-baseline text-sm text-blue-500 hover:text-blue-800">
+                <a
+                    [routerLink]="['/login']"
+                    class="inline-block align-baseline text-sm text-blue-500 hover:text-blue-800">
                     Already have an account? Sign In
                 </a>
             </div>
-        </form>
-    </div>
-</body>
+        </div>
+    </form>
+</section>

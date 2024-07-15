@@ -29,12 +29,14 @@ import tasksRoutes from './main/tasks/tasks.routes'
 import userRoutes from './main/user/user.routes'
 
 const port = Number.parseInt(process.env.PORT ?? '3000')
+const nodeEnv = process.env.NODE_ENV ?? 'development'
 
 const app = new Hono().basePath('v1')
 
 app.use(poweredBy())
 app.use(logger())
 app.use(secureHeaders())
+
 app.use(cors())
 app.use(compress())
 

@@ -1,9 +1,12 @@
 import { zValidator } from '@hono/zod-validator'
-import { eq, getTableColumns } from 'drizzle-orm'
+import { and, eq, getTableColumns } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { jwt } from 'hono/jwt'
+import { toInt } from 'radash'
+import { z } from 'zod'
 import { db } from '../../core/db/db'
 import { documentsTable } from '../../core/db/schema'
+import { authMiddleware } from '../../core/middlewares/auth.middleware'
+import checkDocumentOwnershipMiddleware from '../../core/middlewares/check-ownership.middleware'
 import {
     zDeleteDocument,
     zInsertDocument,
@@ -12,35 +15,48 @@ import {
 
 const app = new Hono()
 
-const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
-
-const authMiddleware = jwt({ secret })
-
 // GET /documents - list all
 app.get('', authMiddleware, async (c) => {
-    const documents = await db
-        .select({ ...getTableColumns(documentsTable) })
-        .from(documentsTable)
-        .limit(100)
+    const payload = await c.get('jwtPayload')
 
-    return c.json({ data: documents, message: 'Documents list' })
+    try {
+        const groupId = toInt(payload.groupId)
+        const documents = await db
+            .select({ ...getTableColumns(documentsTable) })
+            .from(documentsTable)
+            .where(eq(documentsTable.groupId, groupId))
+            .limit(100)
+
+        return c.json({ data: documents, message: 'Documents list' })
+    } catch (error: any) {
+        return c.json(
+            { error: 'Internal server error', message: error.message },
+            500,
+        )
+    }
 })
 
 // GET /documents/:id - find one
-app.get('/:id', authMiddleware, async (c) => {
-    const id = parseInt(c.req.param('id'), 10)
-    const document = await db
-        .select({ ...getTableColumns(documentsTable) })
-        .from(documentsTable)
-        .where(eq(documentsTable.id, id))
-        .limit(1)
+app.get(
+    '/:id',
+    authMiddleware,
+    zValidator('param', z.object({ id: z.coerce.number() })),
+    checkDocumentOwnershipMiddleware(documentsTable, 'Document'),
+    async (c) => {
+        const id = parseInt(c.req.param('id'), 10)
+        const document = await db
+            .select({ ...getTableColumns(documentsTable) })
+            .from(documentsTable)
+            .where(eq(documentsTable.id, id))
+            .limit(1)
 
-    if (document.length === 0) {
-        return c.json({ message: 'Document not found' }, 404)
-    }
+        if (document.length === 0) {
+            return c.json({ message: 'Document not found' }, 404)
+        }
 
-    return c.json({ data: document[0], message: 'Document found' })
-})
+        return c.json({ data: document[0], message: 'Document found' })
+    },
+)
 
 // POST /documents - create one
 app.post('', zValidator('json', zInsertDocument), authMiddleware, async (c) => {
@@ -54,16 +70,24 @@ app.post('', zValidator('json', zInsertDocument), authMiddleware, async (c) => {
 // PATCH /documents/:id - update
 app.patch(
     '/:id',
+    zValidator('param', z.object({ id: z.coerce.number() })),
     zValidator('json', zUpdateDocument),
     authMiddleware,
+    checkDocumentOwnershipMiddleware(documentsTable, 'Document'),
     async (c) => {
         const id = parseInt(c.req.param('id'), 10)
         const body = c.req.valid('json')
+        const payload = await c.get('jwtPayload')
 
         const updatedDocument = await db
             .update(documentsTable)
             .set(body)
-            .where(eq(documentsTable.id, id))
+            .where(
+                and(
+                    eq(documentsTable.id, id),
+                    eq(documentsTable.groupId, payload.groupId),
+                ),
+            )
             .returning()
 
         return c.json({ data: updatedDocument, message: 'Document updated' })
@@ -71,13 +95,19 @@ app.patch(
 )
 
 // DELETE /documents/:id - delete
-app.delete('/:id', authMiddleware, async (c) => {
-    const id = parseInt(c.req.param('id'), 10)
+app.delete(
+    '/:id',
+    zValidator('param', z.object({ id: z.coerce.number() })),
+    authMiddleware,
+    checkDocumentOwnershipMiddleware(documentsTable, 'Document'),
+    async (c) => {
+        const id = parseInt(c.req.param('id'), 10)
 
-    await db.delete(documentsTable).where(eq(documentsTable.id, id))
+        await db.delete(documentsTable).where(eq(documentsTable.id, id))
 
-    return c.json({ message: 'Document deleted' })
-})
+        return c.json({ message: 'Document deleted' })
+    },
+)
 
 // DELETE /documents - delete many
 app.delete(
@@ -86,14 +116,27 @@ app.delete(
     authMiddleware,
     async (c) => {
         const body = c.req.valid('json')
+        const payload = await c.get('jwtPayload')
 
-        for (const documentId of body.documentIds) {
-            await db
-                .delete(documentsTable)
-                .where(eq(documentsTable.id, documentId))
+        try {
+            for (const documentId of body.documentIds) {
+                await db
+                    .delete(documentsTable)
+                    .where(
+                        and(
+                            eq(documentsTable.id, documentId),
+                            eq(documentsTable.groupId, payload.groupId),
+                        ),
+                    )
+            }
+
+            return c.json({ message: 'Documents deleted' })
+        } catch (error: any) {
+            return c.json(
+                { error: 'Internal server error', message: error.message },
+                500,
+            )
         }
-
-        return c.json({ message: 'Documents deleted' })
     },
 )
 

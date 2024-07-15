@@ -1,0 +1,138 @@
+<div>
+    <a class="flex justify-center pt-2">
+        <img
+            [routerLink]="['/']"
+            src="assets/logo/sheresta.png"
+            class="h-16 w-48 cursor-pointer"
+            alt="" />
+    </a>
+</div>
+<div class="px-2 space-y-6">
+    <ul class="mt-6 space-y-1">
+        <li>
+            <a
+                [routerLink]="['/dashboard-home']"
+                routerLinkActive="bg-green-800 hover:text-black text-white"
+                class="block text-black hover:bg-green-100 rounded-sm px-4 py-2 text-sm font-medium">
+                Home
+            </a>
+        </li>
+        <li>
+            <a
+                [routerLink]="['/dashboard/cases']"
+                routerLinkActive="bg-green-800 hover:text-black text-white"
+                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
+                Cases
+            </a>
+        </li>
+        <li>
+            <a
+                [routerLink]="['/dashboard/clients']"
+                routerLinkActive="bg-green-800 hover:text-black text-white"
+                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
+                Clients
+            </a>
+        </li>
+        <li>
+            <a
+                [routerLink]="['/dashboard/documents']"
+                routerLinkActive="bg-green-800 hover:text-black text-white"
+                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
+                Documents
+            </a>
+        </li>
+        <li>
+            <a
+                [routerLink]="['/dashboard/calendar']"
+                routerLinkActive="bg-green-800 hover:text-black text-white"
+                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
+                Calendar
+            </a>
+        </li>
+        <li>
+            <a
+                [routerLink]="['/dashboard/communication']"
+                routerLinkActive="bg-green-800 hover:text-black text-white"
+                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
+                Communication
+            </a>
+        </li>
+        <li>
+            <a
+                [routerLink]="['/dashboard/billing']"
+                routerLinkActive="bg-green-800 hover:text-black text-white"
+                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
+                Billing
+            </a>
+        </li>
+        <li>
+            <a
+                [routerLink]="['/dashboard/tasks']"
+                routerLinkActive="bg-green-800 hover:text-black text-white"
+                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
+                Tasks
+            </a>
+        </li>
+        <li>
+            <a
+                [routerLink]="['/dashboard/report']"
+                routerLinkActive="bg-green-800 hover:text-black text-white"
+                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
+                Report
+            </a>
+        </li>
+        <li>
+            <a
+                [routerLink]="['/dashboard/settings']"
+                routerLinkActive="bg-green-800 hover:text-black text-white"
+                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
+                Settings
+            </a>
+        </li>
+        <li>
+            <a
+                [routerLink]="['/test-protocol']"
+                routerLinkActive="bg-green-800 hover:text-black text-white"
+                class="block rounded-sm hover:bg-green-100 text-black px-4 py-2 text-sm font-medium hover:text-gray-700">
+                Test Protocol
+            </a>
+        </li>
+        <li *ngFor="let item of ['Deviations']">
+            <details class="group [&_summary::-webkit-details-marker]:hidden">
+                <summary
+                    class="flex cursor-pointer items-center justify-between rounded-sm px-4 py-2 text-gray-300 hover:bg-gray-100 hover:text-gray-700">
+                    <span class="text-sm font-medium">{{ item }}</span>
+                    <span
+                        class="shrink-0 transition duration-300 group-open:-rotate-180">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5"
+                            viewBox="0 0 20 20"
+                            fill="currentColor">
+                            <path
+                                fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </span>
+                </summary>
+                <ul class="mt-2 space-y-1 px-4">
+                    <li>
+                        <a
+                            href="#"
+                            class="block rounded-sm px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-100 hover:text-gray-700">
+                            Item 1
+                        </a>
+                    </li>
+                    <li>
+                        <a
+                            href="#"
+                            class="block rounded-sm px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-100 hover:text-gray-700">
+                            Item 2
+                        </a>
+                    </li>
+                </ul>
+            </details>
+        </li>
+    </ul>
+</div>

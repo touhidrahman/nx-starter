@@ -1,9 +1,12 @@
 import { zValidator } from '@hono/zod-validator'
-import { eq, getTableColumns } from 'drizzle-orm'
+import { and, eq, getTableColumns } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { jwt } from 'hono/jwt'
+import { toInt } from 'radash'
+import { z } from 'zod'
 import { db } from '../../core/db/db'
 import { subscriptionsTable } from '../../core/db/schema'
+import { authMiddleware } from '../../core/middlewares/auth.middleware'
+import checkSubscriptionOwnershipMiddleware from '../../core/middlewares/check-ownership.middleware'
 import {
     zDeleteSubscription,
     zInsertSubscription,
@@ -12,35 +15,48 @@ import {
 
 const app = new Hono()
 
-const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
-
-const authMiddleware = jwt({ secret })
-
 // GET /subscriptions - list all
 app.get('', authMiddleware, async (c) => {
-    const subscriptions = await db
-        .select({ ...getTableColumns(subscriptionsTable) })
-        .from(subscriptionsTable)
-        .limit(100)
+    const payload = await c.get('jwtPayload')
 
-    return c.json({ data: subscriptions, message: 'Subscriptions list' })
+    try {
+        const groupId = toInt(payload.groupId)
+        const subscriptions = await db
+            .select({ ...getTableColumns(subscriptionsTable) })
+            .from(subscriptionsTable)
+            .where(eq(subscriptionsTable.groupId, groupId))
+            .limit(100)
+
+        return c.json({ data: subscriptions, message: 'Subscriptions list' })
+    } catch (error: any) {
+        return c.json(
+            { error: 'Internal server error', message: error.message },
+            500,
+        )
+    }
 })
 
 // GET /subscriptions/:id - find one
-app.get('/:id', authMiddleware, async (c) => {
-    const id = parseInt(c.req.param('id'), 10)
-    const subscription = await db
-        .select({ ...getTableColumns(subscriptionsTable) })
-        .from(subscriptionsTable)
-        .where(eq(subscriptionsTable.id, id))
-        .limit(1)
+app.get(
+    '/:id',
+    authMiddleware,
+    zValidator('param', z.object({ id: z.coerce.number() })),
+    checkSubscriptionOwnershipMiddleware(subscriptionsTable, 'Subscription'),
+    async (c) => {
+        const id = parseInt(c.req.param('id'), 10)
+        const subscription = await db
+            .select({ ...getTableColumns(subscriptionsTable) })
+            .from(subscriptionsTable)
+            .where(eq(subscriptionsTable.id, id))
+            .limit(1)
 
-    if (subscription.length === 0) {
-        return c.json({ message: 'Subscription not found' }, 404)
-    }
+        if (subscription.length === 0) {
+            return c.json({ message: 'Subscription not found' }, 404)
+        }
 
-    return c.json({ data: subscription[0], message: 'Subscription found' })
-})
+        return c.json({ data: subscription[0], message: 'Subscription found' })
+    },
+)
 
 // POST /subscriptions - create one
 app.post(
@@ -65,16 +81,24 @@ app.post(
 // PATCH /subscriptions/:id - update
 app.patch(
     '/:id',
+    zValidator('param', z.object({ id: z.coerce.number() })),
     zValidator('json', zUpdateSubscription),
     authMiddleware,
+    checkSubscriptionOwnershipMiddleware(subscriptionsTable, 'Subscription'),
     async (c) => {
         const id = parseInt(c.req.param('id'), 10)
         const body = c.req.valid('json')
+        const payload = await c.get('jwtPayload')
 
         const updatedSubscription = await db
             .update(subscriptionsTable)
             .set(body)
-            .where(eq(subscriptionsTable.id, id))
+            .where(
+                and(
+                    eq(subscriptionsTable.id, id),
+                    eq(subscriptionsTable.groupId, payload.groupId),
+                ),
+            )
             .returning()
 
         return c.json({
@@ -85,13 +109,19 @@ app.patch(
 )
 
 // DELETE /subscriptions/:id - delete
-app.delete('/:id', authMiddleware, async (c) => {
-    const id = parseInt(c.req.param('id'), 10)
+app.delete(
+    '/:id',
+    zValidator('param', z.object({ id: z.coerce.number() })),
+    authMiddleware,
+    checkSubscriptionOwnershipMiddleware(subscriptionsTable, 'Subscription'),
+    async (c) => {
+        const id = parseInt(c.req.param('id'), 10)
 
-    await db.delete(subscriptionsTable).where(eq(subscriptionsTable.id, id))
+        await db.delete(subscriptionsTable).where(eq(subscriptionsTable.id, id))
 
-    return c.json({ message: 'Subscription deleted' })
-})
+        return c.json({ message: 'Subscription deleted' })
+    },
+)
 
 // DELETE /subscriptions - delete many
 app.delete(
@@ -100,11 +130,24 @@ app.delete(
     authMiddleware,
     async (c) => {
         const body = c.req.valid('json')
+        const payload = await c.get('jwtPayload')
 
-        for (const subscriptionId of body.subscriptionIds) {
-            await db
-                .delete(subscriptionsTable)
-                .where(eq(subscriptionsTable.id, subscriptionId))
+        try {
+            for (const subscriptionId of body.subscriptionIds) {
+                await db
+                    .delete(subscriptionsTable)
+                    .where(
+                        and(
+                            eq(subscriptionsTable.id, subscriptionId),
+                            eq(subscriptionsTable.groupId, payload.groupId),
+                        ),
+                    )
+            }
+        } catch (error: any) {
+            return c.json(
+                { error: 'Internal server error', message: error.message },
+                500,
+            )
         }
 
         return c.json({ message: 'Subscriptions deleted' })

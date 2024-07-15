@@ -1,9 +1,9 @@
 import { zValidator } from '@hono/zod-validator'
 import { eq, getTableColumns } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { jwt } from 'hono/jwt'
 import { db } from '../../core/db/db'
 import { documentSharingTable } from '../../core/db/schema'
+import { authMiddleware } from '../../core/middlewares/auth.middleware'
 import {
     zDeleteDocumentSharing,
     zInsertDocumentSharing,
@@ -11,10 +11,6 @@ import {
 } from './documents-sharing.schema'
 
 const app = new Hono()
-
-const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
-
-const authMiddleware = jwt({ secret })
 
 // GET /documentSharing - list all
 app.get('', authMiddleware, async (c) => {
