@@ -11,7 +11,6 @@ import { AuthStateService } from '@myorg/app-example-auth'
     styleUrl: './layout-public.component.scss',
 })
 export class LayoutPublicComponent implements OnInit {
-
     isLoggedIn = false
 
     constructor(private authStateService: AuthStateService) {}
@@ -21,5 +20,4 @@ export class LayoutPublicComponent implements OnInit {
             this.isLoggedIn = true
         }
     }
-
 }

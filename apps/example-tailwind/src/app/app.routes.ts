@@ -1,5 +1,5 @@
 import { Route } from '@angular/router'
-import { setLayout, PageLayout } from '@myorg/page-layouts'
+import { PageLayout, setLayout } from '@myorg/page-layouts'
 
 export const appRoutes: Route[] = [
     {
@@ -35,11 +35,11 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Center) },
     },
     {
-        path: 'account-verified',
+        path: 'account-verify/:token',
         loadComponent: () =>
             import(
-                './pages/page-account-verified/page-account-verified.component'
-            ).then((m) => m.PageAccountVerifiedComponent),
+                './pages/page-account-verify/page-account-verify.component'
+            ).then((m) => m.PageAccountVerifyComponent),
         resolve: { layout: setLayout(PageLayout.Center) },
     },
     {

@@ -2,14 +2,6 @@ import { CommonModule } from '@angular/common'
 import { Component } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
-import {
-    AuthApiService,
-    LoginFormService,
-    LoginResponse,
-} from '@myorg/common-auth'
-import { ApiResponse } from '@myorg/common-models'
-import { Component } from '@angular/core'
-import { ReactiveFormsModule } from '@angular/forms'
 import { AuthStateService } from '@myorg/app-example-auth'
 import { LoginFormService } from '@myorg/common-auth'
 import { SpartanModules } from '@myorg/spartan-modules'
