@@ -14,6 +14,9 @@ type RegisterForm = {
     [field in keyof SignupInput]: FormControl<SignupInput[field]>
 }
 
+const Regex8CharsSmallCapitalDigitSpecial =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W]{6,}$/
+
 @Injectable()
 export class RegisterFormService {
     form: FormGroup<RegisterForm>
@@ -30,9 +33,7 @@ export class RegisterFormService {
                         required,
                         minLength(8),
                         maxLength(32),
-                        pattern(
-                            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
-                        ),
+                        pattern(Regex8CharsSmallCapitalDigitSpecial),
                     ],
                 ],
                 passwordConfirmation: ['', required],

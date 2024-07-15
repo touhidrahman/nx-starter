@@ -6,7 +6,7 @@ import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
 @Component({
     selector: 'app-page-reset-password',
     standalone: true,
-    imports: [CommonModule,...SpartanModules,HlmInputDirective],
+    imports: [CommonModule, ...SpartanModules, HlmInputDirective],
     templateUrl: './page-reset-password.component.html',
     styleUrl: './page-reset-password.component.scss',
 })

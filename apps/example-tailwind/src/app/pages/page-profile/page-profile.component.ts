@@ -6,7 +6,7 @@ import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
 @Component({
     selector: 'app-page-profile',
     standalone: true,
-    imports: [CommonModule,...SpartanModules,HlmInputDirective],
+    imports: [CommonModule, ...SpartanModules, HlmInputDirective],
     templateUrl: './page-profile.component.html',
     styleUrl: './page-profile.component.scss',
 })

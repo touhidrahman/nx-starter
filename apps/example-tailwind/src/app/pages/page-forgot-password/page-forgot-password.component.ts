@@ -7,7 +7,7 @@ import { HlmCardDirective } from '@spartan-ng/ui-card-helm'
 @Component({
     selector: 'app-page-forgot-password',
     standalone: true,
-    imports: [CommonModule, RouterModule,HlmInputDirective,HlmCardDirective],
+    imports: [CommonModule, RouterModule, HlmInputDirective, HlmCardDirective],
     templateUrl: './page-forgot-password.component.html',
     styleUrl: './page-forgot-password.component.scss',
 })
