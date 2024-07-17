@@ -10,6 +10,7 @@ import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
 import { HlmCardDirective } from '@spartan-ng/ui-card-helm'
 import { AuthApiService } from '@myorg/common-auth'
 import { CommonModule } from '@angular/common'
+import { toast } from 'ngx-sonner'
 
 @Component({
     selector: 'app-page-forgot-password',
@@ -24,8 +25,10 @@ import { CommonModule } from '@angular/common'
     templateUrl: './page-forgot-password.component.html',
     styleUrl: './page-forgot-password.component.scss',
 })
-export class PageForgotPasswordComponent implements OnInit {
-    forgotPasswordForm!: FormGroup
+export class PageForgotPasswordComponent {
+    forgotPasswordForm: FormGroup = this.fb.group({
+        email: ['', [Validators.required, Validators.email]],
+    })
     error: string | null = null
 
     constructor(
@@ -34,12 +37,6 @@ export class PageForgotPasswordComponent implements OnInit {
         private router: Router,
     ) {}
 
-    ngOnInit(): void {
-        this.forgotPasswordForm = this.fb.group({
-            email: ['', [Validators.required, Validators.email]],
-        })
-    }
-
     onSubmit(): void {
         this.error = null
         if (this.forgotPasswordForm.valid) {
@@ -47,14 +44,21 @@ export class PageForgotPasswordComponent implements OnInit {
             this.authApiService.forgotPassword(email).subscribe({
                 next: (response) => {
                     if (response.data) {
-                        alert('Reset link sent successfully.')
-                        this.router.navigate(['/login'])
+                        toast('Reset link sent successfully.')
                     } else {
+                        toast('Failed to send reset link.', {
+                            description: 'Please try again later.',
+                        })
                         this.error = 'Failed to send reset link.'
                     }
                 },
                 error: (err) => {
                     console.error('Error sending reset link:', err)
+
+                    toast('Error sending reset link.', {
+                        description:
+                            'An error occurred while sending the reset link. Please try again later.',
+                    })
                     this.error =
                         'An error occurred while sending the reset link.'
                 },

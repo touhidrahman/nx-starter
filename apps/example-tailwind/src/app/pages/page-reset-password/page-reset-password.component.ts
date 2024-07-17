@@ -1,5 +1,4 @@
-/* eslint-disable no-irregular-whitespace */
-import { Component, OnInit } from '@angular/core'
+import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { SpartanModules } from '@myorg/spartan-modules'
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
@@ -12,6 +11,7 @@ import {
 import { AuthApiService } from '@myorg/common-auth'
 import { Router } from '@angular/router'
 import { ApiResponse } from '@myorg/common-models'
+import { toast } from 'ngx-sonner'
 
 @Component({
     selector: 'app-page-reset-password',
@@ -23,30 +23,21 @@ import { ApiResponse } from '@myorg/common-models'
         ReactiveFormsModule,
     ],
     templateUrl: './page-reset-password.component.html',
-    styleUrl: './page-reset-password.component.scss',
+    styleUrls: ['./page-reset-password.component.scss'],
 })
-export class PageResetPasswordComponent implements OnInit {
-    resetPasswordForm!: FormGroup
+export class PageResetPasswordComponent {
+    resetPasswordForm: FormGroup = this.fb.group({
+        currentPassword: ['', [Validators.required]],
+        newPassword: ['', [Validators.required, Validators.minLength(8)]],
+        confirmPassword: ['', [Validators.required]],
+    })
 
     constructor(
         private fb: FormBuilder,
         private authApiService: AuthApiService<any>,
         private router: Router,
-    ) {}
 
-    ngOnInit(): void {
-        this.resetPasswordForm = this.fb.group(
-            {
-                currentPassword: ['', [Validators.required]],
-                newPassword: [
-                    '',
-                    [Validators.required, Validators.minLength(6)],
-                ],
-                confirmPassword: ['', [Validators.required]],
-            },
-            { validator: this.passwordMatchValidator },
-        )
-    }
+    ) {}
 
     passwordMatchValidator(form: FormGroup) {
         const newPassword = form.get('newPassword')
@@ -62,25 +53,36 @@ export class PageResetPasswordComponent implements OnInit {
     onSubmit() {
         if (this.resetPasswordForm.valid) {
             const { currentPassword, newPassword, confirmPassword } =
-                this.resetPasswordForm.value
+                this.resetPasswordForm.value;
 
             this.authApiService
                 .changePassword(currentPassword, newPassword, confirmPassword)
                 .subscribe({
                     next: (response: ApiResponse<boolean>) => {
                         if (response.data) {
-                            // Password changed successfully
-                            this.router.navigate(['/login']) // Redirect to login or another page
+                            // Show success toast
+                            toast('Password changed successfully', {
+                                description: 'You have successfully changed your password.',
+                                action: {
+                                    label: 'Login',
+                                    onClick: () => this.router.navigate(['/login']),
+                                }
+                            });
                         } else {
-                            // Handle error
-                            console.error('Password change failed')
+                            // Show error toast
+                            toast('Password change failed', {
+                                description: 'Please try again.',
+                            });
                         }
                     },
                     error: (err) => {
-                        // Handle error
-                        console.error('Password change failed', err)
+                        // Show error toast
+                        toast('Password change failed', {
+                            description: 'An error occurred. Please try again.',
+                        });
+                        console.error('Password change failed', err);
                     },
-                })
+                });
         }
     }
 }
