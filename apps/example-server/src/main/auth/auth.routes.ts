@@ -129,7 +129,7 @@ app.post('/admin/register', zValidator('json', zRegister), async (c) => {
     const hash = await argon2.hash(password)
 
     try {
-        const user = await db
+        await db
             .insert(usersTable)
             .values({
                 email,

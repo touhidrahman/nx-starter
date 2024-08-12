@@ -19,6 +19,14 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Center) },
     },
     {
+        path: 'signup',
+        loadComponent: () =>
+            import('./pages/page-signup/page-sign-up.component').then(
+                (m) => m.PageSignUpComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Center) },
+    },
+    {
         path: 'forgot-password',
         loadComponent: () =>
             import(
