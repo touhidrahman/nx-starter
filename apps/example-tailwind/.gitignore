@@ -43,5 +43,4 @@ Thumbs.db
 .angular
 
 .env
-.env.example
 **/*.env

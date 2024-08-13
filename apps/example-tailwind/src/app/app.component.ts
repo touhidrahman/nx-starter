@@ -1,11 +1,12 @@
+import { CommonModule } from '@angular/common'
 import { Component, inject } from '@angular/core'
 import { RouterModule } from '@angular/router'
-import { LucideIconConfig } from 'lucide-angular'
-import { LayoutDefaultComponent } from './main/layouts/components/layout-default/layout-default.component'
-import { CommonModule } from '@angular/common'
-import { LayoutCenteredComponent } from './main/layouts/components/layout-centered/layout-centered.component'
 import { PageLayout, PageLayoutService } from '@myorg/page-layouts'
-import { toast, NgxSonnerToaster } from 'ngx-sonner'
+import { LucideIconConfig } from 'lucide-angular'
+import { NgxSonnerToaster } from 'ngx-sonner'
+import { LayoutCenteredComponent } from './main/layouts/components/layout-centered/layout-centered.component'
+import { LayoutDefaultComponent } from './main/layouts/components/layout-default/layout-default.component'
+import { LayoutPublicComponent } from './main/layouts/components/layout-public/layout-public.component'
 
 @Component({
     standalone: true,
@@ -13,6 +14,7 @@ import { toast, NgxSonnerToaster } from 'ngx-sonner'
         CommonModule,
         LayoutDefaultComponent,
         LayoutCenteredComponent,
+        LayoutPublicComponent,
         RouterModule,
         NgxSonnerToaster,
     ],

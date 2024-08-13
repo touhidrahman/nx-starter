@@ -30,6 +30,15 @@ module.exports = {
                     950: '#020F00',
                 },
             },
+            container: {
+                center: true,
+                screens: {
+                    xl: '1280px',
+                },
+                maxWidth: {
+                    DEFAULT: 'max-w-xl',
+                },
+            },
         },
     },
     plugins: [],

@@ -100,3 +100,27 @@ select {
 .nsm-dialog-btn-close {
     @apply text-xs top-6 right-6 opacity-40;
 }
+
+.btn-fill {
+    @apply px-4 py-1.5 text-base border border-irishGreen-500 bg-irishGreen-500 text-white rounded-[4px] hover:bg-irishGreen-600 transition-all duration-300;
+}
+
+.btn-outline {
+    @apply px-4 py-1.5 text-base border border-irishGreen-500 hover:bg-irishGreen-500 text-irishGreen-500 hover:text-white rounded-[4px] transition-all duration-300;
+}
+
+.section-padding {
+    @apply py-16;
+}
+.section-title {
+    @apply text-5xl font-bold;
+}
+
+.bg-gradient {
+    background-image: linear-gradient(
+        90deg,
+        rgba(0, 150, 136, 0.03) 5%,
+        rgba(0, 150, 136, 0.04) 40%,
+        rgba(0, 150, 136, 0.02) 100%
+    );
+}

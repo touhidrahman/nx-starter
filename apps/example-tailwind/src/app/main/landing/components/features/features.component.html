@@ -1,0 +1,39 @@
+<section class="section-padding">
+    <div class="container">
+        <div class="py-16 text-center">
+            <h3 class="text-5xl font-bold">
+                Our
+                <span class="text-irishGreen-500 text-5xl font-bold"
+                    >Features</span
+                >
+            </h3>
+            <p class="text-lg max-w-xl mx-auto mt-6">
+                Unlock the full potential of advanced legal solutions. Upgrade
+                or downgrade anytime.
+            </p>
+        </div>
+        <div class="grid grid-cols-12 xl:gap-4 mt-8">
+            @for(item of features; track item.id){
+            <div class="col-span-12 sm:colspan-6 lg:col-span-3">
+                <div class="py-4 px-5 border rounded-md min-h-[250px]">
+                    <div class="text-center font-semibold">
+                        <div class="flex justify-center items-center">
+                            <div
+                                class="w-14 h-14 bg-irishGreen-50/80 border rounded-full flex justify-center items-center">
+                                <hlm-icon
+                                    size="sm"
+                                    name="lucideCheck"
+                                    color="irishGreen-500"
+                                    class="mr-2 text-irishGreen-500" />
+                            </div>
+                        </div>
+
+                        <h4 class="text-2xl py-4">{{ item.title }}</h4>
+                        <p class="text-base">{{ item.description }}</p>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</section>
