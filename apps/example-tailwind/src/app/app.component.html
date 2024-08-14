@@ -5,6 +5,10 @@
         <router-outlet></router-outlet>
     </app-layout-default>
 
+    <app-layout-public *ngSwitchCase="PageLayout.Public">
+        <router-outlet></router-outlet>
+    </app-layout-public>
+
     <app-layout-centered *ngSwitchCase="PageLayout.Center">
         <router-outlet></router-outlet>
     </app-layout-centered>
