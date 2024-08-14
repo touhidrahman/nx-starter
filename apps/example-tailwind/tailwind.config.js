@@ -17,6 +17,7 @@ module.exports = {
                 'success-foreground': 'hsl(var(--success-foreground))',
 
                 primary: {
+                    40: 'var(--primary-50)',
                     50: 'var(--primary-50)',
                     100: 'var(--primary-100)',
                     200: 'var(--primary-200)',
