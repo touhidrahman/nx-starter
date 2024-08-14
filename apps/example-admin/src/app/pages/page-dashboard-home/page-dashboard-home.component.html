@@ -1,0 +1,153 @@
+<div class="container mx-auto p-4">
+    <h2 class="text-2xl font-semibold mb-4">Admin User List</h2>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white border border-gray-300">
+            <thead>
+                <tr class="bg-gray-100 text-left">
+                    <th class="py-2 px-4 text-sm md:text-base">Name</th>
+                    <th class="py-2 px-4 text-sm md:text-base">Email</th>
+                    <th class="py-2 px-4 text-sm md:text-base">Role</th>
+                    <th class="py-2 px-4 text-sm md:text-base">Status</th>
+                    <th class="py-2 px-4 text-sm md:text-base">Group Name</th>
+                    <th class="py-2 px-4 text-sm md:text-base">Group Type</th>
+                    <th class="py-2 px-4 text-sm md:text-base">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (loading) {
+                <ng-container *ngFor="let _ of [].constructor(10)">
+                    <tr class="border-b">
+                        <td class="py-2 px-4 text-sm md:text-base">
+                            <div
+                                class="h-4 bg-gray-300 rounded w-3/4 animate-pulse"></div>
+                        </td>
+                        <td class="py-2 px-4 text-sm md:text-base">
+                            <div
+                                class="h-4 bg-gray-300 rounded w-3/4 animate-pulse"></div>
+                        </td>
+                        <td class="py-2 px-4 text-sm md:text-base">
+                            <div
+                                class="h-4 bg-gray-300 rounded w-1/2 animate-pulse"></div>
+                        </td>
+                        <td class="py-2 px-4 text-sm md:text-base">
+                            <div
+                                class="h-4 bg-gray-300 rounded w-1/3 animate-pulse"></div>
+                        </td>
+                        <td class="py-2 px-4 text-sm md:text-base">
+                            <div
+                                class="h-4 bg-gray-300 rounded w-1/2 animate-pulse"></div>
+                        </td>
+                        <td class="py-2 px-4 text-sm md:text-base">
+                            <div
+                                class="h-4 bg-gray-300 rounded w-1/3 animate-pulse"></div>
+                        </td>
+                        <td
+                            class="py-2 px-4 flex space-x-2 text-sm md:text-base">
+                            <div
+                                class="h-4 bg-gray-300 rounded w-1/3 animate-pulse"></div>
+                        </td>
+                    </tr>
+                </ng-container>
+                }@else {
+                <tr
+                    *ngFor="let user of users"
+                    class="border-b hover:bg-gray-50">
+                    <td class="py-2 px-4 text-sm md:text-base">
+                        {{ user.firstName }} {{ user.lastName }}
+                    </td>
+                    <td class="py-2 px-4 text-sm md:text-base">
+                        {{ user.email }}
+                    </td>
+                    <td class="py-2 px-4 text-sm md:text-base">
+                        {{ user.type === 'admin' ? 'Admin' : 'User' }}
+                    </td>
+                    <td class="py-2 px-4 text-sm md:text-base">
+                        <span
+                            [ngClass]="{
+                                'text-green-600': user.verified,
+                                'text-red-600': !user.verified
+                            }">
+                            {{ user.verified ? 'Verified' : 'Unverified' }}
+                        </span>
+                    </td>
+                    <td class="py-2 px-4 text-sm md:text-base">
+                        {{ user.groupName || '-' }}
+                    </td>
+                    <td class="py-2 px-4 text-sm md:text-base">
+                        {{ user.groupType || '-' }}
+                    </td>
+                    <td class="py-2 px-4 flex space-x-2 text-sm md:text-base">
+                        <button
+                            (click)="editUser(user)"
+                            class="text-blue-500 hover:text-blue-700">
+                            <lucide-icon
+                                name="pencil"
+                                class="h-4 w-4 md:h-6 md:w-6"></lucide-icon>
+                        </button>
+                        <button
+                            (click)="toggleUserStatus(user)"
+                            class="text-yellow-500 hover:text-yellow-700">
+                            <lucide-icon
+                                name="triangle-alert"
+                                class="h-4 w-4 md:h-6 md:w-6"></lucide-icon>
+                        </button>
+                        <button
+                            (click)="deleteUser(user)"
+                            class="text-red-500 hover:text-red-700">
+                            <lucide-icon
+                                name="trash"
+                                class="h-4 w-4 md:h-6 md:w-6"></lucide-icon>
+                        </button>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="mt-4 flex justify-center">
+            <nav>
+                <ul class="flex space-x-1">
+                    <!-- Previous Button -->
+                    <li>
+                        <button
+                            (click)="goToPage(currentPage - 1)"
+                            [disabled]="currentPage === 1"
+                            class="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-200 border border-gray-300 rounded-lg hover:bg-gray-300 disabled:opacity-50">
+                            &lt;
+                        </button>
+                    </li>
+                    <!-- Page Number Buttons -->
+                    <ng-container
+                        *ngFor="
+                            let page of [].constructor(totalPages);
+                            let i = index
+                        ">
+                        <li>
+                            <button
+                                (click)="goToPage(i + 1)"
+                                [class]="{
+                                    'bg-blue-500 text-white':
+                                        currentPage === i + 1,
+                                    'bg-gray-200 text-gray-700':
+                                        currentPage !== i + 1
+                                }"
+                                class="px-3 py-1 text-sm font-medium border border-gray-300 rounded-lg hover:bg-gray-300">
+                                {{ i + 1 }}
+                            </button>
+                        </li>
+                    </ng-container>
+                    <!-- Next Button -->
+                    <li>
+                        <button
+                            (click)="goToPage(currentPage + 1)"
+                            [disabled]="currentPage === totalPages"
+                            class="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-200 border border-gray-300 rounded-lg hover:bg-gray-300 disabled:opacity-50">
+                            &gt;
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

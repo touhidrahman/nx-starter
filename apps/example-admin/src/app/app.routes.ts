@@ -3,7 +3,7 @@ import { PageLayout, setLayout } from '@myorg/page-layouts'
 
 export const appRoutes: Route[] = [
     {
-        path: 'dashboard/home',
+        path: 'dashboard-home',
         loadComponent: () =>
             import(
                 './pages/page-dashboard-home/page-dashboard-home.component'
@@ -69,7 +69,7 @@ export const appRoutes: Route[] = [
     },
     {
         path: '',
-        redirectTo: 'dashboard/home',
+        redirectTo: 'dashboard-home',
         pathMatch: 'full',
     },
     {

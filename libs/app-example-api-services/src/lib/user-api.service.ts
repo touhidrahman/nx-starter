@@ -1,22 +1,21 @@
 import { HttpClient } from '@angular/common/http'
 import { Inject, Injectable } from '@angular/core'
-import { Observable } from 'rxjs'
+import { Params } from '@angular/router'
 import {
     APP_EXAMPLE_ENVIRONMENT,
     AppExampleEnvironment,
 } from '@myorg/app-example-core'
-import { ApiService } from '@myorg/common-services'
-import {
-    User,
-    UserDto,
-    UserPermissions,
-} from '@myorg/app-example-models'
+import { User, UserDto, UserPermissions } from '@myorg/app-example-models'
 import { ApiResponse } from '@myorg/common-models'
+import { ApiService } from '@myorg/common-services'
+import { Observable } from 'rxjs'
 
 @Injectable({
     providedIn: 'root',
 })
 export class UserApiService extends ApiService<User, UserDto> {
+    private isAdmin = false
+
     constructor(
         protected override http: HttpClient,
         @Inject(APP_EXAMPLE_ENVIRONMENT)
@@ -25,10 +24,26 @@ export class UserApiService extends ApiService<User, UserDto> {
         super(http, `${env.apiUrl}/v1/users`)
     }
 
+    useAdminEndpoint(): void {
+        this.isAdmin = true
+    }
+
+    private getApiUrl(): string {
+        return this.isAdmin ? `${this.env.apiUrl}/v1/admin/users` : this.apiUrl
+    }
+
+    getUsers(params: Params = {}): Observable<ApiResponse<User[]>> {
+        return this.http.get<ApiResponse<User[]>>(this.getApiUrl(), {
+            params,
+        })
+    }
+
     getUnapprovedUsers(
         organizationId: string,
     ): Observable<ApiResponse<User[]>> {
-        return this.find({ organizationId, isApproved: false })
+        return this.http.get<ApiResponse<User[]>>(this.getApiUrl(), {
+            params: { organizationId, isApproved: false },
+        })
     }
 
     setPermissions(
@@ -36,19 +51,15 @@ export class UserApiService extends ApiService<User, UserDto> {
         permissions: UserPermissions,
     ): Observable<ApiResponse<User>> {
         return this.http.patch<ApiResponse<User>>(
-            `${this.apiUrl}/${id}/permissions`,
-            {
-                ...permissions,
-            },
+            `${this.getApiUrl()}/${id}/permissions`,
+            { ...permissions },
         )
     }
 
     changeRole(id: string, role: string): Observable<ApiResponse<User>> {
         return this.http.patch<ApiResponse<User>>(
-            `${this.apiUrl}/${id}/change-role`,
-            {
-                role,
-            },
+            `${this.getApiUrl()}/${id}/change-role`,
+            { role },
         )
     }
 }

@@ -125,7 +125,7 @@ app.post('/register', zValidator('json', zRegister), async (c) => {
 })
 
 app.post('/admin/register', zValidator('json', zRegister), async (c) => {
-    const { email, password, firstName, lastName, type } = c.req.valid('json')
+    const { email, password, firstName, lastName } = c.req.valid('json')
     const hash = await argon2.hash(password)
 
     try {
@@ -136,7 +136,7 @@ app.post('/admin/register', zValidator('json', zRegister), async (c) => {
                 password: hash,
                 firstName,
                 lastName,
-                type,
+                type: 'admin',
                 verified: false, // Not verified yet, requires admin approval
             })
             .returning({ id: usersTable.id })
