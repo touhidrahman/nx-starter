@@ -3,6 +3,14 @@ import { PageLayout, setLayout } from '@myorg/page-layouts'
 
 export const appRoutes: Route[] = [
     {
+        path: '',
+        loadComponent: () =>
+            import('./pages/page-landing/page-landing.component').then(
+                (m) => m.PageLandingComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Public) },
+    },
+    {
         path: 'home',
         loadComponent: () =>
             import('./pages/page-home/page-home.component').then(
@@ -98,10 +106,5 @@ export const appRoutes: Route[] = [
                 './pages/page-admin-userlist/page-admin-userlist.component'
             ).then((m) => m.PageAdminUserlistComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
-    },
-    {
-        path: '',
-        redirectTo: 'home',
-        pathMatch: 'full',
     },
 ]
