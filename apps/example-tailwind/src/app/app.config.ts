@@ -1,8 +1,18 @@
+import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common'
+import {
+    provideHttpClient,
+    withInterceptors,
+    withInterceptorsFromDi,
+    withJsonpSupport,
+    withXsrfConfiguration,
+} from '@angular/common/http'
 import {
     APP_INITIALIZER,
-    ApplicationConfig,
+    type ApplicationConfig,
     importProvidersFrom,
 } from '@angular/core'
+import { BrowserModule } from '@angular/platform-browser'
+import { provideAnimations } from '@angular/platform-browser/animations'
 import {
     PreloadAllModules,
     provideRouter,
@@ -11,16 +21,11 @@ import {
     withPreloading,
     withRouterConfig,
 } from '@angular/router'
-import { appRoutes } from './app.routes'
-import { LucideAngularModule, icons } from 'lucide-angular'
-import { NgxSmartModalModule } from 'ngx-smart-modal'
-import { BrowserModule } from '@angular/platform-browser'
-import { provideAnimations } from '@angular/platform-browser/animations'
+import { AuthStateService } from '@myorg/app-example-auth'
 import {
     APP_EXAMPLE_ENVIRONMENT,
     appInitializerFactory,
 } from '@myorg/app-example-core'
-import { AuthStateService } from '@myorg/app-example-auth'
 import {
     AUTH_API_URL,
     AuthApiService,
@@ -28,15 +33,9 @@ import {
     TokenStorageService,
 } from '@myorg/common-auth'
 import { LocalStorageService } from '@myorg/common-services'
-import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common'
-import {
-    provideHttpClient,
-    withXsrfConfiguration,
-    withJsonpSupport,
-    withInterceptors,
-    withInterceptorsFromDi,
-} from '@angular/common/http'
+import { LucideAngularModule, icons } from 'lucide-angular'
 import { environment } from '../environment/environment'
+import { appRoutes } from './app.routes'
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -56,7 +55,6 @@ export const appConfig: ApplicationConfig = {
             withInterceptorsFromDi(),
         ),
         importProvidersFrom(LucideAngularModule.pick(icons)),
-        importProvidersFrom(NgxSmartModalModule.forRoot()),
         importProvidersFrom(BrowserModule),
         provideAnimations(),
         {

@@ -1,5 +1,4 @@
 @import '@angular/cdk/overlay-prebuilt.css';
-@import 'ngx-smart-modal/styles/ngx-smart-modal.scss';
 
 @tailwind base;
 @tailwind components;
@@ -68,18 +67,6 @@ body {
     --warn-800: #763616;
     --warn-900: #582810;
     --warn-950: #3a1a0b;
-
-    --success-50: #f3fdf9;
-    --success-100: #b4f3dc;
-    --success-200: #76e9bf;
-    --success-300: #38dfa1;
-    --success-400: #06cc83;
-    --success-500: #05b273;
-    --success-600: #049962;
-    --success-700: #047f51;
-    --success-800: #036541;
-    --success-900: #024b30;
-    --success-950: #013120;
 }
 
 :root {
@@ -165,11 +152,11 @@ select {
 }
 
 .btn-fill {
-    @apply px-4 py-1.5 text-base border border-irishGreen-500 bg-irishGreen-500 text-white rounded-[4px] hover:bg-irishGreen-600 transition-all duration-300;
+    @apply px-4 py-1.5 text-base border border-primary-500 bg-primary-500 text-white rounded-[4px] hover:bg-primary-600 transition-all duration-300;
 }
 
 .btn-outline {
-    @apply px-4 py-1.5 text-base border border-irishGreen-500 hover:bg-irishGreen-500 text-irishGreen-500 hover:text-white rounded-[4px] transition-all duration-300;
+    @apply px-4 py-1.5 text-base border border-primary-500 hover:bg-primary-500 text-primary-500 hover:text-white rounded-[4px] transition-all duration-300;
 }
 
 .section-padding {
