@@ -124,6 +124,68 @@ app.post('/register', zValidator('json', zRegister), async (c) => {
     }
 })
 
+app.post('/admin/register', zValidator('json', zRegister), async (c) => {
+    const { email, password, firstName, lastName } = c.req.valid('json')
+    const hash = await argon2.hash(password)
+
+    try {
+        await db
+            .insert(usersTable)
+            .values({
+                email,
+                password: hash,
+                firstName,
+                lastName,
+                type: 'admin',
+                verified: false, // Not verified yet, requires admin approval
+            })
+            .returning({ id: usersTable.id })
+
+        return c.json(
+            { message: 'Admin account created, pending approval' },
+            201,
+        )
+    } catch (e) {
+        return c.json({ message: 'Email already exists' }, 400)
+    }
+})
+
+app.post(
+    '/admin/approve',
+    zValidator(
+        'json',
+        z.object({
+            userId: z.number(),
+        }),
+    ),
+    async (c) => {
+        const { userId } = c.req.valid('json')
+
+        try {
+            const result = await db
+                .update(usersTable)
+                .set({ verified: true })
+                .where(
+                    and(
+                        eq(usersTable.id, userId),
+                        eq(usersTable.type, 'admin'),
+                    ),
+                )
+
+            if (result.rowCount === 0) {
+                return c.json(
+                    { message: 'User not found or already approved' },
+                    404,
+                )
+            }
+
+            return c.json({ message: 'Admin account approved' })
+        } catch (e) {
+            return c.json({ message: 'Approval failed' }, 500)
+        }
+    },
+)
+
 app.post(
     '/verify-email/:token',
     zValidator('param', z.object({ token: z.string() })),

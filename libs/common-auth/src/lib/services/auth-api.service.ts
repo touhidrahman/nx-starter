@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http'
 import { Inject, Injectable } from '@angular/core'
+import { ApiResponse } from '@myorg/common-models'
 import { Observable } from 'rxjs'
+import { AUTH_API_URL } from '../auth-api-url.injector'
 import { LoginResponse } from '../models/login-response'
 import { SignupInput } from '../models/signup-input'
-import { ApiResponse } from '@myorg/common-models'
-import { AUTH_API_URL } from '../auth-api-url.injector'
 
 @Injectable({
     providedIn: 'root',
@@ -42,6 +42,13 @@ export class AuthApiService<TUser> {
     register(input: SignupInput): Observable<ApiResponse<TUser>> {
         return this.http.post<ApiResponse<TUser>>(
             `${this.apiUrl}/register`,
+            input,
+        )
+    }
+
+    adminRegister(input: SignupInput): Observable<ApiResponse<TUser>> {
+        return this.http.post<ApiResponse<TUser>>(
+            `${this.apiUrl}/admin/register`,
             input,
         )
     }

@@ -3,7 +3,7 @@ import { PageLayout, setLayout } from '@myorg/page-layouts'
 
 export const appRoutes: Route[] = [
     {
-        path: 'dashboard/home',
+        path: 'dashboard-home',
         loadComponent: () =>
             import(
                 './pages/page-dashboard-home/page-dashboard-home.component'
@@ -15,6 +15,14 @@ export const appRoutes: Route[] = [
         loadComponent: () =>
             import('./pages/page-login/page-login.component').then(
                 (m) => m.PageLoginComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Center) },
+    },
+    {
+        path: 'signup',
+        loadComponent: () =>
+            import('./pages/page-signup/page-sign-up.component').then(
+                (m) => m.PageSignUpComponent,
             ),
         resolve: { layout: setLayout(PageLayout.Center) },
     },
@@ -61,7 +69,7 @@ export const appRoutes: Route[] = [
     },
     {
         path: '',
-        redirectTo: 'dashboard/home',
+        redirectTo: 'dashboard-home',
         pathMatch: 'full',
     },
     {
