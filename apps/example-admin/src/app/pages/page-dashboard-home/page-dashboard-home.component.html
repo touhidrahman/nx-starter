@@ -40,12 +40,12 @@
                         </td>
                         <td class="py-2 px-4 text-sm md:text-base">
                             <div
-                                class="h-4 bg-gray-300 rounded w-1/3 animate-pulse"></div>
+                                class="h-4 bg-gray-300 rounded w-1/2 animate-pulse"></div>
                         </td>
                         <td
                             class="py-2 px-4 flex space-x-2 text-sm md:text-base">
                             <div
-                                class="h-4 bg-gray-300 rounded w-1/3 animate-pulse"></div>
+                                class="h-4 bg-gray-300 rounded w-1/2 animate-pulse"></div>
                         </td>
                     </tr>
                 </ng-container>
@@ -75,25 +75,18 @@
                         {{ user.groupName || '-' }}
                     </td>
                     <td class="py-2 px-4 text-sm md:text-base">
-                        {{ user.groupType || '-' }}
+                        {{ (user.groupType | titlecase) || '-' }}
                     </td>
                     <td class="py-2 px-4 flex space-x-2 text-sm md:text-base">
                         <button
-                            (click)="editUser(user)"
+                            (click)="openEditModal(user)"
                             class="text-blue-500 hover:text-blue-700">
                             <lucide-icon
                                 name="pencil"
                                 class="h-4 w-4 md:h-6 md:w-6"></lucide-icon>
                         </button>
                         <button
-                            (click)="toggleUserStatus(user)"
-                            class="text-yellow-500 hover:text-yellow-700">
-                            <lucide-icon
-                                name="triangle-alert"
-                                class="h-4 w-4 md:h-6 md:w-6"></lucide-icon>
-                        </button>
-                        <button
-                            (click)="deleteUser(user)"
+                            (click)="openDeleteModal(user)"
                             class="text-red-500 hover:text-red-700">
                             <lucide-icon
                                 name="trash"
@@ -148,6 +141,103 @@
                     </li>
                 </ul>
             </nav>
+        </div>
+    </div>
+</div>
+
+<!-- Edit User Modal -->
+<div
+    *ngIf="showEditModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white w-full max-w-lg p-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-semibold mb-4">Edit User</h2>
+        <form (submit)="onSubmitEditForm()" *ngIf="selectedUser">
+            <div class="mb-4">
+                <label class="block text-gray-700">First Name</label>
+                <input
+                    [(ngModel)]="selectedUser.firstName"
+                    name="firstName"
+                    class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300"
+                    type="text"
+                    required />
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Last Name</label>
+                <input
+                    [(ngModel)]="selectedUser.lastName"
+                    name="lastName"
+                    class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300"
+                    type="text"
+                    required />
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Email</label>
+                <input
+                    [(ngModel)]="selectedUser.email"
+                    name="email"
+                    class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300"
+                    type="email"
+                    required />
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Group Name</label>
+                <input
+                    [(ngModel)]="selectedUser.groupName"
+                    name="groupName"
+                    class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300"
+                    type="text" />
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Group Type</label>
+                <input
+                    [(ngModel)]="selectedUser.groupType"
+                    name="groupType"
+                    class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300"
+                    type="text" />
+            </div>
+            <div class="flex justify-end space-x-2">
+                <button
+                    type="button"
+                    (click)="closeEditModal()"
+                    class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                    Cancel
+                </button>
+                <button
+                    type="submit"
+                    class="px-4 py-2 text-white bg-blue-500 hover:bg-blue-600 rounded-lg">
+                    Save Changes
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Delete User Modal -->
+<div
+    *ngIf="showDeleteModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white w-full max-w-md p-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-semibold mb-4">Delete User</h2>
+        <p class="text-gray-700 mb-6">
+            Are you sure you want to delete
+            <strong
+                >{{ selectedUser?.firstName }}
+                {{ selectedUser?.lastName }}</strong
+            >? This action cannot be undone.
+        </p>
+        <div class="flex justify-end space-x-2">
+            <button
+                type="button"
+                (click)="closeDeleteModal()"
+                class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                Cancel
+            </button>
+            <button
+                type="button"
+                (click)="confirmDeleteUser()"
+                class="px-4 py-2 text-white bg-red-500 hover:bg-red-600 rounded-lg">
+                Delete
+            </button>
         </div>
     </div>
 </div>
