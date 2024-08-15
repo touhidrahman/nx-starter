@@ -9,7 +9,11 @@ import { randomBytes } from 'node:crypto'
 import { toInt } from 'radash'
 import { z } from 'zod'
 import { db } from '../../core/db/db'
-import { usersTable } from '../../core/db/schema'
+import {
+    groupsTable,
+    groupsToUsersTable,
+    usersTable,
+} from '../../core/db/schema'
 import { checkSecretsMiddleware } from '../../core/middlewares/check-secrets.middleware'
 import { getDefaultGroup, getGroup } from '../group/group.service'
 import { safeUser } from '../user/user.util'
@@ -98,6 +102,7 @@ app.post('/register', zValidator('json', zRegister), async (c) => {
     const hash = await argon2.hash(password)
 
     try {
+        // Insert new user
         const user = await db
             .insert(usersTable)
             .values({
@@ -109,10 +114,32 @@ app.post('/register', zValidator('json', zRegister), async (c) => {
             })
             .returning({ id: usersTable.id })
 
-        // send email verification
+        const userId = user[0].id
+
+        // Create a new client group for the user
+        const group = await db
+            .insert(groupsTable)
+            .values({
+                type: 'client',
+                name: `${firstName} ${lastName}'s Group`,
+                verified: false,
+            })
+            .returning({ id: groupsTable.id })
+
+        const groupId = group[0].id
+
+        // Link the user to the new group
+        await db.insert(groupsToUsersTable).values({
+            userId,
+            groupId,
+            isDefault: false,
+            isOwner: false,
+        })
+
+        // Generate verification token
         const random = randomBytes(64).toString('hex')
         const token = await sign(
-            { email, sub: user[0].id, exp: dayjs().add(7, 'day').valueOf() },
+            { email, sub: userId, exp: dayjs().add(7, 'day').valueOf() },
             refreshTokenSecret,
         )
         const verificationToken = `${random}&${token}`
@@ -120,6 +147,7 @@ app.post('/register', zValidator('json', zRegister), async (c) => {
 
         return c.json({ message: 'Account created' }, 201)
     } catch (e) {
+        console.error('Error creating account:', e)
         return c.json({ message: 'Email already exists' }, 400)
     }
 })
