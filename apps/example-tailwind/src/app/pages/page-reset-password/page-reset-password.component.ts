@@ -36,7 +36,6 @@ export class PageResetPasswordComponent {
         private fb: FormBuilder,
         private authApiService: AuthApiService<any>,
         private router: Router,
-
     ) {}
 
     passwordMatchValidator(form: FormGroup) {
@@ -51,38 +50,37 @@ export class PageResetPasswordComponent {
     }
 
     onSubmit() {
-        if (this.resetPasswordForm.valid) {
-            const { currentPassword, newPassword, confirmPassword } =
-                this.resetPasswordForm.value;
-
-            this.authApiService
-                .changePassword(currentPassword, newPassword, confirmPassword)
-                .subscribe({
-                    next: (response: ApiResponse<boolean>) => {
-                        if (response.data) {
-                            // Show success toast
-                            toast('Password changed successfully', {
-                                description: 'You have successfully changed your password.',
-                                action: {
-                                    label: 'Login',
-                                    onClick: () => this.router.navigate(['/login']),
-                                }
-                            });
-                        } else {
-                            // Show error toast
-                            toast('Password change failed', {
-                                description: 'Please try again.',
-                            });
-                        }
-                    },
-                    error: (err) => {
-                        // Show error toast
-                        toast('Password change failed', {
-                            description: 'An error occurred. Please try again.',
-                        });
-                        console.error('Password change failed', err);
-                    },
-                });
-        }
+        // if (this.resetPasswordForm.valid) {
+        //     const { currentPassword, newPassword, confirmPassword } =
+        //         this.resetPasswordForm.value;
+        //     this.authApiService
+        //         .changePassword(currentPassword, newPassword, confirmPassword)
+        //         .subscribe({
+        //             next: (response: ApiResponse<boolean>) => {
+        //                 if (response.data) {
+        //                     // Show success toast
+        //                     toast('Password changed successfully', {
+        //                         description: 'You have successfully changed your password.',
+        //                         action: {
+        //                             label: 'Login',
+        //                             onClick: () => this.router.navigate(['/login']),
+        //                         }
+        //                     });
+        //                 } else {
+        //                     // Show error toast
+        //                     toast('Password change failed', {
+        //                         description: 'Please try again.',
+        //                     });
+        //                 }
+        //             },
+        //             error: (err) => {
+        //                 // Show error toast
+        //                 toast('Password change failed', {
+        //                     description: 'An error occurred. Please try again.',
+        //                 });
+        //                 console.error('Password change failed', err);
+        //             },
+        //         });
+        // }
     }
 }

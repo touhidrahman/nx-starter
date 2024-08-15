@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http'
 import { Inject, Injectable } from '@angular/core'
+import { ApiResponse } from '@myorg/common-models'
 import { Observable } from 'rxjs'
+import { AUTH_API_URL } from '../auth-api-url.injector'
 import { LoginResponse } from '../models/login-response'
 import { SignupInput } from '../models/signup-input'
-import { ApiResponse } from '@myorg/common-models'
-import { AUTH_API_URL } from '../auth-api-url.injector'
 
 @Injectable({
     providedIn: 'root',
@@ -58,16 +58,18 @@ export class AuthApiService<TUser> {
     }
 
     changePassword(
+        userId: number,
         currentPassword: string,
         password: string,
-        passwordConfirmation: string,
+        // passwordConfirmation?: string,
     ): Observable<ApiResponse<boolean>> {
         return this.http.post<ApiResponse<boolean>>(
             `${this.apiUrl}/change-password`,
             {
+                userId,
                 password,
                 currentPassword,
-                passwordConfirmation,
+                // passwordConfirmation,
             },
         )
     }

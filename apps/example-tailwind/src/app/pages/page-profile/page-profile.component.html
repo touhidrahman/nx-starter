@@ -73,43 +73,172 @@
 
                 <section class="w-full p-4" hlmCard>
                     <h2 class="text-lg font-bold mb-4">Change Password</h2>
-                    <div class="mb-4">
-                        <label class="block font-bold text-gray-700"
-                            >Current Password</label
-                        >
-                        <input
-                            type="password"
-                            hlmInput
-                            class="w-full mt-2"
-                            placeholder="Current Password" />
-                    </div>
-                    <div class="mb-4">
-                        <label class="block font-bold text-gray-700"
-                            >New Password</label
-                        >
-                        <input
-                            type="password"
-                            hlmInput
-                            class="w-full mt-2"
-                            placeholder="New Password" />
-                    </div>
-                    <div class="mb-4">
-                        <label class="block font-bold text-gray-700"
-                            >Confirm New Password</label
-                        >
-                        <input
-                            type="password"
-                            hlmInput
-                            class="w-full mt-2"
-                            placeholder="Confirm New Password" />
-                    </div>
-                    <button
-                        class="bg-green-500 hover:bg-green-400 text-white px-4 py-2 rounded">
-                        Change Password
-                    </button>
+                    <form
+                        [formGroup]="changePasswordFormService.form"
+                        (ngSubmit)="onSubmit()">
+                        <div class="mb-4">
+                            <label
+                                for="password"
+                                class="block text-sm font-bold mb-2"
+                                >Current Password</label
+                            >
+                            <input
+                                class="w-full md:w-96"
+                                placeholder="current password"
+                                hlmInput
+                                type="password"
+                                formControlName="currentPassword" />
+                            <div
+                                *ngIf="
+                                    changePasswordFormService.form.get(
+                                        'currentPassword'
+                                    )!.touched &&
+                                    changePasswordFormService.form.get(
+                                        'currentPassword'
+                                    )!.dirty &&
+                                    changePasswordFormService.form.get(
+                                        'currentPassword'
+                                    )!.errors as errors
+                                "
+                                class="text-red-500 text-sm whitespace-pre-wrap w-full md:w-96 mt-4">
+                                <ng-container *ngIf="errors['required']"
+                                    >current password is required.</ng-container
+                                >
+                                <ng-container
+                                    *ngIf="
+                                        errors['minlength'] &&
+                                        !errors['required']
+                                    "
+                                    >currentPassword must be at least 8
+                                    characters long.</ng-container
+                                >
+                                <ng-container
+                                    *ngIf="
+                                        errors['maxlength'] &&
+                                        !errors['required']
+                                    "
+                                    >Password cannot be more than 32 characters
+                                    long.</ng-container
+                                >
+                                <ng-container
+                                    *ngIf="
+                                        errors['pattern'] &&
+                                        !errors['required'] &&
+                                        !errors['minlength'] &&
+                                        !errors['maxlength']
+                                    "
+                                    >Password must contain at least one
+                                    uppercase letter, one lowercase letter, and
+                                    one number.</ng-container
+                                >
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label
+                                for="password"
+                                class="block text-sm font-bold mb-2"
+                                >Password</label
+                            >
+                            <input
+                                class="w-full md:w-96"
+                                placeholder="Password"
+                                hlmInput
+                                type="password"
+                                formControlName="password" />
+                            <div
+                                *ngIf="
+                                    changePasswordFormService.form.get(
+                                        'password'
+                                    )!.touched &&
+                                    changePasswordFormService.form.get(
+                                        'password'
+                                    )!.dirty &&
+                                    changePasswordFormService.form.get(
+                                        'password'
+                                    )!.errors as errors
+                                "
+                                class="text-red-500 text-sm whitespace-pre-wrap w-full md:w-96 mt-4">
+                                <ng-container *ngIf="errors['required']"
+                                    >Password is required.</ng-container
+                                >
+                                <ng-container
+                                    *ngIf="
+                                        errors['minlength'] &&
+                                        !errors['required']
+                                    "
+                                    >Password must be at least 8 characters
+                                    long.</ng-container
+                                >
+                                <ng-container
+                                    *ngIf="
+                                        errors['maxlength'] &&
+                                        !errors['required']
+                                    "
+                                    >Password cannot be more than 32 characters
+                                    long.</ng-container
+                                >
+                                <ng-container
+                                    *ngIf="
+                                        errors['pattern'] &&
+                                        !errors['required'] &&
+                                        !errors['minlength'] &&
+                                        !errors['maxlength']
+                                    "
+                                    >Password must contain at least one
+                                    uppercase letter, one lowercase letter, and
+                                    one number.</ng-container
+                                >
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label
+                                for="passwordConfirmation"
+                                class="block text-sm font-bold mb-2"
+                                >Confirm Password</label
+                            >
+                            <input
+                                class="w-full md:w-96"
+                                placeholder="Confirm Password"
+                                hlmInput
+                                type="password"
+                                formControlName="passwordConfirmation" />
+                            <div
+                                *ngIf="
+                                    changePasswordFormService.form.get(
+                                        'passwordConfirmation'
+                                    )!.invalid &&
+                                    changePasswordFormService.form.get(
+                                        'passwordConfirmation'
+                                    )!.touched &&
+                                    changePasswordFormService.form.get(
+                                        'passwordConfirmation'
+                                    )!.dirty
+                                "
+                                class="text-red-500 text-sm">
+                                Password confirmation is required
+                            </div>
+                        </div>
+                        <div
+                            *ngIf="
+                                changePasswordFormService.form.hasError(
+                                    'passwordNotMatched'
+                                )
+                            "
+                            class="text-red-500 text-sm mb-4">
+                            Passwords do not match.
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <button
+                                type="submit"
+                                hlmBtn
+                                class="bg-success text-success-foreground hover:bg-green-400">
+                                Change Password
+                            </button>
+                        </div>
+                    </form>
                 </section>
             </div>
         </div>
     </div>
 </body>
->
