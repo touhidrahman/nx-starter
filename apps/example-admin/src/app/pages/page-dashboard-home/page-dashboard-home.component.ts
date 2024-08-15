@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { Component, OnInit } from '@angular/core'
+import { FormsModule } from '@angular/forms'
 import { UserApiService } from '@myorg/app-example-api-services'
 import { User } from '@myorg/app-example-models'
 import { ApiResponse } from '@myorg/common-models'
@@ -16,6 +17,7 @@ import { LucideAngularModule } from 'lucide-angular'
         ...SpartanModules,
         HlmIconComponent,
         LucideAngularModule,
+        FormsModule,
     ],
     templateUrl: './page-dashboard-home.component.html',
     styleUrls: ['./page-dashboard-home.component.scss'],
@@ -26,6 +28,10 @@ export class PageDashboardHomeComponent implements OnInit {
     loading = true
     currentPage = 1
     totalPages = 1
+
+    showEditModal = false
+    showDeleteModal = false
+    selectedUser: User | null = null
 
     constructor(private userService: UserApiService) {}
 
@@ -54,25 +60,57 @@ export class PageDashboardHomeComponent implements OnInit {
         })
     }
 
-    editUser(user: User) {
-        console.log('Editing user:', user)
-        // Implement the edit logic here
-    }
-
-    toggleUserStatus(user: User) {
-        user.verified = !user.verified
-        console.log('Toggling status for user:', user)
-        // Implement the status toggle logic here, such as making an API call
-    }
-
-    deleteUser(user: User) {
-        console.log('Deleting user:', user)
-        // Implement the delete logic here
-    }
-
     goToPage(page: number) {
         if (page >= 1 && page <= this.totalPages) {
             this.fetchUsers(page)
+        }
+    }
+
+    openEditModal(user: User) {
+        this.selectedUser = { ...user }
+        this.showEditModal = true
+    }
+
+    closeEditModal() {
+        this.showEditModal = false
+        this.selectedUser = null
+    }
+
+    onSubmitEditForm() {
+        if (this.selectedUser) {
+            //   this.userService.updateUser(this.selectedUser.id, this.selectedUser).subscribe({
+            //     next: () => {
+            //       this.fetchUsers();
+            //       this.closeEditModal();
+            //     },
+            //     error: (error) => {
+            //       console.error('Error updating user:', error);
+            //     },
+            //   });
+        }
+    }
+
+    openDeleteModal(user: User) {
+        this.selectedUser = user
+        this.showDeleteModal = true
+    }
+
+    closeDeleteModal() {
+        this.showDeleteModal = false
+        this.selectedUser = null
+    }
+
+    confirmDeleteUser() {
+        if (this.selectedUser) {
+            //   this.userService.deleteUser(this.selectedUser.id).subscribe({
+            //     next: () => {
+            //       this.fetchUsers();
+            //       this.closeDeleteModal();
+            //     },
+            //     error: (error) => {
+            //       console.error('Error deleting user:', error);
+            //     },
+            //   });
         }
     }
 }
