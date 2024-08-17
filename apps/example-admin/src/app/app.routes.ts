@@ -11,6 +11,14 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
+        path: 'group-management',
+        loadComponent: () =>
+            import(
+                './pages/page-group-management/page-group-management.component'
+            ).then((m) => m.PageGroupManagementComponent),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
         path: 'login',
         loadComponent: () =>
             import('./pages/page-login/page-login.component').then(
