@@ -89,7 +89,36 @@ export const appRoutes: Route[] = [
                 (m) => m.PageProfileComponent,
             ),
         resolve: { layout: setLayout(PageLayout.Default) },
+        children: [
+            {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: 'details',
+            },
+            {
+                path: 'details',
+                loadComponent: () =>
+                    import(
+                        './main/profile/user-details/user-details.component'
+                    ).then((c) => c.UserDetailsComponent),
+            },
+            {
+                path: 'edit-profile',
+                loadComponent: () =>
+                    import(
+                        './main/profile/profile-edit/profile-edit.component'
+                    ).then((c) => c.ProfileEditComponent),
+            },
+            {
+                path: 'password-change',
+                loadComponent: () =>
+                    import(
+                        './main/profile/password-change/password-change.component'
+                    ).then((c) => c.PasswordChangeComponent),
+            },
+        ],
     },
+
     {
         path: 'dashboard/cases',
         loadComponent: () =>

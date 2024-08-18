@@ -1,13 +1,25 @@
+import { CommonModule } from '@angular/common'
 import { Component } from '@angular/core'
-
-import { SpartanModules } from '@myorg/spartan-modules'
+import { RouterLinkActive, RouterModule } from '@angular/router'
+import { ChangePasswordFormService } from '@myorg/common-auth'
+import { userRoute, UserRoute } from './user-route-data'
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
+import { SpartanModules } from '@myorg/spartan-modules'
 
 @Component({
     selector: 'app-page-profile',
     standalone: true,
-    imports: [...SpartanModules, HlmInputDirective],
+    imports: [
+        CommonModule,
+        RouterModule,
+        ...SpartanModules,
+        HlmInputDirective,
+        RouterLinkActive,
+    ],
     templateUrl: './page-profile.component.html',
     styleUrl: './page-profile.component.scss',
+    providers: [ChangePasswordFormService],
 })
-export class PageProfileComponent {}
+export class PageProfileComponent {
+    userRoute: UserRoute[] = userRoute
+}
