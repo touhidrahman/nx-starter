@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, inject } from '@angular/core'
 import {
     FormBuilder,
     FormGroup,
@@ -9,7 +9,7 @@ import { Router, RouterModule } from '@angular/router'
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
 import { HlmCardDirective } from '@spartan-ng/ui-card-helm'
 import { AuthApiService } from '@myorg/common-auth'
-import { CommonModule } from '@angular/common'
+
 import { toast } from 'ngx-sonner'
 
 @Component({
@@ -18,7 +18,6 @@ import { toast } from 'ngx-sonner'
     imports: [
         ReactiveFormsModule,
         RouterModule,
-        CommonModule,
         HlmInputDirective,
         HlmCardDirective,
     ],
@@ -26,16 +25,14 @@ import { toast } from 'ngx-sonner'
     styleUrl: './page-forgot-password.component.scss',
 })
 export class PageForgotPasswordComponent {
+    private fb = inject(FormBuilder)
+    private authApiService = inject<AuthApiService<any>>(AuthApiService)
+    private router = inject(Router)
+
     forgotPasswordForm: FormGroup = this.fb.group({
         email: ['', [Validators.required, Validators.email]],
     })
     error: string | null = null
-
-    constructor(
-        private fb: FormBuilder,
-        private authApiService: AuthApiService<any>,
-        private router: Router,
-    ) {}
 
     onSubmit(): void {
         this.error = null

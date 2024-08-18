@@ -1,5 +1,5 @@
-import { Component } from '@angular/core'
-import { CommonModule } from '@angular/common'
+import { Component, inject } from '@angular/core'
+
 import { SpartanModules } from '@myorg/spartan-modules'
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
 import {
@@ -16,28 +16,20 @@ import { toast } from 'ngx-sonner'
 @Component({
     selector: 'app-page-reset-password',
     standalone: true,
-    imports: [
-        CommonModule,
-        ...SpartanModules,
-        HlmInputDirective,
-        ReactiveFormsModule,
-    ],
+    imports: [...SpartanModules, HlmInputDirective, ReactiveFormsModule],
     templateUrl: './page-reset-password.component.html',
     styleUrls: ['./page-reset-password.component.scss'],
 })
 export class PageResetPasswordComponent {
+    private fb = inject(FormBuilder)
+    private authApiService = inject<AuthApiService<any>>(AuthApiService)
+    private router = inject(Router)
+
     resetPasswordForm: FormGroup = this.fb.group({
         currentPassword: ['', [Validators.required]],
         newPassword: ['', [Validators.required, Validators.minLength(8)]],
         confirmPassword: ['', [Validators.required]],
     })
-
-    constructor(
-        private fb: FormBuilder,
-        private authApiService: AuthApiService<any>,
-        private router: Router,
-
-    ) {}
 
     passwordMatchValidator(form: FormGroup) {
         const newPassword = form.get('newPassword')
@@ -53,7 +45,7 @@ export class PageResetPasswordComponent {
     onSubmit() {
         if (this.resetPasswordForm.valid) {
             const { currentPassword, newPassword, confirmPassword } =
-                this.resetPasswordForm.value;
+                this.resetPasswordForm.value
 
             this.authApiService
                 .changePassword(currentPassword, newPassword, confirmPassword)
@@ -62,27 +54,29 @@ export class PageResetPasswordComponent {
                         if (response.data) {
                             // Show success toast
                             toast('Password changed successfully', {
-                                description: 'You have successfully changed your password.',
+                                description:
+                                    'You have successfully changed your password.',
                                 action: {
                                     label: 'Login',
-                                    onClick: () => this.router.navigate(['/login']),
-                                }
-                            });
+                                    onClick: () =>
+                                        this.router.navigate(['/login']),
+                                },
+                            })
                         } else {
                             // Show error toast
                             toast('Password change failed', {
                                 description: 'Please try again.',
-                            });
+                            })
                         }
                     },
                     error: (err) => {
                         // Show error toast
                         toast('Password change failed', {
                             description: 'An error occurred. Please try again.',
-                        });
-                        console.error('Password change failed', err);
+                        })
+                        console.error('Password change failed', err)
                     },
-                });
+                })
         }
     }
 }

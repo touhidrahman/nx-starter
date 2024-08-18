@@ -2,8 +2,8 @@ import { CdkObserveContent } from '@angular/cdk/observers'
 import {
     Component,
     ContentChildren,
-    ElementRef,
-    QueryList,
+    type ElementRef,
+    type QueryList,
     ViewChild,
     computed,
     input,
@@ -16,7 +16,7 @@ import {
     BrnTabsPaginatedListDirective,
     BrnTabsTriggerDirective,
 } from '@spartan-ng/ui-tabs-brain'
-import { ClassValue } from 'clsx'
+import type { ClassValue } from 'clsx'
 import { listVariants } from './hlm-tabs-list.component'
 
 @Component({

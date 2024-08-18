@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { MatIconRegistry } from '@angular/material/icon'
 import { RouterModule } from '@angular/router'
 import { TokenSharingService } from '@myorg/common-auth'
@@ -22,13 +22,13 @@ import { LayoutSidebarComponent } from './main/layout/layout-sidebar/layout-side
     styleUrl: './app.component.scss',
 })
 export class AppComponent {
+    pageLayoutService = inject(PageLayoutService)
+    private tokenSharingService = inject(TokenSharingService)
+    private matIconRegistry = inject(MatIconRegistry)
+
     readonly PageLayout = PageLayout
 
-    constructor(
-        public pageLayoutService: PageLayoutService,
-        private tokenSharingService: TokenSharingService,
-        private matIconRegistry: MatIconRegistry,
-    ) {
+    constructor() {
         this.matIconRegistry.registerFontClassAlias(
             'material-symbols-outlined',
             'Material Icons Outlined mat-ligature-font',

@@ -1,10 +1,9 @@
-import { CommonModule } from '@angular/common'
 import { Component } from '@angular/core'
 
 @Component({
     selector: 'app-page-not-found',
     standalone: true,
-    imports: [CommonModule],
+    imports: [],
     template: `
         <div
             class="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 font-sans">

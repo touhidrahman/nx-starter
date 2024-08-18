@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common'
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, inject } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { UserApiService } from '@myorg/app-example-api-services'
 import { User } from '@myorg/app-example-models'
@@ -13,7 +12,6 @@ import { LucideAngularModule } from 'lucide-angular'
     selector: 'app-page-dashboard-home',
     standalone: true,
     imports: [
-        CommonModule,
         ...SpartanModules,
         HlmIconComponent,
         LucideAngularModule,
@@ -24,6 +22,8 @@ import { LucideAngularModule } from 'lucide-angular'
     providers: [provideIcons({ lucideCalendarDays, lucideMapPin })],
 })
 export class PageDashboardHomeComponent implements OnInit {
+    private userService = inject(UserApiService)
+
     users: User[] = []
     loading = true
     currentPage = 1
@@ -32,8 +32,6 @@ export class PageDashboardHomeComponent implements OnInit {
     showEditModal = false
     showDeleteModal = false
     selectedUser: User | null = null
-
-    constructor(private userService: UserApiService) {}
 
     ngOnInit() {
         this.userService.useAdminEndpoint()

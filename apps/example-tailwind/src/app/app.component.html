@@ -1,21 +1,21 @@
 <ngx-sonner-toaster richColors />
 
-<ng-container [ngSwitch]="layoutService.layout$ | async">
-    <app-layout-default *ngSwitchCase="PageLayout.Default">
-        <router-outlet></router-outlet>
-    </app-layout-default>
-
-    <app-layout-public *ngSwitchCase="PageLayout.Public">
-        <router-outlet></router-outlet>
-    </app-layout-public>
-
-    <app-layout-centered *ngSwitchCase="PageLayout.Center">
-        <router-outlet></router-outlet>
-    </app-layout-centered>
-
-    <router-outlet *ngSwitchCase="PageLayout.Blank"></router-outlet>
-
-    <app-layout-default *ngSwitchDefault>
-        <router-outlet></router-outlet>
-    </app-layout-default>
-</ng-container>
+@switch (layoutService.layout$ | async) { @case (PageLayout.Default) {
+<app-layout-default>
+    <router-outlet></router-outlet>
+</app-layout-default>
+} @case (PageLayout.Public) {
+<app-layout-public>
+    <router-outlet></router-outlet>
+</app-layout-public>
+} @case (PageLayout.Center) {
+<app-layout-centered>
+    <router-outlet></router-outlet>
+</app-layout-centered>
+} @case (PageLayout.Blank) {
+<router-outlet></router-outlet>
+} @default {
+<app-layout-default>
+    <router-outlet></router-outlet>
+</app-layout-default>
+} }

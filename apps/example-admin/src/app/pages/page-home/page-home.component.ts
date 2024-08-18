@@ -4,8 +4,9 @@ import {
     ElementRef,
     ViewChild,
     ViewContainerRef,
+    inject,
 } from '@angular/core'
-import { CommonModule } from '@angular/common'
+
 import { SpartanModules } from '@myorg/spartan-modules'
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { NgxSmartModalService } from 'ngx-smart-modal'
@@ -16,7 +17,6 @@ import { NavbarInternalComponent } from '../../main/headers/components/navbar-in
     selector: 'app-page-home',
     standalone: true,
     imports: [
-        CommonModule,
         ...SpartanModules,
         FormsModule,
         ReactiveFormsModule,
@@ -26,16 +26,16 @@ import { NavbarInternalComponent } from '../../main/headers/components/navbar-in
     styleUrl: './page-home.component.scss',
 })
 export class PageHomeComponent {
+    private modalService = inject(NgxSmartModalService)
+    private cdr = inject(ChangeDetectorRef)
+    private vcr = inject(ViewContainerRef)
+
     radio: string = ''
     dateControl = new FormControl()
 
     @ViewChild('datePicker') datePicker!: ElementRef<HTMLInputElement>
 
-    constructor(
-        private modalService: NgxSmartModalService,
-        private cdr: ChangeDetectorRef,
-        private vcr: ViewContainerRef,
-    ) {
+    constructor() {
         this.dateControl.valueChanges.subscribe((value) => {
             console.log('dateControl valueChanges', value)
         })
