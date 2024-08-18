@@ -1,43 +1,45 @@
 <h2>Test Protocols</h2>
 
 <div class="table mat-elevation-z3">
-    <div *ngFor="let row of [1, 2, 3, 4, 5]" class="table-row">
+    @for (row of [1, 2, 3, 4, 5]; track row) {
+    <div class="table-row">
         <div class="table-cell">Requirement 1</div>
         <div class="table-cell">
             <div class="approver-selectors">
                 <mat-form-field class="ad--input" appearance="outline">
                     <mat-label>Approver 1</mat-label>
                     <mat-select placeholder="Approver 1" name="item">
-                        <mat-option
-                            *ngFor="let item of ['A', 'B']"
-                            [value]="item">
+                        @for (item of ['A', 'B']; track item) {
+                        <mat-option [value]="item">
                             {{ item }}
                         </mat-option>
+                        }
                     </mat-select>
                 </mat-form-field>
 
                 <mat-form-field class="ad--input" appearance="outline">
                     <mat-label>Approver 1</mat-label>
                     <mat-select placeholder="Approver 1" name="item">
-                        <mat-option
-                            *ngFor="let item of ['A', 'B']"
-                            [value]="item">
+                        @for (item of ['A', 'B']; track item) {
+                        <mat-option [value]="item">
                             {{ item }}
                         </mat-option>
+                        }
                     </mat-select>
                 </mat-form-field>
 
                 <mat-form-field class="ad--input" appearance="outline">
                     <mat-label>Approver 1</mat-label>
                     <mat-select placeholder="Approver 1" name="item">
-                        <mat-option
-                            *ngFor="let item of ['A', 'B']"
-                            [value]="item">
+                        @for (item of ['A', 'B']; track item) {
+                        <mat-option [value]="item">
                             {{ item }}
                         </mat-option>
+                        }
                     </mat-select>
                 </mat-form-field>
             </div>
         </div>
     </div>
+    }
 </div>

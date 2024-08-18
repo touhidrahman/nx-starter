@@ -21,11 +21,13 @@ import { LayoutDefaultComponent } from './main/layouts/components/layout-default
     styleUrl: './app.component.scss',
 })
 export class AppComponent {
+    private lucideConfig = inject(LucideIconConfig)
+
     readonly PageLayout = PageLayout
 
     layoutService = inject(PageLayoutService)
 
-    constructor(private lucideConfig: LucideIconConfig) {
+    constructor() {
         this.lucideConfig.strokeWidth = 2
         this.lucideConfig.size = 16
     }

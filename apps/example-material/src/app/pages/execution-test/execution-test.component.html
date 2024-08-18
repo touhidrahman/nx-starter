@@ -5,46 +5,49 @@
     mat-table
     #table
     [dataSource]="dataSource">
-    <ng-container *ngFor="let column of displayedColumns">
-        <ng-container [matColumnDef]="column">
-            <th mat-header-cell *matHeaderCellDef>
-                {{ $any(columnNamesMap)[column] }}
-            </th>
-            <td mat-cell class="cell" *matCellDef="let row">
-                <ng-container [ngSwitch]="column">
-                    <ng-container *ngSwitchCase="'linkedRequirements'">
-                        <mat-chip-listbox>
-                            <mat-chip
-                                *ngFor="let chip of row.linkedRequirements">
-                                {{ chip }}
-                            </mat-chip>
-                        </mat-chip-listbox>
-                    </ng-container>
+    @for (column of displayedColumns; track column) {
 
-                    <ng-container *ngSwitchCase="'step'">
-                        {{ row[column] }}
-                        <div class="cell-suffix">
-                            <mat-checkbox>N/A</mat-checkbox>
-                        </div>
-                    </ng-container>
+    <ng-container [matColumnDef]="column">
+        <th mat-header-cell *matHeaderCellDef>
+            {{ $any(columnNamesMap)[column] }}
+        </th>
+        <td mat-cell class="cell" *matCellDef="let row">
+            @switch (column) { @case ('linkedRequirements') {
 
-                    <ng-container *ngSwitchCase="'actualResult'">
-                        {{ row[column] }}
-                        <div class="cell-suffix">
-                            <span class="flex-items-center">
-                                <mat-icon>attachment</mat-icon>
-                                Attach file
-                            </span>
-                        </div>
-                    </ng-container>
+            <mat-chip-listbox>
+                @for (chip of row.linkedRequirements; track chip) {
+                <mat-chip>
+                    {{ chip }}
+                </mat-chip>
+                }
+            </mat-chip-listbox>
 
-                    <ng-container *ngSwitchDefault>
-                        {{ row[column] }}
-                    </ng-container>
-                </ng-container>
-            </td>
-        </ng-container>
+            } @case ('step') {
+
+            {{ row[column] }}
+            <div class="cell-suffix">
+                <mat-checkbox>N/A</mat-checkbox>
+            </div>
+
+            } @case ('actualResult') {
+
+            {{ row[column] }}
+            <div class="cell-suffix">
+                <span class="flex-items-center">
+                    <mat-icon>attachment</mat-icon>
+                    Attach file
+                </span>
+            </div>
+
+            } @default {
+
+            {{ row[column] }}
+
+            } }
+        </td>
     </ng-container>
+
+    }
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>

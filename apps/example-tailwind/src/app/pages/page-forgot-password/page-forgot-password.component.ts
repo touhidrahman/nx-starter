@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, inject } from '@angular/core'
 import {
     FormBuilder,
     FormGroup,
@@ -25,16 +25,14 @@ import { toast } from 'ngx-sonner'
     styleUrl: './page-forgot-password.component.scss',
 })
 export class PageForgotPasswordComponent {
+    private fb = inject(FormBuilder)
+    private authApiService = inject<AuthApiService<any>>(AuthApiService)
+    private router = inject(Router)
+
     forgotPasswordForm: FormGroup = this.fb.group({
         email: ['', [Validators.required, Validators.email]],
     })
     error: string | null = null
-
-    constructor(
-        private fb: FormBuilder,
-        private authApiService: AuthApiService<any>,
-        private router: Router,
-    ) {}
 
     onSubmit(): void {
         this.error = null

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, inject } from '@angular/core'
 
 import { HeaderPublicComponent } from '../../../headers/components/header-public/header-public.component'
 import { AuthStateService } from '@myorg/app-example-auth'
@@ -12,9 +12,9 @@ import { PublicFooterComponent } from '../../../footer/public-footer/public-foot
     styleUrl: './layout-public.component.scss',
 })
 export class LayoutPublicComponent implements OnInit {
-    isLoggedIn = false
+    private authStateService = inject(AuthStateService)
 
-    constructor(private authStateService: AuthStateService) {}
+    isLoggedIn = false
 
     ngOnInit(): void {
         if (this.authStateService.getLoginStatus()) {

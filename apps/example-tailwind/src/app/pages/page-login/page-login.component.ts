@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
 import { AuthStateService } from '@myorg/app-example-auth'
@@ -20,10 +20,8 @@ import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
     providers: [LoginFormService],
 })
 export class PageLoginComponent {
-    constructor(
-        public loginFormService: LoginFormService,
-        private authStateService: AuthStateService,
-    ) {}
+    loginFormService = inject(LoginFormService)
+    private authStateService = inject(AuthStateService)
 
     login() {
         const formValues = this.loginFormService.getValue()

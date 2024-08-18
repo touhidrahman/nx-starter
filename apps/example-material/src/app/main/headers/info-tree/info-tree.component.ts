@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common'
 import { Component } from '@angular/core'
 import { MaterialModules } from '@myorg/material-modules'
 import { ReactiveFormsModule } from '@angular/forms'
@@ -13,7 +12,7 @@ export interface InfoTreeNode {
 @Component({
     selector: 'app-info-tree',
     standalone: true,
-    imports: [CommonModule, ...MaterialModules, ReactiveFormsModule],
+    imports: [...MaterialModules, ReactiveFormsModule],
     templateUrl: './info-tree.component.html',
     styleUrl: './info-tree.component.scss',
 })

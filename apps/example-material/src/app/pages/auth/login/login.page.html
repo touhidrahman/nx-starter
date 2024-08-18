@@ -6,13 +6,12 @@
         [formGroup]="loginFormService.loginForm"
         class="flex flex-col pt-3 md:pt-8">
         <div class="flex flex-col pt-4">
+            @if (errors.length) {
             <div
-                *ngIf="errors.length"
                 class="border-warn-500 text-warn-500 mb-8 border border-solid bg-red-100 px-4 py-2">
-                <ng-container *ngFor="let err of errors"
-                    >{{ err }}</ng-container
-                >
+                @for (err of errors; track err) { {{ err }} }
             </div>
+            }
             <div class="relative flex">
                 <span
                     class="inline-flex items-center border-b border-l border-t border-gray-300 bg-white px-3 text-sm text-gray-500 shadow-sm">
@@ -59,11 +58,14 @@
         <button
             type="submit"
             class="w-full bg-black px-4 py-2 text-center text-base font-semibold text-white shadow-md transition duration-200 ease-in focus:outline-none focus:ring-2 hover:bg-white hover:text-black">
-            <span *ngIf="loading" class="w-full">
+            @if (loading) {
+            <span class="w-full">
                 <i class="bx bx-loader bx-spin"></i>
                 Please wait
             </span>
-            <span *ngIf="!loading" class="w-full"> Submit </span>
+            } @if (!loading) {
+            <span class="w-full"> Submit </span>
+            }
         </button>
     </form>
     <div class="pb-12 pt-12 text-center">

@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common'
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { Router, RouterModule } from '@angular/router'
 import {
@@ -14,7 +13,6 @@ import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
     selector: 'app-page-sign-up',
     standalone: true,
     imports: [
-        CommonModule,
         ...SpartanModules,
         RouterModule,
         ReactiveFormsModule,
@@ -25,11 +23,9 @@ import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
     providers: [RegisterFormService],
 })
 export class PageSignUpComponent {
-    constructor(
-        public registerFormService: RegisterFormService,
-        private authApiService: AuthApiService<any>,
-        private router: Router,
-    ) {}
+    registerFormService = inject(RegisterFormService)
+    private authApiService = inject<AuthApiService<any>>(AuthApiService)
+    private router = inject(Router)
 
     signup() {
         if (this.registerFormService.form.invalid) {
