@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { CommonModule } from '@angular/common'
+
 import {
     BrnDialogContentDirective,
     BrnDialogTriggerDirective,
@@ -51,7 +51,6 @@ interface User {
     styleUrl: './page-admin-userlist.component.scss',
     providers: [provideIcons({ lucideCog, lucideTrash2, lucideSearch })],
     imports: [
-        CommonModule,
         BrnDialogTriggerDirective,
         BrnDialogContentDirective,
         HlmIconComponent,

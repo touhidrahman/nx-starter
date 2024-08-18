@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common'
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { SpartanModules } from '@myorg/spartan-modules'
 import { provideIcons } from '@ng-icons/core'
@@ -11,12 +10,7 @@ import { features, Features } from './feature.data'
 @Component({
     selector: 'app-features',
     standalone: true,
-    imports: [
-        CommonModule,
-        LucideAngularModule,
-        HlmInputDirective,
-        ...SpartanModules,
-    ],
+    imports: [LucideAngularModule, HlmInputDirective, ...SpartanModules],
     templateUrl: './features.component.html',
     styleUrl: './features.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,

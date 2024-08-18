@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common'
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { RouterModule } from '@angular/router'
 import { InfoTreeComponent } from '../../headers/info-tree/info-tree.component'
@@ -12,7 +11,6 @@ import { HeaderOneComponent } from '../../headers/header-one/header-one.componen
     styleUrls: ['./layout-default.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
     imports: [
-        CommonModule,
         RouterModule,
         HeaderOneComponent,
         InfoTreeComponent,

@@ -46,6 +46,13 @@ export class AuthApiService<TUser> {
         )
     }
 
+    adminRegister(input: SignupInput): Observable<ApiResponse<TUser>> {
+        return this.http.post<ApiResponse<TUser>>(
+            `${this.apiUrl}/admin/register`,
+            input,
+        )
+    }
+
     refreshAccessToken(
         refreshToken: string,
     ): Observable<ApiResponse<LoginResponse<TUser>>> {

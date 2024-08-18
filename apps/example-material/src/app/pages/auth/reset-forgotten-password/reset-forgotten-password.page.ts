@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common'
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, inject } from '@angular/core'
 import {
     FormControl,
     FormGroup,
@@ -15,11 +14,17 @@ import { User } from '@myorg/app-example-models'
 
 @Component({
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, RouterModule],
+    imports: [ReactiveFormsModule, RouterModule],
     templateUrl: './reset-forgotten-password.page.html',
     styleUrls: ['./reset-forgotten-password.page.scss'],
 })
 export default class ResetForgottenPasswordPage implements OnInit {
+    private router = inject(Router)
+    private activeRoute = inject(ActivatedRoute)
+    private alertService = inject(AlertService)
+    private jwtService = inject(JwtService)
+    private authApiService = inject<AuthApiService<User>>(AuthApiService)
+
     userInfo: ForgotPasswordVerificationToken | null = null
     form: FormGroup = new FormGroup({
         password: new FormControl('', [
@@ -31,14 +36,6 @@ export default class ResetForgottenPasswordPage implements OnInit {
             Validators.minLength(8),
         ]),
     })
-
-    constructor(
-        private router: Router,
-        private activeRoute: ActivatedRoute,
-        private alertService: AlertService,
-        private jwtService: JwtService,
-        private authApiService: AuthApiService<User>,
-    ) {}
 
     ngOnInit(): void {
         this.userInfo = this.jwtService.decodeToken(

@@ -97,7 +97,8 @@
                 Test Protocol
             </a>
         </li>
-        <li *ngFor="let item of ['Deviations']">
+        @for (item of ['Deviations']; track item) {
+        <li>
             <details class="group [&_summary::-webkit-details-marker]:hidden">
                 <summary
                     class="flex cursor-pointer items-center justify-between rounded-sm px-4 py-2 text-gray-300 hover:bg-gray-100 hover:text-gray-700">
@@ -134,5 +135,6 @@
                 </ul>
             </details>
         </li>
+        }
     </ul>
 </div>

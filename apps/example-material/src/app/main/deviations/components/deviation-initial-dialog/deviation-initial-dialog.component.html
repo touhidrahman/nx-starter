@@ -21,9 +21,11 @@
         <mat-form-field class="ad--input" appearance="outline">
             <mat-label>Deviation Category</mat-label>
             <mat-select placeholder="Deviation Category" name="item">
-                <mat-option *ngFor="let item of ['A', 'B']" [value]="item">
+                @for (item of ['A', 'B']; track item) {
+                <mat-option [value]="item">
                     {{ item }}
                 </mat-option>
+                }
             </mat-select>
         </mat-form-field>
     </div>

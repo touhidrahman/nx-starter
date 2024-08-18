@@ -94,7 +94,8 @@
                         </thead>
                         <tbody
                             class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                            <tr *ngFor="let user of users">
+                            @for (user of users; track user) {
+                            <tr>
                                 <td
                                     class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                                     {{ user.firstName }}
@@ -199,10 +200,12 @@
                                                             </thead>
                                                             <tbody
                                                                 class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                                                                <tr
-                                                                    *ngFor="
-                                                                        let permission of permissions
-                                                                    ">
+                                                                @for (
+                                                                permission of
+                                                                permissions ;
+                                                                track
+                                                                permission) {
+                                                                <tr>
                                                                     <td
                                                                         class="lg:px-6 md:px-4 px-2 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                                                                         {{
@@ -251,6 +254,7 @@
                                                                         </brn-radio>
                                                                     </td>
                                                                 </tr>
+                                                                }
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -300,6 +304,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -368,7 +373,9 @@
                                 </thead>
                                 <tbody
                                     class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                                    <tr *ngFor="let permission of permissions">
+                                    @for (permission of permissions; track
+                                    permission) {
+                                    <tr>
                                         <td
                                             class="lg:px-6 md:px-4 px-2 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                                             {{ permission.name }}
@@ -408,6 +415,7 @@
                                             </brn-radio>
                                         </td>
                                     </tr>
+                                    }
                                 </tbody>
                             </table>
                         </div>

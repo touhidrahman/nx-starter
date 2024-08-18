@@ -21,9 +21,12 @@ export interface UserDto {
     permissions: UserPermissions
     profileImage?: string
     role: UserRole
+    groupName: string
+    groupType: string
+    verified: boolean
+    type: 'admin' | 'user' | 'moderator'
     preferredCurrency: 'USD' | 'BDT'
     preferredLanguage: 'en' | 'bn'
-
 }
 
 export interface User extends UserDto {
