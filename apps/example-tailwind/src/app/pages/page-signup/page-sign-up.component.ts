@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common'
 import { Component } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { Router, RouterModule } from '@angular/router'
@@ -14,7 +13,6 @@ import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
     selector: 'app-page-sign-up',
     standalone: true,
     imports: [
-        CommonModule,
         ...SpartanModules,
         RouterModule,
         ReactiveFormsModule,

@@ -9,7 +9,7 @@ import { Router, RouterModule } from '@angular/router'
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
 import { HlmCardDirective } from '@spartan-ng/ui-card-helm'
 import { AuthApiService } from '@myorg/common-auth'
-import { CommonModule } from '@angular/common'
+
 import { toast } from 'ngx-sonner'
 
 @Component({
@@ -18,7 +18,6 @@ import { toast } from 'ngx-sonner'
     imports: [
         ReactiveFormsModule,
         RouterModule,
-        CommonModule,
         HlmInputDirective,
         HlmCardDirective,
     ],

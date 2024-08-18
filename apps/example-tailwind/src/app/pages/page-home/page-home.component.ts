@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common'
 import { Component, type ElementRef, ViewChild } from '@angular/core'
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SpartanModules } from '@myorg/spartan-modules'
@@ -8,7 +7,6 @@ import { NavbarInternalComponent } from '../../main/headers/components/navbar-in
     selector: 'app-page-home',
     standalone: true,
     imports: [
-        CommonModule,
         ...SpartanModules,
         FormsModule,
         ReactiveFormsModule,

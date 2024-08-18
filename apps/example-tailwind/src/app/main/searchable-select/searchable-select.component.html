@@ -24,8 +24,8 @@
         <div *brnCmdEmpty hlmCmdEmpty>No results found.</div>
         <brn-cmd-list hlm>
             <brn-cmd-group hlm>
+                @for (framework of frameworks; track framework) {
                 <button
-                    *ngFor="let framework of frameworks"
                     brnCmdItem
                     [value]="framework.value"
                     (selected)="commandSelected(framework)"
@@ -38,6 +38,7 @@
                         hlmCmdIcon />
                     {{ framework.label }}
                 </button>
+                }
             </brn-cmd-group>
         </brn-cmd-list>
     </brn-cmd>
