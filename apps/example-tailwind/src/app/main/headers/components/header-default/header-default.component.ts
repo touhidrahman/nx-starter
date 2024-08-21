@@ -1,7 +1,8 @@
-import { Component } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 
+import { RouterModule } from '@angular/router'
+import { AuthStateService } from '@myorg/app-example-auth'
 import { SpartanModules } from '@myorg/spartan-modules'
-import { LucideAngularModule } from 'lucide-angular'
 import { provideIcons } from '@ng-icons/core'
 import {
     lucideAlignJustify,
@@ -9,7 +10,8 @@ import {
     lucideSearch,
 } from '@ng-icons/lucide'
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
-import { RouterModule } from '@angular/router'
+import { LucideAngularModule } from 'lucide-angular'
+import { UserService } from '../util/auth-util'
 
 @Component({
     selector: 'app-header-default',
@@ -26,4 +28,17 @@ import { RouterModule } from '@angular/router'
         provideIcons({ lucideSearch, lucideAlignJustify, lucidePlusCircle }),
     ],
 })
-export class HeaderDefaultComponent {}
+export class HeaderDefaultComponent implements OnInit {
+    private authStateService = inject(AuthStateService)
+    private userService = inject(UserService)
+
+    userId = -1
+
+    ngOnInit(): void {
+        this.userId = this.userService.getUserId()
+    }
+
+    logOut() {
+        this.authStateService.logout('/')
+    }
+}

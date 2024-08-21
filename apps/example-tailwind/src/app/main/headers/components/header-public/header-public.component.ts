@@ -5,6 +5,7 @@ import { AuthStateService } from '@myorg/app-example-auth'
 import { SpartanModules } from '@myorg/spartan-modules'
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
 import { LucideAngularModule } from 'lucide-angular'
+import { UserService } from '../util/auth-util'
 
 @Component({
     selector: 'app-header-public',
@@ -21,19 +22,14 @@ import { LucideAngularModule } from 'lucide-angular'
 })
 export class HeaderPublicComponent implements OnInit {
     private authStateService = inject(AuthStateService)
+    private userService = inject(UserService)
 
     userId = -1
 
-    getUser() {
-        const user = localStorage.getItem('user')
-        return user ? JSON.parse(user) : null
+    ngOnInit(): void {
+        this.userId = this.userService.getUserId()
     }
 
-    ngOnInit(): void {
-        const user = this.getUser()
-        this.userId = user.id
-        console.log(this.userId)
-    }
     logOut() {
         this.authStateService.logout('/')
     }

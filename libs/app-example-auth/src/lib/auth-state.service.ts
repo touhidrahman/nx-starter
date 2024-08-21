@@ -9,7 +9,6 @@ import {
 } from '@myorg/app-example-models'
 import { AuthApiService, TokenStorageService } from '@myorg/common-auth'
 import { LocalStorageService } from '@myorg/common-services'
-
 import { SimpleStore } from '@myorg/store'
 import { debounceTime, map, timer } from 'rxjs'
 

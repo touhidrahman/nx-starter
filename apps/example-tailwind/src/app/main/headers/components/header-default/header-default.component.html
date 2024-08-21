@@ -14,21 +14,7 @@
                     <hlm-icon size="sm" name="lucideSearch" />
                 </div>
             </div>
-            <div class="flex gap-4">
-                <button
-                    hlmBtn
-                    class="bg-success button-small text-success-foreground hover:bg-green-400"
-                    [routerLink]="['/signup']">
-                    Sign Up
-                </button>
-                <button
-                    hlmBtn
-                    [routerLink]="['/login']"
-                    variant="default"
-                    class="button-small">
-                    Login
-                </button>
-            </div>
+            @if(userId > 0){
             <button
                 hlmBtn
                 size="default"
@@ -45,6 +31,23 @@
                     >
                 </hlm-avatar>
             </button>
+            } @else {
+            <div class="flex gap-4">
+                <button
+                    hlmBtn
+                    class="bg-success button-small text-success-foreground hover:bg-green-400"
+                    [routerLink]="['/signup']">
+                    Sign Up
+                </button>
+                <button
+                    hlmBtn
+                    [routerLink]="['/login']"
+                    variant="default"
+                    class="button-small">
+                    Login
+                </button>
+            </div>
+            }
         </div>
 
         <ng-template #menu>
@@ -76,16 +79,16 @@
                         <hlm-menu-shortcut></hlm-menu-shortcut>
                     </button>
 
-                    <button hlmMenuItem [brnMenuTriggerFor]="submenuTpl">
+                    <!-- <button hlmMenuItem [brnMenuTriggerFor]="submenuTpl">
                         <lucide-icon name="headset" hlmMenuIcon />
                         <span>Support</span>
                         <hlm-menu-item-sub-indicator />
-                    </button>
+                    </button> -->
                 </hlm-menu-group>
 
                 <hlm-menu-separator />
 
-                <button hlmMenuItem>
+                <button hlmMenuItem (click)="logOut()">
                     <lucide-icon name="log-out" hlmMenuIcon />
                     <span>Logout</span>
                     <hlm-menu-shortcut></hlm-menu-shortcut>

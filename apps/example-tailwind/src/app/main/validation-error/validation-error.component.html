@@ -1,0 +1,7 @@
+@if(hasError()){
+<ng-container>
+    @for( err of errorMessages; track err){
+    <small class="text-red"> {{ err }}. </small>
+    }
+</ng-container>
+}
