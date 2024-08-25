@@ -9,7 +9,67 @@
                     alt="" />
             </a>
         </div>
-        <div class="flex gap-4">
+        <div class="flex gap-4 items-center">
+            @if(userId > 0){
+            <a class="text-base font-medium" [routerLink]="['/home']"
+                >Dashboard</a
+            >
+            <button
+                hlmBtn
+                size="default"
+                variant="ghost"
+                class="p-0"
+                [brnMenuTriggerFor]="menu">
+                <hlm-avatar variant="medium">
+                    <img
+                        src="/assets/avatar.png"
+                        alt="User image"
+                        hlmAvatarImage />
+                    <span class="bg-destructive text-white" hlmAvatarFallback
+                        >RG</span
+                    >
+                </hlm-avatar>
+            </button>
+            <ng-template #menu>
+                <hlm-menu class="w-56">
+                    <hlm-menu-label>John Doe</hlm-menu-label>
+                    <hlm-menu-separator />
+                    <hlm-menu-group>
+                        <button hlmMenuItem [routerLink]="['/profile']">
+                            <lucide-icon name="user" hlmMenuIcon />
+                            <span>Profile</span>
+                            <hlm-menu-shortcut></hlm-menu-shortcut>
+                        </button>
+
+                        <button hlmMenuItem>
+                            <lucide-icon name="settings" hlmMenuIcon />
+                            <span>Settings</span>
+                            <hlm-menu-shortcut></hlm-menu-shortcut>
+                        </button>
+
+                        <button hlmMenuItem>
+                            <lucide-icon name="keyboard" hlmMenuIcon />
+                            <span>Keyboard Shortcuts</span>
+                            <hlm-menu-shortcut></hlm-menu-shortcut>
+                        </button>
+
+                        <button hlmMenuItem>
+                            <lucide-icon name="users" hlmMenuIcon />
+                            <span>Team</span>
+                            <hlm-menu-shortcut></hlm-menu-shortcut>
+                        </button>
+                    </hlm-menu-group>
+
+                    <hlm-menu-separator />
+
+                    <button hlmMenuItem (click)="logOut()">
+                        <lucide-icon name="log-out" hlmMenuIcon />
+                        <span>Logout</span>
+                        <hlm-menu-shortcut></hlm-menu-shortcut>
+                    </button>
+                </hlm-menu>
+            </ng-template>
+            }@else{
             <button class="btn-outline" [routerLink]="['/signup']">
                 Sign Up
             </button>
@@ -20,6 +80,7 @@
                 class="btn-fill">
                 Login
             </button>
+            }
         </div>
     </div>
 </nav>

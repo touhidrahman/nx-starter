@@ -65,16 +65,18 @@ export class AuthApiService<TUser> {
     }
 
     changePassword(
+        userId: number,
         currentPassword: string,
         password: string,
-        passwordConfirmation: string,
+        // passwordConfirmation?: string,
     ): Observable<ApiResponse<boolean>> {
         return this.http.post<ApiResponse<boolean>>(
             `${this.apiUrl}/change-password`,
             {
+                userId,
                 password,
                 currentPassword,
-                passwordConfirmation,
+                // passwordConfirmation,
             },
         )
     }

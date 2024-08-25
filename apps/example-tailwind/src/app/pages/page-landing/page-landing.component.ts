@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common'
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { PublicFooterComponent } from '../../main/footer/public-footer/public-footer.component'
 import { DownloadAppComponent } from '../../main/landing/components/download-app/download-app.component'
@@ -10,7 +9,6 @@ import { PricePlanComponent } from '../../main/landing/components/price-plan/pri
     selector: 'app-page-landing',
     standalone: true,
     imports: [
-        CommonModule,
         HeroComponent,
         PricePlanComponent,
         PublicFooterComponent,

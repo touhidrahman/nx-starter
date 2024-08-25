@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common'
 import { Component, signal } from '@angular/core'
 import { SpartanModules } from '@myorg/spartan-modules'
 import { provideIcons } from '@ng-icons/core'
@@ -8,7 +7,7 @@ type Framework = { label: string; value: string }
 @Component({
     selector: 'app-searchable-select',
     standalone: true,
-    imports: [CommonModule, ...SpartanModules],
+    imports: [...SpartanModules],
     templateUrl: './searchable-select.component.html',
     styleUrl: './searchable-select.component.scss',
     providers: [],

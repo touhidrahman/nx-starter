@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { CommonModule } from '@angular/common'
+
 import { InfoTreeComponent } from '../../main/headers/info-tree/info-tree.component'
 import { HeaderInternalComponent } from '../../main/headers/header-internal/header-internal.component'
 import { ButtonGroupComponent } from '../../main/headers/button-group/button-group.component'
@@ -11,7 +11,6 @@ import { MaterialModules } from '@myorg/material-modules'
     templateUrl: './test-protocol.component.html',
     styleUrl: './test-protocol.component.scss',
     imports: [
-        CommonModule,
         ...MaterialModules,
         InfoTreeComponent,
         HeaderInternalComponent,

@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common'
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { MaterialModules } from '@myorg/material-modules'
@@ -8,12 +7,12 @@ import { ApprovalDialogComponent } from '../../../approvals/components/approval-
 @Component({
     selector: 'app-requirement-card',
     standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, ...MaterialModules],
+    imports: [ReactiveFormsModule, ...MaterialModules],
     templateUrl: './requirement-card.component.html',
     styleUrl: './requirement-card.component.scss',
 })
 export class RequirementCardComponent {
-    constructor(private dialog: MatDialog) {}
+    private dialog = inject(MatDialog)
 
     openDialog() {
         this.dialog.open(ApprovalDialogComponent, {})

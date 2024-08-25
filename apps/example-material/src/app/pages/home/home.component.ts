@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common'
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { ButtonGroupComponent } from '../../main/headers/button-group/button-group.component'
 import { InfoTreeComponent } from '../../main/headers/info-tree/info-tree.component'
@@ -14,7 +13,6 @@ import { MaterialModules } from '@myorg/material-modules'
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
     imports: [
-        CommonModule,
         InfoTreeComponent,
         HeaderInternalComponent,
         RequirementCardComponent,
@@ -23,7 +21,7 @@ import { MaterialModules } from '@myorg/material-modules'
     ],
 })
 export default class HomeComponent {
-    constructor(private dialog: MatDialog) {}
+    private dialog = inject(MatDialog)
 
     openDialog() {
         this.dialog.open(ApprovalDialogComponent, {})

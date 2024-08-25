@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core'
-import { CommonModule } from '@angular/common'
+import { Component, OnInit, inject } from '@angular/core'
+
 import { HeaderPublicComponent } from '../../../headers/components/header-public/header-public.component'
 import { AuthStateService } from '@myorg/app-example-auth'
 import { PublicFooterComponent } from '../../../footer/public-footer/public-footer.component'
@@ -7,14 +7,14 @@ import { PublicFooterComponent } from '../../../footer/public-footer/public-foot
 @Component({
     selector: 'app-layout-public',
     standalone: true,
-    imports: [CommonModule, HeaderPublicComponent, PublicFooterComponent],
+    imports: [HeaderPublicComponent, PublicFooterComponent],
     templateUrl: './layout-public.component.html',
     styleUrl: './layout-public.component.scss',
 })
 export class LayoutPublicComponent implements OnInit {
-    isLoggedIn = false
+    private authStateService = inject(AuthStateService)
 
-    constructor(private authStateService: AuthStateService) {}
+    isLoggedIn = false
 
     ngOnInit(): void {
         if (this.authStateService.getLoginStatus()) {

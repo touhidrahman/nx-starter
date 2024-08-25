@@ -5,8 +5,6 @@
         </div>
 
         <div class="flex items-center gap-4">
-
-
             <button
                 hlmBtn
                 size="default"
@@ -30,7 +28,7 @@
                 <hlm-menu-label>John Doe</hlm-menu-label>
                 <hlm-menu-separator />
                 <hlm-menu-group>
-                    <button hlmMenuItem>
+                    <button hlmMenuItem [routerLink]="['/profile']">
                         <lucide-icon name="user" hlmMenuIcon />
                         <span>Profile</span>
                         <hlm-menu-shortcut></hlm-menu-shortcut>
@@ -43,21 +41,9 @@
                     </button>
 
                     <button hlmMenuItem>
-                        <lucide-icon name="keyboard" hlmMenuIcon />
-                        <span>Keyboard Shortcuts</span>
-                        <hlm-menu-shortcut></hlm-menu-shortcut>
-                    </button>
-
-                    <button hlmMenuItem>
                         <lucide-icon name="users" hlmMenuIcon />
                         <span>Team</span>
                         <hlm-menu-shortcut></hlm-menu-shortcut>
-                    </button>
-
-                    <button hlmMenuItem [brnMenuTriggerFor]="submenuTpl">
-                        <lucide-icon name="headset" hlmMenuIcon />
-                        <span>Support</span>
-                        <hlm-menu-item-sub-indicator />
                     </button>
                 </hlm-menu-group>
 
@@ -93,4 +79,3 @@
         </ng-template>
     </div>
 </nav>
-

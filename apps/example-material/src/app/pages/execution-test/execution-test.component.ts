@@ -1,5 +1,5 @@
-import { Component } from '@angular/core'
-import { CommonModule } from '@angular/common'
+import { Component, inject } from '@angular/core'
+
 import { MaterialModules } from '@myorg/material-modules'
 import { ButtonGroupComponent } from '../../main/headers/button-group/button-group.component'
 import { InfoTreeComponent } from '../../main/headers/info-tree/info-tree.component'
@@ -11,7 +11,6 @@ import { DeviationInitialDialogComponent } from '../../main/deviations/component
     selector: 'app-execution-test',
     standalone: true,
     imports: [
-        CommonModule,
         ...MaterialModules,
         InfoTreeComponent,
         HeaderInternalComponent,
@@ -21,6 +20,8 @@ import { DeviationInitialDialogComponent } from '../../main/deviations/component
     styleUrl: './execution-test.component.scss',
 })
 export class ExecutionTestComponent {
+    private dialog = inject(MatDialog)
+
     columnNamesMap = {
         step: 'Step',
         description: 'Description',
@@ -84,8 +85,6 @@ export class ExecutionTestComponent {
             assignments: '',
         },
     ]
-
-    constructor(private dialog: MatDialog) {}
 
     openDeviationDialog() {
         this.dialog.open(DeviationInitialDialogComponent, {
