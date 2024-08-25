@@ -1,10 +1,11 @@
-import { Component } from '@angular/core'
+import { Component, inject, signal } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { UserApiService } from '@myorg/app-example-api-services'
 import { User } from '@myorg/app-example-models'
 import { ApiResponse } from '@myorg/common-models'
 import { RouterLink } from '@angular/router'
 import { FormsModule } from '@angular/forms'
+import { GroupApiService } from '@myorg/app-example-api-services'
+import { GroupDto } from '@myorg/app-example-models'
 
 @Component({
     selector: 'app-page-group-management',
@@ -14,60 +15,61 @@ import { FormsModule } from '@angular/forms'
     styleUrl: './page-group-management.component.css',
 })
 export class PageGroupManagementComponent {
-    users: User[] = []
+    private groupApiService = inject(GroupApiService)
+
+    groups = signal<GroupDto[]>([])
     loading = true
     currentPage = 1
     totalPages = 1
 
     showEditModal = false
     showDeleteModal = false
-    selectedUser: User | null = null
-
-    constructor(private userService: UserApiService) {}
+    selectedGroup: GroupDto | null = null
 
     ngOnInit() {
-        this.userService.useAdminEndpoint()
-        this.fetchUsers()
+        // this.userService.useAdminEndpoint()
+        this.fetchGroups()
     }
 
-    fetchUsers(page: number = this.currentPage) {
+    fetchGroups(page: number = this.currentPage) {
         this.loading = true
-        this.userService.getUsers({ page, pageSize: 10 }).subscribe({
-            next: (response: ApiResponse<User[]>) => {
-                this.users = response?.data as User[]
+        this.groupApiService.getAllGroups({ page, pageSize: 10 }).subscribe({
+            next: (response: ApiResponse<any[]>) => {
+                console.log('group response', response)
+                this.groups.set(response.data ?? [])
                 this.totalPages =
                     (response?.meta?.['totalPages'] as number) || 1
                 this.currentPage = response?.meta?.page || page
                 this.loading = false
             },
             error: (error: any) => {
-                console.error('Error fetching users:', error)
+                console.error('Error fetching Groups:', error)
                 this.loading = false
             },
             complete: () => {
-                console.log('User fetching completed.')
+                console.log('Group fetching completed.')
             },
         })
     }
 
     goToPage(page: number) {
         if (page >= 1 && page <= this.totalPages) {
-            this.fetchUsers(page)
+            this.fetchGroups(page)
         }
     }
 
-    openEditModal(user: User) {
-        this.selectedUser = { ...user }
+    openEditModal(group: GroupDto) {
+        this.selectedGroup = { ...group }
         this.showEditModal = true
     }
 
     closeEditModal() {
         this.showEditModal = false
-        this.selectedUser = null
+        this.selectedGroup = null
     }
 
     onSubmitEditForm() {
-        if (this.selectedUser) {
+        if (this.selectedGroup) {
             //   this.userService.updateUser(this.selectedUser.id, this.selectedUser).subscribe({
             //     next: () => {
             //       this.fetchUsers();
@@ -80,18 +82,18 @@ export class PageGroupManagementComponent {
         }
     }
 
-    openDeleteModal(user: User) {
-        this.selectedUser = user
+    openDeleteModal(group: GroupDto) {
+        this.selectedGroup = group
         this.showDeleteModal = true
     }
 
     closeDeleteModal() {
         this.showDeleteModal = false
-        this.selectedUser = null
+        this.selectedGroup = null
     }
 
     confirmDeleteUser() {
-        if (this.selectedUser) {
+        if (this.selectedGroup) {
             //   this.userService.deleteUser(this.selectedUser.id).subscribe({
             //     next: () => {
             //       this.fetchUsers();
