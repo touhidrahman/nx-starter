@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common'
 import { Component, OnInit, inject } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { UserApiService } from '@myorg/app-example-api-services'
@@ -14,6 +15,7 @@ import { LucideAngularModule } from 'lucide-angular'
     imports: [
         ...SpartanModules,
         HlmIconComponent,
+        NgClass,
         LucideAngularModule,
         FormsModule,
     ],
