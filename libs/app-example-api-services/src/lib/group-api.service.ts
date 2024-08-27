@@ -12,20 +12,26 @@ export class GroupApiService {
     getAllGroups(params: Params = {}): Observable<ApiResponse<any[]>> {
         return this.http.get<ApiResponse<any[]>>(`${this.baseUrl}`, {
             params,
-            headers: new HttpHeaders().set(
-                'Authorization',
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImExQGIuY29tIiwidHlwZSI6InVzZXIiLCJyb2xlSWQiOiIiLCJncm91cElkIjoiIiwiZ3JvdXBUeXBlIjoiIiwic3ViIjozLCJleHAiOjE3MjQ2MTEzODQ4NzF9.Xp3FUcJyyaHf_E0rxaaEdI1pUmQDAvTDPFkNfiH1MX4',
-            ),
         })
     }
 
     createGroup(data: any): Observable<ApiResponse<any[]>> {
         return this.http.post<ApiResponse<any[]>>(`${this.baseUrl}`, {
             data,
-            headers: new HttpHeaders().set(
-                'Authorization',
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImExQGIuY29tIiwidHlwZSI6InVzZXIiLCJyb2xlSWQiOiIiLCJncm91cElkIjoiIiwiZ3JvdXBUeXBlIjoiIiwic3ViIjozLCJleHAiOjE3MjQ2MTEzODQ4NzF9.Xp3FUcJyyaHf_E0rxaaEdI1pUmQDAvTDPFkNfiH1MX4',
-            ),
         })
+    }
+
+    updateGroup(id: number, data: any): Observable<ApiResponse<any>> {
+        return this.http.put<ApiResponse<any>>(`${this.baseUrl}/${id}`, {
+            data,
+        })
+    }
+
+    deleteGroup(id: number): Observable<ApiResponse<any>> {
+        return this.http.delete<ApiResponse<any>>(`${this.baseUrl}/${id}`)
+    }
+
+    getAGroup(id: number): Observable<ApiResponse<any>> {
+        return this.http.get<ApiResponse<any>>(`${this.baseUrl}/${id}`)
     }
 }

@@ -27,8 +27,8 @@ export class PageGroupManagementComponent {
     selectedGroup: GroupDto | null = null
 
     ngOnInit() {
-        // this.userService.useAdminEndpoint()
         this.fetchGroups()
+        console.log(this.selectedGroup)
     }
 
     fetchGroups(page: number = this.currentPage) {
@@ -70,15 +70,17 @@ export class PageGroupManagementComponent {
 
     onSubmitEditForm() {
         if (this.selectedGroup) {
-            //   this.userService.updateUser(this.selectedUser.id, this.selectedUser).subscribe({
-            //     next: () => {
-            //       this.fetchUsers();
-            //       this.closeEditModal();
-            //     },
-            //     error: (error) => {
-            //       console.error('Error updating user:', error);
-            //     },
-            //   });
+            this.groupApiService
+                .updateGroup(this.selectedGroup.id, this.selectedGroup)
+                .subscribe({
+                    next: () => {
+                        this.fetchGroups()
+                        this.closeEditModal()
+                    },
+                    error: (error) => {
+                        console.error('Error updating user:', error)
+                    },
+                })
         }
     }
 
@@ -94,15 +96,15 @@ export class PageGroupManagementComponent {
 
     confirmDeleteUser() {
         if (this.selectedGroup) {
-            //   this.userService.deleteUser(this.selectedUser.id).subscribe({
-            //     next: () => {
-            //       this.fetchUsers();
-            //       this.closeDeleteModal();
-            //     },
-            //     error: (error) => {
-            //       console.error('Error deleting user:', error);
-            //     },
-            //   });
+            this.groupApiService.deleteGroup(this.selectedGroup.id).subscribe({
+                next: () => {
+                    this.fetchGroups()
+                    this.closeDeleteModal()
+                },
+                error: (error) => {
+                    console.error('Error deleting user:', error)
+                },
+            })
         }
     }
 }
