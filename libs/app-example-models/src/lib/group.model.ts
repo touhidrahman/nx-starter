@@ -5,11 +5,16 @@ export interface GroupDto {
     city?: string
     phone?: string
     postcode?: string
-    type?: string
+    type?: GroupType
     email?: string
     country?: string
     updatedAt?: Date
     verified?: boolean
     verifiedOn?: Date
     createdAt?: Date
+}
+
+export enum GroupType {
+    client = 'client',
+    vendor = 'vendor',
 }

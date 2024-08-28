@@ -95,7 +95,6 @@ app.get('/:id', jwt({ secret }), isGroupOwner, async (c) => {
 app.post('/', zValidator('json', zInsertGroup), jwt({ secret }), async (c) => {
     const body = await c.req.valid('json')
     const { sub: userId, roleId } = await c.get('jwtPayload')
-
     try {
         // check if group already created where he is a owner
         const group = await db
@@ -104,7 +103,7 @@ app.post('/', zValidator('json', zInsertGroup), jwt({ secret }), async (c) => {
             .where(
                 and(
                     eq(groupsToUsersTable.userId, userId),
-                    eq(groupsToUsersTable.roleId, roleId),
+                    eq(groupsToUsersTable.roleId, 4),
                     eq(groupsToUsersTable.isOwner, true),
                 ),
             )
@@ -137,7 +136,7 @@ app.put(
     zValidator('json', zUpdateGroup),
     jwt({ secret }),
     isGroupOwner,
-    hasPermission('Group', 2),
+    hasPermission('Group', 4),
     async (c) => {
         const id = toInt(c.req.param('id'))
         const body = await c.req.valid('json')

@@ -4,8 +4,8 @@
         <button
             hlmBtn
             class="bg-success button-small text-success-foreground hover:bg-green-400 p-2 rounded-md font-semibold"
-            [routerLink]="['/']">
-            Create
+            (click)="openCreateGroupModal()">
+            Add Group
         </button>
     </div>
 
@@ -109,7 +109,7 @@
         </div>
     </div>
 </div>
-<!-- Edit User Modal -->
+<!-- Edit Group Modal -->
 <div
     *ngIf="showEditModal"
     class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -126,11 +126,18 @@
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700">Group Type</label>
-                <input
-                    [(ngModel)]="selectedGroup.type"
-                    name="groupType"
-                    class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300"
-                    type="text" />
+                <select
+                    name=""
+                    id=""
+                    class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300">
+                    @for(type of groupTypes; track type){
+                    <option
+                        [selected]="selectedGroup.type === type"
+                        [value]="type">
+                        {{ type }}
+                    </option>
+                    }
+                </select>
             </div>
             <div class="flex justify-end space-x-2">
                 <button
@@ -149,7 +156,7 @@
     </div>
 </div>
 
-<!-- Delete User Modal -->
+<!-- Delete Group Modal -->
 <div
     *ngIf="showDeleteModal"
     class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
@@ -174,5 +181,92 @@
                 Delete
             </button>
         </div>
+    </div>
+</div>
+<!-- Create Group Modal -->
+<div
+    *ngIf="showCreateModal"
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+    <div class="bg-white w-full max-w-md p-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-semibold mb-4">Create Group</h2>
+        <form
+            [formGroup]="createGroupForm"
+            (ngSubmit)="onSubmitGroupCreateForm()">
+            <div class="mb-4">
+                <label class="block text-gray-700">Group Name</label>
+                <input
+                    class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300"
+                    type="text"
+                    formControlName="name" />
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Group Type</label>
+                <select
+                    name=""
+                    id=""
+                    class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300"
+                    formControlName="type">
+                    <option value="">Select type</option>
+                    @for(type of groupTypes; track type) {
+                    <option [value]="type">{{ type }}</option>
+                    }
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Email</label>
+                <input
+                    class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300"
+                    type="email"
+                    formControlName="email" />
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Address</label>
+                <input
+                    class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300"
+                    type="text"
+                    formControlName="address" />
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Phone</label>
+                <input
+                    class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300"
+                    type="text"
+                    formControlName="phone" />
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Post Code</label>
+                <input
+                    class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300"
+                    type="text"
+                    formControlName="postCode" />
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">City</label>
+                <input
+                    class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300"
+                    type="text"
+                    formControlName="city" />
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Country</label>
+                <input
+                    class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300"
+                    type="text"
+                    formControlName="country" />
+            </div>
+            <div class="flex justify-end space-x-2">
+                <button
+                    type="button"
+                    (click)="closeCreateModal()"
+                    class="px-4 py-2 text-gray-600 hover:text-gray-800">
+                    Cancel
+                </button>
+                <button
+                    type="submit"
+                    class="px-4 py-2 text-white bg-green-600 hover:bg-green-500 rounded-lg">
+                    Submit
+                </button>
+            </div>
+        </form>
     </div>
 </div>
