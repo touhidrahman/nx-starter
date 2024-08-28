@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common'
 import { Component, OnInit, inject } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { UserApiService } from '@myorg/app-example-api-services'
@@ -16,6 +17,7 @@ import { LucideAngularModule } from 'lucide-angular'
         HlmIconComponent,
         LucideAngularModule,
         FormsModule,
+        CommonModule,
     ],
     templateUrl: './page-dashboard-home.component.html',
     styleUrls: ['./page-dashboard-home.component.scss'],
