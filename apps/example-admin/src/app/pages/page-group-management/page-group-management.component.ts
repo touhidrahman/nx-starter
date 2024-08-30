@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core'
-import { CommonModule } from '@angular/common'
+import { CommonModule, TitleCasePipe, UpperCasePipe } from '@angular/common'
 import { ApiResponse } from '@myorg/common-models'
 import { RouterLink } from '@angular/router'
 import {
@@ -7,14 +7,24 @@ import {
     FormGroup,
     FormsModule,
     ReactiveFormsModule,
+    Validators,
 } from '@angular/forms'
 import { GroupApiService } from '@myorg/app-example-api-services'
-import { GroupDto, GroupType } from '@myorg/app-example-models'
+import { GroupDto, GroupStatus, GroupType } from '@myorg/app-example-models'
+import { LucideAngularModule } from 'lucide-angular'
 
 @Component({
     selector: 'app-page-group-management',
     standalone: true,
-    imports: [CommonModule, RouterLink, FormsModule, ReactiveFormsModule],
+    imports: [
+        CommonModule,
+        RouterLink,
+        FormsModule,
+        ReactiveFormsModule,
+        TitleCasePipe,
+        LucideAngularModule,
+        UpperCasePipe,
+    ],
     templateUrl: './page-group-management.component.html',
     styleUrl: './page-group-management.component.css',
 })
@@ -27,6 +37,7 @@ export class PageGroupManagementComponent {
     currentPage = 1
     totalPages = 1
     groupTypes = Object.values(GroupType)
+    groupStatus = Object.values(GroupStatus)
 
     showEditModal = false
     showDeleteModal = false
@@ -77,6 +88,7 @@ export class PageGroupManagementComponent {
     }
 
     onSubmitEditForm() {
+        console.log(this.selectedGroup)
         if (this.selectedGroup) {
             const { id } = this.selectedGroup
 
@@ -90,8 +102,6 @@ export class PageGroupManagementComponent {
                 country: this.selectedGroup.country,
                 postcode: this.selectedGroup.postcode,
                 address: this.selectedGroup.address,
-                updatedAt: new Date(),
-                createdAt: new Date(),
             }
             data.id
                 ? this.groupApiService.updateGroup(data.id, data).subscribe({
@@ -158,14 +168,14 @@ export class PageGroupManagementComponent {
 
     initCreateForm() {
         this.createGroupForm = this.fb.group({
-            name: [],
-            type: [],
-            email: [],
-            phone: [],
-            postCode: [],
-            city: [],
-            address: [],
-            country: [],
+            type: ['', [Validators.required]],
+            name: ['', [Validators.required]],
+            email: ['', [Validators.required]],
+            phone: ['', [Validators.required]],
+            postCode: ['', [Validators.required]],
+            city: ['', [Validators.required]],
+            address: ['', [Validators.required]],
+            country: ['', [Validators.required]],
         })
     }
 }

@@ -136,7 +136,7 @@ app.put(
     zValidator('json', zUpdateGroup),
     jwt({ secret }),
     isGroupOwner,
-    hasPermission('Group', 4),
+    hasPermission('Group', 1),
     async (c) => {
         const id = toInt(c.req.param('id'))
         const body = await c.req.valid('json')
@@ -159,7 +159,7 @@ app.delete(
     '/:id',
     jwt({ secret }),
     isGroupOwner,
-    hasPermission('Group', 4),
+    hasPermission('Group', 1),
     async (c) => {
         const id = toInt(c.req.param('id'))
         const result = await db

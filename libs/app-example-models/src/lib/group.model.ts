@@ -6,6 +6,7 @@ export interface GroupDto {
     phone?: string
     postcode?: string
     type?: GroupType
+    status?: GroupStatus
     email?: string
     country?: string
     updatedAt?: Date
@@ -17,4 +18,9 @@ export interface GroupDto {
 export enum GroupType {
     client = 'client',
     vendor = 'vendor',
+}
+export enum GroupStatus {
+    active = 'active',
+    inactive = 'inactive',
+    pending = 'pending',
 }

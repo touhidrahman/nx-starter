@@ -15,6 +15,7 @@
                 <tr class="bg-gray-100 text-left">
                     <th class="py-2 px-4 text-sm md:text-base">Group Name</th>
                     <th class="py-2 px-4 text-sm md:text-base">Group Type</th>
+                    <th class="py-2 px-4 text-sm md:text-base">Group Status</th>
                     <th class="py-2 px-4 text-sm md:text-base">Actions</th>
                 </tr>
             </thead>
@@ -41,21 +42,36 @@
                     *ngFor="let group of groups()"
                     class="border-b hover:bg-gray-50">
                     <td class="py-2 px-4 text-sm md:text-base">
-                        {{ group.name }}
+                        {{ group.name | titlecase }}
                     </td>
                     <td class="py-2 px-4 text-sm md:text-base">
-                        {{ group.name }}
+                        {{ group.type | titlecase }}
+                    </td>
+                    <td class="py-2 px-4 text-sm md:text-base">
+                        <span
+                            class="py-1 px-2 rounded-lg font-semibold text-xs tracking-wider"
+                            [ngClass]="{
+                                'bg-yello-400': group.status === 'pending',
+                                'bg-gray-200': group.status === 'inactive',
+                                'bg-green-400': group.status === 'active'
+                            }">
+                            {{ group.status | uppercase }}</span
+                        >
                     </td>
                     <td class="py-2 px-4 flex space-x-2 text-sm md:text-base">
                         <button
                             (click)="openEditModal(group)"
                             class="text-blue-500 hover:text-blue-700">
-                            Edit
+                            <lucide-icon
+                                name="pencil"
+                                class="h-4 w-4 md:h-6 md:w-6"></lucide-icon>
                         </button>
                         <button
                             (click)="openDeleteModal(group)"
                             class="text-red-500 hover:text-red-700">
-                            Delete
+                            <lucide-icon
+                                name="trash"
+                                class="h-4 w-4 md:h-6 md:w-6"></lucide-icon>
                         </button>
                     </td>
                 </tr>
@@ -127,14 +143,29 @@
             <div class="mb-4">
                 <label class="block text-gray-700">Group Type</label>
                 <select
-                    name=""
-                    id=""
+                    [(ngModel)]="selectedGroup.type"
+                    name="type"
                     class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300">
                     @for(type of groupTypes; track type){
                     <option
                         [selected]="selectedGroup.type === type"
                         [value]="type">
-                        {{ type }}
+                        {{ type | titlecase }}
+                    </option>
+                    }
+                </select>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700">Group Status</label>
+                <select
+                    name="status"
+                    [(ngModel)]="selectedGroup.status"
+                    class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300">
+                    @for(status of groupStatus; track status){
+                    <option
+                        [selected]="selectedGroup.status === status"
+                        [value]="status">
+                        {{ status | titlecase }}
                     </option>
                     }
                 </select>
@@ -202,13 +233,11 @@
             <div class="mb-4">
                 <label class="block text-gray-700">Group Type</label>
                 <select
-                    name=""
-                    id=""
                     class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300"
                     formControlName="type">
                     <option value="">Select type</option>
                     @for(type of groupTypes; track type) {
-                    <option [value]="type">{{ type }}</option>
+                    <option [value]="type">{{ type | titlecase }}</option>
                     }
                 </select>
             </div>

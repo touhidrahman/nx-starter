@@ -32,6 +32,11 @@ export const usersRelations = relations(usersTable, ({ many }) => ({
 }))
 
 export const groupTypeEnum = pgEnum('groupType', ['client', 'vendor'])
+export const groupStatusEnum = pgEnum('groupStatus', [
+    'active',
+    'inactive',
+    'pending',
+])
 
 export const rolesTable = pgTable('roles', {
     id: serial('id').primaryKey(),
@@ -44,6 +49,7 @@ export const rolesTable = pgTable('roles', {
 export const groupsTable = pgTable('groups', {
     id: serial('id').primaryKey(),
     type: groupTypeEnum('type').notNull().default('client'),
+    status: groupStatusEnum('status').notNull().default('inactive'),
     name: text('name').notNull(),
     email: text('email'),
     phone: text('phone'),

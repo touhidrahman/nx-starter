@@ -1,4 +1,10 @@
 DO $$ BEGIN
+ CREATE TYPE "public"."groupStatus" AS ENUM('active', 'inactive', 'pending');
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
  CREATE TYPE "public"."groupType" AS ENUM('client', 'vendor');
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -120,6 +126,7 @@ CREATE TABLE IF NOT EXISTS "events" (
 CREATE TABLE IF NOT EXISTS "groups" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"type" "groupType" DEFAULT 'client' NOT NULL,
+	"status" "groupStatus" DEFAULT 'inactive' NOT NULL,
 	"name" text NOT NULL,
 	"email" text,
 	"phone" text,
@@ -212,17 +219,6 @@ CREATE TABLE IF NOT EXISTS "roles" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "storage" (
 	"id" serial PRIMARY KEY NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "subscription" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"current_plan" text NOT NULL,
-	"is_trialing" boolean DEFAULT true NOT NULL,
-	"start_date" timestamp NOT NULL,
-	"end_date" timestamp,
-	"autorenewal" boolean DEFAULT true NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "subscriptions" (
