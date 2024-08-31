@@ -1,40 +1,59 @@
 import { Component, inject, signal } from '@angular/core'
-import { CommonModule } from '@angular/common'
-import { User } from '@myorg/app-example-models'
+import { CommonModule, TitleCasePipe, UpperCasePipe } from '@angular/common'
 import { ApiResponse } from '@myorg/common-models'
 import { RouterLink } from '@angular/router'
-import { FormsModule } from '@angular/forms'
+import {
+    FormBuilder,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+    Validators,
+} from '@angular/forms'
 import { GroupApiService } from '@myorg/app-example-api-services'
-import { GroupDto } from '@myorg/app-example-models'
+import { GroupDto, GroupStatus, GroupType } from '@myorg/app-example-models'
+import { LucideAngularModule } from 'lucide-angular'
 
 @Component({
     selector: 'app-page-group-management',
     standalone: true,
-    imports: [CommonModule, RouterLink, FormsModule],
+    imports: [
+        CommonModule,
+        RouterLink,
+        FormsModule,
+        ReactiveFormsModule,
+        TitleCasePipe,
+        LucideAngularModule,
+        UpperCasePipe,
+    ],
     templateUrl: './page-group-management.component.html',
     styleUrl: './page-group-management.component.css',
 })
 export class PageGroupManagementComponent {
     private groupApiService = inject(GroupApiService)
+    private fb = inject(FormBuilder)
 
     groups = signal<GroupDto[]>([])
     loading = true
     currentPage = 1
     totalPages = 1
+    groupTypes = Object.values(GroupType)
+    groupStatus = Object.values(GroupStatus)
 
     showEditModal = false
     showDeleteModal = false
     selectedGroup: GroupDto | null = null
+    showCreateModal: boolean = false
+    createGroupForm: FormGroup = new FormGroup({})
 
     ngOnInit() {
         this.fetchGroups()
-        console.log(this.selectedGroup)
+        this.initCreateForm()
     }
 
     fetchGroups(page: number = this.currentPage) {
         this.loading = true
         this.groupApiService.getAllGroups({ page, pageSize: 10 }).subscribe({
-            next: (response: ApiResponse<any[]>) => {
+            next: (response: ApiResponse<GroupDto[]>) => {
                 console.log('group response', response)
                 this.groups.set(response.data ?? [])
                 this.totalPages =
@@ -69,23 +88,37 @@ export class PageGroupManagementComponent {
     }
 
     onSubmitEditForm() {
+        console.log(this.selectedGroup)
         if (this.selectedGroup) {
-            this.groupApiService
-                .updateGroup(this.selectedGroup.id, this.selectedGroup)
-                .subscribe({
-                    next: () => {
-                        this.fetchGroups()
-                        this.closeEditModal()
-                    },
-                    error: (error) => {
-                        console.error('Error updating user:', error)
-                    },
-                })
+            const { id } = this.selectedGroup
+
+            const data: GroupDto = {
+                id: this.selectedGroup.id,
+                name: this.selectedGroup.name,
+                type: this.selectedGroup.type,
+                email: this.selectedGroup.email,
+                phone: this.selectedGroup.phone,
+                city: this.selectedGroup.city,
+                country: this.selectedGroup.country,
+                postcode: this.selectedGroup.postcode,
+                address: this.selectedGroup.address,
+            }
+            data.id
+                ? this.groupApiService.updateGroup(data.id, data).subscribe({
+                      next: () => {
+                          this.fetchGroups()
+                          this.closeEditModal()
+                      },
+                      error: (error) => {
+                          console.error('Error updating user:', error)
+                      },
+                  })
+                : ''
         }
     }
 
     openDeleteModal(group: GroupDto) {
-        this.selectedGroup = group
+        this.selectedGroup = { ...group }
         this.showDeleteModal = true
     }
 
@@ -96,7 +129,7 @@ export class PageGroupManagementComponent {
 
     confirmDeleteUser() {
         if (this.selectedGroup) {
-            this.groupApiService.deleteGroup(this.selectedGroup.id).subscribe({
+            this.groupApiService.deleteGroup(3).subscribe({
                 next: () => {
                     this.fetchGroups()
                     this.closeDeleteModal()
@@ -106,5 +139,43 @@ export class PageGroupManagementComponent {
                 },
             })
         }
+    }
+
+    openCreateGroupModal() {
+        this.showCreateModal = true
+    }
+
+    closeCreateModal() {
+        this.showCreateModal = false
+        this.selectedGroup = null
+    }
+
+    onSubmitGroupCreateForm() {
+        console.log(this.createGroupForm.value)
+        this.groupApiService.createGroup(this.createGroupForm.value).subscribe({
+            next: (val) => {
+                this.closeCreateModal()
+                this.fetchGroups()
+                console.log(val)
+            },
+            error: (err) => {
+                this.closeCreateModal()
+                this.fetchGroups()
+                console.log(err.error)
+            },
+        })
+    }
+
+    initCreateForm() {
+        this.createGroupForm = this.fb.group({
+            type: ['', [Validators.required]],
+            name: ['', [Validators.required]],
+            email: ['', [Validators.required]],
+            phone: ['', [Validators.required]],
+            postCode: ['', [Validators.required]],
+            city: ['', [Validators.required]],
+            address: ['', [Validators.required]],
+            country: ['', [Validators.required]],
+        })
     }
 }

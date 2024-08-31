@@ -139,6 +139,7 @@ export class AuthStateService extends SimpleStore<AuthState> {
 
     setStateAfterLogin(accessToken: string, refreshToken: string, user: User) {
         const decoded = this.jwtHelper.decodeToken(accessToken)
+        console.log(decoded)
 
         this.setState({
             accessToken,
