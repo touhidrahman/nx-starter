@@ -9,7 +9,6 @@ import {
 
 import { SpartanModules } from '@myorg/spartan-modules'
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { NgxSmartModalService } from 'ngx-smart-modal'
 import { DialogApprovalComponent } from './dialog-approval/dialog-approval.component'
 import { NavbarInternalComponent } from '../../main/headers/components/navbar-internal/navbar-internal.component'
 
@@ -26,7 +25,6 @@ import { NavbarInternalComponent } from '../../main/headers/components/navbar-in
     styleUrl: './page-home.component.scss',
 })
 export class PageHomeComponent {
-    private modalService = inject(NgxSmartModalService)
     private cdr = inject(ChangeDetectorRef)
     private vcr = inject(ViewContainerRef)
 
@@ -44,10 +42,10 @@ export class PageHomeComponent {
     ngAfterViewInit(): void {}
 
     openDialog() {
-        this.modalService
-            .create('dialog', DialogApprovalComponent, this.vcr, {
-                customClass: 'w-full max-w-screen-lg',
-            })
-            .open()
+        // this.modalService
+        //     .create('dialog', DialogApprovalComponent, this.vcr, {
+        //         customClass: 'w-full max-w-screen-lg',
+        //     })
+        //     .open()
     }
 }
