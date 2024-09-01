@@ -1,0 +1,255 @@
+<h1 class="text-2xl font-bold mt-4">Application Area Management</h1>
+<h1 class="text-xl mt-4">Area Management List</h1>
+<div class="flex mt-4 items-center justify-between">
+    <brn-select class="inline-block mt-2" placeholder="Select a Role">
+        <hlm-select-trigger class="w-56">
+            <hlm-select-value />
+        </hlm-select-trigger>
+        <hlm-select-content>
+            <hlm-option value="Refresh">Refresh</hlm-option>
+            <hlm-option value="Settings">Settings</hlm-option>
+            <hlm-option value="Help">Help</hlm-option>
+            <hlm-option value="Signout">Sign out</hlm-option>
+        </hlm-select-content>
+    </brn-select>
+
+    <hlm-dialog>
+        <button
+            hlmBtn
+            brnDialogTrigger
+            class="text-white hover:bg-green-600 font-bold bg-green-500">
+            Create new area management
+        </button>
+
+        <!-- Create new area management dialog -->
+
+        <hlm-dialog-content
+            class="md:min-w-[600px] w-full"
+            *brnDialogContent="let ctx">
+            <h1 class="text-2xl font-bold">Create new area management</h1>
+            <div class="mt-4 grid gap-4">
+                <hlm-form-field [formGroup]="form">
+                    <input
+                        aria-label="Role Name"
+                        formControlName="name"
+                        class="w-80"
+                        hlmInput
+                        type="text"
+                        placeholder="Role Name" />
+                    <hlm-error>Role name is required</hlm-error>
+                </hlm-form-field>
+
+                <div>
+                    <h1 class="font-bold">Permissions :</h1>
+
+                    <table class="min-w-full mt-4">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th
+                                    scope="col"
+                                    class="lg:px-6 md:px-4 px-2 py-3 text-center text-xs font-bold text-gray-500 tracking-wider"></th>
+                                <th
+                                    scope="col"
+                                    class="lg:px-6 md:px-4 px-2 py-3 text-center text-xs font-bold text-gray-500 tracking-wider">
+                                    Delete
+                                </th>
+                                <th
+                                    scope="col"
+                                    class="lg:px-6 md:px-4 px-2 py-3 text-center text-xs font-bold text-gray-500 tracking-wider">
+                                    Read
+                                </th>
+                                <th
+                                    scope="col"
+                                    class="lg:px-6 md:px-4 px-2 py-3 text-center text-xs font-bold text-gray-500 tracking-wider">
+                                    Write
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @for ( permission of permissions ; track permission)
+                            {
+                            <tr>
+                                <td
+                                    class="lg:px-6 md:px-4 px-2 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                    {{ permission.name }}
+                                </td>
+                                <td
+                                    class="lg:px-6 md:px-4 px-2 py-4 text-center">
+                                    <hlm-checkbox
+                                        [(ngModel)]="permission.read" />
+                                </td>
+                                <td
+                                    class="lg:px-6 md:px-4 px-2 py-4 text-center">
+                                    <hlm-checkbox
+                                        [(ngModel)]="permission.create" />
+                                </td>
+                                <td
+                                    class="lg:px-6 md:px-4 px-2 py-4 text-center">
+                                    <hlm-checkbox
+                                        [(ngModel)]="permission.edit" />
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="flex justify-end">
+                <button hlmBtn class="md:w-1/5 w-1/2" type="submit">
+                    Save
+                </button>
+            </div>
+        </hlm-dialog-content>
+    </hlm-dialog>
+</div>
+
+<table class="min-w-full mt-4 bg-white border border-gray-300">
+    <thead>
+        <tr class="bg-gray-100 text-left">
+            <th class="py-2 px-4 font-bold text-sm md:text-base">Area Name</th>
+            <th class="py-2 px-4 font-bold text-sm md:text-base">Can Delete</th>
+            <th class="py-2 px-4 font-bold text-sm md:text-base">Can Read</th>
+            <th class="py-2 px-4 font-bold text-sm md:text-base">Can Write</th>
+            <th class="py-2 px-4 font-bold text-sm md:text-base">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- @if (loading) {
+        <ng-container *ngFor="let _ of [].constructor(5)">
+            <tr class="border-b">
+                <td class="py-2 px-4 text-sm md:text-base">
+                    <div
+                        class="h-4 bg-gray-300 rounded w-3/4 animate-pulse"></div>
+                </td>
+                <td class="py-2 px-4 text-sm md:text-base">
+                    <div
+                        class="h-4 bg-gray-300 rounded w-3/4 animate-pulse"></div>
+                </td>
+                <td class="py-2 px-4 text-sm md:text-base">
+                    <div
+                        class="h-4 bg-gray-300 rounded w-1/2 animate-pulse"></div>
+                </td>
+                <td class="py-2 px-4 text-sm md:text-base">
+                    <div
+                        class="h-4 bg-gray-300 rounded w-1/2 animate-pulse"></div>
+                </td>
+                <td class="py-2 px-4 text-sm md:text-base">
+                    <div
+                        class="h-4 bg-gray-300 rounded w-1/2 animate-pulse"></div>
+                </td>
+            </tr>
+        </ng-container>
+        }@else { -->
+        <tr class="border-b hover:bg-gray-50">
+            <td class="py-2 px-4 text-sm md:text-base">Case</td>
+            <td class="py-2 px-4 text-sm text-red-500 font-bold md:text-base">
+                <hlm-icon size="sm" name="lucideX" />
+            </td>
+            <td class="py-2 px-4 text-green-500 text-sm md:text-base">
+                <hlm-icon size="sm" name="lucideCheck" />
+            </td>
+            <td class="py-2 px-4 text-sm text-green-500 md:text-base">
+                <hlm-icon size="sm" name="lucideCheck" />
+            </td>
+            <td class="py-2 px-4 flex space-x-4 text-sm md:text-base">
+                <hlm-dialog>
+                    <button id="edit-profile" brnDialogTrigger>
+                        <hlm-icon size="sm" name="lucidePencil" />
+                    </button>
+
+                    <!-- Edit Permissions dialog -->
+
+                    <hlm-dialog-content
+                        class="md:min-w-[600px] w-full"
+                        *brnDialogContent="let ctx">
+                        <h1 class="text-2xl font-bold">Edit Permissions</h1>
+                        <div class="mt-2 grid gap-4">
+                            <div>
+                                <table class="min-w-full mt-4">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th
+                                                scope="col"
+                                                class="lg:px-6 md:px-4 px-2 py-3 text-center text-xs font-bold text-gray-500 tracking-wider">
+                                                Delete
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                class="lg:px-6 md:px-4 px-2 py-3 text-center text-xs font-bold text-gray-500 tracking-wider">
+                                                Read
+                                            </th>
+                                            <th
+                                                scope="col"
+                                                class="lg:px-6 md:px-4 px-2 py-3 text-center text-xs font-bold text-gray-500 tracking-wider">
+                                                Write
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody
+                                        class="bg-white divide-y divide-gray-200 dark:divide-gray-700">
+                                        @for ( permission of permissions ; track
+                                        permission) {
+                                        <tr>
+                                            <td
+                                                class="lg:px-6 md:px-4 px-2 py-4 text-center">
+                                                <hlm-checkbox
+                                                    [(ngModel)]="
+                                                        permission.read
+                                                    " />
+                                            </td>
+
+                                            <td
+                                                class="lg:px-6 md:px-4 px-2 py-4 text-center">
+                                                <hlm-checkbox
+                                                    [(ngModel)]="
+                                                        permission.edit
+                                                    " />
+                                            </td>
+                                            <td
+                                                class="lg:px-6 md:px-4 px-2 py-4 text-center">
+                                                <hlm-checkbox
+                                                    [(ngModel)]="
+                                                        permission.delete
+                                                    " />
+                                            </td>
+                                        </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button hlmBtn class="md:w-1/5 w-1/2" type="submit">
+                                Save
+                            </button>
+                        </div>
+                    </hlm-dialog-content>
+                </hlm-dialog>
+                <hlm-dialog>
+                    <button id="edit-profile" brnDialogTrigger>
+                        <hlm-icon size="sm" name="lucideTrash2" />
+                    </button>
+                    <!-- Delete User dialog -->
+                    <hlm-dialog-content
+                        class="md:min-w-[500px] w-full"
+                        *brnDialogContent="let ctx">
+                        <hlm-dialog-header>
+                            <h3 hlmDialogTitle class="text-2xl font-bold">
+                                Delete Permission?
+                            </h3>
+                        </hlm-dialog-header>
+                        <div class="py-4 grid gap-4">
+                            <h1>Are you sure You want to delete this permission?</h1>
+                        </div>
+                        <hlm-dialog-footer class="flex gap-2">
+                            <button hlmBtn>Delete</button>
+                        </hlm-dialog-footer>
+                    </hlm-dialog-content>
+                </hlm-dialog>
+            </td>
+        </tr>
+        <!-- } -->
+    </tbody>
+</table>
