@@ -34,7 +34,6 @@ import {
 } from '@myorg/common-auth'
 import { LocalStorageService } from '@myorg/common-services'
 import { LucideAngularModule, icons } from 'lucide-angular'
-import { NgxSmartModalModule } from 'ngx-smart-modal'
 import { environment } from '../environment/environment'
 import { appRoutes } from './app.routes'
 
@@ -56,7 +55,6 @@ export const appConfig: ApplicationConfig = {
             withInterceptorsFromDi(),
         ),
         importProvidersFrom(LucideAngularModule.pick(icons)),
-        importProvidersFrom(NgxSmartModalModule.forRoot()),
         importProvidersFrom(BrowserModule),
         provideAnimations(),
         {

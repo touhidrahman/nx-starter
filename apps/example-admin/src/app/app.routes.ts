@@ -16,6 +16,14 @@ export const appRoutes: Route[] = [
             import(
                 './pages/page-area-management/page-area-management.component'
             ).then((m) => m.PageAreaManagementComponent),
+          resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'group-management',
+        loadComponent: () =>
+            import(
+                './pages/page-group-management/page-group-management.component'
+            ).then((m) => m.PageGroupManagementComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {

@@ -1,5 +1,5 @@
 {
-    "id": "5a1cfee1-8ba2-4429-96c4-561132d75c0a",
+    "id": "a597dbe9-8874-446a-b045-40d150b2b774",
     "prevId": "00000000-0000-0000-0000-000000000000",
     "version": "7",
     "dialect": "postgresql",
@@ -592,6 +592,14 @@
                     "primaryKey": false,
                     "notNull": true,
                     "default": "'client'"
+                },
+                "status": {
+                    "name": "status",
+                    "type": "groupStatus",
+                    "typeSchema": "public",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "'inactive'"
                 },
                 "name": {
                     "name": "name",
@@ -1194,67 +1202,6 @@
             "compositePrimaryKeys": {},
             "uniqueConstraints": {}
         },
-        "public.subscription": {
-            "name": "subscription",
-            "schema": "",
-            "columns": {
-                "id": {
-                    "name": "id",
-                    "type": "serial",
-                    "primaryKey": true,
-                    "notNull": true
-                },
-                "current_plan": {
-                    "name": "current_plan",
-                    "type": "text",
-                    "primaryKey": false,
-                    "notNull": true
-                },
-                "is_trialing": {
-                    "name": "is_trialing",
-                    "type": "boolean",
-                    "primaryKey": false,
-                    "notNull": true,
-                    "default": true
-                },
-                "start_date": {
-                    "name": "start_date",
-                    "type": "timestamp",
-                    "primaryKey": false,
-                    "notNull": true
-                },
-                "end_date": {
-                    "name": "end_date",
-                    "type": "timestamp",
-                    "primaryKey": false,
-                    "notNull": false
-                },
-                "autorenewal": {
-                    "name": "autorenewal",
-                    "type": "boolean",
-                    "primaryKey": false,
-                    "notNull": true,
-                    "default": true
-                },
-                "created_at": {
-                    "name": "created_at",
-                    "type": "timestamp",
-                    "primaryKey": false,
-                    "notNull": true,
-                    "default": "now()"
-                },
-                "updated_at": {
-                    "name": "updated_at",
-                    "type": "timestamp",
-                    "primaryKey": false,
-                    "notNull": true
-                }
-            },
-            "indexes": {},
-            "foreignKeys": {},
-            "compositePrimaryKeys": {},
-            "uniqueConstraints": {}
-        },
         "public.subscriptions": {
             "name": "subscriptions",
             "schema": "",
@@ -1501,6 +1448,11 @@
         }
     },
     "enums": {
+        "public.groupStatus": {
+            "name": "groupStatus",
+            "schema": "public",
+            "values": ["active", "inactive", "pending"]
+        },
         "public.groupType": {
             "name": "groupType",
             "schema": "public",
@@ -1533,6 +1485,7 @@
         }
     },
     "schemas": {},
+    "sequences": {},
     "_meta": {
         "columns": {},
         "schemas": {},
