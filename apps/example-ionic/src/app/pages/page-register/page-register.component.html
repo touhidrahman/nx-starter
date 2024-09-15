@@ -1,67 +1,57 @@
-<body>
-    <ion-card>
-        <ion-card-header>
-            <ion-card-title>Register</ion-card-title>
-        </ion-card-header>
+<div class="table">
+    <ion-text class="title">Sign Up</ion-text>
 
-        <ion-card-content>
-            <ion-input
-                label="First Name"
-                label-placement="floating"
-                fill="outline"
-                placeholder="Your first name"
-                errorText="Invalid email"
-                ngModel
-                email></ion-input>
-            <ion-input
-                label="Last Name"
-                label-placement="floating"
-                fill="outline"
-                placeholder="Your last name"
-                errorText="Invalid email"
-                ngModel
-                email></ion-input>
+    <ion-input
+        label="First Name"
+        label-placement="floating"
+        fill="outline"
+        placeholder="Your first name"
+        errorText="Invalid email"
+        ngModel
+        email></ion-input>
+    <ion-input
+        label="Last Name"
+        label-placement="floating"
+        fill="outline"
+        placeholder="Your last name"
+        errorText="Invalid email"
+        ngModel
+        email></ion-input>
 
-            <ion-input
-                type="email"
-                label="Email"
-                label-placement="floating"
-                fill="outline"
-                placeholder="Enter your email"
-                errorText="Invalid email"
-                ngModel
-                email></ion-input>
+    <ion-input
+        type="email"
+        label="Email"
+        label-placement="floating"
+        fill="outline"
+        placeholder="Enter your email"
+        errorText="Invalid email"
+        ngModel
+        email></ion-input>
 
-            <ion-input
-                type="password"
-                label="Password"
-                label-placement="floating"
-                fill="outline"
-                placeholder="Enter your Password"
-                errorText="Invalid password"
-                ngModel
-                email></ion-input>
+    <ion-input
+        type="password"
+        label="Password"
+        label-placement="floating"
+        fill="outline"
+        placeholder="Enter your Password"
+        errorText="Invalid password"
+        ngModel
+        email></ion-input>
 
-            <ion-input
-                type="password"
-                label="Confirm Password"
-                label-placement="floating"
-                fill="outline"
-                placeholder="Confirm Password"
-                errorText="Invalid password"
-                ngModel
-                email></ion-input>
+    <ion-input
+        type="password"
+        label="Confirm Password"
+        label-placement="floating"
+        fill="outline"
+        placeholder="Confirm Password"
+        errorText="Invalid password"
+        ngModel
+        email></ion-input>
 
-            <div>
-                <ion-button size="large" color="success" expand="block"
-                    >Register</ion-button
-                >
-                <p>
-                    <ion-text [routerLink]="['/login']" color="primary"
-                        >Already have an account? Login?
-                    </ion-text>
-                </p>
-            </div>
-        </ion-card-content>
-    </ion-card>
-</body>
+    <ion-button [routerLink]="['/account-created']" size="large" [strong]="true" color="success"
+        >Sign Up</ion-button
+    >
+    <ion-text class="ion-text" [routerLink]="['/login']" color="primary"
+        >Already have an account? Login?
+    </ion-text>
+</div>

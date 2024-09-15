@@ -1,0 +1,25 @@
+.card {
+    background-size: cover;
+    background-position: center;
+    height: 12rem;
+    color: #fff; /* Adjust text color for readability */
+}
+
+.card-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    margin-top: 5rem;
+    margin-left: 1rem;
+}
+
+.banner-title{
+    font-weight: 700;
+    font-size: 1.125rem;
+    line-height: 1rem;
+    color: rgb(22 163 74);
+}
+
+ion-button{
+    margin-left: 1rem;
+}

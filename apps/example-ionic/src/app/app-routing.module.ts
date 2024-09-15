@@ -3,15 +3,30 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router'
 
 const routes: Routes = [
     {
-        path: 'home',
-        loadChildren: () =>
-            import('./home/home.module').then((m) => m.HomePageModule),
-    },
-    {
         path: '',
-        redirectTo: 'home',
+        redirectTo: 'welcome',
         pathMatch: 'full',
     },
+
+    {
+        path: 'welcome',
+        loadComponent: () =>
+            import('./pages/page-welcome/page-welcome1/page-welcome1.component').then(
+                (m) => m.PageWelcome1Component)
+    },
+    {
+        path: 'welcome2',
+        loadComponent: () =>
+            import('./pages/page-welcome/page-welcome2/page-welcome2.component').then(
+                (m) => m.PageWelcome2Component)
+    },
+    {
+        path: 'welcome3',
+        loadComponent: () =>
+            import('./pages/page-welcome/page-welcome3/page-welcome3.component').then(
+                (m) => m.PageWelcome3Component)
+    },
+
 
     {
         path: 'login',
@@ -25,6 +40,12 @@ const routes: Routes = [
         loadComponent: () =>
             import('./pages/page-register/page-register.component').then(
                 (m) => m.PageRegisterComponent)
+    },
+    {
+        path: 'home',
+        loadComponent: () =>
+            import('./pages/page-home/page-home.component').then(
+                (m) => m.PageHomeComponent)
     },
     {
         path: 'forgot-password',
