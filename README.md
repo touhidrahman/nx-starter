@@ -16,7 +16,11 @@
 
 ### Updating spartan UI
 
-Run `npm run update-spartan-cli` to upgrade spartan cli. Remove `libs/ui` directory. Remove all `@spartan/*` paths from `tsconfig.base.json`. Then run `npm run spartan-ui` and follow instructions.
+-   Run `npm run update-spartan-cli` to upgrade spartan cli.
+-   Remove `libs/ui` directory.
+-   Remove all `@spartan/*` paths from `tsconfig.base.json`.
+-   Run `npm run spartan-ui` and follow instructions. Enter `libs/ui` when asked about install folder. Select `all` components when prompted. (Omit `helm` if you encounter error)
+-   Finally run `npm run format`
 
 ### Setup tailwind for a new project
 

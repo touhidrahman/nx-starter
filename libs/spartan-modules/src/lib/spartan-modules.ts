@@ -5,7 +5,7 @@ import {
     BrnAccordionTriggerDirective,
 } from '@spartan-ng/ui-accordion-brain'
 import {
-    HlmAccordionContentDirective,
+    HlmAccordionContentComponent,
     HlmAccordionDirective,
     HlmAccordionIconDirective,
     HlmAccordionImports,
@@ -201,7 +201,7 @@ export const HelmImports = [
 
     // components and directives
 
-    HlmAccordionContentDirective,
+    HlmAccordionContentComponent,
     HlmAccordionDirective,
     HlmAccordionIconDirective,
     HlmAccordionItemDirective,
