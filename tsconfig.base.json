@@ -73,7 +73,6 @@
             "@spartan-ng/ui-formfield-helm": [
                 "libs/ui/ui-formfield-helm/src/index.ts"
             ],
-            "@spartan-ng/ui-helm-helm": ["libs/ui/ui-helm-helm/src/index.ts"],
             "@spartan-ng/ui-hovercard-helm": [
                 "libs/ui/ui-hovercard-helm/src/index.ts"
             ],

@@ -1,7 +1,6 @@
 import {
     Directive,
     type DoCheck,
-    Inject,
     Injector,
     Input,
     computed,
@@ -12,7 +11,7 @@ import {
 } from '@angular/core'
 import { FormGroupDirective, NgControl, NgForm } from '@angular/forms'
 import { hlm } from '@spartan-ng/ui-core'
-import { BrnFormFieldControl } from '@spartan-ng/ui-form-field-brain'
+import { BrnFormFieldControl } from '@spartan-ng/ui-formfield-brain'
 import {
     ErrorStateMatcher,
     ErrorStateTracker,
