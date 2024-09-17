@@ -10,86 +10,98 @@
 <div class="px-2 space-y-6">
     <ul class="mt-6 space-y-1">
         <li>
+
             <a
-                [routerLink]="['/dashboard-home']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block text-black hover:bg-green-100 rounded-sm px-4 py-2 text-sm font-medium">
-                Home
+                [routerLink]="['/home']"
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class=" text-black flex gap-2 items-center hover:bg-green-100 rounded-sm px-4 py-2  font-medium">
+                <hlm-icon size="lg" name="lucideHome"/>
+                <h1>Home</h1>
             </a>
         </li>
-        <li>
+        <li >
+
             <a
                 [routerLink]="['/dashboard/cases']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
-                Cases
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="flex gap-2 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2  font-medium">
+                <hlm-icon size="lg" name="lucideFileSpreadsheet"/>
+                <h1>Cases</h1>
             </a>
         </li>
         <li>
             <a
                 [routerLink]="['/dashboard/clients']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
-                Clients
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="flex gap-2 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                <hlm-icon size="lg" name="lucideUsers"/>
+                <h1>Clients</h1>
             </a>
         </li>
         <li>
             <a
                 [routerLink]="['/dashboard/documents']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
-                Documents
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="flex gap-2 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2  font-medium">
+                <hlm-icon size="lg" name="lucideFiles"/>
+                <h1>Documents</h1>
             </a>
         </li>
         <li>
             <a
                 [routerLink]="['/dashboard/calendar']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
-                Calendar
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="flex gap-2 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                <hlm-icon size="lg" name="lucideCalendarDays"/>
+                <h1>Calendar</h1>
             </a>
         </li>
         <li>
             <a
-                [routerLink]="['/dashboard/communication']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
-                Communication
+                [routerLink]="['/dashboard/lucideCircuitBoard']"
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="flex gap-2 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2  font-medium">
+                <hlm-icon size="lg" name="lucideFileSpreadsheet"/>
+                <h1>Communication</h1>
             </a>
         </li>
         <li>
             <a
                 [routerLink]="['/dashboard/billing']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
-                Billing
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="flex gap-2 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2  font-medium">
+                <hlm-icon size="lg" name="lucideBadgeDollarSign"/>
+                <h1>Billing</h1>
             </a>
         </li>
         <li>
             <a
                 [routerLink]="['/dashboard/tasks']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
-                Tasks
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="flex gap-2 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2  font-medium">
+                <hlm-icon size="lg" name="lucideLayoutList"/>
+                <h1>Tasks</h1>
             </a>
         </li>
         <li>
             <a
                 [routerLink]="['/dashboard/report']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
-                Report
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="flex gap-2 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2  font-medium">
+                <hlm-icon size="lg" name="lucideListMinus"/>
+                <h1>Report</h1>
             </a>
         </li>
         <li>
             <a
                 [routerLink]="['/dashboard/settings']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
-                Settings
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="flex gap-2 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2  font-medium">
+                <hlm-icon size="lg" name="lucideSettings"/>
+                <h1>Settings</h1>
             </a>
         </li>
-        <li>
+        <!-- <li>
             <a
                 [routerLink]="['/test-protocol']"
                 routerLinkActive="bg-green-800 hover:text-black text-white"
@@ -135,6 +147,6 @@
                 </ul>
             </details>
         </li>
-        }
+        } -->
     </ul>
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 
 import { SpartanModules } from '@myorg/spartan-modules'
 import { LucideAngularModule } from 'lucide-angular'
@@ -10,6 +10,7 @@ import {
 } from '@ng-icons/lucide'
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
 import { RouterModule } from '@angular/router'
+import { AppStateService } from '@myorg/app-example-states'
 
 @Component({
     selector: 'app-header-default',
@@ -26,4 +27,7 @@ import { RouterModule } from '@angular/router'
         provideIcons({ lucideSearch, lucideAlignJustify, lucidePlusCircle }),
     ],
 })
-export class HeaderDefaultComponent {}
+export class HeaderDefaultComponent {
+
+
+}
