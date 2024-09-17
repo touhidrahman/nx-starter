@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core'
 import { UserApiService } from '@myorg/app-example-api-services'
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { AuthStateService } from '@myorg/app-example-auth'
 import { Organization } from '@myorg/app-example-models'
 import { SimpleStore } from '@myorg/store'

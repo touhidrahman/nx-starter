@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, EventEmitter, inject, Output } from '@angular/core'
 
 import { SpartanModules } from '@myorg/spartan-modules'
 import { LucideAngularModule } from 'lucide-angular'
@@ -26,4 +26,10 @@ import { RouterModule } from '@angular/router'
         provideIcons({ lucideSearch, lucideAlignJustify, lucidePlusCircle }),
     ],
 })
-export class HeaderDefaultComponent {}
+export class HeaderDefaultComponent {
+    @Output() sidebarToggle = new EventEmitter<void>()
+
+    toggleSidebar() {
+        this.sidebarToggle.emit()
+    }
+}
