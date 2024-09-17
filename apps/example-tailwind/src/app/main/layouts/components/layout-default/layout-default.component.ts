@@ -1,9 +1,9 @@
 import { Component } from '@angular/core'
-
 import { LucideAngularModule } from 'lucide-angular'
 import { HeaderDefaultComponent } from '../../../headers/components/header-default/header-default.component'
 import { SidebarDefaultComponent } from '../../../sidebars/components/sidebar-default/sidebar-default.component'
 import { HeaderPublicComponent } from '../../../headers/components/header-public/header-public.component'
+import { CommonModule } from '@angular/common'
 
 @Component({
     selector: 'app-layout-default',
@@ -13,8 +13,15 @@ import { HeaderPublicComponent } from '../../../headers/components/header-public
         SidebarDefaultComponent,
         HeaderDefaultComponent,
         HeaderPublicComponent,
+        CommonModule,
     ],
     templateUrl: './layout-default.component.html',
     styleUrl: './layout-default.component.scss',
 })
-export class LayoutDefaultComponent {}
+export class LayoutDefaultComponent {
+    isSidebarCollapsed = false
+
+    toggleSidebar() {
+        this.isSidebarCollapsed = !this.isSidebarCollapsed
+    }
+}

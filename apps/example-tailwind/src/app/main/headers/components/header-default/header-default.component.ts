@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core'
+import { Component, EventEmitter, inject, Output } from '@angular/core'
 
 import { SpartanModules } from '@myorg/spartan-modules'
 import { LucideAngularModule } from 'lucide-angular'
@@ -10,7 +10,6 @@ import {
 } from '@ng-icons/lucide'
 import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
 import { RouterModule } from '@angular/router'
-import { AppStateService } from '@myorg/app-example-states'
 
 @Component({
     selector: 'app-header-default',
@@ -28,6 +27,9 @@ import { AppStateService } from '@myorg/app-example-states'
     ],
 })
 export class HeaderDefaultComponent {
+    @Output() sidebarToggle = new EventEmitter<void>()
 
-
+    toggleSidebar() {
+        this.sidebarToggle.emit()
+    }
 }
