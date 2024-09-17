@@ -1,57 +1,111 @@
-<div class="table">
-    <ion-text class="title">Sign Up</ion-text>
+<ion-text class="title">Sign Up</ion-text>
+<div class="table" [formGroup]="registerFormService.form" (ngSubmit)="signup()">
+    <div>
+        <ion-input
+            label="First Name"
+            formControlName="firstName"
+            label-placement="floating"
+            fill="outline"
+            placeholder="Your first name"></ion-input>
+        @if ( registerFormService.form.get('firstName')!.invalid &&
+        registerFormService.form.get('firstName')!.touched &&
+        registerFormService.form.get('firstName')!.dirty ) {
+        <div
+            class="text-red-500 text-sm whitespace-pre-wrap w-full md:w-96 mt-4">
+            First name is required
+        </div>
+        }
+    </div>
+    <div>
+        <ion-input
+            label="Last Name"
+            formControlName="lastName"
+            label-placement="floating"
+            fill="outline"
+            placeholder="Your last name"></ion-input>
+        @if ( registerFormService.form.get('lastName')!.invalid &&
+        registerFormService.form.get('lastName')!.touched ) {
+        <div
+            class="text-red-500 text-sm whitespace-pre-wrap w-full md:w-96 mt-4">
+            Last name is required
+        </div>
+        }
+    </div>
 
-    <ion-input
-        label="First Name"
-        label-placement="floating"
-        fill="outline"
-        placeholder="Your first name"
-        errorText="Invalid email"
-        ngModel
-        email></ion-input>
-    <ion-input
-        label="Last Name"
-        label-placement="floating"
-        fill="outline"
-        placeholder="Your last name"
-        errorText="Invalid email"
-        ngModel
-        email></ion-input>
+    <div>
+        <ion-input
+            type="email"
+            formControlName="email"
+            label="Email"
+            label-placement="floating"
+            fill="outline"
+            placeholder="Enter your email"></ion-input>
+        @if ( registerFormService.form.get('email')!.invalid &&
+        registerFormService.form.get('email')!.touched ) {
+        <div
+            class="text-red-500 text-sm whitespace-pre-wrap w-full md:w-96 mt-4">
+            Valid email is required
+        </div>
+        }
+    </div>
 
-    <ion-input
-        type="email"
-        label="Email"
-        label-placement="floating"
-        fill="outline"
-        placeholder="Enter your email"
-        errorText="Invalid email"
-        ngModel
-        email></ion-input>
+    <div>
+        <ion-input
+            type="password"
+            formControlName="password"
+            label="Password"
+            label-placement="floating"
+            fill="outline"
+            placeholder="Enter your Password"
+            errorText="Invalid password"></ion-input>
+        @if ( registerFormService.form.get('password')!.touched &&
+        registerFormService.form.get('password')!.dirty &&
+        registerFormService.form.get('password')! .errors; as errors ) {
+        <div
+            class="text-red-500 text-sm whitespace-pre-wrap w-full md:w-96 mt-4">
+            @if (errors['required']) { Password is required. } @if
+            (errors['minlength'] && !errors['required']) { Password must be at
+            least 8 characters long. } @if (errors['maxlength'] &&
+            !errors['required']) { Password cannot be more than 32 characters
+            long. } @if ( errors['pattern'] && !errors['required'] &&
+            !errors['minlength'] && !errors['maxlength'] ) { Password must
+            contain at least one uppercase letter, one lowercase letter, and one
+            number. }
+        </div>
+        }
+    </div>
 
-    <ion-input
-        type="password"
-        label="Password"
-        label-placement="floating"
-        fill="outline"
-        placeholder="Enter your Password"
-        errorText="Invalid password"
-        ngModel
-        email></ion-input>
+    <div>
+        <ion-input
+            type="password"
+            formControlName="passwordConfirmation"
+            label="Confirm Password"
+            label-placement="floating"
+            fill="outline"
+            placeholder="Confirm Password"
+            errorText="Invalid password"></ion-input>
 
-    <ion-input
-        type="password"
-        label="Confirm Password"
-        label-placement="floating"
-        fill="outline"
-        placeholder="Confirm Password"
-        errorText="Invalid password"
-        ngModel
-        email></ion-input>
+        @if ( registerFormService.form.get('passwordConfirmation')! .invalid &&
+        registerFormService.form.get('passwordConfirmation')! .touched &&
+        registerFormService.form.get('passwordConfirmation')! .dirty ) {
+        <div class="text-red-500 text-sm">
+            Password confirmation is required
+        </div>
+        }
+    </div>
+    @if (registerFormService.form.hasError('passwordNotMatched')) {
+    <div class="text-red-500 text-sm mb-4">Passwords do not match.</div>
+    }
 
-    <ion-button [routerLink]="['/account-created']" size="large" [strong]="true" color="success"
+    <ion-button
+        [routerLink]="['/account-created']"
+        size="large"
+        [strong]="true"
+        type="submit"
+        color="success"
         >Sign Up</ion-button
     >
-    <ion-text class="ion-text" [routerLink]="['/login']" color="primary"
-        >Already have an account? Login?
-    </ion-text>
 </div>
+<ion-text class="ion-text" [routerLink]="['/login']" color="primary"
+    >Already have an account? Login?
+</ion-text>

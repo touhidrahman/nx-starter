@@ -1,4 +1,4 @@
-<div class="table">
+<div class="table" [formGroup]="loginFormService.loginForm">
     <ion-text class="title">Sign In</ion-text>
 
     <ion-input
@@ -7,24 +7,29 @@
         label-placement="floating"
         fill="outline"
         placeholder="Enter your email"
-        errorText="Invalid email"
-        ngModel
-        email></ion-input>
+        formControlName="email"></ion-input>
 
     <ion-input
         type="password"
         label="Password"
+        formControlName="password"
         label-placement="floating"
         fill="outline"
-        placeholder="Enter your Password"
-        errorText="Invalid password"
-        ngModel
-        email></ion-input>
+        placeholder="Enter your Password"></ion-input>
 
-    <ion-button [routerLink]="['/home']" size="large" [strong]="true" color="success">Sign In</ion-button>
+    <ion-button
+        [routerLink]="['/home']"
+        size="large"
+        [strong]="true"
+        (click)="login()"
+        color="success"
+        >Sign In</ion-button
+    >
 
-    <ion-text class="ion-text" [routerLink]="['/forgot-password']" color="primary">
+    <ion-text
+        class="ion-text"
+        [routerLink]="['/forgot-password']"
+        color="primary">
         Forgot Password?
     </ion-text>
 </div>
-
