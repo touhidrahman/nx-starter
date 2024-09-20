@@ -17,10 +17,8 @@
                 "tsConfig": "apps/example-admin/tsconfig.app.json",
                 "inlineStyleLanguage": "scss",
                 "assets": [
-                    {
-                        "glob": "**/*",
-                        "input": "apps/example-admin/public"
-                    }
+                    "apps/example-admin/src/favicon.ico",
+                    "apps/example-admin/src/assets"
                 ],
                 "styles": ["apps/example-admin/src/styles.scss"],
                 "scripts": []

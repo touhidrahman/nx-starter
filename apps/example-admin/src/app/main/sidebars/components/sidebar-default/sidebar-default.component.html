@@ -1,10 +1,18 @@
 <div>
     <a class="flex justify-center pt-2">
         <img
+            *ngIf="!isCollapsed"
             [routerLink]="['/']"
             src="assets/logo/sheresta.png"
             class="h-16 w-48 cursor-pointer"
-            alt="" />
+            alt="Full Logo" />
+
+        <img
+            *ngIf="isCollapsed"
+            [routerLink]="['/']"
+            src="assets/logo/sheresta1.png"
+            class="h-12 w-12 cursor-pointer"
+            alt="Collapsed Logo" />
     </a>
 </div>
 <div class="px-2 space-y-6">
@@ -12,28 +20,67 @@
         <li>
             <a
                 [routerLink]="['/dashboard-home']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block text-black hover:bg-green-100 rounded-sm px-4 py-2 text-sm font-medium">
-                Home
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="text-black flex gap-4 items-center hover:bg-green-100 rounded-sm px-4 py-2 font-medium">
+                <hlm-icon
+                    routerLinkActive="text-white"
+                    class="text-gray-500"
+                    size="lg"
+                    name="lucideHome" />
+                <span class="font-medium" *ngIf="!isCollapsed">Home</span>
+                <!-- Hide text when collapsed -->
+            </a>
+        </li>
+        <li>
+            <a
+                [routerLink]="['/admin-userlist']"
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="text-black flex gap-4 items-center hover:bg-green-100 rounded-sm px-4 py-2 font-medium">
+                <hlm-icon
+                    routerLinkActive="text-white"
+                    class="text-gray-500"
+                    size="lg"
+                    name="lucideUsers" />
+                <span class="font-medium" *ngIf="!isCollapsed"
+                    >User Management</span
+                >
+                <!-- Hide text when collapsed -->
             </a>
         </li>
         <li>
             <a
                 [routerLink]="['/dashboard/area-management']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block text-black hover:bg-green-100 rounded-sm px-4 py-2 text-sm font-medium">
-                Area Management
-              </a>
-          </li>
-          <li>
-          <a
-                [routerLink]="['/group-management']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
-                Group Management
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="text-black flex gap-4 items-center hover:bg-green-100 rounded-sm px-4 py-2 font-medium">
+                <hlm-icon
+                    routerLinkActive="text-white"
+                    class="text-gray-500"
+                    size="lg"
+                    name="lucideCombine" />
+                <span class="font-medium" *ngIf="!isCollapsed"
+                    >Area Management</span
+                >
+                <!-- Hide text when collapsed -->
             </a>
         </li>
         <li>
+            <a
+                [routerLink]="['/group-management']"
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="text-black flex gap-4 items-center hover:bg-green-100 rounded-sm px-4 py-2 font-medium">
+                <hlm-icon
+                    routerLinkActive="text-white"
+                    class="text-gray-500"
+                    size="lg"
+                    name="lucideGroup" />
+                <span class="font-medium" *ngIf="!isCollapsed"
+                    >Group Management</span
+                >
+                <!-- Hide text when collapsed -->
+            </a>
+        </li>
+
+        <!-- <li>
             <a
                 [routerLink]="['/dashboard/cases']"
                 routerLinkActive="bg-green-800 hover:text-black text-white"
@@ -151,6 +198,6 @@
                 </ul>
             </details>
         </li>
-        }
+        } -->
     </ul>
 </div>

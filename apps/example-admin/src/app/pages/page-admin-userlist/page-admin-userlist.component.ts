@@ -1,5 +1,4 @@
-import { Component } from '@angular/core'
-
+import { NgClass } from '@angular/common'
 import {
     BrnDialogContentDirective,
     BrnDialogTriggerDirective,
@@ -12,172 +11,127 @@ import {
     HlmDialogHeaderComponent,
     HlmDialogTitleDirective,
 } from '@spartan-ng/ui-dialog-helm'
-import { HlmLabelDirective } from '@spartan-ng/ui-label-helm'
-import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
-import { HlmButtonDirective } from '@spartan-ng/ui-button-helm'
-import { provideIcons } from '@ng-icons/core'
-import { HlmIconComponent } from '@spartan-ng/ui-icon-helm'
-import { lucideCog, lucideSearch, lucideTrash2 } from '@ng-icons/lucide'
-import { HlmBadgeDirective } from '@spartan-ng/ui-badge-helm'
-import {
-    HlmCaptionComponent,
-    HlmTableComponent,
-    HlmTdComponent,
-    HlmThComponent,
-    HlmTrowComponent,
-} from '@spartan-ng/ui-table-helm'
-import { HlmCheckboxComponent } from '../../../../../../libs/ui/ui-checkbox-helm/src/lib/hlm-checkbox.component'
+import { CommonModule } from '@angular/common'
+import { Component, OnInit, inject } from '@angular/core'
 import { FormsModule } from '@angular/forms'
-import { BrnRadioComponent } from '@spartan-ng/ui-radiogroup-brain'
+import { UserApiService } from '@myorg/app-example-api-services'
+import { User } from '@myorg/app-example-models'
+import { ApiResponse } from '@myorg/common-models'
+import { SpartanModules } from '@myorg/spartan-modules'
 import {
-    HlmRadioDirective,
-    HlmRadioIndicatorComponent,
-} from '@spartan-ng/ui-radiogroup-helm'
-import { BrnSelectImports } from '@spartan-ng/ui-select-brain'
-import { HlmSelectImports } from '@spartan-ng/ui-select-helm'
+    lucideCalendarDays,
+    lucideCog,
+    lucideMapPin,
+    lucidePencil,
+    lucideSearch,
+    lucideTrash2,
+} from '@ng-icons/lucide'
+import { HlmIconComponent, provideIcons } from '@spartan-ng/ui-icon-helm'
+import { LucideAngularModule } from 'lucide-angular'
 
-interface User {
-    firstName: string
-    lastName: string
-    email: string
-    role: string
-    signUpDate: string
-    action: string
-}
 @Component({
     selector: 'app-page-admin-userlist',
     standalone: true,
     templateUrl: './page-admin-userlist.component.html',
     styleUrl: './page-admin-userlist.component.scss',
-    providers: [provideIcons({ lucideCog, lucideTrash2, lucideSearch })],
+    providers: [
+        provideIcons({ lucideCog, lucideSearch, lucidePencil, lucideTrash2 }),
+    ],
     imports: [
-        BrnDialogTriggerDirective,
-        BrnDialogContentDirective,
+        ...SpartanModules,
         HlmIconComponent,
-        HlmBadgeDirective,
+        NgClass,
+        LucideAngularModule,
+        FormsModule,
+        CommonModule,
+        BrnDialogContentDirective,
+        BrnDialogTriggerDirective,
         HlmDialogComponent,
         HlmDialogContentComponent,
-        HlmDialogHeaderComponent,
-        HlmDialogFooterComponent,
-        HlmDialogTitleDirective,
         HlmDialogDescriptionDirective,
-        HlmLabelDirective,
-        HlmInputDirective,
-        HlmButtonDirective,
-        HlmTableComponent,
-        HlmTrowComponent,
-        HlmThComponent,
-        HlmTdComponent,
-        HlmCaptionComponent,
-        HlmCheckboxComponent,
-        FormsModule,
-        BrnRadioComponent,
-        HlmRadioIndicatorComponent,
-        HlmRadioDirective,
-        BrnSelectImports,
-        HlmSelectImports,
+        HlmDialogFooterComponent,
+        HlmDialogHeaderComponent,
+        HlmDialogTitleDirective,
     ],
 })
-export class PageAdminUserlistComponent {
-    permissions = [
-        {
-            name: 'Case',
-            read: false,
-            create: false,
-            edit: false,
-            delete: false,
-            none: false,
-        },
-        {
-            name: 'Contact',
-            read: false,
-            create: false,
-            edit: false,
-            delete: false,
-            none: false,
-        },
-    ]
+export class PageAdminUserlistComponent implements OnInit {
+    private userService = inject(UserApiService)
 
-    users: User[] = [
-        {
-            firstName: 'John',
-            lastName: 'Doe',
-            email: 'john.doe@example.com',
-            role: 'User',
-            signUpDate: '2023-01-01',
-            action: 'Edit',
-        },
-        {
-            firstName: 'Jane',
-            lastName: 'Smith',
-            email: 'jane.smith@example.com',
-            role: 'Admin',
-            signUpDate: '2023-02-01',
-            action: 'Edit',
-        },
-        {
-            firstName: 'Ariful',
-            lastName: 'Islam',
-            email: 'jane.smith@example.com',
-            role: 'User',
-            signUpDate: '2023-02-01',
-            action: 'Edit',
-        },
-        {
-            firstName: 'Barack',
-            lastName: 'Obama',
-            email: 'jane.smith@example.com',
-            role: 'Admin',
-            signUpDate: '2023-02-01',
-            action: 'Edit',
-        },
-        {
-            firstName: 'Donald',
-            lastName: 'Smith',
-            email: 'jane.smith@example.com',
-            role: 'User',
-            signUpDate: '2023-02-01',
-            action: 'Edit',
-        },
-        {
-            firstName: 'Jane',
-            lastName: 'Smith',
-            email: 'jane.smith@example.com',
-            role: 'Admin',
-            signUpDate: '2023-02-01',
-            action: 'Edit',
-        },
-        {
-            firstName: 'Jane',
-            lastName: 'Smith',
-            email: 'jane.smith@example.com',
-            role: 'Admin',
-            signUpDate: '2023-02-01',
-            action: 'Edit',
-        },
-        {
-            firstName: 'Jane',
-            lastName: 'Smith',
-            email: 'jane.smith@example.com',
-            role: 'Admin',
-            signUpDate: '2023-02-01',
-            action: 'Edit',
-        },
-        {
-            firstName: 'Jane',
-            lastName: 'Smith',
-            email: 'jane.smith@example.com',
-            role: 'Admin',
-            signUpDate: '2023-02-01',
-            action: 'Edit',
-        },
-        {
-            firstName: 'Jane',
-            lastName: 'Smith',
-            email: 'jane.smith@example.com',
-            role: 'Admin',
-            signUpDate: '2023-02-01',
-            action: 'Edit',
-        },
-    ]
+    users: User[] = []
+    loading = true
+    currentPage = 1
+    totalPages = 1
+
+    showEditModal = false
+    showDeleteModal = false
+    selectedUser: User | null = null
+
+    ngOnInit() {
+        this.userService.useAdminEndpoint()
+        this.fetchUsers()
+    }
+
+    fetchUsers(page: number = this.currentPage) {
+        this.loading = true
+        this.userService.getUsers({ page, pageSize: 10 }).subscribe({
+            next: (response: ApiResponse<User[]>) => {
+                this.users = response?.data as User[]
+                this.totalPages =
+                    (response?.meta?.['totalPages'] as number) || 1
+                this.currentPage = response?.meta?.page || page
+                this.loading = false
+            },
+            error: (error: any) => {
+                console.error('Error fetching users:', error)
+                this.loading = false
+            },
+            complete: () => {
+                console.log('User fetching completed.')
+            },
+        })
+    }
+
+    goToPage(page: number) {
+        if (page >= 1 && page <= this.totalPages) {
+            this.fetchUsers(page)
+        }
+    }
+
+    openEditModal(user: User) {
+        this.selectedUser = { ...user }
+        this.showEditModal = true
+    }
+
+    onSubmitEditForm() {
+        if (this.selectedUser) {
+            //   this.userService.updateUser(this.selectedUser.id, this.selectedUser).subscribe({
+            //     next: () => {
+            //       this.fetchUsers();
+            //       this.closeEditModal();
+            //     },
+            //     error: (error) => {
+            //       console.error('Error updating user:', error);
+            //     },
+            //   });
+        }
+    }
+
+    openDeleteModal(user: User) {
+        this.selectedUser = user
+        this.showDeleteModal = true
+    }
+
+    confirmDeleteUser() {
+        if (this.selectedUser) {
+            //   this.userService.deleteUser(this.selectedUser.id).subscribe({
+            //     next: () => {
+            //       this.fetchUsers();
+            //       this.closeDeleteModal();
+            //     },
+            //     error: (error) => {
+            //       console.error('Error deleting user:', error);
+            //     },
+            //   });
+        }
+    }
 }

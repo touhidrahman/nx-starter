@@ -5,21 +5,16 @@ import { Component } from '@angular/core'
     standalone: true,
     imports: [],
     template: `
-        <div
-            class="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 font-sans">
-            <div class="flex flex-col h-screen justify-center items-center">
-                <div class="bg-white rounded-lg shadow-lg p-8">
-                    <h1 class="text-5xl font-bold mb-8 text-gray-800">404</h1>
-                    <p class="text-xl mb-8 text-gray-800">
-                        Oops! The page you are looking for does not exist.
-                    </p>
-                    <a
+
+        <div class="flex flex-col items-center py-8 justify-center">
+            <img class="h-14 w-25" src="assets/logo/sheresta.png" alt="">
+            <img class="w-96 mt-20 " src="assets/image/404.png" alt="">
+            <h1 class="md:text-7xl text-3xl text-center font-bold text-gray-500">Page Not Found!</h1>
+            <a
                         href="/"
-                        class="bg-green-500 hover:bg-green-700 text-white py-2 px-4 rounded-full font-bold shadow-md"
-                        >Go back to dashboard
+                        class="bg-green-500 mt-6 hover:bg-green-700 text-white py-2 px-4 rounded-md font-bold shadow-md"
+                        >Go back to Homepage
                     </a>
-                </div>
-            </div>
         </div>
     `,
     styleUrl: './page-not-found.component.css',

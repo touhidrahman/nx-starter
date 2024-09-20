@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core'
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core'
 
 import { SpartanModules } from '@myorg/spartan-modules'
 import { LucideAngularModule } from 'lucide-angular'
@@ -34,6 +34,12 @@ export class HeaderDefaultComponent implements OnInit {
     authState = inject(AuthStateService)
     router = inject(Router)
     localStorageService = inject(LocalStorageService)
+
+    @Output() sidebarToggle = new EventEmitter<void>()
+
+    toggleSidebar() {
+        this.sidebarToggle.emit()
+    }
 
     ngOnInit() {
         const user = JSON.parse(this.localStorageService.getItem('user') ?? '')
