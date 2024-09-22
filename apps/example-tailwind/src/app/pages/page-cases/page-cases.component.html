@@ -1,48 +1,178 @@
-<div>
-    <div class="flex justify-between">
-        <h1 class="text-4xl font-normal">Upcoming Cases</h1>
-        <button
-            hlmBtn
-            class="bg-success button-small text-success-foreground hover:bg-green-400"
-            [routerLink]="['/']">
-            Show All
-        </button>
-    </div>
+<div class="overflow-hidden">
     <div>
-        <div class="grid lg:grid-cols-3 items-center justify-between gap-6 mt-12">
-            <div class="space-y-8 py-8 px-4" hlmCard>
-                <h1 class="text-6xl text-center">29/5</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore a distinctio iste veniam dicta sapiente illum quod corporis beatae consequuntur quas, cupiditate odio vitae ullam est eos dolorum natus possimus?</p>
-            </div>
-            <div class="space-y-8 py-8 px-4" hlmCard>
-                <h1 class="text-6xl text-center">12/6</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore a distinctio iste veniam dicta sapiente illum quod corporis beatae consequuntur quas, cupiditate odio vitae ullam est eos dolorum natus possimus?</p>
-            </div>
-            <div class="space-y-8 py-8 px-4" hlmCard>
-                <h1 class="text-6xl text-center">23/6</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore a distinctio iste veniam dicta sapiente illum quod corporis beatae consequuntur quas, cupiditate odio vitae ullam est eos dolorum natus possimus?</p>
-            </div>
-
-        </div>
+        <h1 class="font-bold text-3xl">Cases</h1>
     </div>
-    <div class="mt-12">
-        <h1 class="text-4xl font-normal">Pinned Cases</h1>
-        <div class="grid lg:grid-cols-2 items-center justify-between gap-6 mt-12">
-            <div class="space-y-8 py-2 bg-green-50 px-4" hlmCard>
-                <h1 class="text-xl text-center"> Tamim  vs  Shakib</h1>
-            </div>
-            <div  class="space-y-8 py-2 bg-green-50 px-4" hlmCard>
-                <h1 [routerLink]="['/dashboard-case']" class="text-xl cursor-pointer text-center"> Tahsan  vs  John</h1>
-            </div>
-            <div class="space-y-8 py-2 bg-green-50 px-4" hlmCard>
-                <h1 class="text-xl text-center"> Ariful  vs  Shariful</h1>
-            </div>
-            <div class="space-y-8 bg-green-50 py-2 px-4" hlmCard>
-                <h1 class="text-xl text-center"> Biden  vs  Trump</h1>
-            </div>
+
+        <div class="flex mt-4 justify-between">
+
+                <div class="flex gap-4">
+                    <div class="relative w-96">
+                        <div
+                            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <!-- Heroicon: search icon -->
+                            <hlm-icon size="sm" name="lucideSearch" />
+                        </div>
+                        <input
+                            class="w-full pl-10 bg-white border sm:text-sm"
+                            type="text"
+                            placeholder="Search"
+                            hlmInput />
+                    </div>
+                    <button (click)="toggleFilter()" class="btn-outline">Filter</button>
+                </div>
 
 
+
+            <hlm-dialog>
+                <button class="btn-fill">Create Case</button>
+
+            </hlm-dialog>
         </div>
 
+        <div *ngIf="showFilter" class="mt-4 p-4 border rounded-lg bg-white shadow-sm">
+           <div class="flex gap-6">
+                <div class="flex items-center">
+                    <h1 class="font-bold mr-2">Status:</h1>
+                    <label class="flex items-center" hlmLabel>
+                        <hlm-switch class="mr-2" />
+                        Active
+                    </label>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="font-bold mr-2">Priority:</h1>
+                        <brn-select class="inline-block" placeholder="Select an option">
+                            <hlm-select-trigger class="w-56">
+                              <hlm-select-value />
+                            </hlm-select-trigger>
+                            <hlm-select-content>
+                              <hlm-option value="Refresh">Low</hlm-option>
+                              <hlm-option value="Settings">High</hlm-option>
+                            </hlm-select-content>
+                          </brn-select>
+                    </div>
+                </div>
+           </div>
+          </div>
+
+
+    <div class="flex mt-4 flex-col">
+        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="inline-block min-w-full sm:px-6 lg:px-8">
+                <div class="overflow-hidden shadow-md sm:rounded-lg">
+                    <table class="min-w-full">
+                        <thead class="bg-gray-50 dark:bg-gray-700">
+                            <tr>
+                                <th
+                                    scope="col"
+                                    class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Title
+                                </th>
+                                <th
+                                    scope="col"
+                                    class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Requester
+                                </th>
+                                <th
+                                    scope="col"
+                                    class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Status
+                                </th>
+                                <th
+                                    scope="col"
+                                    class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Priority
+                                </th>
+                                <th
+                                    scope="col"
+                                    class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Due Date
+                                </th>
+                                <th
+                                    scope="col"
+                                    class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody
+                            class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                            @for (user of users; track user) {
+                            <tr>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                                    {{ user.title }}
+                                </td>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                    {{ user.requester }}
+                                </td>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                    {{ user.status }}
+                                </td>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                    {{ user.priority }}
+                                </td>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                    {{ user.dueDate }}
+                                </td>
+                                <td
+                                    class="px-6 whitespace-nowrap text-sm font-medium">
+                                    <div class="flex gap-2">
+                                        <hlm-dialog>
+                                            <button
+                                                id="edit-profile"
+                                                brnDialogTrigger>
+                                                <hlm-icon
+                                                    size="sm"
+                                                    name="lucideCog" />
+                                            </button>
+
+                                        </hlm-dialog>
+                                        <hlm-dialog>
+                                            <button
+                                                id="edit-profile"
+                                                brnDialogTrigger>
+                                                <hlm-icon
+                                                    size="sm"
+                                                    name="lucideTrash2" />
+                                            </button>
+
+                                            <hlm-dialog-content
+                                                class="sm:max-w-[600px] w-full"
+                                                *brnDialogContent="let ctx">
+                                                <hlm-dialog-header>
+                                                    <h3
+                                                        hlmDialogTitle
+                                                        class="text-2xl font-bold">
+                                                        Delete User?
+                                                    </h3>
+                                                </hlm-dialog-header>
+                                                <div class="py-4 grid gap-4">
+                                                    <h1>
+                                                        Are you sure You want to
+                                                        delete this user?
+                                                    </h1>
+                                                </div>
+                                                <hlm-dialog-footer
+                                                    class="flex gap-2">
+                                                    <button hlmBtn>
+                                                        Delete
+                                                    </button>
+                                                </hlm-dialog-footer>
+                                            </hlm-dialog-content>
+                                        </hlm-dialog>
+                                    </div>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
