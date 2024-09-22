@@ -1,95 +1,156 @@
 <div>
     <a class="flex justify-center pt-2">
         <img
+            *ngIf="!isCollapsed"
             [routerLink]="['/']"
             src="assets/logo/sheresta.png"
             class="h-16 w-48 cursor-pointer"
-            alt="" />
+            alt="Full Logo" />
+
+        <img
+            *ngIf="isCollapsed"
+            [routerLink]="['/']"
+            src="assets/logo/sheresta1.png"
+            class="h-12 w-12 cursor-pointer"
+            alt="Collapsed Logo" />
     </a>
 </div>
 <div class="px-2 space-y-6">
     <ul class="mt-6 space-y-1">
         <li>
             <a
-                [routerLink]="['/dashboard-home']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block text-black hover:bg-green-100 rounded-sm px-4 py-2 text-sm font-medium">
-                Home
+                [routerLink]="['/home']"
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="text-black flex gap-4 items-center hover:bg-green-100 rounded-sm px-4 py-2 font-medium">
+                <hlm-icon
+                    routerLinkActive="text-white"
+                    class="text-gray-500"
+                    size="lg"
+                    name="lucideHome" />
+                <span class="font-medium" *ngIf="!isCollapsed">Home</span>
+                <!-- Hide text when collapsed -->
             </a>
         </li>
         <li>
             <a
                 [routerLink]="['/dashboard/cases']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
-                Cases
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                <hlm-icon
+                    routerLinkActive="text-white"
+                    class="text-gray-500"
+                    size="lg"
+                    name="lucideFileSpreadsheet" />
+                <span class="font-medium" *ngIf="!isCollapsed">Cases</span>
             </a>
         </li>
         <li>
             <a
                 [routerLink]="['/dashboard/clients']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
-                Clients
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                <hlm-icon
+                    routerLinkActive="text-white"
+                    class="text-gray-500"
+                    size="lg"
+                    name="lucideUsers" />
+                <span class="font-medium" *ngIf="!isCollapsed">Clients</span>
             </a>
         </li>
         <li>
             <a
                 [routerLink]="['/dashboard/documents']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
-                Documents
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                <hlm-icon
+                    routerLinkActive="text-white"
+                    class="text-gray-500"
+                    size="lg"
+                    name="lucideFiles" />
+                <span class="font-medium" *ngIf="!isCollapsed">Documents</span>
             </a>
         </li>
         <li>
             <a
                 [routerLink]="['/dashboard/calendar']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
-                Calendar
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                <hlm-icon
+                    routerLinkActive="text-white"
+                    class="text-gray-500"
+                    size="lg"
+                    name="lucideCalendarDays" />
+                <span class="font-medium" *ngIf="!isCollapsed">Calender</span>
             </a>
         </li>
         <li>
             <a
-                [routerLink]="['/dashboard/communication']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
-                Communication
+                [routerLink]="['/dashboard/lucideCircuitBoard']"
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                <hlm-icon
+                    routerLinkActive="text-white"
+                    class="text-gray-500"
+                    size="lg"
+                    name="lucideFileSpreadsheet" />
+                <span class="font-medium" *ngIf="!isCollapsed"
+                    >Communication</span
+                >
             </a>
         </li>
         <li>
             <a
                 [routerLink]="['/dashboard/billing']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
-                Billing
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                <hlm-icon
+                    routerLinkActive="text-white"
+                    class="text-gray-500"
+                    size="lg"
+                    name="lucideBadgeDollarSign" />
+                <span class="font-medium" *ngIf="!isCollapsed">Billing</span>
             </a>
         </li>
         <li>
             <a
                 [routerLink]="['/dashboard/tasks']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
-                Tasks
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                <hlm-icon
+                    routerLinkActive="text-white"
+                    class="text-gray-500"
+                    size="lg"
+                    name="lucideLayoutList" />
+                <span class="font-medium" *ngIf="!isCollapsed">Tasks</span>
             </a>
         </li>
         <li>
             <a
                 [routerLink]="['/dashboard/report']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
-                Report
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                <hlm-icon
+                    routerLinkActive="text-white"
+                    class="text-gray-500"
+                    size="lg"
+                    name="lucideListMinus" />
+                <span class="font-medium" *ngIf="!isCollapsed">Report</span>
             </a>
         </li>
         <li>
             <a
                 [routerLink]="['/dashboard/settings']"
-                routerLinkActive="bg-green-800 hover:text-black text-white"
-                class="block rounded-sm text-black hover:bg-green-100 px-4 py-2 text-sm font-medium">
-                Settings
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                <hlm-icon
+                    routerLinkActive="text-white"
+                    class="text-gray-500"
+                    size="lg"
+                    name="lucideSettings" />
+                <span class="font-medium" *ngIf="!isCollapsed">Settings</span>
             </a>
         </li>
-        <li>
+        <!-- <li>
             <a
                 [routerLink]="['/test-protocol']"
                 routerLinkActive="bg-green-800 hover:text-black text-white"
@@ -135,6 +196,6 @@
                 </ul>
             </details>
         </li>
-        }
+        } -->
     </ul>
 </div>

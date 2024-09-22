@@ -26,7 +26,7 @@ import {
     HlmThComponent,
     HlmTrowComponent,
 } from '@spartan-ng/ui-table-helm'
-import { HlmCheckboxComponent } from '../../../../../../libs/ui/ui-checkbox-helm/src/lib/hlm-checkbox.component'
+import { HlmCheckboxComponent } from '@spartan-ng/ui-checkbox-helm'
 import { FormsModule } from '@angular/forms'
 import { BrnRadioComponent } from '@spartan-ng/ui-radiogroup-brain'
 import {

@@ -6,6 +6,7 @@ import { withPagedEntities } from './with-paged-entities'
 export const AdminUsersStore = signalStore(
     {
         providedIn: 'root',
+        protectedState: false,
     },
 
     withPagedEntities(UserApiService),

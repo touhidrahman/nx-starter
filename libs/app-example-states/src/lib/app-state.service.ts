@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core'
 import { UserApiService } from '@myorg/app-example-api-services'
+// eslint-disable-next-line @nx/enforce-module-boundaries
 import { AuthStateService } from '@myorg/app-example-auth'
 import { Organization } from '@myorg/app-example-models'
 import { SimpleStore } from '@myorg/store'
@@ -53,7 +54,6 @@ export class AppStateService extends SimpleStore<AppState> {
         this.loadingSubject.next(loading)
     }
 
-
     private loadOrganizationAfterLogin() {
         this.authStateService
             .select('user')
@@ -64,7 +64,6 @@ export class AppStateService extends SimpleStore<AppState> {
                         organization: user?.organization,
                         currency: user?.preferredCurrency,
                         language: user?.preferredLanguage,
-
                     })
                 },
             })

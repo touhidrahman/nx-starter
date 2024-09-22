@@ -12,18 +12,52 @@ import {
 import { GroupApiService } from '@myorg/app-example-api-services'
 import { GroupDto, GroupStatus, GroupType } from '@myorg/app-example-models'
 import { LucideAngularModule } from 'lucide-angular'
+import {
+    HlmDialogComponent,
+    HlmDialogContentComponent,
+    HlmDialogDescriptionDirective,
+    HlmDialogFooterComponent,
+    HlmDialogHeaderComponent,
+    HlmDialogTitleDirective,
+} from '@spartan-ng/ui-dialog-helm'
+import {
+    BrnDialogContentDirective,
+    BrnDialogTriggerDirective,
+} from '@spartan-ng/ui-dialog-brain'
+import { provideIcons } from '@ng-icons/core'
+import {
+    lucideCog,
+    lucidePencil,
+    lucideSearch,
+    lucideTrash2,
+} from '@ng-icons/lucide'
+import { HlmIconComponent } from '@spartan-ng/ui-icon-helm'
+import { SpartanModules } from '@myorg/spartan-modules'
 
 @Component({
     selector: 'app-page-group-management',
     standalone: true,
     imports: [
         CommonModule,
+        ...SpartanModules,
         RouterLink,
         FormsModule,
         ReactiveFormsModule,
         TitleCasePipe,
         LucideAngularModule,
         UpperCasePipe,
+        HlmDialogComponent,
+        HlmDialogContentComponent,
+        HlmDialogDescriptionDirective,
+        HlmDialogFooterComponent,
+        HlmDialogHeaderComponent,
+        HlmDialogTitleDirective,
+        HlmIconComponent,
+        BrnDialogContentDirective,
+        BrnDialogTriggerDirective,
+    ],
+    providers: [
+        provideIcons({ lucideCog, lucideSearch, lucidePencil, lucideTrash2 }),
     ],
     templateUrl: './page-group-management.component.html',
     styleUrl: './page-group-management.component.css',
@@ -42,7 +76,7 @@ export class PageGroupManagementComponent {
     showEditModal = false
     showDeleteModal = false
     selectedGroup: GroupDto | null = null
-    showCreateModal: boolean = false
+    showCreateModal = false
     createGroupForm: FormGroup = new FormGroup({})
 
     ngOnInit() {

@@ -1,4 +1,79 @@
-<app-navbar-internal></app-navbar-internal>
+<div class="mt-4 grid lg:grid-cols-5 md:grid-cols-2 grid-cols-1 gap-4">
+    <div
+        *ngFor="let card of cards"
+        class="bg-white shadow-lg rounded-lg w-75 flex justify-between items-center px-4 p-4">
+        <div
+            class="bg-gray-700 h-20 w-20 rounded-full shadow-gray-600 shadow-md">
+            <img [src]="card.icon" class="h-18 w-18 p-1" alt="case icon" />
+        </div>
+        <div>
+            <h1 class="font-bold text-end">{{ card.title }}</h1>
+            <h1 class="text-7xl text-end font-bold" [ngClass]="card.color">
+                {{ card.count }}
+            </h1>
+        </div>
+    </div>
+</div>
+
+<div class="mt-8">
+    <h1 class="text-2xl mb-4 font-bold">Upcoming Cases</h1>
+    <div class="mt-4 grid lg:grid-cols-5 md:grid-cols-2 grid-cols-1">
+        <div *ngFor="let card of caseCard" class="card">
+            <div class="card-details">
+                <div class="flex gap-2 items-center">
+                    <hlm-icon size="lg" name="lucideCalendarDays"></hlm-icon>
+                    <p class="text-title">{{ card.date }}</p>
+                </div>
+                <div class="flex gap-2">
+                    <hlm-icon size="sm" name="lucideMapPin"></hlm-icon>
+                    <p class="text-body">{{ card.location }}</p>
+                </div>
+                <h1 class="text-center font-bold">{{ card.caseTitle }}</h1>
+
+                <p class="text-body">{{ card.description }}</p>
+            </div>
+            <button class="card-button">More info</button>
+        </div>
+    </div>
+</div>
+
+<div class="mt-12">
+    <h1 class="text-2xl font-bold">Pinned Cases</h1>
+
+    <div class="grid grid-cols-1 gap-2 lg:grid-cols-3">
+        <div
+            *ngFor="let card of pinnedCard"
+            class="pinned-card rounded-lg w-[400px] mt-8 flex justify-between items-center px-4 p-4">
+            <div class="flex gap-4">
+                <div
+                    class="w-1 h-14 rounded-full bg-gradient-to-b from-green-200 to-green-600"></div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-700">
+                        {{ card.title }}
+                    </h1>
+                    <div class="flex gap-4">
+                        <div class="flex items-center gap-2">
+                            <hlm-icon size="sm" name="lucideMapPin"></hlm-icon>
+                            <p class="text-body">{{ card.location }}</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <hlm-icon
+                                size="sm"
+                                name="lucideCalendarDays"></hlm-icon>
+                            <p class="text-body">{{ card.date }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="h-12 w-12 rounded-full flex items-center cursor-pointer justify-center bg-green-100 shadow-md">
+                <hlm-icon size="lg" name="lucidePinOff"></hlm-icon>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <app-navbar-internal></app-navbar-internal>
 
 <div class="mx-auto mt-24 w-full max-w-screen-xl">
     <div class="rounded-lg border border-gray-200 bg-white p-6 shadow">
@@ -201,4 +276,4 @@
             </button>
         </div>
     </div>
-</div>
+</div> -->
