@@ -1,10 +1,9 @@
-
 .image-container {
     display: flex;
     justify-content: center;
     align-items: end;
-    height: 500vh;
-  }
+    height: 300vh;
+}
 
 .text-container {
     display: flex;
@@ -12,14 +11,18 @@
     align-items: center;
     height: 300vh;
     text-align: center;
-  }
+}
 
 .congratulations {
     font-size: 2em;
     font-weight: bold;
-  }
+}
 
 ion-img {
-    width:  300px;
+    width: 300px;
     height: 300px;
+}
+
+ion-button {
+    margin-top: 0.5rem;
 }

@@ -81,7 +81,7 @@ interface Case {
         HlmRadioDirective,
         BrnSelectImports,
         HlmSelectImports,
-        CommonModule
+        CommonModule,
     ],
     templateUrl: './page-cases.component.html',
     styleUrl: './page-cases.component.scss',

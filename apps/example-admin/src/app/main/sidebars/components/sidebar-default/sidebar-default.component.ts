@@ -4,7 +4,12 @@ import { Component, Input } from '@angular/core'
 import { RouterModule } from '@angular/router'
 import { SpartanModules } from '@myorg/spartan-modules'
 import { provideIcons } from '@ng-icons/core'
-import { lucideCombine, lucideGroup, lucideHome, lucideUsers } from '@ng-icons/lucide'
+import {
+    lucideCombine,
+    lucideGroup,
+    lucideHome,
+    lucideUsers,
+} from '@ng-icons/lucide'
 
 @Component({
     selector: 'app-sidebar-default',

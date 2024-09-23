@@ -29,7 +29,10 @@
             class="md:min-w-[600px] w-full"
             *brnDialogContent="let ctx">
             <h1 class="text-2xl font-bold">Create new area management</h1>
-            <form [formGroup]="createAreaForm" (ngSubmit)="onSubmit()" class="mt-4 grid gap-4">
+            <form
+                [formGroup]="createAreaForm"
+                (ngSubmit)="onSubmit()"
+                class="mt-4 grid gap-4">
                 <hlm-form-field>
                     <input
                         aria-label="Area Name"
@@ -48,10 +51,7 @@
                         placeholder="Description"></textarea>
                 </hlm-form-field>
                 <div class="flex justify-end">
-                    <button
-                        hlmBtn
-                        class="md:w-1/5 w-1/2 mt-2"
-                        type="submit">
+                    <button hlmBtn class="md:w-1/5 w-1/2 mt-2" type="submit">
                         Save
                     </button>
                 </div>

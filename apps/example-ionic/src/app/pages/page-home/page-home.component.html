@@ -1,0 +1,68 @@
+<div class="image-logo">
+    <ion-img src="assets/logo/sheresta.png"></ion-img>
+</div>
+<myorg-banner-carousel
+    class="carousel"
+    [slides]="slides"></myorg-banner-carousel>
+
+<div>
+    <h1 class="feature-title">Our Features</h1>
+    <div class="grid-container">
+        <div class="grid-item">
+            <div class="img-container">
+                <ion-img
+                    class="img-icon"
+                    src="assets/icon/relationship.png"></ion-img>
+            </div>
+            <ion-text class="icon-text">Client Management</ion-text>
+        </div>
+        <div class="grid-item">
+            <div class="img-container">
+                <ion-img
+                    class="img-icon"
+                    src="assets/icon/justice.png"></ion-img>
+            </div>
+            <ion-text class="icon-text">Case Management</ion-text>
+        </div>
+        <div class="grid-item">
+            <div class="img-container">
+                <ion-img
+                    class="img-icon"
+                    src="assets/icon/toolbox.png"></ion-img>
+            </div>
+            <ion-text class="icon-text">Productivity Tool</ion-text>
+        </div>
+        <div class="grid-item">
+            <div class="img-container">
+                <ion-img
+                    class="img-icon"
+                    src="assets/icon/election.png"></ion-img>
+            </div>
+            <ion-text class="icon-text">Court Date Reminders</ion-text>
+        </div>
+    </div>
+</div>
+
+<div class="feature-title">Q&A</div>
+<div class="qa">
+    <ion-accordion-group>
+        <ion-accordion value="first">
+            <ion-item slot="header" color="light">
+                <ion-label>First Accordion</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">First Content</div>
+        </ion-accordion>
+        <ion-accordion value="second">
+            <ion-item slot="header" color="light">
+                <ion-label>Second Accordion</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">Second Content</div>
+        </ion-accordion>
+        <ion-accordion value="third">
+            <ion-item slot="header" color="light">
+                <ion-label>Third Accordion</ion-label>
+            </ion-item>
+            <div class="ion-padding" slot="content">Third Content</div>
+        </ion-accordion>
+    </ion-accordion-group>
+</div>

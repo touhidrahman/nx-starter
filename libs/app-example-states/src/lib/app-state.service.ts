@@ -54,7 +54,6 @@ export class AppStateService extends SimpleStore<AppState> {
         this.loadingSubject.next(loading)
     }
 
-
     private loadOrganizationAfterLogin() {
         this.authStateService
             .select('user')
@@ -65,7 +64,6 @@ export class AppStateService extends SimpleStore<AppState> {
                         organization: user?.organization,
                         currency: user?.preferredCurrency,
                         language: user?.preferredLanguage,
-
                     })
                 },
             })

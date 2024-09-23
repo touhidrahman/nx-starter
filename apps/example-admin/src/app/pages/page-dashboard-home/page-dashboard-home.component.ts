@@ -26,4 +26,3 @@ import { LucideAngularModule } from 'lucide-angular'
     providers: [provideIcons({ lucideCalendarDays, lucideMapPin })],
 })
 export class PageDashboardHomeComponent {}
-

@@ -1,0 +1,45 @@
+<ion-text class="page-title">Profile</ion-text>
+
+<ion-card>
+    <ion-img class="profile-image" src="assets/avatar/profile.png"></ion-img>
+
+    <div class="profile-text">
+        <ion-text class="profile-title">John Doe</ion-text>
+        <ion-text>john.doe.com</ion-text>
+        <!-- <div>
+                <ion-button fill="outline" color="success"  size="small"  >Edit Profile</ion-button>
+                <ion-button fill="outline" color="success"  size="small"  >Edit Profile</ion-button>
+            </div> -->
+    </div>
+</ion-card>
+
+<div class="edit-container">
+    <ion-text class="text-title">Account Info</ion-text>
+
+    <ion-button [routerLink]="['/reset-password']" fill="outline" color="dark" size="small">
+        Change Password
+      </ion-button>
+</div>
+
+<div class="info-container">
+    <div *ngFor="let detail of userDetails" class="details-container">
+        <ion-img class="details-img" [src]="detail.iconSrc"></ion-img>
+        <ion-input
+            [label]="detail.label"
+            labelPlacement="stacked"
+            [clearInput]="true"
+            [placeholder]="detail.placeholder"
+            [(ngModel)]="detail.value">
+        </ion-input>
+    </div>
+</div>
+
+<ion-button size="large" [strong]="true" class="save-button" color="success"
+    >Save</ion-button
+>
+
+
+
+
+
+

@@ -17,7 +17,7 @@
 
 <div class="mt-8">
     <h1 class="text-2xl mb-4 font-bold">Upcoming Cases</h1>
-    <div class="mt-4 grid lg:grid-cols-5 md:grid-cols-2 grid-cols-1 ">
+    <div class="mt-4 grid lg:grid-cols-5 md:grid-cols-2 grid-cols-1">
         <div *ngFor="let card of caseCard" class="card">
             <div class="card-details">
                 <div class="flex gap-2 items-center">
@@ -40,47 +40,37 @@
 <div class="mt-12">
     <h1 class="text-2xl font-bold">Pinned Cases</h1>
 
-
-    <div class="grid grid-cols-1 gap-2  lg:grid-cols-3 ">
-
-
-        <div *ngFor="let card of pinnedCard"
-        class="pinned-card rounded-lg w-[400px] mt-8 flex justify-between items-center px-4 p-4">
-        <div class="flex gap-4">
-            <div
-                class="w-1 h-14 rounded-full bg-gradient-to-b from-green-200 to-green-600"></div>
-            <div>
-                <h1 class="text-2xl font-bold text-gray-700">
-                    {{ card.title }}
-                </h1>
-                <div class="flex gap-4">
-                    <div class="flex items-center gap-2">
-                        <hlm-icon size="sm" name="lucideMapPin"></hlm-icon>
-                        <p class="text-body">{{ card.location }}</p>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <hlm-icon
-                            size="sm"
-                            name="lucideCalendarDays"></hlm-icon>
-                        <p class="text-body">{{ card.date }}</p>
+    <div class="grid grid-cols-1 gap-2 lg:grid-cols-3">
+        <div
+            *ngFor="let card of pinnedCard"
+            class="pinned-card rounded-lg w-[400px] mt-8 flex justify-between items-center px-4 p-4">
+            <div class="flex gap-4">
+                <div
+                    class="w-1 h-14 rounded-full bg-gradient-to-b from-green-200 to-green-600"></div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-700">
+                        {{ card.title }}
+                    </h1>
+                    <div class="flex gap-4">
+                        <div class="flex items-center gap-2">
+                            <hlm-icon size="sm" name="lucideMapPin"></hlm-icon>
+                            <p class="text-body">{{ card.location }}</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <hlm-icon
+                                size="sm"
+                                name="lucideCalendarDays"></hlm-icon>
+                            <p class="text-body">{{ card.date }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div
-            class="h-12 w-12 rounded-full flex items-center cursor-pointer justify-center bg-green-100 shadow-md">
-            <hlm-icon size="lg" name="lucidePinOff"></hlm-icon>
+            <div
+                class="h-12 w-12 rounded-full flex items-center cursor-pointer justify-center bg-green-100 shadow-md">
+                <hlm-icon size="lg" name="lucidePinOff"></hlm-icon>
+            </div>
         </div>
     </div>
-
-
-
-
-
-
-    </div>
-
-
 </div>
 
 <!-- <app-navbar-internal></app-navbar-internal>
