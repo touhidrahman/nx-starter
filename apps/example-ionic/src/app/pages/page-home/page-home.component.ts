@@ -16,33 +16,27 @@ export class PageHomeComponent implements OnInit {
     ngOnInit(): void {
         this.slides = [
             {
-                content:
-                    'Do things that make you happy ',
+                content: 'Do things that make you happy ',
                 imageUrl: '/assets/images/banner-1.png',
             },
             {
-                content:
-                    'The Law is hard, but it is the Law',
+                content: 'The Law is hard, but it is the Law',
                 imageUrl: '/assets/images/banner-2.png',
             },
             {
-                content:
-                    'Justice is merely incidental to law and order',
+                content: 'Justice is merely incidental to law and order',
                 imageUrl: '/assets/images/banner-3.png',
             },
             {
-                content:
-                    'The law sometimes sleeps; it never dies',
+                content: 'The law sometimes sleeps; it never dies',
                 imageUrl: '/assets/images/banner-4.png',
             },
             {
-                content:
-                    'Useless laws weaken the necessary laws',
+                content: 'Useless laws weaken the necessary laws',
                 imageUrl: '/assets/images/banner-5.png',
             },
             {
-                content:
-                    'Law applied to its extreme is the greatest injustice',
+                content: 'Law applied to its extreme is the greatest injustice',
                 imageUrl: '/assets/images/banner-6.png',
             },
         ]

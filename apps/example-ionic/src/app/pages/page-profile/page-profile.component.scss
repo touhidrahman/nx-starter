@@ -1,0 +1,86 @@
+ion-card{
+    background: linear-gradient(to right, #e4ffe5, #FFFFFF, #C8E6C9);
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    gap: 2rem;
+
+
+}
+
+.page-title{
+    font-size: 2.25rem;
+    line-height: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    padding: .5rem;
+}
+
+.profile-image{
+    height: 8rem;
+    width: 8rem;
+    border-radius: 9999px;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.profile-text{
+    display: flex;
+    flex-direction: column;
+    color: rgb(21 128 61);
+}
+.text-title{
+    font-size: 1.5rem;
+    line-height: 2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.profile-title{
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+
+}
+
+.edit-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-top: 0.5rem;
+
+}
+
+.info-container{
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.details-img{
+    width: 2rem;
+    height: 2rem;
+}
+
+.details-container{
+
+    display: flex;
+    margin-top: 0.5rem;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+
+
+}
+
+.line{
+    height: 1px;
+  background-color: rgb(223, 223, 223);
+  border: none;
+}
+
+.save-button{
+    margin-bottom: 8rem;
+    padding: 1rem;
+}

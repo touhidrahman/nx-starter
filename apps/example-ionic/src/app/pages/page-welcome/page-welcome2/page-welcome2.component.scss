@@ -1,26 +1,23 @@
-
 .container {
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
     margin-top: 10rem;
-  }
-
-
+}
 
 .title {
     font-size: 2em;
     font-weight: bold;
     margin-bottom: 0.5rem;
-  }
+}
 
-.subtitle{
+.subtitle {
     text-align: center;
 }
 
 ion-img {
-    width:  350px;
+    width: 350px;
     height: 350px;
 }
 

@@ -4,14 +4,18 @@
         [slidesPerView]="1.2"
         [autoplay]="true">
         <swiper-slide *ngFor="let slide of slides">
-            <ion-card class="card" [ngStyle]="{'background-image': 'url(' + slide.imageUrl + ')'}">
+            <ion-card
+                class="card"
+                [ngStyle]="{
+                    'background-image': 'url(' + slide.imageUrl + ')'
+                }">
                 <div class="card-container">
-                    <p class="banner-title" >{{ slide.content }}</p>
+                    <p class="banner-title">{{ slide.content }}</p>
                 </div>
-                <ion-button fill="outline" color="medium" size="small">Learn More</ion-button>
+                <ion-button fill="outline" color="medium" size="small"
+                    >Learn More</ion-button
+                >
             </ion-card>
         </swiper-slide>
     </swiper-container>
 </div>
-
-
