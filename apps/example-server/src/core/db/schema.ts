@@ -1,6 +1,8 @@
+import { messages } from '@electric-sql/pglite'
 import { relations } from 'drizzle-orm'
 import {
     boolean,
+    date,
     integer,
     pgEnum,
     pgTable,
@@ -28,12 +30,14 @@ export const authUsersTable = pgTable('auth_users', {
     email: text('email').notNull().unique(),
     password: text('password').notNull(),
     phone: text('phone'),
-    lastLogin: timestamp('last_login'),
+    lastLogin: timestamp('last_login', { withTimezone: true }),
     level: userLevelEnum('level').notNull().default('user'),
     status: userStatusEnum('status').notNull().default('active'),
     verified: boolean('is_verified').notNull().default(false),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
@@ -48,21 +52,42 @@ export const usersTable = pgTable('users', {
     email: text('email'),
     phone: text('phone'),
     coverPhoto: text('cover_photo'),
+    profilePhoto: text('profile_photo'),
     address: text('address'),
+    city: text('city'),
+    country: text('country'),
+    postCode: text('post_code'),
     url: text('url'),
     bio: text('bio'),
     role: userRoleEnum('role').notNull().default('member'),
-    authUser: integer('auth_user_id')
+    authUserId: integer('auth_user_id')
         .references(() => authUsersTable.id)
         .notNull(),
     groupId: integer('group_id')
         .references(() => groupsTable.id)
         .notNull(),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
+
+const usersRelations = relations(usersTable, ({ one }) => ({
+    authUser: one(authUsersTable, {
+        fields: [usersTable.authUserId],
+        references: [authUsersTable.id],
+    }),
+    group: one(groupsTable, {
+        fields: [usersTable.groupId],
+        references: [groupsTable.id],
+    }),
+}))
+
+const authUsersRelations = relations(authUsersTable, ({ many }) => ({
+    users: many(usersTable),
+}))
 
 export const groupTypeEnum = pgEnum('groupType', ['client', 'vendor'])
 export const groupLevelEnum = pgEnum('groupLevel', [
@@ -88,9 +113,11 @@ export const groupsTable = pgTable('groups', {
     country: text('country'),
     postCode: text('post_code'),
     verified: boolean('is_verified').notNull().default(false),
-    verifiedOn: timestamp('verified_on'),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
+    verifiedOn: timestamp('verified_on', { withTimezone: true }),
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
@@ -122,7 +149,6 @@ export const applicationAreasTable = pgTable('application_areas', {
 })
 
 // section: tasks
-
 export const taskStatusEnum = pgEnum('taskStatus', [
     'pending',
     'in_progress',
@@ -138,11 +164,13 @@ export const tasksTable = pgTable('tasks', {
     todo: text('todo').notNull(),
     assignedUserId: integer('assigned_user_id').references(() => usersTable.id),
     assignedRole: userRoleEnum('assigned_role'),
-    dueDate: timestamp('due_date').notNull(),
+    dueDate: timestamp('due_date', { withTimezone: true }).notNull(),
     status: taskStatusEnum('status').notNull().default('pending'),
     note: text('note'),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
@@ -170,12 +198,14 @@ export const invoiceStatusEnum = pgEnum('invoiceStatus', [
 export const invoicesTable = pgTable('invoices', {
     id: serial('id').primaryKey(),
     invoiceCode: text('invoice_code').notNull().unique(),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    dueDate: timestamp('due_date').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    dueDate: timestamp('due_date', { withTimezone: true }).notNull(),
     status: invoiceStatusEnum('status').notNull().default('unpaid'),
     totalDueAmount: integer('total_due_amount').notNull(),
     remainingDueAmount: integer('remaining_due_amount').notNull(),
-    updatedAt: timestamp('updated_at')
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
@@ -186,10 +216,12 @@ export const paymentsTable = pgTable('payments', {
         .references(() => invoicesTable.id)
         .notNull(),
     amountPaid: integer('amount_paid').notNull(),
-    date: timestamp('date').notNull(),
+    date: timestamp('date', { withTimezone: true }).notNull(),
     isFullyPaid: boolean('is_fully_paid').notNull().default(false),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
@@ -203,8 +235,10 @@ export const invoiceItemsTable = pgTable('invoice_items', {
     serviceRendered: text('service_rendered').notNull(),
     unitPrice: integer('unit_price').notNull(),
     qty: integer('qty').notNull(),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
@@ -236,8 +270,10 @@ export const invoiceItemsRelations = relations(
 export const billingTable = pgTable('billing', {
     id: serial('id').primaryKey(),
     address: text('address').notNull(),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
@@ -248,10 +284,12 @@ export const subscriptionsTable = pgTable('subscriptions', {
         .references(() => groupsTable.id)
         .notNull(),
     planId: text('plan_id').notNull(),
-    startDate: timestamp('start_date').notNull(),
-    endDate: timestamp('end_date').notNull(),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
+    startDate: timestamp('start_date', { withTimezone: true }).notNull(),
+    endDate: timestamp('end_date', { withTimezone: true }).notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
@@ -272,23 +310,27 @@ export const statusEnum = pgEnum('status', ['Active', 'Disabled'])
 
 export const appointmentsTable = pgTable('appointments', {
     id: serial('id').primaryKey(),
-    date: timestamp('date').notNull(),
+    date: timestamp('date', { withTimezone: true }).notNull(),
     vendorUserId: integer('vendor_user_id')
         .references(() => usersTable.id)
         .notNull(),
     clientUserId: integer('client_user_id')
         .references(() => usersTable.id)
         .notNull(),
-    startTimestamp: timestamp('start_timestamp').notNull(),
-    endTimestamp: timestamp('end_timestamp').notNull(),
+    startTimestamp: timestamp('start_timestamp', {
+        withTimezone: true,
+    }).notNull(),
+    endTimestamp: timestamp('end_timestamp', { withTimezone: true }).notNull(),
     description: text('description'),
     notesForVendor: text('notes_for_vendor'),
     notesForClient: text('notes_for_client'),
     groupId: integer('group_id')
         .references(() => groupsTable.id)
         .notNull(),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
@@ -314,12 +356,14 @@ export const appointmentsRelations = relations(
 // Events Table
 export const eventsTable = pgTable('events', {
     id: serial('id').primaryKey(),
-    date: timestamp('date').notNull(),
+    date: timestamp('date', { withTimezone: true }).notNull(),
     userId: integer('user_id')
         .references(() => usersTable.id)
         .notNull(),
-    startTimestamp: timestamp('start_timestamp').notNull(),
-    endTimestamp: timestamp('end_timestamp').notNull(),
+    startTimestamp: timestamp('start_timestamp', {
+        withTimezone: true,
+    }).notNull(),
+    endTimestamp: timestamp('end_timestamp', { withTimezone: true }).notNull(),
     description: text('description'),
     showMeAs: showMeAsEnum('show_me_as').notNull(),
     wholeDay: boolean('whole_day').notNull(),
@@ -330,8 +374,10 @@ export const eventsTable = pgTable('events', {
     caseId: integer('case_id')
         .references(() => casesTable.id)
         .notNull(),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
@@ -365,8 +411,10 @@ export const casesTable = pgTable('cases', {
         .references(() => groupsTable.id)
         .notNull(),
     court: text('court').notNull(),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
@@ -421,7 +469,7 @@ export const documentSharingTable = pgTable('document_sharing', {
         .references(() => usersTable.id)
         .notNull(),
     receiverUserId: integer('receiver_user_id').references(() => usersTable.id),
-    expiryDate: timestamp('expiry_date').notNull(),
+    expiryDate: timestamp('expiry_date', { withTimezone: true }).notNull(),
 })
 
 export const documentSharingRelations = relations(
@@ -460,10 +508,14 @@ export const messagesTable = pgTable('messages', {
     clientUserId: integer('client_user_id')
         .references(() => usersTable.id)
         .notNull(),
-    readableByVendorGroup: boolean('readable_by_vendor_group').notNull(),
-    readableByClientGroup: boolean('readable_by_client_group').notNull(),
-    date: timestamp('date').notNull(),
-    replyByDate: timestamp('reply_by_date'),
+    readableByVendorGroup: boolean('readable_by_vendor_group')
+        .notNull()
+        .default(false),
+    readableByClientGroup: boolean('readable_by_client_group')
+        .notNull()
+        .default(false),
+    date: timestamp('date', { withTimezone: true }).notNull(),
+    replyByDate: date('reply_by_date'),
     message: text('message').notNull(),
 })
 
@@ -476,8 +528,6 @@ export const messagesRelations = relations(messagesTable, ({ one, many }) => ({
         fields: [messagesTable.clientUserId],
         references: [usersTable.id],
     }),
-    ccUsers: many(usersTable),
-    attachmentDocumentSharing: many(documentSharingTable),
 }))
 
 // section: Storage Table

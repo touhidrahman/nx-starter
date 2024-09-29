@@ -66,17 +66,17 @@ CREATE TABLE IF NOT EXISTS "application_areas" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "appointments" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"date" timestamp NOT NULL,
+	"date" timestamp with time zone NOT NULL,
 	"vendor_user_id" integer NOT NULL,
 	"client_user_id" integer NOT NULL,
-	"start_timestamp" timestamp NOT NULL,
-	"end_timestamp" timestamp NOT NULL,
+	"start_timestamp" timestamp with time zone NOT NULL,
+	"end_timestamp" timestamp with time zone NOT NULL,
 	"description" text,
 	"notes_for_vendor" text,
 	"notes_for_client" text,
 	"group_id" integer NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp NOT NULL
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "auth_users" (
@@ -86,20 +86,20 @@ CREATE TABLE IF NOT EXISTS "auth_users" (
 	"email" text NOT NULL,
 	"password" text NOT NULL,
 	"phone" text,
-	"last_login" timestamp,
+	"last_login" timestamp with time zone,
 	"level" "userLevel" DEFAULT 'user' NOT NULL,
 	"status" "userStatus" DEFAULT 'active' NOT NULL,
 	"is_verified" boolean DEFAULT false NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone NOT NULL,
 	CONSTRAINT "auth_users_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "billing" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"address" text NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp NOT NULL
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "cases" (
@@ -111,8 +111,8 @@ CREATE TABLE IF NOT EXISTS "cases" (
 	"plaintiff_group_id" integer NOT NULL,
 	"group_id" integer NOT NULL,
 	"court" text NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp NOT NULL
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "courts" (
@@ -126,7 +126,7 @@ CREATE TABLE IF NOT EXISTS "document_sharing" (
 	"document_id" integer NOT NULL,
 	"sender_user_id" integer NOT NULL,
 	"receiver_user_id" integer,
-	"expiry_date" timestamp NOT NULL
+	"expiry_date" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "documents" (
@@ -143,18 +143,18 @@ CREATE TABLE IF NOT EXISTS "documents" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "events" (
 	"id" serial PRIMARY KEY NOT NULL,
-	"date" timestamp NOT NULL,
+	"date" timestamp with time zone NOT NULL,
 	"user_id" integer NOT NULL,
-	"start_timestamp" timestamp NOT NULL,
-	"end_timestamp" timestamp NOT NULL,
+	"start_timestamp" timestamp with time zone NOT NULL,
+	"end_timestamp" timestamp with time zone NOT NULL,
 	"description" text,
 	"show_me_as" "show_me_as" NOT NULL,
 	"whole_day" boolean NOT NULL,
 	"group_id" integer NOT NULL,
 	"status" "status" NOT NULL,
 	"case_id" integer NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp NOT NULL
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "groups" (
@@ -169,9 +169,9 @@ CREATE TABLE IF NOT EXISTS "groups" (
 	"country" text,
 	"post_code" text,
 	"is_verified" boolean DEFAULT false NOT NULL,
-	"verified_on" timestamp,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp NOT NULL
+	"verified_on" timestamp with time zone,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "invoice_items" (
@@ -181,19 +181,19 @@ CREATE TABLE IF NOT EXISTS "invoice_items" (
 	"service_rendered" text NOT NULL,
 	"unit_price" integer NOT NULL,
 	"qty" integer NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp NOT NULL
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "invoices" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"invoice_code" text NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"due_date" timestamp NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"due_date" timestamp with time zone NOT NULL,
 	"status" "invoiceStatus" DEFAULT 'unpaid' NOT NULL,
 	"total_due_amount" integer NOT NULL,
 	"remaining_due_amount" integer NOT NULL,
-	"updated_at" timestamp NOT NULL,
+	"updated_at" timestamp with time zone NOT NULL,
 	CONSTRAINT "invoices_invoice_code_unique" UNIQUE("invoice_code")
 );
 --> statement-breakpoint
@@ -201,10 +201,10 @@ CREATE TABLE IF NOT EXISTS "messages" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"vendor_user_id" integer NOT NULL,
 	"client_user_id" integer NOT NULL,
-	"readable_by_vendor_group" boolean NOT NULL,
-	"readable_by_client_group" boolean NOT NULL,
-	"date" timestamp NOT NULL,
-	"reply_by_date" timestamp,
+	"readable_by_vendor_group" boolean DEFAULT false NOT NULL,
+	"readable_by_client_group" boolean DEFAULT false NOT NULL,
+	"date" timestamp with time zone NOT NULL,
+	"reply_by_date" date,
 	"message" text NOT NULL
 );
 --> statement-breakpoint
@@ -212,10 +212,10 @@ CREATE TABLE IF NOT EXISTS "payments" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"invoice_id" integer NOT NULL,
 	"amount_paid" integer NOT NULL,
-	"date" timestamp NOT NULL,
+	"date" timestamp with time zone NOT NULL,
 	"is_fully_paid" boolean DEFAULT false NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp NOT NULL
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "permissions" (
@@ -234,10 +234,10 @@ CREATE TABLE IF NOT EXISTS "subscriptions" (
 	"id" serial PRIMARY KEY NOT NULL,
 	"group_id" integer NOT NULL,
 	"plan_id" text NOT NULL,
-	"start_date" timestamp NOT NULL,
-	"end_date" timestamp NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp NOT NULL
+	"start_date" timestamp with time zone NOT NULL,
+	"end_date" timestamp with time zone NOT NULL,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "tasks" (
@@ -246,11 +246,11 @@ CREATE TABLE IF NOT EXISTS "tasks" (
 	"todo" text NOT NULL,
 	"assigned_user_id" integer,
 	"assigned_role" "userRole",
-	"due_date" timestamp NOT NULL,
+	"due_date" timestamp with time zone NOT NULL,
 	"status" "taskStatus" DEFAULT 'pending' NOT NULL,
 	"note" text,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp NOT NULL
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "users" (
@@ -260,14 +260,18 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"email" text,
 	"phone" text,
 	"cover_photo" text,
+	"profile_photo" text,
 	"address" text,
+	"city" text,
+	"country" text,
+	"post_code" text,
 	"url" text,
 	"bio" text,
 	"role" "userRole" DEFAULT 'member' NOT NULL,
 	"auth_user_id" integer NOT NULL,
 	"group_id" integer NOT NULL,
-	"created_at" timestamp DEFAULT now() NOT NULL,
-	"updated_at" timestamp NOT NULL
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 DO $$ BEGIN

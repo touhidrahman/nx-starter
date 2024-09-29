@@ -5,5 +5,13 @@
             "style": "scss",
             "externalTemplate": true
         }
+    },
+    "[typescript]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll.eslint": "explicit",
+            "quickfix.biome": "explicit",
+            "source.organizeImports.biome": "explicit"
+        },
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
     }
 }
