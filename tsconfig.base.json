@@ -105,6 +105,9 @@
             "@spartan-ng/ui-skeleton-helm": [
                 "libs/ui/ui-skeleton-helm/src/index.ts"
             ],
+            "@spartan-ng/ui-slider-helm": [
+                "libs/ui/ui-slider-helm/src/index.ts"
+            ],
             "@spartan-ng/ui-sonner-helm": [
                 "libs/ui/ui-sonner-helm/src/index.ts"
             ],

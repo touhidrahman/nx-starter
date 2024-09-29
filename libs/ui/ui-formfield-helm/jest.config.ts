@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
     displayName: 'ui-formfield-helm',
     preset: '../../../jest.preset.js',
