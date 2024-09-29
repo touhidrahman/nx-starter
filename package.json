@@ -24,7 +24,7 @@
         "spartan3of3": "npx nx g @spartan-ng/cli:ui",
         "report": "nx report",
         "db:generate-erd": "drizzle-erd --in ./apps/example-server/src/core/db/schema.ts --out ./apps/example-server/erd.svg",
-         "dbml": "tsx ./apps/example-server/dbml.ts"
+        "dbml": "tsx ./apps/example-server/dbml.ts"
     },
     "private": true,
     "dependencies": {
@@ -43,6 +43,12 @@
         "@capacitor/haptics": "^5.0.0",
         "@capacitor/keyboard": "^5.0.0",
         "@capacitor/status-bar": "^5.0.0",
+        "@fullcalendar/angular": "^6.1.15",
+        "@fullcalendar/core": "^6.1.15",
+        "@fullcalendar/daygrid": "^6.1.15",
+        "@fullcalendar/interaction": "^6.1.15",
+        "@fullcalendar/list": "^6.1.15",
+        "@fullcalendar/timegrid": "^6.1.15",
         "@hono/node-server": "^1.13.0",
         "@hono/zod-validator": "^0.2.2",
         "@ionic/angular": "^7.0.0",
