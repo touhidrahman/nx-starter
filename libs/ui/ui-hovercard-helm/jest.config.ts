@@ -1,4 +1,3 @@
-/* eslint-disable */
 export default {
     displayName: 'ui-hovercard-helm',
     preset: '../../../jest.preset.js',
