@@ -10,16 +10,27 @@ import {
     timestamp,
 } from 'drizzle-orm/pg-core'
 
-export const userTypeEnum = pgEnum('userType', ['user', 'moderator', 'admin'])
+export const userLevelEnum = pgEnum('userLevel', ['user', 'moderator', 'admin'])
+export const userRoleEnum = pgEnum('userRole', ['owner', 'manager', 'member'])
+export const userStatusEnum = pgEnum('userStatus', [
+    'active',
+    'inactive',
+    'banned',
+])
 
-export const usersTable = pgTable('users', {
+/**
+ * AuthUsers Table is used for logging in and authentication in the system
+ */
+export const authUsersTable = pgTable('auth_users', {
     id: serial('id').primaryKey(),
     firstName: text('first_name').notNull(),
     lastName: text('last_name').notNull(),
     email: text('email').notNull().unique(),
     password: text('password').notNull(),
+    phone: text('phone'),
     lastLogin: timestamp('last_login'),
-    type: userTypeEnum('type').notNull().default('user'),
+    level: userLevelEnum('level').notNull().default('user'),
+    status: userStatusEnum('status').notNull().default('active'),
     verified: boolean('is_verified').notNull().default(false),
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at')
@@ -27,29 +38,48 @@ export const usersTable = pgTable('users', {
         .$onUpdate(() => new Date()),
 })
 
-export const usersRelations = relations(usersTable, ({ many }) => ({
-    usersToGroups: many(groupsToUsersTable),
-}))
+/**
+ * Users Table is used for Vendor & Client Users which are linked to AuthUsers
+ */
+export const usersTable = pgTable('users', {
+    id: serial('id').primaryKey(),
+    firstName: text('first_name').notNull(),
+    lastName: text('last_name').notNull(),
+    email: text('email'),
+    phone: text('phone'),
+    coverPhoto: text('cover_photo'),
+    address: text('address'),
+    url: text('url'),
+    bio: text('bio'),
+    role: userRoleEnum('role').notNull().default('member'),
+    authUser: integer('auth_user_id')
+        .references(() => authUsersTable.id)
+        .notNull(),
+    groupId: integer('group_id')
+        .references(() => groupsTable.id)
+        .notNull(),
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+    updatedAt: timestamp('updated_at')
+        .notNull()
+        .$onUpdate(() => new Date()),
+})
 
 export const groupTypeEnum = pgEnum('groupType', ['client', 'vendor'])
+export const groupLevelEnum = pgEnum('groupLevel', [
+    'trial',
+    'basic',
+    'premium',
+])
 export const groupStatusEnum = pgEnum('groupStatus', [
     'active',
     'inactive',
     'pending',
 ])
 
-export const rolesTable = pgTable('roles', {
-    id: serial('id').primaryKey(),
-    groupId: integer('group_id')
-        .references(() => groupsTable.id)
-        .notNull(),
-    name: text('name').notNull(),
-})
-
 export const groupsTable = pgTable('groups', {
     id: serial('id').primaryKey(),
     type: groupTypeEnum('type').notNull().default('client'),
-    status: groupStatusEnum('status').notNull().default('inactive'),
+    status: groupStatusEnum('status').notNull().default('pending'),
     name: text('name').notNull(),
     email: text('email'),
     phone: text('phone'),
@@ -65,61 +95,20 @@ export const groupsTable = pgTable('groups', {
         .$onUpdate(() => new Date()),
 })
 
-export const groupsRelations = relations(groupsTable, ({ many }) => ({
-    usersToGroups: many(groupsToUsersTable),
-}))
-
-export const groupsToUsersTable = pgTable(
-    'groups_to_users',
-    {
-        userId: integer('user_id')
-            .references(() => usersTable.id, { onDelete: 'cascade' })
-            .notNull(),
-        groupId: integer('group_id')
-            .references(() => groupsTable.id, { onDelete: 'cascade' })
-            .notNull(),
-        roleId: integer('role_id').references(() => rolesTable.id),
-        isDefault: boolean('is_default').notNull().default(false),
-        isOwner: boolean('is_owner').notNull().default(false),
-    },
-    (table) => {
-        return {
-            // one user can be in a group only once
-            pk: primaryKey({ columns: [table.userId, table.groupId] }),
-        }
-    },
-)
-
-export const usersToGroupsRelations = relations(
-    groupsToUsersTable,
-    ({ one }) => ({
-        group: one(groupsTable, {
-            fields: [groupsToUsersTable.groupId],
-            references: [groupsTable.id],
-        }),
-        user: one(usersTable, {
-            fields: [groupsToUsersTable.userId],
-            references: [usersTable.id],
-        }),
-    }),
-)
-
 export const permissionsTable = pgTable(
     'permissions',
     {
         groupId: integer('group_id')
             .references(() => groupsTable.id)
             .notNull(),
-        roleId: integer('role_id')
-            .references(() => rolesTable.id)
-            .notNull(),
+        role: userRoleEnum('role').notNull(),
         area: text('area').notNull(),
         access: integer('access').notNull().default(1), // refer to README.md for access levels
     },
     (table) => {
         return {
             pk: primaryKey({
-                columns: [table.groupId, table.roleId, table.area],
+                columns: [table.groupId, table.role, table.area],
             }),
         }
     },
@@ -147,10 +136,8 @@ export const tasksTable = pgTable('tasks', {
         .references(() => groupsTable.id)
         .notNull(),
     todo: text('todo').notNull(),
-    assignedUserId: integer('assigned_user_id')
-        .references(() => usersTable.id)
-        .notNull(),
-    assignedRoleId: integer('assigned_role_id').references(() => rolesTable.id), // optional
+    assignedUserId: integer('assigned_user_id').references(() => usersTable.id),
+    assignedRole: userRoleEnum('assigned_role'),
     dueDate: timestamp('due_date').notNull(),
     status: taskStatusEnum('status').notNull().default('pending'),
     note: text('note'),
@@ -168,10 +155,6 @@ export const tasksRelations = relations(tasksTable, ({ one }) => ({
     assignedUser: one(usersTable, {
         fields: [tasksTable.assignedUserId],
         references: [usersTable.id],
-    }),
-    assignedRole: one(rolesTable, {
-        fields: [tasksTable.assignedRoleId],
-        references: [rolesTable.id],
     }),
 }))
 
@@ -437,9 +420,7 @@ export const documentSharingTable = pgTable('document_sharing', {
     senderUserId: integer('sender_user_id')
         .references(() => usersTable.id)
         .notNull(),
-    receiverUserId: integer('receiver_user_id')
-        .references(() => usersTable.id)
-        .notNull(),
+    receiverUserId: integer('receiver_user_id').references(() => usersTable.id),
     expiryDate: timestamp('expiry_date').notNull(),
 })
 
@@ -479,17 +460,11 @@ export const messagesTable = pgTable('messages', {
     clientUserId: integer('client_user_id')
         .references(() => usersTable.id)
         .notNull(),
-    // ccUserId: integer('cc_user_id')
-    //     .array()
-    //     .references(() => usersTable.id), // Array of Foreign Keys
     readableByVendorGroup: boolean('readable_by_vendor_group').notNull(),
     readableByClientGroup: boolean('readable_by_client_group').notNull(),
     date: timestamp('date').notNull(),
     replyByDate: timestamp('reply_by_date'),
     message: text('message').notNull(),
-    // attachmentDocumentSharingIds: integer('attachment_document_sharing_ids')
-    //     .array()
-    //     .references(() => documentSharingTable.id), // Array of Foreign Keys
 })
 
 export const messagesRelations = relations(messagesTable, ({ one, many }) => ({
@@ -503,27 +478,6 @@ export const messagesRelations = relations(messagesTable, ({ one, many }) => ({
     }),
     ccUsers: many(usersTable),
     attachmentDocumentSharing: many(documentSharingTable),
-}))
-
-// section: profile
-
-export const profileTable = pgTable('profile', {
-    userId: integer('user_id')
-        .primaryKey()
-        .references(() => usersTable.id),
-    coverPhoto: text('cover_photo'),
-    address: text('address'),
-    phone: text('phone'),
-    email: text('email'),
-    url: text('url'),
-    bio: text('bio'),
-})
-
-export const profileRelations = relations(profileTable, ({ one }) => ({
-    user: one(usersTable, {
-        fields: [profileTable.userId],
-        references: [usersTable.id],
-    }),
 }))
 
 // section: Storage Table

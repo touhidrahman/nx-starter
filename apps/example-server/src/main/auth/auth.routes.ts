@@ -12,7 +12,7 @@ import { db } from '../../core/db/db'
 import {
     groupsTable,
     groupsToUsersTable,
-    usersTable,
+    authUsersTable,
 } from '../../core/db/schema'
 import { checkSecretsMiddleware } from '../../core/middlewares/check-secrets.middleware'
 import { getDefaultGroup, getGroup } from '../group/group.service'
@@ -38,8 +38,8 @@ app.post('/login', zValidator('json', zLogin), async (c) => {
 
     const users = await db
         .select()
-        .from(usersTable)
-        .where(eq(usersTable.email, email))
+        .from(authUsersTable)
+        .where(eq(authUsersTable.email, email))
 
     if (users.length === 0) {
         return c.json({ message: 'Invalid email or password' }, 400)
@@ -77,9 +77,9 @@ app.post('/login', zValidator('json', zLogin), async (c) => {
         )
 
         await db
-            .update(usersTable)
+            .update(authUsersTable)
             .set({ lastLogin: now.toDate() })
-            .where(eq(usersTable.id, user.id))
+            .where(eq(authUsersTable.id, user.id))
 
         return c.json({
             message: 'Login successful',
@@ -104,7 +104,7 @@ app.post('/register', zValidator('json', zRegister), async (c) => {
     try {
         // Insert new user
         const user = await db
-            .insert(usersTable)
+            .insert(authUsersTable)
             .values({
                 email,
                 password: hash,
@@ -112,7 +112,7 @@ app.post('/register', zValidator('json', zRegister), async (c) => {
                 lastName,
                 type,
             })
-            .returning({ id: usersTable.id })
+            .returning({ id: authUsersTable.id })
 
         const userId = user[0].id
 
@@ -158,7 +158,7 @@ app.post('/admin/register', zValidator('json', zRegister), async (c) => {
 
     try {
         await db
-            .insert(usersTable)
+            .insert(authUsersTable)
             .values({
                 email,
                 password: hash,
@@ -167,7 +167,7 @@ app.post('/admin/register', zValidator('json', zRegister), async (c) => {
                 type: 'admin',
                 verified: false, // Not verified yet, requires admin approval
             })
-            .returning({ id: usersTable.id })
+            .returning({ id: authUsersTable.id })
 
         return c.json(
             { message: 'Admin account created, pending approval' },
@@ -191,12 +191,12 @@ app.post(
 
         try {
             const result = await db
-                .update(usersTable)
+                .update(authUsersTable)
                 .set({ verified: true })
                 .where(
                     and(
-                        eq(usersTable.id, userId),
-                        eq(usersTable.type, 'admin'),
+                        eq(authUsersTable.id, userId),
+                        eq(authUsersTable.level, 'admin'),
                     ),
                 )
 
@@ -231,12 +231,12 @@ app.post(
 
         try {
             await db
-                .update(usersTable)
+                .update(authUsersTable)
                 .set({ verified: true })
                 .where(
                     and(
-                        eq(usersTable.id, Number(sub)),
-                        eq(usersTable.email, String(email)),
+                        eq(authUsersTable.id, Number(sub)),
+                        eq(authUsersTable.email, String(email)),
                     ),
                 )
 
@@ -259,8 +259,8 @@ app.post('/change-password', zValidator('json', zChangePassword), async (c) => {
     // Fetch the user from the database using the userId
     const users = await db
         .select()
-        .from(usersTable)
-        .where(eq(usersTable.id, userId))
+        .from(authUsersTable)
+        .where(eq(authUsersTable.id, userId))
     if (users.length === 0) {
         return c.json({ message: 'User not found' }, 404)
     }
@@ -283,9 +283,9 @@ app.post('/change-password', zValidator('json', zChangePassword), async (c) => {
     // Hash the new password and update the database
     const hashedPassword = await argon2.hash(password)
     await db
-        .update(usersTable)
+        .update(authUsersTable)
         .set({ password: hashedPassword })
-        .where(eq(usersTable.id, userId))
+        .where(eq(authUsersTable.id, userId))
 
     return c.json({ message: 'Password change success', data: true })
 })
@@ -295,8 +295,8 @@ app.post('/forgot-password', zValidator('json', zForgotPassword), async (c) => {
     const { email } = c.req.valid('json')
     const users = await db
         .select()
-        .from(usersTable)
-        .where(eq(usersTable.email, email))
+        .from(authUsersTable)
+        .where(eq(authUsersTable.email, email))
     const user = users[0]
 
     if (!user) {
@@ -319,9 +319,9 @@ app.post('/reset-password', zValidator('json', zResetPassword), async (c) => {
     const hashedPassword = await argon2.hash(password)
 
     const user = await db
-        .update(usersTable)
+        .update(authUsersTable)
         .set({ password: hashedPassword })
-        .where(and(eq(usersTable.email, email)))
+        .where(and(eq(authUsersTable.email, email)))
 
     if (user) {
         // Here you should send a confirmation email to the user

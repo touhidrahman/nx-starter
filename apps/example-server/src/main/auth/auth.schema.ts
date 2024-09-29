@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { userTypeEnum } from '../../core/db/schema'
+import { userLevelEnum } from '../../core/db/schema'
 
 export const zLogin = z.object({
     email: z.string().email(),
@@ -11,7 +11,7 @@ export const zRegister = z.object({
     password: z.string(),
     firstName: z.string().min(1, { message: 'First name is required' }),
     lastName: z.string().min(1, { message: 'Last name is required' }),
-    type: z.enum(userTypeEnum.enumValues).optional().default('user'),
+    level: z.enum(userLevelEnum.enumValues).optional().default('user'),
 })
 
 export const zChangePassword = z.object({

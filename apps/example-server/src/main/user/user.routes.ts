@@ -4,7 +4,7 @@ import { jwt } from 'hono/jwt'
 import { db } from '../../core/db/db'
 import { safeUser } from './user.util'
 import { z } from 'zod'
-import { usersTable } from '../../core/db/schema'
+import { authUsersTable } from '../../core/db/schema'
 
 const app = new Hono()
 
@@ -15,9 +15,9 @@ const authMiddleware = jwt({ secret })
 app.get('/me', authMiddleware, async (c) => {
     const payload = c.get('jwtPayload')
     const users = await db
-        .select({ ...getTableColumns(usersTable) })
-        .from(usersTable)
-        .where(eq(usersTable.id, payload.sub))
+        .select({ ...getTableColumns(authUsersTable) })
+        .from(authUsersTable)
+        .where(eq(authUsersTable.id, payload.sub))
         .limit(1)
 
     return c.json({ data: safeUser(users[0]), message: 'Logged in user' })
@@ -36,7 +36,7 @@ app.post('/invite', authMiddleware, async (c) => {
     const parsedBody = inviteSchema.parse(body)
 
     const newUser = await db
-        .insert(usersTable)
+        .insert(authUsersTable)
         .values({
             firstName: parsedBody.firstName,
             lastName: parsedBody.lastName,
@@ -65,9 +65,9 @@ app.put('/update/:id', authMiddleware, async (c) => {
     const userId = parseInt(c.req.param('id'), 10)
 
     const updatedUser = await db
-        .update(usersTable)
+        .update(authUsersTable)
         .set(parsedBody)
-        .where(eq(usersTable.id, userId))
+        .where(eq(authUsersTable.id, userId))
         .returning()
 
     return c.json({ data: updatedUser, message: 'User updated' })
@@ -77,7 +77,7 @@ app.put('/update/:id', authMiddleware, async (c) => {
 app.delete('/delete/:id', authMiddleware, async (c) => {
     const userId = parseInt(c.req.param('id'), 10)
 
-    await db.delete(usersTable).where(eq(usersTable.id, userId))
+    await db.delete(authUsersTable).where(eq(authUsersTable.id, userId))
 
     return c.json({ message: 'User deleted' })
 })
@@ -87,9 +87,9 @@ app.get('/user/:id', authMiddleware, async (c) => {
     const userId = parseInt(c.req.param('id'), 10)
 
     const users = await db
-        .select({ ...getTableColumns(usersTable) })
-        .from(usersTable)
-        .where(eq(usersTable.id, userId))
+        .select({ ...getTableColumns(authUsersTable) })
+        .from(authUsersTable)
+        .where(eq(authUsersTable.id, userId))
         .limit(1)
 
     if (users.length === 0) {
@@ -114,21 +114,21 @@ app.get('/search', authMiddleware, async (c) => {
     const conditions: SQL[] = []
 
     if (parsedQuery.email) {
-        conditions.push(eq(usersTable.email, parsedQuery.email))
+        conditions.push(eq(authUsersTable.email, parsedQuery.email))
     }
     if (parsedQuery.firstName) {
-        conditions.push(eq(usersTable.firstName, parsedQuery.firstName))
+        conditions.push(eq(authUsersTable.firstName, parsedQuery.firstName))
     }
     if (parsedQuery.lastName) {
-        conditions.push(eq(usersTable.lastName, parsedQuery.lastName))
+        conditions.push(eq(authUsersTable.lastName, parsedQuery.lastName))
     }
     if (parsedQuery.type) {
-        conditions.push(eq(usersTable.type, parsedQuery.type))
+        conditions.push(eq(authUsersTable.level, parsedQuery.type))
     }
 
     const users = await db
-        .select({ ...getTableColumns(usersTable) })
-        .from(usersTable)
+        .select({ ...getTableColumns(authUsersTable) })
+        .from(authUsersTable)
         .where(
             conditions.length
                 ? sql`${conditions.reduce(

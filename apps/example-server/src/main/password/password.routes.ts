@@ -8,7 +8,7 @@ import { db } from '../../core/db/db'
 import { checkSecretsMiddleware } from '../../core/middlewares/check-secrets.middleware'
 import { z } from 'zod'
 import { zValidator } from '@hono/zod-validator'
-import { usersTable } from '../../core/db/schema'
+import { authUsersTable } from '../../core/db/schema'
 
 const app = new Hono()
 
@@ -30,8 +30,8 @@ app.post('/forgot', zValidator('json', emailSchema), async (c) => {
     const { email } = await c.req.valid('json')
     const users = await db
         .select()
-        .from(usersTable)
-        .where(eq(usersTable.email, email))
+        .from(authUsersTable)
+        .where(eq(authUsersTable.email, email))
     if (users.length === 0) {
         c.status(400)
         return c.json({ message: 'Invalid email' })
@@ -65,12 +65,12 @@ app.post('/reset/:token', async (c) => {
 
     try {
         await db
-            .update(usersTable)
+            .update(authUsersTable)
             .set({ password: hash })
             .where(
                 and(
-                    eq(usersTable.id, Number(sub)),
-                    eq(usersTable.email, String(email)),
+                    eq(authUsersTable.id, Number(sub)),
+                    eq(authUsersTable.email, String(email)),
                 ),
             )
 
@@ -89,8 +89,8 @@ app.post('/change', zValidator('json', changePasswordSchema), async (c) => {
     }
     const users = await db
         .select()
-        .from(usersTable)
-        .where(eq(usersTable.email, email))
+        .from(authUsersTable)
+        .where(eq(authUsersTable.email, email))
     if (users.length === 0) {
         c.status(400)
         return c.json({ message: 'Invalid email' })
@@ -106,9 +106,9 @@ app.post('/change', zValidator('json', changePasswordSchema), async (c) => {
 
     try {
         await db
-            .update(usersTable)
+            .update(authUsersTable)
             .set({ password: hash })
-            .where(eq(usersTable.id, user.id))
+            .where(eq(authUsersTable.id, user.id))
 
         return c.json({ message: 'Password changed' })
     } catch (error) {

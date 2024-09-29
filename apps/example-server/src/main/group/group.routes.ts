@@ -5,10 +5,9 @@ import { jwt } from 'hono/jwt'
 import { toInt } from 'radash'
 import { db } from '../../core/db/db'
 import {
-    groupsToUsersTable,
     groupsTable,
     permissionsTable,
-    usersTable,
+    authUsersTable,
 } from '../../core/db/schema'
 import { zInsertGroup, zUpdateGroup } from './group.schema'
 import { z } from 'zod'
@@ -188,8 +187,8 @@ app.post(
         try {
             const [user] = await db
                 .select()
-                .from(usersTable)
-                .where(eq(usersTable.id, userId))
+                .from(authUsersTable)
+                .where(eq(authUsersTable.id, userId))
                 .limit(1)
 
             if (!user) {

@@ -1,11 +1,7 @@
 import { getTableColumns, sql } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { db } from '../../core/db/db'
-import {
-    groupsTable,
-    groupsToUsersTable,
-    usersTable,
-} from '../../core/db/schema'
+import { groupsTable, authUsersTable } from '../../core/db/schema'
 
 const app = new Hono()
 
@@ -16,20 +12,9 @@ app.get('/', async (c) => {
     // Initialize query builder with a join on groupsTable
     const query = db
         .select({
-            ...getTableColumns(usersTable),
-            groupName: groupsTable.name,
-            groupType: groupsTable.type,
-            groupId: groupsTable.id,
+            ...getTableColumns(authUsersTable),
         })
-        .from(usersTable)
-        .leftJoin(
-            groupsToUsersTable,
-            sql`${usersTable.id} = ${groupsToUsersTable.userId}`,
-        )
-        .leftJoin(
-            groupsTable,
-            sql`${groupsToUsersTable.groupId} = ${groupsTable.id}`,
-        )
+        .from(authUsersTable)
 
     let totalUsers = 0
     let users = []
@@ -43,7 +28,7 @@ app.get('/', async (c) => {
         // Fetch total number of users
         const totalUsersResult = await db
             .select({ count: sql`COUNT(*)` })
-            .from(usersTable)
+            .from(authUsersTable)
 
         totalUsers = Number(totalUsersResult[0]?.count) || 0
 
