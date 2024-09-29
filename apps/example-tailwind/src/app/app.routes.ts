@@ -43,6 +43,14 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Center) },
     },
     {
+        path: 'dashboard/calender',
+        loadComponent: () =>
+            import(
+                './pages/page-calender/page-calender.component'
+            ).then((m) => m.PageCalenderComponent),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
         path: 'account-verify/:token',
         loadComponent: () =>
             import(
