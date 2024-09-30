@@ -1,6 +1,6 @@
-import { SelectUser } from './user.schema'
+import { SelectAuthUser } from '../auth/auth.schema'
 
-export function safeUser(user: SelectUser) {
+export function safeUser(user: SelectAuthUser) {
     return {
         ...user,
         password: undefined,

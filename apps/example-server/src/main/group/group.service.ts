@@ -1,6 +1,6 @@
 import { eq, and } from 'drizzle-orm'
 import { db } from '../../core/db/db'
-import { groupsTable, groupsToUsersTable } from '../../core/db/schema'
+import { groupsTable } from '../../core/db/schema'
 
 export async function getDefaultGroup(userId: number) {
     const results = await db

@@ -122,6 +122,10 @@ export const groupsTable = pgTable('groups', {
         .$onUpdate(() => new Date()),
 })
 
+export const groupsRelations = relations(groupsTable, ({ many }) => ({
+    users: many(usersTable),
+}))
+
 export const permissionsTable = pgTable(
     'permissions',
     {

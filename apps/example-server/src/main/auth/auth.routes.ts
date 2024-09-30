@@ -1,21 +1,15 @@
 import { zValidator } from '@hono/zod-validator'
 import * as argon2 from 'argon2'
 import dayjs from 'dayjs'
-import { and, eq } from 'drizzle-orm'
+import { and, eq, or } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { HTTPException } from 'hono/http-exception'
-import { sign, verify } from 'hono/jwt'
-import { randomBytes } from 'node:crypto'
+import { sign } from 'hono/jwt'
 import { toInt } from 'radash'
 import { z } from 'zod'
 import { db } from '../../core/db/db'
-import {
-    groupsTable,
-    groupsToUsersTable,
-    authUsersTable,
-} from '../../core/db/schema'
+import { authUsersTable, groupsTable, usersTable } from '../../core/db/schema'
 import { checkSecretsMiddleware } from '../../core/middlewares/check-secrets.middleware'
-import { getDefaultGroup, getGroup } from '../group/group.service'
 import { safeUser } from '../user/user.util'
 import {
     zChangePassword,
@@ -24,9 +18,13 @@ import {
     zRegister,
     zResetPassword,
 } from './auth.schema'
-
-const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET ?? ''
-const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET ?? ''
+import {
+    createAccessToken,
+    createForgotPasswordToken,
+    createRefreshToken,
+    createVerficationToken,
+    decodeVerificationToken,
+} from './token.util'
 
 const app = new Hono()
 
@@ -34,62 +32,118 @@ app.use(checkSecretsMiddleware)
 
 app.post('/login', zValidator('json', zLogin), async (c) => {
     const { email, password } = c.req.valid('json')
-    const groupId = c.req.query('groupId')
+    let groupId = c.req.query('groupId')
 
-    const users = await db
+    const authUsers = await db
         .select()
         .from(authUsersTable)
         .where(eq(authUsersTable.email, email))
 
-    if (users.length === 0) {
+    if (authUsers.length === 0) {
         return c.json({ message: 'Invalid email or password' }, 400)
     }
 
+    const now = dayjs()
+    const authUser = authUsers[0]
+
     try {
-        const user = users[0]
-        if (!(await argon2.verify(user.password, password))) {
+        if (!(await argon2.verify(authUser.password, password))) {
             return c.json({ message: 'Invalid email or password' }, 400)
         }
 
-        const group = groupId
-            ? await getGroup(toInt(groupId))
-            : await getDefaultGroup(user.id)
-        const now = dayjs()
-        const accessToken = await sign(
-            {
-                email: user.email,
-                type: user.type,
-                roleId: group?.roleId ?? '',
-                groupId: group?.id ?? '',
-                groupType: group?.type ?? '',
-                sub: user.id,
-                exp: now.add(15, 'minute').valueOf(),
-            },
-            accessTokenSecret,
-        )
-        const refreshToken = await sign(
-            {
-                email: user.email,
-                sub: user.id,
-                exp: now.add(7, 'day').valueOf(),
-            },
-            refreshTokenSecret,
-        )
+        await updateLastLogin(authUser.id)
 
-        await db
-            .update(authUsersTable)
-            .set({ lastLogin: now.toDate() })
-            .where(eq(authUsersTable.id, user.id))
+        // if previledged user, return access token
+        if (['admin', 'moderator'].includes(authUser.level)) {
+            const accessToken = await createAccessToken(authUser)
+            const refreshToken = await createRefreshToken(authUser)
 
+            return c.json({
+                message: 'Priviledged user login successful',
+                data: {
+                    accessToken,
+                    refreshToken,
+                    user: {
+                        ...safeUser(authUser),
+                        lastLogin: now.toISOString(),
+                    },
+                },
+            })
+        }
+
+        // if query param has group id, get the user profile belonging to that group
+        const groupIdInt = groupId ? toInt(groupId) : null
+        if (groupIdInt) {
+            const users = await db
+                .select()
+                .from(usersTable)
+                .where(eq(usersTable.groupId, groupIdInt))
+                .limit(1)
+            const groups = await db
+                .select()
+                .from(groupsTable)
+                .where(eq(groupsTable.id, groupIdInt))
+
+            const user = users[0]
+            const group = groups[0]
+            const accessToken = await createAccessToken(authUser, user, group)
+            const refreshToken = await createRefreshToken(authUser)
+            return c.json({
+                message: 'User login successful',
+                data: {
+                    accessToken,
+                    refreshToken,
+                    user: {
+                        ...user,
+                        lastLogin: now.toISOString(),
+                    },
+                },
+            })
+        }
+
+        // get all profiles of the user
+        const users = await db
+            .select()
+            .from(usersTable)
+            .where(eq(usersTable.authUserId, authUser.id))
+
+        // if only one profile, return the profile
+        if (users.length === 1) {
+            const user = users[0]
+            const group = await db.query.groupsTable.findFirst({
+                where: eq(groupsTable.id, user.groupId),
+            })
+            const accessToken = await createAccessToken(authUser, user, group)
+            const refreshToken = await createRefreshToken(authUser)
+            return c.json({
+                message: 'User login successful',
+                data: {
+                    accessToken,
+                    refreshToken,
+                    user: {
+                        ...user,
+                        lastLogin: now.toISOString(),
+                    },
+                },
+            })
+        }
+
+        const groups = await db.query.groupsTable.findMany({
+            where: or(...users.map((user) => eq(groupsTable.id, user.groupId))),
+            columns: {
+                id: true,
+                name: true,
+                type: true,
+            },
+        })
         return c.json({
-            message: 'Login successful',
+            message: 'Login successful, no group selected',
             data: {
-                accessToken,
-                refreshToken,
                 user: {
-                    ...safeUser(user),
+                    ...safeUser(authUser),
                     lastLogin: now.toISOString(),
                 },
+                availableGroups: groups,
             },
         })
     } catch (error) {
@@ -97,8 +151,15 @@ app.post('/login', zValidator('json', zLogin), async (c) => {
     }
 })
 
+async function updateLastLogin(authUserId: number) {
+    await db
+        .update(authUsersTable)
+        .set({ lastLogin: dayjs().toDate() })
+        .where(eq(authUsersTable.id, authUserId))
+}
+
 app.post('/register', zValidator('json', zRegister), async (c) => {
-    const { email, password, firstName, lastName, type } = c.req.valid('json')
+    const { email, password, firstName, lastName, level } = c.req.valid('json')
     const hash = await argon2.hash(password)
 
     try {
@@ -110,41 +171,20 @@ app.post('/register', zValidator('json', zRegister), async (c) => {
                 password: hash,
                 firstName,
                 lastName,
-                type,
+                level,
             })
             .returning({ id: authUsersTable.id })
 
         const userId = user[0].id
 
-        // Create a new client group for the user
-        const group = await db
-            .insert(groupsTable)
-            .values({
-                type: 'client',
-                name: `${firstName} ${lastName}'s Group`,
-                verified: false,
-            })
-            .returning({ id: groupsTable.id })
-
-        const groupId = group[0].id
-
-        // Link the user to the new group
-        await db.insert(groupsToUsersTable).values({
-            userId,
-            groupId,
-            isDefault: false,
-            isOwner: false,
-        })
-
         // Generate verification token
-        const random = randomBytes(64).toString('hex')
-        const token = await sign(
-            { email, sub: userId, exp: dayjs().add(7, 'day').valueOf() },
-            refreshTokenSecret,
+        const verificationToken = await createVerficationToken(
+            email,
+            userId.toString(),
         )
-        const verificationToken = `${random}&${token}`
         console.log('TCL: | verificationToken:', verificationToken)
 
+        // TODO: send verification email
         return c.json({ message: 'Account created' }, 201)
     } catch (e) {
         console.error('Error creating account:', e)
@@ -164,7 +204,7 @@ app.post('/admin/register', zValidator('json', zRegister), async (c) => {
                 password: hash,
                 firstName,
                 lastName,
-                type: 'admin',
+                level: 'admin',
                 verified: false, // Not verified yet, requires admin approval
             })
             .returning({ id: authUsersTable.id })
@@ -219,15 +259,10 @@ app.post(
     zValidator('param', z.object({ token: z.string() })),
     async (c) => {
         const { token } = c.req.valid('param')
-        const verificationToken = token.split('&')
-        const { email, sub, exp } = await verify(
-            verificationToken[1],
-            process.env.REFRESH_TOKEN_SECRET ?? '',
-        )
-        if (exp && exp < dayjs().valueOf())
-            return c.json({ message: 'Token expired' }, 400)
-        // update user verified status
-        if (!email || !sub) return c.json({ message: 'Invalid token' }, 400)
+        const decoded = await decodeVerificationToken(token)
+        if (!decoded) {
+            return c.json({ message: 'Invalid or expired token' }, 400)
+        }
 
         try {
             await db
@@ -235,8 +270,8 @@ app.post(
                 .set({ verified: true })
                 .where(
                     and(
-                        eq(authUsersTable.id, Number(sub)),
-                        eq(authUsersTable.email, String(email)),
+                        eq(authUsersTable.id, decoded.authUserId),
+                        eq(authUsersTable.email, decoded.email),
                     ),
                 )
 
@@ -303,10 +338,7 @@ app.post('/forgot-password', zValidator('json', zForgotPassword), async (c) => {
         return c.json({ code: 404, message: 'User not found' })
     }
 
-    const token = sign(
-        { email, sub: user.id, exp: dayjs().add(1, 'hour').valueOf() },
-        refreshTokenSecret,
-    )
+    const token = await createForgotPasswordToken(email, user.id.toString())
     // Here you should send the token to the user via email
     console.log(`Password reset token for ${email}: ${token}`)
 
