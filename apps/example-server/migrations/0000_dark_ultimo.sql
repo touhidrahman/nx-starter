@@ -271,7 +271,8 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"auth_user_id" integer NOT NULL,
 	"group_id" integer NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"updated_at" timestamp with time zone NOT NULL
+	"updated_at" timestamp with time zone NOT NULL,
+	CONSTRAINT "users_group_id_auth_user_id_pk" PRIMARY KEY("group_id","auth_user_id")
 );
 --> statement-breakpoint
 DO $$ BEGIN

@@ -1,7 +1,7 @@
 import { zValidator } from '@hono/zod-validator'
 import * as argon2 from 'argon2'
 import dayjs from 'dayjs'
-import { and, eq, or } from 'drizzle-orm'
+import { and, count, eq, or } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { HTTPException } from 'hono/http-exception'
 import { sign } from 'hono/jwt'
@@ -25,6 +25,7 @@ import {
     createVerficationToken,
     decodeVerificationToken,
 } from './token.util'
+import { updateLastLogin } from './auth.service'
 
 const app = new Hono()
 
@@ -52,12 +53,11 @@ app.post('/login', zValidator('json', zLogin), async (c) => {
         }
 
         await updateLastLogin(authUser.id)
+        let accessToken = await createAccessToken(authUser)
+        let refreshToken = await createRefreshToken(authUser)
 
         // if previledged user, return access token
         if (['admin', 'moderator'].includes(authUser.level)) {
-            const accessToken = await createAccessToken(authUser)
-            const refreshToken = await createRefreshToken(authUser)
-
             return c.json({
                 message: 'Priviledged user login successful',
                 data: {
@@ -73,21 +73,36 @@ app.post('/login', zValidator('json', zLogin), async (c) => {
 
         // if query param has group id, get the user profile belonging to that group
         const groupIdInt = groupId ? toInt(groupId) : null
+        let group = undefined
+        let user = undefined
         if (groupIdInt) {
-            const users = await db
-                .select()
+            user = await db.query.usersTable.findFirst({
+                where: and(
+                    eq(usersTable.authUserId, authUser.id),
+                    eq(usersTable.groupId, groupIdInt),
+                ),
+                with: { group: true },
+            })
+            group = user?.group
+        } else {
+            // if user has only one profile, consider it the default
+            const userCount = await db
+                .select({ value: count() })
                 .from(usersTable)
-                .where(eq(usersTable.groupId, groupIdInt))
-                .limit(1)
-            const groups = await db
-                .select()
-                .from(groupsTable)
-                .where(eq(groupsTable.id, groupIdInt))
+                .where(eq(usersTable.authUserId, authUser.id))
 
-            const user = users[0]
-            const group = groups[0]
-            const accessToken = await createAccessToken(authUser, user, group)
-            const refreshToken = await createRefreshToken(authUser)
+            if (userCount[0].value === 1) {
+                const user = await db.query.usersTable.findFirst({
+                    where: eq(usersTable.authUserId, authUser.id),
+                    with: { group: true },
+                })
+                group = user?.group
+            }
+        }
+
+        if (user) {
+            accessToken = await createAccessToken(authUser, user, group)
+            refreshToken = await createRefreshToken(authUser)
             return c.json({
                 message: 'User login successful',
                 data: {
@@ -107,27 +122,6 @@ app.post('/login', zValidator('json', zLogin), async (c) => {
             .from(usersTable)
             .where(eq(usersTable.authUserId, authUser.id))
 
-        // if only one profile, return the profile
-        if (users.length === 1) {
-            const user = users[0]
-            const group = await db.query.groupsTable.findFirst({
-                where: eq(groupsTable.id, user.groupId),
-            })
-            const accessToken = await createAccessToken(authUser, user, group)
-            const refreshToken = await createRefreshToken(authUser)
-            return c.json({
-                message: 'User login successful',
-                data: {
-                    accessToken,
-                    refreshToken,
-                    user: {
-                        ...user,
-                        lastLogin: now.toISOString(),
-                    },
-                },
-            })
-        }
-
         const groups = await db.query.groupsTable.findMany({
             where: or(...users.map((user) => eq(groupsTable.id, user.groupId))),
             columns: {
@@ -139,6 +133,8 @@ app.post('/login', zValidator('json', zLogin), async (c) => {
         return c.json({
             message: 'Login successful, no group selected',
             data: {
+                accessToken,
+                refreshToken,
                 user: {
                     ...safeUser(authUser),
                     lastLogin: now.toISOString(),
@@ -150,13 +146,6 @@ app.post('/login', zValidator('json', zLogin), async (c) => {
         throw new HTTPException(500, { message: 'Internal server error' })
     }
 })
-
-async function updateLastLogin(authUserId: number) {
-    await db
-        .update(authUsersTable)
-        .set({ lastLogin: dayjs().toDate() })
-        .where(eq(authUsersTable.id, authUserId))
-}
 
 app.post('/register', zValidator('json', zRegister), async (c) => {
     const { email, password, firstName, lastName, level } = c.req.valid('json')

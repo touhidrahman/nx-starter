@@ -8,6 +8,7 @@ import {
     groupsTable,
     permissionsTable,
     authUsersTable,
+    usersTable,
 } from '../../core/db/schema'
 import { zInsertGroup, zUpdateGroup } from './group.schema'
 import { z } from 'zod'
@@ -49,18 +50,12 @@ function hasPermission(area: string, requiredLevel: 1 | 2 | 3 | 4) {
 // Get my Groups
 app.get('/', jwt({ secret }), async (c) => {
     const user = c.get('jwtPayload')
-    const result = await db
-        .select({ ...getTableColumns(groupsTable) })
-        .from(groupsTable)
-        .innerJoin(
-            groupsToUsersTable,
-            eq(groupsTable.id, groupsToUsersTable.groupId),
-        )
-        .where(eq(groupsToUsersTable.userId, user.sub))
-        .limit(10)
-        .offset(0)
+    const result = await db.query.usersTable.findMany({
+        where: eq(usersTable.authUserId, user.sub),
+        with: { group: true },
+    })
 
-    return c.json({ data: result, message: 'My Groups' })
+    return c.json({ data: result.map((u) => u.group), message: 'My Groups' })
 })
 
 // Get a Group by ID
@@ -69,18 +64,9 @@ app.get('/:id', jwt({ secret }), isGroupOwner, async (c) => {
     const user = c.get('jwtPayload')
 
     const result = await db
-        .select({ ...getTableColumns(groupsTable) })
+        .select()
         .from(groupsTable)
-        .innerJoin(
-            groupsToUsersTable,
-            eq(groupsTable.id, groupsToUsersTable.groupId),
-        )
-        .where(
-            and(
-                eq(groupsToUsersTable.userId, user.sub),
-                eq(groupsTable.id, id),
-            ),
-        )
+        .where(and(eq(groupsTable.id, id)))
         .limit(1)
 
     if (result.length === 0) {
@@ -93,7 +79,7 @@ app.get('/:id', jwt({ secret }), isGroupOwner, async (c) => {
 // Create a new Group. Can create only one group
 app.post('/', zValidator('json', zInsertGroup), jwt({ secret }), async (c) => {
     const body = await c.req.valid('json')
-    const { sub: userId, roleId } = await c.get('jwtPayload')
+    const { userId, roleId } = await c.get('jwtPayload')
     try {
         // check if group already created where he is a owner
         const group = await db

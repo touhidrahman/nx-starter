@@ -45,34 +45,44 @@ export const authUsersTable = pgTable('auth_users', {
 /**
  * Users Table is used for Vendor & Client Users which are linked to AuthUsers
  */
-export const usersTable = pgTable('users', {
-    id: serial('id').primaryKey(),
-    firstName: text('first_name').notNull(),
-    lastName: text('last_name').notNull(),
-    email: text('email'),
-    phone: text('phone'),
-    coverPhoto: text('cover_photo'),
-    profilePhoto: text('profile_photo'),
-    address: text('address'),
-    city: text('city'),
-    country: text('country'),
-    postCode: text('post_code'),
-    url: text('url'),
-    bio: text('bio'),
-    role: userRoleEnum('role').notNull().default('member'),
-    authUserId: integer('auth_user_id')
-        .references(() => authUsersTable.id)
-        .notNull(),
-    groupId: integer('group_id')
-        .references(() => groupsTable.id)
-        .notNull(),
-    createdAt: timestamp('created_at', { withTimezone: true })
-        .notNull()
-        .defaultNow(),
-    updatedAt: timestamp('updated_at', { withTimezone: true })
-        .notNull()
-        .$onUpdate(() => new Date()),
-})
+export const usersTable = pgTable(
+    'users',
+    {
+        id: serial('id').primaryKey(),
+        firstName: text('first_name').notNull(),
+        lastName: text('last_name').notNull(),
+        email: text('email'),
+        phone: text('phone'),
+        coverPhoto: text('cover_photo'),
+        profilePhoto: text('profile_photo'),
+        address: text('address'),
+        city: text('city'),
+        country: text('country'),
+        postCode: text('post_code'),
+        url: text('url'),
+        bio: text('bio'),
+        role: userRoleEnum('role').notNull().default('member'),
+        authUserId: integer('auth_user_id')
+            .references(() => authUsersTable.id)
+            .notNull(),
+        groupId: integer('group_id')
+            .references(() => groupsTable.id)
+            .notNull(),
+        createdAt: timestamp('created_at', { withTimezone: true })
+            .notNull()
+            .defaultNow(),
+        updatedAt: timestamp('updated_at', { withTimezone: true })
+            .notNull()
+            .$onUpdate(() => new Date()),
+    },
+    (table) => {
+        return {
+            pk: primaryKey({
+                columns: [table.groupId, table.authUserId],
+            }),
+        }
+    },
+)
 
 const usersRelations = relations(usersTable, ({ one }) => ({
     authUser: one(authUsersTable, {

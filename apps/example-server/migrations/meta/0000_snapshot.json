@@ -1,5 +1,5 @@
 {
-    "id": "b16ac2cc-fc03-4a30-a1a0-81ae15ec7197",
+    "id": "2960d3d2-9fc3-4aee-8085-ea08da91c328",
     "prevId": "00000000-0000-0000-0000-000000000000",
     "version": "7",
     "dialect": "postgresql",
@@ -1408,7 +1408,12 @@
                     "onUpdate": "no action"
                 }
             },
-            "compositePrimaryKeys": {},
+            "compositePrimaryKeys": {
+                "users_group_id_auth_user_id_pk": {
+                    "name": "users_group_id_auth_user_id_pk",
+                    "columns": ["group_id", "auth_user_id"]
+                }
+            },
             "uniqueConstraints": {}
         }
     },
