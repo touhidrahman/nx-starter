@@ -88,6 +88,27 @@ const routes: Routes = [
             ).then((m) => m.PageAccountVerifiedComponent),
     },
     {
+        path: 'select-role',
+        loadComponent: () =>
+            import(
+                './pages/page-select-role/page-select-role.component'
+            ).then((m) => m.PageSelectRoleComponent),
+    },
+    {
+        path: 'lawyer-team',
+        loadComponent: () =>
+            import(
+                './pages/page-lawyer-team/page-lawyer-team.component'
+            ).then((m) => m.PageLawyerTeamComponent),
+    },
+    {
+        path: 'client-team',
+        loadComponent: () =>
+            import(
+                './pages/page-client-team/page-client-team.component'
+            ).then((m) => m.PageClientTeamComponent),
+    },
+    {
         path: 'dashboard/cases',
         loadComponent: () =>
             import('./pages/page-cases/page-cases.component').then(
