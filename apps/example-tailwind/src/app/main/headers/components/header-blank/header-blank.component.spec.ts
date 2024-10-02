@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { HeaderPublic2Component } from './header-public2.component'
+import { HeaderPublic2Component } from './header-blank.component'
 
 describe('HeaderPublic2Component', () => {
     let component: HeaderPublic2Component

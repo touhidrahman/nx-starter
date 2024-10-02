@@ -2,7 +2,7 @@ export enum PageLayout {
     Default = 'default',
     Sidebar = 'sidebar', // with sidebar
     Center = 'center', // centered content, no frame
-    Center2 = 'center2', // centered content, no frame
+    Cta = 'cta', // centered content, blank
     Blank = 'blank', // no frame
     Public = 'public', // for landing page
 }

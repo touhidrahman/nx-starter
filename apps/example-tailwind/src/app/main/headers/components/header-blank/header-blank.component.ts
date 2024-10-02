@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router'
 
 @Component({
-    selector: 'app-header-public2',
+    selector: 'app-header-blank',
     standalone: true,
     imports: [CommonModule,RouterModule],
-    templateUrl: './header-public2.component.html',
-    styleUrl: './header-public2.component.scss',
+    templateUrl: './header-blank.component.html',
+    styleUrl: './header-blank.component.scss',
 })
-export class HeaderPublic2Component {}
+export class HeaderBlankComponent {}

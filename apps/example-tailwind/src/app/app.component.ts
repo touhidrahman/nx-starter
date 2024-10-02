@@ -7,7 +7,7 @@ import { NgxSonnerToaster } from 'ngx-sonner'
 import { LayoutCenteredComponent } from './main/layouts/components/layout-centered/layout-centered.component'
 import { LayoutDefaultComponent } from './main/layouts/components/layout-default/layout-default.component'
 import { LayoutPublicComponent } from './main/layouts/components/layout-public/layout-public.component'
-import { LayoutCentered2Component } from './main/layouts/components/layout-centered2/layout-centered2.component'
+import { LayoutCtaComponent } from './main/layouts/components/layout-cta/layout-cta.component'
 
 @Component({
     standalone: true,
@@ -15,7 +15,7 @@ import { LayoutCentered2Component } from './main/layouts/components/layout-cente
         CommonModule,
         LayoutDefaultComponent,
         LayoutCenteredComponent,
-        LayoutCentered2Component,
+        LayoutCtaComponent,
         LayoutPublicComponent,
         RouterModule,
         NgxSonnerToaster,

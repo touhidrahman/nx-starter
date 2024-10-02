@@ -72,7 +72,7 @@ export const appRoutes: Route[] = [
             import(
                 './pages/page-select-role/page-select-role.component'
             ).then((m) => m.PageSelectRoleComponent),
-        resolve: { layout: setLayout(PageLayout.Center2)},
+        resolve: { layout: setLayout(PageLayout.Cta)},
     },
     {
         path: 'lawyer-team',
@@ -80,7 +80,7 @@ export const appRoutes: Route[] = [
             import(
                 './pages/page-lawyer-team/page-lawyer-team.component'
             ).then((m) => m.PageLawyerTeamComponent),
-        resolve: { layout: setLayout(PageLayout.Center2)},
+        resolve: { layout: setLayout(PageLayout.Cta)},
     },
     {
         path: 'client-team',
@@ -88,7 +88,7 @@ export const appRoutes: Route[] = [
             import(
                 './pages/page-client-team/page-client-team.component'
             ).then((m) => m.PageClientTeamComponent),
-        resolve: { layout: setLayout(PageLayout.Center2)},
+        resolve: { layout: setLayout(PageLayout.Cta)},
     },
     {
         path: 'signup',
