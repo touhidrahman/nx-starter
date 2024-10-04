@@ -67,6 +67,30 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Center) },
     },
     {
+        path: 'select-role',
+        loadComponent: () =>
+            import(
+                './pages/page-select-role/page-select-role.component'
+            ).then((m) => m.PageSelectRoleComponent),
+        resolve: { layout: setLayout(PageLayout.Cta)},
+    },
+    {
+        path: 'lawyer-team',
+        loadComponent: () =>
+            import(
+                './pages/page-lawyer-team/page-lawyer-team.component'
+            ).then((m) => m.PageLawyerTeamComponent),
+        resolve: { layout: setLayout(PageLayout.Cta)},
+    },
+    {
+        path: 'client-team',
+        loadComponent: () =>
+            import(
+                './pages/page-client-team/page-client-team.component'
+            ).then((m) => m.PageClientTeamComponent),
+        resolve: { layout: setLayout(PageLayout.Cta)},
+    },
+    {
         path: 'signup',
         loadComponent: () =>
             import('./pages/page-signup/page-sign-up.component').then(
@@ -132,6 +156,14 @@ export const appRoutes: Route[] = [
         loadComponent: () =>
             import('./pages/page-cases/page-cases.component').then(
                 (m) => m.PageCasesComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'team',
+        loadComponent: () =>
+            import('./pages/page-team/page-team.component').then(
+                (m) => m.PageTeamComponent,
             ),
         resolve: { layout: setLayout(PageLayout.Default) },
     },

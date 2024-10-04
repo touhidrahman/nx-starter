@@ -38,14 +38,12 @@ import { HlmCheckboxImports } from '@spartan-ng/ui-checkbox-helm'
 import {
     BrnCollapsibleComponent,
     BrnCollapsibleContentComponent,
-    BrnCollapsibleImports,
     BrnCollapsibleTriggerDirective,
 } from '@spartan-ng/ui-collapsible-brain'
 import {
     BrnCommandComponent,
     BrnCommandEmptyDirective,
     BrnCommandGroupComponent,
-    BrnCommandImports,
     BrnCommandInputDirective,
     BrnCommandItemDirective,
     BrnCommandListComponent,
@@ -63,8 +61,6 @@ import { HlmHoverCardImports } from '@spartan-ng/ui-hovercard-helm'
 import { HlmIconComponent } from '@spartan-ng/ui-icon-helm'
 import {
     BrnContextMenuTriggerDirective,
-    BrnMenuBarImports,
-    BrnMenuImports,
     BrnMenuTriggerDirective,
 } from '@spartan-ng/ui-menu-brain'
 import { HlmMenuBarImports, HlmMenuImports } from '@spartan-ng/ui-menu-helm'
@@ -72,7 +68,6 @@ import {
     BrnPopoverCloseDirective,
     BrnPopoverComponent,
     BrnPopoverContentDirective,
-    BrnPopoverImports,
     BrnPopoverTriggerDirective,
 } from '@spartan-ng/ui-popover-brain'
 import {
@@ -81,33 +76,28 @@ import {
 } from '@spartan-ng/ui-popover-helm'
 import {
     BrnProgressComponent,
-    BrnProgressImports,
     BrnProgressIndicatorComponent,
 } from '@spartan-ng/ui-progress-brain'
 import { HlmProgressImports } from '@spartan-ng/ui-progress-helm'
 import {
     BrnRadioComponent,
     BrnRadioGroupComponent,
-    BrnRadioGroupImports,
 } from '@spartan-ng/ui-radiogroup-brain'
 import { HlmRadioGroupImports } from '@spartan-ng/ui-radiogroup-helm'
 import { BrnSelectImports } from '@spartan-ng/ui-select-brain'
 import { HlmSelectImports } from '@spartan-ng/ui-select-helm'
 import { BrnSeparatorComponent } from '@spartan-ng/ui-separator-brain'
-import { BrnSheetImports } from '@spartan-ng/ui-sheet-brain'
 import { HlmSheetImports } from '@spartan-ng/ui-sheet-helm'
 import {
     BrnSwitchComponent,
-    BrnSwitchImports,
     BrnSwitchThumbComponent,
 } from '@spartan-ng/ui-switch-brain'
 import { HlmSwitchImports } from '@spartan-ng/ui-switch-helm'
-import { BrnTableImports, BrnTableModule } from '@spartan-ng/ui-table-brain'
+import { BrnTableModule } from '@spartan-ng/ui-table-brain'
 import { HlmTableImports } from '@spartan-ng/ui-table-helm'
 import { BrnTabsDirective } from '@spartan-ng/ui-tabs-brain'
 import { HlmTabsImports } from '@spartan-ng/ui-tabs-helm'
 import { BrnToggleModule } from '@spartan-ng/ui-toggle-brain'
-import { BrnTooltipImports } from '@spartan-ng/ui-tooltip-brain'
 import { HlmTooltipImports } from '@spartan-ng/ui-tooltip-helm'
 import {
     HlmBlockquoteDirective,
@@ -158,6 +148,7 @@ export const BrainImports = [
     BrnRadioComponent,
     BrnRadioGroupComponent,
     BrnSeparatorComponent,
+    BrnSelectImports,
     BrnSwitchComponent,
     BrnSwitchThumbComponent,
     BrnTableModule,
