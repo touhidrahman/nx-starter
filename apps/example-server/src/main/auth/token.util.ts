@@ -3,7 +3,7 @@ import { sign, verify } from 'hono/jwt'
 import { randomBytes } from 'node:crypto'
 import { toInt } from 'radash'
 import { InsertGroup } from '../group/group.schema'
-import { SelectUser } from '../user/user.schema'
+import { User } from '../user/user.schema'
 import { SelectAuthUser } from './auth.schema'
 
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET ?? ''
@@ -11,7 +11,7 @@ const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET ?? ''
 
 export async function createAccessToken(
     authUser: SelectAuthUser,
-    user?: SelectUser,
+    user?: User,
     group?: InsertGroup,
 ) {
     return await sign(

@@ -132,6 +132,24 @@ export const groupsTable = pgTable('groups', {
         .$onUpdate(() => new Date()),
 })
 
+export const invitesTable = pgTable('invites', {
+    id: serial('id').primaryKey(),
+    email: text('email').notNull(),
+    groupId: integer('group_id')
+        .references(() => groupsTable.id)
+        .notNull(),
+    role: userRoleEnum('role').notNull().default('member'),
+    invitedBy: integer('invited_by')
+        .references(() => usersTable.id)
+        .notNull(),
+    invitedOn: timestamp('invited_on', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    acceptedOn: timestamp('accepted_on', { withTimezone: true }),
+    status: text('status').notNull().default('pending'),
+})
+//TODO: user relations
+
 export const groupsRelations = relations(groupsTable, ({ many }) => ({
     users: many(usersTable),
 }))

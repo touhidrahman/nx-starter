@@ -1,15 +1,19 @@
 import { zValidator } from '@hono/zod-validator'
 import * as argon2 from 'argon2'
 import dayjs from 'dayjs'
-import { and, count, eq, or } from 'drizzle-orm'
+import { and, eq, or } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { HTTPException } from 'hono/http-exception'
-import { sign } from 'hono/jwt'
 import { toInt } from 'radash'
 import { z } from 'zod'
 import { db } from '../../core/db/db'
 import { authUsersTable, groupsTable, usersTable } from '../../core/db/schema'
 import { checkSecretsMiddleware } from '../../core/middlewares/check-secrets.middleware'
+import {
+    countUsersByAuthUserId,
+    findFirstUserByAuthUserId,
+    findUserByAuthUserIdAndGroupId,
+} from '../user/user.service'
 import { safeUser } from '../user/user.util'
 import {
     zChangePassword,
@@ -19,22 +23,19 @@ import {
     zResetPassword,
 } from './auth.schema'
 import {
+    countAuthUserByEmail,
+    findAuthUserByEmail,
+    findAuthUserById,
+    isFirstAuthUser,
+    updateLastLogin,
+} from './auth.service'
+import {
     createAccessToken,
     createForgotPasswordToken,
     createRefreshToken,
     createVerficationToken,
     decodeVerificationToken,
 } from './token.util'
-import {
-    countAuthUserByEmail,
-    countUsersByAuthUserId,
-    findAuthUserByEmail,
-    findAuthUserById,
-    findFirstUserByAuthUserId,
-    findUserByAuthUserIdAndGroupId,
-    isFirstAuthUser,
-    updateLastLogin,
-} from './auth.service'
 
 const app = new Hono()
 

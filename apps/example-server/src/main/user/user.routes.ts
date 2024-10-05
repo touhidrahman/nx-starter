@@ -1,135 +1,117 @@
-import { SQL, eq, getTableColumns, sql } from 'drizzle-orm'
+import { zValidator } from '@hono/zod-validator'
+import { SQL, eq, getTableColumns, like, sql } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { jwt } from 'hono/jwt'
-import { db } from '../../core/db/db'
-import { safeUser } from './user.util'
 import { z } from 'zod'
-import { authUsersTable } from '../../core/db/schema'
+import { db } from '../../core/db/db'
+import { checkToken } from '../auth/auth.middleware'
+import { zInsertInvite } from '../invite/invite.schema'
+import { createInvite } from '../invite/invite.service'
+import {
+    deleteUser,
+    findUserByAuthUserIdAndGroupId,
+    findUserById,
+    findUsersByAuthUserId,
+    updateUser,
+} from './user.service'
+import { safeUser } from './user.util'
+import { zInsertUser, zSearchUser, zUpdateUser } from './user.schema'
+import { toInt } from 'radash'
+import { usersTable } from '../../core/db/schema'
 
 const app = new Hono()
 
-const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
-
-const authMiddleware = jwt({ secret })
-
-app.get('/me', authMiddleware, async (c) => {
+app.get('/me', checkToken, async (c) => {
     const payload = c.get('jwtPayload')
-    const users = await db
-        .select({ ...getTableColumns(authUsersTable) })
-        .from(authUsersTable)
-        .where(eq(authUsersTable.id, payload.sub))
-        .limit(1)
+    const user = await findUserByAuthUserIdAndGroupId(
+        payload.sub,
+        payload.groupId,
+    )
 
-    return c.json({ data: safeUser(users[0]), message: 'Logged in user' })
+    return c.json({ data: user, message: 'Logged in user' })
+})
+
+app.get('/my-profiles', checkToken, async (c) => {
+    const payload = c.get('jwtPayload')
+    const users = await findUsersByAuthUserId(payload.sub)
+
+    return c.json({ data: users, message: 'User profiles' })
 })
 
 // Invite user
-app.post('/invite', authMiddleware, async (c) => {
-    const inviteSchema = z.object({
-        firstName: z.string().min(1),
-        lastName: z.string().min(1),
-        email: z.string().email(),
-        type: z.enum(['admin', 'moderator', 'user']),
-    })
+app.post(
+    '/invite',
+    checkToken,
+    zValidator('json', zInsertInvite),
+    async (c) => {
+        const body = c.req.valid('json')
+        const payload = c.get('jwtPayload')
 
-    const body = await c.req.json()
-    const parsedBody = inviteSchema.parse(body)
+        const newUser = await createInvite(body, payload.userId)
 
-    const newUser = await db
-        .insert(authUsersTable)
-        .values({
-            firstName: parsedBody.firstName,
-            lastName: parsedBody.lastName,
-            email: parsedBody.email,
-            password: 'temporarypassword',
-            type: parsedBody.type,
-        })
-        .returning()
-
-    return c.json({ data: newUser, message: 'User invited' })
-})
+        return c.json({ data: newUser, message: 'User invited' })
+    },
+)
 
 // Update user
-app.put('/update/:id', authMiddleware, async (c) => {
-    const updateSchema = z.object({
-        firstName: z.string().optional(),
-        lastName: z.string().optional(),
-        email: z.string().email().optional(),
-        password: z.string().optional(),
-        type: z.enum(['admin', 'moderator', 'user']).optional(),
-        verified: z.boolean().optional(),
-    })
+app.put(
+    '/update/:id',
+    checkToken,
+    zValidator('json', zUpdateUser),
+    async (c) => {
+        const body = c.req.valid('json')
+        const userId = toInt(c.req.param('id'))
+        const updatedUser = await updateUser(userId, body)
 
-    const body = await c.req.json()
-    const parsedBody = updateSchema.parse(body)
-    const userId = parseInt(c.req.param('id'), 10)
-
-    const updatedUser = await db
-        .update(authUsersTable)
-        .set(parsedBody)
-        .where(eq(authUsersTable.id, userId))
-        .returning()
-
-    return c.json({ data: updatedUser, message: 'User updated' })
-})
+        return c.json({ data: updatedUser, message: 'User updated' })
+    },
+)
 
 // Delete user
-app.delete('/delete/:id', authMiddleware, async (c) => {
-    const userId = parseInt(c.req.param('id'), 10)
-
-    await db.delete(authUsersTable).where(eq(authUsersTable.id, userId))
+app.delete('/delete/:id', checkToken, async (c) => {
+    const userId = toInt(c.req.param('id'))
+    await deleteUser(userId)
 
     return c.json({ message: 'User deleted' })
 })
 
 // Search single user by ID
-app.get('/user/:id', authMiddleware, async (c) => {
-    const userId = parseInt(c.req.param('id'), 10)
+app.get('/user/:id', checkToken, async (c) => {
+    const userId = toInt(c.req.param('id'))
+    const user = await findUserById(userId)
 
-    const users = await db
-        .select({ ...getTableColumns(authUsersTable) })
-        .from(authUsersTable)
-        .where(eq(authUsersTable.id, userId))
-        .limit(1)
-
-    if (users.length === 0) {
+    if (!user) {
         return c.json({ message: 'User not found' }, 404)
     }
 
-    return c.json({ data: safeUser(users[0]), message: 'User found' })
+    return c.json({ data: user, message: 'User found' })
 })
 
 // Search users by various criteria
-app.get('/search', authMiddleware, async (c) => {
-    const searchSchema = z.object({
-        email: z.string().email().optional(),
-        firstName: z.string().optional(),
-        lastName: z.string().optional(),
-        type: z.enum(['admin', 'moderator', 'user']).optional(),
-    })
-
-    const query = c.req.query()
-    const parsedQuery = searchSchema.parse(query)
-
+app.get('/search', checkToken, zValidator('query', zSearchUser), async (c) => {
+    const query = c.req.valid('query')
     const conditions: SQL[] = []
 
-    if (parsedQuery.email) {
-        conditions.push(eq(authUsersTable.email, parsedQuery.email))
-    }
-    if (parsedQuery.firstName) {
-        conditions.push(eq(authUsersTable.firstName, parsedQuery.firstName))
-    }
-    if (parsedQuery.lastName) {
-        conditions.push(eq(authUsersTable.lastName, parsedQuery.lastName))
-    }
-    if (parsedQuery.type) {
-        conditions.push(eq(authUsersTable.level, parsedQuery.type))
-    }
+    query?.id && conditions.push(eq(usersTable.id, query?.id))
+    query?.email && conditions.push(eq(usersTable.email, query?.email))
+    query?.firstName &&
+        conditions.push(eq(usersTable.firstName, query?.firstName))
+    query?.lastName && conditions.push(eq(usersTable.lastName, query?.lastName))
+    query?.groupId && conditions.push(eq(usersTable.groupId, query?.groupId))
+    query?.authUserId &&
+        conditions.push(eq(usersTable.authUserId, query?.authUserId))
+    query?.city && conditions.push(eq(usersTable.city, query?.city))
+    query?.country && conditions.push(eq(usersTable.country, query?.country))
+    query?.postCode && conditions.push(eq(usersTable.postCode, query?.postCode))
+    query?.role && conditions.push(eq(usersTable.role, query?.role))
+
+    const limit = query?.size ? toInt(query?.size) : 10
+    const offset = (query?.page ? toInt(query?.page) : 0) * limit
 
     const users = await db
-        .select({ ...getTableColumns(authUsersTable) })
-        .from(authUsersTable)
+        .select({ ...getTableColumns(usersTable) })
+        .from(usersTable)
         .where(
+            // TODO verify if this is correct
             conditions.length
                 ? sql`${conditions.reduce(
                       (acc, condition, index) =>
@@ -140,9 +122,10 @@ app.get('/search', authMiddleware, async (c) => {
                   )}`
                 : undefined,
         )
-        .limit(10)
+        .limit(limit)
+        .offset(offset)
 
-    return c.json({ data: users.map(safeUser), message: 'Search results' })
+    return c.json({ data: users, message: 'Search results' })
 })
 
 export default app
