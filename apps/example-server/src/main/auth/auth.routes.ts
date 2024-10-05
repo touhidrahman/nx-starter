@@ -25,7 +25,16 @@ import {
     createVerficationToken,
     decodeVerificationToken,
 } from './token.util'
-import { updateLastLogin } from './auth.service'
+import {
+    countAuthUserByEmail,
+    countUsersByAuthUserId,
+    findAuthUserByEmail,
+    findAuthUserById,
+    findFirstUserByAuthUserId,
+    findUserByAuthUserIdAndGroupId,
+    isFirstAuthUser,
+    updateLastLogin,
+} from './auth.service'
 
 const app = new Hono()
 
@@ -35,18 +44,13 @@ app.post('/login', zValidator('json', zLogin), async (c) => {
     const { email, password } = c.req.valid('json')
     let groupId = c.req.query('groupId')
 
-    const authUsers = await db
-        .select()
-        .from(authUsersTable)
-        .where(eq(authUsersTable.email, email))
+    const authUser = await findAuthUserByEmail(email)
 
-    if (authUsers.length === 0) {
+    if (!authUser) {
         return c.json({ message: 'Invalid email or password' }, 400)
     }
 
     const now = dayjs()
-    const authUser = authUsers[0]
-
     try {
         if (!(await argon2.verify(authUser.password, password))) {
             return c.json({ message: 'Invalid email or password' }, 400)
@@ -76,26 +80,14 @@ app.post('/login', zValidator('json', zLogin), async (c) => {
         let group = undefined
         let user = undefined
         if (groupIdInt) {
-            user = await db.query.usersTable.findFirst({
-                where: and(
-                    eq(usersTable.authUserId, authUser.id),
-                    eq(usersTable.groupId, groupIdInt),
-                ),
-                with: { group: true },
-            })
+            user = await findUserByAuthUserIdAndGroupId(authUser.id, groupIdInt)
             group = user?.group
         } else {
             // if user has only one profile, consider it the default
-            const userCount = await db
-                .select({ value: count() })
-                .from(usersTable)
-                .where(eq(usersTable.authUserId, authUser.id))
+            const userCount = await countUsersByAuthUserId(authUser.id)
 
-            if (userCount[0].value === 1) {
-                const user = await db.query.usersTable.findFirst({
-                    where: eq(usersTable.authUserId, authUser.id),
-                    with: { group: true },
-                })
+            if (userCount === 1) {
+                user = await findFirstUserByAuthUserId(authUser.id)
                 group = user?.group
             }
         }
@@ -131,7 +123,8 @@ app.post('/login', zValidator('json', zLogin), async (c) => {
             },
         })
         return c.json({
-            message: 'Login successful, no group selected',
+            message:
+                'Login successful but no group selected. Please select a group to continue',
             data: {
                 accessToken,
                 refreshToken,
@@ -151,97 +144,49 @@ app.post('/register', zValidator('json', zRegister), async (c) => {
     const { email, password, firstName, lastName, level } = c.req.valid('json')
     const hash = await argon2.hash(password)
 
+    // some checks
+    const exists = await countAuthUserByEmail(email)
+
+    if (exists > 0) {
+        return c.json({ message: 'Email already exists' }, 400)
+    }
+
+    // is auth table empty?
+    const isFirstUser = await isFirstAuthUser()
+
     try {
         // Insert new user
-        const user = await db
+        const createdAuthUser = await db
             .insert(authUsersTable)
             .values({
                 email,
                 password: hash,
                 firstName,
                 lastName,
-                level,
+                level: isFirstUser ? 'admin' : level,
+                verified: isFirstUser, // First user is auto-verified
             })
             .returning({ id: authUsersTable.id })
 
-        const userId = user[0].id
+        const userId = createdAuthUser[0].id
 
         // Generate verification token
-        const verificationToken = await createVerficationToken(
-            email,
-            userId.toString(),
-        )
-        console.log('TCL: | verificationToken:', verificationToken)
+        if (!isFirstUser) {
+            const verificationToken = await createVerficationToken(
+                email,
+                userId.toString(),
+            )
+            console.log('TCL: | verificationToken:', verificationToken)
 
-        // TODO: send verification email
+            // TODO: send verification email
+        }
+
         return c.json({ message: 'Account created' }, 201)
     } catch (e) {
         console.error('Error creating account:', e)
-        return c.json({ message: 'Email already exists' }, 400)
+        return c.json({ message: 'Internal Server Error' }, 500)
     }
 })
-
-app.post('/admin/register', zValidator('json', zRegister), async (c) => {
-    const { email, password, firstName, lastName } = c.req.valid('json')
-    const hash = await argon2.hash(password)
-
-    try {
-        await db
-            .insert(authUsersTable)
-            .values({
-                email,
-                password: hash,
-                firstName,
-                lastName,
-                level: 'admin',
-                verified: false, // Not verified yet, requires admin approval
-            })
-            .returning({ id: authUsersTable.id })
-
-        return c.json(
-            { message: 'Admin account created, pending approval' },
-            201,
-        )
-    } catch (e) {
-        return c.json({ message: 'Email already exists' }, 400)
-    }
-})
-
-app.post(
-    '/admin/approve',
-    zValidator(
-        'json',
-        z.object({
-            userId: z.number(),
-        }),
-    ),
-    async (c) => {
-        const { userId } = c.req.valid('json')
-
-        try {
-            const result = await db
-                .update(authUsersTable)
-                .set({ verified: true })
-                .where(
-                    and(
-                        eq(authUsersTable.id, userId),
-                        eq(authUsersTable.level, 'admin'),
-                    ),
-                )
-
-            if (result.rowCount === 0) {
-                return c.json(
-                    { message: 'User not found or already approved' },
-                    404,
-                )
-            }
-
-            return c.json({ message: 'Admin account approved' })
-        } catch (e) {
-            return c.json({ message: 'Approval failed' }, 500)
-        }
-    },
-)
 
 app.post(
     '/verify-email/:token',
@@ -280,16 +225,11 @@ app.post('/change-password', zValidator('json', zChangePassword), async (c) => {
 
     const { currentPassword, password } = c.req.valid('json')
 
-    // Fetch the user from the database using the userId
-    const users = await db
-        .select()
-        .from(authUsersTable)
-        .where(eq(authUsersTable.id, userId))
-    if (users.length === 0) {
+    const user = await findAuthUserById(userId)
+
+    if (!user) {
         return c.json({ message: 'User not found' }, 404)
     }
-
-    const user = users[0]
 
     // Verify the current password
     const currentPasswordMatches = await argon2.verify(
@@ -311,46 +251,47 @@ app.post('/change-password', zValidator('json', zChangePassword), async (c) => {
         .set({ password: hashedPassword })
         .where(eq(authUsersTable.id, userId))
 
-    return c.json({ message: 'Password change success', data: true })
+    return c.json({ message: 'Password changed successfully', data: true })
 })
 
 // Forgot Password
 app.post('/forgot-password', zValidator('json', zForgotPassword), async (c) => {
     const { email } = c.req.valid('json')
-    const users = await db
-        .select()
-        .from(authUsersTable)
-        .where(eq(authUsersTable.email, email))
-    const user = users[0]
+    const user = await findAuthUserByEmail(email)
 
     if (!user) {
         return c.json({ code: 404, message: 'User not found' })
     }
 
     const token = await createForgotPasswordToken(email, user.id.toString())
-    // Here you should send the token to the user via email
+    // TODO send the token to the user via email
     console.log(`Password reset token for ${email}: ${token}`)
 
     return c.json({ message: 'Password reset email sent', data: true })
 })
 
 // Reset Password
-app.post('/reset-password', zValidator('json', zResetPassword), async (c) => {
-    const { email, password } = c.req.valid('json')
-    const hashedPassword = await argon2.hash(password)
+app.post(
+    '/reset-password/:token',
+    zValidator('json', zResetPassword),
+    async (c) => {
+        const { email, password } = c.req.valid('json')
+        const token = c.req.query('token') ?? ''
+        const user = await findAuthUserByEmail(email)
 
-    const user = await db
-        .update(authUsersTable)
-        .set({ password: hashedPassword })
-        .where(and(eq(authUsersTable.email, email)))
-
-    if (user) {
-        // Here you should send a confirmation email to the user
-        console.log(`Password reset successful for ${email}`)
-        return c.json({ message: 'Password reset success', data: true })
-    } else {
-        return c.json({ error: 'Error resetting password' })
-    }
-})
+        if (user) {
+            const hashedPassword = await argon2.hash(password)
+            await db
+                .update(authUsersTable)
+                .set({ password: hashedPassword })
+                .where(eq(authUsersTable.id, user.id))
+            // TODO send a confirmation email to the user
+            console.log(`Password reset successful for ${email}`)
+            return c.json({ message: 'Password reset success', data: true })
+        } else {
+            return c.json({ error: 'Error resetting password' })
+        }
+    },
+)
 
 export default app

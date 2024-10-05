@@ -1,7 +1,9 @@
-import { getTableColumns, sql } from 'drizzle-orm'
+import { and, eq, getTableColumns, sql } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { db } from '../../core/db/db'
 import { groupsTable, authUsersTable } from '../../core/db/schema'
+import { zValidator } from '@hono/zod-validator'
+import { z } from 'zod'
 
 const app = new Hono()
 
@@ -63,6 +65,42 @@ app.get('/', async (c) => {
         })
     }
 })
+
+app.post(
+    '/approve',
+    zValidator(
+        'json',
+        z.object({
+            userId: z.number(),
+        }),
+    ),
+    async (c) => {
+        const { userId } = c.req.valid('json')
+
+        try {
+            const result = await db
+                .update(authUsersTable)
+                .set({ verified: true })
+                .where(
+                    and(
+                        eq(authUsersTable.id, userId),
+                        eq(authUsersTable.level, 'admin'),
+                    ),
+                )
+
+            if (result.rowCount === 0) {
+                return c.json(
+                    { message: 'User not found or already approved' },
+                    404,
+                )
+            }
+
+            return c.json({ message: 'Admin account approved' })
+        } catch (e) {
+            return c.json({ message: 'Approval failed' }, 500)
+        }
+    },
+)
 
 app.put('/:id/make-admin', async (c) => {
     return c.json({ data: '', message: 'User updated' })
