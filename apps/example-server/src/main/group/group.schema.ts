@@ -2,8 +2,8 @@ import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 import { groupsTable } from '../../core/db/schema'
 
-export type InsertGroup = typeof groupsTable.$inferInsert
-export type SelectGroup = typeof groupsTable.$inferSelect
+export type GroupDto = typeof groupsTable.$inferInsert
+export type Group = typeof groupsTable.$inferSelect
 
 export const zInsertGroup = createInsertSchema(groupsTable, {
     email: (schema) => schema.email.email(),

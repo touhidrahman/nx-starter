@@ -13,6 +13,8 @@ import {
 import { zInsertGroup, zUpdateGroup } from './group.schema'
 import { z } from 'zod'
 import { isGroupOwner } from '../../core/middlewares/is-group-owner.middleware'
+import { createGroup, deleteGroup, isOwner, updateGroup } from './group.service'
+import { findUserByUserIdAndGroupId, userExists } from '../user/user.service'
 
 const app = new Hono()
 
@@ -78,36 +80,22 @@ app.get('/:id', jwt({ secret }), isGroupOwner, async (c) => {
 
 // Create a new Group. Can create only one group
 app.post('/', zValidator('json', zInsertGroup), jwt({ secret }), async (c) => {
-    const body = await c.req.valid('json')
-    const { userId, roleId } = await c.get('jwtPayload')
+    const body = c.req.valid('json')
+    const { userId, role, groupId } = await c.get('jwtPayload')
     try {
         // check if group already created where he is a owner
-        const group = await db
-            .select()
-            .from(groupsToUsersTable)
-            .where(
-                and(
-                    eq(groupsToUsersTable.userId, userId),
-                    eq(groupsToUsersTable.roleId, 4),
-                    eq(groupsToUsersTable.isOwner, true),
-                ),
-            )
-            .limit(1)
-        if (group.length > 0) {
+        const hasOwnedGroup = await isOwner(userId, groupId)
+        if (hasOwnedGroup) {
             return c.json(
-                { error: 'A Group with ownership already exists' },
-                400,
+                {
+                    message: 'You already have a group owned by you',
+                },
+                403,
             )
         }
 
-        const [newGroup] = await db.insert(groupsTable).values(body).returning()
-        // Insert a new entry into group_users
-        await db.insert(groupsToUsersTable).values({
-            groupId: newGroup.id,
-            userId: userId,
-            isOwner: true,
-            isDefault: true,
-        })
+        // Insert a new entry into groups
+        const [newGroup] = await createGroup({ ...body, ownerId: userId })
 
         return c.json({ data: newGroup, message: 'Group created' }, 201)
     } catch (error) {
@@ -123,13 +111,9 @@ app.put(
     isGroupOwner,
     hasPermission('Group', 1),
     async (c) => {
-        const id = toInt(c.req.param('id'))
-        const body = await c.req.valid('json')
-        const result = await db
-            .update(groupsTable)
-            .set(body)
-            .where(eq(groupsTable.id, id))
-            .returning()
+        const id = c.req.param('id')
+        const body = c.req.valid('json')
+        const result = await updateGroup(id, body)
 
         if (result.length === 0) {
             return c.json({ error: 'Group not found' }, 404)
@@ -146,11 +130,8 @@ app.delete(
     isGroupOwner,
     hasPermission('Group', 1),
     async (c) => {
-        const id = toInt(c.req.param('id'))
-        const result = await db
-            .delete(groupsTable)
-            .where(eq(groupsTable.id, id))
-            .returning()
+        const id = c.req.param('id')
+        const result = await deleteGroup(id)
 
         if (result.length === 0) {
             return c.json({ error: 'Group not found' }, 404)
@@ -160,64 +141,23 @@ app.delete(
     },
 )
 
-// add user to a group
 app.post(
-    '/:id/add-user',
-    zValidator('json', z.object({ userId: z.number(), roleId: z.number() })),
+    '/:id/update-user-role',
+    zValidator('json', z.object({ userId: z.string(), role: z.string() })),
     jwt({ secret }),
     isGroupOwner,
     async (c) => {
-        const id = toInt(c.req.param('id'))
-        const { userId, roleId } = await c.req.valid('json')
+        const id = c.req.param('id')
+        const { userId, role } = c.req.valid('json')
 
         try {
-            const [user] = await db
-                .select()
-                .from(authUsersTable)
-                .where(eq(authUsersTable.id, userId))
-                .limit(1)
-
-            if (!user) {
+            const exists = await userExists(userId)
+            if (!exists) {
                 return c.json({ error: 'User not found' }, 404)
             }
-
-            const [groupUser] = await db
-                .select()
-                .from(groupsToUsersTable)
-                .where(
-                    and(
-                        eq(groupsToUsersTable.groupId, id),
-                        eq(groupsToUsersTable.userId, userId),
-                    ),
-                )
-                .limit(1)
-
-            if (groupUser) {
+            const user = await findUserByUserIdAndGroupId(userId, id)
+            if (user) {
                 return c.json({ error: 'User already in group' }, 400)
-            }
-
-            await db.insert(groupsToUsersTable).values({
-                groupId: id,
-                userId,
-                roleId,
-            })
-
-            const userGroups = await db
-                .select({ count: count() })
-                .from(groupsToUsersTable)
-                .where(eq(groupsToUsersTable.userId, userId))
-
-            // make the group default for the inserted user
-            if (userGroups[0].count === 1) {
-                await db
-                    .update(groupsToUsersTable)
-                    .set({ isDefault: true })
-                    .where(
-                        and(
-                            eq(groupsToUsersTable.userId, userId),
-                            eq(groupsToUsersTable.groupId, id),
-                        ),
-                    )
             }
 
             return c.json({ data: '', message: 'User added to group' }, 201)

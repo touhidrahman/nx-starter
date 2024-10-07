@@ -38,6 +38,7 @@ export const authUsersTable = pgTable(
         level: userLevelEnum('level').notNull().default('user'),
         status: userStatusEnum('status').notNull().default('active'),
         verified: boolean('is_verified').notNull().default(false),
+        defaultGroupId: text('default_group_id'),
         createdAt: timestamp('created_at', { withTimezone: true })
             .notNull()
             .defaultNow(),
@@ -75,9 +76,7 @@ export const usersTable = pgTable(
         authUserId: text('auth_user_id')
             .references(() => authUsersTable.id)
             .notNull(),
-        groupId: text('group_id')
-            .references(() => groupsTable.id)
-            .notNull(),
+        groupId: text('group_id').references(() => groupsTable.id),
         createdAt: timestamp('created_at', { withTimezone: true })
             .notNull()
             .defaultNow(),
@@ -133,6 +132,7 @@ export const groupsTable = pgTable('groups', {
     city: text('city'),
     country: text('country'),
     postCode: text('post_code'),
+    ownerId: text('owner_id').notNull(),
     verified: boolean('is_verified').notNull().default(false),
     verifiedOn: timestamp('verified_on', { withTimezone: true }),
     createdAt: timestamp('created_at', { withTimezone: true })
@@ -142,6 +142,31 @@ export const groupsTable = pgTable('groups', {
         .notNull()
         .$onUpdate(() => new Date()),
 })
+
+export const groupsRelations = relations(groupsTable, ({ one, many }) => ({
+    owner: one(usersTable, {
+        fields: [groupsTable.ownerId],
+        references: [usersTable.id],
+    }),
+    users: many(usersTable),
+    authUsers: many(authUsersTable),
+    invites: many(invitesTable),
+    permissions: many(permissionsTable),
+    tasks: many(tasksTable),
+    invoices: many(invoicesTable),
+    payments: many(paymentsTable),
+    invoiceItems: many(invoiceItemsTable),
+    billing: one(billingTable),
+    subscriptions: many(subscriptionsTable),
+    appointments: many(appointmentsTable),
+    events: many(eventsTable),
+    cases: many(casesTable),
+    documents: many(documentsTable),
+    documentSharing: many(documentSharingTable),
+    messages: many(messagesTable),
+    storage: one(storageTable),
+    courts: many(courtsTable),
+}))
 
 export const invitesTable = pgTable('invites', {
     id: text('id').primaryKey().$defaultFn(generateId),
@@ -169,10 +194,6 @@ export const invitesRelations = relations(invitesTable, ({ one }) => ({
         fields: [invitesTable.invitedBy],
         references: [usersTable.id],
     }),
-}))
-
-export const groupsRelations = relations(groupsTable, ({ many }) => ({
-    users: many(usersTable),
 }))
 
 export const permissionsTable = pgTable(
@@ -265,7 +286,7 @@ export const invoicesTable = pgTable('invoices', {
 
 export const paymentsTable = pgTable('payments', {
     id: text('id').primaryKey().$defaultFn(generateId),
-    invoiceId: integer('invoice_id')
+    invoiceId: text('invoice_id')
         .references(() => invoicesTable.id)
         .notNull(),
     amountPaid: integer('amount_paid').notNull(),
@@ -410,7 +431,7 @@ export const appointmentsRelations = relations(
 export const eventsTable = pgTable('events', {
     id: text('id').primaryKey().$defaultFn(generateId),
     date: timestamp('date', { withTimezone: true }).notNull(),
-    userId: integer('user_id')
+    userId: text('user_id')
         .references(() => usersTable.id)
         .notNull(),
     startTimestamp: timestamp('start_timestamp', {

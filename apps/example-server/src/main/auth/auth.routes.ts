@@ -13,6 +13,7 @@ import {
     countUsersByAuthUserId,
     findFirstUserByAuthUserId,
     findUserByAuthUserIdAndGroupId,
+    findUsersByAuthUserId,
 } from '../user/user.service'
 import { safeUser } from '../user/user.util'
 import {
@@ -109,19 +110,11 @@ app.post('/login', zValidator('json', zLogin), async (c) => {
         }
 
         // get all profiles of the user
-        const users = await db
-            .select()
-            .from(usersTable)
-            .where(eq(usersTable.authUserId, authUser.id))
-
-        const groups = await db.query.groupsTable.findMany({
-            where: or(...users.map((user) => eq(groupsTable.id, user.groupId))),
-            columns: {
-                id: true,
-                name: true,
-                type: true,
-            },
+        const usersWithGroups = await db.query.usersTable.findMany({
+            where: eq(usersTable.authUserId, authUser.id),
+            with: { group: true },
         })
+
         return c.json({
             message:
                 'Login successful but no group selected. Please select a group to continue',
@@ -132,7 +125,7 @@ app.post('/login', zValidator('json', zLogin), async (c) => {
                     ...safeUser(authUser),
                     lastLogin: now.toISOString(),
                 },
-                availableGroups: groups,
+                availableGroups: usersWithGroups.map((u) => u.group),
             },
         })
     } catch (error) {

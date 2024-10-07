@@ -90,6 +90,7 @@ CREATE TABLE IF NOT EXISTS "auth_users" (
 	"level" "userLevel" DEFAULT 'user' NOT NULL,
 	"status" "userStatus" DEFAULT 'active' NOT NULL,
 	"is_verified" boolean DEFAULT false NOT NULL,
+	"default_group_id" text,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone NOT NULL
 );
@@ -143,7 +144,7 @@ CREATE TABLE IF NOT EXISTS "documents" (
 CREATE TABLE IF NOT EXISTS "events" (
 	"id" text PRIMARY KEY NOT NULL,
 	"date" timestamp with time zone NOT NULL,
-	"user_id" integer NOT NULL,
+	"user_id" text NOT NULL,
 	"start_timestamp" timestamp with time zone NOT NULL,
 	"end_timestamp" timestamp with time zone NOT NULL,
 	"description" text,
@@ -167,6 +168,7 @@ CREATE TABLE IF NOT EXISTS "groups" (
 	"city" text,
 	"country" text,
 	"post_code" text,
+	"owner_id" text NOT NULL,
 	"is_verified" boolean DEFAULT false NOT NULL,
 	"verified_on" timestamp with time zone,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
@@ -220,7 +222,7 @@ CREATE TABLE IF NOT EXISTS "messages" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "payments" (
 	"id" text PRIMARY KEY NOT NULL,
-	"invoice_id" integer NOT NULL,
+	"invoice_id" text NOT NULL,
 	"amount_paid" integer NOT NULL,
 	"date" timestamp with time zone NOT NULL,
 	"is_fully_paid" boolean DEFAULT false NOT NULL,
@@ -279,7 +281,7 @@ CREATE TABLE IF NOT EXISTS "users" (
 	"bio" text,
 	"role" "userRole" DEFAULT 'member' NOT NULL,
 	"auth_user_id" text NOT NULL,
-	"group_id" text NOT NULL,
+	"group_id" text,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone NOT NULL,
 	CONSTRAINT "users_group_id_auth_user_id_pk" PRIMARY KEY("group_id","auth_user_id"),

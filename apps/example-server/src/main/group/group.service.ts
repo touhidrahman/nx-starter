@@ -1,44 +1,56 @@
-import { eq, and } from 'drizzle-orm'
+import { eq, and, count } from 'drizzle-orm'
 import { db } from '../../core/db/db'
-import { groupsTable } from '../../core/db/schema'
+import { authUsersTable, groupsTable, usersTable } from '../../core/db/schema'
+import { GroupDto } from './group.schema'
 
-export async function getDefaultGroup(userId: number) {
+export async function getDefaultGroup(authUserId: string) {
     const results = await db
-        .select({
-            id: groupsTable.id,
-            type: groupsTable.type,
-            roleId: groupsToUsersTable.roleId,
-        })
+        .select()
         .from(groupsTable)
         .innerJoin(
-            groupsToUsersTable,
-            eq(groupsTable.id, groupsToUsersTable.groupId),
+            authUsersTable,
+            eq(groupsTable.id, authUsersTable.defaultGroupId),
         )
-        .where(
-            and(
-                eq(groupsToUsersTable.isDefault, true),
-                eq(groupsToUsersTable.userId, userId),
-            ),
-        )
+        .where(and(eq(authUsersTable.id, authUserId)))
         .limit(1)
 
     return results?.[0] ?? null
 }
 
-export async function getGroup(id: number) {
+export async function findGroupById(id: string) {
     const results = await db
-        .select({
-            id: groupsTable.id,
-            type: groupsTable.type,
-            roleId: groupsToUsersTable.roleId,
-        })
+        .select()
         .from(groupsTable)
-        .innerJoin(
-            groupsToUsersTable,
-            eq(groupsTable.id, groupsToUsersTable.groupId),
-        )
         .where(and(eq(groupsTable.id, id)))
         .limit(1)
 
     return results?.[0] ?? null
+}
+
+export async function isOwner(userId: string, groupId: string) {
+    const results = await db
+        .select({ count: count() })
+        .from(groupsTable)
+        .where(
+            and(eq(groupsTable.id, groupId), eq(groupsTable.ownerId, userId)),
+        )
+        .limit(1)
+
+    return results?.[0].count === 1
+}
+
+export async function createGroup(group: GroupDto) {
+    return db.insert(groupsTable).values(group).returning()
+}
+
+export async function updateGroup(id: string, group: Partial<GroupDto>) {
+    return db
+        .update(groupsTable)
+        .set(group)
+        .where(eq(groupsTable.id, id))
+        .returning()
+}
+
+export async function deleteGroup(id: string) {
+    return db.delete(groupsTable).where(eq(groupsTable.id, id)).returning()
 }

@@ -40,6 +40,16 @@ export async function findUserByAuthUserIdAndGroupId(
     })
 }
 
+export async function findUserByUserIdAndGroupId(
+    userId: string,
+    groupId: string,
+) {
+    return db.query.usersTable.findFirst({
+        where: and(eq(usersTable.id, userId), eq(usersTable.groupId, groupId)),
+        with: { group: true },
+    })
+}
+
 export async function countUsersByAuthUserId(authUserId: string) {
     const userCount = await db
         .select({ value: count() })
@@ -63,4 +73,13 @@ export async function updateUser(id: string, user: Partial<UserDto>) {
 
 export async function deleteUser(id: string) {
     return db.delete(usersTable).where(eq(usersTable.id, id)).returning()
+}
+
+export async function userExists(id: string) {
+    const userCount = await db
+        .select({ value: count() })
+        .from(usersTable)
+        .where(eq(usersTable.id, id))
+
+    return userCount?.[0]?.value === 1
 }

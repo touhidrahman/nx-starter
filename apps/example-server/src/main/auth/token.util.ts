@@ -2,7 +2,7 @@ import dayjs from 'dayjs'
 import { sign, verify } from 'hono/jwt'
 import { randomBytes } from 'node:crypto'
 import { toInt } from 'radash'
-import { InsertGroup } from '../group/group.schema'
+import { GroupDto } from '../group/group.schema'
 import { User } from '../user/user.schema'
 import { AuthUser } from './auth.schema'
 
@@ -12,7 +12,7 @@ const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET ?? ''
 export async function createAccessToken(
     authUser: AuthUser,
     user?: User,
-    group?: InsertGroup,
+    group?: GroupDto,
 ) {
     return await sign(
         {
