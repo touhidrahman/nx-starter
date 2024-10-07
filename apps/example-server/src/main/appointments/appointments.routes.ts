@@ -1,17 +1,12 @@
 import { zValidator } from '@hono/zod-validator'
 import { and, eq, getTableColumns } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { toInt } from 'radash'
-import { z } from 'zod'
 import { db } from '../../core/db/db'
 import { appointmentsTable } from '../../core/db/schema'
 import { authMiddleware } from '../../core/middlewares/auth.middleware'
 import checkAppointmentOwnershipMiddleware from '../../core/middlewares/check-ownership.middleware'
-import {
-    zDeleteAppointment,
-    zInsertAppointment,
-    zUpdateAppointment,
-} from './appointments.schema'
+import { zId, zIds } from '../../core/models/common.schema'
+import { zInsertAppointment, zUpdateAppointment } from './appointments.schema'
 
 const app = new Hono()
 
@@ -20,7 +15,7 @@ app.get('', authMiddleware, async (c) => {
     const payload = await c.get('jwtPayload')
 
     try {
-        const groupId = toInt(payload.groupId)
+        const groupId = payload.groupId
         const appointments = await db
             .select({ ...getTableColumns(appointmentsTable) })
             .from(appointmentsTable)
@@ -40,7 +35,7 @@ app.get('', authMiddleware, async (c) => {
 app.get(
     '/:id',
     authMiddleware,
-    zValidator('param', z.object({ id: z.coerce.number() })),
+    zValidator('param', zId),
     checkAppointmentOwnershipMiddleware(appointmentsTable, 'Appointment'),
     async (c) => {
         const id = c.req.param('id')
@@ -78,7 +73,7 @@ app.post(
 // PATCH /appointments/:id - update
 app.patch(
     '/:id',
-    zValidator('param', z.object({ id: z.coerce.number() })),
+    zValidator('param', zId),
     zValidator('json', zUpdateAppointment),
     authMiddleware,
     checkAppointmentOwnershipMiddleware(appointmentsTable, 'Appointment'),
@@ -108,7 +103,7 @@ app.patch(
 // DELETE /appointments/:id - delete
 app.delete(
     '/:id',
-    zValidator('param', z.object({ id: z.coerce.number() })),
+    zValidator('param', zId),
     authMiddleware,
     checkAppointmentOwnershipMiddleware(appointmentsTable, 'Appointment'),
     async (c) => {
@@ -121,34 +116,29 @@ app.delete(
 )
 
 // DELETE /appointments - delete many
-app.delete(
-    '',
-    zValidator('json', zDeleteAppointment),
-    authMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
-        const payload = await c.get('jwtPayload')
+app.delete('', zValidator('json', zIds), authMiddleware, async (c) => {
+    const body = c.req.valid('json')
+    const payload = await c.get('jwtPayload')
 
-        try {
-            for (const appointmentId of body.appointmentIds) {
-                await db
-                    .delete(appointmentsTable)
-                    .where(
-                        and(
-                            eq(appointmentsTable.id, appointmentId),
-                            eq(appointmentsTable.groupId, payload.groupId),
-                        ),
-                    )
-            }
-        } catch (error: any) {
-            return c.json(
-                { error: 'Internal server error', message: error.message },
-                500,
-            )
+    try {
+        for (const appointmentId of body.ids) {
+            await db
+                .delete(appointmentsTable)
+                .where(
+                    and(
+                        eq(appointmentsTable.id, appointmentId),
+                        eq(appointmentsTable.groupId, payload.groupId),
+                    ),
+                )
         }
+    } catch (error: any) {
+        return c.json(
+            { error: 'Internal server error', message: error.message },
+            500,
+        )
+    }
 
-        return c.json({ message: 'Appointments deleted' })
-    },
-)
+    return c.json({ message: 'Appointments deleted' })
+})
 
 export default app

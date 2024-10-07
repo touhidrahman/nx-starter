@@ -7,6 +7,7 @@ import { tasksTable } from '../../core/db/schema'
 import { authMiddleware } from '../../core/middlewares/auth.middleware'
 import checkTaskOwnershipMiddleware from '../../core/middlewares/check-ownership.middleware'
 import { zDeleteTask, zInsertTask, zUpdateTask } from './tasks.schema'
+import { zId } from '../../core/models/common.schema'
 
 const app = new Hono()
 
@@ -35,7 +36,7 @@ app.get('', authMiddleware, async (c) => {
 app.get(
     '/:id',
     authMiddleware,
-    zValidator('param', z.object({ id: z.coerce.number() })),
+    zValidator('param', zId),
     checkTaskOwnershipMiddleware(tasksTable, 'Task'),
     async (c) => {
         const id = c.req.param('id')
@@ -65,7 +66,7 @@ app.post('', zValidator('json', zInsertTask), authMiddleware, async (c) => {
 // PATCH /tasks/:id - update
 app.patch(
     '/:id',
-    zValidator('param', z.object({ id: z.coerce.number() })),
+    zValidator('param', zId),
     zValidator('json', zUpdateTask),
     authMiddleware,
     checkTaskOwnershipMiddleware(tasksTable, 'Task'),
@@ -92,7 +93,7 @@ app.patch(
 // DELETE /tasks/:id - delete
 app.delete(
     '/:id',
-    zValidator('param', z.object({ id: z.coerce.number() })),
+    zValidator('param', zId),
     authMiddleware,
     checkTaskOwnershipMiddleware(tasksTable, 'Task'),
     async (c) => {

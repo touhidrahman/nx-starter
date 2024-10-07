@@ -7,7 +7,8 @@ import { db } from '../../core/db/db'
 import { eventsTable } from '../../core/db/schema'
 import { authMiddleware } from '../../core/middlewares/auth.middleware'
 import checkEventOwnershipMiddleware from '../../core/middlewares/check-ownership.middleware'
-import { zDeleteEvent, zInsertEvent, zUpdateEvent } from './events.schema'
+import { zId, zIds } from '../../core/models/common.schema'
+import { zInsertEvent, zUpdateEvent } from './events.schema'
 
 const app = new Hono()
 
@@ -16,7 +17,7 @@ app.get('', authMiddleware, async (c) => {
     const payload = await c.get('jwtPayload')
 
     try {
-        const groupId = toInt(payload.groupId)
+        const groupId = payload.groupId
         const events = await db
             .select({ ...getTableColumns(eventsTable) })
             .from(eventsTable)
@@ -36,7 +37,7 @@ app.get('', authMiddleware, async (c) => {
 app.get(
     '/:id',
     authMiddleware,
-    zValidator('param', z.object({ id: z.coerce.number() })),
+    zValidator('param', zId),
     checkEventOwnershipMiddleware(eventsTable, 'Event'),
     async (c) => {
         const id = c.req.param('id')
@@ -66,7 +67,7 @@ app.post('', zValidator('json', zInsertEvent), authMiddleware, async (c) => {
 // PATCH /events/:id - update
 app.patch(
     '/:id',
-    zValidator('param', z.object({ id: z.coerce.number() })),
+    zValidator('param', zId),
     zValidator('json', zUpdateEvent),
     authMiddleware,
     checkEventOwnershipMiddleware(eventsTable, 'Event'),
@@ -93,7 +94,7 @@ app.patch(
 // DELETE /events/:id - delete
 app.delete(
     '/:id',
-    zValidator('param', z.object({ id: z.coerce.number() })),
+    zValidator('param', zId),
     authMiddleware,
     checkEventOwnershipMiddleware(eventsTable, 'Event'),
     async (c) => {
@@ -106,12 +107,12 @@ app.delete(
 )
 
 // DELETE /events - delete many
-app.delete('', zValidator('json', zDeleteEvent), authMiddleware, async (c) => {
+app.delete('', zValidator('json', zIds), authMiddleware, async (c) => {
     const body = c.req.valid('json')
     const payload = await c.get('jwtPayload')
 
     try {
-        for (const eventId of body.eventIds) {
+        for (const eventId of body.ids) {
             await db
                 .delete(eventsTable)
                 .where(

@@ -93,7 +93,7 @@ export const usersTable = pgTable(
     },
 )
 
-const usersRelations = relations(usersTable, ({ one, many }) => ({
+export const usersRelations = relations(usersTable, ({ one, many }) => ({
     authUser: one(authUsersTable, {
         fields: [usersTable.authUserId],
         references: [authUsersTable.id],
@@ -148,24 +148,24 @@ export const groupsRelations = relations(groupsTable, ({ one, many }) => ({
         fields: [groupsTable.ownerId],
         references: [usersTable.id],
     }),
-    users: many(usersTable),
-    authUsers: many(authUsersTable),
-    invites: many(invitesTable),
-    permissions: many(permissionsTable),
-    tasks: many(tasksTable),
-    invoices: many(invoicesTable),
-    payments: many(paymentsTable),
-    invoiceItems: many(invoiceItemsTable),
-    billing: one(billingTable),
-    subscriptions: many(subscriptionsTable),
     appointments: many(appointmentsTable),
-    events: many(eventsTable),
+    authUsers: many(authUsersTable),
+    billing: one(billingTable),
     cases: many(casesTable),
-    documents: many(documentsTable),
-    documentSharing: many(documentSharingTable),
-    messages: many(messagesTable),
-    storage: one(storageTable),
     courts: many(courtsTable),
+    documentSharing: many(documentSharingTable),
+    documents: many(documentsTable),
+    events: many(eventsTable),
+    invites: many(invitesTable),
+    invoiceItems: many(invoiceItemsTable),
+    invoices: many(invoicesTable),
+    messages: many(messagesTable),
+    payments: many(paymentsTable),
+    permissions: many(permissionsTable),
+    storage: one(storageTable),
+    subscriptions: many(subscriptionsTable),
+    tasks: many(tasksTable),
+    users: many(usersTable),
 }))
 
 export const invitesTable = pgTable('invites', {

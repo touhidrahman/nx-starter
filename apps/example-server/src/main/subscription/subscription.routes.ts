@@ -36,7 +36,7 @@ app.get('', authMiddleware, async (c) => {
 app.get(
     '/:id',
     authMiddleware,
-    zValidator('param', z.object({ id: z.coerce.number() })),
+    zValidator('param', zId),
     checkSubscriptionOwnershipMiddleware(subscriptionsTable, 'Subscription'),
     async (c) => {
         const id = c.req.param('id')
@@ -77,7 +77,7 @@ app.post(
 // PATCH /subscriptions/:id - update
 app.patch(
     '/:id',
-    zValidator('param', z.object({ id: z.coerce.number() })),
+    zValidator('param', zId),
     zValidator('json', zUpdateSubscription),
     authMiddleware,
     checkSubscriptionOwnershipMiddleware(subscriptionsTable, 'Subscription'),

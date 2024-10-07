@@ -71,7 +71,7 @@ app.post(
     zValidator(
         'json',
         z.object({
-            userId: z.number(),
+            userId: z.string(),
         }),
     ),
     async (c) => {
@@ -87,8 +87,9 @@ app.post(
                         eq(authUsersTable.level, 'admin'),
                     ),
                 )
+                .returning()
 
-            if (result.rowCount === 0) {
+            if (result.length === 0) {
                 return c.json(
                     { message: 'User not found or already approved' },
                     404,

@@ -37,6 +37,7 @@ import {
     createVerficationToken,
     decodeVerificationToken,
 } from './token.util'
+import { LEVEL_ADMIN, LEVEL_MODERATOR } from '../user/user.schema'
 
 const app = new Hono()
 
@@ -63,7 +64,8 @@ app.post('/login', zValidator('json', zLogin), async (c) => {
         let refreshToken = await createRefreshToken(authUser)
 
         // if previledged user, return access token
-        if (['admin', 'moderator'].includes(authUser.level)) {
+        if ([LEVEL_ADMIN, LEVEL_MODERATOR].includes(authUser.level as any)) {
+            // TODO: fix as any
             return c.json({
                 message: 'Priviledged user login successful',
                 data: {
@@ -94,7 +96,7 @@ app.post('/login', zValidator('json', zLogin), async (c) => {
         }
 
         if (user) {
-            accessToken = await createAccessToken(authUser, user, group)
+            accessToken = await createAccessToken(authUser, user, group as any) // TODO: fix as any
             refreshToken = await createRefreshToken(authUser)
             return c.json({
                 message: 'User login successful',

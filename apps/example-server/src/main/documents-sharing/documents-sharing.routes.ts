@@ -5,10 +5,10 @@ import { db } from '../../core/db/db'
 import { documentSharingTable } from '../../core/db/schema'
 import { authMiddleware } from '../../core/middlewares/auth.middleware'
 import {
-    zDeleteDocumentSharing,
     zInsertDocumentSharing,
     zUpdateDocumentSharing,
 } from './documents-sharing.schema'
+import { zIds } from '../../core/models/common.schema'
 
 const app = new Hono()
 
@@ -93,21 +93,16 @@ app.delete('/:id', authMiddleware, async (c) => {
 })
 
 // DELETE /documentSharing - delete many
-app.delete(
-    '',
-    zValidator('json', zDeleteDocumentSharing),
-    authMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
+app.delete('', zValidator('json', zIds), authMiddleware, async (c) => {
+    const body = c.req.valid('json')
 
-        for (const documentSharingId of body.documentSharingIds) {
-            await db
-                .delete(documentSharingTable)
-                .where(eq(documentSharingTable.id, documentSharingId))
-        }
+    for (const documentSharingId of body.ids) {
+        await db
+            .delete(documentSharingTable)
+            .where(eq(documentSharingTable.id, documentSharingId))
+    }
 
-        return c.json({ message: 'Document Sharings deleted' })
-    },
-)
+    return c.json({ message: 'Document Sharings deleted' })
+})
 
 export default app

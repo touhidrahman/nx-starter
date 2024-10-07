@@ -25,7 +25,7 @@ app.get('', authMiddleware, isAdmin, async (c) => {
 
 // Find one application area by ID
 app.get('/:id', authMiddleware, isAdmin, async (c) => {
-    const areaId = parseInt(c.req.param('id'), 10)
+    const areaId = c.req.param('id')
 
     const applicationAreas = await db
         .select({ ...getTableColumns(applicationAreasTable) })
@@ -63,7 +63,7 @@ app.post('', authMiddleware, isAdmin, async (c) => {
 app.put('/:id', authMiddleware, isAdmin, async (c) => {
     const body = await c.req.json()
     const parsedBody = zUpdateApplicationArea.parse(body)
-    const areaId = parseInt(c.req.param('id'), 10)
+    const areaId = c.req.param('id')
 
     const updatedApplicationArea = await db
         .update(applicationAreasTable)
@@ -79,7 +79,7 @@ app.put('/:id', authMiddleware, isAdmin, async (c) => {
 
 // Delete an application area
 app.delete('/:id', authMiddleware, isAdmin, async (c) => {
-    const areaId = parseInt(c.req.param('id'), 10)
+    const areaId = c.req.param('id')
 
     await db
         .delete(applicationAreasTable)
