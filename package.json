@@ -103,7 +103,7 @@
         "hono": "^4.6.3",
         "ionicons": "^7.0.0",
         "lucide-angular": "^0.428.0",
-        "nanoid": "^5.0.7",
+        "nanoid": "^3.3.7",
         "ngx-scrollbar": "^14.1.1",
         "ngx-sonner": "^2.0.2",
         "qs": "^6.13.0",

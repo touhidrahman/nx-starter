@@ -7,7 +7,7 @@ import { PGlite } from '@electric-sql/pglite'
 
 config({ path: '.env' })
 
-const clientPgLite = new PGlite('./../../../temp/pgdata')
+const clientPgLite = new PGlite()
 
 const dbUrl = process.env.DATABASE_URL ?? ''
 const clientNeon = neon(dbUrl)
