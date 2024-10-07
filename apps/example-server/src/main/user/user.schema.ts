@@ -1,5 +1,10 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
-import { userRoleEnum, usersTable } from '../../core/db/schema'
+import {
+    userLevelEnum,
+    userRoleEnum,
+    usersTable,
+    userStatusEnum,
+} from '../../core/db/schema'
 import { z } from 'zod'
 
 export type UserDto = typeof usersTable.$inferInsert
@@ -29,3 +34,7 @@ export const zSearchUser = zInsertUser
     .optional()
 
 export const [ROLE_OWNER, ROLE_MANAGER, ROLE_MEMBER] = userRoleEnum.enumValues
+export const [LEVEL_USER, LEVEL_MODERATOR, LEVEL_ADMIN] =
+    userLevelEnum.enumValues
+export const [USER_STATUS_ACTIVE, USER_STATUS_INACTIVE, USER_STATUS_BANNED] =
+    userStatusEnum.enumValues

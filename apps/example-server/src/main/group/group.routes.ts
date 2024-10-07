@@ -12,13 +12,26 @@ import {
 } from '../../core/db/schema'
 import { zInsertGroup, zUpdateGroup } from './group.schema'
 import { z } from 'zod'
-import { isGroupOwner } from '../../core/middlewares/is-group-owner.middleware'
-import { createGroup, deleteGroup, isOwner, updateGroup } from './group.service'
-import { findUserByUserIdAndGroupId, userExists } from '../user/user.service'
+import {
+    isGroupOwner,
+    isGroupParticipant,
+} from '../../core/middlewares/is-group-owner.middleware'
+import {
+    createGroup,
+    deleteGroup,
+    findGroupById,
+    findGroupsByAuthUserId,
+    isOwner,
+    updateGroup,
+} from './group.service'
+import {
+    findUserByUserIdAndGroupId,
+    updateUser,
+    userExists,
+} from '../user/user.service'
+import { checkToken } from '../auth/auth.middleware'
 
 const app = new Hono()
-
-const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 
 function hasPermission(area: string, requiredLevel: 1 | 2 | 3 | 4) {
     return async (ctx: Context, next: Next) => {
@@ -50,36 +63,27 @@ function hasPermission(area: string, requiredLevel: 1 | 2 | 3 | 4) {
 }
 
 // Get my Groups
-app.get('/', jwt({ secret }), async (c) => {
-    const user = c.get('jwtPayload')
-    const result = await db.query.usersTable.findMany({
-        where: eq(usersTable.authUserId, user.sub),
-        with: { group: true },
-    })
+app.get('/', checkToken, async (c) => {
+    const payload = c.get('jwtPayload')
+    const result = await findGroupsByAuthUserId(payload.sub)
 
-    return c.json({ data: result.map((u) => u.group), message: 'My Groups' })
+    return c.json({ data: result, message: 'My Groups' })
 })
 
 // Get a Group by ID
-app.get('/:id', jwt({ secret }), isGroupOwner, async (c) => {
+app.get('/:id', checkToken, isGroupParticipant, async (c) => {
     const id = c.req.param('id')
-    const user = c.get('jwtPayload')
+    const result = await findGroupById(id)
 
-    const result = await db
-        .select()
-        .from(groupsTable)
-        .where(and(eq(groupsTable.id, id)))
-        .limit(1)
-
-    if (result.length === 0) {
+    if (!result) {
         return c.json({ error: 'Group not found' }, 404)
     }
 
-    return c.json({ data: result[0], message: 'Group details' })
+    return c.json({ data: result, message: 'Group details' })
 })
 
 // Create a new Group. Can create only one group
-app.post('/', zValidator('json', zInsertGroup), jwt({ secret }), async (c) => {
+app.post('/', zValidator('json', zInsertGroup), checkToken, async (c) => {
     const body = c.req.valid('json')
     const { userId, role, groupId } = await c.get('jwtPayload')
     try {
@@ -107,9 +111,8 @@ app.post('/', zValidator('json', zInsertGroup), jwt({ secret }), async (c) => {
 app.put(
     '/:id',
     zValidator('json', zUpdateGroup),
-    jwt({ secret }),
+    checkToken,
     isGroupOwner,
-    hasPermission('Group', 1),
     async (c) => {
         const id = c.req.param('id')
         const body = c.req.valid('json')
@@ -124,27 +127,21 @@ app.put(
 )
 
 // Delete a Group by ID
-app.delete(
-    '/:id',
-    jwt({ secret }),
-    isGroupOwner,
-    hasPermission('Group', 1),
-    async (c) => {
-        const id = c.req.param('id')
-        const result = await deleteGroup(id)
+app.delete('/:id', checkToken, isGroupOwner, async (c) => {
+    const id = c.req.param('id')
+    const result = await deleteGroup(id)
 
-        if (result.length === 0) {
-            return c.json({ error: 'Group not found' }, 404)
-        }
+    if (result.length === 0) {
+        return c.json({ error: 'Group not found' }, 404)
+    }
 
-        return c.json({ data: result, message: 'Group deleted' })
-    },
-)
+    return c.json({ data: result, message: 'Group deleted' })
+})
 
 app.post(
     '/:id/update-user-role',
     zValidator('json', z.object({ userId: z.string(), role: z.string() })),
-    jwt({ secret }),
+    checkToken,
     isGroupOwner,
     async (c) => {
         const id = c.req.param('id')
@@ -156,11 +153,13 @@ app.post(
                 return c.json({ error: 'User not found' }, 404)
             }
             const user = await findUserByUserIdAndGroupId(userId, id)
-            if (user) {
-                return c.json({ error: 'User already in group' }, 400)
+            if (!user) {
+                return c.json({ error: 'User does not belong to group' }, 400)
             }
 
-            return c.json({ data: '', message: 'User added to group' }, 201)
+            const result = await updateUser(user.id, { role: role as any })
+
+            return c.json({ data: result, message: 'User role updated' }, 201)
         } catch (error) {
             return c.json({ error: 'Error adding user to group' }, 500)
         }
