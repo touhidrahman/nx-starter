@@ -3,7 +3,7 @@ import { and, count, eq } from 'drizzle-orm'
 import { db } from '../../core/db/db'
 import { authUsersTable, usersTable } from '../../core/db/schema'
 
-export async function updateLastLogin(authUserId: number) {
+export async function updateLastLogin(authUserId: string) {
     await db
         .update(authUsersTable)
         .set({ lastLogin: dayjs().toDate() })
@@ -16,7 +16,7 @@ export async function isFirstAuthUser() {
     return userCount?.[0]?.value === 0
 }
 
-export async function findAuthUserById(id: number) {
+export async function findAuthUserById(id: string) {
     const results = await db
         .select()
         .from(authUsersTable)

@@ -77,11 +77,10 @@ app.post('/login', zValidator('json', zLogin), async (c) => {
         }
 
         // if query param has group id, get the user profile belonging to that group
-        const groupIdInt = groupId ? toInt(groupId) : null
         let group = undefined
         let user = undefined
-        if (groupIdInt) {
-            user = await findUserByAuthUserIdAndGroupId(authUser.id, groupIdInt)
+        if (groupId) {
+            user = await findUserByAuthUserIdAndGroupId(authUser.id, groupId)
             group = user?.group
         } else {
             // if user has only one profile, consider it the default
@@ -167,7 +166,7 @@ app.post('/register', zValidator('json', zRegister), async (c) => {
                 level: isFirstUser ? 'admin' : level,
                 verified: isFirstUser, // First user is auto-verified
             })
-            .returning({ id: authUsersTable.id })
+            .returning()
 
         const userId = createdAuthUser[0].id
 

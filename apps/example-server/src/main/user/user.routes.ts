@@ -59,7 +59,7 @@ app.put(
     zValidator('json', zUpdateUser),
     async (c) => {
         const body = c.req.valid('json')
-        const userId = toInt(c.req.param('id'))
+        const userId = c.req.param('id')
         const updatedUser = await updateUser(userId, body)
 
         return c.json({ data: updatedUser, message: 'User updated' })
@@ -68,7 +68,7 @@ app.put(
 
 // Delete user
 app.delete('/delete/:id', checkToken, async (c) => {
-    const userId = toInt(c.req.param('id'))
+    const userId = c.req.param('id')
     await deleteUser(userId)
 
     return c.json({ message: 'User deleted' })
@@ -76,7 +76,7 @@ app.delete('/delete/:id', checkToken, async (c) => {
 
 // Search single user by ID
 app.get('/user/:id', checkToken, async (c) => {
-    const userId = toInt(c.req.param('id'))
+    const userId = c.req.param('id')
     const user = await findUserById(userId)
 
     if (!user) {

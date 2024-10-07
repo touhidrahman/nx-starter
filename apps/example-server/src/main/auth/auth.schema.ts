@@ -16,7 +16,7 @@ export const zRegister = z.object({
 })
 
 export const zChangePassword = z.object({
-    userId: z.coerce.number(),
+    userId: z.string(),
     currentPassword: z.string(),
     password: z.string().min(8).max(32),
 })
@@ -42,5 +42,5 @@ export const zUpdateAuthUser = zInsertAuthUser.omit({
     verified: true,
 })
 
-export type InsertAuthUser = typeof authUsersTable.$inferInsert
-export type SelectAuthUser = typeof authUsersTable.$inferSelect
+export type AuthUserDto = typeof authUsersTable.$inferInsert
+export type AuthUser = typeof authUsersTable.$inferSelect

@@ -29,7 +29,7 @@ function hasPermission(area: string, requiredLevel: 1 | 2 | 3 | 4) {
             .from(permissionsTable)
             .where(
                 and(
-                    eq(permissionsTable.roleId, payload?.roleId),
+                    eq(permissionsTable.role, payload?.role),
                     eq(permissionsTable.area, area),
                 ),
             )
@@ -60,7 +60,7 @@ app.get('/', jwt({ secret }), async (c) => {
 
 // Get a Group by ID
 app.get('/:id', jwt({ secret }), isGroupOwner, async (c) => {
-    const id = toInt(c.req.param('id'))
+    const id = c.req.param('id')
     const user = c.get('jwtPayload')
 
     const result = await db

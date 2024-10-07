@@ -4,13 +4,13 @@ import { randomBytes } from 'node:crypto'
 import { toInt } from 'radash'
 import { InsertGroup } from '../group/group.schema'
 import { User } from '../user/user.schema'
-import { SelectAuthUser } from './auth.schema'
+import { AuthUser } from './auth.schema'
 
 const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET ?? ''
 const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET ?? ''
 
 export async function createAccessToken(
-    authUser: SelectAuthUser,
+    authUser: AuthUser,
     user?: User,
     group?: InsertGroup,
 ) {
@@ -31,7 +31,7 @@ export async function createAccessToken(
     )
 }
 
-export async function createRefreshToken(authUser: SelectAuthUser) {
+export async function createRefreshToken(authUser: AuthUser) {
     return await sign(
         {
             email: authUser.email,
@@ -44,7 +44,7 @@ export async function createRefreshToken(authUser: SelectAuthUser) {
 
 export async function decodeVerificationToken(
     token: string,
-): Promise<{ email: string; authUserId: number } | null> {
+): Promise<{ email: string; authUserId: string } | null> {
     const verificationToken = token.split('&')
     const { email, sub, exp } = await verify(
         verificationToken[1],
@@ -52,7 +52,7 @@ export async function decodeVerificationToken(
     )
 
     if (exp && exp < dayjs().valueOf()) return null
-    return { email: email as string, authUserId: toInt(sub) }
+    return { email: email as string, authUserId: sub as string }
 }
 
 export async function createVerficationToken(email: string, userId: string) {

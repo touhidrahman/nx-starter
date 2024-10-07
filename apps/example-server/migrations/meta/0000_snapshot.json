@@ -1,5 +1,5 @@
 {
-    "id": "2960d3d2-9fc3-4aee-8085-ea08da91c328",
+    "id": "61c8c6cf-4a8a-4b10-a383-55c83b213603",
     "prevId": "00000000-0000-0000-0000-000000000000",
     "version": "7",
     "dialect": "postgresql",
@@ -10,7 +10,7 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
@@ -38,7 +38,7 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
@@ -50,13 +50,13 @@
                 },
                 "vendor_user_id": {
                     "name": "vendor_user_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "client_user_id": {
                     "name": "client_user_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -92,7 +92,7 @@
                 },
                 "group_id": {
                     "name": "group_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -149,7 +149,7 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
@@ -226,16 +226,26 @@
                     "notNull": true
                 }
             },
-            "indexes": {},
+            "indexes": {
+                "emailUniqueIndex": {
+                    "name": "emailUniqueIndex",
+                    "columns": [
+                        {
+                            "expression": "lower(\"email\")",
+                            "asc": true,
+                            "isExpression": true,
+                            "nulls": "last"
+                        }
+                    ],
+                    "isUnique": true,
+                    "concurrently": false,
+                    "method": "btree",
+                    "with": {}
+                }
+            },
             "foreignKeys": {},
             "compositePrimaryKeys": {},
-            "uniqueConstraints": {
-                "auth_users_email_unique": {
-                    "name": "auth_users_email_unique",
-                    "nullsNotDistinct": false,
-                    "columns": ["email"]
-                }
-            }
+            "uniqueConstraints": {}
         },
         "public.billing": {
             "name": "billing",
@@ -243,7 +253,7 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
@@ -278,7 +288,7 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
@@ -308,13 +318,13 @@
                 },
                 "plaintiff_group_id": {
                     "name": "plaintiff_group_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "group_id": {
                     "name": "group_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -368,7 +378,7 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 }
@@ -384,37 +394,37 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
                 "sender_group_id": {
                     "name": "sender_group_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "receiver_group_id": {
                     "name": "receiver_group_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "document_id": {
                     "name": "document_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "sender_user_id": {
                     "name": "sender_user_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "receiver_user_id": {
                     "name": "receiver_user_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": false
                 },
@@ -482,7 +492,7 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
@@ -518,7 +528,7 @@
                 },
                 "linked_id": {
                     "name": "linked_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -530,7 +540,7 @@
                 },
                 "group_id": {
                     "name": "group_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 }
@@ -556,7 +566,7 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
@@ -605,7 +615,7 @@
                 },
                 "group_id": {
                     "name": "group_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -618,7 +628,7 @@
                 },
                 "case_id": {
                     "name": "case_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -675,7 +685,7 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
@@ -769,19 +779,100 @@
             "compositePrimaryKeys": {},
             "uniqueConstraints": {}
         },
+        "public.invites": {
+            "name": "invites",
+            "schema": "",
+            "columns": {
+                "id": {
+                    "name": "id",
+                    "type": "text",
+                    "primaryKey": true,
+                    "notNull": true
+                },
+                "email": {
+                    "name": "email",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "group_id": {
+                    "name": "group_id",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "role": {
+                    "name": "role",
+                    "type": "userRole",
+                    "typeSchema": "public",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "'member'"
+                },
+                "invited_by": {
+                    "name": "invited_by",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "invited_on": {
+                    "name": "invited_on",
+                    "type": "timestamp with time zone",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "now()"
+                },
+                "accepted_on": {
+                    "name": "accepted_on",
+                    "type": "timestamp with time zone",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "status": {
+                    "name": "status",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "'pending'"
+                }
+            },
+            "indexes": {},
+            "foreignKeys": {
+                "invites_group_id_groups_id_fk": {
+                    "name": "invites_group_id_groups_id_fk",
+                    "tableFrom": "invites",
+                    "tableTo": "groups",
+                    "columnsFrom": ["group_id"],
+                    "columnsTo": ["id"],
+                    "onDelete": "no action",
+                    "onUpdate": "no action"
+                },
+                "invites_invited_by_users_id_fk": {
+                    "name": "invites_invited_by_users_id_fk",
+                    "tableFrom": "invites",
+                    "tableTo": "users",
+                    "columnsFrom": ["invited_by"],
+                    "columnsTo": ["id"],
+                    "onDelete": "no action",
+                    "onUpdate": "no action"
+                }
+            },
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {}
+        },
         "public.invoice_items": {
             "name": "invoice_items",
             "schema": "",
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
                 "invoice_id": {
                     "name": "invoice_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -799,7 +890,7 @@
                 },
                 "unit_price": {
                     "name": "unit_price",
-                    "type": "integer",
+                    "type": "numeric",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -844,7 +935,7 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
@@ -877,13 +968,13 @@
                 },
                 "total_due_amount": {
                     "name": "total_due_amount",
-                    "type": "integer",
+                    "type": "numeric",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "remaining_due_amount": {
                     "name": "remaining_due_amount",
-                    "type": "integer",
+                    "type": "numeric",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -911,19 +1002,19 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
                 "vendor_user_id": {
                     "name": "vendor_user_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "client_user_id": {
                     "name": "client_user_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -990,7 +1081,7 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
@@ -1054,7 +1145,7 @@
             "columns": {
                 "group_id": {
                     "name": "group_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -1105,7 +1196,7 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 }
@@ -1121,13 +1212,13 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
                 "group_id": {
                     "name": "group_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -1184,13 +1275,13 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
                 "group_id": {
                     "name": "group_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -1202,7 +1293,7 @@
                 },
                 "assigned_user_id": {
                     "name": "assigned_user_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": false
                 },
@@ -1277,8 +1368,8 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
-                    "primaryKey": true,
+                    "type": "text",
+                    "primaryKey": false,
                     "notNull": true
                 },
                 "first_name": {
@@ -1363,13 +1454,13 @@
                 },
                 "auth_user_id": {
                     "name": "auth_user_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "group_id": {
                     "name": "group_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -1414,7 +1505,13 @@
                     "columns": ["group_id", "auth_user_id"]
                 }
             },
-            "uniqueConstraints": {}
+            "uniqueConstraints": {
+                "users_id_unique": {
+                    "name": "users_id_unique",
+                    "nullsNotDistinct": false,
+                    "columns": ["id"]
+                }
+            }
         }
     },
     "enums": {

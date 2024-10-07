@@ -4,7 +4,7 @@ import { db } from '../../core/db/db'
 import { authUsersTable, usersTable } from '../../core/db/schema'
 import { UserDto } from './user.schema'
 
-export async function findUsersByAuthUserId(authUserId: number) {
+export async function findUsersByAuthUserId(authUserId: string) {
     const results = await db
         .select()
         .from(usersTable)
@@ -13,14 +13,14 @@ export async function findUsersByAuthUserId(authUserId: number) {
     return results
 }
 
-export async function findUserById(id: number) {
+export async function findUserById(id: string) {
     return db.query.usersTable.findFirst({
         where: eq(usersTable.id, id),
         with: { group: true },
     })
 }
 
-export async function findFirstUserByAuthUserId(authUserId: number) {
+export async function findFirstUserByAuthUserId(authUserId: string) {
     return db.query.usersTable.findFirst({
         where: eq(usersTable.authUserId, authUserId),
         with: { group: true },
@@ -28,8 +28,8 @@ export async function findFirstUserByAuthUserId(authUserId: number) {
 }
 
 export async function findUserByAuthUserIdAndGroupId(
-    authUserId: number,
-    groupId: number,
+    authUserId: string,
+    groupId: string,
 ) {
     return db.query.usersTable.findFirst({
         where: and(
@@ -40,7 +40,7 @@ export async function findUserByAuthUserIdAndGroupId(
     })
 }
 
-export async function countUsersByAuthUserId(authUserId: number) {
+export async function countUsersByAuthUserId(authUserId: string) {
     const userCount = await db
         .select({ value: count() })
         .from(usersTable)
@@ -53,7 +53,7 @@ export async function createUser(user: UserDto) {
     return db.insert(usersTable).values(user).returning()
 }
 
-export async function updateUser(id: number, user: Partial<UserDto>) {
+export async function updateUser(id: string, user: Partial<UserDto>) {
     return db
         .update(usersTable)
         .set(user)
@@ -61,6 +61,6 @@ export async function updateUser(id: number, user: Partial<UserDto>) {
         .returning()
 }
 
-export async function deleteUser(id: number) {
+export async function deleteUser(id: string) {
     return db.delete(usersTable).where(eq(usersTable.id, id)).returning()
 }
