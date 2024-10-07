@@ -43,7 +43,7 @@ app.get(
     zValidator('param', z.object({ id: z.coerce.number() })),
     checkDocumentOwnershipMiddleware(documentsTable, 'Document'),
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
         const document = await db
             .select({ ...getTableColumns(documentsTable) })
             .from(documentsTable)
@@ -75,7 +75,7 @@ app.patch(
     authMiddleware,
     checkDocumentOwnershipMiddleware(documentsTable, 'Document'),
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
         const body = c.req.valid('json')
         const payload = await c.get('jwtPayload')
 
@@ -101,7 +101,7 @@ app.delete(
     authMiddleware,
     checkDocumentOwnershipMiddleware(documentsTable, 'Document'),
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
 
         await db.delete(documentsTable).where(eq(documentsTable.id, id))
 

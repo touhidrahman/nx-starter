@@ -12,5 +12,9 @@ export const zDateTimeString = z.string().refine(
 )
 
 export const zIds = z.object({
-    ids: z.array(z.coerce.number()),
+    ids: z.array(z.string()).min(1),
+})
+
+export const zId = z.object({
+    id: z.string(),
 })

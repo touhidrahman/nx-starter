@@ -1,66 +1,32 @@
 import { zValidator } from '@hono/zod-validator'
-import { and, count, eq, getTableColumns } from 'drizzle-orm'
-import { Context, Hono, Next } from 'hono'
-import { jwt } from 'hono/jwt'
-import { toInt } from 'radash'
-import { db } from '../../core/db/db'
-import {
-    groupsTable,
-    permissionsTable,
-    authUsersTable,
-    usersTable,
-} from '../../core/db/schema'
-import { zInsertGroup, zUpdateGroup } from './group.schema'
+import { Hono } from 'hono'
 import { z } from 'zod'
 import {
     isGroupOwner,
     isGroupParticipant,
 } from '../../core/middlewares/is-group-owner.middleware'
+import { checkToken } from '../auth/auth.middleware'
+import { findAuthUserByEmail } from '../auth/auth.service'
+import { ROLE_MEMBER } from '../user/user.schema'
+import {
+    createUser,
+    deleteUser,
+    findUserByUserIdAndGroupId,
+    updateUser,
+    userExists,
+} from '../user/user.service'
+import { zInsertGroup, zUpdateGroup } from './group.schema'
 import {
     createGroup,
     deleteGroup,
     findGroupById,
     findGroupsByAuthUserId,
     isOwner,
+    isParticipant,
     updateGroup,
 } from './group.service'
-import {
-    findUserByUserIdAndGroupId,
-    updateUser,
-    userExists,
-} from '../user/user.service'
-import { checkToken } from '../auth/auth.middleware'
 
 const app = new Hono()
-
-function hasPermission(area: string, requiredLevel: 1 | 2 | 3 | 4) {
-    return async (ctx: Context, next: Next) => {
-        const payload = await ctx.get('jwtPayload')
-        if (!payload) return ctx.json({ error: 'Unauthorized' }, 403)
-
-        // check in permissions table
-        const record = await db
-            .select()
-            .from(permissionsTable)
-            .where(
-                and(
-                    eq(permissionsTable.role, payload?.role),
-                    eq(permissionsTable.area, area),
-                ),
-            )
-            .limit(1)
-
-        if (record.length === 0) {
-            return ctx.json({ error: 'Unauthorized' }, 403)
-        }
-
-        if (record[0].access < requiredLevel) {
-            return ctx.json({ error: 'Unauthorized' }, 403)
-        }
-
-        return next()
-    }
-}
 
 // Get my Groups
 app.get('/', checkToken, async (c) => {
@@ -138,6 +104,44 @@ app.delete('/:id', checkToken, isGroupOwner, async (c) => {
     return c.json({ data: result, message: 'Group deleted' })
 })
 
+// add auth user to group by email
+app.post(
+    '/:id/add-user',
+    zValidator('json', z.object({ email: z.string() })),
+    checkToken,
+    isGroupOwner,
+    async (c) => {
+        const id = c.req.param('id')
+        const { email } = c.req.valid('json')
+
+        try {
+            const authUser = await findAuthUserByEmail(email.toLowerCase())
+
+            if (!authUser) {
+                return c.json({ error: 'User not found' }, 404)
+            }
+
+            const exists = await isParticipant(authUser.id, id)
+            if (exists) {
+                return c.json({ error: 'User already belongs to group' }, 400)
+            }
+
+            const result = await createUser({
+                authUserId: authUser.id,
+                groupId: id,
+                role: ROLE_MEMBER,
+                firstName: authUser.firstName,
+                lastName: authUser.lastName,
+                email: authUser.email,
+            })
+
+            return c.json({ data: result, message: 'User added to group' }, 201)
+        } catch (error) {
+            return c.json({ error: 'Error adding user to group' }, 500)
+        }
+    },
+)
+
 app.post(
     '/:id/update-user-role',
     zValidator('json', z.object({ userId: z.string(), role: z.string() })),
@@ -165,5 +169,45 @@ app.post(
         }
     },
 )
+
+// Remove user from group
+app.delete('/:id/remove-user/:userId', checkToken, isGroupOwner, async (c) => {
+    const id = c.req.param('id')
+    const userId = c.req.param('userId')
+
+    const user = await findUserByUserIdAndGroupId(userId, id)
+    if (!user) {
+        return c.json({ error: 'User does not belong to group' }, 400)
+    }
+
+    const result = await deleteUser(user.id)
+    // update auth user group if set
+    // const authUser = await findAuthUserByUserId(user.id)
+    // if (authUser?.defaultGroupId === id) {
+    //     await setDefaultGroupId(authUser.id, null)
+    // }
+
+    return c.json({ data: result, message: 'User removed from group' }, 201)
+})
+
+// leave group
+app.delete('/:id/leave', checkToken, isGroupParticipant, async (c) => {
+    const id = c.req.param('id')
+    const { userId } = await c.get('jwtPayload')
+
+    const user = await findUserByUserIdAndGroupId(userId, id)
+    if (!user) {
+        return c.json({ error: 'User does not belong to group' }, 400)
+    }
+
+    const result = await deleteUser(user.id)
+    // update auth user group if set
+    // const authUser = await findAuthUserByUserId(user.id)
+    // if (authUser?.defaultGroupId === id) {
+    //     await setDefaultGroupId(authUser.id, null)
+    // }
+
+    return c.json({ data: result, message: 'User removed from group' }, 201)
+})
 
 export default app

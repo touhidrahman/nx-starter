@@ -19,7 +19,7 @@ app.get('', authMiddleware, async (c) => {
 
 // GET /courts/:id - find one
 app.get('/:id', authMiddleware, async (c) => {
-    const id = parseInt(c.req.param('id'), 10)
+    const id = c.req.param('id')
     const court = await db
         .select({ ...getTableColumns(courtsTable) })
         .from(courtsTable)
@@ -48,7 +48,7 @@ app.patch(
     zValidator('json', zUpdateCourt),
     authMiddleware,
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
         const body = c.req.valid('json')
 
         const updatedCourt = await db
@@ -63,7 +63,7 @@ app.patch(
 
 // DELETE /courts/:id - delete
 app.delete('/:id', authMiddleware, async (c) => {
-    const id = parseInt(c.req.param('id'), 10)
+    const id = c.req.param('id')
 
     await db.delete(courtsTable).where(eq(courtsTable.id, id))
 

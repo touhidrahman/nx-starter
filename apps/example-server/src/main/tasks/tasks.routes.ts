@@ -1,7 +1,6 @@
 import { zValidator } from '@hono/zod-validator'
 import { and, eq, getTableColumns } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { toInt } from 'radash'
 import { z } from 'zod'
 import { db } from '../../core/db/db'
 import { tasksTable } from '../../core/db/schema'
@@ -16,7 +15,7 @@ app.get('', authMiddleware, async (c) => {
     const payload = await c.get('jwtPayload')
 
     try {
-        const groupId = toInt(payload.groupId)
+        const groupId = payload.groupId
         const tasks = await db
             .select({ ...getTableColumns(tasksTable) })
             .from(tasksTable)
@@ -39,7 +38,7 @@ app.get(
     zValidator('param', z.object({ id: z.coerce.number() })),
     checkTaskOwnershipMiddleware(tasksTable, 'Task'),
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
         const task = await db
             .select({ ...getTableColumns(tasksTable) })
             .from(tasksTable)
@@ -71,7 +70,7 @@ app.patch(
     authMiddleware,
     checkTaskOwnershipMiddleware(tasksTable, 'Task'),
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
         const body = c.req.valid('json')
         const payload = await c.get('jwtPayload')
 
@@ -97,7 +96,7 @@ app.delete(
     authMiddleware,
     checkTaskOwnershipMiddleware(tasksTable, 'Task'),
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
 
         await db.delete(tasksTable).where(eq(tasksTable.id, id))
 

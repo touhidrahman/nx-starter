@@ -26,6 +26,17 @@ export async function findAuthUserById(id: string) {
     return results?.[0] ?? null
 }
 
+export async function findAuthUserByUserId(userId: string) {
+    const results = await db
+        .select()
+        .from(authUsersTable)
+        .innerJoin(usersTable, eq(authUsersTable.id, usersTable.authUserId))
+        .where(eq(usersTable.id, userId))
+        .limit(1)
+
+    return results?.[0] ?? null
+}
+
 export async function findAuthUserByEmail(email: string) {
     const results = await db
         .select()
@@ -43,4 +54,14 @@ export async function countAuthUserByEmail(email: string) {
         .where(eq(authUsersTable.email, email))
 
     return userCount?.[0]?.value ?? 0
+}
+
+export async function setDefaultGroupId(
+    authUserId: string,
+    groupId: string | null,
+) {
+    await db
+        .update(authUsersTable)
+        .set({ defaultGroupId: groupId })
+        .where(eq(authUsersTable.id, authUserId))
 }

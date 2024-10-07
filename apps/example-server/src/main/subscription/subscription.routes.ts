@@ -1,17 +1,13 @@
 import { zValidator } from '@hono/zod-validator'
 import { and, eq, getTableColumns } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { toInt } from 'radash'
 import { z } from 'zod'
 import { db } from '../../core/db/db'
 import { subscriptionsTable } from '../../core/db/schema'
 import { authMiddleware } from '../../core/middlewares/auth.middleware'
 import checkSubscriptionOwnershipMiddleware from '../../core/middlewares/check-ownership.middleware'
-import {
-    zDeleteSubscription,
-    zInsertSubscription,
-    zUpdateSubscription,
-} from './subscription.schema'
+import { zId, zIds } from '../../core/models/common.schema'
+import { zInsertSubscription, zUpdateSubscription } from './subscription.schema'
 
 const app = new Hono()
 
@@ -20,7 +16,7 @@ app.get('', authMiddleware, async (c) => {
     const payload = await c.get('jwtPayload')
 
     try {
-        const groupId = toInt(payload.groupId)
+        const groupId = payload.groupId
         const subscriptions = await db
             .select({ ...getTableColumns(subscriptionsTable) })
             .from(subscriptionsTable)
@@ -43,7 +39,7 @@ app.get(
     zValidator('param', z.object({ id: z.coerce.number() })),
     checkSubscriptionOwnershipMiddleware(subscriptionsTable, 'Subscription'),
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
         const subscription = await db
             .select({ ...getTableColumns(subscriptionsTable) })
             .from(subscriptionsTable)
@@ -86,7 +82,7 @@ app.patch(
     authMiddleware,
     checkSubscriptionOwnershipMiddleware(subscriptionsTable, 'Subscription'),
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
         const body = c.req.valid('json')
         const payload = await c.get('jwtPayload')
 
@@ -111,11 +107,11 @@ app.patch(
 // DELETE /subscriptions/:id - delete
 app.delete(
     '/:id',
-    zValidator('param', z.object({ id: z.coerce.number() })),
+    zValidator('param', zId),
     authMiddleware,
     checkSubscriptionOwnershipMiddleware(subscriptionsTable, 'Subscription'),
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
 
         await db.delete(subscriptionsTable).where(eq(subscriptionsTable.id, id))
 
@@ -124,34 +120,29 @@ app.delete(
 )
 
 // DELETE /subscriptions - delete many
-app.delete(
-    '',
-    zValidator('json', zDeleteSubscription),
-    authMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
-        const payload = await c.get('jwtPayload')
+app.delete('', zValidator('json', zIds), authMiddleware, async (c) => {
+    const body = c.req.valid('json')
+    const payload = await c.get('jwtPayload')
 
-        try {
-            for (const subscriptionId of body.subscriptionIds) {
-                await db
-                    .delete(subscriptionsTable)
-                    .where(
-                        and(
-                            eq(subscriptionsTable.id, subscriptionId),
-                            eq(subscriptionsTable.groupId, payload.groupId),
-                        ),
-                    )
-            }
-        } catch (error: any) {
-            return c.json(
-                { error: 'Internal server error', message: error.message },
-                500,
-            )
+    try {
+        for (const subscriptionId of body.ids) {
+            await db
+                .delete(subscriptionsTable)
+                .where(
+                    and(
+                        eq(subscriptionsTable.id, subscriptionId),
+                        eq(subscriptionsTable.groupId, payload.groupId),
+                    ),
+                )
         }
+    } catch (error: any) {
+        return c.json(
+            { error: 'Internal server error', message: error.message },
+            500,
+        )
+    }
 
-        return c.json({ message: 'Subscriptions deleted' })
-    },
-)
+    return c.json({ message: 'Subscriptions deleted' })
+})
 
 export default app

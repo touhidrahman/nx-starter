@@ -24,7 +24,7 @@ app.get('', authMiddleware, async (c) => {
 
 // GET /documentSharing/:id - find one
 app.get('/:id', authMiddleware, async (c) => {
-    const id = parseInt(c.req.param('id'), 10)
+    const id = c.req.param('id')
     const documentSharing = await db
         .select({ ...getTableColumns(documentSharingTable) })
         .from(documentSharingTable)
@@ -67,7 +67,7 @@ app.patch(
     zValidator('json', zUpdateDocumentSharing),
     authMiddleware,
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
         const body = c.req.valid('json')
 
         const updatedDocumentSharing = await db
@@ -85,7 +85,7 @@ app.patch(
 
 // DELETE /documentSharing/:id - delete
 app.delete('/:id', authMiddleware, async (c) => {
-    const id = parseInt(c.req.param('id'), 10)
+    const id = c.req.param('id')
 
     await db.delete(documentSharingTable).where(eq(documentSharingTable.id, id))
 

@@ -48,15 +48,13 @@ app.delete(
         const body = c.req.valid('json')
 
         for (const permission of body.permissions) {
-            await db
-                .delete(permissionsTable)
-                .where(
-                    and(
-                        eq(permissionsTable.groupId, permission.groupId),
-                        eq(permissionsTable.roleId, permission.roleId),
-                        eq(permissionsTable.area, permission.area),
-                    ),
-                )
+            await db.delete(permissionsTable).where(
+                and(
+                    eq(permissionsTable.groupId, permission.groupId),
+                    eq(permissionsTable.role as any, permission.role), // TODO: remove any
+                    eq(permissionsTable.area, permission.area),
+                ),
+            )
         }
 
         return c.json({ message: 'Permissions deleted' })

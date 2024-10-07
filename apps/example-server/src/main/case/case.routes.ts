@@ -39,7 +39,7 @@ app.get(
     zValidator('param', z.object({ id: z.coerce.number() })),
     checkCaseOwnershipMiddleware(casesTable, 'Case'),
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
         const caseItem = await db
             .select({ ...getTableColumns(casesTable) })
             .from(casesTable)
@@ -71,7 +71,7 @@ app.patch(
     authMiddleware,
     checkCaseOwnershipMiddleware(casesTable, 'Case'),
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
         const body = c.req.valid('json')
         const payload = await c.get('jwtPayload')
 
@@ -97,7 +97,7 @@ app.delete(
     authMiddleware,
     checkCaseOwnershipMiddleware(casesTable, 'Case'),
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
 
         await db.delete(casesTable).where(eq(casesTable.id, id))
 

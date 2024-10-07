@@ -10,7 +10,3 @@ export const zInsertStorage = createInsertSchema(storageTable, {})
 export const zSelectStorage = createSelectSchema(storageTable)
 
 export const zUpdateStorage = zInsertStorage.partial() // Allow partial updates
-
-export const zDeleteStorage = z.object({
-    storageIds: z.array(z.number()).min(1),
-})
