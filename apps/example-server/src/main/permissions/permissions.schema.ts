@@ -15,7 +15,7 @@ export const zSelectPermission = createSelectSchema(permissionsTable)
 
 export const zUpdatePermission = zInsertPermission.omit({
     groupId: true,
-    roleId: true,
+    role: true,
     area: true,
 })
 
@@ -23,8 +23,8 @@ export const zDeletePermission = z.object({
     permissions: z
         .array(
             z.object({
-                groupId: z.number(),
-                roleId: z.number(),
+                groupId: z.string(),
+                role: z.string(),
                 area: z.string(),
             }),
         )

@@ -18,5 +18,5 @@ export const zUpdateTask = zInsertTask.omit({
 })
 
 export const zDeleteTask = z.object({
-    taskIds: z.array(z.number()).min(1),
+    taskIds: z.array(z.string()).min(1),
 })

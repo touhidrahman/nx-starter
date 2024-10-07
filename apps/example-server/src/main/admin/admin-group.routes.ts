@@ -1,48 +1,53 @@
 import { zValidator } from '@hono/zod-validator'
 import { eq, getTableColumns, inArray } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { jwt } from 'hono/jwt'
 import { toInt } from 'radash'
 import { db } from '../../core/db/db'
 import { groupsTable } from '../../core/db/schema'
 import { isAdmin } from '../../core/middlewares/is-admin.middleware'
 import { zIds } from '../../core/models/common.schema'
+import { checkToken } from '../auth/auth.middleware'
+import {
+    deleteGroup,
+    deleteManyGroups,
+    findGroupById,
+    updateGroup,
+    verifyGroup,
+} from '../group/group.service'
+import { zUpdateGroup } from '../group/group.schema'
 
 const app = new Hono()
 
-const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
-
-app.get('/', jwt({ secret }), isAdmin, async (c) => {
-    const user = c.get('jwtPayload')
-    const result = await db.select().from(groupsTable).limit(10).offset(0)
+app.get('/', checkToken, isAdmin, async (c) => {
+    const { page, size } = c.req.query()
+    const offset = (toInt(page, 1) - 1) * toInt(size)
+    const limit = toInt(size, 10)
+    const result = await db
+        .select()
+        .from(groupsTable)
+        .limit(limit)
+        .offset(offset)
 
     return c.json({ data: result, message: 'Groups list' })
 })
 
 // Get a Group by ID
-app.get('/:id', jwt({ secret }), isAdmin, async (c) => {
-    const id = toInt(c.req.param('id'))
+app.get('/:id', checkToken, isAdmin, async (c) => {
+    const id = c.req.param('id')
 
-    const result = await db
-        .select({ ...getTableColumns(groupsTable) })
-        .from(groupsTable)
-        .where(eq(groupsTable.id, id))
-        .limit(1)
+    const result = await findGroupById(id)
 
-    if (result.length === 0) {
+    if (!result) {
         return c.json({ error: 'Group not found' }, 404)
     }
 
-    return c.json({ data: result[0], message: 'Group details' })
+    return c.json({ data: result, message: 'Group details' })
 })
 
 // Mark a vendor as verified
-app.put('/:id/verify', jwt({ secret }), isAdmin, async (c) => {
-    const id = toInt(c.req.param('id'))
-    const result = await db
-        .update(groupsTable)
-        .set({ verified: true, verifiedOn: new Date() })
-        .where(eq(groupsTable.id, id))
+app.put('/:id/verify', checkToken, isAdmin, async (c) => {
+    const id = c.req.param('id')
+    const result = await verifyGroup(id)
 
     return c.json({ data: result, message: 'Group verified' })
 })
@@ -50,15 +55,39 @@ app.put('/:id/verify', jwt({ secret }), isAdmin, async (c) => {
 // Delete many Groups
 app.delete('/', zValidator('json', zIds), async (c) => {
     const { ids } = await c.req.json()
-    const result = await db
-        .delete(groupsTable)
-        .where(inArray(groupsTable.id, ids))
-        .returning()
+    const result = await deleteManyGroups(ids)
 
     return c.json({
         message: 'Groups with given IDs deleted',
         count: result.length,
     })
 })
+
+// delete one group
+app.delete('/:id', checkToken, isAdmin, async (c) => {
+    const id = c.req.param('id')
+    const result = await deleteGroup(id)
+
+    return c.json({ message: 'Group deleted', data: result })
+})
+
+// update group
+app.put(
+    '/:id',
+    checkToken,
+    isAdmin,
+    zValidator('json', zUpdateGroup),
+    async (c) => {
+        const id = c.req.param('id')
+        const body = c.req.valid('json')
+        const result = await updateGroup(id, body)
+
+        if (result.length === 0) {
+            return c.json({ error: 'Group not found' }, 404)
+        }
+
+        return c.json({ data: result[0], message: 'Group updated' })
+    },
+)
 
 export default app

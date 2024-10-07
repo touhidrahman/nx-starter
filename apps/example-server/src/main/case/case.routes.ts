@@ -1,13 +1,12 @@
 import { zValidator } from '@hono/zod-validator'
 import { and, eq, getTableColumns } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { toInt } from 'radash'
-import { z } from 'zod'
 import { db } from '../../core/db/db'
 import { casesTable } from '../../core/db/schema'
 import { authMiddleware } from '../../core/middlewares/auth.middleware'
 import checkCaseOwnershipMiddleware from '../../core/middlewares/check-ownership.middleware'
-import { zDeleteCase, zInsertCase, zUpdateCase } from './case.schema'
+import { zId, zIds } from '../../core/models/common.schema'
+import { zInsertCase, zUpdateCase } from './case.schema'
 
 const app = new Hono()
 
@@ -16,7 +15,7 @@ app.get('', authMiddleware, async (c) => {
     const payload = await c.get('jwtPayload')
 
     try {
-        const groupId = toInt(payload.groupId)
+        const groupId = payload.groupId
         const cases = await db
             .select({ ...getTableColumns(casesTable) })
             .from(casesTable)
@@ -36,10 +35,10 @@ app.get('', authMiddleware, async (c) => {
 app.get(
     '/:id',
     authMiddleware,
-    zValidator('param', z.object({ id: z.coerce.number() })),
+    zValidator('param', zId),
     checkCaseOwnershipMiddleware(casesTable, 'Case'),
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
         const caseItem = await db
             .select({ ...getTableColumns(casesTable) })
             .from(casesTable)
@@ -66,12 +65,12 @@ app.post('', zValidator('json', zInsertCase), authMiddleware, async (c) => {
 // PATCH /:id - update
 app.patch(
     '/:id',
-    zValidator('param', z.object({ id: z.coerce.number() })),
+    zValidator('param', zId),
     zValidator('json', zUpdateCase),
     authMiddleware,
     checkCaseOwnershipMiddleware(casesTable, 'Case'),
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
         const body = c.req.valid('json')
         const payload = await c.get('jwtPayload')
 
@@ -93,11 +92,11 @@ app.patch(
 // DELETE /:id - delete
 app.delete(
     '/:id',
-    zValidator('param', z.object({ id: z.coerce.number() })),
+    zValidator('param', zId),
     authMiddleware,
     checkCaseOwnershipMiddleware(casesTable, 'Case'),
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
 
         await db.delete(casesTable).where(eq(casesTable.id, id))
 
@@ -106,12 +105,12 @@ app.delete(
 )
 
 // DELETE  - delete many
-app.delete('', zValidator('json', zDeleteCase), authMiddleware, async (c) => {
+app.delete('', zValidator('json', zIds), authMiddleware, async (c) => {
     const body = c.req.valid('json')
     const payload = await c.get('jwtPayload')
 
     try {
-        for (const caseId of body.caseIds) {
+        for (const caseId of body.ids) {
             await db
                 .delete(casesTable)
                 .where(

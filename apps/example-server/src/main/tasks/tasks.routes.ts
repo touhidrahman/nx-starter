@@ -1,13 +1,13 @@
 import { zValidator } from '@hono/zod-validator'
 import { and, eq, getTableColumns } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { toInt } from 'radash'
 import { z } from 'zod'
 import { db } from '../../core/db/db'
 import { tasksTable } from '../../core/db/schema'
 import { authMiddleware } from '../../core/middlewares/auth.middleware'
 import checkTaskOwnershipMiddleware from '../../core/middlewares/check-ownership.middleware'
 import { zDeleteTask, zInsertTask, zUpdateTask } from './tasks.schema'
+import { zId } from '../../core/models/common.schema'
 
 const app = new Hono()
 
@@ -16,7 +16,7 @@ app.get('', authMiddleware, async (c) => {
     const payload = await c.get('jwtPayload')
 
     try {
-        const groupId = toInt(payload.groupId)
+        const groupId = payload.groupId
         const tasks = await db
             .select({ ...getTableColumns(tasksTable) })
             .from(tasksTable)
@@ -36,10 +36,10 @@ app.get('', authMiddleware, async (c) => {
 app.get(
     '/:id',
     authMiddleware,
-    zValidator('param', z.object({ id: z.coerce.number() })),
+    zValidator('param', zId),
     checkTaskOwnershipMiddleware(tasksTable, 'Task'),
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
         const task = await db
             .select({ ...getTableColumns(tasksTable) })
             .from(tasksTable)
@@ -66,12 +66,12 @@ app.post('', zValidator('json', zInsertTask), authMiddleware, async (c) => {
 // PATCH /tasks/:id - update
 app.patch(
     '/:id',
-    zValidator('param', z.object({ id: z.coerce.number() })),
+    zValidator('param', zId),
     zValidator('json', zUpdateTask),
     authMiddleware,
     checkTaskOwnershipMiddleware(tasksTable, 'Task'),
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
         const body = c.req.valid('json')
         const payload = await c.get('jwtPayload')
 
@@ -93,11 +93,11 @@ app.patch(
 // DELETE /tasks/:id - delete
 app.delete(
     '/:id',
-    zValidator('param', z.object({ id: z.coerce.number() })),
+    zValidator('param', zId),
     authMiddleware,
     checkTaskOwnershipMiddleware(tasksTable, 'Task'),
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
 
         await db.delete(tasksTable).where(eq(tasksTable.id, id))
 

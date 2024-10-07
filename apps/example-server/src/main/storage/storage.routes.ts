@@ -4,11 +4,8 @@ import { Hono } from 'hono'
 import { jwt } from 'hono/jwt'
 import { db } from '../../core/db/db'
 import { storageTable } from '../../core/db/schema'
-import {
-    zDeleteStorage,
-    zInsertStorage,
-    zUpdateStorage,
-} from './storage.schema'
+import { zIds } from '../../core/models/common.schema'
+import { zInsertStorage, zUpdateStorage } from './storage.schema'
 
 const app = new Hono()
 
@@ -28,7 +25,7 @@ app.get('', authMiddleware, async (c) => {
 
 // GET /storage/:id - find one
 app.get('/:id', authMiddleware, async (c) => {
-    const id = parseInt(c.req.param('id'), 10)
+    const id = c.req.param('id')
     const storage = await db
         .select({ ...getTableColumns(storageTable) })
         .from(storageTable)
@@ -57,7 +54,7 @@ app.patch(
     zValidator('json', zUpdateStorage),
     authMiddleware,
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
         const body = c.req.valid('json')
 
         const updatedStorage = await db
@@ -72,7 +69,7 @@ app.patch(
 
 // DELETE /storage/:id - delete
 app.delete('/:id', authMiddleware, async (c) => {
-    const id = parseInt(c.req.param('id'), 10)
+    const id = c.req.param('id')
 
     await db.delete(storageTable).where(eq(storageTable.id, id))
 
@@ -80,19 +77,14 @@ app.delete('/:id', authMiddleware, async (c) => {
 })
 
 // DELETE /storage - delete many
-app.delete(
-    '',
-    zValidator('json', zDeleteStorage),
-    authMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
+app.delete('', zValidator('json', zIds), authMiddleware, async (c) => {
+    const body = c.req.valid('json')
 
-        for (const storageId of body.storageIds) {
-            await db.delete(storageTable).where(eq(storageTable.id, storageId))
-        }
+    for (const storageId of body.ids) {
+        await db.delete(storageTable).where(eq(storageTable.id, storageId))
+    }
 
-        return c.json({ message: 'Storage entries deleted' })
-    },
-)
+    return c.json({ message: 'Storage entries deleted' })
+})
 
 export default app

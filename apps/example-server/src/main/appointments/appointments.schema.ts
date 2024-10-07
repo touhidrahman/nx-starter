@@ -10,7 +10,3 @@ export const zInsertAppointment = createInsertSchema(appointmentsTable)
 export const zSelectAppointment = createSelectSchema(appointmentsTable)
 
 export const zUpdateAppointment = zInsertAppointment.partial() // Allow partial updates
-
-export const zDeleteAppointment = z.object({
-    appointmentIds: z.array(z.number()).min(1),
-})

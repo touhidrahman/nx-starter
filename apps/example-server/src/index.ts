@@ -20,9 +20,7 @@ import documentsRoutes from './main/documents/documents.routes'
 import eventsRoutes from './main/events/events.routes'
 import groupRoutes from './main/group/group.routes'
 import messagesRoutes from './main/messages/messages.routes'
-import passwordRoutes from './main/password/password.routes'
 import permissionsRoutes from './main/permissions/permissions.routes'
-import profileRoutes from './main/profile/profile.routes'
 import storageRoutes from './main/storage/storage.routes'
 import subscriptionRoutes from './main/subscription/subscription.routes'
 import tasksRoutes from './main/tasks/tasks.routes'
@@ -61,8 +59,6 @@ app.route('document-sharing', documentsSharingRoutes)
 app.route('events', eventsRoutes)
 app.route('groups', groupRoutes)
 app.route('messages', messagesRoutes)
-app.route('password', passwordRoutes)
-app.route('profile', profileRoutes)
 app.route('permissions', permissionsRoutes)
 app.route('storage', storageRoutes)
 app.route('subscriptions', subscriptionRoutes)

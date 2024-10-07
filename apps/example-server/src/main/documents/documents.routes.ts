@@ -7,11 +7,8 @@ import { db } from '../../core/db/db'
 import { documentsTable } from '../../core/db/schema'
 import { authMiddleware } from '../../core/middlewares/auth.middleware'
 import checkDocumentOwnershipMiddleware from '../../core/middlewares/check-ownership.middleware'
-import {
-    zDeleteDocument,
-    zInsertDocument,
-    zUpdateDocument,
-} from './documents.schema'
+import { zInsertDocument, zUpdateDocument } from './documents.schema'
+import { zId, zIds } from '../../core/models/common.schema'
 
 const app = new Hono()
 
@@ -20,7 +17,7 @@ app.get('', authMiddleware, async (c) => {
     const payload = await c.get('jwtPayload')
 
     try {
-        const groupId = toInt(payload.groupId)
+        const groupId = payload.groupId
         const documents = await db
             .select({ ...getTableColumns(documentsTable) })
             .from(documentsTable)
@@ -40,10 +37,10 @@ app.get('', authMiddleware, async (c) => {
 app.get(
     '/:id',
     authMiddleware,
-    zValidator('param', z.object({ id: z.coerce.number() })),
+    zValidator('param', zId),
     checkDocumentOwnershipMiddleware(documentsTable, 'Document'),
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
         const document = await db
             .select({ ...getTableColumns(documentsTable) })
             .from(documentsTable)
@@ -70,12 +67,12 @@ app.post('', zValidator('json', zInsertDocument), authMiddleware, async (c) => {
 // PATCH /documents/:id - update
 app.patch(
     '/:id',
-    zValidator('param', z.object({ id: z.coerce.number() })),
+    zValidator('param', zId),
     zValidator('json', zUpdateDocument),
     authMiddleware,
     checkDocumentOwnershipMiddleware(documentsTable, 'Document'),
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
         const body = c.req.valid('json')
         const payload = await c.get('jwtPayload')
 
@@ -97,11 +94,11 @@ app.patch(
 // DELETE /documents/:id - delete
 app.delete(
     '/:id',
-    zValidator('param', z.object({ id: z.coerce.number() })),
+    zValidator('param', zId),
     authMiddleware,
     checkDocumentOwnershipMiddleware(documentsTable, 'Document'),
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
 
         await db.delete(documentsTable).where(eq(documentsTable.id, id))
 
@@ -110,34 +107,29 @@ app.delete(
 )
 
 // DELETE /documents - delete many
-app.delete(
-    '',
-    zValidator('json', zDeleteDocument),
-    authMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
-        const payload = await c.get('jwtPayload')
+app.delete('', zValidator('json', zIds), authMiddleware, async (c) => {
+    const body = c.req.valid('json')
+    const payload = await c.get('jwtPayload')
 
-        try {
-            for (const documentId of body.documentIds) {
-                await db
-                    .delete(documentsTable)
-                    .where(
-                        and(
-                            eq(documentsTable.id, documentId),
-                            eq(documentsTable.groupId, payload.groupId),
-                        ),
-                    )
-            }
-
-            return c.json({ message: 'Documents deleted' })
-        } catch (error: any) {
-            return c.json(
-                { error: 'Internal server error', message: error.message },
-                500,
-            )
+    try {
+        for (const documentId of body.ids) {
+            await db
+                .delete(documentsTable)
+                .where(
+                    and(
+                        eq(documentsTable.id, documentId),
+                        eq(documentsTable.groupId, payload.groupId),
+                    ),
+                )
         }
-    },
-)
+
+        return c.json({ message: 'Documents deleted' })
+    } catch (error: any) {
+        return c.json(
+            { error: 'Internal server error', message: error.message },
+            500,
+        )
+    }
+})
 
 export default app

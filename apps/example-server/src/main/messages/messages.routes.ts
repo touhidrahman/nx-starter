@@ -4,11 +4,8 @@ import { Hono } from 'hono'
 import { jwt } from 'hono/jwt'
 import { db } from '../../core/db/db'
 import { messagesTable } from '../../core/db/schema'
-import {
-    zDeleteMessage,
-    zInsertMessage,
-    zUpdateMessage,
-} from './messages.schema'
+import { zIds } from '../../core/models/common.schema'
+import { zInsertMessage, zUpdateMessage } from './messages.schema'
 
 const app = new Hono()
 
@@ -28,7 +25,7 @@ app.get('', authMiddleware, async (c) => {
 
 // GET /messages/:id - find one
 app.get('/:id', authMiddleware, async (c) => {
-    const id = parseInt(c.req.param('id'), 10)
+    const id = c.req.param('id')
     const message = await db
         .select({ ...getTableColumns(messagesTable) })
         .from(messagesTable)
@@ -57,7 +54,7 @@ app.patch(
     zValidator('json', zUpdateMessage),
     authMiddleware,
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
         const body = c.req.valid('json')
 
         const updatedMessage = await db
@@ -72,7 +69,7 @@ app.patch(
 
 // DELETE /messages/:id - delete
 app.delete('/:id', authMiddleware, async (c) => {
-    const id = parseInt(c.req.param('id'), 10)
+    const id = c.req.param('id')
 
     await db.delete(messagesTable).where(eq(messagesTable.id, id))
 
@@ -80,21 +77,14 @@ app.delete('/:id', authMiddleware, async (c) => {
 })
 
 // DELETE /messages - delete many
-app.delete(
-    '',
-    zValidator('json', zDeleteMessage),
-    authMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
+app.delete('', zValidator('json', zIds), authMiddleware, async (c) => {
+    const body = c.req.valid('json')
 
-        for (const messageId of body.messageIds) {
-            await db
-                .delete(messagesTable)
-                .where(eq(messagesTable.id, messageId))
-        }
+    for (const messageId of body.ids) {
+        await db.delete(messagesTable).where(eq(messagesTable.id, messageId))
+    }
 
-        return c.json({ message: 'Messages deleted' })
-    },
-)
+    return c.json({ message: 'Messages deleted' })
+})
 
 export default app

@@ -1,17 +1,40 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
-import { usersTable } from '../../core/db/schema'
+import {
+    userLevelEnum,
+    userRoleEnum,
+    usersTable,
+    userStatusEnum,
+} from '../../core/db/schema'
+import { z } from 'zod'
 
-export type InsertUser = typeof usersTable.$inferInsert
-export type SelectUser = typeof usersTable.$inferSelect
+export type UserDto = typeof usersTable.$inferInsert
+export type User = typeof usersTable.$inferSelect
 
-export const zInsertUser = createInsertSchema(usersTable, {
-    email: (schema) => schema.email.email(),
-})
+export const zInsertUser = createInsertSchema(usersTable)
 export const zSelectUser = createSelectSchema(usersTable)
-export const zUpdateUser = zInsertUser.omit({
-    email: true,
-    password: true,
-    id: true,
-    type: true,
-    verified: true,
-})
+export const zUpdateUser = createInsertSchema(usersTable).partial()
+export const zSearchUser = zInsertUser
+    .pick({
+        id: true,
+        email: true,
+        firstName: true,
+        lastName: true,
+        groupId: true,
+        authUserId: true,
+        city: true,
+        country: true,
+        postCode: true,
+        role: true,
+    })
+    .extend({
+        page: z.number().int().positive().optional(),
+        size: z.number().int().positive().optional(),
+    })
+    .partial()
+    .optional()
+
+export const [ROLE_OWNER, ROLE_MANAGER, ROLE_MEMBER] = userRoleEnum.enumValues
+export const [LEVEL_USER, LEVEL_MODERATOR, LEVEL_ADMIN] =
+    userLevelEnum.enumValues
+export const [USER_STATUS_ACTIVE, USER_STATUS_INACTIVE, USER_STATUS_BANNED] =
+    userStatusEnum.enumValues

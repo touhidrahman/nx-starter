@@ -9,9 +9,6 @@ import {
     zUpdateApplicationArea,
 } from './application-areas.schema'
 
-@Injectable({
-    providedIn: 'root',
-})
 export class ApplicationAreasService {
     // List all application areas
     async listAllApplicationAreas(): Promise<SelectApplicationArea[]> {
@@ -22,7 +19,7 @@ export class ApplicationAreasService {
 
     // Find one application area by ID
     async findApplicationAreaById(
-        id: number,
+        id: string,
     ): Promise<SelectApplicationArea | null> {
         const applicationAreas = await db
             .select({ ...getTableColumns(applicationAreasTable) })
@@ -53,7 +50,7 @@ export class ApplicationAreasService {
 
     // Update an application area
     async updateApplicationArea(
-        id: number,
+        id: string,
         data: Partial<InsertApplicationArea>,
     ): Promise<SelectApplicationArea | null> {
         const parsedData = zUpdateApplicationArea.parse(data)
@@ -68,7 +65,7 @@ export class ApplicationAreasService {
     }
 
     // Delete an application area
-    async deleteApplicationArea(id: number): Promise<void> {
+    async deleteApplicationArea(id: string): Promise<void> {
         await db
             .delete(applicationAreasTable)
             .where(eq(applicationAreasTable.id, id))

@@ -10,7 +10,3 @@ export const zInsertDocument = createInsertSchema(documentsTable)
 export const zSelectDocument = createSelectSchema(documentsTable)
 
 export const zUpdateDocument = zInsertDocument.partial() // Allow partial updates
-
-export const zDeleteDocument = z.object({
-    documentIds: z.array(z.number()).min(1),
-})

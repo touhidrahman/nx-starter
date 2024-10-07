@@ -4,7 +4,8 @@ import { Hono } from 'hono'
 import { db } from '../../core/db/db'
 import { courtsTable } from '../../core/db/schema'
 import { authMiddleware } from '../../core/middlewares/auth.middleware'
-import { zDeleteCourt, zInsertCourt, zUpdateCourt } from './courts.schema'
+import { zInsertCourt, zUpdateCourt } from './courts.schema'
+import { zIds } from '../../core/models/common.schema'
 
 const app = new Hono()
 
@@ -19,7 +20,7 @@ app.get('', authMiddleware, async (c) => {
 
 // GET /courts/:id - find one
 app.get('/:id', authMiddleware, async (c) => {
-    const id = parseInt(c.req.param('id'), 10)
+    const id = c.req.param('id')
     const court = await db
         .select({ ...getTableColumns(courtsTable) })
         .from(courtsTable)
@@ -48,7 +49,7 @@ app.patch(
     zValidator('json', zUpdateCourt),
     authMiddleware,
     async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
+        const id = c.req.param('id')
         const body = c.req.valid('json')
 
         const updatedCourt = await db
@@ -63,7 +64,7 @@ app.patch(
 
 // DELETE /courts/:id - delete
 app.delete('/:id', authMiddleware, async (c) => {
-    const id = parseInt(c.req.param('id'), 10)
+    const id = c.req.param('id')
 
     await db.delete(courtsTable).where(eq(courtsTable.id, id))
 
@@ -71,10 +72,10 @@ app.delete('/:id', authMiddleware, async (c) => {
 })
 
 // DELETE /courts - delete many
-app.delete('', zValidator('json', zDeleteCourt), authMiddleware, async (c) => {
+app.delete('', zValidator('json', zIds), authMiddleware, async (c) => {
     const body = c.req.valid('json')
 
-    for (const courtId of body.courtIds) {
+    for (const courtId of body.ids) {
         await db.delete(courtsTable).where(eq(courtsTable.id, courtId))
     }
 

@@ -12,7 +12,3 @@ export const zInsertSubscription = createInsertSchema(subscriptionsTable, {
 export const zSelectSubscription = createSelectSchema(subscriptionsTable)
 
 export const zUpdateSubscription = zInsertSubscription.partial() // Allow partial updates
-
-export const zDeleteSubscription = z.object({
-    subscriptionIds: z.array(z.number()).min(1),
-})

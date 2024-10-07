@@ -10,7 +10,3 @@ export const zInsertEvent = createInsertSchema(eventsTable)
 export const zSelectEvent = createSelectSchema(eventsTable)
 
 export const zUpdateEvent = zInsertEvent.partial() // Allow partial updates
-
-export const zDeleteEvent = z.object({
-    eventIds: z.array(z.number()).min(1),
-})

@@ -1,11 +1,9 @@
-import { getTableColumns, sql } from 'drizzle-orm'
+import { and, eq, getTableColumns, sql } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { db } from '../../core/db/db'
-import {
-    groupsTable,
-    groupsToUsersTable,
-    usersTable,
-} from '../../core/db/schema'
+import { groupsTable, authUsersTable } from '../../core/db/schema'
+import { zValidator } from '@hono/zod-validator'
+import { z } from 'zod'
 
 const app = new Hono()
 
@@ -16,20 +14,9 @@ app.get('/', async (c) => {
     // Initialize query builder with a join on groupsTable
     const query = db
         .select({
-            ...getTableColumns(usersTable),
-            groupName: groupsTable.name,
-            groupType: groupsTable.type,
-            groupId: groupsTable.id,
+            ...getTableColumns(authUsersTable),
         })
-        .from(usersTable)
-        .leftJoin(
-            groupsToUsersTable,
-            sql`${usersTable.id} = ${groupsToUsersTable.userId}`,
-        )
-        .leftJoin(
-            groupsTable,
-            sql`${groupsToUsersTable.groupId} = ${groupsTable.id}`,
-        )
+        .from(authUsersTable)
 
     let totalUsers = 0
     let users = []
@@ -43,7 +30,7 @@ app.get('/', async (c) => {
         // Fetch total number of users
         const totalUsersResult = await db
             .select({ count: sql`COUNT(*)` })
-            .from(usersTable)
+            .from(authUsersTable)
 
         totalUsers = Number(totalUsersResult[0]?.count) || 0
 
@@ -78,6 +65,43 @@ app.get('/', async (c) => {
         })
     }
 })
+
+app.post(
+    '/approve',
+    zValidator(
+        'json',
+        z.object({
+            userId: z.string(),
+        }),
+    ),
+    async (c) => {
+        const { userId } = c.req.valid('json')
+
+        try {
+            const result = await db
+                .update(authUsersTable)
+                .set({ verified: true })
+                .where(
+                    and(
+                        eq(authUsersTable.id, userId),
+                        eq(authUsersTable.level, 'admin'),
+                    ),
+                )
+                .returning()
+
+            if (result.length === 0) {
+                return c.json(
+                    { message: 'User not found or already approved' },
+                    404,
+                )
+            }
+
+            return c.json({ message: 'Admin account approved' })
+        } catch (e) {
+            return c.json({ message: 'Approval failed' }, 500)
+        }
+    },
+)
 
 app.put('/:id/make-admin', async (c) => {
     return c.json({ data: '', message: 'User updated' })
