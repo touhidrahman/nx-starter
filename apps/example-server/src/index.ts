@@ -25,26 +25,15 @@ import storageRoutes from './main/storage/storage.routes'
 import subscriptionRoutes from './main/subscription/subscription.routes'
 import tasksRoutes from './main/tasks/tasks.routes'
 import userRoutes from './main/user/user.routes'
+import app from './app'
 
 const port = Number.parseInt(process.env.PORT ?? '3000')
 
-const app = new Hono().basePath('v1')
-
 app.use(poweredBy())
-app.use(logger())
 app.use(secureHeaders())
 
 app.use(cors())
 app.use(compress())
-
-app.get('/', (c) => {
-    return c.json({
-        message: 'Server working!',
-        status: 200,
-        meta: { port: port },
-    })
-})
-app.notFound((c) => c.json({ message: 'Not Found', ok: false }, 404))
 
 app.route('admin/seed', adminSeedRoutes)
 app.route('admin/users', adminUserRoutes)
