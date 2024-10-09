@@ -1,12 +1,7 @@
 import { serve } from '@hono/node-server'
-import 'dotenv/config'
-import { Hono } from 'hono'
-import { compress } from 'hono/compress'
-import { cors } from 'hono/cors'
 import { showRoutes } from 'hono/dev'
-import { logger } from 'hono/logger'
-import { poweredBy } from 'hono/powered-by'
-import { secureHeaders } from 'hono/secure-headers'
+import app from './app'
+import env from './env'
 import adminGroupRoutes from './main/admin/admin-group.routes'
 import adminSeedRoutes from './main/admin/admin-seed.routes'
 import adminUserRoutes from './main/admin/admin-user.routes'
@@ -25,26 +20,6 @@ import storageRoutes from './main/storage/storage.routes'
 import subscriptionRoutes from './main/subscription/subscription.routes'
 import tasksRoutes from './main/tasks/tasks.routes'
 import userRoutes from './main/user/user.routes'
-
-const port = Number.parseInt(process.env.PORT ?? '3000')
-
-const app = new Hono().basePath('v1')
-
-app.use(poweredBy())
-app.use(logger())
-app.use(secureHeaders())
-
-app.use(cors())
-app.use(compress())
-
-app.get('/', (c) => {
-    return c.json({
-        message: 'Server working!',
-        status: 200,
-        meta: { port: port },
-    })
-})
-app.notFound((c) => c.json({ message: 'Not Found', ok: false }, 404))
 
 app.route('admin/seed', adminSeedRoutes)
 app.route('admin/users', adminUserRoutes)
@@ -66,18 +41,15 @@ app.route('subscription', subscriptionRoutes)
 app.route('tasks', tasksRoutes)
 app.route('users', userRoutes)
 
-if (
-    process.env.NODE_ENV === 'development' ||
-    process.env.NODE_ENV === 'local'
-) {
+if (env.NODE_ENV === 'development' || env.NODE_ENV === 'local') {
     showRoutes(app, {
         verbose: true,
     })
 }
 
-console.log(`Server is running on port ${port}`)
+console.log(`Server is running on port ${env.PORT}`)
 
 serve({
     fetch: app.fetch,
-    port,
+    port: env.PORT,
 })
