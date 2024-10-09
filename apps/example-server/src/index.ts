@@ -1,5 +1,4 @@
 import { serve } from '@hono/node-server'
-import 'dotenv/config'
 import { Hono } from 'hono'
 import { compress } from 'hono/compress'
 import { cors } from 'hono/cors'
@@ -26,8 +25,7 @@ import subscriptionRoutes from './main/subscription/subscription.routes'
 import tasksRoutes from './main/tasks/tasks.routes'
 import userRoutes from './main/user/user.routes'
 import app from './app'
-
-const port = Number.parseInt(process.env.PORT ?? '3000')
+import env from './env'
 
 app.use(poweredBy())
 app.use(secureHeaders())
@@ -55,18 +53,15 @@ app.route('subscription', subscriptionRoutes)
 app.route('tasks', tasksRoutes)
 app.route('users', userRoutes)
 
-if (
-    process.env.NODE_ENV === 'development' ||
-    process.env.NODE_ENV === 'local'
-) {
+if (env.NODE_ENV === 'development' || env.NODE_ENV === 'local') {
     showRoutes(app, {
         verbose: true,
     })
 }
 
-console.log(`Server is running on port ${port}`)
+console.log(`Server is running on port ${env.PORT}`)
 
 serve({
     fetch: app.fetch,
-    port,
+    port: env.PORT,
 })
