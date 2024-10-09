@@ -1,11 +1,7 @@
 import { serve } from '@hono/node-server'
-import { Hono } from 'hono'
-import { compress } from 'hono/compress'
-import { cors } from 'hono/cors'
 import { showRoutes } from 'hono/dev'
-import { logger } from 'hono/logger'
-import { poweredBy } from 'hono/powered-by'
-import { secureHeaders } from 'hono/secure-headers'
+import app from './app'
+import env from './env'
 import adminGroupRoutes from './main/admin/admin-group.routes'
 import adminSeedRoutes from './main/admin/admin-seed.routes'
 import adminUserRoutes from './main/admin/admin-user.routes'
@@ -24,14 +20,6 @@ import storageRoutes from './main/storage/storage.routes'
 import subscriptionRoutes from './main/subscription/subscription.routes'
 import tasksRoutes from './main/tasks/tasks.routes'
 import userRoutes from './main/user/user.routes'
-import app from './app'
-import env from './env'
-
-app.use(poweredBy())
-app.use(secureHeaders())
-
-app.use(cors())
-app.use(compress())
 
 app.route('admin/seed', adminSeedRoutes)
 app.route('admin/users', adminUserRoutes)
