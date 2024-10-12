@@ -24,7 +24,7 @@
         "spartan3of3": "npx nx g @spartan-ng/cli:ui",
         "report": "nx report",
         "db:generate-erd": "drizzle-erd --in ./apps/example-server/src/core/db/schema.ts --out ./apps/example-server/erd.svg",
-         "dbml": "tsx ./apps/example-server/dbml.ts"
+        "dbml": "tsx ./apps/example-server/dbml.ts"
     },
     "private": true,
     "dependencies": {
@@ -82,6 +82,7 @@
         "@spartan-ng/ui-toggle-brain": "0.0.1-alpha.355",
         "@spartan-ng/ui-tooltip-brain": "0.0.1-alpha.355",
         "argon2": "^0.41.1",
+        "aws-sdk": "^2.1691.0",
         "axios": "^1.7.7",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
