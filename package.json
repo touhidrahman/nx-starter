@@ -40,6 +40,7 @@
         "@angular/platform-browser-dynamic": "18.2.4",
         "@angular/router": "18.2.4",
         "@auth0/angular-jwt": "^5.2.0",
+        "@aws-sdk/client-s3": "^3.670.0",
         "@capacitor/core": "^5.0.3",
         "@capacitor/haptics": "^5.0.0",
         "@capacitor/keyboard": "^5.0.0",

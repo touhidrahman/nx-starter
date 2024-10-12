@@ -4,6 +4,9 @@ import { Hono } from 'hono'
 import { jwt } from 'hono/jwt'
 import { db } from '../../core/db/db'
 import { storageTable } from '../../core/db/schema'
+import { s3Client } from '../../utils/s3Config'
+import { PutObjectCommand } from '@aws-sdk/client-s3'
+
 import {
     zDeleteStorage,
     zInsertStorage,
@@ -15,6 +18,23 @@ const app = new Hono()
 const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 
 const authMiddleware = jwt({ secret })
+
+app.post('upload', async (c) => {
+    const body = await c.req.parseBody()
+    const file: string | File = body['file'] as File // File | string
+    const params = {
+        Bucket: process.env.S3_BUCKET_NAME ?? '',
+        Key: `uploads/${crypto.randomUUID()}-${file.name}`,
+        Body: file.name,
+        //ACL: 'public-read',
+        ContentType: file.type,
+    }
+
+    const command = new PutObjectCommand(params)
+    const data = await s3Client.send(command)
+    return c.json(data)
+    // return data.Location
+})
 
 // GET /storage - list all
 app.get('', authMiddleware, async (c) => {
@@ -40,15 +60,6 @@ app.get('/:id', authMiddleware, async (c) => {
     }
 
     return c.json({ data: storage[0], message: 'Storage found' })
-})
-
-// POST /storage - create one
-app.post('', zValidator('json', zInsertStorage), authMiddleware, async (c) => {
-    const body = c.req.valid('json')
-
-    const newStorage = await db.insert(storageTable).values(body).returning()
-
-    return c.json({ data: newStorage, message: 'Storage created' })
 })
 
 // PATCH /storage/:id - update
