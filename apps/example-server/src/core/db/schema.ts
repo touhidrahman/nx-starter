@@ -529,6 +529,13 @@ export const profileRelations = relations(profileTable, ({ one }) => ({
 // section: Storage Table
 export const storageTable = pgTable('storage', {
     id: serial('id').primaryKey(),
+    filename: text('filename'),
+    url: text('url'),
+    extension: text('extension'),
+    uploadedBy: text('uploaded_by'),
+    entityId: text('entity_id'),
+    entityName: text('entity_name'),
+    expiryDate: timestamp('expiry_date'),
 })
 
 //  section: Courts Table
