@@ -5,10 +5,11 @@ import { pinoLogger } from './middlewares/pino-logger.middleware'
 import { compress } from 'hono/compress'
 import { cors } from 'hono/cors'
 import { poweredBy } from 'hono/powered-by'
+import { defaultHook } from 'stoker/openapi'
 import { secureHeaders } from 'hono/secure-headers'
 
 export function createRouter() {
-    return new OpenAPIHono<AppBindings>({ strict: false })
+    return new OpenAPIHono<AppBindings>({ strict: false, defaultHook })
 }
 
 export default function createApp() {
