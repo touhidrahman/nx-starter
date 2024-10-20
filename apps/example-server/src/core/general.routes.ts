@@ -3,6 +3,7 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import * as HttpStatusCodes from 'stoker/http-status-codes'
 import env from '../env'
 import { AppRouteHandler } from './core.type'
+import { createRouter } from './create-app'
 
 const tags = ['General']
 
@@ -32,3 +33,8 @@ export const healthRouteHandler: AppRouteHandler<HealthRoute> = (c) => {
         HttpStatusCodes.OK,
     )
 }
+
+export const generalRoutes = createRouter().openapi(
+    healthRoute,
+    healthRouteHandler,
+)

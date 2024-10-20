@@ -17,6 +17,7 @@ import {
 import { zLogin } from './auth.schema'
 import { findAuthUserByEmail, updateLastLogin } from './auth.service'
 import { createAccessToken, createRefreshToken } from './token.util'
+import { zMessage } from '../../core/models/common.schema'
 
 const tags = ['Auth']
 
@@ -42,7 +43,7 @@ export const loginRoute = createRoute({
         ),
 
         [HttpStatusCodes.BAD_REQUEST]: jsonContent(
-            z.object({ message: z.string() }),
+            zMessage,
             'Invalid email or password',
         ),
 

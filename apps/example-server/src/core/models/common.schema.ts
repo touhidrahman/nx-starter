@@ -18,3 +18,7 @@ export const zIds = z.object({
 export const zId = z.object({
     id: z.string(),
 })
+
+export const zMessage = z.object({
+    message: z.string(),
+})

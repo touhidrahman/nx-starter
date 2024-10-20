@@ -3,78 +3,23 @@ import * as argon2 from 'argon2'
 import { and, eq } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { z } from 'zod'
+import { createRouter } from '../../core/create-app'
 import { db } from '../../core/db/db'
 import { authUsersTable } from '../../core/db/schema'
-import { checkSecretsMiddleware } from '../../core/middlewares/check-secrets.middleware'
-import {
-    zChangePassword,
-    zForgotPassword,
-    zRegister,
-    zResetPassword,
-} from './auth.schema'
-import {
-    countAuthUserByEmail,
-    findAuthUserByEmail,
-    findAuthUserById,
-    isFirstAuthUser,
-} from './auth.service'
+import { zChangePassword, zForgotPassword, zResetPassword } from './auth.schema'
+import { findAuthUserByEmail, findAuthUserById } from './auth.service'
+import { loginHandler, loginRoute } from './login.routes'
+import { registerHandler, registerRoute } from './register.routes'
 import {
     createForgotPasswordToken,
-    createVerficationToken,
     decodeVerificationToken,
 } from './token.util'
 
+export const authV1Routes = createRouter()
+    .openapi(loginRoute, loginHandler)
+    .openapi(registerRoute, registerHandler)
+
 const app = new Hono()
-
-app.use(checkSecretsMiddleware)
-
-app.post('/register', zValidator('json', zRegister), async (c) => {
-    const { email, password, firstName, lastName, level } = c.req.valid('json')
-    const hash = await argon2.hash(password)
-
-    // some checks
-    const exists = await countAuthUserByEmail(email)
-
-    if (exists > 0) {
-        return c.json({ message: 'Email already exists' }, 400)
-    }
-
-    // is auth table empty?
-    const isFirstUser = await isFirstAuthUser()
-
-    try {
-        // Insert new user
-        const createdAuthUser = await db
-            .insert(authUsersTable)
-            .values({
-                email,
-                password: hash,
-                firstName,
-                lastName,
-                level: isFirstUser ? 'admin' : level,
-                verified: isFirstUser, // First user is auto-verified
-            })
-            .returning()
-
-        const userId = createdAuthUser[0].id
-
-        // Generate verification token
-        if (!isFirstUser) {
-            const verificationToken = await createVerficationToken(
-                email,
-                userId.toString(),
-            )
-            console.log('TCL: | verificationToken:', verificationToken)
-
-            // TODO: send verification email
-        }
-
-        return c.json({ message: 'Account created' }, 201)
-    } catch (e) {
-        console.error('Error creating account:', e)
-        return c.json({ message: 'Internal Server Error' }, 500)
-    }
-})
 
 app.post(
     '/verify-email/:token',
