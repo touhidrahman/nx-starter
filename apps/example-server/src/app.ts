@@ -1,10 +1,10 @@
 import configureOpenAPI from './core/configure-open-api'
 import createApp from './core/create-app'
-import { healthRoute } from './routes'
+import { appV1Routes } from './routes'
 
 const app = createApp()
 
-const routes = [healthRoute]
+const routes = [appV1Routes]
 
 configureOpenAPI(app)
 

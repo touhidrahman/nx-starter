@@ -1,8 +1,8 @@
+import { swaggerUI } from '@hono/swagger-ui'
 import { AppOpenAPI } from './core.type'
-// import { apiReference } from '@scalar/hono-api-reference'
 
 export default function configureOpenAPI(app: AppOpenAPI) {
-    app.doc('/doc', {
+    app.doc('/openapi.json', {
         openapi: '3.0.0',
         info: {
             title: 'Example Server',
@@ -11,12 +11,10 @@ export default function configureOpenAPI(app: AppOpenAPI) {
         },
     })
 
-    // app.get(
-    //     '/reference',
-    //     apiReference({
-    //         spec: {
-    //             url: '/doc',
-    //         },
-    //     }),
-    // )
+    app.get(
+        '/docs',
+        swaggerUI({
+            url: '/openapi.json',
+        }),
+    )
 }

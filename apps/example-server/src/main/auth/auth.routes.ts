@@ -1,25 +1,14 @@
 import { zValidator } from '@hono/zod-validator'
 import * as argon2 from 'argon2'
-import dayjs from 'dayjs'
-import { and, eq, or } from 'drizzle-orm'
+import { and, eq } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { HTTPException } from 'hono/http-exception'
-import { toInt } from 'radash'
 import { z } from 'zod'
 import { db } from '../../core/db/db'
-import { authUsersTable, groupsTable, usersTable } from '../../core/db/schema'
+import { authUsersTable } from '../../core/db/schema'
 import { checkSecretsMiddleware } from '../../core/middlewares/check-secrets.middleware'
-import {
-    countUsersByAuthUserId,
-    findFirstUserByAuthUserId,
-    findUserByAuthUserIdAndGroupId,
-    findUsersByAuthUserId,
-} from '../user/user.service'
-import { safeUser } from '../user/user.util'
 import {
     zChangePassword,
     zForgotPassword,
-    zLogin,
     zRegister,
     zResetPassword,
 } from './auth.schema'
@@ -28,112 +17,16 @@ import {
     findAuthUserByEmail,
     findAuthUserById,
     isFirstAuthUser,
-    updateLastLogin,
 } from './auth.service'
 import {
-    createAccessToken,
     createForgotPasswordToken,
-    createRefreshToken,
     createVerficationToken,
     decodeVerificationToken,
 } from './token.util'
-import { LEVEL_ADMIN, LEVEL_MODERATOR } from '../user/user.schema'
 
 const app = new Hono()
 
 app.use(checkSecretsMiddleware)
-
-app.post('/login', zValidator('json', zLogin), async (c) => {
-    const { email, password } = c.req.valid('json')
-    let groupId = c.req.query('groupId')
-
-    const authUser = await findAuthUserByEmail(email)
-
-    if (!authUser) {
-        return c.json({ message: 'Invalid email or password' }, 400)
-    }
-
-    const now = dayjs()
-    try {
-        if (!(await argon2.verify(authUser.password, password))) {
-            return c.json({ message: 'Invalid email or password' }, 400)
-        }
-
-        await updateLastLogin(authUser.id)
-        let accessToken = await createAccessToken(authUser)
-        let refreshToken = await createRefreshToken(authUser)
-
-        // if previledged user, return access token
-        if ([LEVEL_ADMIN, LEVEL_MODERATOR].includes(authUser.level as any)) {
-            // TODO: fix as any
-            return c.json({
-                message: 'Priviledged user login successful',
-                data: {
-                    accessToken,
-                    refreshToken,
-                    user: {
-                        ...safeUser(authUser),
-                        lastLogin: now.toISOString(),
-                    },
-                },
-            })
-        }
-
-        // if query param has group id, get the user profile belonging to that group
-        let group = undefined
-        let user = undefined
-        if (groupId) {
-            user = await findUserByAuthUserIdAndGroupId(authUser.id, groupId)
-            group = user?.group
-        } else {
-            // if user has only one profile, consider it the default
-            const userCount = await countUsersByAuthUserId(authUser.id)
-
-            if (userCount === 1) {
-                user = await findFirstUserByAuthUserId(authUser.id)
-                group = user?.group
-            }
-        }
-
-        if (user) {
-            accessToken = await createAccessToken(authUser, user, group as any) // TODO: fix as any
-            refreshToken = await createRefreshToken(authUser)
-            return c.json({
-                message: 'User login successful',
-                data: {
-                    accessToken,
-                    refreshToken,
-                    user: {
-                        ...user,
-                        lastLogin: now.toISOString(),
-                    },
-                },
-            })
-        }
-
-        // get all profiles of the user
-        const usersWithGroups = await db.query.usersTable.findMany({
-            where: eq(usersTable.authUserId, authUser.id),
-            with: { group: true },
-        })
-
-        return c.json({
-            message:
-                'Login successful but no group selected. Please select a group to continue',
-            data: {
-                accessToken,
-                refreshToken,
-                user: {
-                    ...safeUser(authUser),
-                    lastLogin: now.toISOString(),
-                },
-                availableGroups: usersWithGroups.map((u) => u.group),
-            },
-        })
-    } catch (error) {
-        throw new HTTPException(500, { message: 'Internal server error' })
-    }
-})
 
 app.post('/register', zValidator('json', zRegister), async (c) => {
     const { email, password, firstName, lastName, level } = c.req.valid('json')
