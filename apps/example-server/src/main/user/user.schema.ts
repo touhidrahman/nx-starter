@@ -13,7 +13,7 @@ export type User = typeof usersTable.$inferSelect
 export const zInsertUser = createInsertSchema(usersTable)
 export const zSelectUser = createSelectSchema(usersTable)
 export const zUpdateUser = createInsertSchema(usersTable).partial()
-export const zSearchUser = zInsertUser
+export const zSearchUser = zSelectUser
     .pick({
         id: true,
         email: true,
@@ -31,7 +31,6 @@ export const zSearchUser = zInsertUser
         size: z.number().int().positive().optional(),
     })
     .partial()
-    .optional()
 
 export const [ROLE_OWNER, ROLE_MANAGER, ROLE_MEMBER] = userRoleEnum.enumValues
 export const [LEVEL_USER, LEVEL_MODERATOR, LEVEL_ADMIN] =

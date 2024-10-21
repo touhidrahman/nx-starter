@@ -18,7 +18,6 @@ import permissionsRoutes from './main/permissions/permissions.routes'
 import storageRoutes from './main/storage/storage.routes'
 import subscriptionRoutes from './main/subscription/subscription.routes'
 import tasksRoutes from './main/tasks/tasks.routes'
-import userRoutes from './main/user/user.routes'
 
 app.route('admin/seed', adminSeedRoutes)
 app.route('admin/users', adminUserRoutes)
@@ -37,7 +36,6 @@ app.route('storage', storageRoutes)
 app.route('subscriptions', subscriptionRoutes)
 app.route('subscription', subscriptionRoutes)
 app.route('tasks', tasksRoutes)
-app.route('users', userRoutes)
 
 if (env.NODE_ENV === 'development' || env.NODE_ENV === 'local') {
     showRoutes(app, {
