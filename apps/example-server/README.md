@@ -1,10 +1,21 @@
 # EXAMPLE-SERVER
 
+We are following this tutorial to build Hono Server: https://youtu.be/sNh9PoM9sUE?si=pwtKNQJQE9GDOHpO
+
+Access API Docs: Run `npm run dev:server` then go to http:localhost:3000/docs in your browser.
+
 ## Terminology
 
 **Vendor** = Service provider
 
 **Client** = Client, public user
+
+## System Overview
+
+-   `AuthUser` is for authentication only. No business code should directly reference auth user.
+-   `User` is to be used for relationship to models. An `AuthUser` can have many `User`.
+
+# TODO: (20/10/2024) Reveiew following sections
 
 ## User - Group System
 
