@@ -3,7 +3,7 @@ import * as argon2 from 'argon2'
 import dayjs from 'dayjs'
 import { eq } from 'drizzle-orm'
 import * as HttpStatusCodes from 'stoker/http-status-codes'
-import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers'
+import { jsonContentRequired } from 'stoker/openapi/helpers'
 import { z } from 'zod'
 import { AppRouteHandler } from '../../core/core.type'
 import { db } from '../../core/db/db'
@@ -17,7 +17,7 @@ import {
 import { zLogin } from './auth.schema'
 import { findAuthUserByEmail, updateLastLogin } from './auth.service'
 import { createAccessToken, createRefreshToken } from './token.util'
-import { zMessage } from '../../core/models/common.schema'
+import { ApiResponse } from '../../core/utils/api-response.util'
 
 const tags = ['Auth']
 
@@ -30,29 +30,23 @@ export const loginRoute = createRoute({
         body: jsonContentRequired(zLogin, 'User login details'),
     },
     responses: {
-        [HttpStatusCodes.OK]: jsonContent(
+        [HttpStatusCodes.OK]: ApiResponse(
             z.object({
-                message: z.string(),
-                data: z.object({
-                    accessToken: z.string(),
-                    refreshToken: z.string(),
-                    lastLogin: z.string(),
-                }),
+                accessToken: z.string(),
+                refreshToken: z.string(),
+                lastLogin: z.string(),
             }),
             'User login successful',
         ),
 
-        [HttpStatusCodes.BAD_REQUEST]: jsonContent(
-            zMessage,
+        [HttpStatusCodes.BAD_REQUEST]: ApiResponse(
+            z.object({}),
             'Invalid email or password',
         ),
 
-        [HttpStatusCodes.PRECONDITION_REQUIRED]: jsonContent(
+        [HttpStatusCodes.PRECONDITION_REQUIRED]: ApiResponse(
             z.object({
-                message: z.string(),
-                data: z.object({
-                    availableGroups: z.array(z.any()),
-                }),
+                availableGroups: z.array(z.any()),
             }),
             'No group selected. Please select a group to continue',
         ),
@@ -69,7 +63,7 @@ export const loginHandler: AppRouteHandler<LoginRoute> = async (c) => {
 
     if (!authUser) {
         return c.json(
-            { message: 'Invalid email or password' },
+            { message: 'Invalid email or password', data: {} },
             HttpStatusCodes.BAD_REQUEST,
         )
     }
@@ -79,7 +73,7 @@ export const loginHandler: AppRouteHandler<LoginRoute> = async (c) => {
 
     if (!(await argon2.verify(authUser.password, password))) {
         return c.json(
-            { message: 'Invalid email or password' },
+            { message: 'Invalid email or password', data: {} },
             HttpStatusCodes.BAD_REQUEST,
         )
     }

@@ -1,9 +1,9 @@
 import { createRoute, z } from '@hono/zod-openapi'
-import { jsonContent } from 'stoker/openapi/helpers'
 import * as HttpStatusCodes from 'stoker/http-status-codes'
 import env from '../env'
 import { AppRouteHandler } from './core.type'
 import { createRouter } from './create-app'
+import { ApiResponse } from './utils/api-response.util'
 
 const tags = ['General']
 
@@ -12,12 +12,9 @@ export const healthRoute = createRoute({
     path: '/v1',
     tags,
     responses: {
-        [HttpStatusCodes.OK]: jsonContent(
-            z.object({
-                message: z.string(),
-                meta: z.object({ port: z.number() }),
-            }),
-            'Server check',
+        [HttpStatusCodes.OK]: ApiResponse(
+            z.object({ port: z.number() }),
+            'Server running',
         ),
     },
 })
@@ -28,7 +25,7 @@ export const healthRouteHandler: AppRouteHandler<HealthRoute> = (c) => {
     return c.json(
         {
             message: 'Server working!',
-            meta: { port: env.PORT },
+            data: { port: env.PORT },
         },
         HttpStatusCodes.OK,
     )

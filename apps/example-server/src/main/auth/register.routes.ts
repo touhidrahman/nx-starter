@@ -1,14 +1,14 @@
-import { createRoute } from '@hono/zod-openapi'
-import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers'
-import { zRegister } from './auth.schema'
-import * as HttpStatusCode from 'stoker/http-status-codes'
-import { zMessage } from '../../core/models/common.schema'
+import { createRoute, z } from '@hono/zod-openapi'
 import * as argon2 from 'argon2'
+import { CREATED, CONFLICT } from 'stoker/http-status-codes'
+import { jsonContentRequired } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../core/core.type'
-import { countAuthUserByEmail, isFirstAuthUser } from './auth.service'
-import { authUsersTable } from '../../core/db/schema'
-import { createVerficationToken } from './token.util'
 import { db } from '../../core/db/db'
+import { authUsersTable } from '../../core/db/schema'
+import { zRegister } from './auth.schema'
+import { countAuthUserByEmail, isFirstAuthUser } from './auth.service'
+import { createVerficationToken } from './token.util'
+import { ApiResponse } from '../../core/utils/api-response.util'
 
 const tags = ['Auth']
 
@@ -20,11 +20,11 @@ export const registerRoute = createRoute({
         body: jsonContentRequired(zRegister, 'User registration details'),
     },
     responses: {
-        [HttpStatusCode.CREATED]: jsonContent(
-            zMessage,
+        [CREATED]: ApiResponse(
+            z.object({ id: z.string() }),
             'User registration successful',
         ),
-        [HttpStatusCode.CONFLICT]: jsonContent(zMessage, 'User already exists'),
+        [CONFLICT]: ApiResponse(z.object({}), 'Email already exists'),
     },
 })
 
@@ -38,10 +38,7 @@ export const registerHandler: AppRouteHandler<typeof registerRoute> = async (
     const exists = await countAuthUserByEmail(email)
 
     if (exists > 0) {
-        return c.json(
-            { message: 'Email already exists' },
-            HttpStatusCode.CONFLICT,
-        )
+        return c.json({ message: 'Email already exists', data: {} }, CONFLICT)
     }
 
     // is auth table empty?
@@ -64,14 +61,14 @@ export const registerHandler: AppRouteHandler<typeof registerRoute> = async (
 
     // Generate verification token
     if (!isFirstUser) {
-        const verificationToken = await createVerficationToken(
-            email,
-            userId.toString(),
-        )
-        console.log('TCL: | verificationToken:', verificationToken)
+        const token = await createVerficationToken(email, userId.toString(), {
+            unit: 'day',
+            value: 7,
+        })
+        console.log('TCL: | verificationToken:', token)
 
         // TODO: send verification email
     }
 
-    return c.json({ message: 'Account created' }, 201)
+    return c.json({ message: 'Account created', data: { id: userId } }, CREATED)
 }

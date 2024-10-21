@@ -1,13 +1,10 @@
-import dayjs from 'dayjs'
+import dayjs, { ManipulateType } from 'dayjs'
 import { sign, verify } from 'hono/jwt'
 import { randomBytes } from 'node:crypto'
-import { toInt } from 'radash'
+import env from '../../env'
 import { GroupDto } from '../group/group.schema'
 import { User } from '../user/user.schema'
 import { AuthUser } from './auth.schema'
-
-const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET ?? ''
-const refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET ?? ''
 
 export async function createAccessToken(
     authUser: AuthUser,
@@ -27,7 +24,7 @@ export async function createAccessToken(
             sub: authUser.id,
             exp: dayjs().add(15, 'minute').valueOf(),
         },
-        accessTokenSecret,
+        env.ACCESS_TOKEN_SECRET,
     )
 }
 
@@ -38,7 +35,7 @@ export async function createRefreshToken(authUser: AuthUser) {
             sub: authUser.id,
             exp: dayjs().add(7, 'day').valueOf(),
         },
-        refreshTokenSecret,
+        env.REFRESH_TOKEN_SECRET,
     )
 }
 
@@ -55,20 +52,19 @@ export async function decodeVerificationToken(
     return { email: email as string, authUserId: sub as string }
 }
 
-export async function createVerficationToken(email: string, userId: string) {
+export async function createVerficationToken(
+    email: string,
+    userId: string,
+    duration: { value: number; unit: ManipulateType },
+) {
     const random = randomBytes(64).toString('hex')
     const token = await sign(
-        { email, sub: userId, exp: dayjs().add(7, 'day').valueOf() },
-        refreshTokenSecret,
+        {
+            email,
+            sub: userId,
+            exp: dayjs().add(duration.value, duration.unit).valueOf(),
+        },
+        env.REFRESH_TOKEN_SECRET,
     )
     return `${random}&${token}`
-}
-
-export async function createForgotPasswordToken(email: string, userId: string) {
-    const token = sign(
-        { email, sub: userId, exp: dayjs().add(1, 'hour').valueOf() },
-        refreshTokenSecret,
-    )
-
-    return token
 }
