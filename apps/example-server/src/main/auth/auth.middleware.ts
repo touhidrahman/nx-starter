@@ -1,9 +1,4 @@
 import { jwt } from 'hono/jwt'
+import env from '../../env'
 
-const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
-
-if (!secret) {
-    throw new Error('ACCESS_TOKEN_SECRET env variable is required')
-}
-
-export const checkToken = jwt({ secret })
+export const checkToken = jwt({ secret: env.ACCESS_TOKEN_SECRET })
