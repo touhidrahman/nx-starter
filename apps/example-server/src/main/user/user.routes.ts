@@ -1,11 +1,15 @@
 import { zValidator } from '@hono/zod-validator'
-import { SQL, eq, getTableColumns, like, sql } from 'drizzle-orm'
+import { SQL, eq, getTableColumns, sql } from 'drizzle-orm'
 import { Hono } from 'hono'
-import { z } from 'zod'
+import { toInt } from 'radash'
+import { createRouter } from '../../core/create-app'
 import { db } from '../../core/db/db'
+import { usersTable } from '../../core/db/schema'
 import { checkToken } from '../auth/auth.middleware'
 import { zInsertInvite } from '../invite/invite.schema'
 import { createInvite } from '../invite/invite.service'
+import { getMeHandler, getMeRoute } from './routes/get-me'
+import { zSearchUser, zUpdateUser } from './user.schema'
 import {
     deleteUser,
     findUserByAuthUserIdAndGroupId,
@@ -13,29 +17,16 @@ import {
     findUsersByAuthUserId,
     updateUser,
 } from './user.service'
-import { safeUser } from './user.util'
-import { zInsertUser, zSearchUser, zUpdateUser } from './user.schema'
-import { toInt } from 'radash'
-import { usersTable } from '../../core/db/schema'
+import {
+    getMyProfilesHandler,
+    getMyProfilesRoute,
+} from './routes/get-my-profiles'
+
+export const userV1Routes = createRouter()
+    .openapi(getMeRoute, getMeHandler)
+    .openapi(getMyProfilesRoute, getMyProfilesHandler)
 
 const app = new Hono()
-
-app.get('/me', checkToken, async (c) => {
-    const payload = c.get('jwtPayload')
-    const user = await findUserByAuthUserIdAndGroupId(
-        payload.sub,
-        payload.groupId,
-    )
-
-    return c.json({ data: user, message: 'Logged in user' })
-})
-
-app.get('/my-profiles', checkToken, async (c) => {
-    const payload = c.get('jwtPayload')
-    const users = await findUsersByAuthUserId(payload.sub)
-
-    return c.json({ data: users, message: 'User profiles' })
-})
 
 // Invite user
 app.post(
