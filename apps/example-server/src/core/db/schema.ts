@@ -604,9 +604,23 @@ export const messagesRelations = relations(messagesTable, ({ one, many }) => ({
     }),
 }))
 
-// section: Storage Table
+// TODo: remove
 export const storageTable = pgTable('storage', {
     id: text('id').primaryKey().$defaultFn(generateId),
+})
+
+export const uploadsTable = pgTable('upload', {
+    id: text('id').primaryKey().$defaultFn(generateId),
+    name: text('name').notNull(),
+    url: text('url').notNull(),
+    mimetype: text('mimetype').notNull(),
+    size: integer('size').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
+        .notNull()
+        .$onUpdate(() => new Date()),
 })
 
 //  section: Courts Table
