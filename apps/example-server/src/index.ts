@@ -5,8 +5,6 @@ import env from './env'
 import adminGroupRoutes from './main/admin/admin-group.routes'
 import adminSeedRoutes from './main/admin/admin-seed.routes'
 import adminUserRoutes from './main/admin/admin-user.routes'
-import applicationAreasRoutes from './main/application-areas/application-areas.routes'
-import appointmentsRoutes from './main/appointments/appointments.routes'
 import caseRoutes from './main/case/case.routes'
 import courtsRoutes from './main/courts/courts.routes'
 import documentsSharingRoutes from './main/documents-sharing/documents-sharing.routes'
@@ -22,8 +20,6 @@ import tasksRoutes from './main/tasks/tasks.routes'
 app.route('admin/seed', adminSeedRoutes)
 app.route('admin/users', adminUserRoutes)
 app.route('admin/groups', adminGroupRoutes)
-app.route('application-areas', applicationAreasRoutes)
-app.route('appointments', appointmentsRoutes)
 app.route('cases', caseRoutes)
 app.route('courts', courtsRoutes)
 app.route('documents', documentsRoutes)
