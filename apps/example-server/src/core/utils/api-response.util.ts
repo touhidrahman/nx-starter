@@ -1,7 +1,21 @@
-import { z, ZodObject, ZodString, ZodType } from 'zod'
+import {
+    z,
+    ZodAny,
+    ZodBoolean,
+    ZodObject,
+    ZodSchema,
+    ZodString,
+    ZodType,
+    ZodUndefined,
+} from 'zod'
 
-export const ApiResponse: <T extends ZodType<unknown>>(
-    schema: T,
+export const ApiResponse: <T extends ZodSchema>(
+    schema: {
+        data: T
+        error?: ZodAny
+        success: ZodBoolean
+        message: ZodString
+    },
     description: string,
 ) => {
     content: {
@@ -9,6 +23,8 @@ export const ApiResponse: <T extends ZodType<unknown>>(
             schema: ZodObject<{
                 data: T
                 message: ZodString
+                success: ZodBoolean
+                error: ZodAny | ZodUndefined
             }>
         }
     }
@@ -17,8 +33,10 @@ export const ApiResponse: <T extends ZodType<unknown>>(
     content: {
         'application/json': {
             schema: z.object({
-                data: schema,
+                data: schema.data,
                 message: z.string(),
+                success: z.boolean(),
+                error: schema.error ?? z.undefined(),
             }),
         },
     },

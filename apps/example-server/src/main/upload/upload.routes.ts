@@ -2,7 +2,11 @@ import { zValidator } from '@hono/zod-validator'
 import { Hono } from 'hono'
 import { INTERNAL_SERVER_ERROR, OK } from 'stoker/http-status-codes'
 import { z } from 'zod'
-import { getS3File, uploadToS3AndGetUrl } from './upload.service'
+import {
+    deleteS3File,
+    getS3File,
+    uploadToS3AndGetUrl,
+} from '../../core/third-party/s3.service'
 
 const app = new Hono()
 
@@ -47,6 +51,19 @@ app.get('/v1/upload/:key', async (c) => {
         return c.body(stream, OK)
     } catch (error) {
         return c.json({ error: 'Failed to read file' }, 500)
+    }
+})
+
+app.delete('/v1/upload/:key', async (c) => {
+    const { key } = c.req.param()
+    try {
+        await deleteS3File(key)
+        return c.json({ message: 'File deleted successfully' }, OK)
+    } catch (error) {
+        return c.json(
+            { message: 'Failed to delete file' },
+            INTERNAL_SERVER_ERROR,
+        )
     }
 })
 

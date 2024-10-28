@@ -1,13 +1,10 @@
-import env from '../../env'
-import { HonoS3Storage } from '@hono-storage/s3'
 import {
     DeleteObjectCommand,
     GetObjectCommand,
     PutObjectCommand,
     S3Client,
 } from '@aws-sdk/client-s3'
-import { read } from 'fs'
-import { tryit } from 'radash'
+import env from '../../env'
 
 export const appS3Client = new S3Client({
     region: env.S3_REGION,
@@ -19,12 +16,9 @@ export const appS3Client = new S3Client({
     },
 })
 
-export const uploader = new HonoS3Storage({
-    key: (_, file) =>
-        `${file.originalname}-${crypto.randomUUID()}.${file.extension}`,
-    bucket: env.S3_BUCKET,
-    client: appS3Client,
-})
+export const buildS3Url = (key: string): string => {
+    return `${env.S3_BUCKET_URL}/${key}`
+}
 
 export const uploadToS3AndGetUrl = async (file: File): Promise<string> => {
     const fileKey = `${crypto.randomUUID()}.${file.type.split('/')[1]}`
@@ -38,7 +32,7 @@ export const uploadToS3AndGetUrl = async (file: File): Promise<string> => {
     })
     try {
         await appS3Client.send(uploadCommand)
-        return `${env.S3_BUCKET_URL}/${fileKey}`
+        return fileKey
     } catch (error) {
         console.error('Error uploading to S3:', error)
         return ''

@@ -11,6 +11,10 @@ export async function createAccessToken(
     user?: User,
     group?: GroupDto,
 ) {
+    const exp =
+        env.NODE_ENV !== 'production'
+            ? dayjs().add(1, 'day').valueOf()
+            : dayjs().add(15, 'minute').valueOf()
     return await sign(
         {
             userId: user?.id ?? '',
@@ -22,7 +26,7 @@ export async function createAccessToken(
             groupId: user?.groupId ?? '',
             groupType: group?.type ?? '',
             sub: authUser.id,
-            exp: dayjs().add(15, 'minute').valueOf(),
+            exp,
         },
         env.ACCESS_TOKEN_SECRET,
     )
