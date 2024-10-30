@@ -7,7 +7,7 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { zSelectGroup, zUpdateGroup } from '../group.schema'
 import { isGroupOwner } from '../../../core/middlewares/is-group-owner.middleware'
 import { AppRouteHandler } from '../../../core/core.type'
-import { updateGroup } from '../group.service'
+import { groupService } from '../group.service'
 
 export const updateGroupByIdRoute = createRoute({
     path: '/v1/group/:id',
@@ -26,10 +26,10 @@ export const updateGroupByIdRoute = createRoute({
 
 export const updateGroupHandler: AppRouteHandler<
     typeof updateGroupByIdRoute
-> = async (c) => {
+> = async (c: any) => {
     const id = c.req.param('id')
     const body = c.req.valid('json')
-    const result = await updateGroup(id, body)
+    const result = await groupService.updateGroup(id, body)
 
     if (result.length === 0) {
         return c.json({ error: 'Group not found' }, 404)

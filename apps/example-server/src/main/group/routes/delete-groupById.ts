@@ -6,7 +6,7 @@ import { NO_CONTENT, NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zEmpty } from '../../../core/models/common.schema'
 import { AppRouteHandler } from '../../../core/core.type'
-import { deleteGroup } from '../group.service'
+import { groupService } from '../group.service'
 
 export const deleteGroupByIdRoute = createRoute({
     path: '/v1/group/:id',
@@ -22,11 +22,9 @@ export const deleteGroupByIdRoute = createRoute({
     },
 })
 
-export const deleteGroupHandler: AppRouteHandler<
-    typeof deleteGroupByIdRoute
-> = async (c) => {
+export const deleteGroupHandler = async (c: any) => {
     const id = c.req.param('id')
-    const result = await deleteGroup(id)
+    const result = await groupService.deleteGroup(id)
 
     if (result.length === 0) {
         return c.json({ error: 'Group not found' }, 404)

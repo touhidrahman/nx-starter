@@ -1,5 +1,4 @@
 import { zValidator } from '@hono/zod-validator'
-import { eq, getTableColumns, inArray } from 'drizzle-orm'
 import { Hono } from 'hono'
 import { toInt } from 'radash'
 import { db } from '../../core/db/db'
@@ -7,13 +6,7 @@ import { groupsTable } from '../../core/db/schema'
 import { isAdmin } from '../../core/middlewares/is-admin.middleware'
 import { zIds } from '../../core/models/common.schema'
 import { checkToken } from '../auth/auth.middleware'
-import {
-    deleteGroup,
-    deleteManyGroups,
-    findGroupById,
-    updateGroup,
-    verifyGroup,
-} from '../group/group.service'
+import { groupService } from '../group/group.service'
 import { zUpdateGroup } from '../group/group.schema'
 
 const app = new Hono()
@@ -35,7 +28,7 @@ app.get('/', checkToken, isAdmin, async (c) => {
 app.get('/:id', checkToken, isAdmin, async (c) => {
     const id = c.req.param('id')
 
-    const result = await findGroupById(id)
+    const result = await groupService.findGroupById(id)
 
     if (!result) {
         return c.json({ error: 'Group not found' }, 404)
@@ -47,7 +40,7 @@ app.get('/:id', checkToken, isAdmin, async (c) => {
 // Mark a vendor as verified
 app.put('/:id/verify', checkToken, isAdmin, async (c) => {
     const id = c.req.param('id')
-    const result = await verifyGroup(id)
+    const result = await groupService.verifyGroup(id)
 
     return c.json({ data: result, message: 'Group verified' })
 })
@@ -55,7 +48,7 @@ app.put('/:id/verify', checkToken, isAdmin, async (c) => {
 // Delete many Groups
 app.delete('/', zValidator('json', zIds), async (c) => {
     const { ids } = await c.req.json()
-    const result = await deleteManyGroups(ids)
+    const result = await groupService.deleteManyGroups(ids)
 
     return c.json({
         message: 'Groups with given IDs deleted',
@@ -66,7 +59,7 @@ app.delete('/', zValidator('json', zIds), async (c) => {
 // delete one group
 app.delete('/:id', checkToken, isAdmin, async (c) => {
     const id = c.req.param('id')
-    const result = await deleteGroup(id)
+    const result = await groupService.deleteGroup(id)
 
     return c.json({ message: 'Group deleted', data: result })
 })
@@ -80,7 +73,7 @@ app.put(
     async (c) => {
         const id = c.req.param('id')
         const body = c.req.valid('json')
-        const result = await updateGroup(id, body)
+        const result = await groupService.updateGroup(id, body)
 
         if (result.length === 0) {
             return c.json({ error: 'Group not found' }, 404)
