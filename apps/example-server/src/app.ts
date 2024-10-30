@@ -4,11 +4,13 @@ import { generalRoutes } from './core/general.routes'
 import { applicationAreasV1Routes } from './main/application-areas/application-areas.routes'
 import { appointmentsV1Routes } from './main/appointments/appointments.routes'
 import { authV1Routes } from './main/auth/auth.routes'
+import { caseV1Routes } from './main/case/case.routes'
+import { courtsV1Routes } from './main/courts/courts.routes'
 import { userV1Routes } from './main/user/user.routes'
 
 const app = createApp()
 
-const routes = [generalRoutes, applicationAreasV1Routes, appointmentsV1Routes, authV1Routes, userV1Routes, ]
+const routes = [generalRoutes, applicationAreasV1Routes, appointmentsV1Routes, authV1Routes, caseV1Routes , courtsV1Routes , userV1Routes,]
 
 configureOpenAPI(app)
 
