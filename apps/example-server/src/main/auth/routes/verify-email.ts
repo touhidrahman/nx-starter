@@ -19,7 +19,10 @@ export const verifyEmailRoute = createRoute({
         params: z.object({ token: z.string() }),
     },
     responses: {
-        [HttpStatusCodes.OK]: ApiResponse(zEmpty, 'Email verified'),
+        [HttpStatusCodes.OK]: ApiResponse(
+            z.object({ id: z.string() }),
+            'Email verified',
+        ),
         [HttpStatusCodes.BAD_REQUEST]: ApiResponse(
             zEmpty,
             'Invalid or expired token',
@@ -40,7 +43,7 @@ export const verifyEmailHandler: AppRouteHandler<
     }
 
     try {
-        await db
+        const [user] = await db
             .update(authUsersTable)
             .set({ verified: true })
             .where(
@@ -49,9 +52,10 @@ export const verifyEmailHandler: AppRouteHandler<
                     eq(authUsersTable.email, decoded.email),
                 ),
             )
+            .returning()
 
         return c.json(
-            { message: 'Email verified', data: {} },
+            { message: 'Email verified', data: { id: user?.id } },
             HttpStatusCodes.OK,
         )
     } catch (error) {

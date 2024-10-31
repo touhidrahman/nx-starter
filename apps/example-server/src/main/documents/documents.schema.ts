@@ -6,6 +6,12 @@ export type InsertDocument = typeof documentsTable.$inferInsert
 export type SelectDocument = typeof documentsTable.$inferSelect
 
 export const zInsertDocument = createInsertSchema(documentsTable)
+export const zUploadDocument = z.object({
+    entityName: z.string().optional().default(''),
+    entityId: z.string().optional().default(''),
+    file: z.instanceof(File).optional(),
+    files: z.array(z.instanceof(File)).optional(),
+})
 
 export const zSelectDocument = createSelectSchema(documentsTable)
 

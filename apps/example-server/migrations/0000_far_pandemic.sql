@@ -1,63 +1,13 @@
-DO $$ BEGIN
- CREATE TYPE "public"."groupLevel" AS ENUM('trial', 'basic', 'premium');
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- CREATE TYPE "public"."groupStatus" AS ENUM('active', 'inactive', 'pending');
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- CREATE TYPE "public"."groupType" AS ENUM('client', 'vendor');
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- CREATE TYPE "public"."invoiceStatus" AS ENUM('unpaid', 'partially_paid', 'fully_paid', 'canceled');
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- CREATE TYPE "public"."show_me_as" AS ENUM('Busy', 'Available');
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- CREATE TYPE "public"."status" AS ENUM('Active', 'Disabled');
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- CREATE TYPE "public"."taskStatus" AS ENUM('pending', 'in_progress', 'completed', 'overdue');
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- CREATE TYPE "public"."userLevel" AS ENUM('user', 'moderator', 'admin');
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- CREATE TYPE "public"."userRole" AS ENUM('owner', 'manager', 'member');
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- CREATE TYPE "public"."userStatus" AS ENUM('active', 'inactive', 'banned');
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
+CREATE TYPE "public"."groupLevel" AS ENUM('trial', 'basic', 'premium');--> statement-breakpoint
+CREATE TYPE "public"."groupStatus" AS ENUM('active', 'inactive', 'pending');--> statement-breakpoint
+CREATE TYPE "public"."groupType" AS ENUM('client', 'vendor');--> statement-breakpoint
+CREATE TYPE "public"."invoiceStatus" AS ENUM('unpaid', 'partially_paid', 'fully_paid', 'canceled');--> statement-breakpoint
+CREATE TYPE "public"."show_me_as" AS ENUM('Busy', 'Available');--> statement-breakpoint
+CREATE TYPE "public"."status" AS ENUM('Active', 'Disabled');--> statement-breakpoint
+CREATE TYPE "public"."taskStatus" AS ENUM('pending', 'in_progress', 'completed', 'overdue');--> statement-breakpoint
+CREATE TYPE "public"."userLevel" AS ENUM('user', 'moderator', 'admin');--> statement-breakpoint
+CREATE TYPE "public"."userRole" AS ENUM('owner', 'manager', 'member');--> statement-breakpoint
+CREATE TYPE "public"."userStatus" AS ENUM('active', 'inactive', 'banned');--> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "application_areas" (
 	"id" text PRIMARY KEY NOT NULL,
 	"area" text NOT NULL,
@@ -135,10 +85,13 @@ CREATE TABLE IF NOT EXISTS "documents" (
 	"url" text NOT NULL,
 	"mimetype" text NOT NULL,
 	"size" integer NOT NULL,
-	"linked_entity" text NOT NULL,
-	"linked_id" text NOT NULL,
 	"description" text,
-	"group_id" text NOT NULL
+	"group_id" text NOT NULL,
+	"user_id" text,
+	"entity_id" text,
+	"entity_name" text,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "events" (
@@ -239,7 +192,10 @@ CREATE TABLE IF NOT EXISTS "permissions" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "storage" (
-	"id" text PRIMARY KEY NOT NULL
+	"id" text PRIMARY KEY NOT NULL,
+	"group_id" text NOT NULL,
+	"total_size" integer NOT NULL,
+	"used_size" integer NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "subscriptions" (
@@ -355,6 +311,12 @@ EXCEPTION
 END $$;
 --> statement-breakpoint
 DO $$ BEGIN
+ ALTER TABLE "documents" ADD CONSTRAINT "documents_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
  ALTER TABLE "events" ADD CONSTRAINT "events_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
@@ -410,6 +372,12 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "permissions" ADD CONSTRAINT "permissions_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;
+EXCEPTION
+ WHEN duplicate_object THEN null;
+END $$;
+--> statement-breakpoint
+DO $$ BEGIN
+ ALTER TABLE "storage" ADD CONSTRAINT "storage_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

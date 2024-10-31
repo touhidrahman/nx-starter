@@ -7,7 +7,7 @@ export type Group = typeof groupsTable.$inferSelect
 
 export const zInsertGroup = createInsertSchema(groupsTable, {
     email: (schema) => schema.email.email(),
-    verifiedOn: z.coerce.date(),
+    verifiedOn: z.coerce.date().optional(),
 })
 export const zSelectGroup = createSelectSchema(groupsTable)
 export const zUpdateGroup = zInsertGroup.omit({
