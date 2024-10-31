@@ -2,9 +2,7 @@ import { serve } from '@hono/node-server'
 import { showRoutes } from 'hono/dev'
 import app from './app'
 import env from './env'
-import adminGroupRoutes from './main/admin/admin-group.routes'
 import adminSeedRoutes from './main/admin/admin-seed.routes'
-import adminUserRoutes from './main/admin/admin-user.routes'
 import documentsSharingRoutes from './main/documents-sharing/documents-sharing.routes'
 import documentsRoutes from './main/documents/documents.routes'
 import eventsRoutes from './main/events/events.routes'
@@ -16,8 +14,6 @@ import subscriptionRoutes from './main/subscription/subscription.routes'
 import tasksRoutes from './main/tasks/tasks.routes'
 
 app.route('admin/seed', adminSeedRoutes)
-app.route('admin/users', adminUserRoutes)
-app.route('admin/groups', adminGroupRoutes)
 app.route('documents', documentsRoutes)
 app.route('document-sharing', documentsSharingRoutes)
 app.route('events', eventsRoutes)
