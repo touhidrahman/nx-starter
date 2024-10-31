@@ -4,6 +4,7 @@ import app from './app'
 import env from './env'
 
 const logRoutesToConsole = false
+
 if (env.NODE_ENV !== 'production' && logRoutesToConsole) {
     showRoutes(app, {
         verbose: true,
