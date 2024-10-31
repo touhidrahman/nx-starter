@@ -15,3 +15,8 @@ export const zUpdateGroup = zInsertGroup.omit({
     verified: true,
     verifiedOn: true,
 })
+
+export const zUpdateUserRole = z.object({
+    userId: z.string(),
+    role: z.string(),
+})
