@@ -1,4 +1,3 @@
-import dayjs from 'dayjs'
 import { and, count, eq } from 'drizzle-orm'
 import { db } from '../../core/db/db'
 import { authUsersTable, usersTable } from '../../core/db/schema'

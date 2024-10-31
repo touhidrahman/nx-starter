@@ -1,5 +1,5 @@
 import { Context, Next } from 'hono'
-import { isOwner, isParticipant } from '../../main/group/group.service'
+import { groupService } from '../../main/group/group.service'
 import { ROLE_OWNER } from '../../main/user/user.schema'
 
 export const isGroupOwner = async (ctx: Context, next: Next) => {
@@ -12,7 +12,7 @@ export const isGroupOwner = async (ctx: Context, next: Next) => {
 
     const id = ctx.req.param('id')
 
-    const exists = await isOwner(payload.userId, id)
+    const exists = await groupService.isOwner(payload.userId, id)
 
     if (!exists) {
         return ctx.json(
@@ -34,7 +34,7 @@ export const isGroupParticipant = async (ctx: Context, next: Next) => {
 
     const id = ctx.req.param('id')
 
-    const exists = await isParticipant(payload.userId, id)
+    const exists = await groupService.isParticipant(payload.userId, id)
 
     if (!exists) {
         return ctx.json(
