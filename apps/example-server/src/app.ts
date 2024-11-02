@@ -15,6 +15,7 @@ import { taskV1Route } from './main/tasks/tasks.routes'
 import { documentV1Route } from './main/documents/documents.routes'
 import { documentSharingV1Route } from './main/documents-sharing/documents-sharing.routes'
 import { messagesV1Route } from './main/messages/messages.routes'
+import { permissionsV1Route } from './main/permissions/permissions.routes'
 
 const app = createApp()
 
@@ -34,6 +35,7 @@ const routes = [
     documentV1Route,
     documentSharingV1Route,
     messagesV1Route,
+    permissionsV1Route,
 ]
 
 configureOpenAPI(app)

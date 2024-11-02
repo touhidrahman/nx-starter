@@ -1,64 +1,18 @@
-import { zValidator } from '@hono/zod-validator'
-import { and, eq, getTableColumns } from 'drizzle-orm'
-import { Hono } from 'hono'
-import { jwt } from 'hono/jwt'
-import { db } from '../../core/db/db'
-import { permissionsTable } from '../../core/db/schema'
-import { zDeletePermission, zInsertPermission } from './permissions.schema'
+import { createRouter } from '../../core/create-app'
+import {
+    createPermissionHandler,
+    createPermissionRoute,
+} from './routes/create-permission'
+import {
+    deleteAllPermissionsHandler,
+    deleteAllPermissionsRoute,
+} from './routes/delete-all-permissions'
+import {
+    getPermissionListHandler,
+    getPermissionListRoute,
+} from './routes/get-permission-list'
 
-const app = new Hono()
-
-const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
-
-const authMiddleware = jwt({ secret })
-
-// GET /permissions - list all
-app.get('', authMiddleware, async (c) => {
-    const permissions = await db
-        .select({ ...getTableColumns(permissionsTable) })
-        .from(permissionsTable)
-        .limit(100)
-
-    return c.json({ data: permissions, message: 'Permissions list' })
-})
-
-// POST /permissions - create one
-app.post(
-    '',
-    zValidator('json', zInsertPermission),
-    authMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
-
-        const newPermission = await db
-            .insert(permissionsTable)
-            .values(body)
-            .returning()
-
-        return c.json({ data: newPermission, message: 'Permission created' })
-    },
-)
-
-// DELETE /permissions - delete many
-app.delete(
-    '',
-    zValidator('json', zDeletePermission),
-    authMiddleware,
-    async (c) => {
-        const body = c.req.valid('json')
-
-        for (const permission of body.permissions) {
-            await db.delete(permissionsTable).where(
-                and(
-                    eq(permissionsTable.groupId, permission.groupId),
-                    eq(permissionsTable.role as any, permission.role), // TODO: remove any
-                    eq(permissionsTable.area, permission.area),
-                ),
-            )
-        }
-
-        return c.json({ message: 'Permissions deleted' })
-    },
-)
-
-export default app
+export const permissionsV1Route = createRouter()
+    .openapi(createPermissionRoute, createPermissionHandler)
+    .openapi(deleteAllPermissionsRoute, deleteAllPermissionsHandler)
+    .openapi(getPermissionListRoute, getPermissionListHandler)
