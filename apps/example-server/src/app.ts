@@ -14,6 +14,7 @@ import { eventV1Route } from './main/events/events.routes'
 import { taskV1Route } from './main/tasks/tasks.routes'
 import { documentV1Route } from './main/documents/documents.routes'
 import { documentSharingV1Route } from './main/documents-sharing/documents-sharing.routes'
+import { messagesV1Route } from './main/messages/messages.routes'
 
 const app = createApp()
 
@@ -32,6 +33,7 @@ const routes = [
     taskV1Route,
     documentV1Route,
     documentSharingV1Route,
+    messagesV1Route,
 ]
 
 configureOpenAPI(app)
