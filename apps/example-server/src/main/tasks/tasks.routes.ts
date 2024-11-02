@@ -1,3 +1,10 @@
+import { createRouter } from '../../core/create-app'
+
+export const taskV1Route = createRouter().openapi(
+    getTaskListRoute,
+    getTaskListHandler,
+)
+
 import { zValidator } from '@hono/zod-validator'
 import { Hono } from 'hono'
 import { tasksTable } from '../../core/db/schema'
@@ -13,6 +20,7 @@ import {
     deleteAllTask,
     deleteTask,
 } from './tasks.service'
+import { getTaskListHandler, getTaskListRoute } from './routes/get-task-list'
 
 const app = new Hono()
 

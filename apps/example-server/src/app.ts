@@ -4,10 +4,17 @@ import { generalRoutes } from './core/general.routes'
 import { authV1Routes } from './main/auth/auth.routes'
 import { groupsV1Route } from './main/group/group.routes'
 import { userV1Routes } from './main/user/user.routes'
+import { taskV1Route } from './main/tasks/tasks.routes'
 
 const app = createApp()
 
-const routes = [generalRoutes, authV1Routes, userV1Routes, groupsV1Route]
+const routes = [
+    generalRoutes,
+    authV1Routes,
+    userV1Routes,
+    groupsV1Route,
+    taskV1Route,
+]
 
 configureOpenAPI(app)
 
