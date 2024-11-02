@@ -25,6 +25,7 @@ const routes = [
     courtsV1Routes,
     userV1Routes,
     groupsV1Route,
+    taskV1Route,
 ]
 
 configureOpenAPI(app)
