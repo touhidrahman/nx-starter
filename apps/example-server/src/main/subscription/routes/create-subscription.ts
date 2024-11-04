@@ -6,11 +6,14 @@ import {
 } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
-import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { checkToken } from '../../auth/auth.middleware'
-import { zInsertAppointment, zSelectAppointment } from '../appointments.schema'
-import { createAppointment } from '../appointments.service'
+import { zEmpty } from '../../../core/models/common.schema'
+import { authMiddleware } from '../../../core/middlewares/auth.middleware'
+import {
+    zInsertSubscription,
+    zSelectSubscription,
+} from '../subscription.schema'
+import { create } from '../subscriptions.service'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
     data,
@@ -18,35 +21,35 @@ const jsonResponse = (data: any, message: string, status: number) => ({
     status,
 })
 
-export const createAppointmentRoute = createRoute({
-    path: '/v1/appointments',
+export const createSubscriptionsRoute = createRoute({
+    path: '/v1/subscriptions',
     method: 'post',
-    tags: ['Appointment'],
-    middleware: [checkToken],
+    tags: ['Subscriptions'],
+    middleware: [authMiddleware],
     request: {
-        body: jsonContent(zInsertAppointment, 'Appointment details'),
+        body: jsonContent(zInsertSubscription, 'Subscription details'),
     },
     responses: {
         [CREATED]: ApiResponse(
-            zSelectAppointment,
-            'Appointment created successfully',
+            zSelectSubscription,
+            'Subscription created successfully',
         ),
-        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid appointment data'),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid subscription data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
 })
 
-export const createAppointmentHandler: AppRouteHandler<
-    typeof createAppointmentRoute
+export const createSubscriptionsHandler: AppRouteHandler<
+    typeof createSubscriptionsRoute
 > = async (c) => {
     const body = c.req.valid('json')
 
     try {
-        const newAppointment = await createAppointment(body)
+        const subscription = await create(body)
         return c.json(
             jsonResponse(
-                newAppointment,
-                'Appointment created successfully',
+                subscription,
+                'Subscription created successfully',
                 CREATED,
             ),
             CREATED,
@@ -54,19 +57,15 @@ export const createAppointmentHandler: AppRouteHandler<
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid appointment data', BAD_REQUEST),
+                jsonResponse({}, 'Invalid subscription details', BAD_REQUEST),
                 BAD_REQUEST,
             )
         }
-        console.error(
-            'Error creating appointment:',
-            error instanceof Error ? error.message : 'Unknown error',
-        )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
             jsonResponse(
                 {},
-                'Failed to create appointment',
+                'Subscription created successfully',
                 INTERNAL_SERVER_ERROR,
             ),
             INTERNAL_SERVER_ERROR,

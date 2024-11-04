@@ -10,7 +10,7 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { GroupDto, zInsertGroup, zSelectGroup } from '../group.schema'
-import { groupService } from '../group.service'
+import { createGroup, isOwner } from '../group.service'
 
 export const createGroupRoute = createRoute({
     path: '/v1/group',
@@ -33,7 +33,7 @@ export const createGroupHandler: AppRouteHandler<
     const { userId, role, groupId } = await c.get('jwtPayload')
     try {
         // check if group already created where he is a owner
-        const hasOwnedGroup = await groupService.isOwner(userId, groupId)
+        const hasOwnedGroup = await isOwner(userId, groupId)
         if (hasOwnedGroup) {
             return c.json(
                 {
@@ -44,7 +44,7 @@ export const createGroupHandler: AppRouteHandler<
         }
 
         // Insert a new entry into groups
-        const [newGroup] = await groupService.createGroup({
+        const [newGroup] = await createGroup({
             ...body,
             ownerId: userId,
         })

@@ -1,7 +1,7 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import {
-    OK,
     BAD_REQUEST,
+    OK,
     INTERNAL_SERVER_ERROR,
     NOT_FOUND,
 } from 'stoker/http-status-codes'
@@ -9,9 +9,12 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { checkToken } from '../../auth/auth.middleware'
-import { zUpdateAppointment, zSelectAppointment } from '../appointments.schema'
-import { findAppointmentById, updateAppointment } from '../appointments.service'
+import { authMiddleware } from '../../../core/middlewares/auth.middleware'
+import {
+    zSelectSubscription,
+    zUpdateSubscription,
+} from '../subscription.schema'
+import { findById, updateById } from '../subscriptions.service'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
     data,
@@ -19,46 +22,47 @@ const jsonResponse = (data: any, message: string, status: number) => ({
     status,
 })
 
-export const updateAppointmentRoute = createRoute({
-    path: '/v1/appointments/:id',
-    method: 'put',
-    tags: ['Appointment'],
-    middleware: [checkToken],
+export const updateSubscriptionRoute = createRoute({
+    path: '/v1/subscriptions/:id',
+    method: 'patch',
+    tags: ['Subscriptions'],
+    middleware: [authMiddleware],
     request: {
-        params: z.object({ id: z.string() }),
-        body: jsonContent(zUpdateAppointment, 'Appointment update details'),
+        param: z.object({ id: z.string() }),
+        body: jsonContent(zUpdateSubscription, 'Subscription details'),
     },
     responses: {
         [OK]: ApiResponse(
-            zSelectAppointment,
-            'Appointment updated successfully',
+            zSelectSubscription,
+            'Subscription updated successfully',
         ),
-        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid appointment data'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'Appointment not found'),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid subscription data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'Subscription not found'),
     },
 })
 
-export const updateAppointmentHandler: AppRouteHandler<
-    typeof updateAppointmentRoute
+export const updateSubscriptionHandler: AppRouteHandler<
+    typeof updateSubscriptionRoute
 > = async (c) => {
-    const appointmentId = c.req.param('id')
+    const id = c.req.param('id')
     const body = c.req.valid('json')
+    const payload = c.get('jwtPayload')
 
     try {
-        const existingAppointment = await findAppointmentById(appointmentId)
-        if (!existingAppointment) {
+        const subscription = await findById(id)
+        if (!subscription) {
             return c.json(
-                jsonResponse({}, 'Appointment not found', NOT_FOUND),
+                jsonResponse({}, 'Subscription not found', NOT_FOUND),
                 NOT_FOUND,
             )
         }
+        const updatedMessage = await updateById(id, payload.groupId, body)
 
-        const updatedAppointment = await updateAppointment(appointmentId, body)
         return c.json(
             jsonResponse(
-                updatedAppointment,
-                'Appointment updated successfully',
+                updatedMessage,
+                'Subscription created successfully',
                 OK,
             ),
             OK,
@@ -66,19 +70,19 @@ export const updateAppointmentHandler: AppRouteHandler<
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid appointment data', BAD_REQUEST),
+                jsonResponse({}, 'Invalid subscription data', BAD_REQUEST),
                 BAD_REQUEST,
             )
         }
         console.error(
-            'Error updating appointment:',
+            'Error updating subscription:',
             error instanceof Error ? error.message : 'Unknown error',
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
             jsonResponse(
                 {},
-                'Failed to update appointment',
+                'Failed to create subscription',
                 INTERNAL_SERVER_ERROR,
             ),
             INTERNAL_SERVER_ERROR,

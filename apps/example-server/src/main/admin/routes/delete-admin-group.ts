@@ -4,7 +4,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
-import { adminGroupsService } from '../admin-groups.service'
+import { deleteGroup, findGroupById } from '../admin-groups.service'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
     data,
@@ -32,7 +32,7 @@ export const deleteAdminGroupHandler: AppRouteHandler<
 > = async (c) => {
     const groupId = c.req.param('id')
     try {
-        const groupItem = await adminGroupsService.findGroupById(groupId)
+        const groupItem = await findGroupById(groupId)
         if (!groupItem) {
             return c.json(
                 jsonResponse({}, 'Admin group not found', NOT_FOUND),
@@ -40,7 +40,7 @@ export const deleteAdminGroupHandler: AppRouteHandler<
             )
         }
 
-        await adminGroupsService.deleteGroup(groupId)
+        await deleteGroup(groupId)
         return c.json(
             jsonResponse({}, 'Admin group deleted successfully', OK),
             OK,

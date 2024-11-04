@@ -5,7 +5,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
-import { adminUserService } from '../admin-user.service'
+import { approveAdminUser } from '../admin-user.service'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
     data,
@@ -37,7 +37,7 @@ export const approveAdminUserHandler: AppRouteHandler<
     const { userId } = c.req.valid('json')
 
     try {
-        const response = await adminUserService.approveAdminUser(userId)
+        const response = await approveAdminUser(userId)
 
         if (response.code === 404) {
             return c.json(

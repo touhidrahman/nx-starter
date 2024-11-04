@@ -11,7 +11,7 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zSelectGroup, zUpdateGroup } from '../admin-groups.schema'
-import { adminGroupsService } from '../admin-groups.service'
+import { findGroupById, updateGroup } from '../admin-groups.service'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
     data,
@@ -43,7 +43,7 @@ export const updateAdminGroupHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const existingGroup = await adminGroupsService.findGroupById(groupId)
+        const existingGroup = await findGroupById(groupId)
         if (!existingGroup) {
             return c.json(
                 jsonResponse({}, 'Admin group not found', NOT_FOUND),
@@ -51,7 +51,7 @@ export const updateAdminGroupHandler: AppRouteHandler<
             )
         }
 
-        const updatedGroup = await adminGroupsService.updateGroup(groupId, body)
+        const updatedGroup = await updateGroup(groupId, body)
         return c.json(
             jsonResponse(
                 updatedGroup[0],

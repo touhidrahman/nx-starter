@@ -10,7 +10,7 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
 import { zInsertGroup, zSelectGroup } from '../admin-groups.schema'
-import { adminGroupsService } from '../admin-groups.service'
+import { createGroup } from '../admin-groups.service'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
     data,
@@ -42,7 +42,7 @@ export const createAdminGroupHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const newGroup = await adminGroupsService.createGroup(body)
+        const newGroup = await createGroup(body)
         return c.json(
             jsonResponse(newGroup, 'Admin group created successfully', CREATED),
             CREATED,

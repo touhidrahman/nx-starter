@@ -10,7 +10,7 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zInsertCase, zSelectCase } from '../case.schema'
 import { zEmpty } from '../../../core/models/common.schema'
-import { caseService } from '../case.service'
+import { createCase } from '../case.service'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
     data,
@@ -39,7 +39,7 @@ export const createCaseHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const newCase = await caseService.createCase(body)
+        const newCase = await createCase(body)
         return c.json(
             jsonResponse(newCase, 'Case created successfully', CREATED),
             CREATED,

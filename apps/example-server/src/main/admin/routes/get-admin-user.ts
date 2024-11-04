@@ -5,7 +5,7 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zSelectAdminUser } from '../admin-user.schema'
-import { adminUserService } from '../admin-user.service'
+import { adminUserExists, getAdminUserById } from '../admin-user.service'
 
 export const getAdminUserRoute = createRoute({
     path: '/v1/admin-user/:id',
@@ -25,13 +25,13 @@ export const getAdminUserHandler: AppRouteHandler<
     typeof getAdminUserRoute
 > = async (c) => {
     const userId = c.req.param('id')
-    const userExists = await adminUserService.adminUserExists(userId)
+    const userExists = await adminUserExists(userId)
 
     if (!userExists) {
         return c.json({ message: 'Admin user not found', data: {} }, NOT_FOUND)
     }
 
-    const user = await adminUserService.getAdminUserById(userId)
+    const user = await getAdminUserById(userId)
 
     return c.json({ data: user, message: 'Admin user found' }, OK)
 }

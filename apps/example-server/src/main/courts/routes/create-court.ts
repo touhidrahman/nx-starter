@@ -9,7 +9,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
-import { courtsService } from '../courts.service'
+import { createCourt } from '../courts.service'
 import { zInsertCourt, zSelectCourt } from '../courts.schema'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
@@ -39,7 +39,7 @@ export const createCourtHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const newCourt = await courtsService.createCourt(body)
+        const newCourt = await createCourt(body)
         return c.json(
             jsonResponse(newCourt, 'Court created successfully', CREATED),
             CREATED,

@@ -16,6 +16,7 @@ import { documentV1Route } from './main/documents/documents.routes'
 import { documentSharingV1Route } from './main/documents-sharing/documents-sharing.routes'
 import { messagesV1Route } from './main/messages/messages.routes'
 import { permissionsV1Route } from './main/permissions/permissions.routes'
+import { subscriptionV1Route } from './main/subscription/subscription.routes'
 
 const app = createApp()
 
@@ -36,6 +37,7 @@ const routes = [
     documentSharingV1Route,
     messagesV1Route,
     permissionsV1Route,
+    subscriptionV1Route,
 ]
 
 configureOpenAPI(app)

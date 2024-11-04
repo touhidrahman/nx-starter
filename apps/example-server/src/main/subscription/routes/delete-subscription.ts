@@ -3,11 +3,8 @@ import { OK, NOT_FOUND, INTERNAL_SERVER_ERROR } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { checkToken } from '../../auth/auth.middleware'
-import {
-    deleteApplicationArea,
-    findApplicationAreaById,
-} from '../application-areas.service'
+import { authMiddleware } from '../../../core/middlewares/auth.middleware'
+import { findById, deleteById } from '../subscriptions.service'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
     data,
@@ -15,46 +12,50 @@ const jsonResponse = (data: any, message: string, status: number) => ({
     status,
 })
 
-export const deleteApplicationAreaRoute = createRoute({
-    path: '/v1/application-areas/:id',
+export const deleteSubscriptionRoute = createRoute({
+    path: '/v1/subscriptions/:id',
     method: 'delete',
-    tags: ['Application Area'],
-    middleware: [checkToken],
+    tags: ['Subscriptions'],
+    middleware: [authMiddleware],
     request: {
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(zEmpty, 'Application area deleted'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'Application area not found'),
+        [OK]: ApiResponse(zEmpty, 'Subscription deleted successfully'),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'Subscription not found'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
 })
 
-export const deleteApplicationAreaHandler: AppRouteHandler<
-    typeof deleteApplicationAreaRoute
+export const deleteSubscriptionHandler: AppRouteHandler<
+    typeof deleteSubscriptionRoute
 > = async (c) => {
-    const areaId = c.req.param('id')
+    const id = c.req.param('id')
 
     try {
-        const applicationArea = await findApplicationAreaById(areaId)
-        if (!applicationArea) {
+        const subscription = await findById(id)
+        if (!subscription) {
             return c.json(
-                jsonResponse({}, 'Application area not found', NOT_FOUND),
+                jsonResponse({}, 'Subscription not found', NOT_FOUND),
                 NOT_FOUND,
             )
         }
-        await deleteApplicationArea(areaId)
-        return c.json(jsonResponse({}, 'Application area deleted', OK), OK)
+
+        await deleteById(id)
+        return c.json(
+            jsonResponse('', 'Subscription deleted successfully', OK),
+            OK,
+        )
     } catch (error) {
         console.error(
-            'Error deleting application area:',
+            'Error deleting subscription:',
             error instanceof Error ? error.message : 'Unknown error',
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
             jsonResponse(
                 {},
-                'Failed to delete application area',
+                'Failed to delete subscription',
                 INTERNAL_SERVER_ERROR,
             ),
             INTERNAL_SERVER_ERROR,

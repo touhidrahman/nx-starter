@@ -4,7 +4,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
-import { appointmentService } from '../appointments.service'
+import { deleteAppointment, findAppointmentById } from '../appointments.service'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
     data,
@@ -33,9 +33,7 @@ export const deleteAppointmentHandler: AppRouteHandler<
     const appointmentId = c.req.param('id')
 
     try {
-        const appointment = await appointmentService.findAppointmentById(
-            appointmentId,
-        )
+        const appointment = await findAppointmentById(appointmentId)
         if (!appointment) {
             return c.json(
                 jsonResponse({}, 'Appointment not found', NOT_FOUND),
@@ -43,7 +41,7 @@ export const deleteAppointmentHandler: AppRouteHandler<
             )
         }
 
-        await appointmentService.deleteAppointment(appointmentId)
+        await deleteAppointment(appointmentId)
         return c.json(
             jsonResponse({}, 'Appointment deleted successfully', OK),
             OK,

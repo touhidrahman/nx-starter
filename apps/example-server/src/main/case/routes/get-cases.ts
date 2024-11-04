@@ -5,7 +5,7 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zSelectCase } from '../case.schema'
-import { caseService } from '../case.service'
+import { findCasesByGroupId } from '../case.service'
 
 export const getCasesRoute = createRoute({
     path: '/v1/cases',
@@ -29,7 +29,7 @@ export const getCasesHandler: AppRouteHandler<typeof getCasesRoute> = async (
         return c.json({ message: 'Group ID is required', data: [] }, NOT_FOUND)
     }
 
-    const cases = await caseService.findCasesByGroupId(groupId)
+    const cases = await findCasesByGroupId(groupId)
 
     if (cases.length === 0) {
         return c.json({ message: 'No cases found', data: [] }, NOT_FOUND)

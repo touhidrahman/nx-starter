@@ -5,7 +5,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
-import { adminUserService } from '../admin-user.service'
+import { makeUserAdmin } from '../admin-user.service'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
     data,
@@ -34,7 +34,7 @@ export const updateAdminUserHandler: AppRouteHandler<
     const { userId } = c.req.valid('json')
 
     try {
-        const response = await adminUserService.makeUserAdmin(userId)
+        const response = await makeUserAdmin(userId)
 
         if (response.code === 404) {
             return c.json(

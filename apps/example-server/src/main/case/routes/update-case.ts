@@ -11,7 +11,7 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zUpdateCase, zSelectCase } from '../case.schema'
-import { caseService } from '../case.service'
+import { findCaseById, updateCase } from '../case.service'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
     data,
@@ -43,7 +43,7 @@ export const updateCaseHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const existingCase = await caseService.findCaseById(caseId)
+        const existingCase = await findCaseById(caseId)
         if (!existingCase) {
             return c.json(
                 jsonResponse({}, 'Case not found', NOT_FOUND),
@@ -51,7 +51,7 @@ export const updateCaseHandler: AppRouteHandler<
             )
         }
 
-        const updatedCase = await caseService.updateCase(caseId, body)
+        const updatedCase = await updateCase(caseId, body)
         return c.json(
             jsonResponse(updatedCase, 'Case updated successfully', OK),
             OK,

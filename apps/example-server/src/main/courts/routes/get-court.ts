@@ -4,7 +4,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
-import { courtsService } from '../courts.service'
+import { findCourtById } from '../courts.service'
 import { zSelectCourt } from '../courts.schema'
 
 export const getCourtRoute = createRoute({
@@ -25,7 +25,7 @@ export const getCourtHandler: AppRouteHandler<typeof getCourtRoute> = async (
     c,
 ) => {
     const courtId = c.req.param('id')
-    const courtItem = await courtsService.findCourtById(courtId)
+    const courtItem = await findCourtById(courtId)
 
     if (!courtItem) {
         return c.json({ message: 'Court not found', data: {} }, NOT_FOUND)

@@ -9,7 +9,7 @@ import {
     zSelectApplicationArea,
     zUpdateApplicationArea,
 } from '../application-areas.schema'
-import { applicationAreasService } from '../application-areas.service'
+import { updateApplicationArea } from '../application-areas.service'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
     data,
@@ -40,8 +40,7 @@ export const updateApplicationAreaHandler: AppRouteHandler<
     const areaId = c.req.param('id')
 
     try {
-        const updatedApplicationArea =
-            await applicationAreasService.updateApplicationArea(areaId, body)
+        const updatedApplicationArea = await updateApplicationArea(areaId, body)
 
         if (!updatedApplicationArea) {
             return c.json(

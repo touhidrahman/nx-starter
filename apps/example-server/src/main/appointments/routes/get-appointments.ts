@@ -4,7 +4,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zSelectAppointment } from '../appointments.schema'
-import { appointmentService } from '../appointments.service'
+import { findAppointmentsByGroupId } from '../appointments.service'
 
 export const getAppointmentsRoute = createRoute({
     path: '/v1/appointments',
@@ -27,9 +27,7 @@ export const getAppointmentsHandler: AppRouteHandler<
         return c.json({ message: 'Group ID is required', data: [] }, OK)
     }
 
-    const appointments = await appointmentService.findAppointmentsByGroupId(
-        groupId,
-    )
+    const appointments = await findAppointmentsByGroupId(groupId)
 
     return c.json({ data: appointments, message: 'List of Appointments' }, OK)
 }

@@ -4,12 +4,9 @@ import app from './app'
 import env from './env'
 import adminSeedRoutes from './main/admin/admin-seed.routes'
 import storageRoutes from './main/storage/storage.routes'
-import subscriptionRoutes from './main/subscription/subscription.routes'
 
 app.route('admin/seed', adminSeedRoutes)
 app.route('storage', storageRoutes)
-app.route('subscriptions', subscriptionRoutes)
-app.route('subscription', subscriptionRoutes)
 
 if (env.NODE_ENV === 'development' || env.NODE_ENV === 'local') {
     showRoutes(app, {

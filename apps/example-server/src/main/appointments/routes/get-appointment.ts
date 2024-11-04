@@ -5,7 +5,7 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zSelectAppointment } from '../appointments.schema'
-import { appointmentService } from '../appointments.service'
+import { findAppointmentById } from '../appointments.service'
 
 export const getAppointmentRoute = createRoute({
     path: '/v1/appointment/:id',
@@ -25,9 +25,7 @@ export const getAppointmentHandler: AppRouteHandler<
     typeof getAppointmentRoute
 > = async (c) => {
     const appointmentId = c.req.param('id')
-    const appointment = await appointmentService.findAppointmentById(
-        appointmentId,
-    )
+    const appointment = await findAppointmentById(appointmentId)
 
     if (!appointment) {
         return c.json({ message: 'Appointment not found', data: {} }, NOT_FOUND)

@@ -5,7 +5,7 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zSelectGroup } from '../admin-groups.schema'
-import { adminGroupsService } from '../admin-groups.service'
+import { findGroupById } from '../admin-groups.service'
 
 export const getAdminGroupRoute = createRoute({
     path: '/v1/admin-group/:id',
@@ -25,7 +25,7 @@ export const getAdminGroupHandler: AppRouteHandler<
     typeof getAdminGroupRoute
 > = async (c) => {
     const groupId = c.req.param('id')
-    const groupItem = await adminGroupsService.findGroupById(groupId)
+    const groupItem = await findGroupById(groupId)
 
     if (!groupItem) {
         return c.json({ message: 'Group not found', data: {} }, NOT_FOUND)

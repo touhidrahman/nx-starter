@@ -13,7 +13,7 @@ import {
     zInsertApplicationArea,
     zSelectApplicationArea,
 } from '../application-areas.schema'
-import { applicationAreasService } from '../application-areas.service'
+import { createApplicationArea } from '../application-areas.service'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
     data,
@@ -45,8 +45,7 @@ export const createApplicationAreaHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const newApplicationArea =
-            await applicationAreasService.createApplicationArea(body)
+        const newApplicationArea = await createApplicationArea(body)
         return c.json(
             jsonResponse(
                 newApplicationArea,

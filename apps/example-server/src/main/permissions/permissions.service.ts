@@ -12,19 +12,19 @@ export const listAll = async (limit: number = 100) => {
 export const create = async (permissionData: any) => {
     return db.insert(permissionsTable).values(permissionData).returning()
 }
-
-export const deleteMany = async (permission: {
-    groupId?: string
-    role?: string
-    area?: string
-}) => {
-    return db
-        .delete(permissionsTable)
-        .where(
-            and(
-                eq(permissionsTable.groupId, permission.groupId),
-                eq(permissionsTable.role as any, permission.role),
-                eq(permissionsTable.area, permission.area),
-            ),
-        )
-}
+//
+// export const deleteMany = async (permission: {
+//     groupId?: string
+//     role?: string
+//     area?: string
+// }) => {
+//     return db
+//         .delete(permissionsTable)
+//         .where(
+//             and(
+//                 eq(permissionsTable.groupId, permission.groupId),
+//                 eq(permissionsTable.role as any, permission.role),
+//                 eq(permissionsTable.area, permission.area),
+//             ),
+//         )
+// }

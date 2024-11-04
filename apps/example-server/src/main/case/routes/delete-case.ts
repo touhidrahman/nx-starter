@@ -4,7 +4,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
-import { caseService } from '../case.service'
+import { deleteCase, findCaseById } from '../case.service'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
     data,
@@ -33,7 +33,7 @@ export const deleteCaseHandler: AppRouteHandler<
     const caseId = c.req.param('id')
 
     try {
-        const caseItem = await caseService.findCaseById(caseId)
+        const caseItem = await findCaseById(caseId)
         if (!caseItem) {
             return c.json(
                 jsonResponse({}, 'Case not found', NOT_FOUND),
@@ -41,7 +41,7 @@ export const deleteCaseHandler: AppRouteHandler<
             )
         }
 
-        await caseService.deleteCase(caseId)
+        await deleteCase(caseId)
         return c.json(jsonResponse('', 'Case deleted successfully', OK), OK)
     } catch (error) {
         console.error(

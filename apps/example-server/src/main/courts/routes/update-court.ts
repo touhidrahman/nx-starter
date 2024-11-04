@@ -10,7 +10,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
-import { courtsService } from '../courts.service'
+import { findCourtById, updateCourt } from '../courts.service'
 import { zSelectCourt, zUpdateCourt } from '../courts.schema'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
@@ -43,7 +43,7 @@ export const updateCourtHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const existingCourt = await courtsService.findCourtById(courtId)
+        const existingCourt = await findCourtById(courtId)
         if (!existingCourt) {
             return c.json(
                 jsonResponse({}, 'Court not found', NOT_FOUND),
@@ -51,7 +51,7 @@ export const updateCourtHandler: AppRouteHandler<
             )
         }
 
-        const updatedCourt = await courtsService.updateCourt(courtId, body)
+        const updatedCourt = await updateCourt(courtId, body)
         return c.json(
             jsonResponse(updatedCourt, 'Court updated successfully', OK),
             OK,
