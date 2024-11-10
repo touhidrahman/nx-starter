@@ -1,131 +1,145 @@
-import { zValidator } from '@hono/zod-validator'
-import { and, eq, getTableColumns } from 'drizzle-orm'
-import { Hono } from 'hono'
-import { db } from '../../core/db/db'
-import { casesTable } from '../../core/db/schema'
-import { authMiddleware } from '../../core/middlewares/auth.middleware'
-import checkCaseOwnershipMiddleware from '../../core/middlewares/check-ownership.middleware'
-import { zId, zIds } from '../../core/models/common.schema'
-import { zInsertCase, zUpdateCase } from './case.schema'
+import { createRouter } from '../../core/create-app'
+import { createCaseHandler, createCaseRoute } from './routes/create-case'
+import { deleteCaseHandler, deleteCaseRoute } from './routes/delete-case'
+import { getCaseHandler, getCaseRoute } from './routes/get-case'
+import { getCasesHandler, getCasesRoute } from './routes/get-cases'
+import { updateCaseHandler, updateCaseRoute } from './routes/update-case'
 
-const app = new Hono()
+export const caseV1Routes = createRouter()
+    .openapi(createCaseRoute, createCaseHandler)
+    .openapi(getCaseRoute, getCaseHandler)
+    .openapi(getCasesRoute, getCasesHandler)
+    .openapi(updateCaseRoute, updateCaseHandler)
+    .openapi(deleteCaseRoute, deleteCaseHandler)
 
-// GET  - list all
-app.get('', authMiddleware, async (c) => {
-    const payload = await c.get('jwtPayload')
+// import { zValidator } from '@hono/zod-validator'
+// import { and, eq, getTableColumns } from 'drizzle-orm'
+// import { Hono } from 'hono'
+// import { db } from '../../core/db/db'
+// import { casesTable } from '../../core/db/schema'
+// import { authMiddleware } from '../../core/middlewares/auth.middleware'
+// import checkCaseOwnershipMiddleware from '../../core/middlewares/check-ownership.middleware'
+// import { zId, zIds } from '../../core/models/common.schema'
+// import { zInsertCase, zUpdateCase } from './case.schema'
 
-    try {
-        const groupId = payload.groupId
-        const cases = await db
-            .select({ ...getTableColumns(casesTable) })
-            .from(casesTable)
-            .where(eq(casesTable.groupId, groupId))
-            .limit(100)
+// const app = new Hono()
 
-        return c.json({ data: cases, message: 'Cases list' })
-    } catch (error: any) {
-        return c.json(
-            { error: 'Internal server error', message: error.message },
-            500,
-        )
-    }
-})
+// // GET  - list all
+// app.get('', authMiddleware, async (c) => {
+//     const payload = await c.get('jwtPayload')
 
-// GET /:id - find one
-app.get(
-    '/:id',
-    authMiddleware,
-    zValidator('param', zId),
-    checkCaseOwnershipMiddleware(casesTable, 'Case'),
-    async (c) => {
-        const id = c.req.param('id')
-        const caseItem = await db
-            .select({ ...getTableColumns(casesTable) })
-            .from(casesTable)
-            .where(eq(casesTable.id, id))
-            .limit(1)
+//     try {
+//         const groupId = payload.groupId
+//         const cases = await db
+//             .select({ ...getTableColumns(casesTable) })
+//             .from(casesTable)
+//             .where(eq(casesTable.groupId, groupId))
+//             .limit(100)
 
-        if (caseItem.length === 0) {
-            return c.json({ message: 'Case not found' }, 404)
-        }
+//         return c.json({ data: cases, message: 'Cases list' })
+//     } catch (error: any) {
+//         return c.json(
+//             { error: 'Internal server error', message: error.message },
+//             500,
+//         )
+//     }
+// })
 
-        return c.json({ data: caseItem[0], message: 'Case found' })
-    },
-)
+// // GET /:id - find one
+// app.get(
+//     '/:id',
+//     authMiddleware,
+//     zValidator('param', zId),
+//     checkCaseOwnershipMiddleware(casesTable, 'Case'),
+//     async (c) => {
+//         const id = c.req.param('id')
+//         const caseItem = await db
+//             .select({ ...getTableColumns(casesTable) })
+//             .from(casesTable)
+//             .where(eq(casesTable.id, id))
+//             .limit(1)
 
-// POST  - create one
-app.post('', zValidator('json', zInsertCase), authMiddleware, async (c) => {
-    const body = c.req.valid('json')
+//         if (caseItem.length === 0) {
+//             return c.json({ message: 'Case not found' }, 404)
+//         }
 
-    const newCase = await db.insert(casesTable).values(body).returning()
+//         return c.json({ data: caseItem[0], message: 'Case found' })
+//     },
+// )
 
-    return c.json({ data: newCase, message: 'Case created' })
-})
+// // POST  - create one
+// app.post('', zValidator('json', zInsertCase), authMiddleware, async (c) => {
+//     const body = c.req.valid('json')
 
-// PATCH /:id - update
-app.patch(
-    '/:id',
-    zValidator('param', zId),
-    zValidator('json', zUpdateCase),
-    authMiddleware,
-    checkCaseOwnershipMiddleware(casesTable, 'Case'),
-    async (c) => {
-        const id = c.req.param('id')
-        const body = c.req.valid('json')
-        const payload = await c.get('jwtPayload')
+//     const newCase = await db.insert(casesTable).values(body).returning()
 
-        const updatedCase = await db
-            .update(casesTable)
-            .set(body)
-            .where(
-                and(
-                    eq(casesTable.id, id),
-                    eq(casesTable.groupId, payload.groupId),
-                ),
-            )
-            .returning()
+//     return c.json({ data: newCase, message: 'Case created' })
+// })
 
-        return c.json({ data: updatedCase, message: 'Case updated' })
-    },
-)
+// // PATCH /:id - update
+// app.patch(
+//     '/:id',
+//     zValidator('param', zId),
+//     zValidator('json', zUpdateCase),
+//     authMiddleware,
+//     checkCaseOwnershipMiddleware(casesTable, 'Case'),
+//     async (c) => {
+//         const id = c.req.param('id')
+//         const body = c.req.valid('json')
+//         const payload = await c.get('jwtPayload')
 
-// DELETE /:id - delete
-app.delete(
-    '/:id',
-    zValidator('param', zId),
-    authMiddleware,
-    checkCaseOwnershipMiddleware(casesTable, 'Case'),
-    async (c) => {
-        const id = c.req.param('id')
+//         const updatedCase = await db
+//             .update(casesTable)
+//             .set(body)
+//             .where(
+//                 and(
+//                     eq(casesTable.id, id),
+//                     eq(casesTable.groupId, payload.groupId),
+//                 ),
+//             )
+//             .returning()
 
-        await db.delete(casesTable).where(eq(casesTable.id, id))
+//         return c.json({ data: updatedCase, message: 'Case updated' })
+//     },
+// )
 
-        return c.json({ message: 'Case deleted' })
-    },
-)
+// // DELETE /:id - delete
+// app.delete(
+//     '/:id',
+//     zValidator('param', zId),
+//     authMiddleware,
+//     checkCaseOwnershipMiddleware(casesTable, 'Case'),
+//     async (c) => {
+//         const id = c.req.param('id')
 
-// DELETE  - delete many
-app.delete('', zValidator('json', zIds), authMiddleware, async (c) => {
-    const body = c.req.valid('json')
-    const payload = await c.get('jwtPayload')
+//         await db.delete(casesTable).where(eq(casesTable.id, id))
 
-    try {
-        for (const caseId of body.ids) {
-            await db
-                .delete(casesTable)
-                .where(
-                    and(
-                        eq(casesTable.id, caseId),
-                        eq(casesTable.groupId, payload.groupId),
-                    ),
-                )
-        }
-    } catch (error: any) {
-        return c.json(
-            { error: 'Internal server error', message: error.message },
-            500,
-        )
-    }
-})
+//         return c.json({ message: 'Case deleted' })
+//     },
+// )
 
-export default app
+// // DELETE  - delete many
+// app.delete('', zValidator('json', zIds), authMiddleware, async (c) => {
+//     const body = c.req.valid('json')
+//     const payload = await c.get('jwtPayload')
+
+//     try {
+//         for (const caseId of body.ids) {
+//             await db
+//                 .delete(casesTable)
+//                 .where(
+//                     and(
+//                         eq(casesTable.id, caseId),
+//                         eq(casesTable.groupId, payload.groupId),
+//                     ),
+//                 )
+//         }
+//     } catch (error: any) {
+//         return c.json(
+//             { error: 'Internal server error', message: error.message },
+//             500,
+//         )
+//     }
+// })
+
+// export default app

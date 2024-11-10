@@ -8,6 +8,13 @@
             "when": 1730070916434,
             "tag": "0000_far_pandemic",
             "breakpoints": true
+        },
+        {
+            "idx": 1,
+            "version": "7",
+            "when": 1728739799076,
+            "tag": "0001_marvelous_fixer",
+            "breakpoints": true
         }
     ]
 }

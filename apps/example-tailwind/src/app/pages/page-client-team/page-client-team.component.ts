@@ -15,14 +15,16 @@ import { RouterModule } from '@angular/router'
 @Component({
     selector: 'app-page-client-team',
     standalone: true,
-    imports: [CommonModule,
+    imports: [
+        CommonModule,
         RouterModule,
         BrnRadioGroupComponent,
         BrnRadioComponent,
         HlmRadioIndicatorComponent,
         HlmRadioDirective,
         HlmRadioGroupDirective,
-        HlmSmallDirective,],
+        HlmSmallDirective,
+    ],
     templateUrl: './page-client-team.component.html',
     styleUrl: './page-client-team.component.scss',
 })

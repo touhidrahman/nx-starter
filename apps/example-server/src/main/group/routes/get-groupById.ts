@@ -5,7 +5,7 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zSelectGroup } from '../group.schema'
-import { groupService } from '../group.service'
+import { findGroupById } from '../group.service'
 import { isGroupParticipant } from '../../../core/middlewares/is-group-owner.middleware'
 
 export const getGroupByIDRoute = createRoute({
@@ -25,7 +25,7 @@ export const getGroupByIdHandler: AppRouteHandler<
     typeof getGroupByIDRoute
 > = async (c: any) => {
     const id = c.req.param('id')
-    const result = await groupService.findGroupById(id)
+    const result = await findGroupById(id)
 
     if (!result) {
         return c.json({ error: 'Group not found' }, 404)

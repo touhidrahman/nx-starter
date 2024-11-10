@@ -26,6 +26,7 @@ export const zDeletePermission = z.object({
                 groupId: z.string(),
                 role: z.string(),
                 area: z.string(),
+                access: z.number(),
             }),
         )
         .min(1),

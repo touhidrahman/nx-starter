@@ -9,8 +9,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
-import { zInsertGroup, zSelectGroup } from '../group.schema'
-import { groupService } from '../group.service'
+import { isParticipant } from '../group.service'
 import { ROLE_MEMBER, zSelectUser } from '../../user/user.schema'
 import { findAuthUserByEmail } from '../../auth/auth.service'
 import { createUser } from '../../user/user.service'
@@ -43,7 +42,7 @@ export const addAuthUserToGroupHandler: AppRouteHandler<
             return c.json({ error: 'User not found' }, 404)
         }
 
-        const exists = await groupService.isParticipant(authUser.id, id)
+        const exists = await isParticipant(authUser.id, id)
         if (exists) {
             return c.json({ error: 'User already belongs to group' }, 400)
         }

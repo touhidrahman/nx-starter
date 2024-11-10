@@ -617,11 +617,13 @@ export const messagesRelations = relations(messagesTable, ({ one, many }) => ({
 
 export const storageTable = pgTable('storage', {
     id: text('id').primaryKey().$defaultFn(generateId),
-    groupId: text('group_id')
-        .references(() => groupsTable.id)
-        .notNull(),
-    totalSize: integer('total_size').notNull(),
-    usedSize: integer('used_size').notNull(),
+    filename: text('filename'),
+    url: text('url'),
+    extension: text('extension'),
+    uploadedBy: text('uploaded_by'),
+    entityId: text('entity_id'),
+    entityName: text('entity_name'),
+    expiryDate: timestamp('expiry_date'),
 })
 
 //  section: Courts Table
