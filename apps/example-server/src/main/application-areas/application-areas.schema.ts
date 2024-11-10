@@ -5,11 +5,20 @@ import { z } from 'zod'
 export type InsertApplicationArea = typeof applicationAreasTable.$inferInsert
 export type SelectApplicationArea = typeof applicationAreasTable.$inferSelect
 
-
-export const zInsertApplicationArea = createInsertSchema(applicationAreasTable, {
-    area: (schema) => schema.area.min(1, 'Area is required').max(100, 'Area must be less than 100 characters'),
-    description: (schema) => schema.description.max(255, 'Description must be less than 255 characters'),
-})
+export const zInsertApplicationArea = createInsertSchema(
+    applicationAreasTable,
+    {
+        area: (schema) =>
+            schema.area
+                .min(1, 'Area is required')
+                .max(100, 'Area must be less than 100 characters'),
+        description: (schema) =>
+            schema.description.max(
+                255,
+                'Description must be less than 255 characters',
+            ),
+    },
+)
 
 export const zSelectApplicationArea = createSelectSchema(applicationAreasTable)
 

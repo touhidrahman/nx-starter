@@ -3,71 +3,47 @@ import { db } from '../../core/db/db'
 import { courtsTable } from '../../core/db/schema'
 import { InsertCourt } from './courts.schema'
 
-export class CourtsService {
-    // Find all courts
-    async findAllCourts() {
-        const courts = await db
-            .select()
-            .from(courtsTable)
-            .limit(100)
+// Retrieve all courts, limiting results to 100.
+export const findAllCourts = async () =>
+    db.select().from(courtsTable).limit(100)
 
-        return courts
-    }
+// Retrieve a specific court by ID.
+export const findCourtById = async (id: string) =>
+    db.query.courtsTable.findFirst({
+        where: eq(courtsTable.id, id),
+    })
 
-    // Find a specific court by ID
-    async findCourtById(id: string) {
-        return db.query.courtsTable.findFirst({
-            where: eq(courtsTable.id, id),
-        })
-    }
+// Insert a new court.
+export const createCourt = async (court: InsertCourt) =>
+    db.insert(courtsTable).values(court).returning()
 
-    // Create a new court
-    async createCourt(court: InsertCourt) {
-        return db.insert(courtsTable).values(court).returning()
-    }
+// Update an existing court by ID.
+export const updateCourt = async (id: string, court: Partial<InsertCourt>) =>
+    db.update(courtsTable).set(court).where(eq(courtsTable.id, id)).returning()
 
-    // Update an existing court by ID
-    async updateCourt(
-        id: string,
-        court: Partial<InsertCourt>,
-    ) {
-        return db
-            .update(courtsTable)
-            .set(court)
-            .where(eq(courtsTable.id, id))
-            .returning()
-    }
+// Remove a court by ID.
+export const deleteCourt = async (id: string) =>
+    db.delete(courtsTable).where(eq(courtsTable.id, id)).returning()
 
-    // Delete a court by ID
-    async deleteCourt(id: string) {
-        return db
-            .delete(courtsTable)
-            .where(eq(courtsTable.id, id))
-            .returning()
-    }
-
-    // Delete multiple courts by IDs
-    async deleteCourts(ids: string[]) {
-        try {
-            for (const id of ids) {
-                await db
-                    .delete(courtsTable)
-                    .where(eq(courtsTable.id, id))
-            }
-        } catch (error) {
-            throw new Error('Failed to delete courts: ')
-        }
-    }
-
-    // Check if a court exists by ID
-    async courtExists(id: string) {
-        const courtCount = await db
-            .select({ value: count() })
-            .from(courtsTable)
-            .where(eq(courtsTable.id, id))
-
-        return courtCount?.[0]?.value === 1
+// Bulk delete courts by a list of IDs.
+export const deleteCourts = async (ids: string[]) => {
+    try {
+        await Promise.all(
+            ids.map((id) =>
+                db.delete(courtsTable).where(eq(courtsTable.id, id)),
+            ),
+        )
+    } catch (error) {
+        throw new Error('Failed to delete courts.')
     }
 }
 
-export const courtsService = new CourtsService()
+// Check existence of a court by ID.
+export const courtExists = async (id: string) => {
+    const courtCount = await db
+        .select({ value: count() })
+        .from(courtsTable)
+        .where(eq(courtsTable.id, id))
+
+    return courtCount?.[0]?.value === 1
+}

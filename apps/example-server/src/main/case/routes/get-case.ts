@@ -5,8 +5,7 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zSelectCase } from '../case.schema'
-import { caseService } from '../case.service'
-
+import { findCaseById } from '../case.service'
 
 export const getCaseRoute = createRoute({
     path: '/v1/case/:id',
@@ -26,7 +25,7 @@ export const getCaseHandler: AppRouteHandler<typeof getCaseRoute> = async (
     c,
 ) => {
     const caseId = c.req.param('id')
-    const caseItem = await caseService.findCaseById(caseId)
+    const caseItem = await findCaseById(caseId)
 
     if (!caseItem) {
         return c.json({ message: 'Case not found', data: {} }, NOT_FOUND)

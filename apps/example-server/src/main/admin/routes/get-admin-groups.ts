@@ -5,8 +5,7 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zSelectGroup } from '../admin-groups.schema'
-import { adminGroupsService } from '../admin-groups.service'
-
+import { findAllGroups } from '../admin-groups.service'
 
 export const getAdminGroupsRoute = createRoute({
     path: '/v1/admin-groups',
@@ -25,14 +24,14 @@ export const getAdminGroupsRoute = createRoute({
     },
 })
 
-export const getAdminGroupsHandler: AppRouteHandler<typeof getAdminGroupsRoute> = async (
-    c,
-) => {
+export const getAdminGroupsHandler: AppRouteHandler<
+    typeof getAdminGroupsRoute
+> = async (c) => {
     const { page, size } = c.req.query()
     const pageNumber = Number(page) || 1
     const sizeNumber = Number(size) || 10
 
-    const groups = await adminGroupsService.findAllGroups(pageNumber, sizeNumber)
+    const groups = await findAllGroups(pageNumber, sizeNumber)
 
     if (groups.length === 0) {
         return c.json({ message: 'No groups found', data: [] }, NOT_FOUND)

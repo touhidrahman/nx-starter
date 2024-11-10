@@ -3,77 +3,58 @@ import { db } from '../../core/db/db'
 import { casesTable } from '../../core/db/schema'
 import { InsertCase } from './case.schema'
 
-export class CaseService {
-    // Find all cases by groupId
-    async findCasesByGroupId(groupId: string) {
-        const cases = await db
-            .select()
-            .from(casesTable)
-            .where(eq(casesTable.groupId, groupId))
-            .limit(100)
+// Retrieve all cases by group ID, limiting results to 100.
+export const findCasesByGroupId = async (groupId: string) =>
+    db
+        .select()
+        .from(casesTable)
+        .where(eq(casesTable.groupId, groupId))
+        .limit(100)
 
-        return cases
-    }
+// Retrieve a specific case by ID.
+export const findCaseById = async (id: string) =>
+    db.query.casesTable.findFirst({
+        where: eq(casesTable.id, id),
+    })
 
-    // Find a specific case by ID
-    async findCaseById(id: string) {
-        return db.query.casesTable.findFirst({
-            where: eq(casesTable.id, id),
-        })
-    }
+// Insert a new case.
+export const createCase = async (caseItem: InsertCase) =>
+    db.insert(casesTable).values(caseItem).returning()
 
-    // Create a new case
-    async createCase(caseItem: InsertCase) {
-        return db.insert(casesTable).values(caseItem).returning()
-    }
+// Update an existing case by ID.
+export const updateCase = async (id: string, caseItem: Partial<InsertCase>) =>
+    db.update(casesTable).set(caseItem).where(eq(casesTable.id, id)).returning()
 
-    // Update an existing case by ID
-    async updateCase(
-        id: string,
-        caseItem: Partial<InsertCase>,
-    ) {
-        return db
-            .update(casesTable)
-            .set(caseItem)
-            .where(eq(casesTable.id, id))
-            .returning()
-    }
+// Remove a case by ID.
+export const deleteCase = async (id: string) =>
+    db.delete(casesTable).where(eq(casesTable.id, id)).returning()
 
-    // Delete a case by ID
-    async deleteCase(id: string) {
-        return db
-            .delete(casesTable)
-            .where(eq(casesTable.id, id))
-            .returning()
-    }
-
-    // Delete multiple cases by IDs
-    async deleteCases(ids: string[], groupId: string) {
-        try {
-            for (const id of ids) {
-                await db
+// Bulk delete cases by a list of IDs, restricted by group ID.
+export const deleteCases = async (ids: string[], groupId: string) => {
+    try {
+        await Promise.all(
+            ids.map((id) =>
+                db
                     .delete(casesTable)
                     .where(
                         and(
                             eq(casesTable.id, id),
                             eq(casesTable.groupId, groupId),
                         ),
-                    )
-            }
-        } catch (error) {
-            throw new Error('Failed to delete cases: ')
-        }
-    }
-
-    // Check if a case exists by ID
-    async caseExists(id: string) {
-        const caseCount = await db
-            .select({ value: count() })
-            .from(casesTable)
-            .where(eq(casesTable.id, id))
-
-        return caseCount?.[0]?.value === 1
+                    ),
+            ),
+        )
+    } catch (error) {
+        throw new Error('Failed to delete cases.')
     }
 }
 
-export const caseService = new CaseService()
+// Check existence of a case by ID.
+export const caseExists = async (id: string) => {
+    const caseCount = await db
+        .select({ value: count() })
+        .from(casesTable)
+        .where(eq(casesTable.id, id))
+
+    return caseCount?.[0]?.value === 1
+}

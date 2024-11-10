@@ -4,7 +4,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
-import { caseService } from '../case.service'
+import { deleteCase, findCaseById } from '../case.service'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
     data,
@@ -27,29 +27,31 @@ export const deleteCaseRoute = createRoute({
     },
 })
 
-export const deleteCaseHandler: AppRouteHandler<typeof deleteCaseRoute> = async (c) => {
+export const deleteCaseHandler: AppRouteHandler<
+    typeof deleteCaseRoute
+> = async (c) => {
     const caseId = c.req.param('id')
 
     try {
-        const caseItem = await caseService.findCaseById(caseId)
+        const caseItem = await findCaseById(caseId)
         if (!caseItem) {
             return c.json(
                 jsonResponse({}, 'Case not found', NOT_FOUND),
-                NOT_FOUND
+                NOT_FOUND,
             )
         }
 
-        await caseService.deleteCase(caseId)
+        await deleteCase(caseId)
         return c.json(jsonResponse('', 'Case deleted successfully', OK), OK)
     } catch (error) {
         console.error(
             'Error deleting case:',
-            error instanceof Error ? error.message : 'Unknown error'
+            error instanceof Error ? error.message : 'Unknown error',
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
             jsonResponse({}, 'Failed to delete case', INTERNAL_SERVER_ERROR),
-            INTERNAL_SERVER_ERROR
+            INTERNAL_SERVER_ERROR,
         )
     }
 }

@@ -4,8 +4,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
-import { adminGroupsService } from '../admin-groups.service'
-
+import { deleteGroup, findGroupById } from '../admin-groups.service'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
     data,
@@ -28,28 +27,37 @@ export const deleteAdminGroupRoute = createRoute({
     },
 })
 
-export const deleteAdminGroupHandler: AppRouteHandler<typeof deleteAdminGroupRoute> = async (c) => {
+export const deleteAdminGroupHandler: AppRouteHandler<
+    typeof deleteAdminGroupRoute
+> = async (c) => {
     const groupId = c.req.param('id')
     try {
-        const groupItem = await adminGroupsService.findGroupById(groupId)
+        const groupItem = await findGroupById(groupId)
         if (!groupItem) {
             return c.json(
                 jsonResponse({}, 'Admin group not found', NOT_FOUND),
-                NOT_FOUND
+                NOT_FOUND,
             )
         }
 
-        await adminGroupsService.deleteGroup(groupId)
-        return c.json(jsonResponse({}, 'Admin group deleted successfully', OK), OK)
+        await deleteGroup(groupId)
+        return c.json(
+            jsonResponse({}, 'Admin group deleted successfully', OK),
+            OK,
+        )
     } catch (error) {
         console.error(
             'Error deleting admin group:',
-            error instanceof Error ? error.message : 'Unknown error'
+            error instanceof Error ? error.message : 'Unknown error',
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse({}, 'Failed to delete admin group', INTERNAL_SERVER_ERROR),
-            INTERNAL_SERVER_ERROR
+            jsonResponse(
+                {},
+                'Failed to delete admin group',
+                INTERNAL_SERVER_ERROR,
+            ),
+            INTERNAL_SERVER_ERROR,
         )
     }
 }

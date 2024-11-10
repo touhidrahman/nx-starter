@@ -1,5 +1,4 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
-import { z } from 'zod'
 import { eventsTable } from '../../core/db/schema'
 
 export type InsertEvent = typeof eventsTable.$inferInsert

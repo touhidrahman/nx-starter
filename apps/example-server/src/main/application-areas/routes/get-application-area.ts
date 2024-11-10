@@ -5,7 +5,7 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zSelectApplicationArea } from '../application-areas.schema'
-import { applicationAreasService } from '../application-areas.service'
+import { findApplicationAreaById } from '../application-areas.service'
 
 export const getApplicationAreaRoute = createRoute({
     path: '/v1/application-areas/:id',
@@ -21,15 +21,21 @@ export const getApplicationAreaRoute = createRoute({
     },
 })
 
-export const getApplicationAreaHandler: AppRouteHandler<typeof getApplicationAreaRoute> = async (
-    c,
-) => {
+export const getApplicationAreaHandler: AppRouteHandler<
+    typeof getApplicationAreaRoute
+> = async (c) => {
     const areaId = c.req.param('id')
-    const applicationArea = await applicationAreasService.findApplicationAreaById(areaId)
+    const applicationArea = await findApplicationAreaById(areaId)
 
     if (!applicationArea) {
-        return c.json({ message: 'Application area not found', data: {} }, NOT_FOUND)
+        return c.json(
+            { message: 'Application area not found', data: {} },
+            NOT_FOUND,
+        )
     }
 
-    return c.json({ data: applicationArea, message: 'Application area found' }, OK)
+    return c.json(
+        { data: applicationArea, message: 'Application area found' },
+        OK,
+    )
 }

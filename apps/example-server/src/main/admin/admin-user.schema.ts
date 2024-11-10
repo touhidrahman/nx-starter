@@ -6,7 +6,9 @@ export type AdminUserDto = typeof authUsersTable.$inferInsert
 export type AdminUser = typeof authUsersTable.$inferSelect
 
 export const zInsertAdminUser = createInsertSchema(authUsersTable).extend({
-    level: z.literal(userLevelEnum.enumValues.find(level => level === 'admin')),
+    level: z.literal(
+        userLevelEnum.enumValues.find((level) => level === 'admin'),
+    ),
 })
 export const zSelectAdminUser = createSelectSchema(authUsersTable)
 export const zUpdateAdminUser = createInsertSchema(authUsersTable).partial()

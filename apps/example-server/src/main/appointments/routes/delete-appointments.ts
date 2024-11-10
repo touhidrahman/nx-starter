@@ -4,7 +4,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
-import { appointmentService } from '../appointments.service'
+import { deleteAppointment, findAppointmentById } from '../appointments.service'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
     data,
@@ -27,29 +27,38 @@ export const deleteAppointmentRoute = createRoute({
     },
 })
 
-export const deleteAppointmentHandler: AppRouteHandler<typeof deleteAppointmentRoute> = async (c) => {
+export const deleteAppointmentHandler: AppRouteHandler<
+    typeof deleteAppointmentRoute
+> = async (c) => {
     const appointmentId = c.req.param('id')
 
     try {
-        const appointment = await appointmentService.findAppointmentById(appointmentId)
+        const appointment = await findAppointmentById(appointmentId)
         if (!appointment) {
             return c.json(
                 jsonResponse({}, 'Appointment not found', NOT_FOUND),
-                NOT_FOUND
+                NOT_FOUND,
             )
         }
 
-        await appointmentService.deleteAppointment(appointmentId)
-        return c.json(jsonResponse({}, 'Appointment deleted successfully', OK), OK)
+        await deleteAppointment(appointmentId)
+        return c.json(
+            jsonResponse({}, 'Appointment deleted successfully', OK),
+            OK,
+        )
     } catch (error) {
         console.error(
             'Error deleting appointment:',
-            error instanceof Error ? error.message : 'Unknown error'
+            error instanceof Error ? error.message : 'Unknown error',
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse({}, 'Failed to delete appointment', INTERNAL_SERVER_ERROR),
-            INTERNAL_SERVER_ERROR
+            jsonResponse(
+                {},
+                'Failed to delete appointment',
+                INTERNAL_SERVER_ERROR,
+            ),
+            INTERNAL_SERVER_ERROR,
         )
     }
 }

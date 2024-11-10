@@ -5,19 +5,12 @@ import { getCaseHandler, getCaseRoute } from './routes/get-case'
 import { getCasesHandler, getCasesRoute } from './routes/get-cases'
 import { updateCaseHandler, updateCaseRoute } from './routes/update-case'
 
-
-
 export const caseV1Routes = createRouter()
     .openapi(createCaseRoute, createCaseHandler)
     .openapi(getCaseRoute, getCaseHandler)
     .openapi(getCasesRoute, getCasesHandler)
     .openapi(updateCaseRoute, updateCaseHandler)
     .openapi(deleteCaseRoute, deleteCaseHandler)
-
-
-
-
-
 
 // import { zValidator } from '@hono/zod-validator'
 // import { and, eq, getTableColumns } from 'drizzle-orm'

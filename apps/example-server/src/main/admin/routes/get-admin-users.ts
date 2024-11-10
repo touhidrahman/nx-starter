@@ -9,7 +9,6 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zSearchAdminUser, zSelectAdminUser } from '../admin-user.schema'
 
-
 export const getAdminUsersRoute = createRoute({
     path: '/v1/admin-users',
     method: 'get',
@@ -23,13 +22,11 @@ export const getAdminUsersRoute = createRoute({
     },
 })
 
-
-export const getAdminUsersHandler: AppRouteHandler<typeof getAdminUsersRoute> = async (
-    c,
-) => {
+export const getAdminUsersHandler: AppRouteHandler<
+    typeof getAdminUsersRoute
+> = async (c) => {
     const query = c.req.valid('query')
     const conditions: SQL[] = []
-
 
     conditions.push(eq(authUsersTable.level, 'admin'))
 

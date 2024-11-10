@@ -4,7 +4,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
-import { courtsService } from '../courts.service'
+import { deleteCourt, findCourtById } from '../courts.service'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
     data,
@@ -27,29 +27,31 @@ export const deleteCourtRoute = createRoute({
     },
 })
 
-export const deleteCourtHandler: AppRouteHandler<typeof deleteCourtRoute> = async (c) => {
+export const deleteCourtHandler: AppRouteHandler<
+    typeof deleteCourtRoute
+> = async (c) => {
     const courtId = c.req.param('id')
 
     try {
-        const courtItem = await courtsService.findCourtById(courtId)
+        const courtItem = await findCourtById(courtId)
         if (!courtItem) {
             return c.json(
                 jsonResponse({}, 'Court not found', NOT_FOUND),
-                NOT_FOUND
+                NOT_FOUND,
             )
         }
 
-        await courtsService.deleteCourt(courtId)
+        await deleteCourt(courtId)
         return c.json(jsonResponse('', 'Court deleted successfully', OK), OK)
     } catch (error) {
         console.error(
             'Error deleting court:',
-            error instanceof Error ? error.message : 'Unknown error'
+            error instanceof Error ? error.message : 'Unknown error',
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
             jsonResponse({}, 'Failed to delete court', INTERNAL_SERVER_ERROR),
-            INTERNAL_SERVER_ERROR
+            INTERNAL_SERVER_ERROR,
         )
     }
 }

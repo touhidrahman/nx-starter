@@ -1,10 +1,24 @@
 import { createRouter } from '../../core/create-app'
-import { createAppointmentHandler, createAppointmentRoute } from './routes/create-appointments'
-import { deleteAppointmentHandler, deleteAppointmentRoute } from './routes/delete-appointments'
-import { getAppointmentHandler, getAppointmentRoute } from './routes/get-appointment'
-import { getAppointmentsHandler, getAppointmentsRoute } from './routes/get-appointments'
-import { updateAppointmentHandler, updateAppointmentRoute } from './routes/update-appointments'
-
+import {
+    createAppointmentHandler,
+    createAppointmentRoute,
+} from './routes/create-appointments'
+import {
+    deleteAppointmentHandler,
+    deleteAppointmentRoute,
+} from './routes/delete-appointments'
+import {
+    getAppointmentHandler,
+    getAppointmentRoute,
+} from './routes/get-appointment'
+import {
+    getAppointmentsHandler,
+    getAppointmentsRoute,
+} from './routes/get-appointments'
+import {
+    updateAppointmentHandler,
+    updateAppointmentRoute,
+} from './routes/update-appointments'
 
 export const appointmentsV1Routes = createRouter()
     .openapi(createAppointmentRoute, createAppointmentHandler)
@@ -12,22 +26,6 @@ export const appointmentsV1Routes = createRouter()
     .openapi(getAppointmentsRoute, getAppointmentsHandler)
     .openapi(updateAppointmentRoute, updateAppointmentHandler)
     .openapi(deleteAppointmentRoute, deleteAppointmentHandler)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import { zValidator } from '@hono/zod-validator'
 // import { and, eq, getTableColumns } from 'drizzle-orm'

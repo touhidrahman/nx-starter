@@ -4,7 +4,10 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
-import { applicationAreasService } from '../application-areas.service'
+import {
+    deleteApplicationArea,
+    findApplicationAreaById,
+} from '../application-areas.service'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
     data,
@@ -33,15 +36,14 @@ export const deleteApplicationAreaHandler: AppRouteHandler<
     const areaId = c.req.param('id')
 
     try {
-        const applicationArea =
-            await applicationAreasService.findApplicationAreaById(areaId)
+        const applicationArea = await findApplicationAreaById(areaId)
         if (!applicationArea) {
             return c.json(
                 jsonResponse({}, 'Application area not found', NOT_FOUND),
                 NOT_FOUND,
             )
         }
-        await applicationAreasService.deleteApplicationArea(areaId)
+        await deleteApplicationArea(areaId)
         return c.json(jsonResponse({}, 'Application area deleted', OK), OK)
     } catch (error) {
         console.error(
