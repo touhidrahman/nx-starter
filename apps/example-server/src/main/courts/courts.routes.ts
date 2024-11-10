@@ -1,84 +1,100 @@
-import { zValidator } from '@hono/zod-validator'
-import { eq, getTableColumns } from 'drizzle-orm'
-import { Hono } from 'hono'
-import { db } from '../../core/db/db'
-import { courtsTable } from '../../core/db/schema'
-import { authMiddleware } from '../../core/middlewares/auth.middleware'
-import { zDeleteCourt, zInsertCourt, zUpdateCourt } from './courts.schema'
+import { createRouter } from '../../core/create-app'
 
-const app = new Hono()
+import { createCourtHandler, createCourtRoute } from './routes/create-court'
+import { deleteCourtHandler, deleteCourtRoute } from './routes/delete-court'
+import { getCourtHandler, getCourtRoute } from './routes/get-court'
+import { getCourtsHandler, getCourtsRoute } from './routes/get-courts'
+import { updateCourtHandler, updateCourtRoute } from './routes/update-court'
 
-// GET /courts - list all
-app.get('', authMiddleware, async (c) => {
-    const courts = await db
-        .select({ ...getTableColumns(courtsTable) })
-        .from(courtsTable)
-        .limit(100)
-    return c.json({ data: courts, message: 'Courts list' })
-})
+export const courtsV1Routes = createRouter()
+    .openapi(createCourtRoute, createCourtHandler)
+    .openapi(getCourtRoute, getCourtHandler)
+    .openapi(getCourtsRoute, getCourtsHandler)
+    .openapi(updateCourtRoute, updateCourtHandler)
+    .openapi(deleteCourtRoute, deleteCourtHandler)
 
-// GET /courts/:id - find one
-app.get('/:id', authMiddleware, async (c) => {
-    const id = parseInt(c.req.param('id'), 10)
-    const court = await db
-        .select({ ...getTableColumns(courtsTable) })
-        .from(courtsTable)
-        .where(eq(courtsTable.id, id))
-        .limit(1)
+// import { zValidator } from '@hono/zod-validator'
+// import { eq, getTableColumns } from 'drizzle-orm'
+// import { Hono } from 'hono'
+// import { db } from '../../core/db/db'
+// import { courtsTable } from '../../core/db/schema'
+// import { authMiddleware } from '../../core/middlewares/auth.middleware'
+// import { zInsertCourt, zUpdateCourt } from './courts.schema'
+// import { zIds } from '../../core/models/common.schema'
 
-    if (court.length === 0) {
-        return c.json({ message: 'Court not found' }, 404)
-    }
+// const app = new Hono()
 
-    return c.json({ data: court[0], message: 'Court found' })
-})
+// // GET /courts - list all
+// app.get('', authMiddleware, async (c) => {
+//     const courts = await db
+//         .select({ ...getTableColumns(courtsTable) })
+//         .from(courtsTable)
+//         .limit(100)
+//     return c.json({ data: courts, message: 'Courts list' })
+// })
 
-// POST /courts - create one
-app.post('', zValidator('json', zInsertCourt), authMiddleware, async (c) => {
-    const body = c.req.valid('json')
+// // GET /courts/:id - find one
+// app.get('/:id', authMiddleware, async (c) => {
+//     const id = c.req.param('id')
+//     const court = await db
+//         .select({ ...getTableColumns(courtsTable) })
+//         .from(courtsTable)
+//         .where(eq(courtsTable.id, id))
+//         .limit(1)
 
-    const newCourt = await db.insert(courtsTable).values(body).returning()
+//     if (court.length === 0) {
+//         return c.json({ message: 'Court not found' }, 404)
+//     }
 
-    return c.json({ data: newCourt, message: 'Court created' })
-})
+//     return c.json({ data: court[0], message: 'Court found' })
+// })
 
-// PATCH /courts/:id - update
-app.patch(
-    '/courts/:id',
-    zValidator('json', zUpdateCourt),
-    authMiddleware,
-    async (c) => {
-        const id = parseInt(c.req.param('id'), 10)
-        const body = c.req.valid('json')
+// // POST /courts - create one
+// app.post('', zValidator('json', zInsertCourt), authMiddleware, async (c) => {
+//     const body = c.req.valid('json')
 
-        const updatedCourt = await db
-            .update(courtsTable)
-            .set(body)
-            .where(eq(courtsTable.id, id))
-            .returning()
+//     const newCourt = await db.insert(courtsTable).values(body).returning()
 
-        return c.json({ data: updatedCourt, message: 'Court updated' })
-    },
-)
+//     return c.json({ data: newCourt, message: 'Court created' })
+// })
 
-// DELETE /courts/:id - delete
-app.delete('/:id', authMiddleware, async (c) => {
-    const id = parseInt(c.req.param('id'), 10)
+// // PATCH /courts/:id - update
+// app.patch(
+//     '/courts/:id',
+//     zValidator('json', zUpdateCourt),
+//     authMiddleware,
+//     async (c) => {
+//         const id = c.req.param('id')
+//         const body = c.req.valid('json')
 
-    await db.delete(courtsTable).where(eq(courtsTable.id, id))
+//         const updatedCourt = await db
+//             .update(courtsTable)
+//             .set(body)
+//             .where(eq(courtsTable.id, id))
+//             .returning()
 
-    return c.json({ message: 'Court deleted' })
-})
+//         return c.json({ data: updatedCourt, message: 'Court updated' })
+//     },
+// )
 
-// DELETE /courts - delete many
-app.delete('', zValidator('json', zDeleteCourt), authMiddleware, async (c) => {
-    const body = c.req.valid('json')
+// // DELETE /courts/:id - delete
+// app.delete('/:id', authMiddleware, async (c) => {
+//     const id = c.req.param('id')
 
-    for (const courtId of body.courtIds) {
-        await db.delete(courtsTable).where(eq(courtsTable.id, courtId))
-    }
+//     await db.delete(courtsTable).where(eq(courtsTable.id, id))
 
-    return c.json({ message: 'Court entries deleted' })
-})
+//     return c.json({ message: 'Court deleted' })
+// })
 
-export default app
+// // DELETE /courts - delete many
+// app.delete('', zValidator('json', zIds), authMiddleware, async (c) => {
+//     const body = c.req.valid('json')
+
+//     for (const courtId of body.ids) {
+//         await db.delete(courtsTable).where(eq(courtsTable.id, courtId))
+//     }
+
+//     return c.json({ message: 'Court entries deleted' })
+// })
+
+// export default app

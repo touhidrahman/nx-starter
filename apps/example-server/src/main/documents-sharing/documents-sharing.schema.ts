@@ -10,7 +10,3 @@ export const zInsertDocumentSharing = createInsertSchema(documentSharingTable)
 export const zSelectDocumentSharing = createSelectSchema(documentSharingTable)
 
 export const zUpdateDocumentSharing = zInsertDocumentSharing.partial() // Allow partial updates
-
-export const zDeleteDocumentSharing = z.object({
-    documentSharingIds: z.array(z.number()).min(1),
-})

@@ -43,7 +43,7 @@ import { listVariants } from './hlm-tabs-list.component'
 
         <div
             #tabListContainer
-            class="z-[1] flex grow overflow-hidden "
+            class="z-[1] flex grow overflow-hidden"
             (keydown)="_handleKeydown($event)">
             <div
                 class="relative grow transition-transform"

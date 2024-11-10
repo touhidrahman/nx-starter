@@ -1,5 +1,4 @@
 import { Component } from '@angular/core'
-
 import { SpartanModules } from '@myorg/spartan-modules'
 import { HlmIconComponent, provideIcons } from '@spartan-ng/ui-icon-helm'
 import { lucideCalendarDays, lucideMapPin } from '@ng-icons/lucide'
