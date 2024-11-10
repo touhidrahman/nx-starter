@@ -607,6 +607,13 @@ export const messagesRelations = relations(messagesTable, ({ one, many }) => ({
 // section: Storage Table
 export const storageTable = pgTable('storage', {
     id: text('id').primaryKey().$defaultFn(generateId),
+    filename: text('filename'),
+    url: text('url'),
+    extension: text('extension'),
+    uploadedBy: text('uploaded_by'),
+    entityId: text('entity_id'),
+    entityName: text('entity_name'),
+    expiryDate: timestamp('expiry_date'),
 })
 
 //  section: Courts Table

@@ -4,8 +4,17 @@ import { Hono } from 'hono'
 import { jwt } from 'hono/jwt'
 import { db } from '../../core/db/db'
 import { storageTable } from '../../core/db/schema'
-import { zIds } from '../../core/models/common.schema'
-import { zInsertStorage, zUpdateStorage } from './storage.schema'
+import { s3Client, S3fileUrl } from '../../utils/s3Config'
+import { PutObjectCommand } from '@aws-sdk/client-s3'
+
+import {
+    InsertStorage,
+    SelectStorage,
+    zDeleteStorage,
+    zInsertStorage,
+    zUpdateStorage,
+} from './storage.schema'
+import { uploadFile } from '../file-upload/file-upload.service'
 
 const app = new Hono()
 
@@ -13,12 +22,31 @@ const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 
 const authMiddleware = jwt({ secret })
 
+app.post('upload', authMiddleware, async (c) => {
+    const body = await c.req.parseBody()
+    const payload = c.get('jwtPayload')
+    const file: string | File = body['file'] as File // File | string
+
+    const url = await uploadFile(file)
+    const data = {
+        filename: file.name,
+        url,
+        extension: file.type,
+        uploadedBy: payload.username,
+        entityId: payload.entity_id,
+        entityName: payload.entity_name,
+    }
+    console.log(payload)
+})
+
 // GET /storage - list all
-app.get('', authMiddleware, async (c) => {
+app.get('', async (c) => {
     const storage = await db
         .select({ ...getTableColumns(storageTable) })
         .from(storageTable)
         .limit(100)
+
+    if (storage) c.json({ data: {}, message: 'No file found' })
 
     return c.json({ data: storage, message: 'Storage list' })
 })
@@ -37,15 +65,6 @@ app.get('/:id', authMiddleware, async (c) => {
     }
 
     return c.json({ data: storage[0], message: 'Storage found' })
-})
-
-// POST /storage - create one
-app.post('', zValidator('json', zInsertStorage), authMiddleware, async (c) => {
-    const body = c.req.valid('json')
-
-    const newStorage = await db.insert(storageTable).values(body).returning()
-
-    return c.json({ data: newStorage, message: 'Storage created' })
 })
 
 // PATCH /storage/:id - update

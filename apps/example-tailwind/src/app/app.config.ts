@@ -1,4 +1,4 @@
-import { FullCalendarModule } from '@fullcalendar/angular';
+import { FullCalendarModule } from '@fullcalendar/angular'
 import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common'
 import {
     provideHttpClient,

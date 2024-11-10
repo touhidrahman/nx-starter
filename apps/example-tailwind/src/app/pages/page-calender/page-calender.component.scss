@@ -2,14 +2,14 @@ full-calendar {
     width: 100%;
     margin: 0;
     height: 87vh;
-  }
+}
 
-  ::ng-deep .fc-scrollgrid{
+::ng-deep .fc-scrollgrid {
     background-color: rgb(255 255 255);
     border-radius: 0.375rem;
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  }
+}
 
-  ::ng-deep .fc-scrollgrid-section-header{
+::ng-deep .fc-scrollgrid-section-header {
     background-color: rgb(227, 255, 231);
-  }
+}

@@ -45,9 +45,9 @@ export const appRoutes: Route[] = [
     {
         path: 'dashboard/calender',
         loadComponent: () =>
-            import(
-                './pages/page-calender/page-calender.component'
-            ).then((m) => m.PageCalenderComponent),
+            import('./pages/page-calender/page-calender.component').then(
+                (m) => m.PageCalenderComponent,
+            ),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
@@ -69,26 +69,26 @@ export const appRoutes: Route[] = [
     {
         path: 'select-role',
         loadComponent: () =>
-            import(
-                './pages/page-select-role/page-select-role.component'
-            ).then((m) => m.PageSelectRoleComponent),
-        resolve: { layout: setLayout(PageLayout.Cta)},
+            import('./pages/page-select-role/page-select-role.component').then(
+                (m) => m.PageSelectRoleComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Cta) },
     },
     {
         path: 'lawyer-team',
         loadComponent: () =>
-            import(
-                './pages/page-lawyer-team/page-lawyer-team.component'
-            ).then((m) => m.PageLawyerTeamComponent),
-        resolve: { layout: setLayout(PageLayout.Cta)},
+            import('./pages/page-lawyer-team/page-lawyer-team.component').then(
+                (m) => m.PageLawyerTeamComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Cta) },
     },
     {
         path: 'client-team',
         loadComponent: () =>
-            import(
-                './pages/page-client-team/page-client-team.component'
-            ).then((m) => m.PageClientTeamComponent),
-        resolve: { layout: setLayout(PageLayout.Cta)},
+            import('./pages/page-client-team/page-client-team.component').then(
+                (m) => m.PageClientTeamComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Cta) },
     },
     {
         path: 'signup',

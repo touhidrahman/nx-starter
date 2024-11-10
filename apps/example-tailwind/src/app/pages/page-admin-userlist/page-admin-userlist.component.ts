@@ -4,7 +4,6 @@ import { SpartanModules } from '@myorg/spartan-modules'
 import { provideIcons } from '@ng-icons/core'
 import { lucideCog, lucideSearch, lucideTrash2 } from '@ng-icons/lucide'
 
-
 interface User {
     firstName: string
     lastName: string
@@ -19,12 +18,7 @@ interface User {
     templateUrl: './page-admin-userlist.component.html',
     styleUrl: './page-admin-userlist.component.scss',
     providers: [provideIcons({ lucideCog, lucideTrash2, lucideSearch })],
-    imports: [
-
-        FormsModule,
-        SpartanModules
-
-    ],
+    imports: [FormsModule, SpartanModules],
 })
 export class PageAdminUserlistComponent {
     permissions = [
