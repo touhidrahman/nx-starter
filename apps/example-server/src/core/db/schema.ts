@@ -103,6 +103,7 @@ export const usersRelations = relations(usersTable, ({ one, many }) => ({
         references: [groupsTable.id],
     }),
     invites: many(invitesTable),
+    documents: many(documentsTable),
 }))
 
 const authUsersRelations = relations(authUsersTable, ({ many }) => ({
@@ -506,25 +507,35 @@ export const casesRelations = relations(casesTable, ({ one, many }) => ({
 }))
 
 // section: documents, document_sharing
-
 export const documentsTable = pgTable('documents', {
     id: text('id').primaryKey().$defaultFn(generateId),
     filename: text('filename').notNull(),
     url: text('url').notNull(),
     mimetype: text('mimetype').notNull(),
     size: integer('size').notNull(),
-    linkedEntity: text('linked_entity').notNull(),
-    linkedId: text('linked_id').notNull(),
     description: text('description'),
     groupId: text('group_id')
         .references(() => groupsTable.id)
         .notNull(),
+    userId: text('user_id').references(() => usersTable.id),
+    entityId: text('entity_id'), // The ID of the entity this upload is associated with
+    entityName: text('entity_name'), // The name of the entity this upload is associated with / table name
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
+        .notNull()
+        .$onUpdate(() => new Date()),
 })
 
 export const documentsRelations = relations(documentsTable, ({ one }) => ({
     group: one(groupsTable, {
         fields: [documentsTable.groupId],
         references: [groupsTable.id],
+    }),
+    user: one(usersTable, {
+        fields: [documentsTable.userId],
+        references: [usersTable.id],
     }),
 }))
 
@@ -604,7 +615,6 @@ export const messagesRelations = relations(messagesTable, ({ one, many }) => ({
     }),
 }))
 
-// section: Storage Table
 export const storageTable = pgTable('storage', {
     id: text('id').primaryKey().$defaultFn(generateId),
     filename: text('filename'),

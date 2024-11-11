@@ -46,4 +46,21 @@ for (const route of routes) {
     app.route('/', route)
 }
 
+app.route('/', documentsRoutes)
+
+app.route('admin/seed', adminSeedRoutes)
+app.route('admin/users', adminUserRoutes)
+app.route('admin/groups', adminGroupRoutes)
+app.route('application-areas', applicationAreasRoutes)
+app.route('appointments', appointmentsRoutes)
+app.route('cases', caseRoutes)
+app.route('courts', courtsRoutes)
+app.route('document-sharing', documentsSharingRoutes)
+app.route('events', eventsRoutes)
+app.route('messages', messagesRoutes)
+app.route('permissions', permissionsRoutes)
+app.route('subscriptions', subscriptionRoutes)
+app.route('subscription', subscriptionRoutes)
+app.route('tasks', tasksRoutes)
+
 export default app
