@@ -218,7 +218,14 @@ CREATE TABLE IF NOT EXISTS "roles" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "storage" (
-	"id" serial PRIMARY KEY NOT NULL
+	"id" serial PRIMARY KEY NOT NULL,
+	"filename" text,
+	"url" text,
+	"extension" text,
+	"uploaded_by" text,
+	"entity_id" text,
+	"entity_name" text,
+	"expiry_date" timestamp
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "subscriptions" (

@@ -22,21 +22,26 @@ const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 
 const authMiddleware = jwt({ secret })
 
-app.post('upload', authMiddleware, async (c) => {
+app.post('upload', async (c) => {
     const body = await c.req.parseBody()
     const payload = c.get('jwtPayload')
     const file: string | File = body['file'] as File // File | string
 
     const url = await uploadFile(file)
+    const entityId = body.entity_id as string
+    const entityName = body.entity_name as string
     const data = {
         filename: file.name,
         url,
         extension: file.type,
-        uploadedBy: payload.username,
-        entityId: payload.entity_id,
-        entityName: payload.entity_name,
+        uploadedBy: 'murad',
+        entityId,
+        entityName,
     }
-    console.log(payload)
+
+    const storage = await db.insert(storageTable).values(data).returning()
+    return c.json({ data: storage }, 201)
+    //console.log(payload)
 })
 
 // GET /storage - list all
