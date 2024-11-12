@@ -14,7 +14,7 @@ import {
     zInsertStorage,
     zUpdateStorage,
 } from './storage.schema'
-import { uploadFile } from '../file-upload/file-upload.service'
+import { deleteFile, uploadFile } from '../file-upload/file-upload.service'
 
 const app = new Hono()
 
@@ -22,36 +22,38 @@ const secret = process.env.ACCESS_TOKEN_SECRET ?? ''
 
 const authMiddleware = jwt({ secret })
 
-app.post('upload', async (c) => {
+app.post('upload', authMiddleware, async (c) => {
     const body = await c.req.parseBody()
     const payload = c.get('jwtPayload')
     const file: string | File = body['file'] as File // File | string
 
     const url = await uploadFile(file)
-    const entityId = body.entity_id as string
-    const entityName = body.entity_name as string
+    const entityId = body.entityId as string
+    const entityName = body.entityName as string
+    console.log(body)
+
     const data = {
         filename: file.name,
         url,
         extension: file.type,
-        uploadedBy: 'murad',
+        //TODO: payload
+        uploadedBy: payload.id,
         entityId,
         entityName,
     }
 
     const storage = await db.insert(storageTable).values(data).returning()
     return c.json({ data: storage }, 201)
-    //console.log(payload)
 })
 
 // GET /storage - list all
-app.get('', async (c) => {
+app.get('', authMiddleware, async (c) => {
     const storage = await db
         .select({ ...getTableColumns(storageTable) })
         .from(storageTable)
         .limit(100)
 
-    if (storage) c.json({ data: {}, message: 'No file found' })
+    if (!storage) c.json({ data: {}, message: 'No file found' })
 
     return c.json({ data: storage, message: 'Storage list' })
 })
@@ -79,15 +81,48 @@ app.patch(
     authMiddleware,
     async (c) => {
         const id = parseInt(c.req.param('id'), 10)
-        const body = c.req.valid('json')
+        const body = await c.req.parseBody()
+        const payload = c.get('jwtPayload')
+        const file: string | File = body['file'] as File // File | string
 
-        const updatedStorage = await db
-            .update(storageTable)
-            .set(body)
+        const storage = await db
+            .select({ ...getTableColumns(storageTable) })
+            .from(storageTable)
             .where(eq(storageTable.id, id))
-            .returning()
+            .limit(1)
+        let fileUrl = ''
+        console.log(storage)
 
-        return c.json({ data: updatedStorage, message: 'Storage updated' })
+        if (file) {
+            await deleteFile(storage[0].url ?? '')
+            fileUrl = await uploadFile(file)
+        }
+        console.log(storage, fileUrl)
+        const entityId = body.entityId as string
+        const entityName = body.entityName as string
+        console.log(body)
+
+        const data = {
+            filename: file ? file.name : storage[0].filename,
+            url: fileUrl ?? storage[0].url,
+            extension: file ? file.type : storage[0].extension,
+            //TODO: payload
+            uploadedBy: payload.id ?? storage[0].uploadedBy,
+            entityId: entityId ?? storage[0].entityId,
+            entityName: entityName ?? storage[0].entityName,
+        }
+
+        try {
+            const updatedStorage = await db
+                .update(storageTable)
+                .set(data)
+                .where(eq(storageTable.id, id))
+                .returning()
+
+            return c.json({ data: updatedStorage, message: 'Storage updated' })
+        } catch (error) {
+            return c.json({ data: {}, message: 'Storage update failed!' })
+        }
     },
 )
 
@@ -95,9 +130,20 @@ app.patch(
 app.delete('/:id', authMiddleware, async (c) => {
     const id = parseInt(c.req.param('id'), 10)
 
-    await db.delete(storageTable).where(eq(storageTable.id, id))
+    const storage = await db
+        .select({ ...getTableColumns(storageTable) })
+        .from(storageTable)
+        .where(eq(storageTable.id, id))
+        .limit(1)
 
-    return c.json({ message: 'Storage deleted' })
+    try {
+        await deleteFile(storage[0].url ?? '')
+        await db.delete(storageTable).where(eq(storageTable.id, id))
+
+        return c.json({ message: 'Storage deleted' })
+    } catch (e) {
+        return c.json({ message: 'Storage deleted unsuccessful!' })
+    }
 })
 
 // DELETE /storage - delete many
@@ -109,6 +155,12 @@ app.delete(
         const body = c.req.valid('json')
 
         for (const storageId of body.storageIds) {
+            const storage = await db
+                .select({ ...getTableColumns(storageTable) })
+                .from(storageTable)
+                .where(eq(storageTable.id, storageId))
+                .limit(1)
+            await deleteFile(storage[0].url ?? '')
             await db.delete(storageTable).where(eq(storageTable.id, storageId))
         }
 

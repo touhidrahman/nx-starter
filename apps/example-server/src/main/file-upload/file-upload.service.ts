@@ -41,20 +41,22 @@ export const getFile = async (url: string) => {
 }
 
 export const deleteFile = async (url: string) => {
-    const fileKey = url.split('.com/')[1]
-    const bucket = process.env.S3_BUCKET_NAME ?? ''
+    if (url) {
+        const fileKey = url.split('.com/')[1]
+        const bucket = process.env.S3_BUCKET_NAME ?? ''
 
-    const params = {
-        Bucket: bucket,
-        Key: fileKey,
-    }
+        const params = {
+            Bucket: bucket,
+            Key: fileKey,
+        }
 
-    try {
-        const command = new DeleteObjectCommand(params)
-        await s3Client.send(command)
-        return true
-    } catch (e) {
-        console.error(`Failed to retrieve file ${fileKey}:`, error)
-        throw e
+        try {
+            const command = new DeleteObjectCommand(params)
+            await s3Client.send(command)
+            return true
+        } catch (e) {
+            console.error(`Failed to retrieve file ${fileKey}:`, error)
+            throw e
+        }
     }
 }
