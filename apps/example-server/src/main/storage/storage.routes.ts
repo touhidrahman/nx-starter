@@ -95,8 +95,7 @@ app.patch(
             filename: file ? file.name : storage[0].filename,
             url: fileUrl ?? storage[0].url,
             extension: file ? file.type : storage[0].extension,
-            //TODO: payload
-            uploadedBy: payload.id ?? storage[0].uploadedBy,
+            uploadedBy: payload.sub ?? storage[0].uploadedBy,
             entityId: entityId ?? storage[0].entityId,
             entityName: entityName ?? storage[0].entityName,
         }
