@@ -1,6 +1,5 @@
 import { createFactory } from 'hono/factory'
 import { HTTPException } from 'hono/http-exception'
-import { logger } from 'hono/logger'
 
 const factory = createFactory()
 

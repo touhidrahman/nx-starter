@@ -4,16 +4,8 @@ import { Hono } from 'hono'
 import { jwt } from 'hono/jwt'
 import { db } from '../../core/db/db'
 import { storageTable } from '../../core/db/schema'
-import { s3Client, S3fileUrl } from '../../utils/s3Config'
-import { PutObjectCommand } from '@aws-sdk/client-s3'
 
-import {
-    InsertStorage,
-    SelectStorage,
-    zDeleteStorage,
-    zInsertStorage,
-    zUpdateStorage,
-} from './storage.schema'
+import { zDeleteStorage, zUpdateStorage } from './storage.schema'
 import { deleteFile, uploadFile } from '../file-upload/file-upload.service'
 
 const app = new Hono()
@@ -36,8 +28,7 @@ app.post('upload', authMiddleware, async (c) => {
         filename: file.name,
         url,
         extension: file.type,
-        //TODO: payload
-        uploadedBy: payload.id,
+        uploadedBy: payload.sub,
         entityId,
         entityName,
     }
@@ -91,7 +82,6 @@ app.patch(
             .where(eq(storageTable.id, id))
             .limit(1)
         let fileUrl = ''
-        console.log(storage)
 
         if (file) {
             await deleteFile(storage[0].url ?? '')
@@ -100,7 +90,6 @@ app.patch(
         console.log(storage, fileUrl)
         const entityId = body.entityId as string
         const entityName = body.entityName as string
-        console.log(body)
 
         const data = {
             filename: file ? file.name : storage[0].filename,
