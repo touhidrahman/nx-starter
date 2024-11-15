@@ -8,6 +8,12 @@ import { zSelectTask } from '../tasks.schema'
 import { getAllTasks } from '../tasks.service'
 import { zEmpty } from '../../../core/models/common.schema'
 
+const jsonResponse = (data: any, message: string, status: number) => ({
+    data,
+    message,
+    status,
+})
+
 export const getTaskListRoute = createRoute({
     path: '/v1/tasks',
     tags: ['Task'],
@@ -15,8 +21,18 @@ export const getTaskListRoute = createRoute({
     middleware: [authMiddleware],
     request: {},
     responses: {
-        [OK]: ApiResponse(z.array(zSelectTask), 'List of Task'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'No tasks found!'),
+        [OK]: ApiResponse(
+            {
+                data: z.array(zSelectTask),
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'List of Task',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'No tasks found!',
+        ),
     },
 })
 
@@ -29,11 +45,8 @@ export const getTaskListHandler: AppRouteHandler<
         const groupId = payload.groupId
         const tasks = await getAllTasks(groupId)
 
-        return c.json({ data: tasks, message: 'Tasks list' }, OK)
+        return c.json(jsonResponse(tasks, 'Tasks list', OK), OK)
     } catch (error: any) {
-        return c.json(
-            { error: 'Internal server error', message: error.message },
-            NOT_FOUND,
-        )
+        return c.json(jsonResponse({}, error.message, NOT_FOUND), NOT_FOUND)
     }
 }

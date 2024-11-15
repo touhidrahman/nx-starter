@@ -21,7 +21,7 @@ export const getTaskById = async (id: string) => {
     return reults
 }
 
-export const createTask = async (data: InsertTask) => {
+export const createTask = async (data: UpdateTask) => {
     const reults = await db.insert(tasksTable).values(data).returning()
     return reults
 }

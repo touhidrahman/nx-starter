@@ -3,14 +3,13 @@ import {
     CREATED,
     INTERNAL_SERVER_ERROR,
     BAD_REQUEST,
-    OK,
 } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zEmpty } from '../../../core/models/common.schema'
 import { authMiddleware } from '../../../core/middlewares/auth.middleware'
-import { zInsertTask, zSelectTask } from '../tasks.schema'
+import { zSelectTask, zUpdateTask } from '../tasks.schema'
 import { createTask } from '../tasks.service'
 import checkTaskOwnershipMiddleware from '../../../core/middlewares/check-ownership.middleware'
 import { tasksTable } from '../../../core/db/schema'
@@ -30,12 +29,21 @@ export const createTaskRoute = createRoute({
         checkTaskOwnershipMiddleware(tasksTable, 'Task'),
     ],
     request: {
-        body: jsonContent(zInsertTask, 'Task details'),
+        body: jsonContent(zUpdateTask, 'Task details'),
     },
     responses: {
-        [CREATED]: ApiResponse(zSelectTask, 'Task created successfully'),
-        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid task data'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [CREATED]: ApiResponse(
+            { data: zSelectTask, message: z.string(), success: z.boolean() },
+            'Task created successfully',
+        ),
+        [BAD_REQUEST]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Invalid task data',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Internal server error',
+        ),
     },
 })
 

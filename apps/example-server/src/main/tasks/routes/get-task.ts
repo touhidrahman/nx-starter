@@ -27,8 +27,18 @@ export const getTaskRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(z.array(zSelectTask), 'Task details'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'Task not found'),
+        [OK]: ApiResponse(
+            {
+                data: z.array(zSelectTask),
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'Task details',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Task not found',
+        ),
     },
 })
 
