@@ -7,6 +7,12 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zSelectUser } from '../user.schema'
 import { findUserById } from '../user.service'
 
+const jsonResponse = (data: any, message: string, status: number) => ({
+    data,
+    message,
+    status,
+})
+
 export const getUserRoute = createRoute({
     path: '/v1/user/:id',
     method: 'get',
@@ -16,8 +22,14 @@ export const getUserRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(zSelectUser, 'User found'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'User not found'),
+        [OK]: ApiResponse(
+            { data: zSelectUser, message: z.string(), success: z.boolean() },
+            'User found',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'User not found',
+        ),
     },
 })
 
@@ -28,8 +40,8 @@ export const getUserHandler: AppRouteHandler<typeof getUserRoute> = async (
     const user = await findUserById(userId)
 
     if (!user) {
-        return c.json({ message: 'User not found', data: {} }, NOT_FOUND)
+        return c.json(jsonResponse({}, 'User not found', NOT_FOUND), NOT_FOUND)
     }
 
-    return c.json({ data: user, message: 'User found' }, OK)
+    return c.json(jsonResponse(user, 'User found', OK), OK)
 }

@@ -1,4 +1,4 @@
-import { createRoute } from '@hono/zod-openapi'
+import { createRoute, z } from '@hono/zod-openapi'
 import { NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
@@ -7,14 +7,26 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zSelectUser } from '../user.schema'
 import { findUserByAuthUserIdAndGroupId } from '../user.service'
 
+const jsonResponse = (data: any, message: string, status: number) => ({
+    data,
+    message,
+    status,
+})
+
 export const getMeRoute = createRoute({
     path: '/v1/me',
     method: 'get',
     tags: ['User'],
     middleware: [checkToken],
     responses: {
-        [OK]: ApiResponse(zSelectUser, 'Logged in user profile'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'User not found'),
+        [OK]: ApiResponse(
+            { data: zSelectUser, message: z.string(), success: z.boolean() },
+            'Logged in user profile',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'User not found',
+        ),
     },
 })
 
@@ -26,8 +38,8 @@ export const getMeHandler: AppRouteHandler<typeof getMeRoute> = async (c) => {
     )
 
     if (!user) {
-        return c.json({ message: 'User not found', data: {} }, NOT_FOUND)
+        return c.json(jsonResponse({}, 'User not found', NOT_FOUND), NOT_FOUND)
     }
 
-    return c.json({ data: user, message: 'Logged in user' }, OK)
+    return c.json(jsonResponse(user, 'Logged in user', OK), OK)
 }

@@ -8,6 +8,11 @@ import { usersTable } from '../../../core/db/schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zSearchUser, zSelectUser } from '../user.schema'
+const jsonResponse = (data: any, message: string, status: number) => ({
+    data,
+    message,
+    status,
+})
 
 export const getUsersRoute = createRoute({
     path: '/v1/user',
@@ -18,7 +23,14 @@ export const getUsersRoute = createRoute({
         query: zSearchUser,
     },
     responses: {
-        [OK]: ApiResponse(z.array(zSelectUser), 'List of Users'),
+        [OK]: ApiResponse(
+            {
+                data: z.array(zSelectUser),
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'List of Users',
+        ),
     },
 })
 
@@ -62,5 +74,5 @@ export const getUsersHandler: AppRouteHandler<typeof getUsersRoute> = async (
         .limit(limit)
         .offset(offset)
 
-    return c.json({ data: users, message: 'List of users' })
+    return c.json(jsonResponse(users, 'List of users', OK), OK)
 }

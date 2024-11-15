@@ -8,6 +8,12 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zSelectUser, zUpdateUser } from '../user.schema'
 import { updateUser } from '../user.service'
 
+const jsonResponse = (data: any, message: string, status: number) => ({
+    data,
+    message,
+    status,
+})
+
 export const updateUserRoute = createRoute({
     path: '/v1/user/:id',
     method: 'put',
@@ -18,8 +24,24 @@ export const updateUserRoute = createRoute({
         body: jsonContent(zUpdateUser, 'User details'),
     },
     responses: {
-        [OK]: ApiResponse(zSelectUser, 'Updated'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'User not found'),
+        [OK]: ApiResponse(
+            {
+                data: zSelectUser,
+                message: z.string(),
+                error: z.any(),
+                success: z.boolean(),
+            },
+            'Updated',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            {
+                data: zEmpty,
+                message: z.string(),
+                error: z.any(),
+                success: z.boolean(),
+            },
+            'User not found',
+        ),
     },
 })
 
@@ -31,8 +53,10 @@ export const updateUserHandler: AppRouteHandler<
     const [updatedUser] = await updateUser(userId, body)
 
     if (!updatedUser) {
-        return c.json({ message: 'User not found', data: {} }, NOT_FOUND)
+        return c.json(jsonResponse({}, 'Task not found', NOT_FOUND), NOT_FOUND)
     }
-
-    return c.json({ data: updatedUser, message: 'User updated' }, OK)
+    return c.json(
+        jsonResponse(updatedUser, 'Task not found', NOT_FOUND),
+        NOT_FOUND,
+    )
 }

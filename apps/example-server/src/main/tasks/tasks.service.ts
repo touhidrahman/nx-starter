@@ -1,7 +1,7 @@
 import { db } from '../../core/db/db'
 import { and, eq, getTableColumns } from 'drizzle-orm'
 import { tasksTable } from '../../core/db/schema'
-import { InsertTask } from './tasks.schema'
+import { InsertTask, UpdateTask } from './tasks.schema'
 
 export const getAllTasks = async (groupId: string) => {
     const reults = await db
@@ -27,7 +27,7 @@ export const createTask = async (data: InsertTask) => {
 }
 
 export const updateTask = async (
-    data: InsertTask,
+    data: UpdateTask,
     id: string,
     groupId: string,
 ) => {

@@ -7,6 +7,12 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zSelectUser } from '../user.schema'
 import { deleteUser } from '../user.service'
 
+const jsonResponse = (data: any, message: string, status: number) => ({
+    data,
+    message,
+    status,
+})
+
 export const deleteUserRoute = createRoute({
     path: '/v1/user/:id',
     method: 'delete',
@@ -16,8 +22,14 @@ export const deleteUserRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [NO_CONTENT]: ApiResponse(zSelectUser, 'Deleted'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'User not found'),
+        [NO_CONTENT]: ApiResponse(
+            { data: zSelectUser, message: z.string(), success: z.boolean() },
+            'Deleted',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'User not found',
+        ),
     },
 })
 
@@ -28,8 +40,8 @@ export const deleteUserHandler: AppRouteHandler<
     const [user] = await deleteUser(userId)
 
     if (!user) {
-        return c.json({ message: 'User not found', data: {} }, NOT_FOUND)
+        return c.json(jsonResponse({}, 'User not found', NOT_FOUND), NOT_FOUND)
     }
 
-    return c.json({ data: user, message: 'User deleted' }, NO_CONTENT)
+    return c.json(jsonResponse(user, 'User deleted', NO_CONTENT), NO_CONTENT)
 }

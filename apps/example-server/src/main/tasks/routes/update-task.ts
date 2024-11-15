@@ -34,10 +34,42 @@ export const updateTaskRoute = createRoute({
         body: jsonContent(zUpdateTask, 'Task details'),
     },
     responses: {
-        [OK]: ApiResponse(zSelectTask, 'Task updated successfully'),
-        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid task data'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'Task not found'),
+        [OK]: ApiResponse(
+            {
+                data: zSelectTask,
+                message: z.string(),
+                error: z.any(),
+                success: z.boolean(),
+            },
+            'Task updated successfully',
+        ),
+        [BAD_REQUEST]: ApiResponse(
+            {
+                data: zEmpty,
+                message: z.string(),
+                error: z.any(),
+                success: z.boolean(),
+            },
+            'Invalid task data',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            {
+                data: zEmpty,
+                message: z.string(),
+                error: z.any(),
+                success: z.boolean(),
+            },
+            'Internal server error',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            {
+                data: zEmpty,
+                message: z.string(),
+                error: z.any(),
+                success: z.boolean(),
+            },
+            'Task not found',
+        ),
     },
 })
 
