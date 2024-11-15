@@ -21,10 +21,17 @@ export const getSubscriptionListRoute = createRoute({
     request: {},
     responses: {
         [OK]: ApiResponse(
-            z.array(zSelectSubscription),
+            {
+                data: z.array(zSelectSubscription),
+                message: z.string(),
+                success: z.boolean(),
+            },
             'List of subscriptions',
         ),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'No subscriptions found!'),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'No subscriptions found!',
+        ),
     },
 })
 

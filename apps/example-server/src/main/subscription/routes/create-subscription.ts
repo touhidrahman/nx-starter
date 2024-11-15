@@ -31,11 +31,21 @@ export const createSubscriptionsRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            zSelectSubscription,
+            {
+                data: zSelectSubscription,
+                message: z.string(),
+                success: z.boolean(),
+            },
             'Subscription created successfully',
         ),
-        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid subscription data'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [BAD_REQUEST]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Invalid subscription data',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Internal server error',
+        ),
     },
 })
 
