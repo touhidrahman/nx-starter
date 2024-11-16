@@ -7,6 +7,12 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zSelectGroup } from '../admin-groups.schema'
 import { findAllGroups } from '../admin-groups.service'
 
+const jsonResponse = (data: any, message: string, status: number) => ({
+    data,
+    message,
+    status,
+})
+
 export const getAdminGroupsRoute = createRoute({
     path: '/v1/admin-groups',
     method: 'get',
@@ -19,8 +25,18 @@ export const getAdminGroupsRoute = createRoute({
         }),
     },
     responses: {
-        [OK]: ApiResponse(z.array(zSelectGroup), 'List of Groups'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'No groups found'),
+        [OK]: ApiResponse(
+            {
+                data: z.array(zSelectGroup),
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'List of Groups',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'No groups found',
+        ),
     },
 })
 
@@ -34,8 +50,8 @@ export const getAdminGroupsHandler: AppRouteHandler<
     const groups = await findAllGroups(pageNumber, sizeNumber)
 
     if (groups.length === 0) {
-        return c.json({ message: 'No groups found', data: [] }, NOT_FOUND)
+        return c.json(jsonResponse({}, 'No groups found', NOT_FOUND), NOT_FOUND)
     }
 
-    return c.json({ data: groups, message: 'List of Groups' }, OK)
+    return c.json(jsonResponse(groups, 'List of Groups', OK), OK)
 }

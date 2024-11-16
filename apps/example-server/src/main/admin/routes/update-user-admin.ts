@@ -22,9 +22,18 @@ export const updateAdminUserRoute = createRoute({
         body: jsonContent(z.object({ userId: z.string() }), 'Admin user ID'),
     },
     responses: {
-        [OK]: ApiResponse(zEmpty, 'User promoted to admin'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'User not found'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [OK]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'User promoted to admin',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'User not found',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Internal server error',
+        ),
     },
 })
 

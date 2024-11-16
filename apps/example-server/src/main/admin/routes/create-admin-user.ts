@@ -25,9 +25,18 @@ export const approveAdminUserRoute = createRoute({
         ),
     },
     responses: {
-        [OK]: ApiResponse(zEmpty, 'Admin account approved'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'User not found or already approved'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [OK]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Admin account approved',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'User not found or already approved',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Internal server error',
+        ),
     },
 })
 

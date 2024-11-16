@@ -7,6 +7,12 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zSelectAdminUser } from '../admin-user.schema'
 import { adminUserExists, getAdminUserById } from '../admin-user.service'
 
+const jsonResponse = (data: any, message: string, status: number) => ({
+    data,
+    message,
+    status,
+})
+
 export const getAdminUserRoute = createRoute({
     path: '/v1/admin-user/:id',
     method: 'get',
@@ -16,8 +22,18 @@ export const getAdminUserRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(zSelectAdminUser, 'Admin user found'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'Admin user not found'),
+        [OK]: ApiResponse(
+            {
+                data: zSelectAdminUser,
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'Admin user found',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Admin user not found',
+        ),
     },
 })
 
@@ -28,10 +44,13 @@ export const getAdminUserHandler: AppRouteHandler<
     const userExists = await adminUserExists(userId)
 
     if (!userExists) {
-        return c.json({ message: 'Admin user not found', data: {} }, NOT_FOUND)
+        return c.json(
+            jsonResponse({}, 'Admin user not found', NOT_FOUND),
+            NOT_FOUND,
+        )
     }
 
     const user = await getAdminUserById(userId)
 
-    return c.json({ data: user, message: 'Admin user found' }, OK)
+    return c.json(jsonResponse(user, 'Admin user found', OK), OK)
 }

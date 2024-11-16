@@ -29,10 +29,22 @@ export const updateAdminGroupRoute = createRoute({
         body: jsonContent(zUpdateGroup, 'Admin group update details'),
     },
     responses: {
-        [OK]: ApiResponse(zSelectGroup, 'Admin group updated successfully'),
-        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid admin group data'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'Admin group not found'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [OK]: ApiResponse(
+            { data: zSelectGroup, message: z.string(), success: z.boolean() },
+            'Admin group updated successfully',
+        ),
+        [BAD_REQUEST]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Invalid admin group data',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Admin group not found',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Internal server error',
+        ),
     },
 })
 

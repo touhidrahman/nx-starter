@@ -7,6 +7,12 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zSelectGroup } from '../admin-groups.schema'
 import { findGroupById } from '../admin-groups.service'
 
+const jsonResponse = (data: any, message: string, status: number) => ({
+    data,
+    message,
+    status,
+})
+
 export const getAdminGroupRoute = createRoute({
     path: '/v1/admin-group/:id',
     method: 'get',
@@ -16,8 +22,14 @@ export const getAdminGroupRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(zSelectGroup, 'Group found'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'Group not found'),
+        [OK]: ApiResponse(
+            { data: zSelectGroup, message: z.string(), success: z.boolean() },
+            'Group found',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Group not found',
+        ),
     },
 })
 
@@ -28,8 +40,8 @@ export const getAdminGroupHandler: AppRouteHandler<
     const groupItem = await findGroupById(groupId)
 
     if (!groupItem) {
-        return c.json({ message: 'Group not found', data: {} }, NOT_FOUND)
+        return c.json(jsonResponse({}, 'Group not found', NOT_FOUND), NOT_FOUND)
     }
 
-    return c.json({ data: groupItem, message: 'Group found' }, OK)
+    return c.json(jsonResponse(groupItem, 'Group found', OK), OK)
 }

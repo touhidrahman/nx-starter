@@ -28,11 +28,17 @@ export const createAdminGroupRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            zSelectGroup,
+            { data: zSelectGroup, message: z.string(), success: z.boolean() },
             'Admin group created successfully',
         ),
-        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid admin group data'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [BAD_REQUEST]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Invalid admin group data',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Internal server error',
+        ),
     },
 })
 
