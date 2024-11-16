@@ -25,9 +25,18 @@ export const deleteAllDocumentSharingRoute = createRoute({
         ),
     },
     responses: {
-        [OK]: ApiResponse(zEmpty, 'Document sharing deleted successfully'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'Document sharing not found'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [OK]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Document sharing deleted successfully',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Document sharing not found',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Internal server error',
+        ),
     },
 })
 
