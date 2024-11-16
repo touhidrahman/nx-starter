@@ -28,11 +28,21 @@ export const createPermissionRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            zSelectPermission,
+            {
+                data: zSelectPermission,
+                message: z.string(),
+                success: z.boolean(),
+            },
             'Permissions created successfully',
         ),
-        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid permissions data'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [BAD_REQUEST]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Invalid permissions data',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Internal server error',
+        ),
     },
 })
 

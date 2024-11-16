@@ -14,8 +14,18 @@ export const getPermissionListRoute = createRoute({
     middleware: [authMiddleware],
     request: {},
     responses: {
-        [OK]: ApiResponse(z.array(zSelectPermission), 'List of permissions'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'No permissions found!'),
+        [OK]: ApiResponse(
+            {
+                data: z.array(zSelectPermission),
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'List of permissions',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'No permissions found!',
+        ),
     },
 })
 
