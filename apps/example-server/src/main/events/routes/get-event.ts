@@ -22,8 +22,18 @@ export const getEventRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(z.array(zSelectEvent), 'Event found'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'No cases found'),
+        [OK]: ApiResponse(
+            {
+                data: z.array(zSelectEvent),
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'Event found',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'No cases found',
+        ),
     },
 })
 

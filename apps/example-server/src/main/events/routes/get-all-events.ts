@@ -19,8 +19,18 @@ export const getEventsRoute = createRoute({
     middleware: [authMiddleware],
     request: {},
     responses: {
-        [OK]: ApiResponse(z.array(zSelectEvent), 'List of events'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'No cases found'),
+        [OK]: ApiResponse(
+            {
+                data: z.array(zSelectEvent),
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'List of events',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'No cases found',
+        ),
     },
 })
 

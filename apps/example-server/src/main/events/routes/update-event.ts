@@ -29,10 +29,22 @@ export const updateEventRoute = createRoute({
         body: jsonContent(zUpdateEvent, 'Event details'),
     },
     responses: {
-        [OK]: ApiResponse(zSelectEvent, 'Event updated successfully'),
-        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid event data'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'Event not found'),
+        [OK]: ApiResponse(
+            { data: zSelectEvent, message: z.string(), success: z.boolean() },
+            'Event updated successfully',
+        ),
+        [BAD_REQUEST]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Invalid event data',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Internal server error',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Event not found',
+        ),
     },
 })
 
