@@ -27,9 +27,18 @@ export const createCaseRoute = createRoute({
         body: jsonContent(zInsertCase, 'Case details'),
     },
     responses: {
-        [CREATED]: ApiResponse(zSelectCase, 'Case created successfully'),
-        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid case data'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [CREATED]: ApiResponse(
+            { data: zSelectCase, message: z.string(), success: z.boolean() },
+            'Case created successfully',
+        ),
+        [BAD_REQUEST]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Invalid case data',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Internal server error',
+        ),
     },
 })
 

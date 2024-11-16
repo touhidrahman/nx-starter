@@ -29,10 +29,22 @@ export const updateCaseRoute = createRoute({
         body: jsonContent(zUpdateCase, 'Case update details'),
     },
     responses: {
-        [OK]: ApiResponse(zSelectCase, 'Case updated successfully'),
-        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid case data'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'Case not found'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [OK]: ApiResponse(
+            { data: zSelectCase, message: z.string(), success: z.boolean() },
+            'Case updated successfully',
+        ),
+        [BAD_REQUEST]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Invalid case data',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Case not found',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Internal server error',
+        ),
     },
 })
 

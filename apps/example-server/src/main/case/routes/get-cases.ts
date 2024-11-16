@@ -7,6 +7,12 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zSelectCase } from '../case.schema'
 import { findCasesByGroupId } from '../case.service'
 
+const jsonResponse = (data: any, message: string, status: number) => ({
+    data,
+    message,
+    status,
+})
+
 export const getCasesRoute = createRoute({
     path: '/v1/cases',
     method: 'get',
@@ -14,8 +20,18 @@ export const getCasesRoute = createRoute({
     middleware: [checkToken],
     request: {},
     responses: {
-        [OK]: ApiResponse(z.array(zSelectCase), 'List of Cases'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'No cases found'),
+        [OK]: ApiResponse(
+            {
+                data: z.array(zSelectCase),
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'List of Cases',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'No cases found',
+        ),
     },
 })
 
@@ -32,8 +48,8 @@ export const getCasesHandler: AppRouteHandler<typeof getCasesRoute> = async (
     const cases = await findCasesByGroupId(groupId)
 
     if (cases.length === 0) {
-        return c.json({ message: 'No cases found', data: [] }, NOT_FOUND)
+        return c.json(jsonResponse({}, 'No cases found', NOT_FOUND), NOT_FOUND)
     }
 
-    return c.json({ data: cases, message: 'List of Cases' }, OK)
+    return c.json(jsonResponse(cases, 'List of Cases', OK), OK)
 }
