@@ -21,9 +21,18 @@ export const deleteMessageRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(zEmpty, 'Document deleted successfully'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'Document not found'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [OK]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Document deleted successfully',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Document not found',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Internal server error',
+        ),
     },
 })
 

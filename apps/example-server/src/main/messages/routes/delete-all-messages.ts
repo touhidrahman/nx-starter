@@ -25,8 +25,14 @@ export const deleteAllMessagesRoute = createRoute({
         ),
     },
     responses: {
-        [OK]: ApiResponse(zEmpty, 'Messages deleted successfully'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [OK]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Messages deleted successfully',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Internal server error',
+        ),
     },
 })
 

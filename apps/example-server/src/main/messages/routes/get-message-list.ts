@@ -14,8 +14,18 @@ export const getMessageListRoute = createRoute({
     middleware: [authMiddleware],
     request: {},
     responses: {
-        [OK]: ApiResponse(z.array(zSelectMessage), 'List of messages'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'No messages found!'),
+        [OK]: ApiResponse(
+            {
+                data: z.array(zSelectMessage),
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'List of messages',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'No messages found!',
+        ),
     },
 })
 

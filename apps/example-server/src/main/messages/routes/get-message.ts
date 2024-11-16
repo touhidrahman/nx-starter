@@ -22,8 +22,18 @@ export const getMessageRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(z.array(zSelectMessage), 'Message details'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'Message not found'),
+        [OK]: ApiResponse(
+            {
+                data: z.array(zSelectMessage),
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'Message details',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Message not found',
+        ),
     },
 })
 
