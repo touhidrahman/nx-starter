@@ -14,6 +14,7 @@ import {
     zSelectApplicationArea,
 } from '../application-areas.schema'
 import { createApplicationArea } from '../application-areas.service'
+import { zSelectAppointment } from '../../appointments/appointments.schema'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
     data,
@@ -31,11 +32,21 @@ export const createApplicationAreaRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            zSelectApplicationArea,
+            {
+                data: zSelectApplicationArea,
+                message: z.string(),
+                success: z.boolean(),
+            },
             'Application area created successfully',
         ),
-        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid application area data'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [BAD_REQUEST]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Invalid application area' + ' data',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Internal' + ' server error',
+        ),
     },
 })
 

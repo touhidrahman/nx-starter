@@ -8,6 +8,7 @@ import {
     deleteApplicationArea,
     findApplicationAreaById,
 } from '../application-areas.service'
+import { zSelectAppointment } from '../../appointments/appointments.schema'
 
 const jsonResponse = (data: any, message: string, status: number) => ({
     data,
@@ -24,9 +25,18 @@ export const deleteApplicationAreaRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(zEmpty, 'Application area deleted'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'Application area not found'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [OK]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Application area deleted',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Application area not found',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Internal server error',
+        ),
     },
 })
 

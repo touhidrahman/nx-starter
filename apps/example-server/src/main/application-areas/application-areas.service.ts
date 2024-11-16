@@ -13,7 +13,7 @@ import {
 export const listAllApplicationAreas = async (): Promise<
     SelectApplicationArea[]
 > => {
-    return await db
+    return db
         .select({ ...getTableColumns(applicationAreasTable) })
         .from(applicationAreasTable)
 }
