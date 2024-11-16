@@ -29,10 +29,22 @@ export const updateCourtRoute = createRoute({
         body: jsonContent(zUpdateCourt, 'Court update details'),
     },
     responses: {
-        [OK]: ApiResponse(zSelectCourt, 'Court updated successfully'),
-        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid court data'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'Court not found'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [OK]: ApiResponse(
+            { data: zSelectCourt, message: z.string(), success: z.boolean() },
+            'Court updated successfully',
+        ),
+        [BAD_REQUEST]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Invalid court data',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Court not found',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Internal server error',
+        ),
     },
 })
 

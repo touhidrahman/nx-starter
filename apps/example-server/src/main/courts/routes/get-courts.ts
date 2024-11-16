@@ -14,8 +14,18 @@ export const getCourtsRoute = createRoute({
     middleware: [checkToken],
     request: {},
     responses: {
-        [OK]: ApiResponse(z.array(zSelectCourt), 'List of Courts'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'No courts found'),
+        [OK]: ApiResponse(
+            {
+                data: z.array(zSelectCourt),
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'List of Courts',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'No courts found',
+        ),
     },
 })
 

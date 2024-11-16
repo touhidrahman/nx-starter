@@ -21,9 +21,18 @@ export const deleteCourtRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(zEmpty, 'Court deleted successfully'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'Court not found'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [OK]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Court deleted successfully',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Court not found',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Internal server error',
+        ),
     },
 })
 
