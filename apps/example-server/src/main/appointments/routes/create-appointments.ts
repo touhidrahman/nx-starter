@@ -28,11 +28,21 @@ export const createAppointmentRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            zSelectAppointment,
+            {
+                data: zSelectAppointment,
+                message: z.string(),
+                success: z.boolean(),
+            },
             'Appointment created successfully',
         ),
-        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid appointment data'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [BAD_REQUEST]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Invalid appointment data',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Internal server error',
+        ),
     },
 })
 
