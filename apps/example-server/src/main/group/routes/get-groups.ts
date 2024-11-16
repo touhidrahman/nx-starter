@@ -5,6 +5,7 @@ import { findGroupsByAuthUserId } from '../group.service'
 import { OK } from 'stoker/http-status-codes'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zSelectGroup } from '../group.schema'
+import { zEmpty } from '../../../core/models/common.schema'
 
 export const getGroupsRoute = createRoute({
     path: '/v1/group',
@@ -13,7 +14,14 @@ export const getGroupsRoute = createRoute({
     middleware: [checkToken],
     request: {},
     responses: {
-        [OK]: ApiResponse(z.array(zSelectGroup), 'List of Groups'),
+        [OK]: ApiResponse(
+            {
+                data: z.array(zSelectGroup),
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'List of Groups',
+        ),
     },
 })
 

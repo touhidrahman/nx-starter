@@ -16,8 +16,14 @@ export const deleteGroupByIdRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [NO_CONTENT]: ApiResponse(zSelectGroup, 'Deleted'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'Group not found'),
+        [NO_CONTENT]: ApiResponse(
+            { data: zSelectGroup, message: z.string(), success: z.boolean() },
+            'Deleted',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Group not found',
+        ),
     },
 })
 
