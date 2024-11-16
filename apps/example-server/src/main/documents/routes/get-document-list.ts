@@ -15,8 +15,18 @@ export const getDocumentListRoute = createRoute({
     middleware: [authMiddleware],
     request: {},
     responses: {
-        [OK]: ApiResponse(z.array(zSelectDocument), 'List of documents'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'No document found!'),
+        [OK]: ApiResponse(
+            {
+                data: z.array(zSelectDocument),
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'List of documents',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'No document found!',
+        ),
     },
 })
 

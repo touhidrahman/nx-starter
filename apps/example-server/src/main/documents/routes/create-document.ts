@@ -28,11 +28,21 @@ export const createDocumentRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            zSelectDocument,
+            {
+                data: zSelectDocument,
+                message: z.string(),
+                success: z.boolean(),
+            },
             'Document created successfully',
         ),
-        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid document data'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [BAD_REQUEST]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Invalid document data',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Internal server error',
+        ),
     },
 })
 

@@ -34,10 +34,26 @@ export const updateDocumentRoute = createRoute({
         body: jsonContent(zUpdateDocument, 'Document details'),
     },
     responses: {
-        [OK]: ApiResponse(zSelectDocument, 'Document updated successfully'),
-        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid document data'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'Document not found'),
+        [OK]: ApiResponse(
+            {
+                data: zSelectDocument,
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'Document updated successfully',
+        ),
+        [BAD_REQUEST]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Invalid document data',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Internal server error',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Document not found',
+        ),
     },
 })
 
