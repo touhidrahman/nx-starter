@@ -9,6 +9,7 @@ import { zRegister } from '../auth.schema'
 import { countAuthUserByEmail, isFirstAuthUser } from '../auth.service'
 import { createVerficationToken } from '../token.util'
 import { ApiResponse } from '../../../core/utils/api-response.util'
+import { zEmpty } from '../../../core/models/common.schema'
 
 const tags = ['Auth']
 
@@ -21,10 +22,17 @@ export const registerRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            z.object({ id: z.string() }),
+            {
+                data: z.object({ id: z.string() }),
+                message: z.string(),
+                success: z.boolean(),
+            },
             'User registration successful',
         ),
-        [CONFLICT]: ApiResponse(z.object({}), 'Email already exists'),
+        [CONFLICT]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Email already exists',
+        ),
     },
 })
 

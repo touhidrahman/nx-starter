@@ -18,6 +18,7 @@ import { zLogin } from '../auth.schema'
 import { findAuthUserByEmail, updateLastLogin } from '../auth.service'
 import { createAccessToken, createRefreshToken } from '../token.util'
 import { ApiResponse } from '../../../core/utils/api-response.util'
+import { zEmpty } from '../../../core/models/common.schema'
 
 const tags = ['Auth']
 
@@ -31,23 +32,32 @@ export const loginRoute = createRoute({
     },
     responses: {
         [HttpStatusCodes.OK]: ApiResponse(
-            z.object({
-                accessToken: z.string(),
-                refreshToken: z.string(),
-                lastLogin: z.string(),
-            }),
+            {
+                data: z.object({
+                    accessToken: z.string(),
+                    refreshToken: z.string(),
+                    lastLogin: z.string(),
+                }),
+                message: z.string(),
+                success: z.boolean(),
+            },
+
             'User login successful',
         ),
 
         [HttpStatusCodes.BAD_REQUEST]: ApiResponse(
-            z.object({}),
+            { data: zEmpty, message: z.string(), success: z.boolean() },
             'Invalid email or password',
         ),
 
         [HttpStatusCodes.PRECONDITION_REQUIRED]: ApiResponse(
-            z.object({
-                availableGroups: z.array(z.any()),
-            }),
+            {
+                data: z.object({
+                    availableGroups: z.array(z.any()),
+                }),
+                message: z.string(),
+                success: z.boolean(),
+            },
             'No group selected. Please select a group to continue',
         ),
     },

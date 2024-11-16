@@ -21,8 +21,14 @@ export const forgotPasswordRoute = createRoute({
         ),
     },
     responses: {
-        [HttpStatusCodes.OK]: ApiResponse(zEmpty, 'Password reset email sent'),
-        [HttpStatusCodes.NOT_FOUND]: ApiResponse(zEmpty, 'User not found'),
+        [HttpStatusCodes.OK]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'Password reset email sent',
+        ),
+        [HttpStatusCodes.NOT_FOUND]: ApiResponse(
+            { data: zEmpty, message: z.string(), success: z.boolean() },
+            'User not found',
+        ),
     },
 })
 
