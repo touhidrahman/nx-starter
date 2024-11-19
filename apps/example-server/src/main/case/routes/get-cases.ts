@@ -22,10 +22,7 @@ export const getCasesRoute = createRoute({
             },
             'List of Cases',
         ),
-        [NOT_FOUND]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'No cases found',
-        ),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'No cases found'),
     },
 })
 

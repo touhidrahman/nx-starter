@@ -20,10 +20,7 @@ export const deleteUserRoute = createRoute({
             { data: zSelectUser, message: z.string(), success: z.boolean() },
             'Deleted',
         ),
-        [NOT_FOUND]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'User not found',
-        ),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'User not found'),
     },
 })
 

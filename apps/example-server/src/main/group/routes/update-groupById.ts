@@ -23,10 +23,7 @@ export const updateGroupByIdRoute = createRoute({
             { data: zSelectGroup, message: z.string(), success: z.boolean() },
             'Updated',
         ),
-        [NOT_FOUND]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Group not found',
-        ),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'Group not found'),
     },
 })
 

@@ -26,14 +26,8 @@ export const createEventRoute = createRoute({
             { data: zSelectEvent, message: z.string(), success: z.boolean() },
             'Event created successfully',
         ),
-        [BAD_REQUEST]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Invalid event data',
-        ),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Internal server error',
-        ),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid event data'),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
 })
 

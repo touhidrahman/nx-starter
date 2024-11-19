@@ -20,10 +20,7 @@ export const getCourtRoute = createRoute({
             { data: zSelectCourt, message: z.string(), success: z.boolean() },
             'Court found',
         ),
-        [NOT_FOUND]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Court not found',
-        ),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'Court not found'),
     },
 })
 

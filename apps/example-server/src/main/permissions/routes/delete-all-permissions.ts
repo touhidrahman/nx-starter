@@ -17,14 +17,8 @@ export const deleteAllPermissionsRoute = createRoute({
         body: jsonContent(zDeletePermission, 'Permissions details'),
     },
     responses: {
-        [OK]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Permissions deleted successfully',
-        ),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Internal server error',
-        ),
+        [OK]: ApiResponse(zEmpty, 'Permissions deleted successfully'),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
 })
 

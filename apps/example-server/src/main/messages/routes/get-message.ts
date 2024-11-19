@@ -24,10 +24,7 @@ export const getMessageRoute = createRoute({
             },
             'Message details',
         ),
-        [NOT_FOUND]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Message not found',
-        ),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'Message not found'),
     },
 })
 

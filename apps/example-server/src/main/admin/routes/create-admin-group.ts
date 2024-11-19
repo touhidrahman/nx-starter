@@ -7,13 +7,10 @@ import {
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
-import {
-    FailureResponse,
-    SuccessResponse,
-} from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zInsertGroup, zSelectGroup } from '../admin-groups.schema'
 import { createGroup } from '../admin-groups.service'
+import { ApiResponse } from '../../../core/utils/api-response.util'
 
 export const createAdminGroupRoute = createRoute({
     path: '/v1/admin-groups',
@@ -24,15 +21,12 @@ export const createAdminGroupRoute = createRoute({
         body: jsonContent(zInsertGroup, 'Admin group details'),
     },
     responses: {
-        [CREATED]: SuccessResponse(
+        [CREATED]: ApiResponse(
             zSelectGroup,
             'Admin group created successfully',
         ),
-        [BAD_REQUEST]: FailureResponse(zEmpty, 'Invalid admin group data'),
-        [INTERNAL_SERVER_ERROR]: FailureResponse(
-            zEmpty,
-            'Internal server error',
-        ),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid admin group data'),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
 })
 
@@ -72,7 +66,6 @@ export const createAdminGroupHandler: AppRouteHandler<
                 data: {},
                 message: 'Internal server error',
                 success: false,
-                meta: {},
             },
             INTERNAL_SERVER_ERROR,
         )

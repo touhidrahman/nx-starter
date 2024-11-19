@@ -46,7 +46,7 @@ export const loginRoute = createRoute({
         ),
 
         [HttpStatusCodes.BAD_REQUEST]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
+            zEmpty,
             'Invalid email or password',
         ),
 

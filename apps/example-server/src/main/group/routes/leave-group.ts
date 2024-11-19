@@ -25,14 +25,8 @@ export const leaveGroupRoute = createRoute({
             { data: zSelectUser, message: z.string(), success: z.boolean() },
             'User deleted from group successfully',
         ),
-        [BAD_REQUEST]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Invalid group data',
-        ),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Internal server error',
-        ),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid group data'),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
 })
 export const leaveGroupHandler: AppRouteHandler<

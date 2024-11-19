@@ -27,18 +27,9 @@ export const updateEventRoute = createRoute({
             { data: zSelectEvent, message: z.string(), success: z.boolean() },
             'Event updated successfully',
         ),
-        [BAD_REQUEST]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Invalid event data',
-        ),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Internal server error',
-        ),
-        [NOT_FOUND]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Event not found',
-        ),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid event data'),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'Event not found'),
     },
 })
 

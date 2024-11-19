@@ -34,11 +34,11 @@ export const createApplicationAreaRoute = createRoute({
             'Application area created successfully',
         ),
         [BAD_REQUEST]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
+            zEmpty,
             'Invalid application area' + ' data',
         ),
         [INTERNAL_SERVER_ERROR]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
+            zEmpty,
             'Internal' + ' server error',
         ),
     },

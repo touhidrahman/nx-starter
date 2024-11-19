@@ -22,10 +22,7 @@ export const getEventsRoute = createRoute({
             },
             'List of events',
         ),
-        [NOT_FOUND]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'No cases found',
-        ),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'No cases found'),
     },
 })
 

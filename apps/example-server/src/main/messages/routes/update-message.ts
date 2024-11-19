@@ -27,18 +27,9 @@ export const updateMessageRoute = createRoute({
             { data: zSelectMessage, message: z.string(), success: z.boolean() },
             'Message updated successfully',
         ),
-        [BAD_REQUEST]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Invalid document data',
-        ),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Internal server error',
-        ),
-        [NOT_FOUND]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Message not found',
-        ),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid document data'),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'Message not found'),
     },
 })
 

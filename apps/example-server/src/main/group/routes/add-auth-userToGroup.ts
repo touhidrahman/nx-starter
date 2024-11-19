@@ -28,14 +28,8 @@ export const addAuthUserToGroupRoute = createRoute({
             { data: zSelectUser, message: z.string(), success: z.boolean() },
             'User added to group successfully',
         ),
-        [BAD_REQUEST]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Invalid group data',
-        ),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Internal server error',
-        ),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid group data'),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
 })
 export const addAuthUserToGroupHandler: AppRouteHandler<

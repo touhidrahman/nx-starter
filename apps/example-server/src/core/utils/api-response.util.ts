@@ -9,63 +9,22 @@ import {
     ZodUndefined,
 } from 'zod'
 
-type OpenApiJsonResponseSpec = {
+export const ApiResponse: <T extends ZodSchema>(
+    dataSchema: T,
+    description: string,
+) => {
     content: {
         'application/json': {
             schema: ZodObject<{
                 data: ZodSchema
                 message: ZodString
                 success: ZodBoolean
-                error: ZodAny | ZodUndefined
+                error: ZodAny
             }>
         }
     }
     description: string
-}
-
-export const ApiResponse: <T extends ZodSchema>(
-    schema: {
-        data: T
-        error?: ZodAny
-        success: ZodBoolean
-        message: ZodString
-    },
-    description: string,
-) => OpenApiJsonResponseSpec = (schema, description) => ({
-    content: {
-        'application/json': {
-            schema: z.object({
-                data: schema.data,
-                message: z.string(),
-                success: z.boolean(),
-                error: schema.error ?? z.undefined(),
-            }),
-        },
-    },
-    description,
-})
-
-export const SuccessResponse: <T extends ZodSchema>(
-    dataSchema: T,
-    description: string,
-) => OpenApiJsonResponseSpec = (dataSchema, description) => ({
-    content: {
-        'application/json': {
-            schema: z.object({
-                data: dataSchema,
-                message: z.string(),
-                success: z.boolean(),
-                error: z.undefined(),
-            }),
-        },
-    },
-    description,
-})
-
-export const FailureResponse: <T extends ZodSchema>(
-    dataSchema: T,
-    description: string,
-) => OpenApiJsonResponseSpec = (dataSchema, description) => ({
+} = (dataSchema, description) => ({
     content: {
         'application/json': {
             schema: z.object({

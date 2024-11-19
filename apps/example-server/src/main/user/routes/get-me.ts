@@ -17,10 +17,7 @@ export const getMeRoute = createRoute({
             { data: zSelectUser, message: z.string(), success: z.boolean() },
             'Logged in user profile',
         ),
-        [NOT_FOUND]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'User not found',
-        ),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'User not found'),
     },
 })
 

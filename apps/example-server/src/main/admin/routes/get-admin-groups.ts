@@ -27,10 +27,7 @@ export const getAdminGroupsRoute = createRoute({
             },
             'List of Groups',
         ),
-        [NOT_FOUND]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'No groups found',
-        ),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'No groups found'),
     },
 })
 

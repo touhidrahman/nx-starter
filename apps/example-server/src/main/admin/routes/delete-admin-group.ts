@@ -15,18 +15,9 @@ export const deleteAdminGroupRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Admin group deleted successfully',
-        ),
-        [NOT_FOUND]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Admin group not found',
-        ),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Internal server error',
-        ),
+        [OK]: ApiResponse(zEmpty, 'Admin group deleted successfully'),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'Admin group not found'),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
 })
 

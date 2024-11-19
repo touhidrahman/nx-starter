@@ -15,18 +15,9 @@ export const deleteCaseRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Case deleted successfully',
-        ),
-        [NOT_FOUND]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Case not found',
-        ),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Internal server error',
-        ),
+        [OK]: ApiResponse(zEmpty, 'Case deleted successfully'),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'Case not found'),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
 })
 

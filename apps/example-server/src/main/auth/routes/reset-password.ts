@@ -24,12 +24,9 @@ export const resetPasswordRoute = createRoute({
         body: jsonContentRequired(zResetPassword, 'New password'),
     },
     responses: {
-        [HttpStatusCodes.OK]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Password reset success',
-        ),
+        [HttpStatusCodes.OK]: ApiResponse(zEmpty, 'Password reset success'),
         [HttpStatusCodes.BAD_REQUEST]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
+            zEmpty,
             'Error resetting password',
         ),
     },

@@ -19,18 +19,9 @@ export const approveAdminUserRoute = createRoute({
         ),
     },
     responses: {
-        [OK]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Admin account approved',
-        ),
-        [NOT_FOUND]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'User not found or already approved',
-        ),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Internal server error',
-        ),
+        [OK]: ApiResponse(zEmpty, 'Admin account approved'),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'User not found or already approved'),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
 })
 
@@ -44,12 +35,16 @@ export const approveAdminUserHandler: AppRouteHandler<
 
         if (response.code === 404) {
             return c.json(
-                jsonResponse({}, response.message, NOT_FOUND),
+                {
+                    data: {},
+                    message: 'User not found or already approved',
+                    success: false,
+                },
                 NOT_FOUND,
             )
         }
 
-        return c.json(jsonResponse({}, response.message, OK), OK)
+        return c.json({ data: {}, message: 'User approved', success: true }, OK)
     } catch (error) {
         console.error(
             'Error approving admin user:',
@@ -57,11 +52,11 @@ export const approveAdminUserHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to approve admin user',
-                INTERNAL_SERVER_ERROR,
-            ),
+            {
+                data: {},
+                message: 'Internal server error',
+                success: false,
+            },
             INTERNAL_SERVER_ERROR,
         )
     }

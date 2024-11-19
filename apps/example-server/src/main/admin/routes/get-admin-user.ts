@@ -24,10 +24,7 @@ export const getAdminUserRoute = createRoute({
             },
             'Admin user found',
         ),
-        [NOT_FOUND]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Admin user not found',
-        ),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'Admin user not found'),
     },
 })
 

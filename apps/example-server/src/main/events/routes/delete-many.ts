@@ -19,18 +19,9 @@ export const deleteManyEventRoute = createRoute({
         ),
     },
     responses: {
-        [OK]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Event deleted successfully',
-        ),
-        [NOT_FOUND]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Event not found',
-        ),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Internal server error',
-        ),
+        [OK]: ApiResponse(zEmpty, 'Event deleted successfully'),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'Event not found'),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
 })
 

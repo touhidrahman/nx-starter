@@ -24,10 +24,7 @@ export const getAppointmentRoute = createRoute({
             },
             'Appointment found',
         ),
-        [NOT_FOUND]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Appointment not found',
-        ),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'Appointment not found'),
     },
 })
 

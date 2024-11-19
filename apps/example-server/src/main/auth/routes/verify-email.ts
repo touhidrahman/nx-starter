@@ -28,7 +28,7 @@ export const verifyEmailRoute = createRoute({
             'Email verified',
         ),
         [HttpStatusCodes.BAD_REQUEST]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
+            zEmpty,
             'Invalid or expired token',
         ),
     },

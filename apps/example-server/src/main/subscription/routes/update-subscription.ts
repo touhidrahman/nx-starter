@@ -34,18 +34,9 @@ export const updateSubscriptionRoute = createRoute({
             },
             'Subscription updated successfully',
         ),
-        [BAD_REQUEST]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Invalid subscription data',
-        ),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Internal server error',
-        ),
-        [NOT_FOUND]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Subscription not found',
-        ),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid subscription data'),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'Subscription not found'),
     },
 })
 

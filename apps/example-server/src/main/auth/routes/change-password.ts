@@ -23,15 +23,12 @@ export const changePasswordRoute = createRoute({
     },
     responses: {
         [HttpStatusCodes.OK]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
+            zEmpty,
             'Password changed successfully',
         ),
-        [HttpStatusCodes.UNAUTHORIZED]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Unauthorized',
-        ),
+        [HttpStatusCodes.UNAUTHORIZED]: ApiResponse(zEmpty, 'Unauthorized'),
         [HttpStatusCodes.BAD_REQUEST]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
+            zEmpty,
             'Current password does not match',
         ),
     },

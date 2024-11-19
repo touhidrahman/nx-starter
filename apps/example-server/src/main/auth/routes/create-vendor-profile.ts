@@ -24,10 +24,7 @@ export const createVendorProfileRoute = createRoute({
             { data: zSelectGroup, message: z.string(), success: z.boolean() },
             'Vendor profile created',
         ),
-        [BAD_REQUEST]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Invalid input',
-        ),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid input'),
     },
 })
 

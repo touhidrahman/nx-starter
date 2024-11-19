@@ -29,10 +29,7 @@ export const getTaskRoute = createRoute({
             },
             'Task details',
         ),
-        [NOT_FOUND]: ApiResponse(
-            { data: zEmpty, message: z.string(), success: z.boolean() },
-            'Task not found',
-        ),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'Task not found'),
     },
 })
 
