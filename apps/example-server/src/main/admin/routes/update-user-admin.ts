@@ -32,12 +32,15 @@ export const updateAdminUserHandler: AppRouteHandler<
 
         if (response.code === 404) {
             return c.json(
-                jsonResponse({}, response.message, NOT_FOUND),
+                { data: {}, message: response.message, success: false },
                 NOT_FOUND,
             )
         }
 
-        return c.json(jsonResponse({}, response.message, OK), OK)
+        return c.json(
+            { data: {}, success: true, message: response.message },
+            OK,
+        )
     } catch (error) {
         console.error(
             'Error promoting user to admin:',
@@ -45,11 +48,11 @@ export const updateAdminUserHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to promote user to admin',
-                INTERNAL_SERVER_ERROR,
-            ),
+            {
+                data: {},
+                message: 'Failed to promote user to admin',
+                success: false,
+            },
             INTERNAL_SERVER_ERROR,
         )
     }

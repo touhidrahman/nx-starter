@@ -16,10 +16,7 @@ export const getAdminGroupRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(
-            { data: zSelectGroup, message: z.string(), success: z.boolean() },
-            'Group found',
-        ),
+        [OK]: ApiResponse(zSelectGroup, 'Group found'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Group not found'),
     },
 })
@@ -31,8 +28,14 @@ export const getAdminGroupHandler: AppRouteHandler<
     const groupItem = await findGroupById(groupId)
 
     if (!groupItem) {
-        return c.json(jsonResponse({}, 'Group not found', NOT_FOUND), NOT_FOUND)
+        return c.json(
+            { data: {}, message: 'Group not found', success: false },
+            NOT_FOUND,
+        )
     }
 
-    return c.json(jsonResponse(groupItem, 'Group found', OK), OK)
+    return c.json(
+        { data: groupItem, message: 'Group found', success: true },
+        OK,
+    )
 }

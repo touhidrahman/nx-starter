@@ -16,10 +16,7 @@ export const deleteUserRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [NO_CONTENT]: ApiResponse(
-            { data: zSelectUser, message: z.string(), success: z.boolean() },
-            'Deleted',
-        ),
+        [NO_CONTENT]: ApiResponse(zSelectUser, 'Deleted'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'User not found'),
     },
 })
@@ -31,8 +28,14 @@ export const deleteUserHandler: AppRouteHandler<
     const [user] = await deleteUser(userId)
 
     if (!user) {
-        return c.json(jsonResponse({}, 'User not found', NOT_FOUND), NOT_FOUND)
+        return c.json(
+            { data: {}, success: false, message: 'User not found' },
+            NOT_FOUND,
+        )
     }
 
-    return c.json(jsonResponse(user, 'User deleted', NO_CONTENT), NO_CONTENT)
+    return c.json(
+        { data: user, success: true, message: 'User deleted' },
+        NO_CONTENT,
+    )
 }

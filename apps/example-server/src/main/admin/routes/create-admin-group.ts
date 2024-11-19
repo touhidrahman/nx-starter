@@ -15,7 +15,7 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 export const createAdminGroupRoute = createRoute({
     path: '/v1/admin-groups',
     method: 'post',
-    tags: ['Admin Group'],
+    tags: ['Admin'],
     middleware: [checkToken],
     request: {
         body: jsonContent(zInsertGroup, 'Admin group details'),

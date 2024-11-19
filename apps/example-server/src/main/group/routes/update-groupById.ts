@@ -19,10 +19,7 @@ export const updateGroupByIdRoute = createRoute({
         body: jsonContent(zUpdateGroup, 'Group details'),
     },
     responses: {
-        [OK]: ApiResponse(
-            { data: zSelectGroup, message: z.string(), success: z.boolean() },
-            'Updated',
-        ),
+        [OK]: ApiResponse(zSelectGroup, 'Updated'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Group not found'),
     },
 })

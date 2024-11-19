@@ -8,19 +8,6 @@ import { authUsersTable } from '../../../core/db/schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zSearchAdminUser, zSelectAdminUser } from '../admin-user.schema'
-import { zEmpty } from '../../../core/models/common.schema'
-
-const jsonResponse = (
-    data: any,
-    meta: any,
-    message: string,
-    status: number,
-) => ({
-    data,
-    meta,
-    message,
-    status,
-})
 
 export const getAdminUsersRoute = createRoute({
     path: '/v1/admin-users',
@@ -31,14 +18,7 @@ export const getAdminUsersRoute = createRoute({
         query: zSearchAdminUser,
     },
     responses: {
-        [OK]: ApiResponse(
-            {
-                data: z.array(zSelectAdminUser),
-                message: z.string(),
-                success: z.boolean(),
-            },
-            'List of Admin Users',
-        ),
+        [OK]: ApiResponse(z.array(zSelectAdminUser), 'List of Admin Users'),
     },
 })
 
@@ -71,17 +51,16 @@ export const getAdminUsersHandler: AppRouteHandler<
         .offset(offset)
 
     return c.json(
-        jsonResponse(
-            adminUsers,
-
-            {
+        {
+            data: adminUsers,
+            pagination: {
                 total: adminUsers.length,
                 page: query?.page || 1,
                 size: limit,
             },
-            'List of Admin Users',
-            OK,
-        ),
+            success: true,
+            message: 'List of Admin Users',
+        },
         OK,
     )
 }

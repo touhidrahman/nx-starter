@@ -17,10 +17,7 @@ export const getGroupByIDRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(
-            { data: zSelectGroup, message: z.string(), success: z.boolean() },
-            'Group found',
-        ),
+        [OK]: ApiResponse(zSelectGroup, 'Group found'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Group not found'),
     },
 })

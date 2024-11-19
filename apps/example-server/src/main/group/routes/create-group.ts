@@ -21,10 +21,7 @@ export const createGroupRoute = createRoute({
         body: jsonContent(zInsertGroup, 'Group Detail'),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            { data: zSelectGroup, message: z.string(), success: z.boolean() },
-            'Group created successfully',
-        ),
+        [CREATED]: ApiResponse(zSelectGroup, 'Group created successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid group data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },

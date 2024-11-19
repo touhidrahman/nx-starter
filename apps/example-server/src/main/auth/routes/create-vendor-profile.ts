@@ -20,10 +20,7 @@ export const createVendorProfileRoute = createRoute({
         body: jsonContent(zInsertGroup, 'Group create input'),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            { data: zSelectGroup, message: z.string(), success: z.boolean() },
-            'Vendor profile created',
-        ),
+        [CREATED]: ApiResponse(zSelectGroup, 'Vendor profile created'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid input'),
     },
 })

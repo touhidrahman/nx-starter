@@ -16,14 +16,7 @@ export const getAdminUserRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(
-            {
-                data: zSelectAdminUser,
-                message: z.string(),
-                success: z.boolean(),
-            },
-            'Admin user found',
-        ),
+        [OK]: ApiResponse(zSelectAdminUser, 'Admin user found'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Admin user not found'),
     },
 })
@@ -36,12 +29,15 @@ export const getAdminUserHandler: AppRouteHandler<
 
     if (!userExists) {
         return c.json(
-            jsonResponse({}, 'Admin user not found', NOT_FOUND),
+            { data: {}, message: 'Admin user not found', success: false },
             NOT_FOUND,
         )
     }
 
     const user = await getAdminUserById(userId)
 
-    return c.json(jsonResponse(user, 'Admin user found', OK), OK)
+    return c.json(
+        { data: user, success: true, message: 'Admin user found' },
+        OK,
+    )
 }

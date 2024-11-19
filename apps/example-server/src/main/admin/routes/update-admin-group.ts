@@ -23,10 +23,7 @@ export const updateAdminGroupRoute = createRoute({
         body: jsonContent(zUpdateGroup, 'Admin group update details'),
     },
     responses: {
-        [OK]: ApiResponse(
-            { data: zSelectGroup, message: z.string(), success: z.boolean() },
-            'Admin group updated successfully',
-        ),
+        [OK]: ApiResponse(zSelectGroup, 'Admin group updated successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid admin group data'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Admin group not found'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
@@ -43,24 +40,28 @@ export const updateAdminGroupHandler: AppRouteHandler<
         const existingGroup = await findGroupById(groupId)
         if (!existingGroup) {
             return c.json(
-                jsonResponse({}, 'Admin group not found', NOT_FOUND),
+                { data: {}, message: 'Admin group not found', success: false },
                 NOT_FOUND,
             )
         }
 
         const updatedGroup = await updateGroup(groupId, body)
         return c.json(
-            jsonResponse(
-                updatedGroup[0],
-                'Admin group updated successfully',
-                OK,
-            ),
+            {
+                data: updatedGroup[0],
+                success: true,
+                message: 'Admin group updated successfully',
+            },
             OK,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid admin group data', BAD_REQUEST),
+                {
+                    data: {},
+                    message: 'Invalid admin group data',
+                    success: false,
+                },
                 BAD_REQUEST,
             )
         }
@@ -70,11 +71,7 @@ export const updateAdminGroupHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to update admin group',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal server error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }
