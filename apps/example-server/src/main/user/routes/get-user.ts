@@ -7,12 +7,6 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zSelectUser } from '../user.schema'
 import { findUserById } from '../user.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const getUserRoute = createRoute({
     path: '/v1/user/:id',
     method: 'get',

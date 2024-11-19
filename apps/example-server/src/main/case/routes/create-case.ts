@@ -12,12 +12,6 @@ import { zInsertCase, zSelectCase } from '../case.schema'
 import { zEmpty } from '../../../core/models/common.schema'
 import { createCase } from '../case.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const createCaseRoute = createRoute({
     path: '/v1/cases',
     method: 'post',

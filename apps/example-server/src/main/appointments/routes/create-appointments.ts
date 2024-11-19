@@ -12,12 +12,6 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zInsertAppointment, zSelectAppointment } from '../appointments.schema'
 import { createAppointment } from '../appointments.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const createAppointmentRoute = createRoute({
     path: '/v1/appointments',
     method: 'post',

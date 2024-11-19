@@ -9,6 +9,20 @@ import {
     ZodUndefined,
 } from 'zod'
 
+type OpenApiJsonResponseSpec = {
+    content: {
+        'application/json': {
+            schema: ZodObject<{
+                data: ZodSchema
+                message: ZodString
+                success: ZodBoolean
+                error: ZodAny | ZodUndefined
+            }>
+        }
+    }
+    description: string
+}
+
 export const ApiResponse: <T extends ZodSchema>(
     schema: {
         data: T
@@ -17,19 +31,7 @@ export const ApiResponse: <T extends ZodSchema>(
         message: ZodString
     },
     description: string,
-) => {
-    content: {
-        'application/json': {
-            schema: ZodObject<{
-                data: T
-                message: ZodString
-                success: ZodBoolean
-                error: ZodAny | ZodUndefined
-            }>
-        }
-    }
-    description: string
-} = (schema, description) => ({
+) => OpenApiJsonResponseSpec = (schema, description) => ({
     content: {
         'application/json': {
             schema: z.object({
@@ -37,6 +39,40 @@ export const ApiResponse: <T extends ZodSchema>(
                 message: z.string(),
                 success: z.boolean(),
                 error: schema.error ?? z.undefined(),
+            }),
+        },
+    },
+    description,
+})
+
+export const SuccessResponse: <T extends ZodSchema>(
+    dataSchema: T,
+    description: string,
+) => OpenApiJsonResponseSpec = (dataSchema, description) => ({
+    content: {
+        'application/json': {
+            schema: z.object({
+                data: dataSchema,
+                message: z.string(),
+                success: z.boolean(),
+                error: z.undefined(),
+            }),
+        },
+    },
+    description,
+})
+
+export const FailureResponse: <T extends ZodSchema>(
+    dataSchema: T,
+    description: string,
+) => OpenApiJsonResponseSpec = (dataSchema, description) => ({
+    content: {
+        'application/json': {
+            schema: z.object({
+                data: dataSchema,
+                message: z.string(),
+                success: z.boolean(),
+                error: z.any(),
             }),
         },
     },

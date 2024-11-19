@@ -7,12 +7,6 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zSelectDocumentSharing } from '../documents-sharing.schema'
 import { findById } from '../documents-sharing.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const getDocumentSharingRoute = createRoute({
     path: '/v1/document-sharing/:id',
     tags: ['Document Sharing'],

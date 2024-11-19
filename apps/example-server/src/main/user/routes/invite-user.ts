@@ -8,12 +8,6 @@ import { zInsertInvite, zSelectInvite } from '../../invite/invite.schema'
 import { createInvite } from '../../invite/invite.service'
 import { z } from 'zod'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const inviteUserRoute = createRoute({
     path: '/v1/invite',
     method: 'post',
@@ -38,5 +32,5 @@ export const inviteUserHandler: AppRouteHandler<
 
     const [invite] = await createInvite(body, payload.userId)
 
-    return c.json(jsonResponse(invite, 'User invited', OK), OK)
+    return c.json({ data: invite, message: 'User invited', success: true }, OK)
 }

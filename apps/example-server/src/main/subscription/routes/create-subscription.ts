@@ -15,12 +15,6 @@ import {
 } from '../subscription.schema'
 import { create } from '../subscriptions.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const createSubscriptionsRoute = createRoute({
     path: '/v1/subscriptions',
     method: 'post',

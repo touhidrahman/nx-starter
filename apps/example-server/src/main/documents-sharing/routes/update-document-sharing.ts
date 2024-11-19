@@ -16,12 +16,6 @@ import {
 } from '../documents-sharing.schema'
 import { findById, update } from '../documents-sharing.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const updateDocumentSharingRoute = createRoute({
     path: '/v1/document-sharing/:id',
     method: 'patch',

@@ -7,12 +7,6 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
 import { approveAdminUser } from '../admin-user.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const approveAdminUserRoute = createRoute({
     path: '/v1/admin-users/approve',
     method: 'post',

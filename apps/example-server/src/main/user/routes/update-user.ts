@@ -8,12 +8,6 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zSelectUser, zUpdateUser } from '../user.schema'
 import { updateUser } from '../user.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const updateUserRoute = createRoute({
     path: '/v1/user/:id',
     method: 'put',
@@ -53,10 +47,13 @@ export const updateUserHandler: AppRouteHandler<
     const [updatedUser] = await updateUser(userId, body)
 
     if (!updatedUser) {
-        return c.json(jsonResponse({}, 'Task not found', NOT_FOUND), NOT_FOUND)
+        return c.json(
+            { data: {}, message: 'User not found', success: false },
+            NOT_FOUND,
+        )
     }
     return c.json(
-        jsonResponse(updatedUser, 'Task not found', NOT_FOUND),
-        NOT_FOUND,
+        { data: updatedUser, message: 'User updated', success: true },
+        OK,
     )
 }

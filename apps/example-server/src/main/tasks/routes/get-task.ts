@@ -9,12 +9,6 @@ import { zSelectTask } from '../tasks.schema'
 import checkTaskOwnershipMiddleware from '../../../core/middlewares/check-ownership.middleware'
 import { tasksTable } from '../../../core/db/schema'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const getTaskRoute = createRoute({
     path: '/v1/tasks/:id',
     tags: ['Task'],

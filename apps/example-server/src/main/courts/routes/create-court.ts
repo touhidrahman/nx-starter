@@ -12,12 +12,6 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { createCourt } from '../courts.service'
 import { zInsertCourt, zSelectCourt } from '../courts.schema'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const createCourtRoute = createRoute({
     path: '/v1/courts',
     method: 'post',

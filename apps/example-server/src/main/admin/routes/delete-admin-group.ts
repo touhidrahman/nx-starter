@@ -6,12 +6,6 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { deleteGroup, findGroupById } from '../admin-groups.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const deleteAdminGroupRoute = createRoute({
     path: '/v1/admin-groups/:id',
     method: 'delete',

@@ -13,12 +13,6 @@ import { zInsertEvent, zSelectEvent } from '../events.schema'
 import { createEvent } from '../events.service'
 import { authMiddleware } from '../../../core/middlewares/auth.middleware'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const createEventRoute = createRoute({
     path: '/v1/events',
     method: 'post',

@@ -6,12 +6,6 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { deleteCase, findCaseById } from '../case.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const deleteCaseRoute = createRoute({
     path: '/v1/cases/:id',
     method: 'delete',

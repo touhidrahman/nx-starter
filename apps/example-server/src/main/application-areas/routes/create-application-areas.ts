@@ -16,12 +16,6 @@ import {
 import { createApplicationArea } from '../application-areas.service'
 import { zSelectAppointment } from '../../appointments/appointments.schema'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const createApplicationAreaRoute = createRoute({
     path: '/v1/application-areas',
     method: 'post',

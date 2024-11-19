@@ -9,12 +9,6 @@ import checkDocumentOwnershipMiddleware from '../../../core/middlewares/check-ow
 import { findDocumentById } from '../documents.service'
 import { zSelectDocument } from '../documents.schema'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const getDocumentRoute = createRoute({
     path: '/v1/documents/:id',
     tags: ['Document'],

@@ -12,12 +12,6 @@ import { authMiddleware } from '../../../core/middlewares/auth.middleware'
 import { create } from '../permissions.service'
 import { zInsertPermission, zSelectPermission } from '../permissions.schema'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const createPermissionRoute = createRoute({
     path: '/v1/permissions',
     method: 'post',

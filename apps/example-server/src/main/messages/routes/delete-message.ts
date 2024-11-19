@@ -6,12 +6,6 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { authMiddleware } from '../../../core/middlewares/auth.middleware'
 import { deleteMessage, findById } from '../messages.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const deleteMessageRoute = createRoute({
     path: '/v1/messages/:id',
     method: 'delete',

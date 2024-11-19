@@ -15,12 +15,6 @@ import {
 } from '../documents-sharing.schema'
 import { create } from '../documents-sharing.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const createDocumentSharingRoute = createRoute({
     path: '/v1/document-sharing',
     method: 'post',

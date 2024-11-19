@@ -13,12 +13,6 @@ import { authMiddleware } from '../../../core/middlewares/auth.middleware'
 import { zSelectMessage, zUpdateMessage } from '../messages.schema'
 import { findById, update } from '../messages.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const updateMessageRoute = createRoute({
     path: '/v1/messages/:id',
     method: 'patch',

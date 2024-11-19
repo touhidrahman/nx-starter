@@ -7,12 +7,6 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zSelectAppointment } from '../appointments.schema'
 import { findAppointmentById } from '../appointments.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const getAppointmentRoute = createRoute({
     path: '/v1/appointment/:id',
     method: 'get',

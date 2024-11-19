@@ -7,12 +7,6 @@ import { authMiddleware } from '../../../core/middlewares/auth.middleware'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { deleteSharing } from '../documents-sharing.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const deleteAllDocumentSharingRoute = createRoute({
     path: '/v1/document-sharing',
     method: 'delete',

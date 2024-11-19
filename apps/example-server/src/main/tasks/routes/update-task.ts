@@ -15,12 +15,6 @@ import { tasksTable } from '../../../core/db/schema'
 import { zSelectTask, zUpdateTask } from '../tasks.schema'
 import { getTaskById, updateTask } from '../tasks.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const updateTaskRoute = createRoute({
     path: '/v1/tasks/:id',
     method: 'patch',

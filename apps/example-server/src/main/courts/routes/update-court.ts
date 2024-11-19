@@ -13,12 +13,6 @@ import { checkToken } from '../../auth/auth.middleware'
 import { findCourtById, updateCourt } from '../courts.service'
 import { zSelectCourt, zUpdateCourt } from '../courts.schema'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const updateCourtRoute = createRoute({
     path: '/v1/courts/:id',
     method: 'put',

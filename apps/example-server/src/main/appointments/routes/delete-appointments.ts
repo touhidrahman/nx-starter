@@ -6,12 +6,6 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { deleteAppointment, findAppointmentById } from '../appointments.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const deleteAppointmentRoute = createRoute({
     path: '/v1/appointments/:id',
     method: 'delete',

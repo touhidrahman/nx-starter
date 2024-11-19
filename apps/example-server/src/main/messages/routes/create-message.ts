@@ -12,12 +12,6 @@ import { authMiddleware } from '../../../core/middlewares/auth.middleware'
 import { zInsertMessage, zSelectMessage } from '../messages.schema'
 import { create } from '../messages.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const createMessageRoute = createRoute({
     path: '/v1/messages',
     method: 'post',

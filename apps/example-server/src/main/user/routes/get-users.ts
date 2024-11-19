@@ -8,11 +8,6 @@ import { usersTable } from '../../../core/db/schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zSearchUser, zSelectUser } from '../user.schema'
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
 
 export const getUsersRoute = createRoute({
     path: '/v1/user',

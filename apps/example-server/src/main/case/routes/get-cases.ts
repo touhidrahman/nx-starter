@@ -7,12 +7,6 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zSelectCase } from '../case.schema'
 import { findCasesByGroupId } from '../case.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const getCasesRoute = createRoute({
     path: '/v1/cases',
     method: 'get',

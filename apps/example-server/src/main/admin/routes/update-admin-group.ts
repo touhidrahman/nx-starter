@@ -13,12 +13,6 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zSelectGroup, zUpdateGroup } from '../admin-groups.schema'
 import { findGroupById, updateGroup } from '../admin-groups.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const updateAdminGroupRoute = createRoute({
     path: '/v1/admin-groups/:id',
     method: 'put',

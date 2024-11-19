@@ -8,12 +8,6 @@ import { documentsTable } from '../../../core/db/schema'
 import checkDocumentOwnershipMiddleware from '../../../core/middlewares/check-ownership.middleware'
 import { deleteDocument, findDocumentById } from '../documents.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const deleteDocumentRoute = createRoute({
     path: '/v1/documents/:id',
     method: 'delete',

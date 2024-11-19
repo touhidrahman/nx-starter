@@ -14,12 +14,6 @@ import { createTask } from '../tasks.service'
 import checkTaskOwnershipMiddleware from '../../../core/middlewares/check-ownership.middleware'
 import { tasksTable } from '../../../core/db/schema'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const createTaskRoute = createRoute({
     path: '/v1/tasks',
     method: 'post',

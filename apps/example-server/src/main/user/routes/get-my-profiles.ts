@@ -6,12 +6,6 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zSelectUser } from '../user.schema'
 import { findUsersByAuthUserId } from '../user.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const getMyProfilesRoute = createRoute({
     path: '/v1/my-profiles',
     method: 'get',

@@ -6,11 +6,6 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zSelectEvent } from '../events.schema'
 import { getEventsList } from '../events.service'
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
 
 export const getEventsRoute = createRoute({
     path: '/v1/events',

@@ -7,12 +7,6 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zSelectGroup } from '../admin-groups.schema'
 import { findAllGroups } from '../admin-groups.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const getAdminGroupsRoute = createRoute({
     path: '/v1/admin-groups',
     method: 'get',

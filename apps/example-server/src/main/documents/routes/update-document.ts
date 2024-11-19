@@ -15,12 +15,6 @@ import { documentsTable } from '../../../core/db/schema'
 import { zSelectDocument, zUpdateDocument } from '../documents.schema'
 import { findDocumentById, updateDocument } from '../documents.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const updateDocumentRoute = createRoute({
     path: '/v1/documents/:id',
     method: 'patch',

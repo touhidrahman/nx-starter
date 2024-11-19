@@ -7,12 +7,6 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zSelectAdminUser } from '../admin-user.schema'
 import { adminUserExists, getAdminUserById } from '../admin-user.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const getAdminUserRoute = createRoute({
     path: '/v1/admin-user/:id',
     method: 'get',

@@ -11,12 +11,6 @@ import {
 } from '../application-areas.schema'
 import { updateApplicationArea } from '../application-areas.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const updateApplicationAreaRoute = createRoute({
     path: '/v1/application-areas/:id',
     method: 'put',

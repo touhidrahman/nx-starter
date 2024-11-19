@@ -13,12 +13,6 @@ import { zSelectEvent, zUpdateEvent } from '../events.schema'
 import { getAnEvent, updateEvent } from '../events.service'
 import { authMiddleware } from '../../../core/middlewares/auth.middleware'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const updateEventRoute = createRoute({
     path: '/v1/events/:id',
     method: 'patch',
