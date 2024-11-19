@@ -16,12 +16,6 @@ import {
 } from '../subscription.schema'
 import { findById, updateById } from '../subscriptions.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const updateSubscriptionRoute = createRoute({
     path: '/v1/subscriptions/:id',
     method: 'patch',
@@ -33,7 +27,11 @@ export const updateSubscriptionRoute = createRoute({
     },
     responses: {
         [OK]: ApiResponse(
-            zSelectSubscription,
+            {
+                data: zUpdateSubscription,
+                message: z.string(),
+                success: z.boolean(),
+            },
             'Subscription updated successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid subscription data'),

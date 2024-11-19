@@ -13,7 +13,14 @@ export const getAppointmentsRoute = createRoute({
     middleware: [checkToken],
     request: {},
     responses: {
-        [OK]: ApiResponse(z.array(zSelectAppointment), 'List of Appointments'),
+        [OK]: ApiResponse(
+            {
+                data: z.array(zSelectAppointment),
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'List of Appointments',
+        ),
     },
 })
 

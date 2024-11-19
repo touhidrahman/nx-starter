@@ -7,12 +7,6 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zSelectMessage } from '../messages.schema'
 import { findById } from '../messages.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const getMessageRoute = createRoute({
     path: '/v1/messages/:id',
     tags: ['Messages'],
@@ -22,7 +16,14 @@ export const getMessageRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(z.array(zSelectMessage), 'Message details'),
+        [OK]: ApiResponse(
+            {
+                data: z.array(zSelectMessage),
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'Message details',
+        ),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Message not found'),
     },
 })

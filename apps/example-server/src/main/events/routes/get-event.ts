@@ -7,12 +7,6 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zSelectEvent } from '../events.schema'
 import { getAnEvent } from '../events.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const getEventRoute = createRoute({
     path: '/v1/events/:id',
     tags: ['Event'],
@@ -22,7 +16,14 @@ export const getEventRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(z.array(zSelectEvent), 'Event found'),
+        [OK]: ApiResponse(
+            {
+                data: z.array(zSelectEvent),
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'Event found',
+        ),
         [NOT_FOUND]: ApiResponse(zEmpty, 'No cases found'),
     },
 })

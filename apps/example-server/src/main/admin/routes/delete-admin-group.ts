@@ -6,12 +6,6 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { deleteGroup, findGroupById } from '../admin-groups.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const deleteAdminGroupRoute = createRoute({
     path: '/v1/admin-groups/:id',
     method: 'delete',
@@ -35,14 +29,22 @@ export const deleteAdminGroupHandler: AppRouteHandler<
         const groupItem = await findGroupById(groupId)
         if (!groupItem) {
             return c.json(
-                jsonResponse({}, 'Admin group not found', NOT_FOUND),
+                {
+                    data: {},
+                    message: 'Admin group not found',
+                    success: false,
+                },
                 NOT_FOUND,
             )
         }
 
         await deleteGroup(groupId)
         return c.json(
-            jsonResponse({}, 'Admin group deleted successfully', OK),
+            {
+                data: {},
+                message: 'Admin group deleted successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {
@@ -52,11 +54,11 @@ export const deleteAdminGroupHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to delete admin group',
-                INTERNAL_SERVER_ERROR,
-            ),
+            {
+                data: {},
+                message: 'Internal server error',
+                success: false,
+            },
             INTERNAL_SERVER_ERROR,
         )
     }

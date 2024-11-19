@@ -28,10 +28,16 @@ export const getAdminUserHandler: AppRouteHandler<
     const userExists = await adminUserExists(userId)
 
     if (!userExists) {
-        return c.json({ message: 'Admin user not found', data: {} }, NOT_FOUND)
+        return c.json(
+            { data: {}, message: 'Admin user not found', success: false },
+            NOT_FOUND,
+        )
     }
 
     const user = await getAdminUserById(userId)
 
-    return c.json({ data: user, message: 'Admin user found' }, OK)
+    return c.json(
+        { data: user, success: true, message: 'Admin user found' },
+        OK,
+    )
 }

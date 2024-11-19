@@ -15,12 +15,6 @@ import { documentsTable } from '../../../core/db/schema'
 import { zSelectDocument, zUpdateDocument } from '../documents.schema'
 import { findDocumentById, updateDocument } from '../documents.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const updateDocumentRoute = createRoute({
     path: '/v1/documents/:id',
     method: 'patch',
@@ -34,7 +28,14 @@ export const updateDocumentRoute = createRoute({
         body: jsonContent(zUpdateDocument, 'Document details'),
     },
     responses: {
-        [OK]: ApiResponse(zSelectDocument, 'Document updated successfully'),
+        [OK]: ApiResponse(
+            {
+                data: zSelectDocument,
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'Document updated successfully',
+        ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid document data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Document not found'),

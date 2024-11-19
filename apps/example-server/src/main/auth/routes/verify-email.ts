@@ -20,7 +20,11 @@ export const verifyEmailRoute = createRoute({
     },
     responses: {
         [HttpStatusCodes.OK]: ApiResponse(
-            z.object({ id: z.string() }),
+            {
+                data: z.object({ id: z.string() }),
+                message: z.string(),
+                success: z.boolean(),
+            },
             'Email verified',
         ),
         [HttpStatusCodes.BAD_REQUEST]: ApiResponse(

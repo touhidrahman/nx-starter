@@ -50,14 +50,17 @@ export const getAdminUsersHandler: AppRouteHandler<
         .limit(limit)
         .offset(offset)
 
-    return c.json({
-        data: adminUsers,
-        meta: {
-            total: adminUsers.length,
-            page: query?.page || 1,
-            size: limit,
+    return c.json(
+        {
+            data: adminUsers,
+            pagination: {
+                total: adminUsers.length,
+                page: query?.page || 1,
+                size: limit,
+            },
+            success: true,
+            message: 'List of Admin Users',
         },
-        message: 'List of Admin Users',
-        code: OK,
-    })
+        OK,
+    )
 }

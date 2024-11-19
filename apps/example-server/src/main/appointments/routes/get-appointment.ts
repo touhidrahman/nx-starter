@@ -16,7 +16,14 @@ export const getAppointmentRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(zSelectAppointment, 'Appointment found'),
+        [OK]: ApiResponse(
+            {
+                data: zSelectAppointment,
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'Appointment found',
+        ),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Appointment not found'),
     },
 })
@@ -28,8 +35,11 @@ export const getAppointmentHandler: AppRouteHandler<
     const appointment = await findAppointmentById(appointmentId)
 
     if (!appointment) {
-        return c.json({ message: 'Appointment not found', data: {} }, NOT_FOUND)
+        return c.json(
+            jsonResponse({}, 'Appointment not found', NOT_FOUND),
+            NOT_FOUND,
+        )
     }
 
-    return c.json({ data: appointment, message: 'Appointment found' }, OK)
+    return c.json(jsonResponse(appointment, 'Appointment found', OK), OK)
 }

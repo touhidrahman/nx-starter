@@ -13,12 +13,6 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zSelectGroup, zUpdateGroup } from '../admin-groups.schema'
 import { findGroupById, updateGroup } from '../admin-groups.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const updateAdminGroupRoute = createRoute({
     path: '/v1/admin-groups/:id',
     method: 'put',
@@ -46,24 +40,28 @@ export const updateAdminGroupHandler: AppRouteHandler<
         const existingGroup = await findGroupById(groupId)
         if (!existingGroup) {
             return c.json(
-                jsonResponse({}, 'Admin group not found', NOT_FOUND),
+                { data: {}, message: 'Admin group not found', success: false },
                 NOT_FOUND,
             )
         }
 
         const updatedGroup = await updateGroup(groupId, body)
         return c.json(
-            jsonResponse(
-                updatedGroup[0],
-                'Admin group updated successfully',
-                OK,
-            ),
+            {
+                data: updatedGroup[0],
+                success: true,
+                message: 'Admin group updated successfully',
+            },
             OK,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid admin group data', BAD_REQUEST),
+                {
+                    data: {},
+                    message: 'Invalid admin group data',
+                    success: false,
+                },
                 BAD_REQUEST,
             )
         }
@@ -73,11 +71,7 @@ export const updateAdminGroupHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to update admin group',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal server error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

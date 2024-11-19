@@ -12,12 +12,6 @@ import { zInsertCase, zSelectCase } from '../case.schema'
 import { zEmpty } from '../../../core/models/common.schema'
 import { createCase } from '../case.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const createCaseRoute = createRoute({
     path: '/v1/cases',
     method: 'post',
@@ -27,7 +21,10 @@ export const createCaseRoute = createRoute({
         body: jsonContent(zInsertCase, 'Case details'),
     },
     responses: {
-        [CREATED]: ApiResponse(zSelectCase, 'Case created successfully'),
+        [CREATED]: ApiResponse(
+            { data: zSelectCase, message: z.string(), success: z.boolean() },
+            'Case created successfully',
+        ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid case data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },

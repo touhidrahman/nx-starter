@@ -11,6 +11,7 @@ import {
     zSearchApplicationArea,
     zSelectApplicationArea,
 } from '../application-areas.schema'
+import { zEmpty } from '../../../core/models/common.schema'
 
 export const getApplicationAreasRoute = createRoute({
     path: '/v1/application-areas',
@@ -22,7 +23,11 @@ export const getApplicationAreasRoute = createRoute({
     },
     responses: {
         [OK]: ApiResponse(
-            z.array(zSelectApplicationArea),
+            {
+                data: z.array(zSelectApplicationArea),
+                message: z.string(),
+                success: z.boolean(),
+            },
             'List of Application Areas',
         ),
     },

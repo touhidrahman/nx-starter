@@ -1,20 +1,19 @@
 import { neon } from '@neondatabase/serverless'
 import { config } from 'dotenv'
-import { drizzle as drizzleForPgLite } from 'drizzle-orm/pglite'
 import { drizzle as drizzleForNeon } from 'drizzle-orm/neon-http'
+import { drizzle as drizzleForPg } from 'drizzle-orm/node-postgres'
 import * as schema from './schema'
-import { PGlite } from '@electric-sql/pglite'
+import { Pool } from 'pg'
 
 config({ path: '.env' })
 
-const clientPgLite = new PGlite()
-
 const dbUrl = process.env.DATABASE_URL ?? ''
 const clientNeon = neon(dbUrl)
+const pool = new Pool({ connectionString: dbUrl })
 
 const dbNeon = drizzleForNeon(clientNeon, { schema, logger: true })
-const dbPgLite = drizzleForPgLite(clientPgLite, { schema, logger: true })
+const dbPg = drizzleForPg(pool, { schema, logger: true })
 
-export const db = process.env.DEV_DB_MODE === 'local' ? dbPgLite : dbNeon
+export const db = process.env.DEV_DB_MODE === 'local' ? dbPg : dbNeon
 export const client =
-    process.env.DEV_DB_MODE === 'local' ? clientPgLite : clientNeon
+    process.env.DEV_DB_MODE === 'local' ? undefined : clientNeon

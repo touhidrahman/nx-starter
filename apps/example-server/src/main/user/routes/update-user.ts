@@ -18,8 +18,24 @@ export const updateUserRoute = createRoute({
         body: jsonContent(zUpdateUser, 'User details'),
     },
     responses: {
-        [OK]: ApiResponse(zSelectUser, 'Updated'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'User not found'),
+        [OK]: ApiResponse(
+            {
+                data: zSelectUser,
+                message: z.string(),
+                error: z.any(),
+                success: z.boolean(),
+            },
+            'Updated',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            {
+                data: zEmpty,
+                message: z.string(),
+                error: z.any(),
+                success: z.boolean(),
+            },
+            'User not found',
+        ),
     },
 })
 
@@ -31,8 +47,13 @@ export const updateUserHandler: AppRouteHandler<
     const [updatedUser] = await updateUser(userId, body)
 
     if (!updatedUser) {
-        return c.json({ message: 'User not found', data: {} }, NOT_FOUND)
+        return c.json(
+            { data: {}, message: 'User not found', success: false },
+            NOT_FOUND,
+        )
     }
-
-    return c.json({ data: updatedUser, message: 'User updated' }, OK)
+    return c.json(
+        { data: updatedUser, message: 'User updated', success: true },
+        OK,
+    )
 }

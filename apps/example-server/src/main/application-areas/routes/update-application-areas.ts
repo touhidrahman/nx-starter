@@ -11,12 +11,6 @@ import {
 } from '../application-areas.schema'
 import { updateApplicationArea } from '../application-areas.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const updateApplicationAreaRoute = createRoute({
     path: '/v1/application-areas/:id',
     method: 'put',
@@ -27,7 +21,14 @@ export const updateApplicationAreaRoute = createRoute({
         body: jsonContent(zUpdateApplicationArea, 'Application Area details'),
     },
     responses: {
-        [OK]: ApiResponse(zSelectApplicationArea, 'Updated'),
+        [OK]: ApiResponse(
+            {
+                data: zSelectApplicationArea,
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'Updated',
+        ),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Application area not found'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },

@@ -10,6 +10,7 @@ import { authUsersTable } from '../../../core/db/schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zChangePassword } from '../auth.schema'
 import { findAuthUserById } from '../auth.service'
+import { zEmpty } from '../../../core/models/common.schema'
 
 const tags = ['Auth']
 
@@ -22,15 +23,12 @@ export const changePasswordRoute = createRoute({
     },
     responses: {
         [HttpStatusCodes.OK]: ApiResponse(
-            z.object({ success: z.boolean() }),
+            zEmpty,
             'Password changed successfully',
         ),
-        [HttpStatusCodes.UNAUTHORIZED]: ApiResponse(
-            z.object({ success: z.boolean() }),
-            'Unauthorized',
-        ),
+        [HttpStatusCodes.UNAUTHORIZED]: ApiResponse(zEmpty, 'Unauthorized'),
         [HttpStatusCodes.BAD_REQUEST]: ApiResponse(
-            z.object({ success: z.boolean() }),
+            zEmpty,
             'Current password does not match',
         ),
     },

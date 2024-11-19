@@ -16,7 +16,10 @@ export const getUserRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(zSelectUser, 'User found'),
+        [OK]: ApiResponse(
+            { data: zSelectUser, message: z.string(), success: z.boolean() },
+            'User found',
+        ),
         [NOT_FOUND]: ApiResponse(zEmpty, 'User not found'),
     },
 })
@@ -28,8 +31,8 @@ export const getUserHandler: AppRouteHandler<typeof getUserRoute> = async (
     const user = await findUserById(userId)
 
     if (!user) {
-        return c.json({ message: 'User not found', data: {} }, NOT_FOUND)
+        return c.json(jsonResponse({}, 'User not found', NOT_FOUND), NOT_FOUND)
     }
 
-    return c.json({ data: user, message: 'User found' }, OK)
+    return c.json(jsonResponse(user, 'User found', OK), OK)
 }

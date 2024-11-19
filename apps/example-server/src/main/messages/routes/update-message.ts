@@ -13,12 +13,6 @@ import { authMiddleware } from '../../../core/middlewares/auth.middleware'
 import { zSelectMessage, zUpdateMessage } from '../messages.schema'
 import { findById, update } from '../messages.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const updateMessageRoute = createRoute({
     path: '/v1/messages/:id',
     method: 'patch',
@@ -29,7 +23,10 @@ export const updateMessageRoute = createRoute({
         body: jsonContent(zUpdateMessage, 'Message details'),
     },
     responses: {
-        [OK]: ApiResponse(zSelectMessage, 'Message updated successfully'),
+        [OK]: ApiResponse(
+            { data: zSelectMessage, message: z.string(), success: z.boolean() },
+            'Message updated successfully',
+        ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid document data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Message not found'),

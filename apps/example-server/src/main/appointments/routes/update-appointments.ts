@@ -13,12 +13,6 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zUpdateAppointment, zSelectAppointment } from '../appointments.schema'
 import { findAppointmentById, updateAppointment } from '../appointments.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const updateAppointmentRoute = createRoute({
     path: '/v1/appointments/:id',
     method: 'put',
@@ -30,12 +24,37 @@ export const updateAppointmentRoute = createRoute({
     },
     responses: {
         [OK]: ApiResponse(
-            zSelectAppointment,
+            {
+                data: zSelectAppointment,
+                message: z.string(),
+                success: z.boolean(),
+            },
             'Appointment updated successfully',
         ),
-        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid appointment data'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'Appointment not found'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [BAD_REQUEST]: ApiResponse(
+            {
+                data: zSelectAppointment,
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'Invalid appointment data',
+        ),
+        [NOT_FOUND]: ApiResponse(
+            {
+                data: zSelectAppointment,
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'Appointment not found',
+        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(
+            {
+                data: zSelectAppointment,
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'Internal server error',
+        ),
     },
 })
 

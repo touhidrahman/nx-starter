@@ -9,12 +9,6 @@ import checkDocumentOwnershipMiddleware from '../../../core/middlewares/check-ow
 import { findDocumentById } from '../documents.service'
 import { zSelectDocument } from '../documents.schema'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const getDocumentRoute = createRoute({
     path: '/v1/documents/:id',
     tags: ['Document'],
@@ -27,7 +21,14 @@ export const getDocumentRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(z.array(zSelectDocument), 'Document details'),
+        [OK]: ApiResponse(
+            {
+                data: z.array(zSelectDocument),
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'Document details',
+        ),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Document not found'),
     },
 })

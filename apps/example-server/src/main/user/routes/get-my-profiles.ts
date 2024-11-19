@@ -13,7 +13,11 @@ export const getMyProfilesRoute = createRoute({
     middleware: [checkToken],
     responses: {
         [OK]: ApiResponse(
-            z.array(zSelectUser),
+            {
+                data: z.array(zSelectUser),
+                message: z.string(),
+                success: z.boolean(),
+            },
             'List of user profiles by auth user ID',
         ),
     },
@@ -26,7 +30,7 @@ export const getMyProfilesHandler: AppRouteHandler<
     const users = await findUsersByAuthUserId(payload.sub)
 
     return c.json(
-        { data: users, message: 'List of user profiles by auth user ID' },
+        jsonResponse(users, 'List of user profiles by auth user ID', OK),
         OK,
     )
 }

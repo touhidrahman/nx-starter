@@ -7,12 +7,6 @@ import { authMiddleware } from '../../../core/middlewares/auth.middleware'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { deleteManyByIds } from '../subscriptions.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const deleteAllSubscriptionRoute = createRoute({
     path: '/v1/subscriptions',
     method: 'delete',

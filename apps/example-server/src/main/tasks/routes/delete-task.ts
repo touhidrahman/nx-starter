@@ -8,12 +8,6 @@ import checkTaskOwnershipMiddleware from '../../../core/middlewares/check-owners
 import { tasksTable } from '../../../core/db/schema'
 import { deleteTask, getTaskById } from '../tasks.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const deleteTaskRoute = createRoute({
     path: '/v1/tasks/:id',
     method: 'delete',

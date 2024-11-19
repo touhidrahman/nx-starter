@@ -28,8 +28,14 @@ export const getAdminGroupHandler: AppRouteHandler<
     const groupItem = await findGroupById(groupId)
 
     if (!groupItem) {
-        return c.json({ message: 'Group not found', data: {} }, NOT_FOUND)
+        return c.json(
+            { data: {}, message: 'Group not found', success: false },
+            NOT_FOUND,
+        )
     }
 
-    return c.json({ data: groupItem, message: 'Group found' }, OK)
+    return c.json(
+        { data: groupItem, message: 'Group found', success: true },
+        OK,
+    )
 }

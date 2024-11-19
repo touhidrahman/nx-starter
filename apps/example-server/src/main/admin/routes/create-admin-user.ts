@@ -7,12 +7,6 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
 import { approveAdminUser } from '../admin-user.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const approveAdminUserRoute = createRoute({
     path: '/v1/admin-users/approve',
     method: 'post',
@@ -41,12 +35,16 @@ export const approveAdminUserHandler: AppRouteHandler<
 
         if (response.code === 404) {
             return c.json(
-                jsonResponse({}, response.message, NOT_FOUND),
+                {
+                    data: {},
+                    message: 'User not found or already approved',
+                    success: false,
+                },
                 NOT_FOUND,
             )
         }
 
-        return c.json(jsonResponse({}, response.message, OK), OK)
+        return c.json({ data: {}, message: 'User approved', success: true }, OK)
     } catch (error) {
         console.error(
             'Error approving admin user:',
@@ -54,11 +52,11 @@ export const approveAdminUserHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to approve admin user',
-                INTERNAL_SERVER_ERROR,
-            ),
+            {
+                data: {},
+                message: 'Internal server error',
+                success: false,
+            },
             INTERNAL_SERVER_ERROR,
         )
     }

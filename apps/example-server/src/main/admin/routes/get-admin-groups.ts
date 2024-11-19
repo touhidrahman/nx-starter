@@ -34,8 +34,11 @@ export const getAdminGroupsHandler: AppRouteHandler<
     const groups = await findAllGroups(pageNumber, sizeNumber)
 
     if (groups.length === 0) {
-        return c.json({ message: 'No groups found', data: [] }, NOT_FOUND)
+        return c.json(
+            { data: {}, success: false, message: 'No groups found' },
+            NOT_FOUND,
+        )
     }
 
-    return c.json({ data: groups, message: 'List of Groups' }, OK)
+    return c.json({ data: groups, success: true, message: 'Group list' }, OK)
 }

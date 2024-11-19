@@ -12,12 +12,6 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { createCourt } from '../courts.service'
 import { zInsertCourt, zSelectCourt } from '../courts.schema'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const createCourtRoute = createRoute({
     path: '/v1/courts',
     method: 'post',
@@ -27,7 +21,10 @@ export const createCourtRoute = createRoute({
         body: jsonContent(zInsertCourt, 'Court details'),
     },
     responses: {
-        [CREATED]: ApiResponse(zSelectCourt, 'Court created successfully'),
+        [CREATED]: ApiResponse(
+            { data: zSelectCourt, message: z.string(), success: z.boolean() },
+            'Court created successfully',
+        ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid court data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },

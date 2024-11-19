@@ -2,13 +2,14 @@ import { createRoute, z } from '@hono/zod-openapi'
 import { createRouter } from '../../../core/create-app'
 import { checkToken } from '../auth.middleware'
 import { jsonContent } from 'stoker/openapi/helpers'
-import { zInsertGroup } from '../../group/group.schema'
+import { zInsertGroup, zSelectGroup } from '../../group/group.schema'
 import { BAD_REQUEST, CREATED, OK } from 'stoker/http-status-codes'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { AppRouteHandler } from '../../../core/core.type'
 import { db } from '../../../core/db/db'
 import { groupsTable } from '../../../core/db/schema'
 import { and, count, eq } from 'drizzle-orm'
+import { zEmpty } from '../../../core/models/common.schema'
 
 export const createVendorProfileRoute = createRoute({
     path: '/v1/create-vendor-profile',
@@ -19,11 +20,8 @@ export const createVendorProfileRoute = createRoute({
         body: jsonContent(zInsertGroup, 'Group create input'),
     },
     responses: {
-        [CREATED]: ApiResponse(zInsertGroup, 'Vendor profile created'),
-        [BAD_REQUEST]: ApiResponse(
-            z.object({ error: z.string() }),
-            'Invalid input',
-        ),
+        [CREATED]: ApiResponse(zSelectGroup, 'Vendor profile created'),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid input'),
     },
 })
 

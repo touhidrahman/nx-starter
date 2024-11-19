@@ -7,12 +7,6 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zSelectDocumentSharing } from '../documents-sharing.schema'
 import { findById } from '../documents-sharing.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const getDocumentSharingRoute = createRoute({
     path: '/v1/document-sharing/:id',
     tags: ['Document Sharing'],
@@ -23,7 +17,11 @@ export const getDocumentSharingRoute = createRoute({
     },
     responses: {
         [OK]: ApiResponse(
-            z.array(zSelectDocumentSharing),
+            {
+                data: z.array(zSelectDocumentSharing),
+                message: z.string(),
+                success: z.boolean(),
+            },
             'Document sharing details',
         ),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Document sharing not found'),

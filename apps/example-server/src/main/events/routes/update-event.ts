@@ -13,12 +13,6 @@ import { zSelectEvent, zUpdateEvent } from '../events.schema'
 import { getAnEvent, updateEvent } from '../events.service'
 import { authMiddleware } from '../../../core/middlewares/auth.middleware'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const updateEventRoute = createRoute({
     path: '/v1/events/:id',
     method: 'patch',
@@ -29,7 +23,10 @@ export const updateEventRoute = createRoute({
         body: jsonContent(zUpdateEvent, 'Event details'),
     },
     responses: {
-        [OK]: ApiResponse(zSelectEvent, 'Event updated successfully'),
+        [OK]: ApiResponse(
+            { data: zSelectEvent, message: z.string(), success: z.boolean() },
+            'Event updated successfully',
+        ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid event data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Event not found'),

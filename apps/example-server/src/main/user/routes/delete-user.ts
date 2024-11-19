@@ -28,8 +28,14 @@ export const deleteUserHandler: AppRouteHandler<
     const [user] = await deleteUser(userId)
 
     if (!user) {
-        return c.json({ message: 'User not found', data: {} }, NOT_FOUND)
+        return c.json(
+            { data: {}, success: false, message: 'User not found' },
+            NOT_FOUND,
+        )
     }
 
-    return c.json({ data: user, message: 'User deleted' }, NO_CONTENT)
+    return c.json(
+        { data: user, success: true, message: 'User deleted' },
+        NO_CONTENT,
+    )
 }

@@ -8,12 +8,7 @@ import {
     deleteApplicationArea,
     findApplicationAreaById,
 } from '../application-areas.service'
-
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
+import { zSelectAppointment } from '../../appointments/appointments.schema'
 
 export const deleteApplicationAreaRoute = createRoute({
     path: '/v1/application-areas/:id',

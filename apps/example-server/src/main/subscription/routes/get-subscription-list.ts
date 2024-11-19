@@ -7,12 +7,6 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { zSelectSubscription } from '../subscription.schema'
 import { findAllByGroupId } from '../subscriptions.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const getSubscriptionListRoute = createRoute({
     path: '/v1/subscriptions',
     tags: ['Subscriptions'],
@@ -21,7 +15,11 @@ export const getSubscriptionListRoute = createRoute({
     request: {},
     responses: {
         [OK]: ApiResponse(
-            z.array(zSelectSubscription),
+            {
+                data: z.array(zSelectSubscription),
+                message: z.string(),
+                success: z.boolean(),
+            },
             'List of subscriptions',
         ),
         [NOT_FOUND]: ApiResponse(zEmpty, 'No subscriptions found!'),

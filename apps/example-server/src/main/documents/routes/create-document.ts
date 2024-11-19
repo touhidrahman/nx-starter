@@ -12,12 +12,6 @@ import { authMiddleware } from '../../../core/middlewares/auth.middleware'
 import { zInsertDocument, zSelectDocument } from '../documents.schema'
 import { createDocument } from '../documents.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const createDocumentRoute = createRoute({
     path: '/v1/documents',
     method: 'post',
@@ -28,7 +22,11 @@ export const createDocumentRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            zSelectDocument,
+            {
+                data: zSelectDocument,
+                message: z.string(),
+                success: z.boolean(),
+            },
             'Document created successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid document data'),

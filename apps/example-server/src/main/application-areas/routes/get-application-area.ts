@@ -16,7 +16,14 @@ export const getApplicationAreaRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(zSelectApplicationArea, 'Application area found'),
+        [OK]: ApiResponse(
+            {
+                data: zSelectApplicationArea,
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'Application area found',
+        ),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Application area not found'),
     },
 })

@@ -12,12 +12,6 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zInsertAppointment, zSelectAppointment } from '../appointments.schema'
 import { createAppointment } from '../appointments.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const createAppointmentRoute = createRoute({
     path: '/v1/appointments',
     method: 'post',
@@ -28,7 +22,11 @@ export const createAppointmentRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            zSelectAppointment,
+            {
+                data: zSelectAppointment,
+                message: z.string(),
+                success: z.boolean(),
+            },
             'Appointment created successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid appointment data'),

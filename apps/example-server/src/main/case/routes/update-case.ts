@@ -13,12 +13,6 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zUpdateCase, zSelectCase } from '../case.schema'
 import { findCaseById, updateCase } from '../case.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const updateCaseRoute = createRoute({
     path: '/v1/cases/:id',
     method: 'put',
@@ -29,7 +23,10 @@ export const updateCaseRoute = createRoute({
         body: jsonContent(zUpdateCase, 'Case update details'),
     },
     responses: {
-        [OK]: ApiResponse(zSelectCase, 'Case updated successfully'),
+        [OK]: ApiResponse(
+            { data: zSelectCase, message: z.string(), success: z.boolean() },
+            'Case updated successfully',
+        ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid case data'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Case not found'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),

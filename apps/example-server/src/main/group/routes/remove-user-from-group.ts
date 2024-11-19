@@ -22,7 +22,7 @@ export const removeUserFromGroupRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            zSelectUser,
+            { data: zSelectUser, message: z.string(), success: z.boolean() },
             'User deleted from group successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid group data'),

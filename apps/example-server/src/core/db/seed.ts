@@ -1,4 +1,3 @@
-import { logger } from 'hono/logger'
 import { db } from './db'
 import { authUsersTable } from './schema'
 
@@ -9,7 +8,6 @@ export const seed = async () => {
         email: 'super@admin.com',
         password: 'Abcd1234!',
         level: 'admin',
-        status: 'active',
     })
 
     console.log('Database seeded successfully')

@@ -15,12 +15,6 @@ import {
 } from '../subscription.schema'
 import { create } from '../subscriptions.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const createSubscriptionsRoute = createRoute({
     path: '/v1/subscriptions',
     method: 'post',
@@ -31,7 +25,11 @@ export const createSubscriptionsRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            zSelectSubscription,
+            {
+                data: zSelectSubscription,
+                message: z.string(),
+                success: z.boolean(),
+            },
             'Subscription created successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid subscription data'),

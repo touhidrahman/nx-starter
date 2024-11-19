@@ -9,12 +9,6 @@ import { zSelectTask } from '../tasks.schema'
 import checkTaskOwnershipMiddleware from '../../../core/middlewares/check-ownership.middleware'
 import { tasksTable } from '../../../core/db/schema'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const getTaskRoute = createRoute({
     path: '/v1/tasks/:id',
     tags: ['Task'],
@@ -27,7 +21,14 @@ export const getTaskRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(z.array(zSelectTask), 'Task details'),
+        [OK]: ApiResponse(
+            {
+                data: z.array(zSelectTask),
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'Task details',
+        ),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Task not found'),
     },
 })

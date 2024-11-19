@@ -7,12 +7,6 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zSelectSubscription } from '../subscription.schema'
 import { findById } from '../subscriptions.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const getSubscriptionRoute = createRoute({
     path: '/v1/subscriptions/:id',
     tags: ['Subscriptions'],
@@ -22,7 +16,14 @@ export const getSubscriptionRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(z.array(zSelectSubscription), 'Subscription details'),
+        [OK]: ApiResponse(
+            {
+                data: z.array(zSelectSubscription),
+                message: z.string(),
+                success: z.boolean(),
+            },
+            'Subscription details',
+        ),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Subscription not found'),
     },
 })

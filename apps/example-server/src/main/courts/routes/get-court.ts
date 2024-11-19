@@ -16,7 +16,10 @@ export const getCourtRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(zSelectCourt, 'Court found'),
+        [OK]: ApiResponse(
+            { data: zSelectCourt, message: z.string(), success: z.boolean() },
+            'Court found',
+        ),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Court not found'),
     },
 })

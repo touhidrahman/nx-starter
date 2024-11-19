@@ -193,9 +193,13 @@ CREATE TABLE IF NOT EXISTS "permissions" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "storage" (
 	"id" text PRIMARY KEY NOT NULL,
-	"group_id" text NOT NULL,
-	"total_size" integer NOT NULL,
-	"used_size" integer NOT NULL
+	"filename" text,
+	"url" text,
+	"extension" text,
+	"uploaded_by" text,
+	"entity_id" text,
+	"entity_name" text,
+	"expiry_date" timestamp
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "subscriptions" (
@@ -372,12 +376,6 @@ END $$;
 --> statement-breakpoint
 DO $$ BEGIN
  ALTER TABLE "permissions" ADD CONSTRAINT "permissions_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "storage" ADD CONSTRAINT "storage_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;
 EXCEPTION
  WHEN duplicate_object THEN null;
 END $$;

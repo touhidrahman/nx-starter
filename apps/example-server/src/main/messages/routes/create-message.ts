@@ -12,12 +12,6 @@ import { authMiddleware } from '../../../core/middlewares/auth.middleware'
 import { zInsertMessage, zSelectMessage } from '../messages.schema'
 import { create } from '../messages.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const createMessageRoute = createRoute({
     path: '/v1/messages',
     method: 'post',
@@ -27,7 +21,10 @@ export const createMessageRoute = createRoute({
         body: jsonContent(zInsertMessage, 'Message details'),
     },
     responses: {
-        [CREATED]: ApiResponse(zSelectMessage, 'Message created successfully'),
+        [CREATED]: ApiResponse(
+            { data: zSelectMessage, message: z.string(), success: z.boolean() },
+            'Message created successfully',
+        ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid message data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },

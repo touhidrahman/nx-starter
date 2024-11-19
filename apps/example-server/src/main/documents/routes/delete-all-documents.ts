@@ -7,12 +7,6 @@ import { authMiddleware } from '../../../core/middlewares/auth.middleware'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { deleteAll } from '../documents.service'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const deleteAllDocumentRoute = createRoute({
     path: '/v1/documents',
     method: 'delete',

@@ -8,12 +8,6 @@ import { zDeletePermission } from '../permissions.schema'
 import { deleteMany } from '../permissions.service'
 import { jsonContent } from 'stoker/openapi/helpers'
 
-const jsonResponse = (data: any, message: string, status: number) => ({
-    data,
-    message,
-    status,
-})
-
 export const deleteAllPermissionsRoute = createRoute({
     path: '/v1/permissions',
     method: 'delete',

@@ -8,9 +8,9 @@ import { appointmentsV1Routes } from './main/appointments/appointments.routes'
 import { authV1Routes } from './main/auth/auth.routes'
 import { caseV1Routes } from './main/case/case.routes'
 import { courtsV1Routes } from './main/courts/courts.routes'
-import { groupsV1Route } from './main/group/group.routes'
 import { userV1Routes } from './main/user/user.routes'
 import { eventV1Route } from './main/events/events.routes'
+import { groupsV1Route } from './main/group/group.routes'
 import { taskV1Route } from './main/tasks/tasks.routes'
 import { documentV1Route } from './main/documents/documents.routes'
 import { documentSharingV1Route } from './main/documents-sharing/documents-sharing.routes'
@@ -45,22 +45,5 @@ configureOpenAPI(app)
 for (const route of routes) {
     app.route('/', route)
 }
-
-app.route('/', documentsRoutes)
-
-app.route('admin/seed', adminSeedRoutes)
-app.route('admin/users', adminUserRoutes)
-app.route('admin/groups', adminGroupRoutes)
-app.route('application-areas', applicationAreasRoutes)
-app.route('appointments', appointmentsRoutes)
-app.route('cases', caseRoutes)
-app.route('courts', courtsRoutes)
-app.route('document-sharing', documentsSharingRoutes)
-app.route('events', eventsRoutes)
-app.route('messages', messagesRoutes)
-app.route('permissions', permissionsRoutes)
-app.route('subscriptions', subscriptionRoutes)
-app.route('subscription', subscriptionRoutes)
-app.route('tasks', tasksRoutes)
 
 export default app
