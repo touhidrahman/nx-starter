@@ -74,13 +74,7 @@ export const updateSubscriptionHandler: AppRouteHandler<
             error instanceof Error ? error.message : 'Unknown error',
         )
         if (error instanceof Error) console.error(error.stack)
-        return c.json(
-            jsonResponse(
-                {},
-                'Failed to create subscription',
-                INTERNAL_SERVER_ERROR,
-            ),
-            INTERNAL_SERVER_ERROR,
-        )
+            return c.json({ data: {}, message: 'Internal Server Error', success: false }, INTERNAL_SERVER_ERROR)
+
     }
 }

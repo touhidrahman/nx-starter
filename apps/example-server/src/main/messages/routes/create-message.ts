@@ -49,13 +49,7 @@ export const createMessageHandler: AppRouteHandler<
             )
         }
         if (error instanceof Error) console.error(error.stack)
-        return c.json(
-            jsonResponse(
-                {},
-                'message created successfully',
-                INTERNAL_SERVER_ERROR,
-            ),
-            INTERNAL_SERVER_ERROR,
-        )
+            return c.json({ data: {}, message: 'Internal Server Error', success: false }, INTERNAL_SERVER_ERROR)
+
     }
 }
