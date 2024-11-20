@@ -38,17 +38,27 @@ export const createTaskHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const task = await createTask(body)
+        const [task] = await createTask(body)
         return c.json(
-            jsonResponse(task, 'Task created successfully', CREATED),
+            { data: task, message: 'Task created successfully', success: true },
             CREATED,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
-            return c.json({ data: {}, message: 'Bad request', success: false, error: error.errors }, BAD_REQUEST)
+            return c.json(
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
+                BAD_REQUEST,
+            )
         }
         if (error instanceof Error) console.error(error.stack)
-            return c.json({ data: {}, message: 'Internal Server Error', success: false }, INTERNAL_SERVER_ERROR)
-
+        return c.json(
+            { data: {}, message: 'Internal Server Error', success: false },
+            INTERNAL_SERVER_ERROR,
+        )
     }
 }

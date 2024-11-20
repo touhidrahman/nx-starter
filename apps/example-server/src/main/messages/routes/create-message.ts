@@ -21,9 +21,7 @@ export const createMessageRoute = createRoute({
         body: jsonContent(zInsertMessage, 'Message details'),
     },
     responses: {
-        [CREATED]: ApiResponse( zSelectMessage,
-            'Message created successfully',
-        ),
+        [CREATED]: ApiResponse(zSelectMessage, 'Message created successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid message data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
@@ -35,18 +33,31 @@ export const createMessageHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const message = await create(body)
+        const [message] = await create(body)
         return c.json(
-            jsonResponse(message, 'message created successfully', CREATED),
+            {
+                data: message,
+                message: 'Message created successfully',
+                success: true,
+            },
             CREATED,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
-            return c.json({ data: {}, message: 'Bad request', success: false, error: error.errors }, BAD_REQUEST)
-
+            return c.json(
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
+                BAD_REQUEST,
+            )
         }
         if (error instanceof Error) console.error(error.stack)
-            return c.json({ data: {}, message: 'Internal Server Error', success: false }, INTERNAL_SERVER_ERROR)
-
+        return c.json(
+            { data: {}, message: 'Internal Server Error', success: false },
+            INTERNAL_SERVER_ERROR,
+        )
     }
 }

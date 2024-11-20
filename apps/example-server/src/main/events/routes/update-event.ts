@@ -23,9 +23,7 @@ export const updateEventRoute = createRoute({
         body: jsonContent(zUpdateEvent, 'Event details'),
     },
     responses: {
-        [OK]: ApiResponse( zSelectEvent,
-            'Event updated successfully',
-        ),
+        [OK]: ApiResponse(zSelectEvent, 'Event updated successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid event data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Event not found'),
@@ -42,8 +40,10 @@ export const updateEventHandler: AppRouteHandler<
     try {
         const existingEvent = await getAnEvent(eventId)
         if (!existingEvent) {
-            return c.json({ data: {}, message: 'Item not found', success: false }, NOT_FOUND)
-
+            return c.json(
+                { data: {}, message: 'Item not found', success: false },
+                NOT_FOUND,
+            )
         }
         const updatedEvent = await updateEvent(eventId, payload.groupId, body)
 
@@ -53,15 +53,24 @@ export const updateEventHandler: AppRouteHandler<
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
-            return c.json({ data: {}, message: 'Bad request', success: false, error: error.errors }, BAD_REQUEST)
-
+            return c.json(
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
+                BAD_REQUEST,
+            )
         }
         console.error(
             'Error updating event:',
             error instanceof Error ? error.message : 'Unknown error',
         )
         if (error instanceof Error) console.error(error.stack)
-            return c.json({ data: {}, message: 'Internal Server Error', success: false }, INTERNAL_SERVER_ERROR)
-
+        return c.json(
+            { data: {}, message: 'Internal Server Error', success: false },
+            INTERNAL_SERVER_ERROR,
+        )
     }
 }

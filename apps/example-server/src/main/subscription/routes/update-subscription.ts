@@ -47,8 +47,10 @@ export const updateSubscriptionHandler: AppRouteHandler<
     try {
         const subscription = await findById(id)
         if (!subscription) {
-            return c.json({ data: {}, message: 'Item not found', success: false }, NOT_FOUND)
-
+            return c.json(
+                { data: {}, message: 'Item not found', success: false },
+                NOT_FOUND,
+            )
         }
         const updatedMessage = await updateById(id, payload.groupId, body)
 
@@ -62,15 +64,24 @@ export const updateSubscriptionHandler: AppRouteHandler<
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
-            return c.json({ data: {}, message: 'Bad request', success: false, error: error.errors }, BAD_REQUEST)
-
+            return c.json(
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
+                BAD_REQUEST,
+            )
         }
         console.error(
             'Error updating subscription:',
             error instanceof Error ? error.message : 'Unknown error',
         )
         if (error instanceof Error) console.error(error.stack)
-            return c.json({ data: {}, message: 'Internal Server Error', success: false }, INTERNAL_SERVER_ERROR)
-
+        return c.json(
+            { data: {}, message: 'Internal Server Error', success: false },
+            INTERNAL_SERVER_ERROR,
+        )
     }
 }

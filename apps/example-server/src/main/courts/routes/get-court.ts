@@ -16,9 +16,7 @@ export const getCourtRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse( zSelectCourt,
-            'Court found',
-        ),
+        [OK]: ApiResponse(zSelectCourt, 'Court found'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Court not found'),
     },
 })
@@ -30,8 +28,14 @@ export const getCourtHandler: AppRouteHandler<typeof getCourtRoute> = async (
     const courtItem = await findCourtById(courtId)
 
     if (!courtItem) {
-        return c.json({ message: 'Court not found', data: {} }, NOT_FOUND)
+        return c.json(
+            { message: 'Court not found', data: {}, success: false },
+            NOT_FOUND,
+        )
     }
 
-    return c.json({ data: courtItem, message: 'Court found' }, OK)
+    return c.json(
+        { data: courtItem, message: 'Court found', success: true },
+        OK,
+    )
 }

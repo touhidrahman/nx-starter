@@ -23,9 +23,7 @@ export const updateCourtRoute = createRoute({
         body: jsonContent(zUpdateCourt, 'Court update details'),
     },
     responses: {
-        [OK]: ApiResponse( zSelectCourt,
-            'Court updated successfully',
-        ),
+        [OK]: ApiResponse(zSelectCourt, 'Court updated successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid court data'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Court not found'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
@@ -41,8 +39,10 @@ export const updateCourtHandler: AppRouteHandler<
     try {
         const existingCourt = await findCourtById(courtId)
         if (!existingCourt) {
-            return c.json({ data: {}, message: 'Item not found', success: false }, NOT_FOUND)
-
+            return c.json(
+                { data: {}, message: 'Item not found', success: false },
+                NOT_FOUND,
+            )
         }
 
         const updatedCourt = await updateCourt(courtId, body)
@@ -52,15 +52,24 @@ export const updateCourtHandler: AppRouteHandler<
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
-            return c.json({ data: {}, message: 'Bad request', success: false, error: error.errors }, BAD_REQUEST)
-
+            return c.json(
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
+                BAD_REQUEST,
+            )
         }
         console.error(
             'Error updating court:',
             error instanceof Error ? error.message : 'Unknown error',
         )
         if (error instanceof Error) console.error(error.stack)
-            return c.json({ data: {}, message: 'Internal Server Error', success: false }, INTERNAL_SERVER_ERROR)
-
+        return c.json(
+            { data: {}, message: 'Internal Server Error', success: false },
+            INTERNAL_SERVER_ERROR,
+        )
     }
 }

@@ -29,8 +29,10 @@ export const deleteDocumentSharingHandler: AppRouteHandler<
     try {
         const document = await findById(id)
         if (!document) {
-            return c.json({ data: {}, message: 'Item not found', success: false }, NOT_FOUND)
-
+            return c.json(
+                { data: {}, message: 'Item not found', success: false },
+                NOT_FOUND,
+            )
         }
 
         await deleteSharing(id)
@@ -44,7 +46,9 @@ export const deleteDocumentSharingHandler: AppRouteHandler<
             error instanceof Error ? error.message : 'Unknown error',
         )
         if (error instanceof Error) console.error(error.stack)
-            return c.json({ data: {}, message: 'Internal Server Error', success: false }, INTERNAL_SERVER_ERROR)
-
+        return c.json(
+            { data: {}, message: 'Internal Server Error', success: false },
+            INTERNAL_SERVER_ERROR,
+        )
     }
 }

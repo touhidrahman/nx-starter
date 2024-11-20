@@ -22,9 +22,7 @@ export const createEventRoute = createRoute({
         body: jsonContent(zInsertEvent, 'Event details'),
     },
     responses: {
-        [CREATED]: ApiResponse( zSelectEvent,
-            'Event created successfully',
-        ),
+        [CREATED]: ApiResponse(zSelectEvent, 'Event created successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid event data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
@@ -36,22 +34,35 @@ export const createEventHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const event = await createEvent(body)
+        const [event] = await createEvent(body)
         return c.json(
-            jsonResponse(event, 'Event created successfully', CREATED),
+            {
+                data: event,
+                message: 'Event created successfully',
+                success: true,
+            },
             CREATED,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
-            return c.json({ data: {}, message: 'Bad request', success: false, error: error.errors }, BAD_REQUEST)
-
+            return c.json(
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
+                BAD_REQUEST,
+            )
         }
         console.error(
             'Error creating event:',
             error instanceof Error ? error.message : 'Unknown error',
         )
         if (error instanceof Error) console.error(error.stack)
-            return c.json({ data: {}, message: 'Internal Server Error', success: false }, INTERNAL_SERVER_ERROR)
-
+        return c.json(
+            { data: {}, message: 'Internal Server Error', success: false },
+            INTERNAL_SERVER_ERROR,
+        )
     }
 }

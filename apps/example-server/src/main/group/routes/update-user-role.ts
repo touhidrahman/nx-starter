@@ -28,9 +28,7 @@ export const updateUserRoleRoute = createRoute({
         body: jsonContent(zUpdateUserRole, 'User ID and Role'),
     },
     responses: {
-        [CREATED]: ApiResponse( zSelectUser,
-            'User Role updated successfully',
-        ),
+        [CREATED]: ApiResponse(zSelectUser, 'User Role updated successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid group data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },

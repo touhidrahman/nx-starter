@@ -23,9 +23,7 @@ export const updateCaseRoute = createRoute({
         body: jsonContent(zUpdateCase, 'Case update details'),
     },
     responses: {
-        [OK]: ApiResponse( zSelectCase,
-            'Case updated successfully',
-        ),
+        [OK]: ApiResponse(zSelectCase, 'Case updated successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid case data'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Case not found'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
@@ -41,8 +39,10 @@ export const updateCaseHandler: AppRouteHandler<
     try {
         const existingCase = await findCaseById(caseId)
         if (!existingCase) {
-            return c.json({ data: {}, message: 'Item not found', success: false }, NOT_FOUND)
-
+            return c.json(
+                { data: {}, message: 'Item not found', success: false },
+                NOT_FOUND,
+            )
         }
 
         const updatedCase = await updateCase(caseId, body)
@@ -52,15 +52,24 @@ export const updateCaseHandler: AppRouteHandler<
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
-            return c.json({ data: {}, message: 'Bad request', success: false, error: error.errors }, BAD_REQUEST)
-
+            return c.json(
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
+                BAD_REQUEST,
+            )
         }
         console.error(
             'Error updating case:',
             error instanceof Error ? error.message : 'Unknown error',
         )
         if (error instanceof Error) console.error(error.stack)
-            return c.json({ data: {}, message: 'Internal Server Error', success: false }, INTERNAL_SERVER_ERROR)
-
+        return c.json(
+            { data: {}, message: 'Internal Server Error', success: false },
+            INTERNAL_SERVER_ERROR,
+        )
     }
 }
