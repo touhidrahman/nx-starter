@@ -48,10 +48,8 @@ export const createPermissionHandler: AppRouteHandler<
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
-            return c.json(
-                jsonResponse({}, 'Invalid permission details', BAD_REQUEST),
-                BAD_REQUEST,
-            )
+            return c.json({ data: {}, message: 'Bad request', success: false, error: error.errors }, BAD_REQUEST)
+
         }
         if (error instanceof Error) console.error(error.stack)
             return c.json({ data: {}, message: 'Internal Server Error', success: false }, INTERNAL_SERVER_ERROR)

@@ -43,19 +43,15 @@ export const createCourtHandler: AppRouteHandler<
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
-            return c.json(
-                jsonResponse({}, 'Invalid court data', BAD_REQUEST),
-                BAD_REQUEST,
-            )
+            return c.json({ data: {}, message: 'Bad request', success: false, error: error.errors }, BAD_REQUEST)
+
         }
         console.error(
             'Error creating court:',
             error instanceof Error ? error.message : 'Unknown error',
         )
         if (error instanceof Error) console.error(error.stack)
-        return c.json(
-            jsonResponse({}, 'Failed to create court', INTERNAL_SERVER_ERROR),
-            INTERNAL_SERVER_ERROR,
-        )
+            return c.json({ data: {}, message: 'Internal Server Error', success: false }, INTERNAL_SERVER_ERROR)
+
     }
 }

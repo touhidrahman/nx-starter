@@ -63,10 +63,8 @@ export const updateDocumentSharingHandler: AppRouteHandler<
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
-            return c.json(
-                jsonResponse({}, 'Invalid document sharing data', BAD_REQUEST),
-                BAD_REQUEST,
-            )
+            return c.json({ data: {}, message: 'Bad request', success: false, error: error.errors }, BAD_REQUEST)
+
         }
         console.error(
             'Error updating document sharing:',
