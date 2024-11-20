@@ -31,7 +31,7 @@ export const leaveGroupRoute = createRoute({
 })
 export const leaveGroupHandler: AppRouteHandler<
     typeof leaveGroupRoute
-> = async (c: any) => {
+> = async (c) => {
     const id = c.req.param('id')
     const { userId } = await c.get('jwtPayload')
 

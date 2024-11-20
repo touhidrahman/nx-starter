@@ -25,7 +25,7 @@ export const getMessageListRoute = createRoute({
 
 export const getMessageListHandler: AppRouteHandler<
     typeof getMessageListRoute
-> = async (c: any) => {
+> = async (c) => {
     try {
         const messages = await listAll()
 

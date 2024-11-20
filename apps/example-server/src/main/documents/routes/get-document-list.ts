@@ -26,7 +26,7 @@ export const getDocumentListRoute = createRoute({
 
 export const getDocumentListHandler: AppRouteHandler<
     typeof getDocumentListRoute
-> = async (c: any) => {
+> = async (c) => {
     const payload = await c.get('jwtPayload')
 
     try {

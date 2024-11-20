@@ -31,7 +31,7 @@ export const removeUserFromGroupRoute = createRoute({
 })
 export const removeUserFromGroupHandler: AppRouteHandler<
     typeof removeUserFromGroupRoute
-> = async (c: any) => {
+> = async (c) => {
     const id = c.req.param('id')
     const userId = c.req.param('userId')
 

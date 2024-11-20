@@ -25,7 +25,7 @@ export const getPermissionListRoute = createRoute({
 
 export const getPermissionListHandler: AppRouteHandler<
     typeof getPermissionListRoute
-> = async (c: any) => {
+> = async (c) => {
     try {
         const permissions = await listAll()
 

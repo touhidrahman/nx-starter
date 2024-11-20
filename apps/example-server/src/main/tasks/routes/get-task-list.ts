@@ -22,7 +22,7 @@ export const getTaskListRoute = createRoute({
 
 export const getTaskListHandler: AppRouteHandler<
     typeof getTaskListRoute
-> = async (c: any) => {
+> = async (c) => {
     const payload = await c.get('jwtPayload')
 
     try {

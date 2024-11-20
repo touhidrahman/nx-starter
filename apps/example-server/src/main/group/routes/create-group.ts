@@ -28,7 +28,7 @@ export const createGroupRoute = createRoute({
 })
 export const createGroupHandler: AppRouteHandler<
     typeof createGroupRoute
-> = async (c: any) => {
+> = async (c) => {
     const body = c.req.valid('json') as GroupDto
     const { userId, role, groupId } = await c.get('jwtPayload')
     try {

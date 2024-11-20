@@ -35,7 +35,7 @@ export const updateUserRoleRoute = createRoute({
 })
 export const updateUserRoleHandler: AppRouteHandler<
     typeof updateUserRoleRoute
-> = async (c: any) => {
+> = async (c) => {
     const { id } = c.req.param('id')
     const { userId, role } = c.req.valid('json')
 

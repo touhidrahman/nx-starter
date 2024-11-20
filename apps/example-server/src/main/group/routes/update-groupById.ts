@@ -26,7 +26,7 @@ export const updateGroupByIdRoute = createRoute({
 
 export const updateGroupHandler: AppRouteHandler<
     typeof updateGroupByIdRoute
-> = async (c: any) => {
+> = async (c) => {
     const id = c.req.param('id')
     const body = c.req.valid('json')
     const result = await updateGroup(id, body)

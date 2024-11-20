@@ -25,7 +25,7 @@ export const getDocumentSharingListRoute = createRoute({
 
 export const getDocumentSharingListHandler: AppRouteHandler<
     typeof getDocumentSharingListRoute
-> = async (c: any) => {
+> = async (c) => {
     try {
         const document = await listAll()
 

@@ -31,7 +31,7 @@ export const addAuthUserToGroupRoute = createRoute({
 })
 export const addAuthUserToGroupHandler: AppRouteHandler<
     typeof addAuthUserToGroupRoute
-> = async (c: any) => {
+> = async (c) => {
     const id = c.req.param('id')
     const { email } = c.req.valid('json')
 
