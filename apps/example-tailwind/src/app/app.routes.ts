@@ -151,11 +151,20 @@ export const appRoutes: Route[] = [
         ],
     },
 
+    // {
+    //     path: 'dashboard/cases',
+    //     loadComponent: () =>
+    //         import('./pages/page-cases/page-cases.component').then(
+    //             (m) => m.PageCasesComponent,
+    //         ),
+    //     resolve: { layout: setLayout(PageLayout.Default) },
+    // },
+
     {
         path: 'dashboard/cases',
         loadComponent: () =>
-            import('./pages/page-cases/page-cases.component').then(
-                (m) => m.PageCasesComponent,
+            import('./pages/page-new-cases/page-new-cases.component').then(
+                (m) => m.PageNewCasesComponent,
             ),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
