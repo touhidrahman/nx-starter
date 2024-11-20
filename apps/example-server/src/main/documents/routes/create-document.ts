@@ -22,11 +22,8 @@ export const createDocumentRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            {
-                data: zSelectDocument,
-                message: z.string(),
-                success: z.boolean(),
-            },
+            zSelectDocument,
+
             'Document created successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid document data'),

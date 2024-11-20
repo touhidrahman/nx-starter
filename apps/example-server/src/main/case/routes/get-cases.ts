@@ -15,11 +15,8 @@ export const getCasesRoute = createRoute({
     request: {},
     responses: {
         [OK]: ApiResponse(
-            {
-                data: z.array(zSelectCase),
-                message: z.string(),
-                success: z.boolean(),
-            },
+            z.array(zSelectCase),
+
             'List of Cases',
         ),
         [NOT_FOUND]: ApiResponse(zEmpty, 'No cases found'),

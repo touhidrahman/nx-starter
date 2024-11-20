@@ -25,11 +25,8 @@ export const createDocumentSharingRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            {
-                data: zSelectDocumentSharing,
-                message: z.string(),
-                success: z.boolean(),
-            },
+            zSelectDocumentSharing,
+
             'Document sharing created successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid document sharing data'),

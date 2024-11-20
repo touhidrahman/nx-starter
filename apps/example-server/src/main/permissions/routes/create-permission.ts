@@ -22,11 +22,8 @@ export const createPermissionRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            {
-                data: zSelectPermission,
-                message: z.string(),
-                success: z.boolean(),
-            },
+            zSelectPermission,
+
             'Permissions created successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid permissions data'),

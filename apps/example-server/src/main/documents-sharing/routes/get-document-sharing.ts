@@ -17,11 +17,8 @@ export const getDocumentSharingRoute = createRoute({
     },
     responses: {
         [OK]: ApiResponse(
-            {
-                data: z.array(zSelectDocumentSharing),
-                message: z.string(),
-                success: z.boolean(),
-            },
+            z.array(zSelectDocumentSharing),
+
             'Document sharing details',
         ),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Document sharing not found'),

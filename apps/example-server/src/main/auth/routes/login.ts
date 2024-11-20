@@ -19,6 +19,7 @@ import { findAuthUserByEmail, updateLastLogin } from '../auth.service'
 import { createAccessToken, createRefreshToken } from '../token.util'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zEmpty } from '../../../core/models/common.schema'
+import { OK } from 'stoker/http-status-codes'
 
 const tags = ['Auth']
 
@@ -31,16 +32,12 @@ export const loginRoute = createRoute({
         body: jsonContentRequired(zLogin, 'User login details'),
     },
     responses: {
-        [HttpStatusCodes.OK]: ApiResponse(
-            {
-                data: z.object({
-                    accessToken: z.string(),
-                    refreshToken: z.string(),
-                    lastLogin: z.string(),
-                }),
-                message: z.string(),
-                success: z.boolean(),
-            },
+        [OK]: ApiResponse(
+            z.object({
+                accessToken: z.string(),
+                refreshToken: z.string(),
+                lastLogin: z.string(),
+            }),
 
             'User login successful',
         ),
@@ -51,13 +48,9 @@ export const loginRoute = createRoute({
         ),
 
         [HttpStatusCodes.PRECONDITION_REQUIRED]: ApiResponse(
-            {
-                data: z.object({
-                    availableGroups: z.array(z.any()),
-                }),
-                message: z.string(),
-                success: z.boolean(),
-            },
+            z.object({
+                availableGroups: z.array(z.any()),
+            }),
             'No group selected. Please select a group to continue',
         ),
     },
@@ -73,7 +66,7 @@ export const loginHandler: AppRouteHandler<LoginRoute> = async (c) => {
 
     if (!authUser) {
         return c.json(
-            { message: 'Invalid email or password', data: {} },
+            { message: 'Invalid email or password', data: {}, success: false },
             HttpStatusCodes.BAD_REQUEST,
         )
     }
@@ -83,7 +76,7 @@ export const loginHandler: AppRouteHandler<LoginRoute> = async (c) => {
 
     if (!(await argon2.verify(authUser.password, password))) {
         return c.json(
-            { message: 'Invalid email or password', data: {} },
+            { message: 'Invalid email or password', data: {}, success: false },
             HttpStatusCodes.BAD_REQUEST,
         )
     }
@@ -102,6 +95,7 @@ export const loginHandler: AppRouteHandler<LoginRoute> = async (c) => {
                     refreshToken,
                     lastLogin: now.toISOString(),
                 },
+                success: true,
             },
             HttpStatusCodes.OK,
         )
@@ -124,6 +118,7 @@ export const loginHandler: AppRouteHandler<LoginRoute> = async (c) => {
                     refreshToken,
                     lastLogin: now.toISOString(),
                 },
+                success: true,
             },
             HttpStatusCodes.OK,
         )
@@ -147,6 +142,7 @@ export const loginHandler: AppRouteHandler<LoginRoute> = async (c) => {
                     refreshToken,
                     lastLogin: now.toISOString(),
                 },
+                success: true,
             },
             HttpStatusCodes.OK,
         )
@@ -163,6 +159,7 @@ export const loginHandler: AppRouteHandler<LoginRoute> = async (c) => {
                 data: {
                     availableGroups: usersWithGroups.map((u) => u.group),
                 },
+                success: false,
             },
             HttpStatusCodes.PRECONDITION_REQUIRED,
         )

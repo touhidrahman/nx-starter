@@ -34,12 +34,12 @@ export const deleteApplicationAreaHandler: AppRouteHandler<
         const applicationArea = await findApplicationAreaById(areaId)
         if (!applicationArea) {
             return c.json(
-                jsonResponse({}, 'Application area not found', NOT_FOUND),
+                { data: {}, message: 'Not found', success: false },
                 NOT_FOUND,
             )
         }
         await deleteApplicationArea(areaId)
-        return c.json(jsonResponse({}, 'Application area deleted', OK), OK)
+        return c.json({ data: {}, message: 'Deleted', success: true }, OK)
     } catch (error) {
         console.error(
             'Error deleting application area:',
@@ -47,11 +47,7 @@ export const deleteApplicationAreaHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to delete application area',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Failed to delete', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

@@ -22,11 +22,8 @@ export const getDocumentRoute = createRoute({
     },
     responses: {
         [OK]: ApiResponse(
-            {
-                data: z.array(zSelectDocument),
-                message: z.string(),
-                success: z.boolean(),
-            },
+            z.array(zSelectDocument),
+
             'Document details',
         ),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Document not found'),

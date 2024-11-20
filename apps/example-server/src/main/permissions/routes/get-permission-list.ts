@@ -15,11 +15,8 @@ export const getPermissionListRoute = createRoute({
     request: {},
     responses: {
         [OK]: ApiResponse(
-            {
-                data: z.array(zSelectPermission),
-                message: z.string(),
-                success: z.boolean(),
-            },
+            z.array(zSelectPermission),
+
             'List of permissions',
         ),
         [NOT_FOUND]: ApiResponse(zEmpty, 'No permissions found!'),

@@ -21,14 +21,7 @@ export const updateApplicationAreaRoute = createRoute({
         body: jsonContent(zUpdateApplicationArea, 'Application Area details'),
     },
     responses: {
-        [OK]: ApiResponse(
-            {
-                data: zSelectApplicationArea,
-                message: z.string(),
-                success: z.boolean(),
-            },
-            'Updated',
-        ),
+        [OK]: ApiResponse(zSelectApplicationArea, 'Updated'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Application area not found'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },

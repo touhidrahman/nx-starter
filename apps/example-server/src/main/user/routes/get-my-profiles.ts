@@ -13,11 +13,8 @@ export const getMyProfilesRoute = createRoute({
     middleware: [checkToken],
     responses: {
         [OK]: ApiResponse(
-            {
-                data: z.array(zSelectUser),
-                message: z.string(),
-                success: z.boolean(),
-            },
+            z.array(zSelectUser),
+
             'List of user profiles by auth user ID',
         ),
     },

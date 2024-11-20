@@ -27,11 +27,8 @@ export const updateSubscriptionRoute = createRoute({
     },
     responses: {
         [OK]: ApiResponse(
-            {
-                data: zUpdateSubscription,
-                message: z.string(),
-                success: z.boolean(),
-            },
+            zUpdateSubscription,
+
             'Subscription updated successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid subscription data'),

@@ -17,11 +17,8 @@ export const getSubscriptionRoute = createRoute({
     },
     responses: {
         [OK]: ApiResponse(
-            {
-                data: z.array(zSelectSubscription),
-                message: z.string(),
-                success: z.boolean(),
-            },
+            z.array(zSelectSubscription),
+
             'Subscription details',
         ),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Subscription not found'),

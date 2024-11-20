@@ -16,14 +16,7 @@ export const getApplicationAreaRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(
-            {
-                data: zSelectApplicationArea,
-                message: z.string(),
-                success: z.boolean(),
-            },
-            'Application area found',
-        ),
+        [OK]: ApiResponse(zSelectApplicationArea, 'Application area found'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Application area not found'),
     },
 })
@@ -36,13 +29,13 @@ export const getApplicationAreaHandler: AppRouteHandler<
 
     if (!applicationArea) {
         return c.json(
-            { message: 'Application area not found', data: {} },
+            { message: 'Application area not found', data: {}, success: false },
             NOT_FOUND,
         )
     }
 
     return c.json(
-        { data: applicationArea, message: 'Application area found' },
+        { data: applicationArea, message: 'Application area found', success: true },
         OK,
     )
 }

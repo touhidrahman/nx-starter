@@ -25,11 +25,8 @@ export const createSubscriptionsRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            {
-                data: zSelectSubscription,
-                message: z.string(),
-                success: z.boolean(),
-            },
+            zSelectSubscription,
+
             'Subscription created successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid subscription data'),

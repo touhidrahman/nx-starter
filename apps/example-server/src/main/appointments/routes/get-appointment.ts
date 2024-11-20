@@ -16,14 +16,7 @@ export const getAppointmentRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(
-            {
-                data: zSelectAppointment,
-                message: z.string(),
-                success: z.boolean(),
-            },
-            'Appointment found',
-        ),
+        [OK]: ApiResponse(zSelectAppointment, 'Appointment found'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Appointment not found'),
     },
 })

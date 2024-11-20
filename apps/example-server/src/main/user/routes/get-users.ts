@@ -19,11 +19,8 @@ export const getUsersRoute = createRoute({
     },
     responses: {
         [OK]: ApiResponse(
-            {
-                data: z.array(zSelectUser),
-                message: z.string(),
-                success: z.boolean(),
-            },
+            z.array(zSelectUser),
+
             'List of Users',
         ),
     },

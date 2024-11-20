@@ -29,11 +29,8 @@ export const updateDocumentRoute = createRoute({
     },
     responses: {
         [OK]: ApiResponse(
-            {
-                data: zSelectDocument,
-                message: z.string(),
-                success: z.boolean(),
-            },
+            zSelectDocument,
+
             'Document updated successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid document data'),

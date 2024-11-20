@@ -22,11 +22,7 @@ export const createAppointmentRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            {
-                data: zSelectAppointment,
-                message: z.string(),
-                success: z.boolean(),
-            },
+            zSelectAppointment,
             'Appointment created successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid appointment data'),
