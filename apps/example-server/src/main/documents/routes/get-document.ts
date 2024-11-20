@@ -42,5 +42,7 @@ export const getDocumentHandler: AppRouteHandler<
             NOT_FOUND,
         )
     }
-    return c.json(jsonResponse(document, 'Document details', OK), OK)
+    return c.json(
+        { data: document, message: 'Document details', success: true },
+OK)
 }

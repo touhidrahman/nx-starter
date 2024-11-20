@@ -29,7 +29,9 @@ export const getSubscriptionListHandler: AppRouteHandler<
     try {
         const payload = await c.get('jwtPayload')
         const subscriptions = await findAllByGroupId(payload.groupId)
-        return c.json(jsonResponse(subscriptions, 'Subscription list', OK), OK)
+        return c.json(
+            { data: subscriptions, message: 'Subscription list', success: true },
+OK)
     } catch (error: any) {
         return c.json(
             jsonResponse({}, 'Internal server error', NOT_FOUND),

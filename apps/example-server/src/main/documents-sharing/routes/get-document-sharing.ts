@@ -37,5 +37,7 @@ export const getDocumentSharingHandler: AppRouteHandler<
             NOT_FOUND,
         )
     }
-    return c.json(jsonResponse(document, 'Document sharing details', OK), OK)
+    return c.json(
+        { data: document, message: 'Document sharing details', success: true },
+OK)
 }

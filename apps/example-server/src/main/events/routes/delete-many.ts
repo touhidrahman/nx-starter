@@ -46,5 +46,8 @@ export const deleteManyEventHandler: AppRouteHandler<
             INTERNAL_SERVER_ERROR,
         )
     }
-    return c.json(jsonResponse('', 'Events deleted successfully', OK), OK)
+    return c.json(
+        { data: {}, message: 'Events deleted successfully', success: true },
+        OK,
+    )
 }

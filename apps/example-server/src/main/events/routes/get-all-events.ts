@@ -32,8 +32,11 @@ export const getEventsHandler: AppRouteHandler<typeof getEventsRoute> = async (
     const events = await getEventsList(groupId)
 
     if (events.length === 0) {
-        return c.json(jsonResponse({}, 'No event found', NOT_FOUND), NOT_FOUND)
+        return c.json(
+jsonResponse({}, 'No event found', NOT_FOUND), NOT_FOUND)
     }
 
-    return c.json(jsonResponse(events, 'Event list', OK), OK)
+    return c.json(
+        { data: events, message: 'Event list', success: true },
+OK)
 }

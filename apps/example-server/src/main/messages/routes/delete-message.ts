@@ -36,7 +36,9 @@ export const deleteMessageHandler: AppRouteHandler<
         }
 
         await deleteMessage(id)
-        return c.json(jsonResponse('', 'Message deleted successfully', OK), OK)
+        return c.json(
+            { data: {}, message: 'Message deleted successfully', success: true },
+OK)
     } catch (error) {
         console.error(
             'Error deleting message:',

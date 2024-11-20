@@ -36,7 +36,9 @@ export const deleteEventHandler: AppRouteHandler<
         }
 
         await deleteEvent(eventId)
-        return c.json(jsonResponse('', 'Event deleted successfully', OK), OK)
+        return c.json(
+            { data: {}, message: 'Event deleted successfully', success: true },
+OK)
     } catch (error) {
         console.error(
             'Error deleting event:',

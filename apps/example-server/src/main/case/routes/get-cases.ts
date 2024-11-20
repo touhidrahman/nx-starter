@@ -36,8 +36,11 @@ export const getCasesHandler: AppRouteHandler<typeof getCasesRoute> = async (
     const cases = await findCasesByGroupId(groupId)
 
     if (cases.length === 0) {
-        return c.json(jsonResponse({}, 'No cases found', NOT_FOUND), NOT_FOUND)
+        return c.json(
+jsonResponse({}, 'No cases found', NOT_FOUND), NOT_FOUND)
     }
 
-    return c.json(jsonResponse(cases, 'List of Cases', OK), OK)
+    return c.json(
+        { data: cases, message: 'List of Cases', success: true },
+OK)
 }

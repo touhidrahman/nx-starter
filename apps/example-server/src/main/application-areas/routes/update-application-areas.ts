@@ -34,21 +34,25 @@ export const updateApplicationAreaHandler: AppRouteHandler<
     const areaId = c.req.param('id')
 
     try {
-        const updatedApplicationArea = await updateApplicationArea(areaId, body)
+        const [updatedApplicationArea] = await updateApplicationArea(areaId, body)
 
         if (!updatedApplicationArea) {
             return c.json(
-                jsonResponse({}, 'Application area not found', NOT_FOUND),
+                {
+                    data: {},
+                    message: 'Application area not found',
+                    success: false,
+                },
                 NOT_FOUND,
             )
         }
 
         return c.json(
-            jsonResponse(
-                updatedApplicationArea,
-                'Application area updated',
-                OK,
-            ),
+            {
+                data: updatedApplicationArea,
+                message: 'Application area updated',
+                success: true,
+            },
             OK,
         )
     } catch (error) {
@@ -59,11 +63,11 @@ export const updateApplicationAreaHandler: AppRouteHandler<
         if (error instanceof Error) console.error(error.stack)
 
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to update application area',
-                INTERNAL_SERVER_ERROR,
-            ),
+            {
+                data: {},
+                message: 'Failed to update application area',
+                success: false,
+            },
             INTERNAL_SERVER_ERROR,
         )
     }

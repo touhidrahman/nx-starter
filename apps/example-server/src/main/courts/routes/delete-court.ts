@@ -36,7 +36,9 @@ export const deleteCourtHandler: AppRouteHandler<
         }
 
         await deleteCourt(courtId)
-        return c.json(jsonResponse('', 'Court deleted successfully', OK), OK)
+        return c.json(
+            { data: {}, message: 'Court deleted successfully', success: true },
+OK)
     } catch (error) {
         console.error(
             'Error deleting court:',

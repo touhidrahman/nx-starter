@@ -48,5 +48,7 @@ export const deleteAllMessagesHandler: AppRouteHandler<
             INTERNAL_SERVER_ERROR,
         )
     }
-    return c.json(jsonResponse({}, 'Messages deleted successfully', OK), OK)
+    return c.json(
+        { data: {}, message: 'Messages deleted successfully', success: true },
+OK)
 }

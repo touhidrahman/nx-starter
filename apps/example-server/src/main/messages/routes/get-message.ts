@@ -37,5 +37,7 @@ export const getMessageHandler: AppRouteHandler<
             NOT_FOUND,
         )
     }
-    return c.json(jsonResponse(message, 'Message details', OK), OK)
+    return c.json(
+        { data: message, message: 'Message details', success: true },
+OK)
 }

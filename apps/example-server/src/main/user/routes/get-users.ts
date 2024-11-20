@@ -66,5 +66,5 @@ export const getUsersHandler: AppRouteHandler<typeof getUsersRoute> = async (
         .limit(limit)
         .offset(offset)
 
-    return c.json(jsonResponse(users, 'List of users', OK), OK)
+    return c.json({ data: users, message: 'List of users', success: true }, OK)
 }

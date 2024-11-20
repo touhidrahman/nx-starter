@@ -33,8 +33,11 @@ export const getTaskListHandler: AppRouteHandler<
         const groupId = payload.groupId
         const tasks = await getAllTasks(groupId)
 
-        return c.json(jsonResponse(tasks, 'Tasks list', OK), OK)
+        return c.json(
+            { data: tasks, message: 'Tasks list', success: true },
+OK)
     } catch (error: any) {
-        return c.json(jsonResponse({}, error.message, NOT_FOUND), NOT_FOUND)
+        return c.json(
+jsonResponse({}, error.message, NOT_FOUND), NOT_FOUND)
     }
 }

@@ -29,10 +29,13 @@ export const getAppointmentHandler: AppRouteHandler<
 
     if (!appointment) {
         return c.json(
-            jsonResponse({}, 'Appointment not found', NOT_FOUND),
+            { data: {}, message: 'Appointment not found', success: false },
             NOT_FOUND,
         )
     }
 
-    return c.json(jsonResponse(appointment, 'Appointment found', OK), OK)
+    return c.json(
+        { data: appointment, message: 'Appointment found', success: true },
+        OK,
+    )
 }

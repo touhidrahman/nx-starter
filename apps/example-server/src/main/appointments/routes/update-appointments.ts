@@ -27,21 +27,9 @@ export const updateAppointmentRoute = createRoute({
             zSelectAppointment,
             'Appointment updated successfully',
         ),
-        [BAD_REQUEST]: ApiResponse(
-            zSelectAppointment,
-
-            'Invalid appointment data',
-        ),
-        [NOT_FOUND]: ApiResponse(
-            zSelectAppointment,
-
-            'Appointment not found',
-        ),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(
-            zSelectAppointment,
-
-            'Internal server error',
-        ),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid appointment data'),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'Appointment not found'),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
 })
 
@@ -55,24 +43,32 @@ export const updateAppointmentHandler: AppRouteHandler<
         const existingAppointment = await findAppointmentById(appointmentId)
         if (!existingAppointment) {
             return c.json(
-                jsonResponse({}, 'Appointment not found', NOT_FOUND),
+                { data: {}, message: 'Appointment not found', success: false },
                 NOT_FOUND,
             )
         }
 
-        const updatedAppointment = await updateAppointment(appointmentId, body)
+        const [updatedAppointment] = await updateAppointment(
+            appointmentId,
+            body,
+        )
         return c.json(
-            jsonResponse(
-                updatedAppointment,
-                'Appointment updated successfully',
-                OK,
-            ),
+            {
+                data: updatedAppointment,
+                message: 'Appointment updated successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid appointment data', BAD_REQUEST),
+                {
+                    data: {},
+                    message: 'Invalid appointment data',
+                    success: false,
+                    error: error.errors,
+                },
                 BAD_REQUEST,
             )
         }
@@ -82,11 +78,11 @@ export const updateAppointmentHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to update appointment',
-                INTERNAL_SERVER_ERROR,
-            ),
+            {
+                data: {},
+                message: 'Failed to update appointment',
+                success: false,
+            },
             INTERNAL_SERVER_ERROR,
         )
     }

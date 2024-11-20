@@ -37,5 +37,7 @@ export const getSubscriptionHandler: AppRouteHandler<
             NOT_FOUND,
         )
     }
-    return c.json(jsonResponse(subscription, 'Subscription details', OK), OK)
+    return c.json(
+        { data: subscription, message: 'Subscription details', success: true },
+OK)
 }
