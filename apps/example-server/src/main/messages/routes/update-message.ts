@@ -23,8 +23,7 @@ export const updateMessageRoute = createRoute({
         body: jsonContent(zUpdateMessage, 'Message details'),
     },
     responses: {
-        [OK]: ApiResponse(
-            { data: zSelectMessage, message: z.string(), success: z.boolean() },
+        [OK]: ApiResponse( zSelectMessage,
             'Message updated successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid document data'),

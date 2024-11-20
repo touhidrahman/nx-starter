@@ -21,8 +21,7 @@ export const leaveGroupRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            { data: zSelectUser, message: z.string(), success: z.boolean() },
+        [CREATED]: ApiResponse( zSelectUser,
             'User deleted from group successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid group data'),

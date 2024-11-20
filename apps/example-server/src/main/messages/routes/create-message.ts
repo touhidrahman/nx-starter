@@ -21,8 +21,7 @@ export const createMessageRoute = createRoute({
         body: jsonContent(zInsertMessage, 'Message details'),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            { data: zSelectMessage, message: z.string(), success: z.boolean() },
+        [CREATED]: ApiResponse( zSelectMessage,
             'Message created successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid message data'),

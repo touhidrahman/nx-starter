@@ -17,8 +17,7 @@ export const inviteUserRoute = createRoute({
         body: jsonContent(zInsertInvite, 'Invite user details'),
     },
     responses: {
-        [OK]: ApiResponse(
-            { data: zSelectInvite, message: z.string(), success: z.boolean() },
+        [OK]: ApiResponse( zSelectInvite,
             'Created invite',
         ),
     },

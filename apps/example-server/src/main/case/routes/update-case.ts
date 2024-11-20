@@ -23,8 +23,7 @@ export const updateCaseRoute = createRoute({
         body: jsonContent(zUpdateCase, 'Case update details'),
     },
     responses: {
-        [OK]: ApiResponse(
-            { data: zSelectCase, message: z.string(), success: z.boolean() },
+        [OK]: ApiResponse( zSelectCase,
             'Case updated successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid case data'),

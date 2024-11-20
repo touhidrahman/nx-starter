@@ -24,8 +24,7 @@ export const addAuthUserToGroupRoute = createRoute({
         body: jsonContent(z.object({ email: z.string() }), 'Group Detail'),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            { data: zSelectUser, message: z.string(), success: z.boolean() },
+        [CREATED]: ApiResponse( zSelectUser,
             'User added to group successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid group data'),

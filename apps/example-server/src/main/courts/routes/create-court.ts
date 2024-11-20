@@ -21,8 +21,7 @@ export const createCourtRoute = createRoute({
         body: jsonContent(zInsertCourt, 'Court details'),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            { data: zSelectCourt, message: z.string(), success: z.boolean() },
+        [CREATED]: ApiResponse( zSelectCourt,
             'Court created successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid court data'),
