@@ -44,5 +44,6 @@ export const getDocumentHandler: AppRouteHandler<
     }
     return c.json(
         { data: document, message: 'Document details', success: true },
-OK)
+        OK,
+    )
 }

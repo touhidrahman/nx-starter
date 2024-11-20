@@ -42,8 +42,13 @@ export const deleteDocumentHandler: AppRouteHandler<
 
         await deleteDocument(id)
         return c.json(
-            { data: {}, message: 'Document deleted successfully', success: true },
-OK)
+            {
+                data: {},
+                message: 'Document deleted successfully',
+                success: true,
+            },
+            OK,
+        )
     } catch (error) {
         console.error(
             'Error deleting task:',

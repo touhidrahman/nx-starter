@@ -16,11 +16,7 @@ export const getEventRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(
-            z.array(zSelectEvent),
-
-            'Event found',
-        ),
+        [OK]: ApiResponse(z.array(zSelectEvent), 'Event found'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'No cases found'),
     },
 })
@@ -34,10 +30,10 @@ export const getEventHandler: AppRouteHandler<typeof getEventRoute> = async (
 
     if (event.length === 0) {
         return c.json(
-jsonResponse({}, 'No event found', NOT_FOUND), NOT_FOUND)
+            { data: {}, message: 'No event found', success: false },
+            NOT_FOUND,
+        )
     }
 
-    return c.json(
-        { data: event, message: 'Event found', success: true },
-OK)
+    return c.json({ data: event, message: 'Event found', success: true }, OK)
 }

@@ -18,10 +18,9 @@ export const updateUserRoute = createRoute({
         body: jsonContent(zUpdateUser, 'User details'),
     },
     responses: {
-        [OK]: ApiResponse(zSelectUser,
-            'Updated',
-        ),
-        [NOT_FOUND]: ApiResponse(zEmpty,
+        [OK]: ApiResponse(zSelectUser, 'Updated'),
+        [NOT_FOUND]: ApiResponse(
+            zEmpty,
 
             'User not found',
         ),

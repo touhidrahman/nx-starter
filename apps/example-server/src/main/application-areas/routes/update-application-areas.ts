@@ -34,7 +34,10 @@ export const updateApplicationAreaHandler: AppRouteHandler<
     const areaId = c.req.param('id')
 
     try {
-        const [updatedApplicationArea] = await updateApplicationArea(areaId, body)
+        const [updatedApplicationArea] = await updateApplicationArea(
+            areaId,
+            body,
+        )
 
         if (!updatedApplicationArea) {
             return c.json(

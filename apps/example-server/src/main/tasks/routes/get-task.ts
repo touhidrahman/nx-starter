@@ -37,7 +37,10 @@ export const getTaskHandler: AppRouteHandler<typeof getTaskRoute> = async (
     const task = await getTaskById(id)
 
     if (task.length === 0) {
-        return c.json(jsonResponse({}, 'Task not found', NOT_FOUND), NOT_FOUND)
+        return c.json(
+            { data: {}, message: 'Task not found', success: false },
+            NOT_FOUND,
+        )
     }
     return c.json({ data: task, message: 'Task details', success: true }, OK)
 }

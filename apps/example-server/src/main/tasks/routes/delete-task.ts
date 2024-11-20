@@ -43,7 +43,8 @@ export const deleteTaskHandler: AppRouteHandler<
         await deleteTask(id)
         return c.json(
             { data: task, message: 'Task details', success: true },
-OK)
+            OK,
+        )
     } catch (error) {
         console.error(
             'Error deleting task:',

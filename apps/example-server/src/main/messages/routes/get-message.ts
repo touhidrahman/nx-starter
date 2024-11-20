@@ -39,5 +39,6 @@ export const getMessageHandler: AppRouteHandler<
     }
     return c.json(
         { data: message, message: 'Message details', success: true },
-OK)
+        OK,
+    )
 }

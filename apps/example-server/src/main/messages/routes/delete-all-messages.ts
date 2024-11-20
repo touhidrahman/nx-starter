@@ -50,5 +50,6 @@ export const deleteAllMessagesHandler: AppRouteHandler<
     }
     return c.json(
         { data: {}, message: 'Messages deleted successfully', success: true },
-OK)
+        OK,
+    )
 }

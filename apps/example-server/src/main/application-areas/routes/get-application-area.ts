@@ -35,7 +35,11 @@ export const getApplicationAreaHandler: AppRouteHandler<
     }
 
     return c.json(
-        { data: applicationArea, message: 'Application area found', success: true },
+        {
+            data: applicationArea,
+            message: 'Application area found',
+            success: true,
+        },
         OK,
     )
 }

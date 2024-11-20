@@ -14,11 +14,7 @@ export const getEventsRoute = createRoute({
     middleware: [authMiddleware],
     request: {},
     responses: {
-        [OK]: ApiResponse(
-            z.array(zSelectEvent),
-
-            'List of events',
-        ),
+        [OK]: ApiResponse(z.array(zSelectEvent), 'List of events'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'No cases found'),
     },
 })
@@ -33,10 +29,10 @@ export const getEventsHandler: AppRouteHandler<typeof getEventsRoute> = async (
 
     if (events.length === 0) {
         return c.json(
-jsonResponse({}, 'No event found', NOT_FOUND), NOT_FOUND)
+            { data: {}, message: 'No event found', success: false },
+            NOT_FOUND,
+        )
     }
 
-    return c.json(
-        { data: events, message: 'Event list', success: true },
-OK)
+    return c.json({ data: events, message: 'Event list', success: true }, OK)
 }
