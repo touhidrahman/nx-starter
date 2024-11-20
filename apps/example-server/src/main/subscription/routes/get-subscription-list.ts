@@ -15,11 +15,7 @@ export const getSubscriptionListRoute = createRoute({
     request: {},
     responses: {
         [OK]: ApiResponse(
-            {
-                data: z.array(zSelectSubscription),
-                message: z.string(),
-                success: z.boolean(),
-            },
+            z.array(zSelectSubscription),
             'List of subscriptions',
         ),
         [NOT_FOUND]: ApiResponse(zEmpty, 'No subscriptions found!'),
@@ -32,10 +28,17 @@ export const getSubscriptionListHandler: AppRouteHandler<
     try {
         const payload = await c.get('jwtPayload')
         const subscriptions = await findAllByGroupId(payload.groupId)
-        return c.json(jsonResponse(subscriptions, 'Subscription list', OK), OK)
+        return c.json(
+            {
+                data: subscriptions,
+                message: 'Subscription list',
+                success: true,
+            },
+            OK,
+        )
     } catch (error: any) {
         return c.json(
-            jsonResponse({}, 'Internal server error', NOT_FOUND),
+            { data: {}, message: error.message, success: false, error: error },
             NOT_FOUND,
         )
     }

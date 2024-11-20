@@ -22,11 +22,7 @@ export const createPermissionRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            {
-                data: zSelectPermission,
-                message: z.string(),
-                success: z.boolean(),
-            },
+            zSelectPermission,
             'Permissions created successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid permissions data'),
@@ -40,29 +36,30 @@ export const createPermissionHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const permission = await create(body)
+        const [permission] = await create(body)
         return c.json(
-            jsonResponse(
-                permission,
-                'Permission created successfully',
-                CREATED,
-            ),
+            {
+                data: permission,
+                message: 'Permission created successfully',
+                success: true,
+            },
             CREATED,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid permission details', BAD_REQUEST),
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
                 BAD_REQUEST,
             )
         }
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Permission created successfully',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

@@ -27,11 +27,8 @@ export const updateSubscriptionRoute = createRoute({
     },
     responses: {
         [OK]: ApiResponse(
-            {
-                data: zUpdateSubscription,
-                message: z.string(),
-                success: z.boolean(),
-            },
+            zUpdateSubscription,
+
             'Subscription updated successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid subscription data'),
@@ -51,24 +48,29 @@ export const updateSubscriptionHandler: AppRouteHandler<
         const subscription = await findById(id)
         if (!subscription) {
             return c.json(
-                jsonResponse({}, 'Subscription not found', NOT_FOUND),
+                { data: {}, message: 'Item not found', success: false },
                 NOT_FOUND,
             )
         }
-        const updatedMessage = await updateById(id, payload.groupId, body)
+        const [updatedMessage] = await updateById(id, payload.groupId, body)
 
         return c.json(
-            jsonResponse(
-                updatedMessage,
-                'Subscription created successfully',
-                OK,
-            ),
+            {
+                data: updatedMessage,
+                message: 'Subscription updated successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid subscription data', BAD_REQUEST),
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
                 BAD_REQUEST,
             )
         }
@@ -78,11 +80,7 @@ export const updateSubscriptionHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to create subscription',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

@@ -30,14 +30,18 @@ export const deleteDocumentSharingHandler: AppRouteHandler<
         const document = await findById(id)
         if (!document) {
             return c.json(
-                jsonResponse({}, 'Document sharing not found', NOT_FOUND),
+                { data: {}, message: 'Item not found', success: false },
                 NOT_FOUND,
             )
         }
 
         await deleteSharing(id)
         return c.json(
-            jsonResponse('', 'Document sharing deleted successfully', OK),
+            {
+                data: {},
+                message: 'Document sharing deleted successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {
@@ -47,11 +51,7 @@ export const deleteDocumentSharingHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to delete document sharing',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

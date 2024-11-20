@@ -21,10 +21,7 @@ export const createCourtRoute = createRoute({
         body: jsonContent(zInsertCourt, 'Court details'),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            { data: zSelectCourt, message: z.string(), success: z.boolean() },
-            'Court created successfully',
-        ),
+        [CREATED]: ApiResponse(zSelectCourt, 'Court created successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid court data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
@@ -36,15 +33,24 @@ export const createCourtHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const newCourt = await createCourt(body)
+        const [newCourt] = await createCourt(body)
         return c.json(
-            jsonResponse(newCourt, 'Court created successfully', CREATED),
+            {
+                data: newCourt,
+                message: 'Court created successfully',
+                success: true,
+            },
             CREATED,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid court data', BAD_REQUEST),
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
                 BAD_REQUEST,
             )
         }
@@ -54,7 +60,7 @@ export const createCourtHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse({}, 'Failed to create court', INTERNAL_SERVER_ERROR),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

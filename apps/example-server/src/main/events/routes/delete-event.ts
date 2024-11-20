@@ -30,13 +30,16 @@ export const deleteEventHandler: AppRouteHandler<
         const event = await getAnEvent(eventId)
         if (!event) {
             return c.json(
-                jsonResponse({}, 'Event not found', NOT_FOUND),
+                { data: {}, message: 'Item not found', success: false },
                 NOT_FOUND,
             )
         }
 
         await deleteEvent(eventId)
-        return c.json(jsonResponse('', 'Event deleted successfully', OK), OK)
+        return c.json(
+            { data: {}, message: 'Event deleted successfully', success: true },
+            OK,
+        )
     } catch (error) {
         console.error(
             'Error deleting event:',
@@ -44,7 +47,7 @@ export const deleteEventHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse({}, 'Failed to delete event', INTERNAL_SERVER_ERROR),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

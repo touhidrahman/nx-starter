@@ -30,13 +30,16 @@ export const deleteCourtHandler: AppRouteHandler<
         const courtItem = await findCourtById(courtId)
         if (!courtItem) {
             return c.json(
-                jsonResponse({}, 'Court not found', NOT_FOUND),
+                { data: {}, message: 'Item not found', success: false },
                 NOT_FOUND,
             )
         }
 
         await deleteCourt(courtId)
-        return c.json(jsonResponse('', 'Court deleted successfully', OK), OK)
+        return c.json(
+            { data: {}, message: 'Court deleted successfully', success: true },
+            OK,
+        )
     } catch (error) {
         console.error(
             'Error deleting court:',
@@ -44,7 +47,7 @@ export const deleteCourtHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse({}, 'Failed to delete court', INTERNAL_SERVER_ERROR),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

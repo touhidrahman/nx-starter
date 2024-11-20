@@ -41,16 +41,16 @@ export const deleteAllDocumentSharingHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to delete documents sharing',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }
     return c.json(
-        jsonResponse({}, 'All Document Sharing deleted successfully', OK),
+        {
+            data: {},
+            message: 'Document sharing deleted successfully',
+            success: true,
+        },
         OK,
     )
 }

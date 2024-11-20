@@ -21,14 +21,7 @@ export const getDocumentRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(
-            {
-                data: z.array(zSelectDocument),
-                message: z.string(),
-                success: z.boolean(),
-            },
-            'Document details',
-        ),
+        [OK]: ApiResponse(zSelectDocument, 'Document details'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Document not found'),
     },
 })
@@ -41,9 +34,12 @@ export const getDocumentHandler: AppRouteHandler<
 
     if (!document) {
         return c.json(
-            jsonResponse({}, 'Document not found', NOT_FOUND),
+            { data: {}, message: 'Document not found', success: false },
             NOT_FOUND,
         )
     }
-    return c.json(jsonResponse(document, 'Document details', OK), OK)
+    return c.json(
+        { data: document, message: 'Document details', success: true },
+        OK,
+    )
 }

@@ -22,11 +22,7 @@ export const createDocumentRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            {
-                data: zSelectDocument,
-                message: z.string(),
-                success: z.boolean(),
-            },
+            zSelectDocument,
             'Document created successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid document data'),
@@ -40,25 +36,30 @@ export const createDocumentHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const document = await createDocument(body)
+        const [document] = await createDocument(body)
         return c.json(
-            jsonResponse(document, 'Document created successfully', CREATED),
+            {
+                data: document,
+                message: 'Document created successfully',
+                success: true,
+            },
             CREATED,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid document details', BAD_REQUEST),
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
                 BAD_REQUEST,
             )
         }
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Document created successfully',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

@@ -27,7 +27,7 @@ export const createEvent = async (data: any) => {
 }
 
 export const updateEvent = async (id: string, groupId: string, data: any) => {
-    const updatedEvent = await db
+    return db
         .update(eventsTable)
         .set(data)
         .where(and(eq(eventsTable.id, id), eq(eventsTable.groupId, groupId)))

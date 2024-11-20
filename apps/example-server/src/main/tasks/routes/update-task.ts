@@ -28,42 +28,10 @@ export const updateTaskRoute = createRoute({
         body: jsonContent(zUpdateTask, 'Task details'),
     },
     responses: {
-        [OK]: ApiResponse(
-            {
-                data: zSelectTask,
-                message: z.string(),
-                error: z.any(),
-                success: z.boolean(),
-            },
-            'Task updated successfully',
-        ),
-        [BAD_REQUEST]: ApiResponse(
-            {
-                data: zEmpty,
-                message: z.string(),
-                error: z.any(),
-                success: z.boolean(),
-            },
-            'Invalid task data',
-        ),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(
-            {
-                data: zEmpty,
-                message: z.string(),
-                error: z.any(),
-                success: z.boolean(),
-            },
-            'Internal server error',
-        ),
-        [NOT_FOUND]: ApiResponse(
-            {
-                data: zEmpty,
-                message: z.string(),
-                error: z.any(),
-                success: z.boolean(),
-            },
-            'Task not found',
-        ),
+        [OK]: ApiResponse(zSelectTask, 'Task updated successfully'),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid task data'),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'Task not found'),
     },
 })
 
@@ -78,20 +46,29 @@ export const updateTaskHandler: AppRouteHandler<
         const existingTask = await getTaskById(id)
         if (!existingTask) {
             return c.json(
-                jsonResponse({}, 'Task not found', NOT_FOUND),
+                { data: {}, message: 'Item not found', success: false },
                 NOT_FOUND,
             )
         }
-        const updatedTask = await updateTask(body, id, payload.groupId)
+        const [updatedTask] = await updateTask(body, id, payload.groupId)
 
         return c.json(
-            jsonResponse(updatedTask, 'Task created successfully', OK),
+            {
+                data: updatedTask,
+                message: 'Task updated successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid task data', BAD_REQUEST),
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
                 BAD_REQUEST,
             )
         }
@@ -101,7 +78,7 @@ export const updateTaskHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse({}, 'Failed to create task', INTERNAL_SERVER_ERROR),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

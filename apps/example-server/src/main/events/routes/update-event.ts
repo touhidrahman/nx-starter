@@ -23,10 +23,7 @@ export const updateEventRoute = createRoute({
         body: jsonContent(zUpdateEvent, 'Event details'),
     },
     responses: {
-        [OK]: ApiResponse(
-            { data: zSelectEvent, message: z.string(), success: z.boolean() },
-            'Event updated successfully',
-        ),
+        [OK]: ApiResponse(zSelectEvent, 'Event updated successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid event data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Event not found'),
@@ -44,20 +41,29 @@ export const updateEventHandler: AppRouteHandler<
         const existingEvent = await getAnEvent(eventId)
         if (!existingEvent) {
             return c.json(
-                jsonResponse({}, 'Event not found', NOT_FOUND),
+                { data: {}, message: 'Item not found', success: false },
                 NOT_FOUND,
             )
         }
-        const updatedEvent = await updateEvent(eventId, payload.groupId, body)
+        const [updatedEvent] = await updateEvent(eventId, payload.groupId, body)
 
         return c.json(
-            jsonResponse(updatedEvent, 'Event created successfully', OK),
+            {
+                data: updatedEvent,
+                message: 'Event updated successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid event data', BAD_REQUEST),
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
                 BAD_REQUEST,
             )
         }
@@ -67,7 +73,7 @@ export const updateEventHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse({}, 'Failed to create event', INTERNAL_SERVER_ERROR),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

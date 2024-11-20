@@ -23,10 +23,7 @@ export const updateCourtRoute = createRoute({
         body: jsonContent(zUpdateCourt, 'Court update details'),
     },
     responses: {
-        [OK]: ApiResponse(
-            { data: zSelectCourt, message: z.string(), success: z.boolean() },
-            'Court updated successfully',
-        ),
+        [OK]: ApiResponse(zSelectCourt, 'Court updated successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid court data'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Court not found'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
@@ -43,20 +40,29 @@ export const updateCourtHandler: AppRouteHandler<
         const existingCourt = await findCourtById(courtId)
         if (!existingCourt) {
             return c.json(
-                jsonResponse({}, 'Court not found', NOT_FOUND),
+                { data: {}, message: 'Item not found', success: false },
                 NOT_FOUND,
             )
         }
 
-        const updatedCourt = await updateCourt(courtId, body)
+        const [updatedCourt] = await updateCourt(courtId, body)
         return c.json(
-            jsonResponse(updatedCourt, 'Court updated successfully', OK),
+            {
+                data: updatedCourt,
+                message: 'Court updated successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid court data', BAD_REQUEST),
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
                 BAD_REQUEST,
             )
         }
@@ -66,7 +72,7 @@ export const updateCourtHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse({}, 'Failed to update court', INTERNAL_SERVER_ERROR),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

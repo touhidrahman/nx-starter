@@ -16,14 +16,7 @@ export const getDocumentSharingRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(
-            {
-                data: z.array(zSelectDocumentSharing),
-                message: z.string(),
-                success: z.boolean(),
-            },
-            'Document sharing details',
-        ),
+        [OK]: ApiResponse(zSelectDocumentSharing, 'Document sharing details'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Document sharing not found'),
     },
 })
@@ -36,9 +29,12 @@ export const getDocumentSharingHandler: AppRouteHandler<
 
     if (!document) {
         return c.json(
-            jsonResponse({}, 'Document sharing not found', NOT_FOUND),
+            { data: {}, message: 'Document sharing not found', success: false },
             NOT_FOUND,
         )
     }
-    return c.json(jsonResponse(document, 'Document sharing details', OK), OK)
+    return c.json(
+        { data: document, message: 'Document sharing details', success: true },
+        OK,
+    )
 }

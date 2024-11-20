@@ -25,11 +25,7 @@ export const createSubscriptionsRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            {
-                data: zSelectSubscription,
-                message: z.string(),
-                success: z.boolean(),
-            },
+            zSelectSubscription,
             'Subscription created successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid subscription data'),
@@ -43,29 +39,30 @@ export const createSubscriptionsHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const subscription = await create(body)
+        const [subscription] = await create(body)
         return c.json(
-            jsonResponse(
-                subscription,
-                'Subscription created successfully',
-                CREATED,
-            ),
+            {
+                data: subscription,
+                message: 'Subscription created successfully',
+                success: true,
+            },
             CREATED,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid subscription details', BAD_REQUEST),
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
                 BAD_REQUEST,
             )
         }
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Subscription created successfully',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

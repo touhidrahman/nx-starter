@@ -23,10 +23,7 @@ export const updateMessageRoute = createRoute({
         body: jsonContent(zUpdateMessage, 'Message details'),
     },
     responses: {
-        [OK]: ApiResponse(
-            { data: zSelectMessage, message: z.string(), success: z.boolean() },
-            'Message updated successfully',
-        ),
+        [OK]: ApiResponse(zSelectMessage, 'Message updated successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid document data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Message not found'),
@@ -43,20 +40,29 @@ export const updateMessageHandler: AppRouteHandler<
         const message = await findById(id)
         if (!message) {
             return c.json(
-                jsonResponse({}, 'Message not found', NOT_FOUND),
+                { data: {}, message: 'Item not found', success: false },
                 NOT_FOUND,
             )
         }
-        const updatedMessage = await update(id, body)
+        const [updatedMessage] = await update(id, body)
 
         return c.json(
-            jsonResponse(updatedMessage, 'Message created successfully', OK),
+            {
+                data: updatedMessage,
+                message: 'Message updated successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid message data', BAD_REQUEST),
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
                 BAD_REQUEST,
             )
         }
@@ -66,7 +72,7 @@ export const updateMessageHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse({}, 'Failed to create message', INTERNAL_SERVER_ERROR),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

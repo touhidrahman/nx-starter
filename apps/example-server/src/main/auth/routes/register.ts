@@ -22,11 +22,8 @@ export const registerRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            {
-                data: z.object({ id: z.string() }),
-                message: z.string(),
-                success: z.boolean(),
-            },
+            z.object({ id: z.string() }),
+
             'User registration successful',
         ),
         [CONFLICT]: ApiResponse(zEmpty, 'Email already exists'),

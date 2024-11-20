@@ -22,11 +22,7 @@ export const createAppointmentRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            {
-                data: zSelectAppointment,
-                message: z.string(),
-                success: z.boolean(),
-            },
+            zSelectAppointment,
             'Appointment created successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid appointment data'),
@@ -40,19 +36,23 @@ export const createAppointmentHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const newAppointment = await createAppointment(body)
+        const [newAppointment] = await createAppointment(body)
         return c.json(
-            jsonResponse(
-                newAppointment,
-                'Appointment created successfully',
-                CREATED,
-            ),
+            {
+                data: newAppointment,
+                message: 'Appointment created successfully',
+                success: true,
+            },
             CREATED,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid appointment data', BAD_REQUEST),
+                {
+                    data: {},
+                    message: 'Invalid appointment data',
+                    success: false,
+                },
                 BAD_REQUEST,
             )
         }
@@ -62,11 +62,11 @@ export const createAppointmentHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to create appointment',
-                INTERNAL_SERVER_ERROR,
-            ),
+            {
+                data: {},
+                message: 'Failed to create appointment',
+                success: false,
+            },
             INTERNAL_SERVER_ERROR,
         )
     }

@@ -15,14 +15,7 @@ export const getTaskListRoute = createRoute({
     middleware: [authMiddleware],
     request: {},
     responses: {
-        [OK]: ApiResponse(
-            {
-                data: z.array(zSelectTask),
-                message: z.string(),
-                success: z.boolean(),
-            },
-            'List of Task',
-        ),
+        [OK]: ApiResponse(z.array(zSelectTask), 'List of Task'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'No tasks found!'),
     },
 })
@@ -36,8 +29,11 @@ export const getTaskListHandler: AppRouteHandler<
         const groupId = payload.groupId
         const tasks = await getAllTasks(groupId)
 
-        return c.json(jsonResponse(tasks, 'Tasks list', OK), OK)
+        return c.json({ data: tasks, message: 'Tasks list', success: true }, OK)
     } catch (error: any) {
-        return c.json(jsonResponse({}, error.message, NOT_FOUND), NOT_FOUND)
+        return c.json(
+            { data: {}, message: error.message, success: false, error: error },
+            NOT_FOUND,
+        )
     }
 }

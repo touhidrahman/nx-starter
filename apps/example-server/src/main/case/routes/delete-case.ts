@@ -30,13 +30,16 @@ export const deleteCaseHandler: AppRouteHandler<
         const caseItem = await findCaseById(caseId)
         if (!caseItem) {
             return c.json(
-                jsonResponse({}, 'Case not found', NOT_FOUND),
+                { data: {}, message: 'Case not found', success: false },
                 NOT_FOUND,
             )
         }
 
         await deleteCase(caseId)
-        return c.json(jsonResponse('', 'Case deleted successfully', OK), OK)
+        return c.json(
+            { data: {}, message: 'Case deleted successfully', success: true },
+            OK,
+        )
     } catch (error) {
         console.error(
             'Error deleting case:',
@@ -44,7 +47,7 @@ export const deleteCaseHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse({}, 'Failed to delete case', INTERNAL_SERVER_ERROR),
+            { data: {}, message: 'Failed to delete case', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

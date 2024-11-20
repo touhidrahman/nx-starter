@@ -33,7 +33,11 @@ export const deleteAllPermissionsHandler: AppRouteHandler<
         }
 
         return c.json(
-            jsonResponse('', 'Permissions deleted successfully', OK),
+            {
+                data: {},
+                message: 'Permissions deleted successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {
@@ -43,11 +47,7 @@ export const deleteAllPermissionsHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to delete permissions',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

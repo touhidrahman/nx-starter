@@ -42,9 +42,12 @@ export const deleteManyEventHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse({}, 'Failed to delete events', INTERNAL_SERVER_ERROR),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }
-    return c.json(jsonResponse('', 'Events deleted successfully', OK), OK)
+    return c.json(
+        { data: {}, message: 'Events deleted successfully', success: true },
+        OK,
+    )
 }

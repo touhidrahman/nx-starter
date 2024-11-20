@@ -40,13 +40,12 @@ export const deleteAllMessagesHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to delete messages',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }
-    return c.json(jsonResponse({}, 'Messages deleted successfully', OK), OK)
+    return c.json(
+        { data: {}, message: 'Messages deleted successfully', success: true },
+        OK,
+    )
 }

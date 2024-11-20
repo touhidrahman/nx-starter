@@ -30,14 +30,18 @@ export const deleteSubscriptionHandler: AppRouteHandler<
         const subscription = await findById(id)
         if (!subscription) {
             return c.json(
-                jsonResponse({}, 'Subscription not found', NOT_FOUND),
+                { data: {}, message: 'Item not found', success: false },
                 NOT_FOUND,
             )
         }
 
         await deleteById(id)
         return c.json(
-            jsonResponse('', 'Subscription deleted successfully', OK),
+            {
+                data: {},
+                message: 'Subscription deleted successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {
@@ -47,11 +51,7 @@ export const deleteSubscriptionHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to delete subscription',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

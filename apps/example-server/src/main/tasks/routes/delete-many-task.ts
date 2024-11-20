@@ -42,9 +42,12 @@ export const deleteManyTaskHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse({}, 'Failed to delete tasks', INTERNAL_SERVER_ERROR),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }
-    return c.json(jsonResponse('', 'Tasks deleted successfully', OK), OK)
+    return c.json(
+        { data: {}, message: 'Tasks deleted successfully', success: true },
+        OK,
+    )
 }

@@ -15,11 +15,8 @@ export const getGroupsRoute = createRoute({
     request: {},
     responses: {
         [OK]: ApiResponse(
-            {
-                data: z.array(zSelectGroup),
-                message: z.string(),
-                success: z.boolean(),
-            },
+            z.array(zSelectGroup),
+
             'List of Groups',
         ),
     },

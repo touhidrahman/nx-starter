@@ -16,14 +16,7 @@ export const getSubscriptionRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(
-            {
-                data: z.array(zSelectSubscription),
-                message: z.string(),
-                success: z.boolean(),
-            },
-            'Subscription details',
-        ),
+        [OK]: ApiResponse(zSelectSubscription, 'Subscription details'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Subscription not found'),
     },
 })
@@ -36,9 +29,12 @@ export const getSubscriptionHandler: AppRouteHandler<
 
     if (!subscription) {
         return c.json(
-            jsonResponse({}, 'Subscription not found', NOT_FOUND),
+            { data: {}, message: 'Subscription not found', success: false },
             NOT_FOUND,
         )
     }
-    return c.json(jsonResponse(subscription, 'Subscription details', OK), OK)
+    return c.json(
+        { data: subscription, message: 'Subscription details', success: true },
+        OK,
+    )
 }

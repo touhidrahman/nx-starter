@@ -26,10 +26,7 @@ export const createTaskRoute = createRoute({
         body: jsonContent(zUpdateTask, 'Task details'),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            { data: zSelectTask, message: z.string(), success: z.boolean() },
-            'Task created successfully',
-        ),
+        [CREATED]: ApiResponse(zSelectTask, 'Task created successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid task data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
@@ -41,25 +38,26 @@ export const createTaskHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const task = await createTask(body)
+        const [task] = await createTask(body)
         return c.json(
-            jsonResponse(task, 'Task created successfully', CREATED),
+            { data: task, message: 'Task created successfully', success: true },
             CREATED,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid task details', BAD_REQUEST),
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
                 BAD_REQUEST,
             )
         }
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Task created successfully',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

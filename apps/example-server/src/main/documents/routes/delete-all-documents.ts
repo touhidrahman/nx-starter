@@ -42,13 +42,12 @@ export const deleteAllDocumentHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to delete documents',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }
-    return c.json(jsonResponse({}, 'Tasks deleted successfully', OK), OK)
+    return c.json(
+        { data: {}, message: 'Documents deleted successfully', success: true },
+        OK,
+    )
 }

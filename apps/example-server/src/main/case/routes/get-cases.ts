@@ -14,14 +14,7 @@ export const getCasesRoute = createRoute({
     middleware: [checkToken],
     request: {},
     responses: {
-        [OK]: ApiResponse(
-            {
-                data: z.array(zSelectCase),
-                message: z.string(),
-                success: z.boolean(),
-            },
-            'List of Cases',
-        ),
+        [OK]: ApiResponse(z.array(zSelectCase), 'List of Cases'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'No cases found'),
     },
 })
@@ -33,14 +26,20 @@ export const getCasesHandler: AppRouteHandler<typeof getCasesRoute> = async (
     const groupId = payload?.groupId
 
     if (!groupId) {
-        return c.json({ message: 'Group ID is required', data: [] }, NOT_FOUND)
+        return c.json(
+            { message: 'Group ID is required', data: {}, success: false },
+            NOT_FOUND,
+        )
     }
 
     const cases = await findCasesByGroupId(groupId)
 
     if (cases.length === 0) {
-        return c.json(jsonResponse({}, 'No cases found', NOT_FOUND), NOT_FOUND)
+        return c.json(
+            { data: {}, message: 'No cases found', success: false },
+            NOT_FOUND,
+        )
     }
 
-    return c.json(jsonResponse(cases, 'List of Cases', OK), OK)
+    return c.json({ data: cases, message: 'List of Cases', success: true }, OK)
 }

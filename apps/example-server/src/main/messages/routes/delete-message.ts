@@ -30,13 +30,20 @@ export const deleteMessageHandler: AppRouteHandler<
         const message = await findById(id)
         if (!message) {
             return c.json(
-                jsonResponse({}, 'Message not found', NOT_FOUND),
+                { data: {}, message: 'Item not found', success: false },
                 NOT_FOUND,
             )
         }
 
         await deleteMessage(id)
-        return c.json(jsonResponse('', 'Message deleted successfully', OK), OK)
+        return c.json(
+            {
+                data: {},
+                message: 'Message deleted successfully',
+                success: true,
+            },
+            OK,
+        )
     } catch (error) {
         console.error(
             'Error deleting message:',
@@ -44,7 +51,7 @@ export const deleteMessageHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse({}, 'Failed to delete message', INTERNAL_SERVER_ERROR),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

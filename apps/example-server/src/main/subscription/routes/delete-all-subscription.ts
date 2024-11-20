@@ -39,16 +39,16 @@ export const deleteAllSubscriptionHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to delete subscriptions',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }
     return c.json(
-        jsonResponse({}, 'Subscriptions deleted successfully', OK),
+        {
+            data: {},
+            message: 'Subscriptions deleted successfully',
+            success: true,
+        },
         OK,
     )
 }

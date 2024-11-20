@@ -26,21 +26,11 @@ export const createApplicationAreaRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            {
-                data: zSelectApplicationArea,
-                message: z.string(),
-                success: z.boolean(),
-            },
+            zSelectApplicationArea,
             'Application area created successfully',
         ),
-        [BAD_REQUEST]: ApiResponse(
-            zEmpty,
-            'Invalid application area' + ' data',
-        ),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(
-            zEmpty,
-            'Internal' + ' server error',
-        ),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid application area data'),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
 })
 
@@ -52,17 +42,17 @@ export const createApplicationAreaHandler: AppRouteHandler<
     try {
         const newApplicationArea = await createApplicationArea(body)
         return c.json(
-            jsonResponse(
-                newApplicationArea,
-                'Application area created successfully',
-                CREATED,
-            ),
+            {
+                data: newApplicationArea,
+                message: 'Application area created',
+                success: true,
+            },
             CREATED,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid application area data', BAD_REQUEST),
+                { data: {}, message: 'Invalid request', success: false },
                 BAD_REQUEST,
             )
         }
@@ -72,11 +62,11 @@ export const createApplicationAreaHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to create application area',
-                INTERNAL_SERVER_ERROR,
-            ),
+            {
+                data: {},
+                message: 'Failed to create application area',
+                success: false,
+            },
             INTERNAL_SERVER_ERROR,
         )
     }
