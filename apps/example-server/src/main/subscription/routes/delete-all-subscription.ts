@@ -44,7 +44,11 @@ export const deleteAllSubscriptionHandler: AppRouteHandler<
         )
     }
     return c.json(
-        jsonResponse({}, 'Subscriptions deleted successfully', OK),
+        {
+            data: {},
+            message: 'Subscriptions deleted successfully',
+            success: true,
+        },
         OK,
     )
 }

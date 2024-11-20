@@ -28,26 +28,10 @@ export const updateTaskRoute = createRoute({
         body: jsonContent(zUpdateTask, 'Task details'),
     },
     responses: {
-        [OK]: ApiResponse(
-            zSelectTask,
-
-            'Task updated successfully',
-        ),
-        [BAD_REQUEST]: ApiResponse(
-            zEmpty,
-
-            'Invalid task data',
-        ),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(
-            zEmpty,
-
-            'Internal server error',
-        ),
-        [NOT_FOUND]: ApiResponse(
-            zEmpty,
-
-            'Task not found',
-        ),
+        [OK]: ApiResponse(zSelectTask, 'Task updated successfully'),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid task data'),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'Task not found'),
     },
 })
 
@@ -66,10 +50,14 @@ export const updateTaskHandler: AppRouteHandler<
                 NOT_FOUND,
             )
         }
-        const updatedTask = await updateTask(body, id, payload.groupId)
+        const [updatedTask] = await updateTask(body, id, payload.groupId)
 
         return c.json(
-            jsonResponse(updatedTask, 'Task created successfully', OK),
+            {
+                data: updatedTask,
+                message: 'Task updated successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {

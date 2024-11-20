@@ -37,7 +37,11 @@ export const deleteDocumentSharingHandler: AppRouteHandler<
 
         await deleteSharing(id)
         return c.json(
-            jsonResponse('', 'Document sharing deleted successfully', OK),
+            {
+                data: {},
+                message: 'Document sharing deleted successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {

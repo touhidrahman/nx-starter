@@ -45,10 +45,14 @@ export const updateEventHandler: AppRouteHandler<
                 NOT_FOUND,
             )
         }
-        const updatedEvent = await updateEvent(eventId, payload.groupId, body)
+        const [updatedEvent] = await updateEvent(eventId, payload.groupId, body)
 
         return c.json(
-            jsonResponse(updatedEvent, 'Event created successfully', OK),
+            {
+                data: updatedEvent,
+                message: 'Event updated successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {

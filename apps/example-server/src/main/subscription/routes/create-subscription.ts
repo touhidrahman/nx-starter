@@ -26,7 +26,6 @@ export const createSubscriptionsRoute = createRoute({
     responses: {
         [CREATED]: ApiResponse(
             zSelectSubscription,
-
             'Subscription created successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid subscription data'),
@@ -40,13 +39,13 @@ export const createSubscriptionsHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const subscription = await create(body)
+        const [subscription] = await create(body)
         return c.json(
-            jsonResponse(
-                subscription,
-                'Subscription created successfully',
-                CREATED,
-            ),
+            {
+                data: subscription,
+                message: 'Subscription created successfully',
+                success: true,
+            },
             CREATED,
         )
     } catch (error) {

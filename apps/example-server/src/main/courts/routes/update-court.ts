@@ -45,9 +45,13 @@ export const updateCourtHandler: AppRouteHandler<
             )
         }
 
-        const updatedCourt = await updateCourt(courtId, body)
+        const [updatedCourt] = await updateCourt(courtId, body)
         return c.json(
-            jsonResponse(updatedCourt, 'Court updated successfully', OK),
+            {
+                data: updatedCourt,
+                message: 'Court updated successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {

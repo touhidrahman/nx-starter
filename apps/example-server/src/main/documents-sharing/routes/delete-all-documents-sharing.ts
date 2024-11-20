@@ -46,7 +46,11 @@ export const deleteAllDocumentSharingHandler: AppRouteHandler<
         )
     }
     return c.json(
-        jsonResponse({}, 'All Document Sharing deleted successfully', OK),
+        {
+            data: {},
+            message: 'Document sharing deleted successfully',
+            success: true,
+        },
         OK,
     )
 }

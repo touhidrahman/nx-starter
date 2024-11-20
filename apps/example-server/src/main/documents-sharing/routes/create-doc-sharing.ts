@@ -26,7 +26,6 @@ export const createDocumentSharingRoute = createRoute({
     responses: {
         [CREATED]: ApiResponse(
             zSelectDocumentSharing,
-
             'Document sharing created successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid document sharing data'),
@@ -40,23 +39,24 @@ export const createDocumentSharingHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const document = await create(body)
+        const [document] = await create(body)
         return c.json(
-            jsonResponse(
-                document,
-                'Document sharing created successfully',
-                CREATED,
-            ),
+            {
+                data: document,
+                message: 'Document sharing created successfully',
+                success: true,
+            },
             CREATED,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse(
-                    {},
-                    'Invalid document sharing details',
-                    BAD_REQUEST,
-                ),
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
                 BAD_REQUEST,
             )
         }

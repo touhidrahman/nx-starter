@@ -45,9 +45,13 @@ export const updateCaseHandler: AppRouteHandler<
             )
         }
 
-        const updatedCase = await updateCase(caseId, body)
+        const [updatedCase] = await updateCase(caseId, body)
         return c.json(
-            jsonResponse(updatedCase, 'Case updated successfully', OK),
+            {
+                data: updatedCase,
+                message: 'Case updated successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {

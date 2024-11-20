@@ -51,14 +51,14 @@ export const updateDocumentSharingHandler: AppRouteHandler<
                 NOT_FOUND,
             )
         }
-        const updatedDocumentSharing = await update(id, body)
+        const [updatedDocumentSharing] = await update(id, body)
 
         return c.json(
-            jsonResponse(
-                updatedDocumentSharing,
-                'Document sharing created successfully',
-                OK,
-            ),
+            {
+                data: updatedDocumentSharing,
+                message: 'Document sharing updated successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {

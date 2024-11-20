@@ -54,10 +54,18 @@ export const updateDocumentHandler: AppRouteHandler<
                 NOT_FOUND,
             )
         }
-        const updatedDocument = await updateDocument(id, payload.groupId, body)
+        const [updatedDocument] = await updateDocument(
+            id,
+            payload.groupId,
+            body,
+        )
 
         return c.json(
-            jsonResponse(updatedDocument, 'Document created successfully', OK),
+            {
+                data: updatedDocument,
+                message: 'Document updated successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {

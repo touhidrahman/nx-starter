@@ -16,7 +16,6 @@ export const getSubscriptionListRoute = createRoute({
     responses: {
         [OK]: ApiResponse(
             z.array(zSelectSubscription),
-
             'List of subscriptions',
         ),
         [NOT_FOUND]: ApiResponse(zEmpty, 'No subscriptions found!'),
@@ -39,7 +38,7 @@ export const getSubscriptionListHandler: AppRouteHandler<
         )
     } catch (error: any) {
         return c.json(
-            jsonResponse({}, 'Internal server error', NOT_FOUND),
+            { data: {}, message: error.message, success: false, error: error },
             NOT_FOUND,
         )
     }

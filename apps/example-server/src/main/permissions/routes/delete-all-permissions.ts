@@ -33,7 +33,11 @@ export const deleteAllPermissionsHandler: AppRouteHandler<
         }
 
         return c.json(
-            jsonResponse('', 'Permissions deleted successfully', OK),
+            {
+                data: {},
+                message: 'Permissions deleted successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {

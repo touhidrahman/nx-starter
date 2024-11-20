@@ -37,7 +37,11 @@ export const deleteSubscriptionHandler: AppRouteHandler<
 
         await deleteById(id)
         return c.json(
-            jsonResponse('', 'Subscription deleted successfully', OK),
+            {
+                data: {},
+                message: 'Subscription deleted successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {

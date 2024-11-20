@@ -44,10 +44,14 @@ export const updateMessageHandler: AppRouteHandler<
                 NOT_FOUND,
             )
         }
-        const updatedMessage = await update(id, body)
+        const [updatedMessage] = await update(id, body)
 
         return c.json(
-            jsonResponse(updatedMessage, 'Message created successfully', OK),
+            {
+                data: updatedMessage,
+                message: 'Message updated successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {

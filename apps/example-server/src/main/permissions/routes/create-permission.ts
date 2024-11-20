@@ -23,7 +23,6 @@ export const createPermissionRoute = createRoute({
     responses: {
         [CREATED]: ApiResponse(
             zSelectPermission,
-
             'Permissions created successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid permissions data'),
@@ -37,13 +36,13 @@ export const createPermissionHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const permission = await create(body)
+        const [permission] = await create(body)
         return c.json(
-            jsonResponse(
-                permission,
-                'Permission created successfully',
-                CREATED,
-            ),
+            {
+                data: permission,
+                message: 'Permission created successfully',
+                success: true,
+            },
             CREATED,
         )
     } catch (error) {

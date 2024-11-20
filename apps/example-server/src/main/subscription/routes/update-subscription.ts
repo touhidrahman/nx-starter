@@ -52,14 +52,14 @@ export const updateSubscriptionHandler: AppRouteHandler<
                 NOT_FOUND,
             )
         }
-        const updatedMessage = await updateById(id, payload.groupId, body)
+        const [updatedMessage] = await updateById(id, payload.groupId, body)
 
         return c.json(
-            jsonResponse(
-                updatedMessage,
-                'Subscription created successfully',
-                OK,
-            ),
+            {
+                data: updatedMessage,
+                message: 'Subscription updated successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {
