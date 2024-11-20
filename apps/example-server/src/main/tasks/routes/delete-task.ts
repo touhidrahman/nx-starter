@@ -34,10 +34,8 @@ export const deleteTaskHandler: AppRouteHandler<
     try {
         const task = await getTaskById(id)
         if (!task) {
-            return c.json(
-                jsonResponse({}, 'Task not found', NOT_FOUND),
-                NOT_FOUND,
-            )
+            return c.json({ data: {}, message: 'Item not found', success: false }, NOT_FOUND)
+
         }
 
         await deleteTask(id)

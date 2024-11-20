@@ -47,10 +47,8 @@ export const updateSubscriptionHandler: AppRouteHandler<
     try {
         const subscription = await findById(id)
         if (!subscription) {
-            return c.json(
-                jsonResponse({}, 'Subscription not found', NOT_FOUND),
-                NOT_FOUND,
-            )
+            return c.json({ data: {}, message: 'Item not found', success: false }, NOT_FOUND)
+
         }
         const updatedMessage = await updateById(id, payload.groupId, body)
 

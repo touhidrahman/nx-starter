@@ -42,10 +42,8 @@ export const updateCourtHandler: AppRouteHandler<
     try {
         const existingCourt = await findCourtById(courtId)
         if (!existingCourt) {
-            return c.json(
-                jsonResponse({}, 'Court not found', NOT_FOUND),
-                NOT_FOUND,
-            )
+            return c.json({ data: {}, message: 'Item not found', success: false }, NOT_FOUND)
+
         }
 
         const updatedCourt = await updateCourt(courtId, body)

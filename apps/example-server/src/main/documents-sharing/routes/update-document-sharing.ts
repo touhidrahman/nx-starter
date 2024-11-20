@@ -46,10 +46,8 @@ export const updateDocumentSharingHandler: AppRouteHandler<
     try {
         const existingDocumentSharing = await findById(id)
         if (!existingDocumentSharing) {
-            return c.json(
-                jsonResponse({}, 'Document sharing not found', NOT_FOUND),
-                NOT_FOUND,
-            )
+            return c.json({ data: {}, message: 'Item not found', success: false }, NOT_FOUND)
+
         }
         const updatedDocumentSharing = await update(id, body)
 

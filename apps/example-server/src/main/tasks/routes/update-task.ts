@@ -61,10 +61,7 @@ export const updateTaskHandler: AppRouteHandler<
     try {
         const existingTask = await getTaskById(id)
         if (!existingTask) {
-            return c.json(
-                jsonResponse({}, 'Task not found', NOT_FOUND),
-                NOT_FOUND,
-            )
+            return c.json({ data: {}, message: 'Item not found', success: false }, NOT_FOUND)
         }
         const updatedTask = await updateTask(body, id, payload.groupId)
 

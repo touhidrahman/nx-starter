@@ -49,10 +49,8 @@ export const updateDocumentHandler: AppRouteHandler<
     try {
         const existingDocument = await findDocumentById(id)
         if (!existingDocument) {
-            return c.json(
-                jsonResponse({}, 'Document not found', NOT_FOUND),
-                NOT_FOUND,
-            )
+            return c.json({ data: {}, message: 'Item not found', success: false }, NOT_FOUND)
+
         }
         const updatedDocument = await updateDocument(id, payload.groupId, body)
 

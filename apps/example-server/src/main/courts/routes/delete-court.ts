@@ -29,10 +29,8 @@ export const deleteCourtHandler: AppRouteHandler<
     try {
         const courtItem = await findCourtById(courtId)
         if (!courtItem) {
-            return c.json(
-                jsonResponse({}, 'Court not found', NOT_FOUND),
-                NOT_FOUND,
-            )
+            return c.json({ data: {}, message: 'Item not found', success: false }, NOT_FOUND)
+
         }
 
         await deleteCourt(courtId)

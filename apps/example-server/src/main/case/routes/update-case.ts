@@ -42,10 +42,8 @@ export const updateCaseHandler: AppRouteHandler<
     try {
         const existingCase = await findCaseById(caseId)
         if (!existingCase) {
-            return c.json(
-                jsonResponse({}, 'Case not found', NOT_FOUND),
-                NOT_FOUND,
-            )
+            return c.json({ data: {}, message: 'Item not found', success: false }, NOT_FOUND)
+
         }
 
         const updatedCase = await updateCase(caseId, body)

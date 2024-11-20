@@ -43,10 +43,8 @@ export const updateEventHandler: AppRouteHandler<
     try {
         const existingEvent = await getAnEvent(eventId)
         if (!existingEvent) {
-            return c.json(
-                jsonResponse({}, 'Event not found', NOT_FOUND),
-                NOT_FOUND,
-            )
+            return c.json({ data: {}, message: 'Item not found', success: false }, NOT_FOUND)
+
         }
         const updatedEvent = await updateEvent(eventId, payload.groupId, body)
 

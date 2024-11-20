@@ -42,10 +42,8 @@ export const updateMessageHandler: AppRouteHandler<
     try {
         const message = await findById(id)
         if (!message) {
-            return c.json(
-                jsonResponse({}, 'Message not found', NOT_FOUND),
-                NOT_FOUND,
-            )
+            return c.json({ data: {}, message: 'Item not found', success: false }, NOT_FOUND)
+
         }
         const updatedMessage = await update(id, body)
 

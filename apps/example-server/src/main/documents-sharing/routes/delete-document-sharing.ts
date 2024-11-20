@@ -29,10 +29,8 @@ export const deleteDocumentSharingHandler: AppRouteHandler<
     try {
         const document = await findById(id)
         if (!document) {
-            return c.json(
-                jsonResponse({}, 'Document sharing not found', NOT_FOUND),
-                NOT_FOUND,
-            )
+            return c.json({ data: {}, message: 'Item not found', success: false }, NOT_FOUND)
+
         }
 
         await deleteSharing(id)

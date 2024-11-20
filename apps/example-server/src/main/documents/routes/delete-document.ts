@@ -34,10 +34,8 @@ export const deleteDocumentHandler: AppRouteHandler<
     try {
         const document = await findDocumentById(id)
         if (!document) {
-            return c.json(
-                jsonResponse({}, 'Document not found', NOT_FOUND),
-                NOT_FOUND,
-            )
+            return c.json({ data: {}, message: 'Item not found', success: false }, NOT_FOUND)
+
         }
 
         await deleteDocument(id)
