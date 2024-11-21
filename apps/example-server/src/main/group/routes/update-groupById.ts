@@ -32,8 +32,14 @@ export const updateGroupHandler: AppRouteHandler<
     const result = await updateGroup(id, body)
 
     if (result.length === 0) {
-        return c.json({ error: 'Group not found' }, 404)
+        return c.json(
+            { message: 'Group not found', data: {}, success: false },
+            NOT_FOUND,
+        )
     }
 
-    return c.json({ data: result[0], message: 'Group updated' })
+    return c.json(
+        { data: result[0], message: 'Group updated', success: true },
+        OK,
+    )
 }

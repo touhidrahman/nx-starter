@@ -21,9 +21,9 @@ import {
 } from './routes/create-subscription'
 
 export const subscriptionV1Route = createRouter()
-    .openapi(createSubscriptionsRoute, createSubscriptionsHandler)
-    .openapi(getSubscriptionListRoute, getSubscriptionListHandler)
-    .openapi(updateSubscriptionRoute, updateSubscriptionHandler)
-    .openapi(deleteSubscriptionRoute, deleteSubscriptionHandler)
-    .openapi(deleteAllSubscriptionRoute, deleteAllSubscriptionHandler)
-    .openapi(deleteAllSubscriptionRoute, deleteAllSubscriptionHandler)
+// .openapi(createSubscriptionsRoute, createSubscriptionsHandler)
+// .openapi(getSubscriptionListRoute, getSubscriptionListHandler)
+// .openapi(updateSubscriptionRoute, updateSubscriptionHandler)
+// .openapi(deleteSubscriptionRoute, deleteSubscriptionHandler)
+// .openapi(deleteAllSubscriptionRoute, deleteAllSubscriptionHandler)
+// .openapi(deleteAllSubscriptionRoute, deleteAllSubscriptionHandler)

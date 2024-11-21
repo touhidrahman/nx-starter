@@ -14,11 +14,7 @@ export const getPermissionListRoute = createRoute({
     middleware: [authMiddleware],
     request: {},
     responses: {
-        [OK]: ApiResponse(
-            z.array(zSelectPermission),
-
-            'List of permissions',
-        ),
+        [OK]: ApiResponse(z.array(zSelectPermission), 'List of permissions'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'No permissions found!'),
     },
 })
@@ -29,10 +25,18 @@ export const getPermissionListHandler: AppRouteHandler<
     try {
         const permissions = await listAll()
 
-        return c.json({ data: permissions, message: 'Permissions list' }, OK)
+        return c.json(
+            { data: permissions, message: 'Permissions list', success: true },
+            OK,
+        )
     } catch (error: any) {
         return c.json(
-            { error: 'Internal server error', message: error.message },
+            {
+                error: 'Internal server error',
+                message: error.message,
+                data: {},
+                success: false,
+            },
             NOT_FOUND,
         )
     }

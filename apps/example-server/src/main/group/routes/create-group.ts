@@ -38,8 +38,10 @@ export const createGroupHandler: AppRouteHandler<
             return c.json(
                 {
                     message: 'You already have a group owned by you',
+                    data: {},
+                    success: false,
                 },
-                403,
+                BAD_REQUEST,
             )
         }
 
@@ -49,8 +51,19 @@ export const createGroupHandler: AppRouteHandler<
             ownerId: userId,
         })
 
-        return c.json({ data: newGroup, message: 'Group created' }, 201)
+        return c.json(
+            { data: newGroup, success: true, message: 'Group created' },
+            CREATED,
+        )
     } catch (error) {
-        return c.json({ error, message: 'Error creating group' }, 500)
+        return c.json(
+            {
+                error,
+                data: {},
+                success: false,
+                message: 'Error creating group',
+            },
+            INTERNAL_SERVER_ERROR,
+        )
     }
 }

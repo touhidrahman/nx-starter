@@ -7,8 +7,8 @@ import { getCourtsHandler, getCourtsRoute } from './routes/get-courts'
 import { updateCourtHandler, updateCourtRoute } from './routes/update-court'
 
 export const courtsV1Routes = createRouter()
-    .openapi(createCourtRoute, createCourtHandler)
-    .openapi(getCourtRoute, getCourtHandler)
-    .openapi(getCourtsRoute, getCourtsHandler)
-    .openapi(updateCourtRoute, updateCourtHandler)
-    .openapi(deleteCourtRoute, deleteCourtHandler)
+// .openapi(createCourtRoute, createCourtHandler)
+// .openapi(getCourtRoute, getCourtHandler)
+// .openapi(getCourtsRoute, getCourtsHandler)
+// .openapi(updateCourtRoute, updateCourtHandler)
+// .openapi(deleteCourtRoute, deleteCourtHandler)

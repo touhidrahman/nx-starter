@@ -3,7 +3,6 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { authMiddleware } from '../../../core/middlewares/auth.middleware'
-
 import { zEmpty } from '../../../core/models/common.schema'
 import { zSelectDocument } from '../documents.schema'
 import { listDocumentsByGroup } from '../documents.service'
@@ -15,11 +14,7 @@ export const getDocumentListRoute = createRoute({
     middleware: [authMiddleware],
     request: {},
     responses: {
-        [OK]: ApiResponse(
-            z.array(zSelectDocument),
-
-            'List of documents',
-        ),
+        [OK]: ApiResponse(z.array(zSelectDocument), 'List of documents'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'No document found!'),
     },
 })
@@ -33,10 +28,18 @@ export const getDocumentListHandler: AppRouteHandler<
         const groupId = payload.groupId
         const document = await listDocumentsByGroup(groupId)
 
-        return c.json({ data: document, message: 'Document list' }, OK)
+        return c.json(
+            { data: document, message: 'Document list', success: true },
+            OK,
+        )
     } catch (error: any) {
         return c.json(
-            { error: 'Internal server error', message: error.message },
+            {
+                success: false,
+                message: 'Internal server error',
+                error: error,
+                data: {},
+            },
             NOT_FOUND,
         )
     }

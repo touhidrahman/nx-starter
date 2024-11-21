@@ -17,27 +17,28 @@ import { documentSharingV1Route } from './main/documents-sharing/documents-shari
 import { messagesV1Route } from './main/messages/messages.routes'
 import { permissionsV1Route } from './main/permissions/permissions.routes'
 import { subscriptionV1Route } from './main/subscription/subscription.routes'
+import { getMeRoute } from './main/user/routes/get-me'
 
 const app = createApp()
 
 const routes = [
-    generalRoutes,
-    adminGroupV1Routes,
-    adminUserV1Routes,
-    applicationAreasV1Routes,
-    appointmentsV1Routes,
-    authV1Routes,
-    caseV1Routes,
-    courtsV1Routes,
-    userV1Routes,
-    groupsV1Route,
-    eventV1Route,
-    taskV1Route,
-    documentV1Route,
-    documentSharingV1Route,
-    messagesV1Route,
-    permissionsV1Route,
-    subscriptionV1Route,
+    // generalRoutes,
+    // adminGroupV1Routes,
+    // adminUserV1Routes,
+    // applicationAreasV1Routes,
+    // appointmentsV1Routes,
+    // authV1Routes,
+    // caseV1Routes,
+    // courtsV1Routes,
+    ...userV1Routes,
+    // groupsV1Route,
+    // eventV1Route,
+    // taskV1Route,
+    // documentV1Route,
+    // documentSharingV1Route,
+    // messagesV1Route,
+    // permissionsV1Route,
+    // subscriptionV1Route,
 ]
 
 configureOpenAPI(app)

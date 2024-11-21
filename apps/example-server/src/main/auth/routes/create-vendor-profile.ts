@@ -39,7 +39,11 @@ export const createVendorProfileHandler: AppRouteHandler<
 
     if (existingVendor.length > 0) {
         return c.json(
-            { error: 'Vendor profile already exists', data: {} },
+            {
+                success: false,
+                message: 'Vendor profile already exists',
+                data: {},
+            },
             BAD_REQUEST,
         )
     }
@@ -52,5 +56,8 @@ export const createVendorProfileHandler: AppRouteHandler<
         })
         .returning()
 
-    return c.json({ data: group, message: 'Vendor profile created' }, CREATED)
+    return c.json(
+        { data: group, success: true, message: 'Vendor profile created' },
+        CREATED,
+    )
 }

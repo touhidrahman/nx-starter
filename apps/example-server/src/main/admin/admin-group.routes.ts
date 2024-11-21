@@ -21,8 +21,8 @@ import {
 } from './routes/update-admin-group'
 
 export const adminGroupV1Routes = createRouter()
-    .openapi(createAdminGroupRoute, createAdminGroupHandler)
-    .openapi(getAdminGroupRoute, getAdminGroupHandler)
-    .openapi(getAdminGroupsRoute, getAdminGroupsHandler)
-    .openapi(updateAdminGroupRoute, updateAdminGroupHandler)
-    .openapi(deleteAdminGroupRoute, deleteAdminGroupHandler)
+// .openapi(createAdminGroupRoute, createAdminGroupHandler)
+// .openapi(getAdminGroupRoute, getAdminGroupHandler)
+// .openapi(getAdminGroupsRoute, getAdminGroupsHandler)
+// .openapi(updateAdminGroupRoute, updateAdminGroupHandler)
+// .openapi(deleteAdminGroupRoute, deleteAdminGroupHandler)

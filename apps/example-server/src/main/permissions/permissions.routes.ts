@@ -13,6 +13,6 @@ import {
 } from './routes/get-permission-list'
 
 export const permissionsV1Route = createRouter()
-    .openapi(createPermissionRoute, createPermissionHandler)
-    .openapi(deleteAllPermissionsRoute, deleteAllPermissionsHandler)
-    .openapi(getPermissionListRoute, getPermissionListHandler)
+// .openapi(createPermissionRoute, createPermissionHandler)
+// .openapi(deleteAllPermissionsRoute, deleteAllPermissionsHandler)
+// .openapi(getPermissionListRoute, getPermissionListHandler)

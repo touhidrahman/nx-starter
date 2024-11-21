@@ -9,7 +9,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zEmpty } from '../../../core/models/common.schema'
 import { authMiddleware } from '../../../core/middlewares/auth.middleware'
-import { zSelectTask, zUpdateTask } from '../tasks.schema'
+import { zInsertTask, zSelectTask, zUpdateTask } from '../tasks.schema'
 import { createTask } from '../tasks.service'
 import checkTaskOwnershipMiddleware from '../../../core/middlewares/check-ownership.middleware'
 import { tasksTable } from '../../../core/db/schema'
@@ -23,7 +23,7 @@ export const createTaskRoute = createRoute({
         checkTaskOwnershipMiddleware(tasksTable, 'Task'),
     ],
     request: {
-        body: jsonContent(zUpdateTask, 'Task details'),
+        body: jsonContent(zInsertTask, 'Task details'),
     },
     responses: {
         [CREATED]: ApiResponse(zSelectTask, 'Task created successfully'),

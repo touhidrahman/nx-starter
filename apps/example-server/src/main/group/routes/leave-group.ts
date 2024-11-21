@@ -26,7 +26,6 @@ export const leaveGroupRoute = createRoute({
             'User deleted from group successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid group data'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
 })
 export const leaveGroupHandler: AppRouteHandler<
@@ -37,15 +36,25 @@ export const leaveGroupHandler: AppRouteHandler<
 
     const user = await findUserByUserIdAndGroupId(userId, id)
     if (!user) {
-        return c.json({ error: 'User does not belong to group' }, 400)
+        return c.json(
+            {
+                message: 'User does not belong to group',
+                data: {},
+                success: false,
+            },
+            BAD_REQUEST,
+        )
     }
 
-    const result = await deleteUser(user.id)
+    const [result] = await deleteUser(user.id)
     // update auth user group if set
     // const authUser = await findAuthUserByUserId(user.id)
     // if (authUser?.defaultGroupId === id) {
     //     await setDefaultGroupId(authUser.id, null)
     // }
 
-    return c.json({ data: result, message: 'User removed from group' }, 201)
+    return c.json(
+        { data: result, message: 'User removed from group', success: true },
+        CREATED,
+    )
 }

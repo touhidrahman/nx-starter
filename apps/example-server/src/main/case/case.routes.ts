@@ -6,8 +6,8 @@ import { getCasesHandler, getCasesRoute } from './routes/get-cases'
 import { updateCaseHandler, updateCaseRoute } from './routes/update-case'
 
 export const caseV1Routes = createRouter()
-    .openapi(createCaseRoute, createCaseHandler)
-    .openapi(getCaseRoute, getCaseHandler)
-    .openapi(getCasesRoute, getCasesHandler)
-    .openapi(updateCaseRoute, updateCaseHandler)
-    .openapi(deleteCaseRoute, deleteCaseHandler)
+// .openapi(createCaseRoute, createCaseHandler)
+// .openapi(getCaseRoute, getCaseHandler)
+// .openapi(getCasesRoute, getCasesHandler)
+// .openapi(updateCaseRoute, updateCaseHandler)
+// .openapi(deleteCaseRoute, deleteCaseHandler)

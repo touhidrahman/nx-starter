@@ -28,8 +28,11 @@ export const getGroupByIdHandler: AppRouteHandler<
     const result = await findGroupById(id)
 
     if (!result) {
-        return c.json({ error: 'Group not found' }, 404)
+        return c.json(
+            { data: {}, success: false, message: 'Group not found' },
+            NOT_FOUND,
+        )
     }
 
-    return c.json({ data: result, message: 'Group details' })
+    return c.json({ data: result, message: 'Group details', success: true }, OK)
 }

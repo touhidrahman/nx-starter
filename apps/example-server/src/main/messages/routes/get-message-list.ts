@@ -14,11 +14,7 @@ export const getMessageListRoute = createRoute({
     middleware: [authMiddleware],
     request: {},
     responses: {
-        [OK]: ApiResponse(
-            z.array(zSelectMessage),
-
-            'List of messages',
-        ),
+        [OK]: ApiResponse(z.array(zSelectMessage), 'List of messages'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'No messages found!'),
     },
 })
@@ -29,10 +25,18 @@ export const getMessageListHandler: AppRouteHandler<
     try {
         const messages = await listAll()
 
-        return c.json({ data: messages, message: 'Messages list' }, OK)
+        return c.json(
+            { data: messages, message: 'Messages list', success: true },
+            OK,
+        )
     } catch (error: any) {
         return c.json(
-            { error: 'Internal server error', message: error.message },
+            {
+                error: 'Internal server error',
+                data: {},
+                message: error.message,
+                success: false,
+            },
             NOT_FOUND,
         )
     }

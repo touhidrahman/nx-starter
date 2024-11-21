@@ -1,5 +1,5 @@
 import { PutObjectCommand } from '@aws-sdk/client-s3'
-import { s3Client, S3fileUrl } from '../../utils/s3Config'
+import { s3Client, S3fileUrl } from '../../core/third-party/s3Config'
 
 export const uploadFile = async (file: File) => {
     const bucket = process.env.S3_BUCKET_NAME ?? ''

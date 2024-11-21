@@ -14,11 +14,7 @@ export const getCourtsRoute = createRoute({
     middleware: [checkToken],
     request: {},
     responses: {
-        [OK]: ApiResponse(
-            z.array(zSelectCourt),
-
-            'List of Courts',
-        ),
+        [OK]: ApiResponse(z.array(zSelectCourt), 'List of Courts'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'No courts found'),
     },
 })
@@ -29,8 +25,14 @@ export const getCourtsHandler: AppRouteHandler<typeof getCourtsRoute> = async (
     const courts = await findAllCourts()
 
     if (courts.length === 0) {
-        return c.json({ message: 'No courts found', data: [] }, NOT_FOUND)
+        return c.json(
+            { message: 'No courts found', data: {}, success: false },
+            NOT_FOUND,
+        )
     }
 
-    return c.json({ data: courts, message: 'List of Courts' }, OK)
+    return c.json(
+        { data: courts, message: 'List of Courts', success: true },
+        OK,
+    )
 }

@@ -10,9 +10,9 @@ import {
 import { updateTaskHandler, updateTaskRoute } from './routes/update-task'
 
 export const taskV1Route = createRouter()
-    .openapi(getTaskListRoute, getTaskListHandler)
-    .openapi(getTaskRoute, getTaskHandler)
-    .openapi(createTaskRoute, createTaskHandler)
-    .openapi(updateTaskRoute, updateTaskHandler)
-    .openapi(deleteTaskRoute, deleteTaskHandler)
-    .openapi(deleteManyTaskRoute, deleteManyTaskHandler)
+// .openapi(getTaskListRoute, getTaskListHandler)
+// .openapi(getTaskRoute, getTaskHandler)
+// .openapi(createTaskRoute, createTaskHandler)
+// .openapi(updateTaskRoute, updateTaskHandler)
+// .openapi(deleteTaskRoute, deleteTaskHandler)
+// .openapi(deleteManyTaskRoute, deleteManyTaskHandler)

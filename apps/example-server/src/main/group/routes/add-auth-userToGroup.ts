@@ -3,6 +3,7 @@ import {
     CREATED,
     INTERNAL_SERVER_ERROR,
     BAD_REQUEST,
+    NOT_FOUND,
 } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
@@ -25,6 +26,7 @@ export const addAuthUserToGroupRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(zSelectUser, 'User added to group successfully'),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'User not found'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid group data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
@@ -39,15 +41,25 @@ export const addAuthUserToGroupHandler: AppRouteHandler<
         const authUser = await findAuthUserByEmail(email.toLowerCase())
 
         if (!authUser) {
-            return c.json({ error: 'User not found' }, 404)
+            return c.json(
+                { data: {}, success: false, message: 'User not found' },
+                NOT_FOUND,
+            )
         }
 
         const exists = await isParticipant(authUser.id, id)
         if (exists) {
-            return c.json({ error: 'User already belongs to group' }, 400)
+            return c.json(
+                {
+                    data: {},
+                    success: false,
+                    message: 'User already belongs to group',
+                },
+                BAD_REQUEST,
+            )
         }
 
-        const result = await createUser({
+        const [result] = await createUser({
             authUserId: authUser.id,
             groupId: id,
             role: ROLE_MEMBER,
@@ -56,8 +68,14 @@ export const addAuthUserToGroupHandler: AppRouteHandler<
             email: authUser.email,
         })
 
-        return c.json({ data: result, message: 'User added to group' }, 201)
+        return c.json(
+            { data: result, success: true, message: 'User added to group' },
+            CREATED,
+        )
     } catch (error) {
-        return c.json({ error: 'Error adding user to group' }, 500)
+        return c.json(
+            { message: 'Error adding user to group', data: {}, success: false },
+            INTERNAL_SERVER_ERROR,
+        )
     }
 }

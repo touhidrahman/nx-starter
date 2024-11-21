@@ -1,7 +1,7 @@
 import { OpenAPIHono, RouteConfig, RouteHandler } from '@hono/zod-openapi'
 import { PinoLogger } from 'hono-pino'
 
-export type AppBindings = {
+export interface AppBindings {
     Variables: {
         logger: PinoLogger
     }
