@@ -1,11 +1,11 @@
 <div class="overflow-hidden">
-    <h1 class="font-semibold font-archivo-narrow text-4xl">Cases</h1>
+    <h1 class="font-semibold text-4xl">Cases</h1>
     <!-- filter row -->
     <div class="flex mt-4 justify-between items-center">
         <div class="flex justify-center items-center gap-4">
             <button
                 (click)="toggleFilter()"
-                class="font-archivo-narrow font-normal text-2xl text-[#3a3a3a] shadow-md shadow-black/20 bg-[#eaffea] rounded-xl lg:py-2.5 lg:px-5 p-2.5 flex gap-1.5 justify-center items-center">
+                class="font-normal text-2xl text-[#3a3a3a] shadow-md shadow-black/20 bg-[#eaffea] rounded-xl lg:py-2.5 lg:px-5 p-2.5 flex gap-1.5 justify-center items-center">
                 <svg
                     class="w-6 h-6 lg:w-5 lg:h-5"
                     viewBox="0 0 20 19"
@@ -16,7 +16,7 @@
                         fill="#3A3A3A" />
                 </svg>
                 <span
-                    class="font-archivo-narrow font-normal text-2xl text-[#3a3a3a] hidden lg:inline"
+                    class="font-normal text-2xl text-[#3a3a3a] hidden lg:inline"
                     >Filters</span
                 >
             </button>
@@ -24,7 +24,7 @@
             <div
                 class="lg:px-8 lg:py-5 px-5 py-3 flex justify-center gap-3 items-center shadow-md shadow-black/20 rounded-xl bg-white">
                 <button
-                    class="font-archivo-narrow text-lg border border-[#bcbcbc] px-3 rounded-xl flex justify-center items-center gap-1.5 text-[#434343]">
+                    class="text-lg border border-[#bcbcbc] px-3 rounded-xl flex justify-center items-center gap-1.5 text-primary-gray">
                     Pending
                     <svg
                         width="8"
@@ -36,7 +36,7 @@
                     </svg>
                 </button>
                 <button
-                    class="font-archivo-narrow text-lg border border-[#bcbcbc] px-3 rounded-xl flex justify-center items-center gap-1.5 text-[#434343]">
+                    class="text-lg border border-[#bcbcbc] px-3 rounded-xl flex justify-center items-center gap-1.5 text-primary-gray">
                     Sorting
                     <svg
                         width="8"
@@ -72,7 +72,7 @@
             </div>
 
             <button
-                class="p-3 lg:px-5 lg:py-2.5 rounded-xl bg-[#0a5c36] flex justify-center items-center gap-1.5 text-white font-archivo-narrow font-medium text-2xl">
+                class="p-3 lg:px-5 lg:py-2.5 rounded-xl bg-[#0a5c36] flex justify-center items-center gap-1.5 text-white font-medium text-2xl">
                 <svg
                     class="w-5 h-5 lg:w-4 lg:h-4"
                     viewBox="0 0 14 14"
@@ -81,7 +81,7 @@
                     <path d="M14 8H8V14H6V8H0V6H6V0H8V6H14V8Z" fill="white" />
                 </svg>
                 <span
-                    class="font-archivo-narrow font-medium text-2xl text-white hidden lg:inline whitespace-nowrap"
+                    class="font-medium text-2xl text-white hidden lg:inline whitespace-nowrap"
                     >Create Case</span
                 >
             </button>
@@ -124,7 +124,7 @@
             <tr>
                 @for(tableTitle of tableTitles;track $index){
                 <th
-                    class="px-6 py-3 text-left text-[20px] font-medium font-archivo-narrow whitespace-nowrap">
+                    class="px-6 py-3 text-left text-[20px] font-medium whitespace-nowrap">
                     {{ tableTitle }}
                 </th>
                 }
@@ -135,36 +135,36 @@
             @for (user of users; track user) {
             <tr>
                 <td
-                    class="px-6 py-4 whitespace-nowrap text-xl font-medium text-[#434343] dark:text-white font-archivo-narrow">
+                    class="px-6 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white">
                     {{ user.caseNumber }}
                 </td>
                 <td
-                    class="px-6 py-4 whitespace-nowrap text-xl font-medium text-[#434343] dark:text-white font-archivo-narrow">
+                    class="px-6 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white">
                     {{ user.caseTitle }}
                 </td>
                 <td
-                    class="px-6 py-4 whitespace-nowrap text-xl font-medium text-[#434343] dark:text-white font-archivo-narrow">
+                    class="px-6 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white">
                     {{ user.clientName }}
                 </td>
                 <td
-                    class="px-6 py-4 whitespace-nowrap text-xl font-medium text-[#434343] dark:text-white font-archivo-narrow">
+                    class="px-6 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white">
                     {{ user.courtName }}
                 </td>
                 <td
-                    class="px-6 py-4 whitespace-nowrap text-xl font-medium text-[#434343] dark:text-white font-archivo-narrow">
+                    class="px-6 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white">
                     {{ user.nextHearingDate }}
                 </td>
                 <td
-                    class="px-6 py-4 whitespace-nowrap text-xl font-medium dark:text-white font-archivo-narrow"
+                    class="px-6 py-4 whitespace-nowrap text-xl font-medium dark:text-white"
                     [ngStyle]="{ color: setColor(user.status.toLowerCase()) }">
                     {{ user.status }}
                 </td>
                 <td
-                    class="px-6 py-4 whitespace-nowrap text-xl font-medium text-[#434343] dark:text-white font-archivo-narrow">
+                    class="px-6 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white">
                     {{ user.caseType }}
                 </td>
                 <td
-                    class="px-6 py-4 whitespace-nowrap text-xl font-medium text-[#434343] dark:text-white font-archivo-narrow flex justify-center items-center gap-3.5">
+                    class="px-6 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white flex justify-center items-center gap-3.5">
                     <svg
                         width="20"
                         height="21"

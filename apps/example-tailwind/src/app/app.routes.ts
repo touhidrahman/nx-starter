@@ -185,4 +185,12 @@ export const appRoutes: Route[] = [
             ).then((m) => m.PageAdminUserlistComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
+    {
+        path: 'dashboard/clients',
+        loadComponent: () =>
+            import('./pages/page-clients/page-clients.component').then(
+                (m) => m.PageClientsComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
 ]

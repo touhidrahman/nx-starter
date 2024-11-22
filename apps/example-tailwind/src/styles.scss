@@ -170,5 +170,8 @@ select {
 }
 
 .font-archivo-narrow {
-    font-family: 'Archivo Narrow', sans-serif !important;
+    font-family: 'Archivo Narrow', sans-serif;
+}
+.text-primary-gray {
+    @apply text-[#3a3a3a];
 }
