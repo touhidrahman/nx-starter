@@ -4,9 +4,12 @@ import { Hono } from 'hono'
 import { jwt } from 'hono/jwt'
 import { db } from '../../core/db/db'
 import { storageTable } from '../../core/db/schema'
-
 import { zDeleteStorage, zUpdateStorage } from './storage.schema'
-import { deleteFile, uploadFile } from '../file-upload/file-upload.service'
+import { createRouter } from '../../core/create-app'
+import { getStorageItemHandler, getStorageItemRoute } from './routes/get-storage-item'
+
+export const storageV1Routes = createRouter()
+.openapi(getStorageItemRoute, getStorageItemHandler)
 
 const app = new Hono()
 
@@ -49,21 +52,6 @@ app.get('', authMiddleware, async (c) => {
     return c.json({ data: storage, message: 'Storage list' })
 })
 
-// GET /storage/:id - find one
-app.get('/:id', authMiddleware, async (c) => {
-    const id = parseInt(c.req.param('id'), 10)
-    const storage = await db
-        .select({ ...getTableColumns(storageTable) })
-        .from(storageTable)
-        .where(eq(storageTable.id, id))
-        .limit(1)
-
-    if (storage.length === 0) {
-        return c.json({ message: 'Storage not found' }, 404)
-    }
-
-    return c.json({ data: storage[0], message: 'Storage found' })
-})
 
 // PATCH /storage/:id - update
 app.patch(
