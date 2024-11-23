@@ -37,6 +37,7 @@
             "@myorg/common-services": ["libs/common-services/src/index.ts"],
             "@myorg/material-modules": ["libs/material-modules/src/index.ts"],
             "@myorg/page-layouts": ["libs/page-layouts/src/index.ts"],
+            "@myorg/prime-modules": ["libs/prime-modules/src/index.ts"],
             "@myorg/spartan-modules": ["libs/spartan-modules/src/index.ts"],
             "@myorg/store": ["libs/store/src/index.ts"],
             "@myorg/utils": ["libs/utils/src/index.ts"],
