@@ -14,6 +14,12 @@
 
 ## Common Tasks
 
+### Remove spec files
+```
+find ./apps -type f -name "*.spec.ts" -exec rm -f {} +
+find ./libs -type f -name "*.spec.ts" -exec rm -f {} +
+```
+
 ### Updating spartan UI
 
 -   Run `npm run update-spartan-cli` to upgrade spartan cli.
