@@ -8,7 +8,7 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zEmpty } from '../../../core/models/common.schema'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
+import { checkToken } from '../../auth/auth.middleware'
 import { zInsertMessage, zSelectMessage } from '../messages.schema'
 import { create } from '../messages.service'
 
@@ -16,7 +16,7 @@ export const createMessageRoute = createRoute({
     path: '/v1/messages',
     method: 'post',
     tags: ['Messages'],
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertMessage, 'Message details'),
     },

@@ -11,7 +11,7 @@ export const getAdminUserRoute = createRoute({
     path: '/v1/admin-user/:id',
     method: 'get',
     tags: ['AdminUser'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
     },

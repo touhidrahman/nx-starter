@@ -10,7 +10,7 @@ export const getMyProfilesRoute = createRoute({
     path: '/v1/my-profiles',
     method: 'get',
     tags: ['User'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     responses: {
         [OK]: ApiResponse(zSelectUser, 'List of user profiles by auth user ID'),
     },

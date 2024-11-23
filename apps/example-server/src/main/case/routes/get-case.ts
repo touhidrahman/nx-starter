@@ -11,7 +11,7 @@ export const getCaseRoute = createRoute({
     path: '/v1/case/:id',
     method: 'get',
     tags: ['Case'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
     },

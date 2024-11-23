@@ -2,16 +2,16 @@ import { createRoute, z } from '@hono/zod-openapi'
 import { AppRouteHandler } from '../../../core/core.type'
 import { NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
 import { zSelectSubscription } from '../subscription.schema'
 import { findAllByGroupId } from '../subscriptions.service'
+import { checkToken } from '../../auth/auth.middleware'
 
 export const getSubscriptionListRoute = createRoute({
     path: '/v1/subscriptions',
     tags: ['Subscriptions'],
     method: 'get',
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {},
     responses: {
         [OK]: ApiResponse(

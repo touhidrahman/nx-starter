@@ -3,7 +3,7 @@ import { OK, INTERNAL_SERVER_ERROR } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
+import { checkToken } from '../../auth/auth.middleware'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { deleteMessage } from '../messages.service'
 
@@ -11,7 +11,7 @@ export const deleteAllMessagesRoute = createRoute({
     path: '/v1/messages',
     method: 'delete',
     tags: ['Messages'],
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(
             z.object({ ids: z.array(z.string()) }),

@@ -17,7 +17,7 @@ export const updateAppointmentRoute = createRoute({
     path: '/v1/appointments/:id',
     method: 'put',
     tags: ['Appointment'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
         body: jsonContent(zUpdateAppointment, 'Appointment update details'),

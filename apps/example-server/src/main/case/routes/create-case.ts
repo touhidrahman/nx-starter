@@ -16,7 +16,7 @@ export const createCaseRoute = createRoute({
     path: '/v1/cases',
     method: 'post',
     tags: ['Case'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertCase, 'Case details'),
     },

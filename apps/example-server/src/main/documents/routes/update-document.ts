@@ -9,7 +9,7 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
+import { checkToken } from '../../auth/auth.middleware'
 import checkDocumentOwnershipMiddleware from '../../../core/middlewares/check-ownership.middleware'
 import { documentsTable } from '../../../core/db/schema'
 import { zSelectDocument, zUpdateDocument } from '../documents.schema'
@@ -20,19 +20,15 @@ export const updateDocumentRoute = createRoute({
     method: 'patch',
     tags: ['Document'],
     middleware: [
-        authMiddleware,
+        checkToken,
         checkDocumentOwnershipMiddleware(documentsTable, 'Document'),
-    ],
+    ] as const,
     request: {
-        param: z.object({ id: z.string() }),
+        params: z.object({ id: z.string() }),
         body: jsonContent(zUpdateDocument, 'Document details'),
     },
     responses: {
-        [OK]: ApiResponse(
-            zSelectDocument,
-
-            'Document updated successfully',
-        ),
+        [OK]: ApiResponse(zSelectDocument, 'Document updated successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid document data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Document not found'),

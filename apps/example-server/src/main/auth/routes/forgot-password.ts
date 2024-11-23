@@ -1,5 +1,4 @@
 import { createRoute } from '@hono/zod-openapi'
-import * as HttpStatusCodes from 'stoker/http-status-codes'
 import { jsonContentRequired } from 'stoker/openapi/helpers'
 import { z } from 'zod'
 import { AppRouteHandler } from '../../../core/core.type'
@@ -7,6 +6,7 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { findAuthUserByEmail } from '../auth.service'
 import { createVerficationToken } from '../token.util'
+import { NOT_FOUND, OK } from 'stoker/http-status-codes'
 
 const tags = ['Auth']
 
@@ -21,8 +21,8 @@ export const forgotPasswordRoute = createRoute({
         ),
     },
     responses: {
-        [HttpStatusCodes.OK]: ApiResponse(zEmpty, 'Password reset email sent'),
-        [HttpStatusCodes.NOT_FOUND]: ApiResponse(zEmpty, 'User not found'),
+        [OK]: ApiResponse(zEmpty, 'Password reset email sent'),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'User not found'),
     },
 })
 
@@ -34,8 +34,8 @@ export const forgotPasswordHandler: AppRouteHandler<
 
     if (!user) {
         return c.json(
-            { message: 'User not found', data: {} },
-            HttpStatusCodes.NOT_FOUND,
+            { message: 'User not found', data: {}, success: false },
+            NOT_FOUND,
         )
     }
 
@@ -46,5 +46,9 @@ export const forgotPasswordHandler: AppRouteHandler<
     // TODO send the token to the user via email
     console.log(`Password reset token for ${email}: ${token}`)
 
-    return c.json({ message: 'Password reset email sent', data: {} })
+    return c.json({
+        message: 'Password reset email sent',
+        data: {},
+        success: true,
+    })
 }

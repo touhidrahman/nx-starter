@@ -13,7 +13,7 @@ export const updateGroupByIdRoute = createRoute({
     path: '/v1/group/:id',
     method: 'put',
     tags: ['Group'],
-    middleware: [checkToken, isGroupOwner],
+    middleware: [checkToken, isGroupOwner] as const,
     request: {
         params: z.object({ id: z.string() }),
         body: jsonContent(zUpdateGroup, 'Group details'),
@@ -26,14 +26,20 @@ export const updateGroupByIdRoute = createRoute({
 
 export const updateGroupHandler: AppRouteHandler<
     typeof updateGroupByIdRoute
-> = async (c: any) => {
+> = async (c) => {
     const id = c.req.param('id')
     const body = c.req.valid('json')
     const result = await updateGroup(id, body)
 
     if (result.length === 0) {
-        return c.json({ error: 'Group not found' }, 404)
+        return c.json(
+            { message: 'Group not found', data: {}, success: false },
+            NOT_FOUND,
+        )
     }
 
-    return c.json({ data: result[0], message: 'Group updated' })
+    return c.json(
+        { data: result[0], message: 'Group updated', success: true },
+        OK,
+    )
 }

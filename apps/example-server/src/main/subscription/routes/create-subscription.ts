@@ -8,18 +8,18 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zEmpty } from '../../../core/models/common.schema'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
 import {
     zInsertSubscription,
     zSelectSubscription,
 } from '../subscription.schema'
 import { create } from '../subscriptions.service'
+import { checkToken } from '../../auth/auth.middleware'
 
 export const createSubscriptionsRoute = createRoute({
     path: '/v1/subscriptions',
     method: 'post',
     tags: ['Subscriptions'],
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertSubscription, 'Subscription details'),
     },

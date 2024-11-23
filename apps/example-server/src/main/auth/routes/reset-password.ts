@@ -12,6 +12,7 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zResetPassword } from '../auth.schema'
 import { findAuthUserByEmail } from '../auth.service'
 import { decodeVerificationToken } from '../token.util'
+import { BAD_REQUEST, OK } from 'stoker/http-status-codes'
 
 const tags = ['Auth']
 
@@ -24,11 +25,8 @@ export const resetPasswordRoute = createRoute({
         body: jsonContentRequired(zResetPassword, 'New password'),
     },
     responses: {
-        [HttpStatusCodes.OK]: ApiResponse(zEmpty, 'Password reset success'),
-        [HttpStatusCodes.BAD_REQUEST]: ApiResponse(
-            zEmpty,
-            'Error resetting password',
-        ),
+        [OK]: ApiResponse(zEmpty, 'Password reset success'),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Error resetting password'),
     },
 })
 
@@ -42,8 +40,8 @@ export const resetPasswordHandler: AppRouteHandler<
 
     if (!decoded || !user || user.id !== decoded.authUserId) {
         return c.json(
-            { message: 'Invalid token', data: {} },
-            HttpStatusCodes.BAD_REQUEST,
+            { message: 'Invalid token', data: {}, success: false },
+            BAD_REQUEST,
         )
     }
 
@@ -56,12 +54,12 @@ export const resetPasswordHandler: AppRouteHandler<
         // TODO send a confirmation email to the user
         console.log(`Password reset successful for ${email}`)
         return c.json(
-            { message: 'Password reset success', data: {} },
-            HttpStatusCodes.OK,
+            { message: 'Password reset success', data: {}, success: true },
+            OK,
         )
     }
     return c.json(
-        { message: 'Error resetting password', data: {} },
-        HttpStatusCodes.BAD_REQUEST,
+        { message: 'Error resetting password', data: {}, success: false },
+        BAD_REQUEST,
     )
 }

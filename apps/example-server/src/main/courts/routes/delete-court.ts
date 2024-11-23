@@ -10,7 +10,7 @@ export const deleteCourtRoute = createRoute({
     path: '/v1/courts/:id',
     method: 'delete',
     tags: ['Court'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
     },

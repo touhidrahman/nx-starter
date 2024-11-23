@@ -16,7 +16,7 @@ export const createCourtRoute = createRoute({
     path: '/v1/courts',
     method: 'post',
     tags: ['Court'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertCourt, 'Court details'),
     },

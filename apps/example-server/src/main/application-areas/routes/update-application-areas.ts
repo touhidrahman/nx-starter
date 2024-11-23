@@ -15,7 +15,7 @@ export const updateApplicationAreaRoute = createRoute({
     path: '/v1/application-areas/:id',
     method: 'put',
     tags: ['Application Area'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
         body: jsonContent(zUpdateApplicationArea, 'Application Area details'),

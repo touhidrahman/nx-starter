@@ -11,15 +11,15 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zSelectEvent, zUpdateEvent } from '../events.schema'
 import { getAnEvent, updateEvent } from '../events.service'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
+import { checkToken } from '../../auth/auth.middleware'
 
 export const updateEventRoute = createRoute({
     path: '/v1/events/:id',
     method: 'patch',
     tags: ['Event'],
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {
-        param: z.object({ id: z.string() }),
+        params: z.object({ id: z.string() }),
         body: jsonContent(zUpdateEvent, 'Event details'),
     },
     responses: {

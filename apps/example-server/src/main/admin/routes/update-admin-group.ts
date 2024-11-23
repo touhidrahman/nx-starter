@@ -17,7 +17,7 @@ export const updateAdminGroupRoute = createRoute({
     path: '/v1/admin-groups/:id',
     method: 'put',
     tags: ['Admin Group'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
         body: jsonContent(zUpdateGroup, 'Admin group update details'),

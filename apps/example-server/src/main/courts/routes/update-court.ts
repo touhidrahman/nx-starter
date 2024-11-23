@@ -17,7 +17,7 @@ export const updateCourtRoute = createRoute({
     path: '/v1/courts/:id',
     method: 'put',
     tags: ['Court'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
         body: jsonContent(zUpdateCourt, 'Court update details'),

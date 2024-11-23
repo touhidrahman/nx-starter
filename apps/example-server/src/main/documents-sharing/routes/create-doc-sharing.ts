@@ -8,7 +8,7 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zEmpty } from '../../../core/models/common.schema'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
+import { checkToken } from '../../auth/auth.middleware'
 import {
     zInsertDocumentSharing,
     zSelectDocumentSharing,
@@ -19,7 +19,7 @@ export const createDocumentSharingRoute = createRoute({
     path: '/v1/document-sharing',
     method: 'post',
     tags: ['Document Sharing'],
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertDocumentSharing, 'Document Sharing details'),
     },

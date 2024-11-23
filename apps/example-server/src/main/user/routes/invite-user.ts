@@ -12,7 +12,7 @@ export const inviteUserRoute = createRoute({
     path: '/v1/invite',
     method: 'post',
     tags: ['User'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertInvite, 'Invite user details'),
     },

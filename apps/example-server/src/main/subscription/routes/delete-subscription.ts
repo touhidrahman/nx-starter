@@ -3,14 +3,14 @@ import { OK, NOT_FOUND, INTERNAL_SERVER_ERROR } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
+import { checkToken } from '../../auth/auth.middleware'
 import { findById, deleteById } from '../subscriptions.service'
 
 export const deleteSubscriptionRoute = createRoute({
     path: '/v1/subscriptions/:id',
     method: 'delete',
     tags: ['Subscriptions'],
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
     },

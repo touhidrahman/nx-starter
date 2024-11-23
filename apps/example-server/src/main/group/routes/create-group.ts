@@ -16,7 +16,7 @@ export const createGroupRoute = createRoute({
     path: '/v1/group',
     method: 'post',
     tags: ['Group'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertGroup, 'Group Detail'),
     },
@@ -28,7 +28,7 @@ export const createGroupRoute = createRoute({
 })
 export const createGroupHandler: AppRouteHandler<
     typeof createGroupRoute
-> = async (c: any) => {
+> = async (c) => {
     const body = c.req.valid('json') as GroupDto
     const { userId, role, groupId } = await c.get('jwtPayload')
     try {
@@ -38,8 +38,10 @@ export const createGroupHandler: AppRouteHandler<
             return c.json(
                 {
                     message: 'You already have a group owned by you',
+                    data: {},
+                    success: false,
                 },
-                403,
+                BAD_REQUEST,
             )
         }
 
@@ -49,8 +51,19 @@ export const createGroupHandler: AppRouteHandler<
             ownerId: userId,
         })
 
-        return c.json({ data: newGroup, message: 'Group created' }, 201)
+        return c.json(
+            { data: newGroup, success: true, message: 'Group created' },
+            CREATED,
+        )
     } catch (error) {
-        return c.json({ error, message: 'Error creating group' }, 500)
+        return c.json(
+            {
+                error,
+                data: {},
+                success: false,
+                message: 'Error creating group',
+            },
+            INTERNAL_SERVER_ERROR,
+        )
     }
 }

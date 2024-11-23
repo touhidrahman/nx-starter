@@ -11,7 +11,7 @@ export const getUserRoute = createRoute({
     path: '/v1/user/:id',
     method: 'get',
     tags: ['User'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
     },
