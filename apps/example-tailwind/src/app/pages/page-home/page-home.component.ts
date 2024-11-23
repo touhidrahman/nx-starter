@@ -1,9 +1,8 @@
-import { Component, type ElementRef, ViewChild } from '@angular/core'
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { SpartanModules } from '@myorg/spartan-modules'
-import { NavbarInternalComponent } from '../../main/headers/components/navbar-internal/navbar-internal.component'
-import { RouterModule } from '@angular/router'
 import { CommonModule } from '@angular/common'
+import { Component } from '@angular/core'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { RouterModule } from '@angular/router'
+import { SpartanModules } from '@myorg/spartan-modules'
 import { provideIcons } from '@ng-icons/core'
 import {
     lucideCalendarDays,
@@ -18,7 +17,6 @@ import {
         ...SpartanModules,
         FormsModule,
         ReactiveFormsModule,
-        NavbarInternalComponent,
         RouterModule,
         CommonModule,
     ],

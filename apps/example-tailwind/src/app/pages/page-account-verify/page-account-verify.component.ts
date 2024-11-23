@@ -1,13 +1,11 @@
 import { Component, inject, input } from '@angular/core'
-
-import { AuthApiService } from '@myorg/common-auth'
 import { RouterModule } from '@angular/router'
-import { SpartanModules } from '@myorg/spartan-modules'
+import { AuthApiService } from '@myorg/common-auth'
 
 @Component({
     selector: 'app-page-account-verify',
     standalone: true,
-    imports: [RouterModule, ...SpartanModules],
+    imports: [RouterModule],
     templateUrl: './page-account-verify.component.html',
     styleUrl: './page-account-verify.component.scss',
 })

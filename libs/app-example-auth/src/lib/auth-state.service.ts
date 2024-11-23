@@ -7,7 +7,11 @@ import {
     UserPermissionKeys,
     UserRole,
 } from '@myorg/app-example-models'
-import { AuthApiService, TokenStorageService } from '@myorg/common-auth'
+import {
+    AuthApiService,
+    SignupInput,
+    TokenStorageService,
+} from '@myorg/common-auth'
 import { LocalStorageService } from '@myorg/common-services'
 
 import { SimpleStore } from '@myorg/store'
@@ -71,8 +75,8 @@ export class AuthStateService extends SimpleStore<AuthState> {
         return this.getState().isLoggedIn
     }
 
-    isAdvertiser(): boolean {
-        return this.getState().user?.organization?.isAdvertiser ?? false
+    isLoggedIn(): boolean {
+        return this.getState().isLoggedIn
     }
 
     isSuperAdmin(): boolean {
@@ -116,6 +120,14 @@ export class AuthStateService extends SimpleStore<AuthState> {
                         data.refreshToken,
                         data.user,
                     )
+                return data
+            }),
+        )
+    }
+
+    register(signupInput: SignupInput) {
+        return this.authApiService.register(signupInput).pipe(
+            map(({ data }) => {
                 return data
             }),
         )

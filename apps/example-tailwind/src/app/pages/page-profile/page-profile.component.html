@@ -1,18 +1,18 @@
-<div class="p-6" hlmCard>
+<div class="p-6">
     <div class="grid grid-cols-12 gap-4">
         <div class="col-span-2">
             <div class="px-1">
-                @for(item of userRoute; track item.id){
-                <ul class="space-y-1">
-                    <li class="text-gray-500 mb-1">
-                        <a
-                            class="w-full inline-block hover:bg-primary-40 transition-all duration-300 hover:text-primary-500 py-1.5 px-3 rounded-sm"
-                            routerLinkActive="bg-primary-40 text-primary-500"
-                            [routerLink]="item.path"
-                            >{{ item.title }}</a
-                        >
-                    </li>
-                </ul>
+                @for (item of userRoute; track item.id) {
+                    <ul class="space-y-1">
+                        <li class="text-gray-500 mb-1">
+                            <a
+                                class="w-full inline-block hover:bg-primary-40 transition-all duration-300 hover:text-primary-500 py-1.5 px-3 rounded-sm"
+                                routerLinkActive="bg-primary-40 text-primary-500"
+                                [routerLink]="item.path"
+                                >{{ item.title }}</a
+                            >
+                        </li>
+                    </ul>
                 }
             </div>
         </div>
