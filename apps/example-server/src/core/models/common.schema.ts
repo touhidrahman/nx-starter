@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { z, ZodObject, ZodSchema, ZodString, ZodType } from 'zod'
 
 // Define a schema for a date-time string
 export const zDateTimeString = z.string().refine(
@@ -12,5 +12,15 @@ export const zDateTimeString = z.string().refine(
 )
 
 export const zIds = z.object({
-    ids: z.array(z.coerce.number()),
+    ids: z.array(z.string()).min(1),
 })
+
+export const zId = z.object({
+    id: z.string(),
+})
+
+export const zMessage = z.object({
+    message: z.string(),
+})
+
+export const zEmpty = z.object({})

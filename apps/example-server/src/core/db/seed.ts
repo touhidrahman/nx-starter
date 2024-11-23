@@ -1,14 +1,13 @@
-import { logger } from 'hono/logger'
 import { db } from './db'
-import { usersTable } from './schema'
+import { authUsersTable } from './schema'
 
 export const seed = async () => {
-    await db.insert(usersTable).values({
+    await db.insert(authUsersTable).values({
         firstName: 'Super',
         lastName: 'Admin',
         email: 'super@admin.com',
-        password: 'password',
-        type: 'admin',
+        password: 'Abcd1234!',
+        level: 'admin',
     })
 
     console.log('Database seeded successfully')

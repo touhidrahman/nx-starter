@@ -1,55 +1,131 @@
 import { relations } from 'drizzle-orm'
 import {
     boolean,
+    date,
+    decimal,
     integer,
     pgEnum,
     pgTable,
     primaryKey,
-    serial,
     text,
     timestamp,
+    uniqueIndex,
 } from 'drizzle-orm/pg-core'
+import { generateId } from './id.util'
+import { lower } from './orm.util'
 
-export const userTypeEnum = pgEnum('userType', ['user', 'moderator', 'admin'])
+export const userLevelEnum = pgEnum('userLevel', ['user', 'moderator', 'admin'])
+export const userRoleEnum = pgEnum('userRole', ['owner', 'manager', 'member'])
+export const userStatusEnum = pgEnum('userStatus', [
+    'active',
+    'inactive',
+    'banned',
+])
 
-export const usersTable = pgTable('users', {
-    id: serial('id').primaryKey(),
-    firstName: text('first_name').notNull(),
-    lastName: text('last_name').notNull(),
-    email: text('email').notNull().unique(),
-    password: text('password').notNull(),
-    lastLogin: timestamp('last_login'),
-    type: userTypeEnum('type').notNull().default('user'),
-    verified: boolean('is_verified').notNull().default(false),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
-        .notNull()
-        .$onUpdate(() => new Date()),
-})
+/**
+ * AuthUsers Table is used for logging in and authentication in the system
+ */
+export const authUsersTable = pgTable(
+    'auth_users',
+    {
+        id: text('id').primaryKey().$defaultFn(generateId),
+        firstName: text('first_name').notNull(),
+        lastName: text('last_name').notNull(),
+        email: text('email').notNull(),
+        password: text('password').notNull(),
+        phone: text('phone'),
+        lastLogin: timestamp('last_login', { withTimezone: true }),
+        level: userLevelEnum('level').notNull().default('user'),
+        status: userStatusEnum('status').notNull().default('active'),
+        verified: boolean('is_verified').notNull().default(false),
+        defaultGroupId: text('default_group_id'),
+        createdAt: timestamp('created_at', { withTimezone: true })
+            .notNull()
+            .defaultNow(),
+        updatedAt: timestamp('updated_at', { withTimezone: true })
+            .notNull()
+            .$onUpdate(() => new Date()),
+    },
+    (table) => ({
+        emailUniqueIndex: uniqueIndex('emailUniqueIndex').on(
+            lower(table.email),
+        ),
+    }),
+)
 
-export const usersRelations = relations(usersTable, ({ many }) => ({
-    usersToGroups: many(groupsToUsersTable),
+/**
+ * Users Table is used for Vendor & Client Users which are linked to AuthUsers
+ */
+export const usersTable = pgTable(
+    'users',
+    {
+        id: text('id').unique().notNull().$defaultFn(generateId), // not primary key
+        firstName: text('first_name').notNull(),
+        lastName: text('last_name').notNull(),
+        email: text('email'),
+        phone: text('phone'),
+        coverPhoto: text('cover_photo'),
+        profilePhoto: text('profile_photo'),
+        address: text('address'),
+        city: text('city'),
+        country: text('country'),
+        postCode: text('post_code'),
+        url: text('url'),
+        bio: text('bio'),
+        role: userRoleEnum('role').notNull().default('member'),
+        authUserId: text('auth_user_id')
+            .references(() => authUsersTable.id)
+            .notNull(),
+        groupId: text('group_id').references(() => groupsTable.id),
+        createdAt: timestamp('created_at', { withTimezone: true })
+            .notNull()
+            .defaultNow(),
+        updatedAt: timestamp('updated_at', { withTimezone: true })
+            .notNull()
+            .$onUpdate(() => new Date()),
+    },
+    (table) => {
+        return {
+            pk: primaryKey({
+                columns: [table.groupId, table.authUserId],
+            }),
+        }
+    },
+)
+
+export const usersRelations = relations(usersTable, ({ one, many }) => ({
+    authUser: one(authUsersTable, {
+        fields: [usersTable.authUserId],
+        references: [authUsersTable.id],
+    }),
+    group: one(groupsTable, {
+        fields: [usersTable.groupId],
+        references: [groupsTable.id],
+    }),
+    invites: many(invitesTable),
+    documents: many(documentsTable),
+}))
+
+const authUsersRelations = relations(authUsersTable, ({ many }) => ({
+    users: many(usersTable),
 }))
 
 export const groupTypeEnum = pgEnum('groupType', ['client', 'vendor'])
+export const groupLevelEnum = pgEnum('groupLevel', [
+    'trial',
+    'basic',
+    'premium',
+])
 export const groupStatusEnum = pgEnum('groupStatus', [
     'active',
     'inactive',
     'pending',
 ])
 
-export const rolesTable = pgTable('roles', {
-    id: serial('id').primaryKey(),
-    groupId: integer('group_id')
-        .references(() => groupsTable.id)
-        .notNull(),
-    name: text('name').notNull(),
-})
-
 export const groupsTable = pgTable('groups', {
-    id: serial('id').primaryKey(),
+    id: text('id').primaryKey().$defaultFn(generateId),
     type: groupTypeEnum('type').notNull().default('client'),
-    status: groupStatusEnum('status').notNull().default('inactive'),
+    status: groupStatusEnum('status').notNull().default('pending'),
     name: text('name').notNull(),
     email: text('email'),
     phone: text('phone'),
@@ -57,69 +133,84 @@ export const groupsTable = pgTable('groups', {
     city: text('city'),
     country: text('country'),
     postCode: text('post_code'),
+    ownerId: text('owner_id').notNull(),
     verified: boolean('is_verified').notNull().default(false),
-    verifiedOn: timestamp('verified_on'),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
+    verifiedOn: timestamp('verified_on', { withTimezone: true }),
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
 
-export const groupsRelations = relations(groupsTable, ({ many }) => ({
-    usersToGroups: many(groupsToUsersTable),
+export const groupsRelations = relations(groupsTable, ({ one, many }) => ({
+    owner: one(usersTable, {
+        fields: [groupsTable.ownerId],
+        references: [usersTable.id],
+    }),
+    appointments: many(appointmentsTable),
+    authUsers: many(authUsersTable),
+    billing: one(billingTable),
+    cases: many(casesTable),
+    courts: many(courtsTable),
+    documentSharing: many(documentSharingTable),
+    documents: many(documentsTable),
+    events: many(eventsTable),
+    invites: many(invitesTable),
+    invoiceItems: many(invoiceItemsTable),
+    invoices: many(invoicesTable),
+    messages: many(messagesTable),
+    payments: many(paymentsTable),
+    permissions: many(permissionsTable),
+    storage: one(storageTable),
+    subscriptions: many(subscriptionsTable),
+    tasks: many(tasksTable),
+    users: many(usersTable),
 }))
 
-export const groupsToUsersTable = pgTable(
-    'groups_to_users',
-    {
-        userId: integer('user_id')
-            .references(() => usersTable.id, { onDelete: 'cascade' })
-            .notNull(),
-        groupId: integer('group_id')
-            .references(() => groupsTable.id, { onDelete: 'cascade' })
-            .notNull(),
-        roleId: integer('role_id').references(() => rolesTable.id),
-        isDefault: boolean('is_default').notNull().default(false),
-        isOwner: boolean('is_owner').notNull().default(false),
-    },
-    (table) => {
-        return {
-            // one user can be in a group only once
-            pk: primaryKey({ columns: [table.userId, table.groupId] }),
-        }
-    },
-)
+export const invitesTable = pgTable('invites', {
+    id: text('id').primaryKey().$defaultFn(generateId),
+    email: text('email').notNull(),
+    groupId: text('group_id')
+        .references(() => groupsTable.id)
+        .notNull(),
+    role: userRoleEnum('role').notNull().default('member'),
+    invitedBy: text('invited_by')
+        .references(() => usersTable.id)
+        .notNull(),
+    invitedOn: timestamp('invited_on', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    acceptedOn: timestamp('accepted_on', { withTimezone: true }),
+    status: text('status').notNull().default('pending'),
+})
 
-export const usersToGroupsRelations = relations(
-    groupsToUsersTable,
-    ({ one }) => ({
-        group: one(groupsTable, {
-            fields: [groupsToUsersTable.groupId],
-            references: [groupsTable.id],
-        }),
-        user: one(usersTable, {
-            fields: [groupsToUsersTable.userId],
-            references: [usersTable.id],
-        }),
+export const invitesRelations = relations(invitesTable, ({ one }) => ({
+    group: one(groupsTable, {
+        fields: [invitesTable.groupId],
+        references: [groupsTable.id],
     }),
-)
+    invitedBy: one(usersTable, {
+        fields: [invitesTable.invitedBy],
+        references: [usersTable.id],
+    }),
+}))
 
 export const permissionsTable = pgTable(
     'permissions',
     {
-        groupId: integer('group_id')
+        groupId: text('group_id')
             .references(() => groupsTable.id)
             .notNull(),
-        roleId: integer('role_id')
-            .references(() => rolesTable.id)
-            .notNull(),
+        role: userRoleEnum('role').notNull(),
         area: text('area').notNull(),
         access: integer('access').notNull().default(1), // refer to README.md for access levels
     },
     (table) => {
         return {
             pk: primaryKey({
-                columns: [table.groupId, table.roleId, table.area],
+                columns: [table.groupId, table.role, table.area],
             }),
         }
     },
@@ -127,13 +218,12 @@ export const permissionsTable = pgTable(
 
 // to keep a list of areas/resources/entities in the application to attach permissions to. Usually the table names
 export const applicationAreasTable = pgTable('application_areas', {
-    id: serial('id').primaryKey(),
+    id: text('id').primaryKey().$defaultFn(generateId),
     area: text('area').notNull(),
     description: text('description'),
 })
 
 // section: tasks
-
 export const taskStatusEnum = pgEnum('taskStatus', [
     'pending',
     'in_progress',
@@ -142,20 +232,20 @@ export const taskStatusEnum = pgEnum('taskStatus', [
 ])
 
 export const tasksTable = pgTable('tasks', {
-    id: serial('id').primaryKey(),
-    groupId: integer('group_id')
+    id: text('id').primaryKey().$defaultFn(generateId),
+    groupId: text('group_id')
         .references(() => groupsTable.id)
         .notNull(),
     todo: text('todo').notNull(),
-    assignedUserId: integer('assigned_user_id')
-        .references(() => usersTable.id)
-        .notNull(),
-    assignedRoleId: integer('assigned_role_id').references(() => rolesTable.id), // optional
-    dueDate: timestamp('due_date').notNull(),
+    assignedUserId: text('assigned_user_id').references(() => usersTable.id),
+    assignedRole: userRoleEnum('assigned_role'),
+    dueDate: timestamp('due_date', { withTimezone: true }).notNull(),
     status: taskStatusEnum('status').notNull().default('pending'),
     note: text('note'),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
@@ -169,10 +259,6 @@ export const tasksRelations = relations(tasksTable, ({ one }) => ({
         fields: [tasksTable.assignedUserId],
         references: [usersTable.id],
     }),
-    assignedRole: one(rolesTable, {
-        fields: [tasksTable.assignedRoleId],
-        references: [rolesTable.id],
-    }),
 }))
 
 // section: invoices, invoice items, payments
@@ -185,43 +271,49 @@ export const invoiceStatusEnum = pgEnum('invoiceStatus', [
 ])
 
 export const invoicesTable = pgTable('invoices', {
-    id: serial('id').primaryKey(),
+    id: text('id').primaryKey().$defaultFn(generateId),
     invoiceCode: text('invoice_code').notNull().unique(),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    dueDate: timestamp('due_date').notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    dueDate: timestamp('due_date', { withTimezone: true }).notNull(),
     status: invoiceStatusEnum('status').notNull().default('unpaid'),
-    totalDueAmount: integer('total_due_amount').notNull(),
-    remainingDueAmount: integer('remaining_due_amount').notNull(),
-    updatedAt: timestamp('updated_at')
+    totalDueAmount: decimal('total_due_amount').notNull(),
+    remainingDueAmount: decimal('remaining_due_amount').notNull(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
 
 export const paymentsTable = pgTable('payments', {
-    id: serial('id').primaryKey(),
-    invoiceId: integer('invoice_id')
+    id: text('id').primaryKey().$defaultFn(generateId),
+    invoiceId: text('invoice_id')
         .references(() => invoicesTable.id)
         .notNull(),
     amountPaid: integer('amount_paid').notNull(),
-    date: timestamp('date').notNull(),
+    date: timestamp('date', { withTimezone: true }).notNull(),
     isFullyPaid: boolean('is_fully_paid').notNull().default(false),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
 
 export const invoiceItemsTable = pgTable('invoice_items', {
-    id: serial('id').primaryKey(),
-    invoiceId: integer('invoice_id')
+    id: text('id').primaryKey().$defaultFn(generateId),
+    invoiceId: text('invoice_id')
         .references(() => invoicesTable.id)
         .notNull(),
     serviceCode: text('service_code').notNull(),
     serviceRendered: text('service_rendered').notNull(),
-    unitPrice: integer('unit_price').notNull(),
+    unitPrice: decimal('unit_price').notNull(),
     qty: integer('qty').notNull(),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
@@ -251,24 +343,28 @@ export const invoiceItemsRelations = relations(
 // section: subscriptions, billing
 
 export const billingTable = pgTable('billing', {
-    id: serial('id').primaryKey(),
+    id: text('id').primaryKey().$defaultFn(generateId),
     address: text('address').notNull(),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
 
 export const subscriptionsTable = pgTable('subscriptions', {
-    id: serial('id').primaryKey(),
-    groupId: integer('group_id')
+    id: text('id').primaryKey().$defaultFn(generateId),
+    groupId: text('group_id')
         .references(() => groupsTable.id)
         .notNull(),
     planId: text('plan_id').notNull(),
-    startDate: timestamp('start_date').notNull(),
-    endDate: timestamp('end_date').notNull(),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
+    startDate: timestamp('start_date', { withTimezone: true }).notNull(),
+    endDate: timestamp('end_date', { withTimezone: true }).notNull(),
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
@@ -288,24 +384,28 @@ export const showMeAsEnum = pgEnum('show_me_as', ['Busy', 'Available'])
 export const statusEnum = pgEnum('status', ['Active', 'Disabled'])
 
 export const appointmentsTable = pgTable('appointments', {
-    id: serial('id').primaryKey(),
-    date: timestamp('date').notNull(),
-    vendorUserId: integer('vendor_user_id')
+    id: text('id').primaryKey().$defaultFn(generateId),
+    date: timestamp('date', { withTimezone: true }).notNull(),
+    vendorUserId: text('vendor_user_id')
         .references(() => usersTable.id)
         .notNull(),
-    clientUserId: integer('client_user_id')
+    clientUserId: text('client_user_id')
         .references(() => usersTable.id)
         .notNull(),
-    startTimestamp: timestamp('start_timestamp').notNull(),
-    endTimestamp: timestamp('end_timestamp').notNull(),
+    startTimestamp: timestamp('start_timestamp', {
+        withTimezone: true,
+    }).notNull(),
+    endTimestamp: timestamp('end_timestamp', { withTimezone: true }).notNull(),
     description: text('description'),
     notesForVendor: text('notes_for_vendor'),
     notesForClient: text('notes_for_client'),
-    groupId: integer('group_id')
+    groupId: text('group_id')
         .references(() => groupsTable.id)
         .notNull(),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
@@ -330,25 +430,29 @@ export const appointmentsRelations = relations(
 
 // Events Table
 export const eventsTable = pgTable('events', {
-    id: serial('id').primaryKey(),
-    date: timestamp('date').notNull(),
-    userId: integer('user_id')
+    id: text('id').primaryKey().$defaultFn(generateId),
+    date: timestamp('date', { withTimezone: true }).notNull(),
+    userId: text('user_id')
         .references(() => usersTable.id)
         .notNull(),
-    startTimestamp: timestamp('start_timestamp').notNull(),
-    endTimestamp: timestamp('end_timestamp').notNull(),
+    startTimestamp: timestamp('start_timestamp', {
+        withTimezone: true,
+    }).notNull(),
+    endTimestamp: timestamp('end_timestamp', { withTimezone: true }).notNull(),
     description: text('description'),
     showMeAs: showMeAsEnum('show_me_as').notNull(),
     wholeDay: boolean('whole_day').notNull(),
-    groupId: integer('group_id')
+    groupId: text('group_id')
         .references(() => groupsTable.id)
         .notNull(),
     status: statusEnum('status').notNull(),
-    caseId: integer('case_id')
+    caseId: text('case_id')
         .references(() => casesTable.id)
         .notNull(),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
@@ -370,20 +474,22 @@ export const eventsRelations = relations(eventsTable, ({ one }) => ({
 
 // Cases Table
 export const casesTable = pgTable('cases', {
-    id: serial('id').primaryKey(),
+    id: text('id').primaryKey().$defaultFn(generateId),
     number: text('number').notNull(),
     name: text('name').notNull(),
     defendant: text('defendant').notNull(),
     plaintiffName: text('plaintiff_name').notNull(),
-    plaintiffGroupId: integer('plaintiff_group_id')
+    plaintiffGroupId: text('plaintiff_group_id')
         .references(() => groupsTable.id)
         .notNull(),
-    groupId: integer('group_id')
+    groupId: text('group_id')
         .references(() => groupsTable.id)
         .notNull(),
     court: text('court').notNull(),
-    createdAt: timestamp('created_at').notNull().defaultNow(),
-    updatedAt: timestamp('updated_at')
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
         .notNull()
         .$onUpdate(() => new Date()),
 })
@@ -401,19 +507,25 @@ export const casesRelations = relations(casesTable, ({ one, many }) => ({
 }))
 
 // section: documents, document_sharing
-
 export const documentsTable = pgTable('documents', {
-    id: serial('id').primaryKey(),
+    id: text('id').primaryKey().$defaultFn(generateId),
     filename: text('filename').notNull(),
     url: text('url').notNull(),
     mimetype: text('mimetype').notNull(),
     size: integer('size').notNull(),
-    linkedEntity: text('linked_entity').notNull(),
-    linkedId: integer('linked_id').notNull(),
     description: text('description'),
-    groupId: integer('group_id')
+    groupId: text('group_id')
         .references(() => groupsTable.id)
         .notNull(),
+    userId: text('user_id').references(() => usersTable.id),
+    entityId: text('entity_id'), // The ID of the entity this upload is associated with
+    entityName: text('entity_name'), // The name of the entity this upload is associated with / table name
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
+        .notNull()
+        .$onUpdate(() => new Date()),
 })
 
 export const documentsRelations = relations(documentsTable, ({ one }) => ({
@@ -421,26 +533,28 @@ export const documentsRelations = relations(documentsTable, ({ one }) => ({
         fields: [documentsTable.groupId],
         references: [groupsTable.id],
     }),
+    user: one(usersTable, {
+        fields: [documentsTable.userId],
+        references: [usersTable.id],
+    }),
 }))
 
 export const documentSharingTable = pgTable('document_sharing', {
-    id: serial('id').primaryKey(),
-    senderGroupId: integer('sender_group_id')
+    id: text('id').primaryKey().$defaultFn(generateId),
+    senderGroupId: text('sender_group_id')
         .references(() => groupsTable.id)
         .notNull(),
-    receiverGroupId: integer('receiver_group_id')
+    receiverGroupId: text('receiver_group_id')
         .references(() => groupsTable.id)
         .notNull(),
-    documentId: integer('document_id')
+    documentId: text('document_id')
         .references(() => documentsTable.id)
         .notNull(),
-    senderUserId: integer('sender_user_id')
+    senderUserId: text('sender_user_id')
         .references(() => usersTable.id)
         .notNull(),
-    receiverUserId: integer('receiver_user_id')
-        .references(() => usersTable.id)
-        .notNull(),
-    expiryDate: timestamp('expiry_date').notNull(),
+    receiverUserId: text('receiver_user_id').references(() => usersTable.id),
+    expiryDate: timestamp('expiry_date', { withTimezone: true }).notNull(),
 })
 
 export const documentSharingRelations = relations(
@@ -472,24 +586,22 @@ export const documentSharingRelations = relations(
 // section: messages
 
 export const messagesTable = pgTable('messages', {
-    id: serial('id').primaryKey(),
-    vendorUserId: integer('vendor_user_id')
+    id: text('id').primaryKey().$defaultFn(generateId),
+    vendorUserId: text('vendor_user_id')
         .references(() => usersTable.id)
         .notNull(),
-    clientUserId: integer('client_user_id')
+    clientUserId: text('client_user_id')
         .references(() => usersTable.id)
         .notNull(),
-    // ccUserId: integer('cc_user_id')
-    //     .array()
-    //     .references(() => usersTable.id), // Array of Foreign Keys
-    readableByVendorGroup: boolean('readable_by_vendor_group').notNull(),
-    readableByClientGroup: boolean('readable_by_client_group').notNull(),
-    date: timestamp('date').notNull(),
-    replyByDate: timestamp('reply_by_date'),
+    readableByVendorGroup: boolean('readable_by_vendor_group')
+        .notNull()
+        .default(false),
+    readableByClientGroup: boolean('readable_by_client_group')
+        .notNull()
+        .default(false),
+    date: timestamp('date', { withTimezone: true }).notNull(),
+    replyByDate: date('reply_by_date'),
     message: text('message').notNull(),
-    // attachmentDocumentSharingIds: integer('attachment_document_sharing_ids')
-    //     .array()
-    //     .references(() => documentSharingTable.id), // Array of Foreign Keys
 })
 
 export const messagesRelations = relations(messagesTable, ({ one, many }) => ({
@@ -501,34 +613,10 @@ export const messagesRelations = relations(messagesTable, ({ one, many }) => ({
         fields: [messagesTable.clientUserId],
         references: [usersTable.id],
     }),
-    ccUsers: many(usersTable),
-    attachmentDocumentSharing: many(documentSharingTable),
 }))
 
-// section: profile
-
-export const profileTable = pgTable('profile', {
-    userId: integer('user_id')
-        .primaryKey()
-        .references(() => usersTable.id),
-    coverPhoto: text('cover_photo'),
-    address: text('address'),
-    phone: text('phone'),
-    email: text('email'),
-    url: text('url'),
-    bio: text('bio'),
-})
-
-export const profileRelations = relations(profileTable, ({ one }) => ({
-    user: one(usersTable, {
-        fields: [profileTable.userId],
-        references: [usersTable.id],
-    }),
-}))
-
-// section: Storage Table
 export const storageTable = pgTable('storage', {
-    id: serial('id').primaryKey(),
+    id: text('id').primaryKey().$defaultFn(generateId),
     filename: text('filename'),
     url: text('url'),
     extension: text('extension'),
@@ -540,5 +628,5 @@ export const storageTable = pgTable('storage', {
 
 //  section: Courts Table
 export const courtsTable = pgTable('courts', {
-    id: serial('id').primaryKey(),
+    id: text('id').primaryKey().$defaultFn(generateId),
 })

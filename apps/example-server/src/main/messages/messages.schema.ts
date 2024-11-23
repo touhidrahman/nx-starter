@@ -10,7 +10,3 @@ export const zInsertMessage = createInsertSchema(messagesTable)
 export const zSelectMessage = createSelectSchema(messagesTable)
 
 export const zUpdateMessage = zInsertMessage.partial() // Allow partial updates
-
-export const zDeleteMessage = z.object({
-    messageIds: z.array(z.number()).min(1),
-})

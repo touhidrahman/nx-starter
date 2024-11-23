@@ -1,5 +1,5 @@
 {
-    "id": "fd40414f-f940-4998-a599-9773acd3dec4",
+    "id": "ba42e0c4-aaeb-4c10-b13f-260e5a4ea804",
     "prevId": "00000000-0000-0000-0000-000000000000",
     "version": "7",
     "dialect": "postgresql",
@@ -10,7 +10,7 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
@@ -30,7 +30,8 @@
             "indexes": {},
             "foreignKeys": {},
             "compositePrimaryKeys": {},
-            "uniqueConstraints": {}
+            "uniqueConstraints": {},
+            "checkConstraints": {}
         },
         "public.appointments": {
             "name": "appointments",
@@ -38,37 +39,37 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
                 "date": {
                     "name": "date",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "vendor_user_id": {
                     "name": "vendor_user_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "client_user_id": {
                     "name": "client_user_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "start_timestamp": {
                     "name": "start_timestamp",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "end_timestamp": {
                     "name": "end_timestamp",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -92,20 +93,20 @@
                 },
                 "group_id": {
                     "name": "group_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "created_at": {
                     "name": "created_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true,
                     "default": "now()"
                 },
                 "updated_at": {
                     "name": "updated_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 }
@@ -141,7 +142,119 @@
                 }
             },
             "compositePrimaryKeys": {},
-            "uniqueConstraints": {}
+            "uniqueConstraints": {},
+            "checkConstraints": {}
+        },
+        "public.auth_users": {
+            "name": "auth_users",
+            "schema": "",
+            "columns": {
+                "id": {
+                    "name": "id",
+                    "type": "text",
+                    "primaryKey": true,
+                    "notNull": true
+                },
+                "first_name": {
+                    "name": "first_name",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "last_name": {
+                    "name": "last_name",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "email": {
+                    "name": "email",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "password": {
+                    "name": "password",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "phone": {
+                    "name": "phone",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "last_login": {
+                    "name": "last_login",
+                    "type": "timestamp with time zone",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "level": {
+                    "name": "level",
+                    "type": "userLevel",
+                    "typeSchema": "public",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "'user'"
+                },
+                "status": {
+                    "name": "status",
+                    "type": "userStatus",
+                    "typeSchema": "public",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "'active'"
+                },
+                "is_verified": {
+                    "name": "is_verified",
+                    "type": "boolean",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": false
+                },
+                "default_group_id": {
+                    "name": "default_group_id",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "created_at": {
+                    "name": "created_at",
+                    "type": "timestamp with time zone",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "now()"
+                },
+                "updated_at": {
+                    "name": "updated_at",
+                    "type": "timestamp with time zone",
+                    "primaryKey": false,
+                    "notNull": true
+                }
+            },
+            "indexes": {
+                "emailUniqueIndex": {
+                    "name": "emailUniqueIndex",
+                    "columns": [
+                        {
+                            "expression": "lower(\"email\")",
+                            "asc": true,
+                            "isExpression": true,
+                            "nulls": "last"
+                        }
+                    ],
+                    "isUnique": true,
+                    "concurrently": false,
+                    "method": "btree",
+                    "with": {}
+                }
+            },
+            "foreignKeys": {},
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {},
+            "checkConstraints": {}
         },
         "public.billing": {
             "name": "billing",
@@ -149,7 +262,7 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
@@ -161,14 +274,14 @@
                 },
                 "created_at": {
                     "name": "created_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true,
                     "default": "now()"
                 },
                 "updated_at": {
                     "name": "updated_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 }
@@ -176,7 +289,8 @@
             "indexes": {},
             "foreignKeys": {},
             "compositePrimaryKeys": {},
-            "uniqueConstraints": {}
+            "uniqueConstraints": {},
+            "checkConstraints": {}
         },
         "public.cases": {
             "name": "cases",
@@ -184,7 +298,7 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
@@ -214,13 +328,13 @@
                 },
                 "plaintiff_group_id": {
                     "name": "plaintiff_group_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "group_id": {
                     "name": "group_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -232,14 +346,14 @@
                 },
                 "created_at": {
                     "name": "created_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true,
                     "default": "now()"
                 },
                 "updated_at": {
                     "name": "updated_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 }
@@ -266,7 +380,8 @@
                 }
             },
             "compositePrimaryKeys": {},
-            "uniqueConstraints": {}
+            "uniqueConstraints": {},
+            "checkConstraints": {}
         },
         "public.courts": {
             "name": "courts",
@@ -274,7 +389,7 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 }
@@ -282,7 +397,8 @@
             "indexes": {},
             "foreignKeys": {},
             "compositePrimaryKeys": {},
-            "uniqueConstraints": {}
+            "uniqueConstraints": {},
+            "checkConstraints": {}
         },
         "public.document_sharing": {
             "name": "document_sharing",
@@ -290,43 +406,43 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
                 "sender_group_id": {
                     "name": "sender_group_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "receiver_group_id": {
                     "name": "receiver_group_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "document_id": {
                     "name": "document_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "sender_user_id": {
                     "name": "sender_user_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "receiver_user_id": {
                     "name": "receiver_user_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
-                    "notNull": true
+                    "notNull": false
                 },
                 "expiry_date": {
                     "name": "expiry_date",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 }
@@ -380,7 +496,8 @@
                 }
             },
             "compositePrimaryKeys": {},
-            "uniqueConstraints": {}
+            "uniqueConstraints": {},
+            "checkConstraints": {}
         },
         "public.documents": {
             "name": "documents",
@@ -388,7 +505,7 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
@@ -416,18 +533,6 @@
                     "primaryKey": false,
                     "notNull": true
                 },
-                "linked_entity": {
-                    "name": "linked_entity",
-                    "type": "text",
-                    "primaryKey": false,
-                    "notNull": true
-                },
-                "linked_id": {
-                    "name": "linked_id",
-                    "type": "integer",
-                    "primaryKey": false,
-                    "notNull": true
-                },
                 "description": {
                     "name": "description",
                     "type": "text",
@@ -436,7 +541,38 @@
                 },
                 "group_id": {
                     "name": "group_id",
-                    "type": "integer",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "user_id": {
+                    "name": "user_id",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "entity_id": {
+                    "name": "entity_id",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "entity_name": {
+                    "name": "entity_name",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "created_at": {
+                    "name": "created_at",
+                    "type": "timestamp with time zone",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "now()"
+                },
+                "updated_at": {
+                    "name": "updated_at",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 }
@@ -451,10 +587,20 @@
                     "columnsTo": ["id"],
                     "onDelete": "no action",
                     "onUpdate": "no action"
+                },
+                "documents_user_id_users_id_fk": {
+                    "name": "documents_user_id_users_id_fk",
+                    "tableFrom": "documents",
+                    "tableTo": "users",
+                    "columnsFrom": ["user_id"],
+                    "columnsTo": ["id"],
+                    "onDelete": "no action",
+                    "onUpdate": "no action"
                 }
             },
             "compositePrimaryKeys": {},
-            "uniqueConstraints": {}
+            "uniqueConstraints": {},
+            "checkConstraints": {}
         },
         "public.events": {
             "name": "events",
@@ -462,31 +608,31 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
                 "date": {
                     "name": "date",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "user_id": {
                     "name": "user_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "start_timestamp": {
                     "name": "start_timestamp",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "end_timestamp": {
                     "name": "end_timestamp",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -511,7 +657,7 @@
                 },
                 "group_id": {
                     "name": "group_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -524,20 +670,20 @@
                 },
                 "case_id": {
                     "name": "case_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "created_at": {
                     "name": "created_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true,
                     "default": "now()"
                 },
                 "updated_at": {
                     "name": "updated_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 }
@@ -573,7 +719,8 @@
                 }
             },
             "compositePrimaryKeys": {},
-            "uniqueConstraints": {}
+            "uniqueConstraints": {},
+            "checkConstraints": {}
         },
         "public.groups": {
             "name": "groups",
@@ -581,7 +728,7 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
@@ -599,7 +746,7 @@
                     "typeSchema": "public",
                     "primaryKey": false,
                     "notNull": true,
-                    "default": "'inactive'"
+                    "default": "'pending'"
                 },
                 "name": {
                     "name": "name",
@@ -643,6 +790,12 @@
                     "primaryKey": false,
                     "notNull": false
                 },
+                "owner_id": {
+                    "name": "owner_id",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
                 "is_verified": {
                     "name": "is_verified",
                     "type": "boolean",
@@ -652,20 +805,20 @@
                 },
                 "verified_on": {
                     "name": "verified_on",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": false
                 },
                 "created_at": {
                     "name": "created_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true,
                     "default": "now()"
                 },
                 "updated_at": {
                     "name": "updated_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 }
@@ -673,82 +826,90 @@
             "indexes": {},
             "foreignKeys": {},
             "compositePrimaryKeys": {},
-            "uniqueConstraints": {}
+            "uniqueConstraints": {},
+            "checkConstraints": {}
         },
-        "public.groups_to_users": {
-            "name": "groups_to_users",
+        "public.invites": {
+            "name": "invites",
             "schema": "",
             "columns": {
-                "user_id": {
-                    "name": "user_id",
-                    "type": "integer",
+                "id": {
+                    "name": "id",
+                    "type": "text",
+                    "primaryKey": true,
+                    "notNull": true
+                },
+                "email": {
+                    "name": "email",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "group_id": {
                     "name": "group_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
-                "role_id": {
-                    "name": "role_id",
-                    "type": "integer",
+                "role": {
+                    "name": "role",
+                    "type": "userRole",
+                    "typeSchema": "public",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "'member'"
+                },
+                "invited_by": {
+                    "name": "invited_by",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": true
+                },
+                "invited_on": {
+                    "name": "invited_on",
+                    "type": "timestamp with time zone",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "now()"
+                },
+                "accepted_on": {
+                    "name": "accepted_on",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": false
                 },
-                "is_default": {
-                    "name": "is_default",
-                    "type": "boolean",
+                "status": {
+                    "name": "status",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true,
-                    "default": false
-                },
-                "is_owner": {
-                    "name": "is_owner",
-                    "type": "boolean",
-                    "primaryKey": false,
-                    "notNull": true,
-                    "default": false
+                    "default": "'pending'"
                 }
             },
             "indexes": {},
             "foreignKeys": {
-                "groups_to_users_user_id_users_id_fk": {
-                    "name": "groups_to_users_user_id_users_id_fk",
-                    "tableFrom": "groups_to_users",
-                    "tableTo": "users",
-                    "columnsFrom": ["user_id"],
-                    "columnsTo": ["id"],
-                    "onDelete": "cascade",
-                    "onUpdate": "no action"
-                },
-                "groups_to_users_group_id_groups_id_fk": {
-                    "name": "groups_to_users_group_id_groups_id_fk",
-                    "tableFrom": "groups_to_users",
+                "invites_group_id_groups_id_fk": {
+                    "name": "invites_group_id_groups_id_fk",
+                    "tableFrom": "invites",
                     "tableTo": "groups",
                     "columnsFrom": ["group_id"],
                     "columnsTo": ["id"],
-                    "onDelete": "cascade",
+                    "onDelete": "no action",
                     "onUpdate": "no action"
                 },
-                "groups_to_users_role_id_roles_id_fk": {
-                    "name": "groups_to_users_role_id_roles_id_fk",
-                    "tableFrom": "groups_to_users",
-                    "tableTo": "roles",
-                    "columnsFrom": ["role_id"],
+                "invites_invited_by_users_id_fk": {
+                    "name": "invites_invited_by_users_id_fk",
+                    "tableFrom": "invites",
+                    "tableTo": "users",
+                    "columnsFrom": ["invited_by"],
                     "columnsTo": ["id"],
                     "onDelete": "no action",
                     "onUpdate": "no action"
                 }
             },
-            "compositePrimaryKeys": {
-                "groups_to_users_user_id_group_id_pk": {
-                    "name": "groups_to_users_user_id_group_id_pk",
-                    "columns": ["user_id", "group_id"]
-                }
-            },
-            "uniqueConstraints": {}
+            "compositePrimaryKeys": {},
+            "uniqueConstraints": {},
+            "checkConstraints": {}
         },
         "public.invoice_items": {
             "name": "invoice_items",
@@ -756,13 +917,13 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
                 "invoice_id": {
                     "name": "invoice_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -780,7 +941,7 @@
                 },
                 "unit_price": {
                     "name": "unit_price",
-                    "type": "integer",
+                    "type": "numeric",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -792,14 +953,14 @@
                 },
                 "created_at": {
                     "name": "created_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true,
                     "default": "now()"
                 },
                 "updated_at": {
                     "name": "updated_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 }
@@ -817,7 +978,8 @@
                 }
             },
             "compositePrimaryKeys": {},
-            "uniqueConstraints": {}
+            "uniqueConstraints": {},
+            "checkConstraints": {}
         },
         "public.invoices": {
             "name": "invoices",
@@ -825,7 +987,7 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
@@ -837,14 +999,14 @@
                 },
                 "created_at": {
                     "name": "created_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true,
                     "default": "now()"
                 },
                 "due_date": {
                     "name": "due_date",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -858,19 +1020,19 @@
                 },
                 "total_due_amount": {
                     "name": "total_due_amount",
-                    "type": "integer",
+                    "type": "numeric",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "remaining_due_amount": {
                     "name": "remaining_due_amount",
-                    "type": "integer",
+                    "type": "numeric",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "updated_at": {
                     "name": "updated_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 }
@@ -884,7 +1046,8 @@
                     "nullsNotDistinct": false,
                     "columns": ["invoice_code"]
                 }
-            }
+            },
+            "checkConstraints": {}
         },
         "public.messages": {
             "name": "messages",
@@ -892,19 +1055,19 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
                 "vendor_user_id": {
                     "name": "vendor_user_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "client_user_id": {
                     "name": "client_user_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -912,23 +1075,25 @@
                     "name": "readable_by_vendor_group",
                     "type": "boolean",
                     "primaryKey": false,
-                    "notNull": true
+                    "notNull": true,
+                    "default": false
                 },
                 "readable_by_client_group": {
                     "name": "readable_by_client_group",
                     "type": "boolean",
                     "primaryKey": false,
-                    "notNull": true
+                    "notNull": true,
+                    "default": false
                 },
                 "date": {
                     "name": "date",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "reply_by_date": {
                     "name": "reply_by_date",
-                    "type": "timestamp",
+                    "type": "date",
                     "primaryKey": false,
                     "notNull": false
                 },
@@ -961,7 +1126,8 @@
                 }
             },
             "compositePrimaryKeys": {},
-            "uniqueConstraints": {}
+            "uniqueConstraints": {},
+            "checkConstraints": {}
         },
         "public.payments": {
             "name": "payments",
@@ -969,13 +1135,13 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
                 "invoice_id": {
                     "name": "invoice_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -987,7 +1153,7 @@
                 },
                 "date": {
                     "name": "date",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -1000,14 +1166,14 @@
                 },
                 "created_at": {
                     "name": "created_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true,
                     "default": "now()"
                 },
                 "updated_at": {
                     "name": "updated_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 }
@@ -1025,7 +1191,8 @@
                 }
             },
             "compositePrimaryKeys": {},
-            "uniqueConstraints": {}
+            "uniqueConstraints": {},
+            "checkConstraints": {}
         },
         "public.permissions": {
             "name": "permissions",
@@ -1033,13 +1200,14 @@
             "columns": {
                 "group_id": {
                     "name": "group_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
-                "role_id": {
-                    "name": "role_id",
-                    "type": "integer",
+                "role": {
+                    "name": "role",
+                    "type": "userRole",
+                    "typeSchema": "public",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -1067,124 +1235,16 @@
                     "columnsTo": ["id"],
                     "onDelete": "no action",
                     "onUpdate": "no action"
-                },
-                "permissions_role_id_roles_id_fk": {
-                    "name": "permissions_role_id_roles_id_fk",
-                    "tableFrom": "permissions",
-                    "tableTo": "roles",
-                    "columnsFrom": ["role_id"],
-                    "columnsTo": ["id"],
-                    "onDelete": "no action",
-                    "onUpdate": "no action"
                 }
             },
             "compositePrimaryKeys": {
-                "permissions_group_id_role_id_area_pk": {
-                    "name": "permissions_group_id_role_id_area_pk",
-                    "columns": ["group_id", "role_id", "area"]
+                "permissions_group_id_role_area_pk": {
+                    "name": "permissions_group_id_role_area_pk",
+                    "columns": ["group_id", "role", "area"]
                 }
             },
-            "uniqueConstraints": {}
-        },
-        "public.profile": {
-            "name": "profile",
-            "schema": "",
-            "columns": {
-                "user_id": {
-                    "name": "user_id",
-                    "type": "integer",
-                    "primaryKey": true,
-                    "notNull": true
-                },
-                "cover_photo": {
-                    "name": "cover_photo",
-                    "type": "text",
-                    "primaryKey": false,
-                    "notNull": false
-                },
-                "address": {
-                    "name": "address",
-                    "type": "text",
-                    "primaryKey": false,
-                    "notNull": false
-                },
-                "phone": {
-                    "name": "phone",
-                    "type": "text",
-                    "primaryKey": false,
-                    "notNull": false
-                },
-                "email": {
-                    "name": "email",
-                    "type": "text",
-                    "primaryKey": false,
-                    "notNull": false
-                },
-                "url": {
-                    "name": "url",
-                    "type": "text",
-                    "primaryKey": false,
-                    "notNull": false
-                },
-                "bio": {
-                    "name": "bio",
-                    "type": "text",
-                    "primaryKey": false,
-                    "notNull": false
-                }
-            },
-            "indexes": {},
-            "foreignKeys": {
-                "profile_user_id_users_id_fk": {
-                    "name": "profile_user_id_users_id_fk",
-                    "tableFrom": "profile",
-                    "tableTo": "users",
-                    "columnsFrom": ["user_id"],
-                    "columnsTo": ["id"],
-                    "onDelete": "no action",
-                    "onUpdate": "no action"
-                }
-            },
-            "compositePrimaryKeys": {},
-            "uniqueConstraints": {}
-        },
-        "public.roles": {
-            "name": "roles",
-            "schema": "",
-            "columns": {
-                "id": {
-                    "name": "id",
-                    "type": "serial",
-                    "primaryKey": true,
-                    "notNull": true
-                },
-                "group_id": {
-                    "name": "group_id",
-                    "type": "integer",
-                    "primaryKey": false,
-                    "notNull": true
-                },
-                "name": {
-                    "name": "name",
-                    "type": "text",
-                    "primaryKey": false,
-                    "notNull": true
-                }
-            },
-            "indexes": {},
-            "foreignKeys": {
-                "roles_group_id_groups_id_fk": {
-                    "name": "roles_group_id_groups_id_fk",
-                    "tableFrom": "roles",
-                    "tableTo": "groups",
-                    "columnsFrom": ["group_id"],
-                    "columnsTo": ["id"],
-                    "onDelete": "no action",
-                    "onUpdate": "no action"
-                }
-            },
-            "compositePrimaryKeys": {},
-            "uniqueConstraints": {}
+            "uniqueConstraints": {},
+            "checkConstraints": {}
         },
         "public.storage": {
             "name": "storage",
@@ -1192,7 +1252,7 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
@@ -1242,7 +1302,8 @@
             "indexes": {},
             "foreignKeys": {},
             "compositePrimaryKeys": {},
-            "uniqueConstraints": {}
+            "uniqueConstraints": {},
+            "checkConstraints": {}
         },
         "public.subscriptions": {
             "name": "subscriptions",
@@ -1250,13 +1311,13 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
                 "group_id": {
                     "name": "group_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -1268,26 +1329,26 @@
                 },
                 "start_date": {
                     "name": "start_date",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "end_date": {
                     "name": "end_date",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 },
                 "created_at": {
                     "name": "created_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true,
                     "default": "now()"
                 },
                 "updated_at": {
                     "name": "updated_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 }
@@ -1305,7 +1366,8 @@
                 }
             },
             "compositePrimaryKeys": {},
-            "uniqueConstraints": {}
+            "uniqueConstraints": {},
+            "checkConstraints": {}
         },
         "public.tasks": {
             "name": "tasks",
@@ -1313,13 +1375,13 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
+                    "type": "text",
                     "primaryKey": true,
                     "notNull": true
                 },
                 "group_id": {
                     "name": "group_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -1331,19 +1393,20 @@
                 },
                 "assigned_user_id": {
                     "name": "assigned_user_id",
-                    "type": "integer",
+                    "type": "text",
                     "primaryKey": false,
-                    "notNull": true
+                    "notNull": false
                 },
-                "assigned_role_id": {
-                    "name": "assigned_role_id",
-                    "type": "integer",
+                "assigned_role": {
+                    "name": "assigned_role",
+                    "type": "userRole",
+                    "typeSchema": "public",
                     "primaryKey": false,
                     "notNull": false
                 },
                 "due_date": {
                     "name": "due_date",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 },
@@ -1363,14 +1426,14 @@
                 },
                 "created_at": {
                     "name": "created_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true,
                     "default": "now()"
                 },
                 "updated_at": {
                     "name": "updated_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 }
@@ -1394,19 +1457,11 @@
                     "columnsTo": ["id"],
                     "onDelete": "no action",
                     "onUpdate": "no action"
-                },
-                "tasks_assigned_role_id_roles_id_fk": {
-                    "name": "tasks_assigned_role_id_roles_id_fk",
-                    "tableFrom": "tasks",
-                    "tableTo": "roles",
-                    "columnsFrom": ["assigned_role_id"],
-                    "columnsTo": ["id"],
-                    "onDelete": "no action",
-                    "onUpdate": "no action"
                 }
             },
             "compositePrimaryKeys": {},
-            "uniqueConstraints": {}
+            "uniqueConstraints": {},
+            "checkConstraints": {}
         },
         "public.users": {
             "name": "users",
@@ -1414,8 +1469,8 @@
             "columns": {
                 "id": {
                     "name": "id",
-                    "type": "serial",
-                    "primaryKey": true,
+                    "type": "text",
+                    "primaryKey": false,
                     "notNull": true
                 },
                 "first_name": {
@@ -1434,62 +1489,139 @@
                     "name": "email",
                     "type": "text",
                     "primaryKey": false,
-                    "notNull": true
+                    "notNull": false
                 },
-                "password": {
-                    "name": "password",
+                "phone": {
+                    "name": "phone",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "cover_photo": {
+                    "name": "cover_photo",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "profile_photo": {
+                    "name": "profile_photo",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "address": {
+                    "name": "address",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "city": {
+                    "name": "city",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "country": {
+                    "name": "country",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "post_code": {
+                    "name": "post_code",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "url": {
+                    "name": "url",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "bio": {
+                    "name": "bio",
+                    "type": "text",
+                    "primaryKey": false,
+                    "notNull": false
+                },
+                "role": {
+                    "name": "role",
+                    "type": "userRole",
+                    "typeSchema": "public",
+                    "primaryKey": false,
+                    "notNull": true,
+                    "default": "'member'"
+                },
+                "auth_user_id": {
+                    "name": "auth_user_id",
                     "type": "text",
                     "primaryKey": false,
                     "notNull": true
                 },
-                "last_login": {
-                    "name": "last_login",
-                    "type": "timestamp",
+                "group_id": {
+                    "name": "group_id",
+                    "type": "text",
                     "primaryKey": false,
                     "notNull": false
                 },
-                "type": {
-                    "name": "type",
-                    "type": "userType",
-                    "typeSchema": "public",
-                    "primaryKey": false,
-                    "notNull": true,
-                    "default": "'user'"
-                },
-                "is_verified": {
-                    "name": "is_verified",
-                    "type": "boolean",
-                    "primaryKey": false,
-                    "notNull": true,
-                    "default": false
-                },
                 "created_at": {
                     "name": "created_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true,
                     "default": "now()"
                 },
                 "updated_at": {
                     "name": "updated_at",
-                    "type": "timestamp",
+                    "type": "timestamp with time zone",
                     "primaryKey": false,
                     "notNull": true
                 }
             },
             "indexes": {},
-            "foreignKeys": {},
-            "compositePrimaryKeys": {},
-            "uniqueConstraints": {
-                "users_email_unique": {
-                    "name": "users_email_unique",
-                    "nullsNotDistinct": false,
-                    "columns": ["email"]
+            "foreignKeys": {
+                "users_auth_user_id_auth_users_id_fk": {
+                    "name": "users_auth_user_id_auth_users_id_fk",
+                    "tableFrom": "users",
+                    "tableTo": "auth_users",
+                    "columnsFrom": ["auth_user_id"],
+                    "columnsTo": ["id"],
+                    "onDelete": "no action",
+                    "onUpdate": "no action"
+                },
+                "users_group_id_groups_id_fk": {
+                    "name": "users_group_id_groups_id_fk",
+                    "tableFrom": "users",
+                    "tableTo": "groups",
+                    "columnsFrom": ["group_id"],
+                    "columnsTo": ["id"],
+                    "onDelete": "no action",
+                    "onUpdate": "no action"
                 }
-            }
+            },
+            "compositePrimaryKeys": {
+                "users_group_id_auth_user_id_pk": {
+                    "name": "users_group_id_auth_user_id_pk",
+                    "columns": ["group_id", "auth_user_id"]
+                }
+            },
+            "uniqueConstraints": {
+                "users_id_unique": {
+                    "name": "users_id_unique",
+                    "nullsNotDistinct": false,
+                    "columns": ["id"]
+                }
+            },
+            "checkConstraints": {}
         }
     },
     "enums": {
+        "public.groupLevel": {
+            "name": "groupLevel",
+            "schema": "public",
+            "values": ["trial", "basic", "premium"]
+        },
         "public.groupStatus": {
             "name": "groupStatus",
             "schema": "public",
@@ -1520,14 +1652,25 @@
             "schema": "public",
             "values": ["pending", "in_progress", "completed", "overdue"]
         },
-        "public.userType": {
-            "name": "userType",
+        "public.userLevel": {
+            "name": "userLevel",
             "schema": "public",
             "values": ["user", "moderator", "admin"]
+        },
+        "public.userRole": {
+            "name": "userRole",
+            "schema": "public",
+            "values": ["owner", "manager", "member"]
+        },
+        "public.userStatus": {
+            "name": "userStatus",
+            "schema": "public",
+            "values": ["active", "inactive", "banned"]
         }
     },
     "schemas": {},
     "sequences": {},
+    "views": {},
     "_meta": {
         "columns": {},
         "schemas": {},

@@ -12,11 +12,14 @@ export const zInsertTask = createInsertSchema(tasksTable, {
 
 export const zSelectTask = createSelectSchema(tasksTable)
 
-export const zUpdateTask = zInsertTask.omit({
-    createdAt: true,
-    updatedAt: true,
-})
+export const zUpdateTask = zInsertTask
+    .omit({
+        createdAt: true,
+        updatedAt: true,
+    })
+    .partial()
+export type UpdateTask = z.infer<typeof zUpdateTask>
 
 export const zDeleteTask = z.object({
-    taskIds: z.array(z.number()).min(1),
+    taskIds: z.array(z.string()).min(1),
 })

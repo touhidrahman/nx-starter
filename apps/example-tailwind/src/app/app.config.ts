@@ -1,3 +1,4 @@
+import { FullCalendarModule } from '@fullcalendar/angular'
 import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common'
 import {
     provideHttpClient,
@@ -56,6 +57,7 @@ export const appConfig: ApplicationConfig = {
         ),
         importProvidersFrom(LucideAngularModule.pick(icons)),
         importProvidersFrom(BrowserModule),
+        importProvidersFrom(FullCalendarModule),
         provideAnimations(),
         {
             provide: APP_INITIALIZER,

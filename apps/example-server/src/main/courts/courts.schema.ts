@@ -10,7 +10,3 @@ export const zInsertCourt = createInsertSchema(courtsTable, {})
 export const zSelectCourt = createSelectSchema(courtsTable)
 
 export const zUpdateCourt = zInsertCourt.partial() // Allow partial updates
-
-export const zDeleteCourt = z.object({
-    courtIds: z.array(z.number()).min(1),
-})

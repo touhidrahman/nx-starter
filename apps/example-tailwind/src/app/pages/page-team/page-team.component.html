@@ -1,0 +1,155 @@
+<div class="overflow-hidden">
+    <div>
+        <h1 class="font-bold text-3xl">Teams</h1>
+    </div>
+
+    <div class="flex mt-4">
+        <hlm-dialog>
+            <button id="invite-user" brnDialogTrigger class="btn-fill">
+                Invite User
+            </button>
+
+            <hlm-dialog-content
+                class="md:min-w-[500px] :sm:w-full"
+                *brnDialogContent="let ctx">
+                <hlm-dialog-header>
+                    <h3 hlmDialogTitle class="text-2xl font-bold">
+                        Invite User
+                    </h3>
+                </hlm-dialog-header>
+                <div>
+                    <label class="block text-gray-700 mt-4">Email</label>
+                    <input
+                        name="email"
+                        class="w-full px-4 py-2 mt-1 border rounded-lg"
+                        type="email"
+                        required />
+                </div>
+
+                <brn-select placeholder="Select a Role">
+                    <hlm-select-trigger class="w-full py-2 bg-white">
+                        <hlm-select-value />
+                    </hlm-select-trigger>
+                    <hlm-select-content>
+                        <hlm-option value="client"> Client </hlm-option>
+                        <hlm-option value="lawyer"> Lawyer </hlm-option>
+                    </hlm-select-content>
+                </brn-select>
+                <hlm-dialog-footer class="flex gap-2">
+                    <button hlmBtn>Submit</button>
+                </hlm-dialog-footer>
+            </hlm-dialog-content>
+        </hlm-dialog>
+    </div>
+
+    <div class="flex mt-4 flex-col">
+        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="inline-block min-w-full sm:px-6 lg:px-8">
+                <div class="overflow-hidden shadow-md sm:rounded-lg">
+                    <table class="min-w-full">
+                        <thead class="bg-gray-50 dark:bg-gray-700">
+                            <tr>
+                                <th
+                                    scope="col"
+                                    class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    User name
+                                </th>
+                                <th
+                                    scope="col"
+                                    class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Email
+                                </th>
+                                <th
+                                    scope="col"
+                                    class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Role
+                                </th>
+                                <th
+                                    scope="col"
+                                    class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Join Date
+                                </th>
+                                <th
+                                    scope="col"
+                                    class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody
+                            class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                            @for (user of teams; track user) {
+                            <tr>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                                    {{ user.name }}
+                                </td>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                    {{ user.email }}
+                                </td>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                    {{ user.role }}
+                                </td>
+                                <td
+                                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                                    {{ user.joinDate }}
+                                </td>
+
+                                <td
+                                    class="px-6 whitespace-nowrap text-sm font-medium">
+                                    <div class="flex gap-2">
+                                        <hlm-dialog>
+                                            <button
+                                                id="edit-profile"
+                                                brnDialogTrigger>
+                                                <hlm-icon
+                                                    size="sm"
+                                                    name="lucideCog" />
+                                            </button>
+                                        </hlm-dialog>
+                                        <hlm-dialog>
+                                            <button
+                                                id="delete-user"
+                                                brnDialogTrigger>
+                                                <hlm-icon
+                                                    size="sm"
+                                                    name="lucideTrash2" />
+                                            </button>
+
+                                            <hlm-dialog-content
+                                                class="sm:max-w-[600px] w-full"
+                                                *brnDialogContent="let ctx">
+                                                <hlm-dialog-header>
+                                                    <h3
+                                                        hlmDialogTitle
+                                                        class="text-2xl font-bold">
+                                                        Delete User?
+                                                    </h3>
+                                                </hlm-dialog-header>
+                                                <div class="py-4 grid gap-4">
+                                                    <h1>
+                                                        Are you sure You want to
+                                                        delete this user?
+                                                    </h1>
+                                                </div>
+                                                <hlm-dialog-footer
+                                                    class="flex gap-2">
+                                                    <button hlmBtn>
+                                                        Delete
+                                                    </button>
+                                                </hlm-dialog-footer>
+                                            </hlm-dialog-content>
+                                        </hlm-dialog>
+                                    </div>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

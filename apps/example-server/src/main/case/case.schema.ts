@@ -10,7 +10,3 @@ export const zInsertCase = createInsertSchema(casesTable)
 export const zSelectCase = createSelectSchema(casesTable)
 
 export const zUpdateCase = zInsertCase.partial() // Allow partial updates
-
-export const zDeleteCase = z.object({
-    caseIds: z.array(z.number()).min(1),
-})
