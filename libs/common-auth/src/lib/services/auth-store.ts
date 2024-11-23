@@ -53,7 +53,8 @@ export const AuthStore = signalStore(
                     switchMap((token) => {
                         if (!token) of(null)
 
-                        const { email, exp, sub } = new JwtHelperService().decodeToken(token)
+                        const { email, exp, sub } =
+                            new JwtHelperService().decodeToken(token)
                         const expiry = dayjs.unix(exp).toDate()
 
                         patchState(store, {

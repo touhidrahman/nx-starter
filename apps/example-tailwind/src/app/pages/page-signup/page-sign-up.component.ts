@@ -2,20 +2,13 @@ import { Component, inject } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { Router, RouterModule } from '@angular/router'
 import { AuthStateService } from '@myorg/app-example-auth'
-import {
-    RegisterFormService,
-    SignupInput
-} from '@myorg/common-auth'
+import { RegisterFormService, SignupInput } from '@myorg/common-auth'
 import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-page-sign-up',
     standalone: true,
-    imports: [
-        ...PrimeModules,
-        RouterModule,
-        ReactiveFormsModule,
-    ],
+    imports: [...PrimeModules, RouterModule, ReactiveFormsModule],
     templateUrl: './page-sign-up.component.html',
     styleUrls: ['./page-sign-up.component.scss'],
     providers: [RegisterFormService],
@@ -45,7 +38,7 @@ export class PageSignUpComponent {
 
         this.authStateService.register(signupInput).subscribe({
             next: (response) => {
-                    this.router.navigate(['/account-created'])
+                this.router.navigate(['/account-created'])
             },
             error: (error) => {
                 console.error('An error occurred:', error)

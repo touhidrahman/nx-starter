@@ -4,11 +4,12 @@ import { DownloadAppComponent } from '../../main/landing/components/download-app
 import { FeaturesComponent } from '../../main/landing/components/features/features.component'
 import { HeroComponent } from '../../main/landing/components/hero/hero.component'
 import { PricePlanComponent } from '../../main/landing/components/price-plan/price-plan.component'
+import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-page-landing',
     standalone: true,
-    imports: [
+    imports: [...PrimeModules,
         HeroComponent,
         PricePlanComponent,
         PublicFooterComponent,

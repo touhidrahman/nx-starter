@@ -5,10 +5,7 @@ import { RouterModule } from '@angular/router'
 @Component({
     selector: 'app-page-lawyer-team',
     standalone: true,
-    imports: [
-        CommonModule,
-        RouterModule,
-    ],
+    imports: [CommonModule, RouterModule],
     templateUrl: './page-lawyer-team.component.html',
     styleUrl: './page-lawyer-team.component.scss',
 })

@@ -3,26 +3,33 @@
 <p-confirmdialog />
 <p-confirmpopup />
 
-@switch (layoutService.layout$ | async) { @case (PageLayout.Default) {
-<app-layout-default>
-    <router-outlet></router-outlet>
-</app-layout-default>
-} @case (PageLayout.Public) {
-<app-layout-public>
-    <router-outlet></router-outlet>
-</app-layout-public>
-} @case (PageLayout.Center) {
-<app-layout-centered>
-    <router-outlet></router-outlet>
-</app-layout-centered>
-} @case (PageLayout.Cta) {
-<app-layout-cta>
-    <router-outlet></router-outlet>
-</app-layout-cta>
-} @case (PageLayout.Blank) {
-<router-outlet></router-outlet>
-} @default {
-<app-layout-default>
-    <router-outlet></router-outlet>
-</app-layout-default>
-} }
+@switch (layoutService.layout$ | async) {
+    @case (PageLayout.Default) {
+        <app-layout-default>
+            <router-outlet></router-outlet>
+        </app-layout-default>
+    }
+    @case (PageLayout.Public) {
+        <app-layout-public>
+            <router-outlet></router-outlet>
+        </app-layout-public>
+    }
+    @case (PageLayout.Center) {
+        <app-layout-centered>
+            <router-outlet></router-outlet>
+        </app-layout-centered>
+    }
+    @case (PageLayout.Cta) {
+        <app-layout-cta>
+            <router-outlet></router-outlet>
+        </app-layout-cta>
+    }
+    @case (PageLayout.Blank) {
+        <router-outlet></router-outlet>
+    }
+    @default {
+        <app-layout-default>
+            <router-outlet></router-outlet>
+        </app-layout-default>
+    }
+}

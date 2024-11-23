@@ -27,14 +27,7 @@ export class RegisterFormService {
 
         this.form = this.fb.group(
             {
-                email: [
-                    '',
-                    [
-                        required,
-                        email,
-                        pattern(RegexEmailPattern),
-                    ],
-                ],
+                email: ['', [required, email, pattern(RegexEmailPattern)]],
                 password: [
                     '',
                     [

@@ -9,11 +9,7 @@ import { PrimeModules } from '@myorg/prime-modules'
 @Component({
     selector: 'app-page-login',
     standalone: true,
-    imports: [
-        ...PrimeModules,
-        ReactiveFormsModule,
-        RouterModule,
-    ],
+    imports: [...PrimeModules, ReactiveFormsModule, RouterModule],
     templateUrl: './page-login.component.html',
     styleUrl: './page-login.component.scss',
     providers: [LoginFormService],
@@ -34,8 +30,10 @@ export class PageLoginComponent {
     ) {}
 
     ngOnInit(): void {
-        this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] ?? '/'
-        if (this.authStateService.isLoggedIn()) this.router.navigateByUrl(this.returnUrl)
+        this.returnUrl =
+            this.activatedRoute.snapshot.queryParams['returnUrl'] ?? '/'
+        if (this.authStateService.isLoggedIn())
+            this.router.navigateByUrl(this.returnUrl)
     }
 
     submit(): void {
@@ -56,7 +54,9 @@ export class PageLoginComponent {
             },
             error: (err) => {
                 this.loading = false
-                this.alertService.error('Email or password incorrect. Please try again')
+                this.alertService.error(
+                    'Email or password incorrect. Please try again',
+                )
             },
         })
     }

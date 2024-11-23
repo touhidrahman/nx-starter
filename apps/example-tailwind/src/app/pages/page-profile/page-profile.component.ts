@@ -9,11 +9,7 @@ import { SpartanModules } from '@myorg/spartan-modules'
 @Component({
     selector: 'app-page-profile',
     standalone: true,
-    imports: [
-        CommonModule,
-        RouterModule,
-        RouterLinkActive,
-    ],
+    imports: [CommonModule, RouterModule, RouterLinkActive],
     templateUrl: './page-profile.component.html',
     styleUrl: './page-profile.component.scss',
     providers: [ChangePasswordFormService],

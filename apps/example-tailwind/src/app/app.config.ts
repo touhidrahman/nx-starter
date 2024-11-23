@@ -13,7 +13,7 @@ import {
 } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 import { provideAnimations } from '@angular/platform-browser/animations'
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import {
     PreloadAllModules,
     provideRouter,
@@ -35,10 +35,10 @@ import {
     TokenStorageService,
 } from '@myorg/common-auth'
 import { LocalStorageService } from '@myorg/common-services'
-import Aura from '@primeng/themes/aura';
+import Aura from '@primeng/themes/aura'
 import { LucideAngularModule, icons } from 'lucide-angular'
 import { ConfirmationService, MessageService } from 'primeng/api'
-import { providePrimeNG } from 'primeng/config';
+import { providePrimeNG } from 'primeng/config'
 import { DialogService } from 'primeng/dynamicdialog'
 import { environment } from '../environment/environment'
 import { appRoutes } from './app.routes'
