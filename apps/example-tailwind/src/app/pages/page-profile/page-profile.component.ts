@@ -12,8 +12,6 @@ import { SpartanModules } from '@myorg/spartan-modules'
     imports: [
         CommonModule,
         RouterModule,
-        ...SpartanModules,
-        HlmInputDirective,
         RouterLinkActive,
     ],
     templateUrl: './page-profile.component.html',

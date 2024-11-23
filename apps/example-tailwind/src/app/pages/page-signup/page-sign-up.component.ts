@@ -7,13 +7,11 @@ import {
     SignupInput
 } from '@myorg/common-auth'
 import { PrimeModules } from '@myorg/prime-modules'
-import { SpartanModules } from '@myorg/spartan-modules'
 
 @Component({
     selector: 'app-page-sign-up',
     standalone: true,
     imports: [
-        ...SpartanModules,
         ...PrimeModules,
         RouterModule,
         ReactiveFormsModule,

@@ -5,18 +5,14 @@ import { AuthStateService } from '@myorg/app-example-auth'
 import { AlertService } from '@myorg/app-example-core'
 import { LoginFormService } from '@myorg/common-auth'
 import { PrimeModules } from '@myorg/prime-modules'
-import { SpartanModules } from '@myorg/spartan-modules'
-import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
 
 @Component({
     selector: 'app-page-login',
     standalone: true,
     imports: [
-        ...SpartanModules,
         ...PrimeModules,
         ReactiveFormsModule,
         RouterModule,
-        HlmInputDirective,
     ],
     templateUrl: './page-login.component.html',
     styleUrl: './page-login.component.scss',
