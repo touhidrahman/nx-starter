@@ -63,7 +63,7 @@
             "options": {
                 "targetName": "test"
             },
-            "exclude": ["apps/example-server-e2e/**/*"]
+            "exclude": ["apps/example-server/**/*"]
         },
         {
             "plugin": "@nx/cypress/plugin",
@@ -85,7 +85,19 @@
             "unitTestRunner": "jest"
         },
         "@nx/angular:component": {
-            "style": "scss"
+            "style": "scss",
+            "skipTests": true,
+            "displayBlock": true,
+            "standalone": true
+        },
+        "@nx/angular:directive": {
+            "skipTests": true
+        },
+        "@nx/angular:pipe": {
+            "skipTests": true
+        },
+        "@nx/angular:service": {
+            "skipTests": true
         }
     },
     "useLegacyCache": true

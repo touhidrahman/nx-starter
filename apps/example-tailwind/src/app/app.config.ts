@@ -1,4 +1,3 @@
-import { FullCalendarModule } from '@fullcalendar/angular'
 import { DATE_PIPE_DEFAULT_OPTIONS } from '@angular/common'
 import {
     provideHttpClient,
@@ -14,6 +13,7 @@ import {
 } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 import { provideAnimations } from '@angular/platform-browser/animations'
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import {
     PreloadAllModules,
     provideRouter,
@@ -22,6 +22,7 @@ import {
     withPreloading,
     withRouterConfig,
 } from '@angular/router'
+import { FullCalendarModule } from '@fullcalendar/angular'
 import { AuthStateService } from '@myorg/app-example-auth'
 import {
     APP_EXAMPLE_ENVIRONMENT,
@@ -34,7 +35,11 @@ import {
     TokenStorageService,
 } from '@myorg/common-auth'
 import { LocalStorageService } from '@myorg/common-services'
+import Aura from '@primeng/themes/aura'
 import { LucideAngularModule, icons } from 'lucide-angular'
+import { ConfirmationService, MessageService } from 'primeng/api'
+import { providePrimeNG } from 'primeng/config'
+import { DialogService } from 'primeng/dynamicdialog'
 import { environment } from '../environment/environment'
 import { appRoutes } from './app.routes'
 
@@ -74,5 +79,22 @@ export const appConfig: ApplicationConfig = {
             provide: DATE_PIPE_DEFAULT_OPTIONS,
             useValue: { timezone: 'UTC', dateFormat: 'shortDate' },
         },
+        provideAnimationsAsync(),
+        providePrimeNG({
+            theme: {
+                preset: Aura,
+                options: {
+                    prefix: 'p',
+                    darkModeSelector: '.dark',
+                    cssLayer: {
+                        name: 'primeng',
+                        order: 'tailwind-base, primeng, tailwind-utilities',
+                    },
+                },
+            },
+        }),
+        MessageService,
+        ConfirmationService,
+        DialogService,
     ],
 }

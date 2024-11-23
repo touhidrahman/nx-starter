@@ -1,30 +1,11 @@
-import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import {
-    BrnRadioComponent,
-    BrnRadioGroupComponent,
-} from '@spartan-ng/ui-radiogroup-brain'
-import {
-    HlmRadioDirective,
-    HlmRadioGroupDirective,
-    HlmRadioIndicatorComponent,
-} from '@spartan-ng/ui-radiogroup-helm'
-import { HlmSmallDirective } from '@spartan-ng/ui-typography-helm'
+import { Component } from '@angular/core'
 import { RouterModule } from '@angular/router'
 
 @Component({
     selector: 'app-page-lawyer-team',
     standalone: true,
-    imports: [
-        CommonModule,
-        RouterModule,
-        BrnRadioGroupComponent,
-        BrnRadioComponent,
-        HlmRadioIndicatorComponent,
-        HlmRadioDirective,
-        HlmRadioGroupDirective,
-        HlmSmallDirective,
-    ],
+    imports: [CommonModule, RouterModule],
     templateUrl: './page-lawyer-team.component.html',
     styleUrl: './page-lawyer-team.component.scss',
 })
