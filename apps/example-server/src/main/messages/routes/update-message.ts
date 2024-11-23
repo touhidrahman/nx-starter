@@ -9,7 +9,7 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
+import { checkToken } from '../../auth/auth.middleware'
 import { zSelectMessage, zUpdateMessage } from '../messages.schema'
 import { findById, update } from '../messages.service'
 
@@ -17,9 +17,9 @@ export const updateMessageRoute = createRoute({
     path: '/v1/messages/:id',
     method: 'patch',
     tags: ['Messages'],
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {
-        param: z.object({ id: z.string() }),
+        params: z.object({ id: z.string() }),
         body: jsonContent(zUpdateMessage, 'Message details'),
     },
     responses: {

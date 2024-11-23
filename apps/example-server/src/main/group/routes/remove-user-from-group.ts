@@ -16,7 +16,7 @@ export const removeUserFromGroupRoute = createRoute({
     path: '/v1/group/:id/remove-user/:userId',
     method: 'delete',
     tags: ['Group'],
-    middleware: [checkToken, isGroupOwner],
+    middleware: [checkToken, isGroupOwner] as const,
     request: {
         params: z.object({ id: z.string(), userId: z.string() }),
     },

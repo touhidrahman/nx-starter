@@ -14,7 +14,7 @@ import {
 } from './routes/update-user-admin'
 
 export const adminUserV1Routes = createRouter()
-// .openapi(approveAdminUserRoute, approveAdminUserHandler)
-// .openapi(getAdminUserRoute, getAdminUserHandler)
-// .openapi(getAdminUsersRoute, getAdminUsersHandler)
-// .openapi(updateAdminUserRoute, updateAdminUserHandler)
+    .openapi(approveAdminUserRoute, approveAdminUserHandler)
+    .openapi(getAdminUserRoute, getAdminUserHandler)
+    .openapi(getAdminUsersRoute, getAdminUsersHandler)
+    .openapi(updateAdminUserRoute, updateAdminUserHandler)

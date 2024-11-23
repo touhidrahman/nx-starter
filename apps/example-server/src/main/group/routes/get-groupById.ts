@@ -12,7 +12,7 @@ export const getGroupByIDRoute = createRoute({
     path: '/v1/group/:id',
     method: 'get',
     tags: ['Group'],
-    middleware: [checkToken, isGroupParticipant],
+    middleware: [checkToken, isGroupParticipant] as const,
     request: {
         params: z.object({ id: z.string() }),
     },

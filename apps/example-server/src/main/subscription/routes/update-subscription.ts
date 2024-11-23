@@ -1,28 +1,25 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import {
     BAD_REQUEST,
-    OK,
     INTERNAL_SERVER_ERROR,
     NOT_FOUND,
+    OK,
 } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
-import {
-    zSelectSubscription,
-    zUpdateSubscription,
-} from '../subscription.schema'
+import { checkToken } from '../../auth/auth.middleware'
+import { zUpdateSubscription } from '../subscription.schema'
 import { findById, updateById } from '../subscriptions.service'
 
 export const updateSubscriptionRoute = createRoute({
     path: '/v1/subscriptions/:id',
     method: 'patch',
     tags: ['Subscriptions'],
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {
-        param: z.object({ id: z.string() }),
+        params: z.object({ id: z.string() }),
         body: jsonContent(zUpdateSubscription, 'Subscription details'),
     },
     responses: {

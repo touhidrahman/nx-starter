@@ -2,7 +2,7 @@ import { createRoute, z } from '@hono/zod-openapi'
 import { AppRouteHandler } from '../../../core/core.type'
 import { NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
+import { checkToken } from '../../auth/auth.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
 import { zSelectPermission } from '../permissions.schema'
 import { listAll } from '../permissions.service'
@@ -11,7 +11,7 @@ export const getPermissionListRoute = createRoute({
     path: '/v1/permissions',
     tags: ['Permissions'],
     method: 'get',
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {},
     responses: {
         [OK]: ApiResponse(z.array(zSelectPermission), 'List of permissions'),

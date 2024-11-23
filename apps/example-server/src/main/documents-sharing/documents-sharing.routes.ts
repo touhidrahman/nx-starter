@@ -25,9 +25,9 @@ import {
 } from './routes/delete-all-documents-sharing'
 
 export const documentSharingV1Route = createRouter()
-// .openapi(updateDocumentSharingRoute, updateDocumentSharingHandler)
-// .openapi(createDocumentSharingRoute, createDocumentSharingHandler)
-// .openapi(getDocumentSharingRoute, getDocumentSharingHandler)
-// .openapi(getDocumentSharingListRoute, getDocumentSharingListHandler)
-// .openapi(deleteDocumentSharingRoute, deleteDocumentSharingHandler)
-// .openapi(deleteAllDocumentSharingRoute, deleteAllDocumentSharingHandler)
+    .openapi(updateDocumentSharingRoute, updateDocumentSharingHandler)
+    .openapi(createDocumentSharingRoute, createDocumentSharingHandler)
+    .openapi(getDocumentSharingRoute, getDocumentSharingHandler)
+    .openapi(getDocumentSharingListRoute, getDocumentSharingListHandler)
+    .openapi(deleteDocumentSharingRoute, deleteDocumentSharingHandler)
+    .openapi(deleteAllDocumentSharingRoute, deleteAllDocumentSharingHandler)

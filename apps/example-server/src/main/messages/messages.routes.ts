@@ -22,9 +22,9 @@ import {
 } from './routes/get-message-list'
 
 export const messagesV1Route = createRouter()
-// .openapi(updateMessageRoute, updateMessageHandler)
-// .openapi(createMessageRoute, createMessageHandler)
-// .openapi(getMessageRoute, getMessageHandler)
-// .openapi(getMessageListRoute, getMessageListHandler)
-// .openapi(deleteMessageRoute, deleteMessageHandler)
-// .openapi(deleteAllMessagesRoute, deleteAllMessagesHandler)
+    .openapi(updateMessageRoute, updateMessageHandler)
+    .openapi(createMessageRoute, createMessageHandler)
+    .openapi(getMessageRoute, getMessageHandler)
+    .openapi(getMessageListRoute, getMessageListHandler)
+    .openapi(deleteMessageRoute, deleteMessageHandler)
+    .openapi(deleteAllMessagesRoute, deleteAllMessagesHandler)

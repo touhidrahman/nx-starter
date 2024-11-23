@@ -10,9 +10,9 @@ import {
 } from './routes/delete-many'
 
 export const eventV1Route = createRouter()
-// .openapi(getEventsRoute, getEventsHandler)
-// .openapi(getEventRoute, getEventHandler)
-// .openapi(createEventRoute, createEventHandler)
-// .openapi(updateEventRoute, updateEventHandler)
-// .openapi(deleteEventRoute, deleteEventHandler)
-// .openapi(deleteManyEventRoute, deleteManyEventHandler)
+    .openapi(getEventsRoute, getEventsHandler)
+    .openapi(getEventRoute, getEventHandler)
+    .openapi(createEventRoute, createEventHandler)
+    .openapi(updateEventRoute, updateEventHandler)
+    .openapi(deleteEventRoute, deleteEventHandler)
+    .openapi(deleteManyEventRoute, deleteManyEventHandler)

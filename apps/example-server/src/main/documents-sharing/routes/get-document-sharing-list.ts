@@ -2,7 +2,7 @@ import { createRoute, z } from '@hono/zod-openapi'
 import { AppRouteHandler } from '../../../core/core.type'
 import { NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
+import { checkToken } from '../../auth/auth.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
 import { zSelectDocumentSharing } from '../documents-sharing.schema'
 import { listAll } from '../documents-sharing.service'
@@ -11,7 +11,7 @@ export const getDocumentSharingListRoute = createRoute({
     path: '/v1/document-sharing',
     tags: ['Document Sharing'],
     method: 'get',
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {},
     responses: {
         [OK]: ApiResponse(

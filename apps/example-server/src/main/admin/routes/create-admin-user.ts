@@ -1,4 +1,4 @@
-import { createRoute, z } from '@hono/zod-openapi'
+import { createRoute, RouteConfig, z } from '@hono/zod-openapi'
 import { OK, INTERNAL_SERVER_ERROR, NOT_FOUND } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
@@ -11,7 +11,7 @@ export const approveAdminUserRoute = createRoute({
     path: '/v1/admin-users/approve',
     method: 'post',
     tags: ['AdminUser'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(
             z.object({ userId: z.string().nonempty() }),

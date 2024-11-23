@@ -11,7 +11,7 @@ export const getAppointmentsRoute = createRoute({
     path: '/v1/appointments',
     method: 'get',
     tags: ['Appointment'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {},
     responses: {
         [OK]: ApiResponse(z.array(zSelectAppointment), 'List of Appointments'),

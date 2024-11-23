@@ -16,9 +16,9 @@ import {
 } from './routes/reset-password'
 
 export const authV1Routes = createRouter()
-// .openapi(loginRoute, loginHandler)
-// .openapi(registerRoute, registerHandler)
-// .openapi(verifyEmailRoute, verifyEmailHandler)
-// .openapi(changePasswordRoute, changePasswordHandler)
-// .openapi(forgotPasswordRoute, forgotPasswordHandler)
-// .openapi(resetPasswordRoute, resetPasswordHandler)
+    .openapi(loginRoute, loginHandler)
+    .openapi(registerRoute, registerHandler)
+    .openapi(verifyEmailRoute, verifyEmailHandler)
+    .openapi(changePasswordRoute, changePasswordHandler)
+    .openapi(forgotPasswordRoute, forgotPasswordHandler)
+    .openapi(resetPasswordRoute, resetPasswordHandler)

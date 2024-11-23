@@ -11,7 +11,7 @@ export const getAdminGroupsRoute = createRoute({
     path: '/v1/admin-groups',
     method: 'get',
     tags: ['Admin Group'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         query: z.object({
             page: z.number().int().optional().default(1),

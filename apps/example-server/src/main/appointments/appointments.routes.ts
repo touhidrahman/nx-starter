@@ -21,8 +21,8 @@ import {
 } from './routes/update-appointments'
 
 export const appointmentsV1Routes = createRouter()
-// .openapi(createAppointmentRoute, createAppointmentHandler)
-// .openapi(getAppointmentRoute, getAppointmentHandler)
-// .openapi(getAppointmentsRoute, getAppointmentsHandler)
-// .openapi(updateAppointmentRoute, updateAppointmentHandler)
-// .openapi(deleteAppointmentRoute, deleteAppointmentHandler)
+    .openapi(createAppointmentRoute, createAppointmentHandler)
+    .openapi(getAppointmentRoute, getAppointmentHandler)
+    .openapi(getAppointmentsRoute, getAppointmentsHandler)
+    .openapi(updateAppointmentRoute, updateAppointmentHandler)
+    .openapi(deleteAppointmentRoute, deleteAppointmentHandler)

@@ -17,7 +17,7 @@ export const getApplicationAreasRoute = createRoute({
     path: '/v1/application-areas',
     method: 'get',
     tags: ['Application Area'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         query: zSearchApplicationArea,
     },

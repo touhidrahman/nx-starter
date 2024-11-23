@@ -22,9 +22,9 @@ import {
 } from './routes/delete-document'
 
 export const documentV1Route = createRouter()
-// .openapi(createDocumentRoute, createDocumentHandler)
-// .openapi(updateDocumentRoute, updateDocumentHandler)
-// .openapi(getDocumentRoute, getDocumentHandler)
-// .openapi(getDocumentListRoute, getDocumentListHandler)
-// .openapi(deleteDocumentRoute, deleteDocumentHandler)
-// .openapi(deleteAllDocumentRoute, deleteAllDocumentHandler)
+    .openapi(createDocumentRoute, createDocumentHandler)
+    .openapi(updateDocumentRoute, updateDocumentHandler)
+    .openapi(getDocumentRoute, getDocumentHandler)
+    .openapi(getDocumentListRoute, getDocumentListHandler)
+    .openapi(deleteDocumentRoute, deleteDocumentHandler)
+    .openapi(deleteAllDocumentRoute, deleteAllDocumentHandler)

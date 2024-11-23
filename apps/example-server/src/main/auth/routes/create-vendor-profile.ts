@@ -15,7 +15,7 @@ export const createVendorProfileRoute = createRoute({
     path: '/v1/create-vendor-profile',
     method: 'post',
     tags: ['Auth'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertGroup, 'Group create input'),
     },

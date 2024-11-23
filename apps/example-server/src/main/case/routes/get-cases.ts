@@ -11,7 +11,7 @@ export const getCasesRoute = createRoute({
     path: '/v1/cases',
     method: 'get',
     tags: ['Case'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {},
     responses: {
         [OK]: ApiResponse(z.array(zSelectCase), 'List of Cases'),

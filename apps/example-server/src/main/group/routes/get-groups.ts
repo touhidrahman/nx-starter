@@ -10,7 +10,7 @@ export const getGroupsRoute = createRoute({
     path: '/v1/group',
     tags: ['Group'],
     method: 'get',
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {},
     responses: {
         [OK]: ApiResponse(z.array(zSelectGroup), 'List of Groups'),

@@ -13,7 +13,7 @@ export const getAdminUsersRoute = createRoute({
     path: '/v1/admin-users',
     method: 'get',
     tags: ['AdminUser'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         query: zSearchAdminUser,
     },

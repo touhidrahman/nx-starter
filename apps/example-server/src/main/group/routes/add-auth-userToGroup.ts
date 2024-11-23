@@ -20,7 +20,7 @@ export const addAuthUserToGroupRoute = createRoute({
     path: '/v1/group/:id/add-user',
     method: 'post',
     tags: ['Group'],
-    middleware: [checkToken, isGroupOwner],
+    middleware: [checkToken, isGroupOwner] as const,
     request: {
         body: jsonContent(z.object({ email: z.string() }), 'Group Detail'),
     },

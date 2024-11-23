@@ -9,20 +9,20 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
 import {
     zSelectDocumentSharing,
     zUpdateDocumentSharing,
 } from '../documents-sharing.schema'
 import { findById, update } from '../documents-sharing.service'
+import { checkToken } from '../../auth/auth.middleware'
 
 export const updateDocumentSharingRoute = createRoute({
     path: '/v1/document-sharing/:id',
     method: 'patch',
     tags: ['Document Sharing'],
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {
-        param: z.object({ id: z.string() }),
+        params: z.object({ id: z.string() }),
         body: jsonContent(zUpdateDocumentSharing, 'Document sharing details'),
     },
     responses: {

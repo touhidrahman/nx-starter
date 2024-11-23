@@ -8,7 +8,7 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zEmpty } from '../../../core/models/common.schema'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
+import { checkToken } from '../../auth/auth.middleware'
 import { zInsertDocument, zSelectDocument } from '../documents.schema'
 import { createDocument } from '../documents.service'
 
@@ -16,7 +16,7 @@ export const createDocumentRoute = createRoute({
     path: '/v1/documents',
     method: 'post',
     tags: ['Document'],
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertDocument, 'Document details'),
     },

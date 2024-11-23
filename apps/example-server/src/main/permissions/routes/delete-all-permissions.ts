@@ -3,7 +3,7 @@ import { OK, INTERNAL_SERVER_ERROR } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
+import { checkToken } from '../../auth/auth.middleware'
 import { zDeletePermission } from '../permissions.schema'
 import { deleteMany } from '../permissions.service'
 import { jsonContent } from 'stoker/openapi/helpers'
@@ -12,7 +12,7 @@ export const deleteAllPermissionsRoute = createRoute({
     path: '/v1/permissions',
     method: 'delete',
     tags: ['Permissions'],
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(zDeletePermission, 'Permissions details'),
     },

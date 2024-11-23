@@ -16,7 +16,7 @@ export const createAppointmentRoute = createRoute({
     path: '/v1/appointments',
     method: 'post',
     tags: ['Appointment'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertAppointment, 'Appointment details'),
     },

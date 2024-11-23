@@ -11,13 +11,12 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
 import { zInsertEvent, zSelectEvent } from '../events.schema'
 import { createEvent } from '../events.service'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
 
 export const createEventRoute = createRoute({
     path: '/v1/events',
     method: 'post',
     tags: ['Event'],
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertEvent, 'Event details'),
     },

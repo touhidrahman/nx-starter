@@ -9,22 +9,23 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
+
 import checkTaskOwnershipMiddleware from '../../../core/middlewares/check-ownership.middleware'
 import { tasksTable } from '../../../core/db/schema'
 import { zSelectTask, zUpdateTask } from '../tasks.schema'
 import { getTaskById, updateTask } from '../tasks.service'
+import { checkToken } from '../../auth/auth.middleware'
 
 export const updateTaskRoute = createRoute({
     path: '/v1/tasks/:id',
     method: 'patch',
     tags: ['Task'],
     middleware: [
-        authMiddleware,
+        checkToken,
         checkTaskOwnershipMiddleware(tasksTable, 'Task'),
-    ],
+    ] as const,
     request: {
-        param: z.object({ id: z.string() }),
+        params: z.object({ id: z.string() }),
         body: jsonContent(zUpdateTask, 'Task details'),
     },
     responses: {

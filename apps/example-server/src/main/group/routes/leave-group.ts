@@ -16,7 +16,7 @@ export const leaveGroupRoute = createRoute({
     path: '/v1/group/:id/leave',
     method: 'delete',
     tags: ['Group'],
-    middleware: [checkToken, isGroupParticipant],
+    middleware: [checkToken, isGroupParticipant] as const,
     request: {
         params: z.object({ id: z.string() }),
     },

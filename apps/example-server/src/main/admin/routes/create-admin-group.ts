@@ -16,7 +16,7 @@ export const createAdminGroupRoute = createRoute({
     path: '/v1/admin-groups',
     method: 'post',
     tags: ['Admin'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertGroup, 'Admin group details'),
     },

@@ -16,7 +16,7 @@ export const createGroupRoute = createRoute({
     path: '/v1/group',
     method: 'post',
     tags: ['Group'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertGroup, 'Group Detail'),
     },

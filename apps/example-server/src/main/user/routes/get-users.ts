@@ -13,7 +13,7 @@ export const getUsersRoute = createRoute({
     path: '/v1/user',
     method: 'get',
     tags: ['User'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         query: zSearchUser,
     },

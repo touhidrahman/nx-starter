@@ -21,8 +21,8 @@ import {
 } from './routes/update-application-areas'
 
 export const applicationAreasV1Routes = createRouter()
-// .openapi(createApplicationAreaRoute, createApplicationAreaHandler)
-// .openapi(getApplicationAreaRoute, getApplicationAreaHandler)
-// .openapi(getApplicationAreasRoute, getApplicationAreasHandler)
-// .openapi(updateApplicationAreaRoute, updateApplicationAreaHandler)
-// .openapi(deleteApplicationAreaRoute, deleteApplicationAreaHandler)
+    .openapi(createApplicationAreaRoute, createApplicationAreaHandler)
+    .openapi(getApplicationAreaRoute, getApplicationAreaHandler)
+    .openapi(getApplicationAreasRoute, getApplicationAreasHandler)
+    .openapi(updateApplicationAreaRoute, updateApplicationAreaHandler)
+    .openapi(deleteApplicationAreaRoute, deleteApplicationAreaHandler)

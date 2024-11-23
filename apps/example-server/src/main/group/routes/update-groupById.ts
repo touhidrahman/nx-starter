@@ -13,7 +13,7 @@ export const updateGroupByIdRoute = createRoute({
     path: '/v1/group/:id',
     method: 'put',
     tags: ['Group'],
-    middleware: [checkToken, isGroupOwner],
+    middleware: [checkToken, isGroupOwner] as const,
     request: {
         params: z.object({ id: z.string() }),
         body: jsonContent(zUpdateGroup, 'Group details'),

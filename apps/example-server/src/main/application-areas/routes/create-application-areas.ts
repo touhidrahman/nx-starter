@@ -20,7 +20,7 @@ export const createApplicationAreaRoute = createRoute({
     path: '/v1/application-areas',
     method: 'post',
     tags: ['Application Area'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertApplicationArea, 'Application Area details'),
     },

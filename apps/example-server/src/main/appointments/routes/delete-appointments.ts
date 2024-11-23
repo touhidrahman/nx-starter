@@ -10,7 +10,7 @@ export const deleteAppointmentRoute = createRoute({
     path: '/v1/appointments/:id',
     method: 'delete',
     tags: ['Appointment'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
     },
