@@ -6,6 +6,14 @@ import { LoginInput } from '../models/login-input'
 export class LoginFormService {
     loginForm: FormGroup
 
+    get emailControl() {
+        return this.loginForm.get('email')
+    }
+
+    get passwordControl() {
+        return this.loginForm.get('password')
+    }
+
     constructor(private fb: FormBuilder) {
         this.loginForm = this.fb.nonNullable.group({
             email: ['', [Validators.required, Validators.email]],

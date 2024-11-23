@@ -1,125 +1,78 @@
-<section class="w-full mt-6 p-4" hlmCard>
-    <h2 class="text-2xl mt-4 font-bold mb-6 text-center">Sign Up</h2>
-    <form [formGroup]="registerFormService.form" (ngSubmit)="signup()">
-        <div hlmCardContent>
-            <div class="mb-4">
-                <label for="firstName" class="block text-sm font-bold mb-2"
-                    >First Name</label
-                >
-                <input
-                    class="w-full md:w-96"
-                    hlmInput
-                    placeholder="Enter your firstname"
-                    formControlName="firstName" />
-                @if ( registerFormService.form.get('firstName')!.invalid &&
-                registerFormService.form.get('firstName')!.touched &&
-                registerFormService.form.get('firstName')!.dirty ) {
-                <div
-                    class="text-red-500 text-sm whitespace-pre-wrap w-full md:w-96 mt-4">
-                    First name is required
-                </div>
-                }
-            </div>
-            <div class="mb-4">
-                <label for="lastName" class="block text-sm font-bold mb-2"
-                    >Last Name</label
-                >
-                <input
-                    class="w-full md:w-96"
-                    hlmInput
-                    placeholder="Enter your lastname"
-                    formControlName="lastName" />
-                @if ( registerFormService.form.get('lastName')!.invalid &&
-                registerFormService.form.get('lastName')!.touched ) {
-                <div
-                    class="text-red-500 text-sm whitespace-pre-wrap w-full md:w-96 mt-4">
-                    Last name is required
-                </div>
-                }
-            </div>
-            <div class="mb-4">
-                <label for="email" class="block text-sm font-bold mb-2"
-                    >Email</label
-                >
-                <input
-                    class="w-full md:w-96"
-                    hlmInput
-                    placeholder="Email"
-                    type="email"
-                    formControlName="email" />
-                @if ( registerFormService.form.get('email')!.invalid &&
-                registerFormService.form.get('email')!.touched ) {
-                <div
-                    class="text-red-500 text-sm whitespace-pre-wrap w-full md:w-96 mt-4">
-                    Valid email is required
-                </div>
-                }
-            </div>
-            <div class="mb-4">
-                <label for="password" class="block text-sm font-bold mb-2"
-                    >Password</label
-                >
-                <input
-                    class="w-full md:w-96"
-                    placeholder="Password"
-                    hlmInput
-                    type="password"
-                    formControlName="password" />
-                @if ( registerFormService.form.get('password')!.touched &&
-                registerFormService.form.get('password')!.dirty &&
-                registerFormService.form.get('password')! .errors; as errors ) {
-                <div
-                    class="text-red-500 text-sm whitespace-pre-wrap w-full md:w-96 mt-4">
-                    @if (errors['required']) { Password is required. } @if
-                    (errors['minlength'] && !errors['required']) { Password must
-                    be at least 8 characters long. } @if (errors['maxlength'] &&
-                    !errors['required']) { Password cannot be more than 32
-                    characters long. } @if ( errors['pattern'] &&
-                    !errors['required'] && !errors['minlength'] &&
-                    !errors['maxlength'] ) { Password must contain at least one
-                    uppercase letter, one lowercase letter, and one number. }
-                </div>
-                }
-            </div>
+<div class="surface-card p-4 shadow-2 border-round w-full">
+    <div class="text-center mb-5">
+        <!-- <img src="assets/images/blocks/logos/hyper.svg" alt="Image" height="50" class="mb-3"> -->
+        <div class="text-900 text-3xl font-medium mb-3">Register</div>
+        <span class="text-600 font-medium line-height-3">Have an account?</span>
+        <a
+            [routerLink]="['/login']"
+            class="font-medium no-underline ml-2 text-blue-500 cursor-pointer"
+            >Login here</a
+        >
+    </div>
 
-            <div class="mb-4">
-                <label
-                    for="passwordConfirmation"
-                    class="block text-sm font-bold mb-2"
-                    >Confirm Password</label
+    <div [formGroup]="signUpForm">
+        <label for="email1" class="block text-900 font-medium mb-2"
+            >Email</label
+        >
+        <input
+            id="email1"
+            type="text"
+            placeholder="Email address"
+            pInputText
+            formControlName="email"
+            required
+            class="w-full mb-3" />
+        @if (
+            (signUpForm.get('email')?.hasError('required') ||
+                signUpForm.get('email')?.hasError('email')) &&
+            signUpForm.get('email')?.touched &&
+            signUpForm.get('email')?.dirty
+        ) {
+            <p class="text-xs text-red-700">Valid email is required</p>
+        }
+
+        <label for="password1" class="block text-900 font-medium mb-2"
+            >Password</label
+        >
+        <input
+            id="password1"
+            type="password"
+            placeholder="Password"
+            formControlName="password"
+            pInputText
+            required
+            class="w-full mb-3" />
+        @if (
+            (signUpForm.get('password')?.hasError('required') ||
+                signUpForm.get('password')?.hasError('minLength') ||
+                signUpForm.get('password')?.hasError('maxLength')) &&
+            signUpForm.get('password')?.touched &&
+            signUpForm.get('password')?.dirty
+        ) {
+            <p class="text-xs text-red-700">
+                Password is required. Must be 8 - 32 characters long.
+            </p>
+        }
+
+        <div class="flex align-items-center justify-content-between mb-6">
+            <div class="flex align-items-center">
+                <p-checkbox
+                    id="rememberme1"
+                    [binary]="true"
+                    styleClass="mr-2"></p-checkbox>
+                <label for="rememberme1" class="text-900"
+                    >I agree to the Terms & Conditions</label
                 >
-                <input
-                    class="w-full md:w-96"
-                    placeholder="Confirm Password"
-                    hlmInput
-                    type="password"
-                    formControlName="passwordConfirmation" />
-                @if ( registerFormService.form.get('passwordConfirmation')!
-                .invalid &&
-                registerFormService.form.get('passwordConfirmation')! .touched
-                && registerFormService.form.get('passwordConfirmation')! .dirty
-                ) {
-                <div class="text-red-500 text-sm">
-                    Password confirmation is required
-                </div>
-                }
-            </div>
-            @if (registerFormService.form.hasError('passwordNotMatched')) {
-            <div class="text-red-500 text-sm mb-4">Passwords do not match.</div>
-            }
-            <div class="flex items-center justify-between">
-                <button
-                    hlmBtn
-                    type="submit"
-                    class="bg-success text-success-foreground hover:bg-green-400">
-                    Sign Up
-                </button>
-                <a
-                    [routerLink]="['/login']"
-                    class="inline-block align-baseline text-sm text-blue-500 hover:text-blue-800">
-                    Already have an account? Sign In
-                </a>
             </div>
         </div>
-    </form>
-</section>
+
+        <button
+            pButton
+            pRipple
+            (click)="register()"
+            label="Sign Up"
+            [disabled]="signUpForm.invalid"
+            icon="pi pi-user"
+            class="w-full"></button>
+    </div>
+</div>

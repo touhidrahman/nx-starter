@@ -14,6 +14,7 @@ type RegisterForm = {
     [field in keyof SignupInput]: FormControl<SignupInput[field]>
 }
 
+const RegexEmailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 const Regex8CharsSmallCapitalDigitSpecial =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d\W]{6,}$/
 
@@ -26,7 +27,14 @@ export class RegisterFormService {
 
         this.form = this.fb.group(
             {
-                email: ['', [required, email]],
+                email: [
+                    '',
+                    [
+                        required,
+                        email,
+                        pattern(RegexEmailPattern),
+                    ],
+                ],
                 password: [
                     '',
                     [

@@ -1,33 +1,37 @@
 import { Component, inject } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { Router, RouterModule } from '@angular/router'
+import { AuthStateService } from '@myorg/app-example-auth'
 import {
-    AuthApiService,
     RegisterFormService,
-    SignupInput,
+    SignupInput
 } from '@myorg/common-auth'
+import { PrimeModules } from '@myorg/prime-modules'
 import { SpartanModules } from '@myorg/spartan-modules'
-import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
 
 @Component({
     selector: 'app-page-sign-up',
     standalone: true,
     imports: [
         ...SpartanModules,
+        ...PrimeModules,
         RouterModule,
         ReactiveFormsModule,
-        HlmInputDirective,
     ],
     templateUrl: './page-sign-up.component.html',
     styleUrls: ['./page-sign-up.component.scss'],
     providers: [RegisterFormService],
 })
 export class PageSignUpComponent {
-    registerFormService = inject(RegisterFormService)
-    private authApiService = inject<AuthApiService<any>>(AuthApiService)
+    private authStateService = inject(AuthStateService)
+    private registerFormService = inject(RegisterFormService)
     private router = inject(Router)
 
-    signup() {
+    get signUpForm() {
+        return this.registerFormService.form
+    }
+
+    register() {
         if (this.registerFormService.form.invalid) {
             return
         }
@@ -41,13 +45,9 @@ export class PageSignUpComponent {
             lastName: formValues.lastName,
         }
 
-        this.authApiService.register(signupInput).subscribe({
+        this.authStateService.register(signupInput).subscribe({
             next: (response) => {
-                if (response.message === 'Account created') {
                     this.router.navigate(['/account-created'])
-                } else {
-                    console.error('Registration failed:', response.error)
-                }
             },
             error: (error) => {
                 console.error('An error occurred:', error)
