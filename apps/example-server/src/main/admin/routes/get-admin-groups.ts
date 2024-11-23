@@ -20,7 +20,6 @@ export const getAdminGroupsRoute = createRoute({
     },
     responses: {
         [OK]: ApiResponse(z.array(zSelectGroup), 'List of Groups'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'No groups found'),
     },
 })
 
@@ -30,15 +29,7 @@ export const getAdminGroupsHandler: AppRouteHandler<
     const { page, size } = c.req.query()
     const pageNumber = Number(page) || 1
     const sizeNumber = Number(size) || 10
-
     const groups = await findAllGroups(pageNumber, sizeNumber)
-
-    if (groups.length === 0) {
-        return c.json(
-            { data: {}, success: false, message: 'No groups found' },
-            NOT_FOUND,
-        )
-    }
 
     return c.json({ data: groups, success: true, message: 'Group list' }, OK)
 }

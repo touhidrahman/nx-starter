@@ -1,6 +1,6 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { AppRouteHandler } from '../../../core/core.type'
-import { NOT_FOUND, OK } from 'stoker/http-status-codes'
+import { INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
@@ -15,7 +15,7 @@ export const getDocumentListRoute = createRoute({
     request: {},
     responses: {
         [OK]: ApiResponse(z.array(zSelectDocument), 'List of documents'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'No document found!'),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'No document found!'),
     },
 })
 
@@ -40,7 +40,7 @@ export const getDocumentListHandler: AppRouteHandler<
                 error: error,
                 data: {},
             },
-            NOT_FOUND,
+            INTERNAL_SERVER_ERROR,
         )
     }
 }
