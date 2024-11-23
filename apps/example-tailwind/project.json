@@ -20,7 +20,11 @@
                     "apps/example-tailwind/src/favicon.ico",
                     "apps/example-tailwind/src/assets"
                 ],
-                "styles": ["apps/example-tailwind/src/styles.scss"],
+                "styles": [
+                    "node_modules/primeng/resources/themes/lara-light-blue/theme.css",
+                    "node_modules/primeng/resources/primeng.min.css",
+                    "apps/example-tailwind/src/styles.scss"
+                ],
                 "scripts": []
             },
             "configurations": {

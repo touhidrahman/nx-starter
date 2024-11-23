@@ -1,8 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&display=swap');
-
-@import '@angular/cdk/overlay-prebuilt.css';
-
 @tailwind base;
+@import 'primeng/resources/themes/lara-light-blue/theme.css';
+@import 'primeng/resources/primeng.css';
+@import '@angular/cdk/overlay-prebuilt.css';
 @tailwind components;
 @tailwind utilities;
 
