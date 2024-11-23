@@ -192,11 +192,7 @@ CREATE TABLE IF NOT EXISTS "permissions" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "storage" (
-<<<<<<<< HEAD:apps/example-server/migrations/0000_parched_emma_frost.sql
-	"id" serial PRIMARY KEY NOT NULL,
-========
 	"id" text PRIMARY KEY NOT NULL,
->>>>>>>> main:apps/example-server/migrations/0000_smiling_green_goblin.sql
 	"filename" text,
 	"url" text,
 	"extension" text,

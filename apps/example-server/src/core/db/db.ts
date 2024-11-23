@@ -5,7 +5,7 @@ import { drizzle as drizzleForPg } from 'drizzle-orm/node-postgres'
 import * as schema from './schema'
 import { Pool } from 'pg'
 
-dotenv.config()
+config({ path: '.env' })
 
 const dbUrl = process.env.DATABASE_URL ?? ''
 const clientNeon = neon(dbUrl)
