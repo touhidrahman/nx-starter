@@ -3,15 +3,15 @@ import { OK, INTERNAL_SERVER_ERROR } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { deleteManyByIds } from '../subscriptions.service'
+import { checkToken } from '../../auth/auth.middleware'
 
 export const deleteAllSubscriptionRoute = createRoute({
     path: '/v1/subscriptions',
     method: 'delete',
     tags: ['Subscriptions'],
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(
             z.object({ ids: z.array(z.string()) }),
@@ -39,16 +39,16 @@ export const deleteAllSubscriptionHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to delete subscriptions',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }
     return c.json(
-        jsonResponse({}, 'Subscriptions deleted successfully', OK),
+        {
+            data: {},
+            message: 'Subscriptions deleted successfully',
+            success: true,
+        },
         OK,
     )
 }

@@ -12,28 +12,16 @@ export const updateUserRoute = createRoute({
     path: '/v1/user/:id',
     method: 'put',
     tags: ['User'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
         body: jsonContent(zUpdateUser, 'User details'),
     },
     responses: {
-        [OK]: ApiResponse(
-            {
-                data: zSelectUser,
-                message: z.string(),
-                error: z.any(),
-                success: z.boolean(),
-            },
-            'Updated',
-        ),
+        [OK]: ApiResponse(zSelectUser, 'Updated'),
         [NOT_FOUND]: ApiResponse(
-            {
-                data: zEmpty,
-                message: z.string(),
-                error: z.any(),
-                success: z.boolean(),
-            },
+            zEmpty,
+
             'User not found',
         ),
     },

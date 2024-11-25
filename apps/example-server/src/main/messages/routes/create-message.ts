@@ -8,7 +8,7 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zEmpty } from '../../../core/models/common.schema'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
+import { checkToken } from '../../auth/auth.middleware'
 import { zInsertMessage, zSelectMessage } from '../messages.schema'
 import { create } from '../messages.service'
 
@@ -16,15 +16,12 @@ export const createMessageRoute = createRoute({
     path: '/v1/messages',
     method: 'post',
     tags: ['Messages'],
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertMessage, 'Message details'),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            { data: zSelectMessage, message: z.string(), success: z.boolean() },
-            'Message created successfully',
-        ),
+        [CREATED]: ApiResponse(zSelectMessage, 'Message created successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid message data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
@@ -36,25 +33,30 @@ export const createMessageHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const message = await create(body)
+        const [message] = await create(body)
         return c.json(
-            jsonResponse(message, 'message created successfully', CREATED),
+            {
+                data: message,
+                message: 'Message created successfully',
+                success: true,
+            },
             CREATED,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid message details', BAD_REQUEST),
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
                 BAD_REQUEST,
             )
         }
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'message created successfully',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

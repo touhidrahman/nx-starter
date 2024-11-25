@@ -16,15 +16,12 @@ export const createCaseRoute = createRoute({
     path: '/v1/cases',
     method: 'post',
     tags: ['Case'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertCase, 'Case details'),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            { data: zSelectCase, message: z.string(), success: z.boolean() },
-            'Case created successfully',
-        ),
+        [CREATED]: ApiResponse(zSelectCase, 'Case created successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid case data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
@@ -36,15 +33,24 @@ export const createCaseHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const newCase = await createCase(body)
+        const [newCase] = await createCase(body)
         return c.json(
-            jsonResponse(newCase, 'Case created successfully', CREATED),
+            {
+                data: newCase,
+                message: 'Case created successfully',
+                success: true,
+            },
             CREATED,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid case data', BAD_REQUEST),
+                {
+                    data: {},
+                    error: error.errors,
+                    message: 'Invalid case data',
+                    success: false,
+                },
                 BAD_REQUEST,
             )
         }
@@ -54,7 +60,7 @@ export const createCaseHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse({}, 'Failed to create case', INTERNAL_SERVER_ERROR),
+            { data: {}, message: 'Failed to create case', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

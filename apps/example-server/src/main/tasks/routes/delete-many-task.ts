@@ -1,17 +1,17 @@
 import { createRoute, z } from '@hono/zod-openapi'
-import { OK, NOT_FOUND, INTERNAL_SERVER_ERROR } from 'stoker/http-status-codes'
+import { INTERNAL_SERVER_ERROR, NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
 import { jsonContent } from 'stoker/openapi/helpers'
+import { checkToken } from '../../auth/auth.middleware'
 import { deleteAllTask } from '../tasks.service'
 
 export const deleteManyTaskRoute = createRoute({
     path: '/v1/tasks',
     method: 'delete',
     tags: ['Task'],
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(
             z.object({ ids: z.array(z.string()) }),
@@ -42,9 +42,12 @@ export const deleteManyTaskHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse({}, 'Failed to delete tasks', INTERNAL_SERVER_ERROR),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }
-    return c.json(jsonResponse('', 'Tasks deleted successfully', OK), OK)
+    return c.json(
+        { data: {}, message: 'Tasks deleted successfully', success: true },
+        OK,
+    )
 }

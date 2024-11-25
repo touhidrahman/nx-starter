@@ -10,7 +10,7 @@ export const deleteAppointmentRoute = createRoute({
     path: '/v1/appointments/:id',
     method: 'delete',
     tags: ['Appointment'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
     },
@@ -30,14 +30,18 @@ export const deleteAppointmentHandler: AppRouteHandler<
         const appointment = await findAppointmentById(appointmentId)
         if (!appointment) {
             return c.json(
-                jsonResponse({}, 'Appointment not found', NOT_FOUND),
+                { data: {}, message: 'Appointment not found', success: false },
                 NOT_FOUND,
             )
         }
 
         await deleteAppointment(appointmentId)
         return c.json(
-            jsonResponse({}, 'Appointment deleted successfully', OK),
+            {
+                data: {},
+                message: 'Appointment deleted successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {
@@ -47,11 +51,7 @@ export const deleteAppointmentHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to delete appointment',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal server error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

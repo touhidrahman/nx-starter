@@ -12,7 +12,7 @@ export const getGroupByIDRoute = createRoute({
     path: '/v1/group/:id',
     method: 'get',
     tags: ['Group'],
-    middleware: [checkToken, isGroupParticipant],
+    middleware: [checkToken, isGroupParticipant] as const,
     request: {
         params: z.object({ id: z.string() }),
     },
@@ -23,13 +23,16 @@ export const getGroupByIDRoute = createRoute({
 })
 export const getGroupByIdHandler: AppRouteHandler<
     typeof getGroupByIDRoute
-> = async (c: any) => {
+> = async (c) => {
     const id = c.req.param('id')
     const result = await findGroupById(id)
 
     if (!result) {
-        return c.json({ error: 'Group not found' }, 404)
+        return c.json(
+            { data: {}, success: false, message: 'Group not found' },
+            NOT_FOUND,
+        )
     }
 
-    return c.json({ data: result, message: 'Group details' })
+    return c.json({ data: result, message: 'Group details', success: true }, OK)
 }

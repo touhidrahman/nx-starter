@@ -17,16 +17,13 @@ export const updateCaseRoute = createRoute({
     path: '/v1/cases/:id',
     method: 'put',
     tags: ['Case'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
         body: jsonContent(zUpdateCase, 'Case update details'),
     },
     responses: {
-        [OK]: ApiResponse(
-            { data: zSelectCase, message: z.string(), success: z.boolean() },
-            'Case updated successfully',
-        ),
+        [OK]: ApiResponse(zSelectCase, 'Case updated successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid case data'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Case not found'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
@@ -43,20 +40,29 @@ export const updateCaseHandler: AppRouteHandler<
         const existingCase = await findCaseById(caseId)
         if (!existingCase) {
             return c.json(
-                jsonResponse({}, 'Case not found', NOT_FOUND),
+                { data: {}, message: 'Item not found', success: false },
                 NOT_FOUND,
             )
         }
 
-        const updatedCase = await updateCase(caseId, body)
+        const [updatedCase] = await updateCase(caseId, body)
         return c.json(
-            jsonResponse(updatedCase, 'Case updated successfully', OK),
+            {
+                data: updatedCase,
+                message: 'Case updated successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid case data', BAD_REQUEST),
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
                 BAD_REQUEST,
             )
         }
@@ -66,7 +72,7 @@ export const updateCaseHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse({}, 'Failed to update case', INTERNAL_SERVER_ERROR),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

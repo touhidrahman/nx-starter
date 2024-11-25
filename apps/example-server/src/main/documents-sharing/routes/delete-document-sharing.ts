@@ -3,14 +3,14 @@ import { OK, NOT_FOUND, INTERNAL_SERVER_ERROR } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
+import { checkToken } from '../../auth/auth.middleware'
 import { deleteSharing, findById } from '../documents-sharing.service'
 
 export const deleteDocumentSharingRoute = createRoute({
     path: '/v1/document-sharing/:id',
     method: 'delete',
     tags: ['Document Sharing'],
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
     },
@@ -30,14 +30,18 @@ export const deleteDocumentSharingHandler: AppRouteHandler<
         const document = await findById(id)
         if (!document) {
             return c.json(
-                jsonResponse({}, 'Document sharing not found', NOT_FOUND),
+                { data: {}, message: 'Item not found', success: false },
                 NOT_FOUND,
             )
         }
 
         await deleteSharing(id)
         return c.json(
-            jsonResponse('', 'Document sharing deleted successfully', OK),
+            {
+                data: {},
+                message: 'Document sharing deleted successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {
@@ -47,11 +51,7 @@ export const deleteDocumentSharingHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to delete document sharing',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

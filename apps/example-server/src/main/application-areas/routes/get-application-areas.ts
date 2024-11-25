@@ -17,17 +17,13 @@ export const getApplicationAreasRoute = createRoute({
     path: '/v1/application-areas',
     method: 'get',
     tags: ['Application Area'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         query: zSearchApplicationArea,
     },
     responses: {
         [OK]: ApiResponse(
-            {
-                data: z.array(zSelectApplicationArea),
-                message: z.string(),
-                success: z.boolean(),
-            },
+            z.array(zSelectApplicationArea),
             'List of Application Areas',
         ),
     },
@@ -69,5 +65,6 @@ export const getApplicationAreasHandler: AppRouteHandler<
     return c.json({
         data: applicationAreas,
         message: 'List of application areas',
+        success: true,
     })
 }

@@ -10,7 +10,7 @@ export const deleteAdminGroupRoute = createRoute({
     path: '/v1/admin-groups/:id',
     method: 'delete',
     tags: ['Admin Group'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
     },

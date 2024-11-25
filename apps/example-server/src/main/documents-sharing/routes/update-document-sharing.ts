@@ -9,29 +9,26 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
 import {
     zSelectDocumentSharing,
     zUpdateDocumentSharing,
 } from '../documents-sharing.schema'
 import { findById, update } from '../documents-sharing.service'
+import { checkToken } from '../../auth/auth.middleware'
 
 export const updateDocumentSharingRoute = createRoute({
     path: '/v1/document-sharing/:id',
     method: 'patch',
     tags: ['Document Sharing'],
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {
-        param: z.object({ id: z.string() }),
+        params: z.object({ id: z.string() }),
         body: jsonContent(zUpdateDocumentSharing, 'Document sharing details'),
     },
     responses: {
         [OK]: ApiResponse(
-            {
-                data: zSelectDocumentSharing,
-                message: z.string(),
-                success: z.boolean(),
-            },
+            zSelectDocumentSharing,
+
             'Document sharing updated successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid document sharing data'),
@@ -50,24 +47,29 @@ export const updateDocumentSharingHandler: AppRouteHandler<
         const existingDocumentSharing = await findById(id)
         if (!existingDocumentSharing) {
             return c.json(
-                jsonResponse({}, 'Document sharing not found', NOT_FOUND),
+                { data: {}, message: 'Item not found', success: false },
                 NOT_FOUND,
             )
         }
-        const updatedDocumentSharing = await update(id, body)
+        const [updatedDocumentSharing] = await update(id, body)
 
         return c.json(
-            jsonResponse(
-                updatedDocumentSharing,
-                'Document sharing created successfully',
-                OK,
-            ),
+            {
+                data: updatedDocumentSharing,
+                message: 'Document sharing updated successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid document sharing data', BAD_REQUEST),
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
                 BAD_REQUEST,
             )
         }
@@ -77,11 +79,7 @@ export const updateDocumentSharingHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to update document sharing',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

@@ -8,28 +8,26 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zEmpty } from '../../../core/models/common.schema'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
-import { zSelectTask, zUpdateTask } from '../tasks.schema'
+
+import { zInsertTask, zSelectTask, zUpdateTask } from '../tasks.schema'
 import { createTask } from '../tasks.service'
 import checkTaskOwnershipMiddleware from '../../../core/middlewares/check-ownership.middleware'
 import { tasksTable } from '../../../core/db/schema'
+import { checkToken } from '../../auth/auth.middleware'
 
 export const createTaskRoute = createRoute({
     path: '/v1/tasks',
     method: 'post',
     tags: ['Task'],
     middleware: [
-        authMiddleware,
+        checkToken,
         checkTaskOwnershipMiddleware(tasksTable, 'Task'),
-    ],
+    ] as const,
     request: {
-        body: jsonContent(zUpdateTask, 'Task details'),
+        body: jsonContent(zInsertTask, 'Task details'),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            { data: zSelectTask, message: z.string(), success: z.boolean() },
-            'Task created successfully',
-        ),
+        [CREATED]: ApiResponse(zSelectTask, 'Task created successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid task data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
@@ -41,25 +39,26 @@ export const createTaskHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const task = await createTask(body)
+        const [task] = await createTask(body)
         return c.json(
-            jsonResponse(task, 'Task created successfully', CREATED),
+            { data: task, message: 'Task created successfully', success: true },
             CREATED,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid task details', BAD_REQUEST),
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
                 BAD_REQUEST,
             )
         }
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Task created successfully',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

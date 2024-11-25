@@ -11,15 +11,12 @@ export const getCaseRoute = createRoute({
     path: '/v1/case/:id',
     method: 'get',
     tags: ['Case'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [OK]: ApiResponse(
-            { data: zSelectCase, message: z.string(), success: z.boolean() },
-            'Case found',
-        ),
+        [OK]: ApiResponse(zSelectCase, 'Case found'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'Case not found'),
     },
 })
@@ -31,8 +28,11 @@ export const getCaseHandler: AppRouteHandler<typeof getCaseRoute> = async (
     const caseItem = await findCaseById(caseId)
 
     if (!caseItem) {
-        return c.json(jsonResponse({}, 'Case not found', NOT_FOUND), NOT_FOUND)
+        return c.json(
+            { data: {}, message: 'Case not found', success: false },
+            NOT_FOUND,
+        )
     }
 
-    return c.json(jsonResponse(caseItem, 'Case found', OK), OK)
+    return c.json({ data: caseItem, message: 'Case found', success: true }, OK)
 }

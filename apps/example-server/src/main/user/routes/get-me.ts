@@ -12,7 +12,7 @@ export const getMeRoute = createRoute({
     path: '/v1/me',
     method: 'get',
     tags: ['User'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     responses: {
         [OK]: ApiResponse(zSelectUser, 'Logged in user profile'),
         [NOT_FOUND]: ApiResponse(zEmpty, 'User not found'),
@@ -28,7 +28,6 @@ export const getMeHandler: RouteHandler<GetMeRoute, AppBindings> = async (
         payload.sub,
         payload.groupId,
     )
-
     if (!user) {
         return c.json(
             { data: {}, success: false, message: 'User not found' },

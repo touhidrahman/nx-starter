@@ -11,21 +11,17 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
 import { zInsertEvent, zSelectEvent } from '../events.schema'
 import { createEvent } from '../events.service'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
 
 export const createEventRoute = createRoute({
     path: '/v1/events',
     method: 'post',
     tags: ['Event'],
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertEvent, 'Event details'),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            { data: zSelectEvent, message: z.string(), success: z.boolean() },
-            'Event created successfully',
-        ),
+        [CREATED]: ApiResponse(zSelectEvent, 'Event created successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid event data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
@@ -37,15 +33,24 @@ export const createEventHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const event = await createEvent(body)
+        const [event] = await createEvent(body)
         return c.json(
-            jsonResponse(event, 'Event created successfully', CREATED),
+            {
+                data: event,
+                message: 'Event created successfully',
+                success: true,
+            },
             CREATED,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse({}, 'Invalid event data', BAD_REQUEST),
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
                 BAD_REQUEST,
             )
         }
@@ -55,7 +60,7 @@ export const createEventHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse({}, 'Failed to create event', INTERNAL_SERVER_ERROR),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

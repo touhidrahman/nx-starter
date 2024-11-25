@@ -22,11 +22,7 @@ export const registerRoute = createRoute({
     },
     responses: {
         [CREATED]: ApiResponse(
-            {
-                data: z.object({ id: z.string() }),
-                message: z.string(),
-                success: z.boolean(),
-            },
+            z.object({ id: z.string() }),
             'User registration successful',
         ),
         [CONFLICT]: ApiResponse(zEmpty, 'Email already exists'),
@@ -43,7 +39,10 @@ export const registerHandler: AppRouteHandler<typeof registerRoute> = async (
     const exists = await countAuthUserByEmail(email)
 
     if (exists > 0) {
-        return c.json({ message: 'Email already exists', data: {} }, CONFLICT)
+        return c.json(
+            { message: 'Email already exists', data: {}, success: false },
+            CONFLICT,
+        )
     }
 
     // is auth table empty?
@@ -75,5 +74,8 @@ export const registerHandler: AppRouteHandler<typeof registerRoute> = async (
         // TODO: send verification email
     }
 
-    return c.json({ message: 'Account created', data: { id: userId } }, CREATED)
+    return c.json(
+        { message: 'Account created', success: true, data: { id: userId } },
+        CREATED,
+    )
 }

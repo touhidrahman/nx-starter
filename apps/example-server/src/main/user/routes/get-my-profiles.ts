@@ -10,16 +10,9 @@ export const getMyProfilesRoute = createRoute({
     path: '/v1/my-profiles',
     method: 'get',
     tags: ['User'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     responses: {
-        [OK]: ApiResponse(
-            {
-                data: z.array(zSelectUser),
-                message: z.string(),
-                success: z.boolean(),
-            },
-            'List of user profiles by auth user ID',
-        ),
+        [OK]: ApiResponse(zSelectUser, 'List of user profiles by auth user ID'),
     },
 })
 
@@ -27,10 +20,14 @@ export const getMyProfilesHandler: AppRouteHandler<
     typeof getMyProfilesRoute
 > = async (c) => {
     const payload = c.get('jwtPayload')
-    const users = await findUsersByAuthUserId(payload.sub)
+    const [users] = await findUsersByAuthUserId(payload.sub)
 
     return c.json(
-        jsonResponse(users, 'List of user profiles by auth user ID', OK),
+        {
+            data: users,
+            message: 'List of user profiles by auth user ID',
+            success: true,
+        },
         OK,
     )
 }

@@ -8,7 +8,7 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zEmpty } from '../../../core/models/common.schema'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
+import { checkToken } from '../../auth/auth.middleware'
 import {
     zInsertDocumentSharing,
     zSelectDocumentSharing,
@@ -19,17 +19,13 @@ export const createDocumentSharingRoute = createRoute({
     path: '/v1/document-sharing',
     method: 'post',
     tags: ['Document Sharing'],
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertDocumentSharing, 'Document Sharing details'),
     },
     responses: {
         [CREATED]: ApiResponse(
-            {
-                data: zSelectDocumentSharing,
-                message: z.string(),
-                success: z.boolean(),
-            },
+            zSelectDocumentSharing,
             'Document sharing created successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid document sharing data'),
@@ -43,33 +39,30 @@ export const createDocumentSharingHandler: AppRouteHandler<
     const body = c.req.valid('json')
 
     try {
-        const document = await create(body)
+        const [document] = await create(body)
         return c.json(
-            jsonResponse(
-                document,
-                'Document sharing created successfully',
-                CREATED,
-            ),
+            {
+                data: document,
+                message: 'Document sharing created successfully',
+                success: true,
+            },
             CREATED,
         )
     } catch (error) {
         if (error instanceof z.ZodError) {
             return c.json(
-                jsonResponse(
-                    {},
-                    'Invalid document sharing details',
-                    BAD_REQUEST,
-                ),
+                {
+                    data: {},
+                    message: 'Bad request',
+                    success: false,
+                    error: error.errors,
+                },
                 BAD_REQUEST,
             )
         }
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Document sharing created  successfully',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

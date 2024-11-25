@@ -3,14 +3,14 @@ import { OK, NOT_FOUND, INTERNAL_SERVER_ERROR } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
+import { checkToken } from '../../auth/auth.middleware'
 import { deleteEvent, getAnEvent } from '../events.service'
 
 export const deleteEventRoute = createRoute({
     path: '/v1/events/:id',
     method: 'delete',
     tags: ['Event'],
-    middleware: [authMiddleware],
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
     },
@@ -30,13 +30,16 @@ export const deleteEventHandler: AppRouteHandler<
         const event = await getAnEvent(eventId)
         if (!event) {
             return c.json(
-                jsonResponse({}, 'Event not found', NOT_FOUND),
+                { data: {}, message: 'Item not found', success: false },
                 NOT_FOUND,
             )
         }
 
         await deleteEvent(eventId)
-        return c.json(jsonResponse('', 'Event deleted successfully', OK), OK)
+        return c.json(
+            { data: {}, message: 'Event deleted successfully', success: true },
+            OK,
+        )
     } catch (error) {
         console.error(
             'Error deleting event:',
@@ -44,7 +47,7 @@ export const deleteEventHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse({}, 'Failed to delete event', INTERNAL_SERVER_ERROR),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

@@ -13,17 +13,14 @@ export const getUsersRoute = createRoute({
     path: '/v1/user',
     method: 'get',
     tags: ['User'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         query: zSearchUser,
     },
     responses: {
         [OK]: ApiResponse(
-            {
-                data: z.array(zSelectUser),
-                message: z.string(),
-                success: z.boolean(),
-            },
+            z.array(zSelectUser),
+
             'List of Users',
         ),
     },
@@ -69,5 +66,5 @@ export const getUsersHandler: AppRouteHandler<typeof getUsersRoute> = async (
         .limit(limit)
         .offset(offset)
 
-    return c.json(jsonResponse(users, 'List of users', OK), OK)
+    return c.json({ data: users, message: 'List of users', success: true }, OK)
 }

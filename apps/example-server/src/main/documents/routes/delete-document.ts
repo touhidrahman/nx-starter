@@ -3,7 +3,7 @@ import { OK, NOT_FOUND, INTERNAL_SERVER_ERROR } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { authMiddleware } from '../../../core/middlewares/auth.middleware'
+import { checkToken } from '../../auth/auth.middleware'
 import { documentsTable } from '../../../core/db/schema'
 import checkDocumentOwnershipMiddleware from '../../../core/middlewares/check-ownership.middleware'
 import { deleteDocument, findDocumentById } from '../documents.service'
@@ -13,9 +13,9 @@ export const deleteDocumentRoute = createRoute({
     method: 'delete',
     tags: ['Document'],
     middleware: [
-        authMiddleware,
+        checkToken,
         checkDocumentOwnershipMiddleware(documentsTable, 'Document'),
-    ],
+    ] as const,
     request: {
         params: z.object({ id: z.string() }),
     },
@@ -35,13 +35,20 @@ export const deleteDocumentHandler: AppRouteHandler<
         const document = await findDocumentById(id)
         if (!document) {
             return c.json(
-                jsonResponse({}, 'Document not found', NOT_FOUND),
+                { data: {}, message: 'Item not found', success: false },
                 NOT_FOUND,
             )
         }
 
         await deleteDocument(id)
-        return c.json(jsonResponse('', 'Document deleted successfully', OK), OK)
+        return c.json(
+            {
+                data: {},
+                message: 'Document deleted successfully',
+                success: true,
+            },
+            OK,
+        )
     } catch (error) {
         console.error(
             'Error deleting task:',
@@ -49,11 +56,7 @@ export const deleteDocumentHandler: AppRouteHandler<
         )
         if (error instanceof Error) console.error(error.stack)
         return c.json(
-            jsonResponse(
-                {},
-                'Failed to delete document',
-                INTERNAL_SERVER_ERROR,
-            ),
+            { data: {}, message: 'Internal Server Error', success: false },
             INTERNAL_SERVER_ERROR,
         )
     }

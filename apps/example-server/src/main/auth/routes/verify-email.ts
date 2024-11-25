@@ -8,6 +8,7 @@ import { authUsersTable } from '../../../core/db/schema'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { decodeVerificationToken } from '../token.util'
+import { BAD_REQUEST, OK } from 'stoker/http-status-codes'
 
 const tags = ['Auth']
 
@@ -19,18 +20,8 @@ export const verifyEmailRoute = createRoute({
         params: z.object({ token: z.string() }),
     },
     responses: {
-        [HttpStatusCodes.OK]: ApiResponse(
-            {
-                data: z.object({ id: z.string() }),
-                message: z.string(),
-                success: z.boolean(),
-            },
-            'Email verified',
-        ),
-        [HttpStatusCodes.BAD_REQUEST]: ApiResponse(
-            zEmpty,
-            'Invalid or expired token',
-        ),
+        [OK]: ApiResponse(z.object({ id: z.string() }), 'Email verified'),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid or expired token'),
     },
 })
 
@@ -41,8 +32,8 @@ export const verifyEmailHandler: AppRouteHandler<
     const decoded = await decodeVerificationToken(token)
     if (!decoded) {
         return c.json(
-            { message: 'Invalid or expired token', data: {} },
-            HttpStatusCodes.BAD_REQUEST,
+            { message: 'Invalid or expired token', data: {}, success: false },
+            BAD_REQUEST,
         )
     }
 
@@ -59,13 +50,17 @@ export const verifyEmailHandler: AppRouteHandler<
             .returning()
 
         return c.json(
-            { message: 'Email verified', data: { id: user?.id } },
-            HttpStatusCodes.OK,
+            {
+                success: true,
+                message: 'Email verified',
+                data: { id: user?.id },
+            },
+            OK,
         )
     } catch (error) {
         return c.json(
-            { message: 'Invalid token', data: {} },
-            HttpStatusCodes.BAD_REQUEST,
+            { message: 'Invalid token', success: false, data: {} },
+            BAD_REQUEST,
         )
     }
 }

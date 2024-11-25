@@ -11,7 +11,7 @@ export const updateAdminUserRoute = createRoute({
     path: '/v1/admin-users/promote',
     method: 'put',
     tags: ['AdminUser'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(z.object({ userId: z.string() }), 'Admin user ID'),
     },

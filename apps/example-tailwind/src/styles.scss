@@ -1,17 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&display=swap');
 @import '@angular/cdk/overlay-prebuilt.css';
 
-@import 'primeng/resources/themes/lara-light-blue/theme.css';
-@import 'primeng/resources/primeng.css';
+@layer tailwind-base, primeng, tailwind-utilities;
 
-@tailwind components;
-@tailwind utilities;
-@tailwind base;
-
-@layer reset,primeng;
-@layer reset {
-    //reset prime ng defaults here
+@layer tailwind-base {
+    @tailwind base;
 }
+
+@layer tailwind-utilities {
+    @tailwind components;
+    @tailwind utilities;
+}
+
+@import 'primeicons/primeicons.css';
 
 *,
 html,
@@ -20,7 +21,7 @@ body {
     font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
-    font-size: 0.9rem;
+    font-size: 14px;
 }
 
 :root {
@@ -77,20 +78,6 @@ body {
     --warn-800: #763616;
     --warn-900: #582810;
     --warn-950: #3a1a0b;
-}
-
-:root {
-    --success: 133 100% 36%;
-    --success-foreground: 133 100% 97%;
-    --warning: 38 92% 50%;
-    --warning-foreground: 48 96% 89%;
-}
-
-.dark {
-    --success: 133 100% 36%;
-    --success-foreground: 133 100% 97%;
-    --warning: 48 96% 89%;
-    --warning-foreground: 38 92% 50%;
 }
 
 :root {

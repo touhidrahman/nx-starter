@@ -1,16 +1,15 @@
 import { createRoute } from '@hono/zod-openapi'
 import * as argon2 from 'argon2'
 import { eq } from 'drizzle-orm'
-import * as HttpStatusCodes from 'stoker/http-status-codes'
+import { BAD_REQUEST, OK, UNAUTHORIZED } from 'stoker/http-status-codes'
 import { jsonContentRequired } from 'stoker/openapi/helpers'
-import { z } from 'zod'
 import { AppRouteHandler } from '../../../core/core.type'
 import { db } from '../../../core/db/db'
 import { authUsersTable } from '../../../core/db/schema'
+import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zChangePassword } from '../auth.schema'
 import { findAuthUserById } from '../auth.service'
-import { zEmpty } from '../../../core/models/common.schema'
 
 const tags = ['Auth']
 
@@ -22,15 +21,9 @@ export const changePasswordRoute = createRoute({
         body: jsonContentRequired(zChangePassword, 'Change password details'),
     },
     responses: {
-        [HttpStatusCodes.OK]: ApiResponse(
-            zEmpty,
-            'Password changed successfully',
-        ),
-        [HttpStatusCodes.UNAUTHORIZED]: ApiResponse(zEmpty, 'Unauthorized'),
-        [HttpStatusCodes.BAD_REQUEST]: ApiResponse(
-            zEmpty,
-            'Current password does not match',
-        ),
+        [OK]: ApiResponse(zEmpty, 'Password changed successfully'),
+        [UNAUTHORIZED]: ApiResponse(zEmpty, 'Unauthorized'),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Current password does not match'),
     },
 })
 
@@ -40,8 +33,8 @@ export const changePasswordHandler: AppRouteHandler<
     const { userId } = c.req.valid('json')
     if (!userId) {
         return c.json(
-            { message: 'Unauthorized', data: { success: false } },
-            HttpStatusCodes.UNAUTHORIZED,
+            { message: 'Unauthorized', success: false, data: {} },
+            UNAUTHORIZED,
         )
     }
 
@@ -51,8 +44,8 @@ export const changePasswordHandler: AppRouteHandler<
 
     if (!user) {
         return c.json(
-            { message: 'User not found', data: { success: false } },
-            HttpStatusCodes.UNAUTHORIZED,
+            { message: 'User not found', success: false, data: {} },
+            UNAUTHORIZED,
         )
     }
 
@@ -65,9 +58,10 @@ export const changePasswordHandler: AppRouteHandler<
         return c.json(
             {
                 message: 'Current password does not match',
-                data: { success: false },
+                success: false,
+                data: {},
             },
-            HttpStatusCodes.BAD_REQUEST,
+            BAD_REQUEST,
         )
     }
 
@@ -78,8 +72,12 @@ export const changePasswordHandler: AppRouteHandler<
         .set({ password: hashedPassword })
         .where(eq(authUsersTable.id, userId))
 
-    return c.json({
-        message: 'Password changed successfully',
-        data: { success: true },
-    })
+    return c.json(
+        {
+            message: 'Password changed successfully',
+            data: {},
+            success: true,
+        },
+        OK,
+    )
 }

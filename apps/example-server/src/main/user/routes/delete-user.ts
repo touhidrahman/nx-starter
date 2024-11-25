@@ -11,7 +11,7 @@ export const deleteUserRoute = createRoute({
     path: '/v1/user/:id',
     method: 'delete',
     tags: ['User'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
     },

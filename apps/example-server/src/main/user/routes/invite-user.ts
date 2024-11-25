@@ -12,15 +12,12 @@ export const inviteUserRoute = createRoute({
     path: '/v1/invite',
     method: 'post',
     tags: ['User'],
-    middleware: [checkToken],
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertInvite, 'Invite user details'),
     },
     responses: {
-        [OK]: ApiResponse(
-            { data: zSelectInvite, message: z.string(), success: z.boolean() },
-            'Created invite',
-        ),
+        [OK]: ApiResponse(zSelectInvite, 'Created invite'),
     },
 })
 
