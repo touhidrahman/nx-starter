@@ -150,12 +150,11 @@ export const appRoutes: Route[] = [
             },
         ],
     },
-
     {
         path: 'dashboard/cases',
         loadComponent: () =>
-            import('./pages/page-cases/page-cases.component').then(
-                (m) => m.PageCasesComponent,
+            import('./pages/page-new-cases/page-new-cases.component').then(
+                (m) => m.PageNewCasesComponent,
             ),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
@@ -174,6 +173,30 @@ export const appRoutes: Route[] = [
             import(
                 './pages/page-admin-userlist/page-admin-userlist.component'
             ).then((m) => m.PageAdminUserlistComponent),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'case',
+        loadComponent: () =>
+            import('./pages/page-new-case/page-new-case.component').then(
+                (m) => m.PageNewCaseComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'dashboard/clients',
+        loadComponent: () =>
+            import('./pages/page-clients/page-clients.component').then(
+                (m) => m.PageClientsComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'client',
+        loadComponent: () =>
+            import('./pages/page-client/page-client.component').then(
+                (m) => m.PageClientComponent,
+            ),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
 ]
