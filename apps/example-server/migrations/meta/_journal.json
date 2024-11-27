@@ -15,6 +15,20 @@
       "when": 1732717630983,
       "tag": "0001_fuzzy_sabra",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1732718455140,
+      "tag": "0002_married_nocturne",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1732718772057,
+      "tag": "0003_tough_old_lace",
+      "breakpoints": true
     }
   ]
 }

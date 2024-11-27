@@ -15,6 +15,7 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { uploadToS3AndGetUrl } from '../../../core/third-party/s3.service'
 import { db } from '../../../core/db/db'
 import { storageTable } from '../../../core/db/schema'
+import { getFileType } from '../storage.util'
 
 export const uploadRoute = createRoute({
     path: '/v1/storage/upload',
@@ -49,6 +50,8 @@ export const uploadHandler: AppRouteHandler<typeof uploadRoute> = async (c) => {
                 .values({
                     filename: file.name,
                     url,
+                    type: getFileType(file),
+                    size: file.size,
                     extension: file.name.split('.').pop(),
                     entityId,
                     entityName,
@@ -69,6 +72,7 @@ export const uploadHandler: AppRouteHandler<typeof uploadRoute> = async (c) => {
             .values({
                 filename: file.name,
                 url,
+                type: getFileType(file),
                 extension: file.name.split('.').pop(),
                 entityId,
                 entityName,
