@@ -21,6 +21,12 @@ export const userStatusEnum = pgEnum('userStatus', [
     'inactive',
     'banned',
 ])
+export const fileTypeEnum = pgEnum('fileType', [
+    'image',
+    'document',
+    'video',
+    'audio',
+])
 
 /**
  * AuthUsers Table is used for logging in and authentication in the system
@@ -619,11 +625,19 @@ export const storageTable = pgTable('storage', {
     id: text('id').primaryKey().$defaultFn(generateId),
     filename: text('filename'),
     url: text('url'),
+    type: fileTypeEnum('type').default('document'),
     extension: text('extension'),
+    size: integer('size').default(0),
     uploadedBy: text('uploaded_by'),
     entityId: text('entity_id'),
     entityName: text('entity_name'),
     expiryDate: timestamp('expiry_date'),
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
+        .notNull()
+        .$onUpdate(() => new Date()),
 })
 
 //  section: Courts Table

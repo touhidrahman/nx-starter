@@ -5,6 +5,7 @@ import {
     S3Client,
 } from '@aws-sdk/client-s3'
 import env from '../../env'
+import { getHashedFileName } from '../utils/file.util'
 
 export const appS3Client = new S3Client({
     region: env.S3_REGION,
@@ -21,7 +22,7 @@ export const buildS3Url = (key: string): string => {
 }
 
 export const uploadToS3AndGetUrl = async (file: File): Promise<string> => {
-    const fileKey = `${crypto.randomUUID()}.${file.type.split('/')[1]}`
+    const fileKey = getHashedFileName(file)
 
     const uploadCommand = new PutObjectCommand({
         Body: Buffer.from(await file.arrayBuffer()),
@@ -32,7 +33,7 @@ export const uploadToS3AndGetUrl = async (file: File): Promise<string> => {
     })
     try {
         await appS3Client.send(uploadCommand)
-        return fileKey
+        return buildS3Url(fileKey)
     } catch (error) {
         console.error('Error uploading to S3:', error)
         return ''
