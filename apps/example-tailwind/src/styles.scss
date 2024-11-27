@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&display=swap');
 @import '@angular/cdk/overlay-prebuilt.css';
 
 @layer tailwind-base, primeng, tailwind-utilities;
@@ -160,4 +161,11 @@ select {
         rgba(0, 150, 136, 0.04) 40%,
         rgba(0, 150, 136, 0.02) 100%
     );
+}
+
+.font-archivo-narrow {
+    font-family: 'Archivo Narrow', sans-serif;
+}
+.text-primary-gray {
+    @apply text-[#3a3a3a];
 }
