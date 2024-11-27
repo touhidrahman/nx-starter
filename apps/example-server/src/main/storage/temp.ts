@@ -6,7 +6,10 @@ import { db } from '../../core/db/db'
 import { storageTable } from '../../core/db/schema'
 import { zDeleteStorage, zUpdateStorage } from './storage.schema'
 import { createRouter } from '../../core/create-app'
-import { getStorageItemHandler, getStorageItemRoute } from './routes/get-storage-item'
+import {
+    getStorageItemHandler,
+    getStorageItemRoute,
+} from './routes/get-storage-item'
 
 const app = new Hono()
 
@@ -25,7 +28,6 @@ app.get('', authMiddleware, async (c) => {
 
     return c.json({ data: storage, message: 'Storage list' })
 })
-
 
 // PATCH /storage/:id - update
 app.patch(
