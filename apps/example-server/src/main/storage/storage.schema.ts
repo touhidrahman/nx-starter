@@ -1,6 +1,7 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import { z } from 'zod'
 import { storageTable } from '../../core/db/schema'
+import { zFile } from '../../core/models/common.schema'
 
 export type InsertStorage = typeof storageTable.$inferInsert
 export type SelectStorage = typeof storageTable.$inferSelect
@@ -14,6 +15,7 @@ export const zUpdateStorage = zInsertStorage
         updatedAt: true,
     })
     .partial()
+export const zUploadStorage = zUpdateStorage.merge(zFile)
 export type UpdateStorage = z.infer<typeof zUpdateStorage>
 
 export const zDeleteStorage = z.object({

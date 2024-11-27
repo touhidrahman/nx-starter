@@ -625,11 +625,11 @@ export const storageTable = pgTable('storage', {
     entityName: text('entity_name'),
     expiryDate: timestamp('expiry_date'),
     createdAt: timestamp('created_at', { withTimezone: true })
-    .notNull()
-    .defaultNow(),
-updatedAt: timestamp('updated_at', { withTimezone: true })
-    .notNull()
-    .$onUpdate(() => new Date()),
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
+        .notNull()
+        .$onUpdate(() => new Date()),
 })
 
 //  section: Courts Table
