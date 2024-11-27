@@ -21,7 +21,12 @@ export const userStatusEnum = pgEnum('userStatus', [
     'inactive',
     'banned',
 ])
-export const fileTypeEnum = pgEnum('fileType', ['image', 'document', 'video', 'audio'])
+export const fileTypeEnum = pgEnum('fileType', [
+    'image',
+    'document',
+    'video',
+    'audio',
+])
 
 /**
  * AuthUsers Table is used for logging in and authentication in the system

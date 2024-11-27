@@ -46,13 +46,13 @@ export const deleteTaskHandler: AppRouteHandler<
             OK,
         )
     } catch (error) {
-        console.error(
-            'Error deleting task:',
-            error instanceof Error ? error.message : 'Unknown error',
-        )
-        if (error instanceof Error) console.error(error.stack)
         return c.json(
-            { data: {}, message: 'Internal Server Error', success: false },
+            {
+                data: {},
+                message: 'Internal Server Error',
+                error,
+                success: false,
+            },
             INTERNAL_SERVER_ERROR,
         )
     }

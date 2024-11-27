@@ -23,7 +23,7 @@ export const getStorageItemRoute = createRoute({
 
 export const getStorageItemHandler: AppRouteHandler<
     typeof getStorageItemRoute
-> = async (c: any) => {
+> = async (c) => {
     const id = c.req.param('id')
 
     const storage = await getStorageItemById(id)

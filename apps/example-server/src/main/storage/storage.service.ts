@@ -1,7 +1,7 @@
 import { eq, getTableColumns } from 'drizzle-orm'
 import { db } from '../../core/db/db'
 import { storageTable } from '../../core/db/schema'
-import { getFileType } from './storage.util'
+import { getFileType } from '../../core/utils/file.util'
 
 export const getStorageItemById = async (id: string) => {
     const [result] = await db
@@ -13,12 +13,13 @@ export const getStorageItemById = async (id: string) => {
 }
 
 export async function createStorageRecord(data: {
-    file: File,
-    url: string,
-    entityName: string,
-    entityId: string,
-    uploadedBy: string,
+    file: File
+    url: string
+    entityName: string
+    entityId: string
+    uploadedBy: string
 }) {
+    const hashedName = data.url.split('/').pop()
     return db
         .insert(storageTable)
         .values({
@@ -32,4 +33,8 @@ export async function createStorageRecord(data: {
             uploadedBy: data.uploadedBy,
         })
         .returning()
+}
+
+export async function deleteStorageItemById(id: string) {
+    return db.delete(storageTable).where(eq(storageTable.id, id))
 }
