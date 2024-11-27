@@ -12,6 +12,8 @@ import { LayoutCtaComponent } from './main/layouts/components/layout-cta/layout-
 import { LayoutDefaultComponent } from './main/layouts/components/layout-default/layout-default.component'
 import { LayoutPublicComponent } from './main/layouts/components/layout-public/layout-public.component'
 
+// temp
+
 @Component({
     standalone: true,
     imports: [
@@ -25,6 +27,8 @@ import { LayoutPublicComponent } from './main/layouts/components/layout-public/l
         ConfirmDialog,
         ConfirmPopup,
         Toast,
+
+        // temp
     ],
     selector: 'app-root',
     templateUrl: './app.component.html',
