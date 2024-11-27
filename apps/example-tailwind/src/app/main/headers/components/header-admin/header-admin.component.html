@@ -9,7 +9,7 @@
             alt="User image"
             (error)="showFallback($event)"
             class="w-10 h-10 object-cover rounded-full" />
-        @if (!imageLoaded) {
+        @if (!uiState.imageLoaded) {
             <div
                 class="w-10 h-10 inline-block bg-destructive text-white font-semibold text-xl rounded-full">
                 <span class="leading-10">RG</span>
@@ -17,7 +17,7 @@
         }
     </button>
 
-    @if (showProfileDropDown) {
+    @if (uiState.showProfileDropDown) {
         <div
             class="flex flex-col gap-3 absolute bg-white shadow-md w-56 top-20 right-4 px-3.5 py-4 rounded-md"
             id="profileDropDown">

@@ -1,5 +1,7 @@
 import { Component, inject, OnDestroy, OnInit, Renderer2 } from '@angular/core'
 import { RouterModule } from '@angular/router'
+import { HeaderUtilService } from '../../header-utils/header-util.service'
+import { UIstate } from '../../header-utils/uiState-inteface'
 
 @Component({
     selector: 'app-header-admin',
@@ -10,30 +12,27 @@ import { RouterModule } from '@angular/router'
 })
 export class HeaderAdminComponent implements OnInit, OnDestroy {
     renderer: Renderer2 = inject(Renderer2)
-    imageLoaded = true
-    showProfileDropDown = false
+    headerUtilService = inject(HeaderUtilService)
 
-    bodyClickListener: (() => void) | null = null
+    uiState: UIstate = {
+        imageLoaded: true,
+        showProfileDropDown: false,
+    }
     showFallback(event: Event) {
-        this.imageLoaded = false
-        ;(event.target as HTMLElement).style.display = 'none'
+        this.headerUtilService.showFallbackText(event, this.uiState)
     }
 
+    // toggle profile menu logic
+    bodyClickListener: (() => void) | null = null
     ngOnInit() {
         this.bodyClickListener = this.renderer.listen(
             document.body,
             'click',
             (e: Event) => {
-                const targetElement = e.target as HTMLElement
-                if (targetElement.closest('#profileButton')) {
-                    this.showProfileDropDown = !this.showProfileDropDown
-                } else if (!targetElement.closest('#profileDropDown')) {
-                    this.showProfileDropDown = false
-                }
+                this.headerUtilService.toggleProfileMenu(e, this.uiState)
             },
         )
     }
-
     ngOnDestroy() {
         if (this.bodyClickListener) {
             this.bodyClickListener()

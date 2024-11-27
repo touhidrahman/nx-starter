@@ -11,8 +11,7 @@ import { LayoutCenteredComponent } from './main/layouts/components/layout-center
 import { LayoutCtaComponent } from './main/layouts/components/layout-cta/layout-cta.component'
 import { LayoutDefaultComponent } from './main/layouts/components/layout-default/layout-default.component'
 import { LayoutPublicComponent } from './main/layouts/components/layout-public/layout-public.component'
-
-// temp
+import { LayoutAdminComponent } from './main/layouts/components/layout-admin/layout-admin.component'
 
 @Component({
     standalone: true,
@@ -27,6 +26,7 @@ import { LayoutPublicComponent } from './main/layouts/components/layout-public/l
         ConfirmDialog,
         ConfirmPopup,
         Toast,
+        LayoutAdminComponent,
 
         // temp
     ],
