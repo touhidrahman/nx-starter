@@ -19,7 +19,7 @@ const EnvSchema = z.object({
     S3_REGION: z.string(),
     S3_ENDPOINT: z.string(),
     EMAIL_HOST: z.string(),
-    EMAIL_PORT: z.number(),
+    EMAIL_PORT: z.coerce.number(),
     EMAIL_USER: z.string(),
     EMAIL_PASS: z.string(),
 })

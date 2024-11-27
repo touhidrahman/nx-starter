@@ -32,7 +32,7 @@ export const uploadToS3AndGetUrl = async (file: File): Promise<string> => {
     })
     try {
         await appS3Client.send(uploadCommand)
-        return fileKey
+        return buildS3Url(fileKey)
     } catch (error) {
         console.error('Error uploading to S3:', error)
         return ''
