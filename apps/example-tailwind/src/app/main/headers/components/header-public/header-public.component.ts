@@ -2,14 +2,13 @@ import { CommonModule } from '@angular/common'
 import { Component, inject, OnDestroy, OnInit, Renderer2 } from '@angular/core'
 import { RouterModule } from '@angular/router'
 import { AuthStateService } from '@myorg/app-example-auth'
-import { LucideAngularModule } from 'lucide-angular'
 import { HeaderUtilService } from '../../header-utils/header-util.service'
 import { UIstate } from '../../header-utils/uiState-inteface'
 
 @Component({
     selector: 'app-header-public',
     standalone: true,
-    imports: [CommonModule, RouterModule, LucideAngularModule],
+    imports: [CommonModule, RouterModule],
     templateUrl: './header-public.component.html',
     styleUrl: './header-public.component.scss',
 })

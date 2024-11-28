@@ -13,44 +13,43 @@
             </p>
         </div>
         <div class="grid grid-cols-12 xl:gap-8 mt-16">
-            @for(item of pricePlan; track item.id){
-            <div class="col-span-12 sm:colspan-6 lg:col-span-4">
-                <div
-                    class="p-10 border rounded-md"
-                    [ngClass]="
-                        item.isPopular ? 'bg-primary-40 -mt-8' : 'bg-white'
-                    ">
-                    <div class="text-center font-semibold">
-                        <h4 class="text-2xl">{{ item.title }}</h4>
-                        <h6 class="pt-2 pb-2">
-                            <span class="text-3xl font-bold"
-                                >${{ item.price }}</span
-                            >
-                            <span>/Month</span>
-                        </h6>
-                        <p class="text-[1rem] px-2">{{ item.description }}</p>
-                    </div>
+            @for (item of pricePlan; track item.id) {
+                <div class="col-span-12 sm:colspan-6 lg:col-span-4">
+                    <div
+                        class="p-10 border rounded-md"
+                        [ngClass]="
+                            item.isPopular ? 'bg-primary-40 -mt-8' : 'bg-white'
+                        ">
+                        <div class="text-center font-semibold">
+                            <h4 class="text-2xl">{{ item.title }}</h4>
+                            <h6 class="pt-2 pb-2">
+                                <span class="text-3xl font-bold"
+                                    >${{ item.price }}</span
+                                >
+                                <span>/Month</span>
+                            </h6>
+                            <p class="text-[1rem] px-2">
+                                {{ item.description }}
+                            </p>
+                        </div>
 
-                    <hr class="my-4" />
+                        <hr class="my-4" />
 
-                    @for(feature of item.features; track feature){
-                    <ul class="">
-                        <li class="py-1.5 text-base flex items-center">
-                            <hlm-icon
-                                size="sm"
-                                name="lucideCheck"
-                                color="primary-500"
-                                class="mr-2 text-primary-500" />
-                            {{ feature }}
-                        </li>
-                    </ul>
-                    }
+                        @for (feature of item.features; track feature) {
+                            <ul class="">
+                                <li class="py-1.5 text-base flex items-center">
+                                    <i
+                                        class="pi pi-check mr-2 text-primary-500"></i>
+                                    {{ feature }}
+                                </li>
+                            </ul>
+                        }
 
-                    <div class="flex justify-center w-full mt-6">
-                        <button class="btn-fill !px-10">Get Start</button>
+                        <div class="flex justify-center w-full mt-6">
+                            <button class="btn-fill !px-10">Get Start</button>
+                        </div>
                     </div>
                 </div>
-            </div>
             }
         </div>
     </div>
