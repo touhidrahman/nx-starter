@@ -1,15 +1,20 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import * as argon2 from 'argon2'
-import { CREATED, CONFLICT } from 'stoker/http-status-codes'
+import { CONFLICT, CREATED } from 'stoker/http-status-codes'
 import { jsonContentRequired } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { db } from '../../../core/db/db'
 import { authUsersTable } from '../../../core/db/schema'
+import { sendEmailUsingResend } from '../../../core/email/email.service'
+import {
+    buildWelcomeEmailTemplate
+} from '../../email/templates/welcome'
+import { zEmpty } from '../../../core/models/common.schema'
+import { ApiResponse } from '../../../core/utils/api-response.util'
+import env from '../../../env'
 import { zRegister } from '../auth.schema'
 import { countAuthUserByEmail, isFirstAuthUser } from '../auth.service'
 import { createVerficationToken } from '../token.util'
-import { ApiResponse } from '../../../core/utils/api-response.util'
-import { zEmpty } from '../../../core/models/common.schema'
 
 const tags = ['Auth']
 
@@ -49,7 +54,7 @@ export const registerHandler: AppRouteHandler<typeof registerRoute> = async (
     const isFirstUser = await isFirstAuthUser()
 
     // Insert new user
-    const createdAuthUser = await db
+    const [createdAuthUser] = await db
         .insert(authUsersTable)
         .values({
             email,
@@ -61,7 +66,7 @@ export const registerHandler: AppRouteHandler<typeof registerRoute> = async (
         })
         .returning()
 
-    const userId = createdAuthUser[0].id
+    const userId = createdAuthUser.id
 
     // Generate verification token
     if (!isFirstUser) {
@@ -71,7 +76,18 @@ export const registerHandler: AppRouteHandler<typeof registerRoute> = async (
         })
         console.log('TCL: | verificationToken:', token)
 
-        // TODO: send verification email
+        const welcomeEmail = buildWelcomeEmailTemplate({
+            firstName: createdAuthUser.firstName,
+            lastName: createdAuthUser.lastName,
+            email: env.NODE_ENV !== 'production' ? 'touhidrahman.me@gmail.com' : createdAuthUser.email,
+            verificationUrl: `${env.FRONTEND_URL}/account-verify/${token}`,
+        })
+        const { data, error } = await sendEmailUsingResend(
+            [createdAuthUser.email],
+            'Please verify your email',
+            welcomeEmail
+        )
+        // TODO: log email sending error
     }
 
     return c.json(

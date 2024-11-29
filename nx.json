@@ -100,5 +100,6 @@
             "skipTests": true
         }
     },
-    "useLegacyCache": true
+    "useLegacyCache": true,
+    "packageManager": "pnpm"
 }
