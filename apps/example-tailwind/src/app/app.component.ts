@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common'
 import { Component, inject } from '@angular/core'
 import { RouterModule } from '@angular/router'
 import { PageLayout, PageLayoutService } from '@myorg/page-layouts'
-import { LucideIconConfig } from 'lucide-angular'
 import { NgxSonnerToaster } from 'ngx-sonner'
 import { ConfirmDialog } from 'primeng/confirmdialog'
 import { ConfirmPopup } from 'primeng/confirmpopup'
@@ -31,14 +30,7 @@ import { LayoutPublicComponent } from './main/layouts/components/layout-public/l
     styleUrl: './app.component.scss',
 })
 export class AppComponent {
-    private lucideConfig = inject(LucideIconConfig)
-
     readonly PageLayout = PageLayout
 
     layoutService = inject(PageLayoutService)
-
-    constructor() {
-        this.lucideConfig.strokeWidth = 2
-        this.lucideConfig.size = 16
-    }
 }

@@ -1,7 +1,4 @@
 import { RouterModule } from '@angular/router'
-import { SpartanModules } from '@myorg/spartan-modules'
-import { provideIcons } from '@ng-icons/core'
-import { lucideCog, lucideSearch, lucideTrash2 } from '@ng-icons/lucide'
 import { CommonModule } from '@angular/common'
 import { Component } from '@angular/core'
 
@@ -16,10 +13,9 @@ interface Team {
 @Component({
     selector: 'app-page-team',
     standalone: true,
-    imports: [RouterModule, SpartanModules, CommonModule],
+    imports: [RouterModule, CommonModule],
     templateUrl: './page-team.component.html',
     styleUrl: './page-team.component.scss',
-    providers: [provideIcons({ lucideCog, lucideTrash2, lucideSearch })],
 })
 export class PageTeamComponent {
     teams: Team[] = [
