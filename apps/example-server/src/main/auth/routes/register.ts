@@ -8,7 +8,7 @@ import { authUsersTable } from '../../../core/db/schema'
 import { sendEmailUsingResend } from '../../../core/email/email.service'
 import {
     buildWelcomeEmailTemplate
-} from '../../../core/email/templates/welcome'
+} from '../../email/templates/welcome'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import env from '../../../env'
