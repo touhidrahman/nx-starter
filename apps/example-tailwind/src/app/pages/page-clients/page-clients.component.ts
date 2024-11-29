@@ -1,10 +1,7 @@
 import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
-
-import { HlmSwitchComponent } from '@spartan-ng/ui-switch-helm'
-import { BrnSelectImports } from '@spartan-ng/ui-select-brain'
-import { HlmSelectImports } from '@spartan-ng/ui-select-helm'
-
+import { DropdownModule } from 'primeng/dropdown'
+import { FormsModule } from '@angular/forms'
 interface Case {
     name: string
     phone: string
@@ -18,12 +15,7 @@ interface Case {
 @Component({
     selector: 'app-page-clients',
     standalone: true,
-    imports: [
-        CommonModule,
-        HlmSwitchComponent,
-        BrnSelectImports,
-        HlmSelectImports,
-    ],
+    imports: [CommonModule, DropdownModule, FormsModule],
     templateUrl: './page-clients.component.html',
     styleUrl: './page-clients.component.scss',
 })
@@ -85,4 +77,7 @@ export class PageClientsComponent {
 
         return '#989898'
     }
+
+    Options = [{ name: 'Low' }, { name: 'High' }]
+    selectedOption: undefined
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import {
     FormBuilder,
     FormGroup,
@@ -6,21 +6,13 @@ import {
     Validators,
 } from '@angular/forms'
 import { Router, RouterModule } from '@angular/router'
-import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
-import { HlmCardDirective } from '@spartan-ng/ui-card-helm'
 import { AuthApiService } from '@myorg/common-auth'
-
 import { toast } from 'ngx-sonner'
 
 @Component({
     selector: 'app-page-forgot-password',
     standalone: true,
-    imports: [
-        ReactiveFormsModule,
-        RouterModule,
-        HlmInputDirective,
-        HlmCardDirective,
-    ],
+    imports: [ReactiveFormsModule, RouterModule],
     templateUrl: './page-forgot-password.component.html',
     styleUrl: './page-forgot-password.component.scss',
 })

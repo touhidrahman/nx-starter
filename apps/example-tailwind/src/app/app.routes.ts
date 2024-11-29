@@ -19,14 +19,6 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
-        path: 'dashboard/home',
-        loadComponent: () =>
-            import(
-                './pages/page-dashboard-home/page-dashboard-home.component'
-            ).then((m) => m.PageDashboardHomeComponent),
-        resolve: { layout: setLayout(PageLayout.Default) },
-    },
-    {
         path: 'dashboard/case/:id',
         loadComponent: () =>
             import('./pages/page-case/page-case.component').then(
