@@ -3,8 +3,6 @@ import { Component } from '@angular/core'
 import { RouterLinkActive, RouterModule } from '@angular/router'
 import { ChangePasswordFormService } from '@myorg/common-auth'
 import { userRoute, UserRoute } from './user-route-data'
-import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
-import { SpartanModules } from '@myorg/spartan-modules'
 
 @Component({
     selector: 'app-page-profile',
