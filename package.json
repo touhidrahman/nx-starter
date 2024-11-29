@@ -3,8 +3,8 @@
     "version": "0.0.0",
     "license": "MIT",
     "scripts": {
-        "i": "npm install --legacy-peer-deps",
-        "prepare": "npx simple-git-hooks",
+        "preinstall": "npx only-allow pnpm",
+        "prepare": "pnpm dlx simple-git-hooks",
         "pre-commit": "lint-staged",
         "format": "nx format:write all",
         "dev": "nx serve",
@@ -12,20 +12,20 @@
         "dev:mobile": "nx serve example-ionic",
         "dev:admin": "nx serve example-admin",
         "dev:server": "nx run example-server:serve",
-        "db:up": "cd apps/example-server && npx drizzle-kit up",
-        "db:check": "cd apps/example-server && npx drizzle-kit check",
-        "db:generate": "cd apps/example-server && npx drizzle-kit generate",
-        "db:migrate": "cd apps/example-server && npx drizzle-kit migrate",
-        "db:local-dev": "cd apps/example-server && npx drizzle-kit push",
-        "db:studio": "cd apps/example-server && npx drizzle-kit studio",
+        "db:up": "cd apps/example-server && pnpm dlx drizzle-kit up",
+        "db:check": "cd apps/example-server && pnpm dlx drizzle-kit check",
+        "db:generate": "cd apps/example-server && pnpm dlx drizzle-kit generate",
+        "db:migrate": "cd apps/example-server && pnpm dlx drizzle-kit migrate",
+        "db:local-dev": "cd apps/example-server && pnpm dlx drizzle-kit push",
+        "db:studio": "cd apps/example-server && pnpm dlx drizzle-kit studio",
         "db:generate-erd": "drizzle-erd --in ./apps/example-server/src/core/db/schema.ts --out ./apps/example-server/erd.svg",
         "db:dbml": "tsx ./apps/example-server/dbml.ts",
         "update1of3": "nx migrate latest --verbose",
         "update2of3": "nx migrate --run-migrations --if-exists",
         "update3of3": "rm migrations.json",
-        "spartan1of3": "npm i -D @spartan-ng/cli@latest --legacy-peer-deps",
-        "spartan2of3": "npm i @spartan-ng/ui-core@latest --legacy-peer-deps",
-        "spartan3of3": "npx nx g @spartan-ng/cli:ui",
+        "spartan1of3": "pnpm add -D @spartan-ng/cli@latest --strict-peer-dependencies",
+        "spartan2of3": "pnpm add @spartan-ng/ui-core@latest --strict-peer-dependencies",
+        "spartan3of3": "pnpm dlx nx g @spartan-ng/cli:ui",
         "report": "nx report"
     },
     "private": true,
@@ -159,6 +159,7 @@
         "@swc/helpers": "0.5.11",
         "@types/jest": "29.5.13",
         "@types/node": "22.10.0",
+        "@types/pg": "^8.11.10",
         "@typescript-eslint/eslint-plugin": "7.18.0",
         "@typescript-eslint/parser": "7.18.0",
         "@typescript-eslint/utils": "7.18.0",
@@ -197,11 +198,12 @@
         "{apps,libs}/**/*.*": "nx format:write"
     },
     "simple-git-hooks": {
-        "pre-commit": "npx lint-staged",
-        "pre-push": "npm run format",
+        "pre-commit": "pnpm dlx lint-staged",
+        "pre-push": "pnpm format",
         "preserveUnused": true
     },
     "engines": {
-        "node": ">=20"
+        "node": ">=20",
+        "pnpm": "9"
     }
 }

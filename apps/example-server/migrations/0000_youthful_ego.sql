@@ -1,3 +1,4 @@
+CREATE TYPE "public"."fileType" AS ENUM('image', 'document', 'video', 'audio');--> statement-breakpoint
 CREATE TYPE "public"."groupLevel" AS ENUM('trial', 'basic', 'premium');--> statement-breakpoint
 CREATE TYPE "public"."groupStatus" AS ENUM('active', 'inactive', 'pending');--> statement-breakpoint
 CREATE TYPE "public"."groupType" AS ENUM('client', 'vendor');--> statement-breakpoint
@@ -195,11 +196,15 @@ CREATE TABLE IF NOT EXISTS "storage" (
 	"id" text PRIMARY KEY NOT NULL,
 	"filename" text,
 	"url" text,
+	"type" "fileType" DEFAULT 'document',
 	"extension" text,
+	"size" integer DEFAULT 0,
 	"uploaded_by" text,
 	"entity_id" text,
 	"entity_name" text,
-	"expiry_date" timestamp
+	"expiry_date" timestamp,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "subscriptions" (

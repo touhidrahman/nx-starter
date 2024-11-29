@@ -9,6 +9,8 @@ const EnvSchema = z.object({
     LOG_LEVEL: z.enum(['trace', 'debug', 'info', 'warn', 'error', 'fatal']),
     PORT: z.coerce.number(),
     DATABASE_URL: z.string(),
+    FRONTEND_URL: z.string(),
+    BACKEND_URL: z.string(),
     DEV_DB_MODE: z.enum(['local', 'neon']),
     ACCESS_TOKEN_SECRET: z.string(),
     REFRESH_TOKEN_SECRET: z.string(),
@@ -18,6 +20,9 @@ const EnvSchema = z.object({
     S3_BUCKET: z.string(),
     S3_REGION: z.string(),
     S3_ENDPOINT: z.string(),
+    EMAIL_RESEND_API_KEY: z.string(),
+    EMAIL_SENDER_NAME: z.string(),
+    EMAIL_SENDER_EMAIL: z.string(),
 })
 
 export type TEnv = z.infer<typeof EnvSchema>
