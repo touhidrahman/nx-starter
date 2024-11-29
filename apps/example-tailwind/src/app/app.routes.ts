@@ -176,7 +176,7 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
-        path: 'client',
+        path: 'dashboard/client/:id',
         loadComponent: () =>
             import('./pages/page-client/page-client.component').then(
                 (m) => m.PageClientComponent,

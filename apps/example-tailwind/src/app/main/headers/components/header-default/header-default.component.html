@@ -1,18 +1,18 @@
 <nav class="bg-white text-gray-700 w-full shadow-sm">
     <div class="flex flex-wrap items-center justify-between mx-auto px-4 py-4">
         <!-- TODO:remove important -->
-        <div
-            (click)="toggleSidebar()"
-            class="cursor-pointer pi pi-bars !text-3xl"></div>
+        <div (click)="toggleSidebar()" class="cursor-pointer">
+            <i class="pi pi-bars text-3xl"></i>
+        </div>
 
         <div class="flex items-center gap-4">
             <div class="relative w-56 sm:w-80">
                 <input
-                    class="w-full rounded-full !bg-green-100 px-4 py-2 pl-10"
+                    class="w-full rounded-full bg-green-100 px-4 py-2 pl-10"
                     placeholder="Search" />
                 <div
                     class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <span class="pi pi-search !text-sm !font-semibold"></span>
+                    <span class="pi pi-search text-sm font-semibold"></span>
                 </div>
             </div>
             <button id="profileButton">
@@ -43,27 +43,27 @@
                 <button
                     class="flex justify-start items-center gap-2 hover:bg-slate-200 transition-all px-3 leading-relaxed"
                     routerLink="/profile">
-                    <span class="pi pi-user !text-black !font-medium"></span>
+                    <span class="pi pi-user text-black font-medium"></span>
                     <span>Profile</span>
                 </button>
 
                 <button
                     class="flex justify-start items-center gap-2 hover:bg-slate-200 transition-all px-3 leading-relaxed">
-                    <span class="pi pi-cog !text-black !font-medium"></span>
+                    <span class="pi pi-cog text-black font-medium"></span>
                     <span>Settings</span>
                 </button>
 
                 <button
                     class="flex justify-start gap-2 items-center hover:bg-slate-200 transition-all px-3 leading-relaxed">
                     <!-- Keyborad icon is missing in primeng -->
-                    <span class="pi pi-users !text-black !font-medium"></span>
+                    <span class="pi pi-users text-black font-medium"></span>
                     <!-- <lucide-icon name="keyboard" hlmMenuIcon /> -->
                     <span>Keyboard Shortcuts</span>
                 </button>
 
                 <button
                     class="flex justify-start items-center gap-2 hover:bg-slate-200 transition-all px-3 leading-relaxed">
-                    <span class="pi pi-users !text-black !font-medium"></span>
+                    <span class="pi pi-users text-black font-medium"></span>
                     <span>Team</span>
                 </button>
 
@@ -83,12 +83,12 @@
                                     hlmMenuIcon
                                     class="m-0" /> -->
                                 <span
-                                    class="pi pi-headphones !text-black !font-medium"></span>
+                                    class="pi pi-headphones text-black font-medium"></span>
                             </span>
                             <span>Support</span>
                         </span>
                         <span
-                            class="pi pi-chevron-right !text-black !font-medium !text-xs transition-all duration-400"
+                            class="pi pi-chevron-right text-black font-medium text-xs transition-all duration-400"
                             #chevron></span>
                     </button>
 
@@ -98,14 +98,14 @@
                         <button
                             class="flex justify-start items-center gap-2 hover:bg-slate-200 transition-all px-3 leading-loose w-full">
                             <span
-                                class="pi pi-envelope !text-black !font-medium"></span>
+                                class="pi pi-envelope text-black font-medium"></span>
                             <span>Email</span>
                         </button>
 
                         <button
                             class="flex justify-start items-center gap-2 hover:bg-slate-200 transition-all px-3 leading-loose w-full">
                             <span
-                                class="pi pi-comment !text-black !font-medium"></span>
+                                class="pi pi-comment text-black font-medium"></span>
                             <span>Message</span>
                         </button>
                         <button
@@ -117,8 +117,7 @@
                 <hr class="opacity-50" />
                 <button
                     class="flex justify-start items-center gap-2 hover:bg-slate-200 transition-all px-3 leading-relaxed">
-                    <span
-                        class="pi pi-sign-out !text-black !font-medium"></span>
+                    <span class="pi pi-sign-out text-black font-medium"></span>
                     <span>Log Out</span>
                 </button>
             </div>
