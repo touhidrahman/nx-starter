@@ -1,11 +1,10 @@
-import { Component, NgModule } from '@angular/core'
+import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { KnobModule } from 'primeng/knob'
-import { FormsModule, NgModel } from '@angular/forms'
+import { FormsModule } from '@angular/forms'
 @Component({
     selector: 'app-page-client',
     standalone: true,
-    imports: [CommonModule, KnobModule, FormsModule],
+    imports: [CommonModule, FormsModule],
     templateUrl: './page-client.component.html',
     styleUrl: './page-client.component.scss',
 })

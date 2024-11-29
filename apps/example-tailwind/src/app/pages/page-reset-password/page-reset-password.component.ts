@@ -7,13 +7,11 @@ import {
 } from '@angular/forms'
 import { Router } from '@angular/router'
 import { AuthApiService } from '@myorg/common-auth'
-import { SpartanModules } from '@myorg/spartan-modules'
-import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
 
 @Component({
     selector: 'app-page-reset-password',
     standalone: true,
-    imports: [...SpartanModules, HlmInputDirective, ReactiveFormsModule],
+    imports: [ReactiveFormsModule],
     templateUrl: './page-reset-password.component.html',
     styleUrls: ['./page-reset-password.component.scss'],
 })

@@ -2,33 +2,13 @@ import { CommonModule } from '@angular/common'
 import { Component } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
-import { SpartanModules } from '@myorg/spartan-modules'
-import { provideIcons } from '@ng-icons/core'
-import {
-    lucideCalendarDays,
-    lucideMapPin,
-    lucidePinOff,
-} from '@ng-icons/lucide'
 
 @Component({
     selector: 'app-page-home',
     standalone: true,
-    imports: [
-        ...SpartanModules,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterModule,
-        CommonModule,
-    ],
+    imports: [FormsModule, ReactiveFormsModule, RouterModule, CommonModule],
     templateUrl: './page-home.component.html',
     styleUrl: './page-home.component.scss',
-    providers: [
-        provideIcons({
-            lucideCalendarDays,
-            lucideMapPin,
-            lucidePinOff,
-        }),
-    ],
 })
 export class PageHomeComponent {
     cards = [

@@ -1,35 +1,54 @@
-import { Component, EventEmitter, inject, Output } from '@angular/core'
-
-import { SpartanModules } from '@myorg/spartan-modules'
-import { LucideAngularModule } from 'lucide-angular'
-import { provideIcons } from '@ng-icons/core'
 import {
-    lucideAlignJustify,
-    lucidePlusCircle,
-    lucideSearch,
-} from '@ng-icons/lucide'
-import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
+    Component,
+    EventEmitter,
+    inject,
+    OnDestroy,
+    OnInit,
+    Output,
+    Renderer2,
+} from '@angular/core'
 import { RouterModule } from '@angular/router'
+import { HeaderUtilService } from '../../header-utils/header-util.service'
+import { UIstate } from '../../header-utils/uiState-inteface'
 
 @Component({
     selector: 'app-header-default',
     standalone: true,
-    imports: [
-        ...SpartanModules,
-        LucideAngularModule,
-        HlmInputDirective,
-        RouterModule,
-    ],
+    imports: [RouterModule],
     templateUrl: './header-default.component.html',
     styleUrl: './header-default.component.scss',
-    providers: [
-        provideIcons({ lucideSearch, lucideAlignJustify, lucidePlusCircle }),
-    ],
 })
-export class HeaderDefaultComponent {
-    @Output() sidebarToggle = new EventEmitter<void>()
+export class HeaderDefaultComponent implements OnInit, OnDestroy {
+    renderer: Renderer2 = inject(Renderer2)
+    headerUtilService = inject(HeaderUtilService)
 
+    @Output() sidebarToggle = new EventEmitter<void>()
     toggleSidebar() {
         this.sidebarToggle.emit()
+    }
+    uiState: UIstate = {
+        imageLoaded: true,
+        showProfileDropDown: false,
+    }
+    showFallback(event: Event) {
+        this.headerUtilService.showFallbackText(event, this.uiState)
+    }
+
+    // toggle profile menu logic
+    bodyClickListener: (() => void) | null = null
+    ngOnInit() {
+        this.bodyClickListener = this.renderer.listen(
+            document.body,
+            'click',
+            (e: Event) => {
+                this.headerUtilService.toggleProfileMenu(e, this.uiState)
+            },
+        )
+    }
+    ngOnDestroy() {
+        if (this.bodyClickListener) {
+            this.bodyClickListener()
+            this.bodyClickListener = null
+        }
     }
 }

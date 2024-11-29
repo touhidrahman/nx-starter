@@ -1,16 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&display=swap');
 @import '@angular/cdk/overlay-prebuilt.css';
 
-@layer tailwind-base, primeng, tailwind-utilities;
+// @layer tailwind-base, primeng, tailwind-utilities;
 
-@layer tailwind-base {
-    @tailwind base;
-}
+// @layer tailwind-base {
+@tailwind base;
+// }
 
-@layer tailwind-utilities {
-    @tailwind components;
-    @tailwind utilities;
-}
+// @layer tailwind-utilities {
+@tailwind components;
+@tailwind utilities;
+// }
 
 @import 'primeicons/primeicons.css';
 

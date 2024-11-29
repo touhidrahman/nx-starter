@@ -10,76 +10,81 @@
             </a>
         </div>
         <div class="flex gap-4 items-center">
-            @if(userId > 0){
-            <a class="text-base font-medium" [routerLink]="['/home']"
-                >Dashboard</a
-            >
-            <button
-                hlmBtn
-                size="default"
-                variant="ghost"
-                class="p-0"
-                [brnMenuTriggerFor]="menu">
-                <hlm-avatar variant="medium">
+            @if (userId > 0) {
+                <a class="text-base font-medium" [routerLink]="['/home']"
+                    >Dashboard</a
+                >
+                <button id="profileButton">
                     <img
-                        src="/assets/avatar.png"
+                        src="avatar/avater.img"
                         alt="User image"
-                        hlmAvatarImage />
-                    <span class="bg-destructive text-white" hlmAvatarFallback
-                        >RG</span
-                    >
-                </hlm-avatar>
-            </button>
-            <ng-template #menu>
-                <hlm-menu class="w-56">
-                    <hlm-menu-label>John Doe</hlm-menu-label>
-                    <hlm-menu-separator />
-                    <hlm-menu-group>
-                        <button hlmMenuItem [routerLink]="['/profile']">
-                            <lucide-icon name="user" hlmMenuIcon />
+                        (error)="showFallback($event)"
+                        class="w-10 h-10 object-cover rounded-full" />
+                    @if (!uiState.imageLoaded) {
+                        <div
+                            class="w-10 h-10 inline-block bg-destructive text-white font-semibold text-xl rounded-full">
+                            <span class="leading-10">RG</span>
+                        </div>
+                    }
+                </button>
+
+                @if (uiState.showProfileDropDown) {
+                    <div
+                        class="flex flex-col gap-3 absolute bg-white shadow-md w-56 top-20 right-4 py-4 rounded-md"
+                        id="profileDropDown">
+                        <button class="flex justify-start px-3 leading-relaxed">
+                            <span>John Doe</span>
+                        </button>
+
+                        <hr class="opacity-70" />
+
+                        <button
+                            class="flex justify-start items-center gap-2 hover:bg-slate-200 transition-all px-3 leading-relaxed"
+                            routerLink="/profile">
+                            <span
+                                class="pi pi-user text-black font-medium"></span>
                             <span>Profile</span>
-                            <hlm-menu-shortcut></hlm-menu-shortcut>
                         </button>
 
-                        <button hlmMenuItem>
-                            <lucide-icon name="settings" hlmMenuIcon />
+                        <button
+                            class="flex justify-start items-center gap-2 hover:bg-slate-200 transition-all px-3 leading-relaxed">
+                            <span
+                                class="pi pi-cog text-black font-medium"></span>
                             <span>Settings</span>
-                            <hlm-menu-shortcut></hlm-menu-shortcut>
                         </button>
 
-                        <button hlmMenuItem>
-                            <lucide-icon name="keyboard" hlmMenuIcon />
+                        <button
+                            class="flex justify-start items-center hover:bg-slate-200 transition-all px-3 leading-relaxed">
+                            <!-- TODO:replace with Keyboard icon -->
+                            <span
+                                class="pi pi-users text-black font-medium"></span>
+                            <!-- <lucide-icon name="keyboard" hlmMenuIcon /> -->
                             <span>Keyboard Shortcuts</span>
-                            <hlm-menu-shortcut></hlm-menu-shortcut>
                         </button>
 
-                        <button hlmMenuItem>
-                            <lucide-icon name="users" hlmMenuIcon />
+                        <button
+                            class="flex justify-start items-center gap-2 hover:bg-slate-200 transition-all px-3 leading-relaxed">
+                            <span
+                                class="pi pi-users text-black font-medium"></span>
                             <span>Team</span>
-                            <hlm-menu-shortcut></hlm-menu-shortcut>
                         </button>
-                    </hlm-menu-group>
-
-                    <hlm-menu-separator />
-
-                    <button hlmMenuItem (click)="logOut()">
-                        <lucide-icon name="log-out" hlmMenuIcon />
-                        <span>Logout</span>
-                        <hlm-menu-shortcut></hlm-menu-shortcut>
-                    </button>
-                </hlm-menu>
-            </ng-template>
-            }@else{
-            <button class="btn-outline" [routerLink]="['/signup']">
-                Sign Up
-            </button>
-            <button
-                hlmBtn
-                [routerLink]="['/login']"
-                variant="default"
-                class="btn-fill">
-                Login
-            </button>
+                        <hr class="opacity-50" />
+                        <button
+                            (click)="logOut()"
+                            class="flex justify-start items-center gap-2 hover:bg-slate-200 transition-all px-3 leading-relaxed">
+                            <span
+                                class="pi pi-sign-out text-black font-medium"></span>
+                            <span>Log Out</span>
+                        </button>
+                    </div>
+                }
+            } @else {
+                <button class="btn-outline" [routerLink]="['/signup']">
+                    Sign Up
+                </button>
+                <button [routerLink]="['/login']" class="btn-fill">
+                    Login
+                </button>
             }
         </div>
     </div>

@@ -1,81 +1,50 @@
-<nav class="bg-white text-gray-700 w-full shadow-sm">
-    <div class="flex flex-wrap items-center justify-between mx-auto px-4 py-4">
-        <div>
-            <hlm-icon size="lg" name="lucideAlignJustify" />
-        </div>
+<nav
+    class="bg-white text-gray-700 w-full shadow-sm relative flex items-center justify-between py-4 px-6">
+    <div class="">
+        <i class="pi pi-bars text-3xl"></i>
+    </div>
 
-        <div class="flex items-center gap-4">
+    <button id="profileButton">
+        <img
+            src="avatar/avater.img"
+            alt="User image"
+            (error)="showFallback($event)"
+            class="w-10 h-10 object-cover rounded-full" />
+        @if (!uiState.imageLoaded) {
+            <div
+                class="w-10 h-10 inline-block bg-destructive text-white font-semibold text-xl rounded-full">
+                <span class="leading-10">RG</span>
+            </div>
+        }
+    </button>
+
+    @if (uiState.showProfileDropDown) {
+        <div
+            class="flex flex-col gap-3 absolute bg-white shadow-md w-56 top-20 right-4 px-3.5 py-4 rounded-md"
+            id="profileDropDown">
+            <button class="flex justify-start">
+                <span>John Doe</span>
+            </button>
+            <hr class="opacity-70" />
             <button
-                hlmBtn
-                size="default"
-                variant="ghost"
-                class="p-0"
-                [brnMenuTriggerFor]="menu">
-                <hlm-avatar variant="medium">
-                    <img
-                        src="/assets/avatar.png"
-                        alt="User image"
-                        hlmAvatarImage />
-                    <span class="bg-destructive text-white" hlmAvatarFallback
-                        >RG</span
-                    >
-                </hlm-avatar>
+                class="flex justify-start items-center gap-2"
+                routerLink="/profile">
+                <span class="pi pi-user !text-black !font-medium"></span>
+                <span>Profile</span>
+            </button>
+            <button class="flex justify-start items-center gap-2">
+                <span class="pi pi-cog !text-black !font-medium"></span>
+                <span>Settings</span>
+            </button>
+            <button class="flex justify-start items-center gap-2">
+                <span class="pi pi-users !text-black !font-medium"></span>
+                <span>Team</span>
+            </button>
+            <hr class="opacity-50" />
+            <button class="flex justify-start items-center gap-2">
+                <span class="pi pi-sign-out !text-black !font-medium"></span>
+                <span>Log Out</span>
             </button>
         </div>
-
-        <ng-template #menu>
-            <hlm-menu class="w-56">
-                <hlm-menu-label>John Doe</hlm-menu-label>
-                <hlm-menu-separator />
-                <hlm-menu-group>
-                    <button hlmMenuItem [routerLink]="['/profile']">
-                        <lucide-icon name="user" hlmMenuIcon />
-                        <span>Profile</span>
-                        <hlm-menu-shortcut></hlm-menu-shortcut>
-                    </button>
-
-                    <button hlmMenuItem>
-                        <lucide-icon name="settings" hlmMenuIcon />
-                        <span>Settings</span>
-                        <hlm-menu-shortcut></hlm-menu-shortcut>
-                    </button>
-
-                    <button hlmMenuItem>
-                        <lucide-icon name="users" hlmMenuIcon />
-                        <span>Team</span>
-                        <hlm-menu-shortcut></hlm-menu-shortcut>
-                    </button>
-                </hlm-menu-group>
-
-                <hlm-menu-separator />
-
-                <button hlmMenuItem>
-                    <lucide-icon name="log-out" hlmMenuIcon />
-                    <span>Logout</span>
-                    <hlm-menu-shortcut></hlm-menu-shortcut>
-                </button>
-            </hlm-menu>
-        </ng-template>
-
-        <ng-template #submenuTpl>
-            <hlm-sub-menu>
-                <button hlmMenuItem>
-                    <lucide-icon name="mail" hlmMenuIcon />
-                    Email
-                </button>
-
-                <button hlmMenuItem>
-                    <lucide-icon
-                        name="message-circle"
-                        hlmMenuIcon></lucide-icon>
-                    Message
-                </button>
-                <hlm-menu-separator />
-                <button hlmMenuItem>
-                    <lucide-icon name="plus-circle" hlmMenuIcon />
-                    <span>More</span>
-                </button>
-            </hlm-sub-menu>
-        </ng-template>
-    </div>
+    }
 </nav>

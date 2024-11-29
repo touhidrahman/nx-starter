@@ -8,23 +8,17 @@ import {
 import { ReactiveFormsModule } from '@angular/forms'
 import { AuthApiService, ChangePasswordFormService } from '@myorg/common-auth'
 import { ApiResponse } from '@myorg/common-models'
-import { SpartanModules } from '@myorg/spartan-modules'
-import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
 import { toast } from 'ngx-sonner'
 import { toInt } from 'radash'
 
 @Component({
     selector: 'app-password-change',
     standalone: true,
-    imports: [
-        CommonModule,
-        ...SpartanModules,
-        HlmInputDirective,
-        ReactiveFormsModule,
-    ],
+    imports: [CommonModule, ReactiveFormsModule],
     templateUrl: './password-change.component.html',
     styleUrl: './password-change.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [ChangePasswordFormService],
 })
 export class PasswordChangeComponent implements OnInit {
     private authApiService = inject(AuthApiService)
