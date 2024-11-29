@@ -1,8 +1,4 @@
 import { Component } from '@angular/core'
-import { FormsModule } from '@angular/forms'
-import { SpartanModules } from '@myorg/spartan-modules'
-import { provideIcons } from '@ng-icons/core'
-import { lucideCog, lucideSearch, lucideTrash2 } from '@ng-icons/lucide'
 
 interface User {
     firstName: string
@@ -17,29 +13,9 @@ interface User {
     standalone: true,
     templateUrl: './page-admin-userlist.component.html',
     styleUrl: './page-admin-userlist.component.scss',
-    providers: [provideIcons({ lucideCog, lucideTrash2, lucideSearch })],
-    imports: [FormsModule, SpartanModules],
+    imports: [],
 })
 export class PageAdminUserlistComponent {
-    permissions = [
-        {
-            name: 'Case',
-            read: false,
-            create: false,
-            edit: false,
-            delete: false,
-            none: false,
-        },
-        {
-            name: 'Contact',
-            read: false,
-            create: false,
-            edit: false,
-            delete: false,
-            none: false,
-        },
-    ]
-
     users: User[] = [
         {
             firstName: 'John',
