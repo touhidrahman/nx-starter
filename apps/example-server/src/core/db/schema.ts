@@ -169,7 +169,6 @@ export const groupsRelations = relations(groupsTable, ({ one, many }) => ({
     messages: many(messagesTable),
     payments: many(paymentsTable),
     permissions: many(permissionsTable),
-    storage: one(storageTable),
     subscriptions: many(subscriptionsTable),
     tasks: many(tasksTable),
     users: many(usersTable),
@@ -517,8 +516,11 @@ export const documentsTable = pgTable('documents', {
     id: text('id').primaryKey().$defaultFn(generateId),
     filename: text('filename').notNull(),
     url: text('url').notNull(),
+    extension: text('extension').notNull(),
     mimetype: text('mimetype').notNull(),
+    type: fileTypeEnum('type').notNull(),
     size: integer('size').notNull(),
+    folder: text('folder'),
     description: text('description'),
     groupId: text('group_id')
         .references(() => groupsTable.id)

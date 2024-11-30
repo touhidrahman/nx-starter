@@ -8,10 +8,8 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zEmpty } from '../../../core/models/common.schema'
-
 import { zInsertTask, zSelectTask, zUpdateTask } from '../tasks.schema'
 import { createTask } from '../tasks.service'
-import checkTaskOwnershipMiddleware from '../../../core/middlewares/check-ownership.middleware'
 import { tasksTable } from '../../../core/db/schema'
 import { checkToken } from '../../auth/auth.middleware'
 
@@ -21,7 +19,6 @@ export const createTaskRoute = createRoute({
     tags: ['Task'],
     middleware: [
         checkToken,
-        checkTaskOwnershipMiddleware(tasksTable, 'Task'),
     ] as const,
     request: {
         body: jsonContent(zInsertTask, 'Task details'),

@@ -4,9 +4,9 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
-import { documentsTable } from '../../../core/db/schema'
-import checkDocumentOwnershipMiddleware from '../../../core/middlewares/check-ownership.middleware'
 import { deleteDocument, findDocumentById } from '../documents.service'
+import { deleteS3File } from '../../../core/third-party/s3.service'
+import { getFileNameFromUrl } from '../../../core/utils/file.util'
 
 export const deleteDocumentRoute = createRoute({
     path: '/v1/documents/:id',
@@ -14,7 +14,6 @@ export const deleteDocumentRoute = createRoute({
     tags: ['Document'],
     middleware: [
         checkToken,
-        checkDocumentOwnershipMiddleware(documentsTable, 'Document'),
     ] as const,
     request: {
         params: z.object({ id: z.string() }),
@@ -40,6 +39,11 @@ export const deleteDocumentHandler: AppRouteHandler<
             )
         }
 
+        const fileKey = getFileNameFromUrl(document.url ?? '')
+        if (fileKey) {
+            await deleteS3File(fileKey)
+        }
+
         await deleteDocument(id)
         return c.json(
             {
@@ -50,13 +54,8 @@ export const deleteDocumentHandler: AppRouteHandler<
             OK,
         )
     } catch (error) {
-        console.error(
-            'Error deleting task:',
-            error instanceof Error ? error.message : 'Unknown error',
-        )
-        if (error instanceof Error) console.error(error.stack)
         return c.json(
-            { data: {}, message: 'Internal Server Error', success: false },
+            { data: {}, message: 'Internal Server Error', success: false, error },
             INTERNAL_SERVER_ERROR,
         )
     }

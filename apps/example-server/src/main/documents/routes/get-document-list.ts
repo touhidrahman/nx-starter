@@ -7,6 +7,7 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { zSelectDocument } from '../documents.schema'
 import { listDocumentsByGroup } from '../documents.service'
 
+// TODO: fix. Need to add various filtering options such as by userId, by entityName, by groupId etc
 export const getDocumentListRoute = createRoute({
     path: '/v1/documents',
     tags: ['Document'],
