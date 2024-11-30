@@ -25,8 +25,13 @@ export const zMessage = z.object({
 
 export const zEmpty = z.object({})
 
-export const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10 MB
 export const zFile = z.object({
+    file: z.instanceof(File).optional(),
+    files: z.array(z.instanceof(File)).optional(),
+})
+
+export const MAX_FILE_SIZE = 10 * 1024 * 1024 // 10 MB
+export const zFileWithCheck = z.object({
     file: z.custom<File>(
         (file) => {
             if (!(file instanceof File)) {

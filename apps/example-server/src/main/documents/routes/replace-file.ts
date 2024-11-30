@@ -1,28 +1,30 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import {
     BAD_REQUEST,
-    OK,
     INTERNAL_SERVER_ERROR,
     NOT_FOUND,
+    OK,
 } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
-import { zEmpty } from '../../../core/models/common.schema'
+import { zEmpty, zFile } from '../../../core/models/common.schema'
+import {
+    deleteS3File,
+    uploadToS3AndGetUrl,
+} from '../../../core/third-party/s3.service'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
-import { zSelectDocument, zUpdateDocument } from '../documents.schema'
+import { zSelectDocument } from '../documents.schema'
 import { findDocumentById, updateDocument } from '../documents.service'
 
-export const updateDocumentRoute = createRoute({
-    path: '/v1/documents/:id',
-    method: 'patch',
+export const replaceFileRoute = createRoute({
+    path: '/v1/documents/:id/upload',
+    method: 'post',
     tags: ['Document'],
-    middleware: [
-        checkToken,
-    ] as const,
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
-        body: jsonContent(zUpdateDocument, 'Document details'),
+        body: jsonContent(zFile, 'Upload file(s)'),
     },
     responses: {
         [OK]: ApiResponse(zSelectDocument, 'Document updated successfully'),
@@ -32,11 +34,15 @@ export const updateDocumentRoute = createRoute({
     },
 })
 
-export const updateDocumentHandler: AppRouteHandler<
-    typeof updateDocumentRoute
+export const replaceFileHandler: AppRouteHandler<
+    typeof replaceFileRoute
 > = async (c) => {
     const id = c.req.param('id')
-    const body = c.req.valid('json')
+    const body = await c.req.parseBody({ all: true })
+    const fileOrFiles = body['file'] ?? body['files']
+    const file = (
+        Array.isArray(fileOrFiles) ? fileOrFiles[0] : fileOrFiles
+    ) as File
     const payload = await c.get('jwtPayload')
 
     try {
@@ -47,11 +53,18 @@ export const updateDocumentHandler: AppRouteHandler<
                 NOT_FOUND,
             )
         }
-        const [updatedDocument] = await updateDocument(
-            id,
-            payload.groupId,
-            body,
-        )
+
+        // delete previous document
+        if (existingDocument) {
+            const fileKey = existingDocument.url.split('/').pop()
+            fileKey && (await deleteS3File(fileKey))
+        }
+
+        // upload new document
+        const url = await uploadToS3AndGetUrl(file)
+        const [updatedDocument] = await updateDocument(id, payload.groupId, {
+            url,
+        })
 
         return c.json(
             {
@@ -75,7 +88,12 @@ export const updateDocumentHandler: AppRouteHandler<
         }
 
         return c.json(
-            { data: {}, message: 'Internal Server Error', success: false , error},
+            {
+                data: {},
+                message: 'Internal Server Error',
+                success: false,
+                error,
+            },
             INTERNAL_SERVER_ERROR,
         )
     }

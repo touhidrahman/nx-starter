@@ -1,8 +1,8 @@
-// src/services/document.service.ts
-
 import { db } from '../../core/db/db'
 import { documentsTable } from '../../core/db/schema'
 import { and, eq, getTableColumns } from 'drizzle-orm'
+import { getFileType } from '../../core/utils/file.util'
+import { InsertDocument } from './documents.schema'
 
 export const listDocumentsByGroup = async (groupId: string) => {
     return db
@@ -22,14 +22,62 @@ export const findDocumentById = async (id: string) => {
     return document[0] || null
 }
 
-export const createDocument = async (data: any) => {
-    return db.insert(documentsTable).values(data).returning()
+// export const findDocumentByIdAndOwnership = async (
+//     id: string,
+//     groupId: string,
+//     userId?: string,
+// ) => {
+//     const where = userId
+//         ? and(
+//               eq(documentsTable.id, id),
+//               eq(documentsTable.groupId, groupId),
+//               eq(documentsTable.userId, userId),
+//           )
+//         : and(eq(documentsTable.id, id), eq(documentsTable.groupId, groupId))
+
+//     const document = await db
+//         .select({ ...getTableColumns(documentsTable) })
+//         .from(documentsTable)
+//         .where(where)
+//         .limit(1)
+
+//     return document[0] || null
+// }
+
+export async function createDocument(data: {
+    file: File
+    filename?: string
+    url: string
+    entityName?: string
+    entityId?: string
+    userId: string
+    groupId: string
+    folder?: string
+    description?: string
+}) {
+    return db
+        .insert(documentsTable)
+        .values({
+            filename: data.filename ?? data.file.name,
+            url: data.url,
+            type: getFileType(data.file),
+            mimetype: data.file.type,
+            extension: data.file.name.split('.').pop(),
+            size: data.file.size,
+            entityId: data.entityId ?? '',
+            entityName: data.entityName ?? '',
+            userId: data.userId,
+            groupId: data.groupId,
+            folder: data.folder ?? '',
+            description: data.folder ?? '',
+        } as any) // TODO: remove any
+        .returning()
 }
 
 export const updateDocument = async (
     id: string,
     groupId: string,
-    data: any,
+    data: Partial<InsertDocument>,
 ) => {
     return db
         .update(documentsTable)

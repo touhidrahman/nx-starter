@@ -9,8 +9,9 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zEmpty } from '../../../core/models/common.schema'
 import { checkToken } from '../../auth/auth.middleware'
-import { zInsertDocument, zSelectDocument } from '../documents.schema'
+import { SelectDocument, zInsertDocument, zSelectDocument, zUploadDocument } from '../documents.schema'
 import { createDocument } from '../documents.service'
+import { uploadToS3AndGetUrl } from '../../../core/third-party/s3.service'
 
 export const createDocumentRoute = createRoute({
     path: '/v1/documents',
@@ -18,12 +19,12 @@ export const createDocumentRoute = createRoute({
     tags: ['Document'],
     middleware: [checkToken] as const,
     request: {
-        body: jsonContent(zInsertDocument, 'Document details'),
+        body: jsonContent(zUploadDocument, 'Document details and file(s)'),
     },
     responses: {
         [CREATED]: ApiResponse(
-            zSelectDocument,
-            'Document created successfully',
+            z.array(zSelectDocument),
+            'Files uploaded and Document created successfully',
         ),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid document data'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
@@ -33,14 +34,47 @@ export const createDocumentRoute = createRoute({
 export const createDocumentHandler: AppRouteHandler<
     typeof createDocumentRoute
 > = async (c) => {
-    const body = c.req.valid('json')
+    const body = await c.req.parseBody({ all: true })
+    const payload = c.get('jwtPayload')
+    const fileOrFiles = body['file'] ?? body['files']
+    const entityId = body.entityId as string
+    const entityName = body.entityName as string
+    const folder = body.folder as string
+    const description = body.description as string
+    const results: SelectDocument[] = []
 
     try {
-        const [document] = await createDocument(body)
+        if (fileOrFiles instanceof Array) {
+            for await (const f of fileOrFiles) {
+                const file = f as File
+                const url = await uploadToS3AndGetUrl(file)
+                const [item] = await createDocument({
+                    file,
+                    url,
+                    entityName,
+                    entityId, folder, description,
+                    userId: payload.userId,
+                    groupId: payload.groupId,
+                })
+                results.push(item)
+            }
+        } else {
+            const file = fileOrFiles as File
+            const url = await uploadToS3AndGetUrl(file)
+            const [item] = await createDocument({
+                file,
+                url,
+                entityName,
+                entityId, folder, description,
+                userId: payload.userId,
+                groupId: payload.groupId,
+            })
+            results.push(item)
+        }
         return c.json(
             {
-                data: document,
-                message: 'Document created successfully',
+                data: results,
+                message: 'Documents uploaded successfully',
                 success: true,
             },
             CREATED,
