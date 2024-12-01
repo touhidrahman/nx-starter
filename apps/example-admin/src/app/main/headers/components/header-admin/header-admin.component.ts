@@ -1,20 +1,42 @@
-import { Component } from '@angular/core'
-
-import { SpartanModules } from '@myorg/spartan-modules'
-import { LucideAngularModule } from 'lucide-angular'
-import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
+import { Component, OnDestroy, OnInit, Renderer2, inject } from '@angular/core'
 import { RouterModule } from '@angular/router'
+import { HeaderUtilService } from '../../header-utils/header-util.service'
+import { UIstate } from '../../header-utils/uiState-inteface'
 
 @Component({
     selector: 'app-header-admin',
     standalone: true,
-    imports: [
-        ...SpartanModules,
-        LucideAngularModule,
-        HlmInputDirective,
-        RouterModule,
-    ],
+    imports: [RouterModule],
     templateUrl: './header-admin.component.html',
     styleUrl: './header-admin.component.scss',
 })
-export class HeaderAdminComponent {}
+export class HeaderAdminComponent implements OnInit, OnDestroy {
+    renderer: Renderer2 = inject(Renderer2)
+    headerUtilService = inject(HeaderUtilService)
+
+    uiState: UIstate = {
+        imageLoaded: true,
+        showProfileDropDown: false,
+    }
+    showFallback(event: Event) {
+        this.headerUtilService.showFallbackText(event, this.uiState)
+    }
+
+    // toggle profile menu logic
+    bodyClickListener: (() => void) | null = null
+    ngOnInit() {
+        this.bodyClickListener = this.renderer.listen(
+            document,
+            'click',
+            (e: Event) => {
+                this.headerUtilService.toggleProfileMenu(e, this.uiState)
+            },
+        )
+    }
+    ngOnDestroy() {
+        if (this.bodyClickListener) {
+            this.bodyClickListener()
+            this.bodyClickListener = null
+        }
+    }
+}

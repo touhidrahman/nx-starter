@@ -1,23 +1,12 @@
 <div>
     <div class="flex justify-between mb-3">
         <h1 class="text-2xl font-bold">Group Management</h1>
-
-        <hlm-dialog>
-            <button
-                hlmBtn
-                brnDialogTrigger
-                class="bg-success button-small text-success-foreground hover:bg-green-400 p-2 rounded-md font-semibold"
-                (click)="openCreateGroupModal()">
-                Add Group
-            </button>
-            <hlm-dialog-content
-                class="md:min-w-[500px] w-full"
-                *brnDialogContent="let ctx">
-                <hlm-dialog-header>
-                    <h3 hlmDialogTitle class="text-3xl mb-4 font-bold">
-                        Create Group
-                    </h3>
-                </hlm-dialog-header>
+        <div class="card flex justify-content-center">
+            <p-button (onClick)="openCreateGroupModal()" label=" Add Group" />
+            <p-dialog
+                [(visible)]="showCreateModal"
+                [style]="{ width: '25rem' }">
+                <h3 class="text-3xl mb-4 font-bold">Create Group</h3>
                 <form
                     [formGroup]="createGroupForm"
                     (ngSubmit)="onSubmitGroupCreateForm()">
@@ -34,10 +23,10 @@
                             class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300"
                             formControlName="type">
                             <option value="">Select type</option>
-                            @for(type of groupTypes; track type) {
-                            <option [value]="type">
-                                {{ type | titlecase }}
-                            </option>
+                            @for (type of groupTypes; track type) {
+                                <option [value]="type">
+                                    {{ type | titlecase }}
+                                </option>
                             }
                         </select>
                     </div>
@@ -84,16 +73,13 @@
                             formControlName="country" />
                     </div>
                     <div class="flex justify-end space-x-2">
-                        <button
-                            type="submit"
-                            hlmBtn
-                            (click)="confirmDeleteUser()">
+                        <button type="submit" (click)="confirmDeleteUser()">
                             Save
                         </button>
                     </div>
                 </form>
-            </hlm-dialog-content>
-        </hlm-dialog>
+            </p-dialog>
+        </div>
     </div>
 
     <div class="overflow-x-auto">
@@ -108,166 +94,155 @@
             </thead>
             <tbody>
                 @if (loading) {
-                <ng-container *ngFor="let _ of [].constructor(5)">
-                    <tr class="border-b">
+                    <ng-container *ngFor="let _ of [].constructor(5)">
+                        <tr class="border-b">
+                            <td class="py-2 px-4 text-sm md:text-base">
+                                <div
+                                    class="h-4 bg-gray-300 rounded w-3/4 animate-pulse"></div>
+                            </td>
+                            <td class="py-2 px-4 text-sm md:text-base">
+                                <div
+                                    class="h-4 bg-gray-300 rounded w-3/4 animate-pulse"></div>
+                            </td>
+                            <td class="py-2 px-4 text-sm md:text-base">
+                                <div
+                                    class="h-4 bg-gray-300 rounded w-1/2 animate-pulse"></div>
+                            </td>
+                            <td class="py-2 px-4 text-sm md:text-base">
+                                <div
+                                    class="h-4 bg-gray-300 rounded w-1/2 animate-pulse"></div>
+                            </td>
+                        </tr>
+                    </ng-container>
+                } @else {
+                    <tr
+                        *ngFor="let group of groups()"
+                        class="border-b hover:bg-gray-50">
                         <td class="py-2 px-4 text-sm md:text-base">
-                            <div
-                                class="h-4 bg-gray-300 rounded w-3/4 animate-pulse"></div>
+                            {{ group.name | titlecase }}
                         </td>
                         <td class="py-2 px-4 text-sm md:text-base">
-                            <div
-                                class="h-4 bg-gray-300 rounded w-3/4 animate-pulse"></div>
+                            {{ group.type | titlecase }}
                         </td>
                         <td class="py-2 px-4 text-sm md:text-base">
-                            <div
-                                class="h-4 bg-gray-300 rounded w-1/2 animate-pulse"></div>
+                            <span
+                                class="py-1 px-2 rounded-lg font-semibold text-xs tracking-wider"
+                                [ngClass]="{
+                                    'bg-yellow-400': group.status === 'pending',
+                                    'bg-gray-200': group.status === 'inactive',
+                                    'bg-green-400': group.status === 'active',
+                                }">
+                                {{ group.status | uppercase }}</span
+                            >
                         </td>
-                        <td class="py-2 px-4 text-sm md:text-base">
-                            <div
-                                class="h-4 bg-gray-300 rounded w-1/2 animate-pulse"></div>
-                        </td>
-                    </tr>
-                </ng-container>
-                }@else {
-                <tr
-                    *ngFor="let group of groups()"
-                    class="border-b hover:bg-gray-50">
-                    <td class="py-2 px-4 text-sm md:text-base">
-                        {{ group.name | titlecase }}
-                    </td>
-                    <td class="py-2 px-4 text-sm md:text-base">
-                        {{ group.type | titlecase }}
-                    </td>
-                    <td class="py-2 px-4 text-sm md:text-base">
-                        <span
-                            class="py-1 px-2 rounded-lg font-semibold text-xs tracking-wider"
-                            [ngClass]="{
-                                'bg-yellow-400': group.status === 'pending',
-                                'bg-gray-200': group.status === 'inactive',
-                                'bg-green-400': group.status === 'active'
-                            }">
-                            {{ group.status | uppercase }}</span
-                        >
-                    </td>
-                    <td class="py-2 px-4 flex space-x-2 text-sm md:text-base">
-                        <hlm-dialog>
-                            <button
-                                brnDialogTrigger
-                                (click)="openEditModal(group)">
-                                <hlm-icon size="sm" name="lucidePencil" />
-                            </button>
-                            <hlm-dialog-content
-                                class="md:min-w-[500px] w-full"
-                                *brnDialogContent="let ctx">
-                                <hlm-dialog-header>
-                                    <h3
-                                        hlmDialogTitle
-                                        class="text-3xl mb-4 font-bold">
+                        <td
+                            class="py-2 px-4 flex space-x-2 text-sm md:text-base">
+                            <div class="card flex justify-content-center">
+                                <p-button (onClick)="openEditModal(group)"
+                                    ><i class="pi pi-pen-to-square"></i
+                                ></p-button>
+                                <p-dialog
+                                    [(visible)]="showEditModal"
+                                    [style]="{ width: '25rem' }">
+                                    <h3 class="text-3xl mb-4 font-bold">
                                         Edit Group
                                     </h3>
-                                </hlm-dialog-header>
-                                <form
-                                    (submit)="onSubmitEditForm()"
-                                    *ngIf="selectedGroup">
-                                    <div class="mb-4">
-                                        <label class="block text-gray-700"
-                                            >Group Name</label
-                                        >
-                                        <input
-                                            [(ngModel)]="selectedGroup.name"
-                                            name="groupName"
-                                            class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300"
-                                            type="text" />
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="block text-gray-700"
-                                            >Group Type</label
-                                        >
-                                        <select
-                                            [(ngModel)]="selectedGroup.type"
-                                            name="type"
-                                            class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300">
-                                            @for(type of groupTypes; track
-                                            type){
-                                            <option
-                                                [selected]="
-                                                    selectedGroup.type === type
+                                    <form
+                                        (submit)="onSubmitEditForm()"
+                                        *ngIf="selectedGroup">
+                                        <div class="mb-4">
+                                            <label class="block text-gray-700"
+                                                >Group Name</label
+                                            >
+                                            <input
+                                                [(ngModel)]="selectedGroup.name"
+                                                name="groupName"
+                                                class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300"
+                                                type="text" />
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="block text-gray-700"
+                                                >Group Type</label
+                                            >
+                                            <select
+                                                [(ngModel)]="selectedGroup.type"
+                                                name="type"
+                                                class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300">
+                                                @for (
+                                                    type of groupTypes;
+                                                    track type
+                                                ) {
+                                                    <option
+                                                        [selected]="
+                                                            selectedGroup.type ===
+                                                            type
+                                                        "
+                                                        [value]="type">
+                                                        {{ type | titlecase }}
+                                                    </option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="mb-4">
+                                            <label class="block text-gray-700"
+                                                >Group Status</label
+                                            >
+                                            <select
+                                                name="status"
+                                                [(ngModel)]="
+                                                    selectedGroup.status
                                                 "
-                                                [value]="type">
-                                                {{ type | titlecase }}
-                                            </option>
-                                            }
-                                        </select>
-                                    </div>
-                                    <div class="mb-4">
-                                        <label class="block text-gray-700"
-                                            >Group Status</label
-                                        >
-                                        <select
-                                            name="status"
-                                            [(ngModel)]="selectedGroup.status"
-                                            class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300">
-                                            @for(status of groupStatus; track
-                                            status){
-                                            <option
-                                                [selected]="
-                                                    selectedGroup.status ===
-                                                    status
-                                                "
-                                                [value]="status">
-                                                {{ status | titlecase }}
-                                            </option>
-                                            }
-                                        </select>
-                                    </div>
-                                    <div class="flex justify-end space-x-2">
-                                        <button hlmBtn type="submit">
-                                            Save
-                                        </button>
-                                    </div>
-                                </form>
-                                <hlm-dialog-footer class="flex gap-2">
-                                </hlm-dialog-footer>
-                            </hlm-dialog-content>
-                        </hlm-dialog>
+                                                class="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-300">
+                                                @for (
+                                                    status of groupStatus;
+                                                    track status
+                                                ) {
+                                                    <option
+                                                        [selected]="
+                                                            selectedGroup.status ===
+                                                            status
+                                                        "
+                                                        [value]="status">
+                                                        {{ status | titlecase }}
+                                                    </option>
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="flex justify-end space-x-2">
+                                            <button type="submit">Save</button>
+                                        </div>
+                                    </form>
+                                </p-dialog>
+                            </div>
 
-                        <hlm-dialog>
-                            <button
-                                brnDialogTrigger
-                                (click)="openDeleteModal(group)">
-                                <hlm-icon size="sm" name="lucideTrash2" />
-                            </button>
-                            <hlm-dialog-content
-                                class="md:min-w-[500px] w-full"
-                                *brnDialogContent="let ctx">
-                                <hlm-dialog-header>
-                                    <h3
-                                        hlmDialogTitle
-                                        class="text-3xl font-bold">
+                            <div class="card flex justify-content-center">
+                                <p-button (onClick)="openDeleteModal(group)">
+                                    <i class="pi pi-trash text-sm"></i>
+                                </p-button>
+                                <p-dialog
+                                    [(visible)]="showDeleteModal"
+                                    [style]="{ width: '25rem' }">
+                                    <h3 class="text-3xl font-bold">
                                         Delete Group?
                                     </h3>
-                                </hlm-dialog-header>
-                                <p class="text-gray-700 text-lg">
-                                    Are you sure you want to delete
-                                    <strong class="text-lg">{{
-                                        selectedGroup?.name
-                                    }}</strong
-                                    >?
-                                </p>
-                                <p class="text-gray-700 mb-6">
-                                    *This action cannot be undone.
-                                </p>
-                                <hlm-dialog-footer class="flex gap-2">
-                                    <button
-                                        hlmBtn
-                                        (click)="confirmDeleteUser()">
+                                    <p class="text-gray-700 text-lg">
+                                        Are you sure you want to delete
+                                        <strong class="text-lg">{{
+                                            selectedGroup?.name
+                                        }}</strong
+                                        >?
+                                    </p>
+                                    <p class="text-gray-700 mb-6">
+                                        *This action cannot be undone.
+                                    </p>
+
+                                    <button (click)="confirmDeleteUser()">
                                         Delete
                                     </button>
-                                </hlm-dialog-footer>
-                            </hlm-dialog-content>
-                        </hlm-dialog>
-                    </td>
-                </tr>
+                                </p-dialog>
+                            </div>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
@@ -297,7 +272,7 @@
                                     'bg-blue-500 text-white':
                                         currentPage === i + 1,
                                     'bg-gray-200 text-gray-700':
-                                        currentPage !== i + 1
+                                        currentPage !== i + 1,
                                 }"
                                 class="px-3 py-1 text-sm font-medium border border-gray-300 rounded-lg hover:bg-gray-300">
                                 {{ i + 1 }}
