@@ -1,7 +1,57 @@
 import { Route } from '@angular/router'
 import { PageLayout, setLayout } from '@myorg/page-layouts'
 
+const authRoutes: Route[] = [
+    {
+        path: 'signup',
+        loadComponent: () =>
+            import('@myorg/app-example-auth').then(
+                (m) => m.PageSignUpComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Center) },
+    },
+    {
+        path: 'forgot-password',
+        loadComponent: () =>
+            import('@myorg/app-example-auth').then(
+                (m) => m.PageForgotPasswordComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Center) },
+    },
+    {
+        path: 'reset-password',
+        loadComponent: () =>
+            import('@myorg/app-example-auth').then(
+                (m) => m.PageResetPasswordComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Center) },
+    },
+    {
+        path: 'account-created',
+        loadComponent: () =>
+            import('@myorg/app-example-auth').then(
+                (m) => m.PageAccountCreatedComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Center) },
+    },
+    {
+        path: 'account-verify/:token',
+        loadComponent: () =>
+            import('@myorg/app-example-auth').then(
+                (m) => m.PageAccountVerifyComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Center) },
+    },
+    {
+        path: 'login',
+        loadComponent: () =>
+            import('@myorg/app-example-auth').then((m) => m.PageLoginComponent),
+        resolve: { layout: setLayout(PageLayout.Center) },
+    },
+]
+
 export const appRoutes: Route[] = [
+    ...authRoutes,
     {
         path: 'dashboard-home',
         loadComponent: () =>
@@ -25,38 +75,6 @@ export const appRoutes: Route[] = [
                 './pages/page-group-management/page-group-management.component'
             ).then((m) => m.PageGroupManagementComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
-    },
-    {
-        path: 'login',
-        loadComponent: () =>
-            import('./pages/page-login/page-login.component').then(
-                (m) => m.PageLoginComponent,
-            ),
-        resolve: { layout: setLayout(PageLayout.Center) },
-    },
-    {
-        path: 'signup',
-        loadComponent: () =>
-            import('./pages/page-signup/page-sign-up.component').then(
-                (m) => m.PageSignUpComponent,
-            ),
-        resolve: { layout: setLayout(PageLayout.Center) },
-    },
-    {
-        path: 'forgot-password',
-        loadComponent: () =>
-            import(
-                './pages/page-forgot-password/page-forgot-password.component'
-            ).then((m) => m.PageForgotPasswordComponent),
-        resolve: { layout: setLayout(PageLayout.Center) },
-    },
-    {
-        path: 'reset-password',
-        loadComponent: () =>
-            import(
-                './pages/page-reset-password/page-reset-password.component'
-            ).then((m) => m.PageResetPasswordComponent),
-        resolve: { layout: setLayout(PageLayout.Center) },
     },
     {
         path: 'profile',

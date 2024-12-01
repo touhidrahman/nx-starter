@@ -1,85 +1,7 @@
 import { Route } from '@angular/router'
 import { PageLayout, setLayout } from '@myorg/page-layouts'
 
-export const appRoutes: Route[] = [
-    {
-        path: '',
-        loadComponent: () =>
-            import('./pages/page-landing/page-landing.component').then(
-                (m) => m.PageLandingComponent,
-            ),
-        resolve: { layout: setLayout(PageLayout.Public) },
-    },
-    {
-        path: 'home',
-        loadComponent: () =>
-            import('./pages/page-home/page-home.component').then(
-                (m) => m.PageHomeComponent,
-            ),
-        resolve: { layout: setLayout(PageLayout.Default) },
-    },
-    {
-        path: 'dashboard/case/:id',
-        loadComponent: () =>
-            import('./pages/page-case/page-case.component').then(
-                (m) => m.PageCaseComponent,
-            ),
-        resolve: { layout: setLayout(PageLayout.Default) },
-    },
-    {
-        path: 'account-created',
-        loadComponent: () =>
-            import('@myorg/app-example-auth').then(
-                (m) => m.PageAccountCreatedComponent,
-            ),
-        resolve: { layout: setLayout(PageLayout.Center) },
-    },
-    {
-        path: 'dashboard/calender',
-        loadComponent: () =>
-            import('./pages/page-calender/page-calender.component').then(
-                (m) => m.PageCalenderComponent,
-            ),
-        resolve: { layout: setLayout(PageLayout.Default) },
-    },
-    {
-        path: 'account-verify/:token',
-        loadComponent: () =>
-            import('@myorg/app-example-auth').then(
-                (m) => m.PageAccountVerifyComponent,
-            ),
-        resolve: { layout: setLayout(PageLayout.Center) },
-    },
-    {
-        path: 'login',
-        loadComponent: () =>
-            import('@myorg/app-example-auth').then((m) => m.PageLoginComponent),
-        resolve: { layout: setLayout(PageLayout.Center) },
-    },
-    {
-        path: 'select-role',
-        loadComponent: () =>
-            import('./pages/page-select-role/page-select-role.component').then(
-                (m) => m.PageSelectRoleComponent,
-            ),
-        resolve: { layout: setLayout(PageLayout.Cta) },
-    },
-    {
-        path: 'lawyer-team',
-        loadComponent: () =>
-            import('./pages/page-lawyer-team/page-lawyer-team.component').then(
-                (m) => m.PageLawyerTeamComponent,
-            ),
-        resolve: { layout: setLayout(PageLayout.Cta) },
-    },
-    {
-        path: 'client-team',
-        loadComponent: () =>
-            import('./pages/page-client-team/page-client-team.component').then(
-                (m) => m.PageClientTeamComponent,
-            ),
-        resolve: { layout: setLayout(PageLayout.Cta) },
-    },
+const authRoutes: Route[] = [
     {
         path: 'signup',
         loadComponent: () =>
@@ -104,6 +26,91 @@ export const appRoutes: Route[] = [
             ),
         resolve: { layout: setLayout(PageLayout.Center) },
     },
+    {
+        path: 'account-created',
+        loadComponent: () =>
+            import('@myorg/app-example-auth').then(
+                (m) => m.PageAccountCreatedComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Center) },
+    },
+    {
+        path: 'account-verify/:token',
+        loadComponent: () =>
+            import('@myorg/app-example-auth').then(
+                (m) => m.PageAccountVerifyComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Center) },
+    },
+    {
+        path: 'login',
+        loadComponent: () =>
+            import('@myorg/app-example-auth').then((m) => m.PageLoginComponent),
+        resolve: { layout: setLayout(PageLayout.Center) },
+    },
+]
+
+export const appRoutes: Route[] = [
+    ...authRoutes,
+    {
+        path: '',
+        loadComponent: () =>
+            import('./pages/page-landing/page-landing.component').then(
+                (m) => m.PageLandingComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Public) },
+        pathMatch: 'full',
+    },
+    {
+        path: 'home',
+        loadComponent: () =>
+            import('./pages/page-home/page-home.component').then(
+                (m) => m.PageHomeComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'dashboard/case/:id',
+        loadComponent: () =>
+            import('./pages/page-case/page-case.component').then(
+                (m) => m.PageCaseComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'dashboard/calender',
+        loadComponent: () =>
+            import('./pages/page-calender/page-calender.component').then(
+                (m) => m.PageCalenderComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+
+    {
+        path: 'select-role',
+        loadComponent: () =>
+            import('./pages/page-select-role/page-select-role.component').then(
+                (m) => m.PageSelectRoleComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Cta) },
+    },
+    {
+        path: 'lawyer-team',
+        loadComponent: () =>
+            import('./pages/page-lawyer-team/page-lawyer-team.component').then(
+                (m) => m.PageLawyerTeamComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Cta) },
+    },
+    {
+        path: 'client-team',
+        loadComponent: () =>
+            import('./pages/page-client-team/page-client-team.component').then(
+                (m) => m.PageClientTeamComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Cta) },
+    },
+
     {
         path: 'profile',
         loadComponent: () =>
@@ -180,5 +187,13 @@ export const appRoutes: Route[] = [
                 (m) => m.PageClientComponent,
             ),
         resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: '**',
+        loadComponent: () =>
+            import('./pages/page-not-found/page-not-found.component').then(
+                (m) => m.PageNotFoundComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Center) },
     },
 ]

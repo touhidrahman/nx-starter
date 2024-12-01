@@ -12,7 +12,6 @@ import {
     importProvidersFrom,
 } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
-import { provideAnimations } from '@angular/platform-browser/animations'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import {
     PreloadAllModules,
@@ -63,7 +62,6 @@ export const appConfig: ApplicationConfig = {
         importProvidersFrom(LucideAngularModule.pick(icons)),
         importProvidersFrom(BrowserModule),
         importProvidersFrom(FullCalendarModule),
-        provideAnimations(),
         {
             provide: APP_INITIALIZER,
             useFactory: appInitializerFactory,

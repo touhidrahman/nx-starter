@@ -6,6 +6,9 @@ import { LucideIconConfig } from 'lucide-angular'
 import { NgxSonnerToaster } from 'ngx-sonner'
 import { LayoutCenteredComponent } from './main/layouts/components/layout-centered/layout-centered.component'
 import { LayoutDefaultComponent } from './main/layouts/components/layout-default/layout-default.component'
+import { ConfirmDialog } from 'primeng/confirmdialog'
+import { ConfirmPopup } from 'primeng/confirmpopup'
+import { Toast } from 'primeng/toast'
 
 @Component({
     standalone: true,
@@ -15,6 +18,9 @@ import { LayoutDefaultComponent } from './main/layouts/components/layout-default
         LayoutCenteredComponent,
         RouterModule,
         NgxSonnerToaster,
+        ConfirmDialog,
+        ConfirmPopup,
+        Toast,
     ],
     selector: 'app-root',
     templateUrl: './app.component.html',
