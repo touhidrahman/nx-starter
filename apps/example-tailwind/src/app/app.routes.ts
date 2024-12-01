@@ -29,9 +29,9 @@ export const appRoutes: Route[] = [
     {
         path: 'account-created',
         loadComponent: () =>
-            import(
-                './pages/page-account-created/page-account-created.component'
-            ).then((m) => m.PageAccountCreatedComponent),
+            import('@myorg/app-example-auth').then(
+                (m) => m.PageAccountCreatedComponent,
+            ),
         resolve: { layout: setLayout(PageLayout.Center) },
     },
     {
@@ -45,17 +45,15 @@ export const appRoutes: Route[] = [
     {
         path: 'account-verify/:token',
         loadComponent: () =>
-            import(
-                './pages/page-account-verify/page-account-verify.component'
-            ).then((m) => m.PageAccountVerifyComponent),
+            import('@myorg/app-example-auth').then(
+                (m) => m.PageAccountVerifyComponent,
+            ),
         resolve: { layout: setLayout(PageLayout.Center) },
     },
     {
         path: 'login',
         loadComponent: () =>
-            import('./pages/page-login/page-login.component').then(
-                (m) => m.PageLoginComponent,
-            ),
+            import('@myorg/app-example-auth').then((m) => m.PageLoginComponent),
         resolve: { layout: setLayout(PageLayout.Center) },
     },
     {
@@ -85,7 +83,7 @@ export const appRoutes: Route[] = [
     {
         path: 'signup',
         loadComponent: () =>
-            import('./pages/page-signup/page-sign-up.component').then(
+            import('@myorg/app-example-auth').then(
                 (m) => m.PageSignUpComponent,
             ),
         resolve: { layout: setLayout(PageLayout.Center) },
@@ -93,17 +91,17 @@ export const appRoutes: Route[] = [
     {
         path: 'forgot-password',
         loadComponent: () =>
-            import(
-                './pages/page-forgot-password/page-forgot-password.component'
-            ).then((m) => m.PageForgotPasswordComponent),
+            import('@myorg/app-example-auth').then(
+                (m) => m.PageForgotPasswordComponent,
+            ),
         resolve: { layout: setLayout(PageLayout.Center) },
     },
     {
         path: 'reset-password',
         loadComponent: () =>
-            import(
-                './pages/page-reset-password/page-reset-password.component'
-            ).then((m) => m.PageResetPasswordComponent),
+            import('@myorg/app-example-auth').then(
+                (m) => m.PageResetPasswordComponent,
+            ),
         resolve: { layout: setLayout(PageLayout.Center) },
     },
     {
