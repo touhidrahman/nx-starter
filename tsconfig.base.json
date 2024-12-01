@@ -35,7 +35,6 @@
             "@myorg/common-models": ["libs/common-models/src/index.ts"],
             "@myorg/common-pipes": ["libs/common-pipes/src/index.ts"],
             "@myorg/common-services": ["libs/common-services/src/index.ts"],
-            "@myorg/material-modules": ["libs/material-modules/src/index.ts"],
             "@myorg/page-layouts": ["libs/page-layouts/src/index.ts"],
             "@myorg/prime-modules": ["libs/prime-modules/src/index.ts"],
             "@myorg/spartan-modules": ["libs/spartan-modules/src/index.ts"],
