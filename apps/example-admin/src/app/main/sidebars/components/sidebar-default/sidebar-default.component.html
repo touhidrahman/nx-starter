@@ -22,11 +22,7 @@
                 [routerLink]="['/dashboard-home']"
                 routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
                 class="text-black flex gap-4 items-center hover:bg-green-100 rounded-sm px-4 py-2 font-medium">
-                <hlm-icon
-                    routerLinkActive="text-white"
-                    class="text-gray-500"
-                    size="lg"
-                    name="lucideHome" />
+                <i class="pi pi-home !text-2xl"></i>
                 <span class="font-medium" *ngIf="!isCollapsed">Home</span>
                 <!-- Hide text when collapsed -->
             </a>
@@ -36,11 +32,7 @@
                 [routerLink]="['/admin-userlist']"
                 routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
                 class="text-black flex gap-4 items-center hover:bg-green-100 rounded-sm px-4 py-2 font-medium">
-                <hlm-icon
-                    routerLinkActive="text-white"
-                    class="text-gray-500"
-                    size="lg"
-                    name="lucideUsers" />
+                <i class="pi pi-users !text-2xl"></i>
                 <span class="font-medium" *ngIf="!isCollapsed"
                     >User Management</span
                 >
@@ -52,11 +44,12 @@
                 [routerLink]="['/dashboard/area-management']"
                 routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
                 class="text-black flex gap-4 items-center hover:bg-green-100 rounded-sm px-4 py-2 font-medium">
-                <hlm-icon
+                <!-- <hlm-icon
                     routerLinkActive="text-white"
                     class="text-gray-500"
                     size="lg"
-                    name="lucideCombine" />
+                    name="lucideCombine" /> -->
+                <i class="pi pi-map !text-2xl"></i>
                 <span class="font-medium" *ngIf="!isCollapsed"
                     >Area Management</span
                 >
@@ -68,11 +61,12 @@
                 [routerLink]="['/group-management']"
                 routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
                 class="text-black flex gap-4 items-center hover:bg-green-100 rounded-sm px-4 py-2 font-medium">
-                <hlm-icon
+                <!-- <hlm-icon
                     routerLinkActive="text-white"
                     class="text-gray-500"
                     size="lg"
-                    name="lucideGroup" />
+                    name="lucideGroup" /> -->
+                <i class="pi pi-users !text-2xl"></i>
                 <span class="font-medium" *ngIf="!isCollapsed"
                     >Group Management</span
                 >
