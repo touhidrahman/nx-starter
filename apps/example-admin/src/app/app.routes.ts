@@ -66,7 +66,7 @@ export const appRoutes: Route[] = [
             import(
                 './pages/page-area-management/page-area-management.component'
             ).then((m) => m.PageAreaManagementComponent),
-          resolve: { layout: setLayout(PageLayout.Default) },
+        resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
         path: 'group-management',

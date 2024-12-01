@@ -41,7 +41,6 @@ import { DialogService } from 'primeng/dynamicdialog'
 import { environment } from '../environment/environment'
 import { appRoutes } from './app.routes'
 
-
 export const appConfig: ApplicationConfig = {
     providers: [
         { provide: APP_EXAMPLE_ENVIRONMENT, useValue: environment },
