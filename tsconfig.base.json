@@ -25,6 +25,9 @@
             "@myorg/app-example-models": [
                 "libs/app-example-models/src/index.ts"
             ],
+            "@myorg/app-example-public-pages": [
+                "libs/app-example-public-pages/src/index.ts"
+            ],
             "@myorg/app-example-states": [
                 "libs/app-example-states/src/index.ts"
             ],

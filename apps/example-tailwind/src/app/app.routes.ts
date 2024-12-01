@@ -191,7 +191,7 @@ export const appRoutes: Route[] = [
     {
         path: '**',
         loadComponent: () =>
-            import('./pages/page-not-found/page-not-found.component').then(
+            import('@myorg/app-example-public-pages').then(
                 (m) => m.PageNotFoundComponent,
             ),
         resolve: { layout: setLayout(PageLayout.Center) },
