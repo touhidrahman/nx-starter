@@ -25,6 +25,11 @@ import {
     getFilesByEntityNameHandler,
     getFilesByEntityNameRoute,
 } from './routes/get-documentsByEntityName'
+import {
+    getFilesByEntityNameAndIdHandler,
+    getFilesByEntityNameAndIdRoute,
+} from './routes/get-filesByEntityNameAndId'
+import { getFilesByGroupIdRoute } from './routes/get-filesByGroupId'
 
 export const documentV1Route = createRouter()
     .openapi(createDocumentRoute, createDocumentHandler)
@@ -35,3 +40,5 @@ export const documentV1Route = createRouter()
     .openapi(deleteAllDocumentRoute, deleteAllDocumentHandler)
     .openapi(replaceFileRoute, replaceFileHandler)
     .openapi(getFilesByEntityNameRoute, getFilesByEntityNameHandler)
+    .openapi(getFilesByEntityNameAndIdRoute, getFilesByEntityNameAndIdHandler)
+    .openapi(getFilesByGroupIdRoute, getFilesByEntityNameAndIdHandler)

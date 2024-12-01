@@ -109,8 +109,8 @@ export const getFilesByEntityNameAndEntityId = async (
         .from(storageTable)
         .where(
             and(
-                eq(storageTable.entityId, entityId),
                 eq(storageTable.entityName, entityName),
+                eq(storageTable.entityId, entityId),
             ),
         )
 }
@@ -120,5 +120,13 @@ export const getFilesByEntityName = async (entityName: string) => {
         .select({ ...getTableColumns(storageTable) })
         .from(storageTable)
         .where(eq(storageTable.entityName, entityName))
+    return results ? results : null
+}
+
+export const getFilesByGroupId = async (groupId: string) => {
+    const results = await db
+        .select({ ...getTableColumns(storageTable) })
+        .from(storageTable)
+        .where(eq(storageTable.entityId, groupId))
     return results ? results : null
 }
