@@ -1,28 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { SpartanModules } from '@myorg/spartan-modules'
-import { HlmIconComponent, provideIcons } from '@spartan-ng/ui-icon-helm'
-import {
-    lucideCheck,
-    lucideCog,
-    lucidePencil,
-    lucideTrash2,
-    lucideX,
-} from '@ng-icons/lucide'
-import { BrnSelectImports } from '@spartan-ng/ui-select-brain'
-import { HlmSelectImports } from '@spartan-ng/ui-select-helm'
-import {
-    BrnDialogContentDirective,
-    BrnDialogTriggerDirective,
-} from '@spartan-ng/ui-dialog-brain'
-import {
-    HlmDialogComponent,
-    HlmDialogContentComponent,
-    HlmDialogDescriptionDirective,
-    HlmDialogFooterComponent,
-    HlmDialogHeaderComponent,
-    HlmDialogTitleDirective,
-} from '@spartan-ng/ui-dialog-helm'
 import {
     FormBuilder,
     FormGroup,
@@ -30,8 +7,6 @@ import {
     ReactiveFormsModule,
     Validators,
 } from '@angular/forms'
-import { HlmFormFieldModule } from '@spartan-ng/ui-formfield-helm'
-import { HlmInputDirective } from '@spartan-ng/ui-input-helm'
 import {
     Area,
     Permission,
@@ -42,42 +17,35 @@ import {
 import { AreaApiService } from '@myorg/app-example-api-services'
 import { ApiResponse } from '@myorg/common-models'
 
+import { DropdownModule } from 'primeng/dropdown'
+import { DialogModule } from 'primeng/dialog'
+import { ButtonModule } from 'primeng/button'
+import { InputTextModule } from 'primeng/inputtext'
+
 @Component({
     selector: 'app-page-area-management',
     standalone: true,
     imports: [
         CommonModule,
-        ...SpartanModules,
-        HlmIconComponent,
-        BrnSelectImports,
-        HlmSelectImports,
-        BrnDialogTriggerDirective,
-        BrnDialogContentDirective,
-        HlmDialogComponent,
-        HlmDialogContentComponent,
-        HlmDialogHeaderComponent,
-        HlmDialogFooterComponent,
-        HlmDialogTitleDirective,
-        HlmDialogDescriptionDirective,
         FormsModule,
-        HlmFormFieldModule,
         ReactiveFormsModule,
-        HlmInputDirective,
+        DropdownModule,
+        DialogModule,
+        ButtonModule,
+        InputTextModule,
     ],
     templateUrl: './page-area-management.component.html',
     styleUrl: './page-area-management.component.scss',
-    providers: [
-        provideIcons({
-            lucideCheck,
-            lucideX,
-            lucideTrash2,
-            lucideCog,
-            lucidePencil,
-        }),
-    ],
 })
 export class PageAreaManagementComponent implements OnInit {
+    visible = false
+
+    showDialog() {
+        this.visible = true
+    }
     USER_ROLES = USER_ROLES
+    dropDownOptions: object[] = []
+
     user = {
         type: UserRole.Owner, // Default value (optional)
     }
@@ -92,6 +60,10 @@ export class PageAreaManagementComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        USER_ROLES.forEach((e) => {
+            const obj = { name: e.value }
+            this.dropDownOptions.push(obj)
+        })
         this.initializeForm()
     }
 

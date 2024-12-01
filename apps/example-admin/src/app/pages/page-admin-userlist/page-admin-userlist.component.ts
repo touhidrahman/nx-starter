@@ -1,58 +1,17 @@
 import { NgClass } from '@angular/common'
-import {
-    BrnDialogContentDirective,
-    BrnDialogTriggerDirective,
-} from '@spartan-ng/ui-dialog-brain'
-import {
-    HlmDialogComponent,
-    HlmDialogContentComponent,
-    HlmDialogDescriptionDirective,
-    HlmDialogFooterComponent,
-    HlmDialogHeaderComponent,
-    HlmDialogTitleDirective,
-} from '@spartan-ng/ui-dialog-helm'
 import { CommonModule } from '@angular/common'
 import { Component, OnInit, inject } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { UserApiService } from '@myorg/app-example-api-services'
 import { User } from '@myorg/app-example-models'
 import { ApiResponse } from '@myorg/common-models'
-import { SpartanModules } from '@myorg/spartan-modules'
-import {
-    lucideCalendarDays,
-    lucideCog,
-    lucideMapPin,
-    lucidePencil,
-    lucideSearch,
-    lucideTrash2,
-} from '@ng-icons/lucide'
-import { HlmIconComponent, provideIcons } from '@spartan-ng/ui-icon-helm'
-import { LucideAngularModule } from 'lucide-angular'
 
 @Component({
     selector: 'app-page-admin-userlist',
     standalone: true,
     templateUrl: './page-admin-userlist.component.html',
     styleUrl: './page-admin-userlist.component.scss',
-    providers: [
-        provideIcons({ lucideCog, lucideSearch, lucidePencil, lucideTrash2 }),
-    ],
-    imports: [
-        ...SpartanModules,
-        HlmIconComponent,
-        NgClass,
-        LucideAngularModule,
-        FormsModule,
-        CommonModule,
-        BrnDialogContentDirective,
-        BrnDialogTriggerDirective,
-        HlmDialogComponent,
-        HlmDialogContentComponent,
-        HlmDialogDescriptionDirective,
-        HlmDialogFooterComponent,
-        HlmDialogHeaderComponent,
-        HlmDialogTitleDirective,
-    ],
+    imports: [NgClass, FormsModule, CommonModule],
 })
 export class PageAdminUserlistComponent implements OnInit {
     private userService = inject(UserApiService)
