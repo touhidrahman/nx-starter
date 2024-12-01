@@ -35,7 +35,6 @@ import {
 } from '@myorg/common-auth'
 import { LocalStorageService } from '@myorg/common-services'
 import Aura from '@primeng/themes/aura'
-import { LucideAngularModule, icons } from 'lucide-angular'
 import { ConfirmationService, MessageService } from 'primeng/api'
 import { providePrimeNG } from 'primeng/config'
 import { DialogService } from 'primeng/dynamicdialog'
@@ -59,7 +58,6 @@ export const appConfig: ApplicationConfig = {
             withInterceptors([AuthHeaderInterceptorFn]),
             withInterceptorsFromDi(),
         ),
-        importProvidersFrom(LucideAngularModule.pick(icons)),
         importProvidersFrom(BrowserModule),
         importProvidersFrom(FullCalendarModule),
         {

@@ -101,24 +101,12 @@ importers:
       '@ng-web-apis/common':
         specifier: ^4.11.1
         version: 4.11.1(@angular/common@18.2.4(@angular/core@18.2.4(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.4(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
-      '@ngneat/dialog':
-        specifier: ^5.1.1
-        version: 5.1.1(@angular/core@18.2.4(rxjs@7.8.1)(zone.js@0.14.10))
-      '@ngneat/overview':
-        specifier: ^5.1.1
-        version: 5.1.1(@angular/core@18.2.4(rxjs@7.8.1)(zone.js@0.14.10))
-      '@ngneat/until-destroy':
-        specifier: ^10.0.0
-        version: 10.0.0(@angular/core@18.2.4(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
       '@ngrx/operators':
         specifier: ^18.1.1
         version: 18.1.1(rxjs@7.8.1)
       '@ngrx/signals':
         specifier: ^18.1.1
         version: 18.1.1(@angular/core@18.2.4(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
-      '@ngxpert/cmdk':
-        specifier: ^2.0.0
-        version: 2.0.0(@angular/common@18.2.4(@angular/core@18.2.4(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.4(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
       '@nx/angular':
         specifier: 20.1.4
         version: 20.1.4(ugzrpdqrtff55xpiecgnpk3dti)
@@ -3061,27 +3049,6 @@ packages:
       '@angular/core': '>=16.0.0'
       rxjs: '>=7.0.0'
 
-  '@ngneat/dialog@5.1.1':
-    resolution: {integrity: sha512-rVsc49zicax4EHpmRmqDwZ7Wt6i62EPvIOFtMb9WGaWD+/48fkjCys0TaLLY5eUzJRXioEehwhEuvX/FpVqqUw==}
-    peerDependencies:
-      '@angular/core': '>=17.0.0'
-
-  '@ngneat/overview@5.1.1':
-    resolution: {integrity: sha512-Dz7yylhS08Mo+A8SXo7KyJBJMxD18Oq/G5v/ndvd5C8Gi3uOrAiXUjxvqRCPMxrg03FlkvEsD5/4TvMKtrUfAQ==}
-    peerDependencies:
-      '@angular/core': '>=16'
-
-  '@ngneat/overview@6.1.1':
-    resolution: {integrity: sha512-31gsEbSbLWTD/LD8KtUS2Qv+GVQS2pK00S9ZBP+pv2ZF1NIfwHjXs8fey8TQN1QuKPLa510YYN3rEwyP57UCfw==}
-    peerDependencies:
-      '@angular/core': '>=17'
-
-  '@ngneat/until-destroy@10.0.0':
-    resolution: {integrity: sha512-xXFAabQ4YVJ82LYxdgUlaKZyR3dSbxqG3woSyaclzxfCgWMEDweCcM/GGYbNiHJa0WwklI98RXHvca+UyCxpeg==}
-    peerDependencies:
-      '@angular/core': '>=13'
-      rxjs: ^6.4.0 || ^7.0.0
-
   '@ngrx/operators@18.1.1':
     resolution: {integrity: sha512-RB156PouKI/E79jxvJLaDFYMHz9JVFR8f4ogfAeT7sh2dDGoK4A+B0n1Cl0iYW9fpcJCdfB/mu7TkH6auFv1aQ==}
     peerDependencies:
@@ -3103,12 +3070,6 @@ packages:
       '@angular/compiler-cli': ^18.0.0
       typescript: '>=5.4 <5.6'
       webpack: ^5.54.0
-
-  '@ngxpert/cmdk@2.0.0':
-    resolution: {integrity: sha512-w5P2qq43l648YyEIN/0cUz4s7zFdTKWRe+nx1sOZURbWb5z5H54qmWBBUcLS1674FnN6cwR+su4HmMKgPgl+xA==}
-    peerDependencies:
-      '@angular/common': '>=17.0.0'
-      '@angular/core': '>17.0.0'
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -9142,9 +9103,6 @@ packages:
     resolution: {integrity: sha512-NoZ4roiN7LnbKn9QqE1amc9DJfzvZXxF4xDavcOWt1BPkdx+m+0gJuPM+S0vCe7zTJMYUP0R8pO2XMr+Y8oLIg==}
     engines: {node: '>=6'}
 
-  tslib@2.3.1:
-    resolution: {integrity: sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==}
-
   tslib@2.6.3:
     resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
 
@@ -13412,27 +13370,6 @@ snapshots:
       rxjs: 7.8.1
       tslib: 2.8.1
 
-  '@ngneat/dialog@5.1.1(@angular/core@18.2.4(rxjs@7.8.1)(zone.js@0.14.10))':
-    dependencies:
-      '@angular/core': 18.2.4(rxjs@7.8.1)(zone.js@0.14.10)
-      tslib: 2.3.1
-
-  '@ngneat/overview@5.1.1(@angular/core@18.2.4(rxjs@7.8.1)(zone.js@0.14.10))':
-    dependencies:
-      '@angular/core': 18.2.4(rxjs@7.8.1)(zone.js@0.14.10)
-      tslib: 2.8.1
-
-  '@ngneat/overview@6.1.1(@angular/core@18.2.4(rxjs@7.8.1)(zone.js@0.14.10))':
-    dependencies:
-      '@angular/core': 18.2.4(rxjs@7.8.1)(zone.js@0.14.10)
-      tslib: 2.8.1
-
-  '@ngneat/until-destroy@10.0.0(@angular/core@18.2.4(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)':
-    dependencies:
-      '@angular/core': 18.2.4(rxjs@7.8.1)(zone.js@0.14.10)
-      rxjs: 7.8.1
-      tslib: 2.8.1
-
   '@ngrx/operators@18.1.1(rxjs@7.8.1)':
     dependencies:
       rxjs: 7.8.1
@@ -13450,17 +13387,6 @@ snapshots:
       '@angular/compiler-cli': 18.2.4(@angular/compiler@18.2.4(@angular/core@18.2.4(rxjs@7.8.1)(zone.js@0.14.10)))(typescript@5.5.4)
       typescript: 5.5.4
       webpack: 5.94.0(@swc/core@1.5.7(@swc/helpers@0.5.11))(esbuild@0.23.0)
-
-  '@ngxpert/cmdk@2.0.0(@angular/common@18.2.4(@angular/core@18.2.4(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.4(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)':
-    dependencies:
-      '@angular/cdk': 18.2.4(@angular/common@18.2.4(@angular/core@18.2.4(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1))(@angular/core@18.2.4(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
-      '@angular/common': 18.2.4(@angular/core@18.2.4(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
-      '@angular/core': 18.2.4(rxjs@7.8.1)(zone.js@0.14.10)
-      '@ngneat/overview': 6.1.1(@angular/core@18.2.4(rxjs@7.8.1)(zone.js@0.14.10))
-      '@ngneat/until-destroy': 10.0.0(@angular/core@18.2.4(rxjs@7.8.1)(zone.js@0.14.10))(rxjs@7.8.1)
-      tslib: 2.8.1
-    transitivePeerDependencies:
-      - rxjs
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:
@@ -20645,8 +20571,6 @@ snapshots:
       json5: 2.2.3
       minimist: 1.2.8
       strip-bom: 3.0.0
-
-  tslib@2.3.1: {}
 
   tslib@2.6.3: {}
 

@@ -6,8 +6,8 @@ import {
     Validators,
 } from '@angular/forms'
 import { Router, RouterModule } from '@angular/router'
+import { AlertService } from '@myorg/app-example-core'
 import { AuthApiService } from '@myorg/common-auth'
-import { toast } from 'ngx-sonner'
 
 @Component({
     selector: 'app-page-forgot-password',
@@ -20,6 +20,7 @@ export class PageForgotPasswordComponent {
     private fb = inject(FormBuilder)
     private authApiService = inject<AuthApiService<any>>(AuthApiService)
     private router = inject(Router)
+    private alertService = inject(AlertService)
 
     forgotPasswordForm: FormGroup = this.fb.group({
         email: ['', [Validators.required, Validators.email]],
@@ -33,21 +34,16 @@ export class PageForgotPasswordComponent {
             this.authApiService.forgotPassword(email).subscribe({
                 next: (response) => {
                     if (response.data) {
-                        toast('Reset link sent successfully.')
+                        this.alertService.success('Reset link sent successfully.')
                     } else {
-                        toast('Failed to send reset link.', {
-                            description: 'Please try again later.',
-                        })
+                        this.alertService.error('Failed to send reset link.')
                         this.error = 'Failed to send reset link.'
                     }
                 },
                 error: (err) => {
                     console.error('Error sending reset link:', err)
 
-                    toast('Error sending reset link.', {
-                        description:
-                            'An error occurred while sending the reset link. Please try again later.',
-                    })
+                    this.alertService.error('Error sending reset link.')
                     this.error =
                         'An error occurred while sending the reset link.'
                 },

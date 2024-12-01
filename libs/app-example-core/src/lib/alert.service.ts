@@ -1,29 +1,30 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { MessageService } from 'primeng/api';
 import { toast, NgxSonnerToaster } from 'ngx-sonner';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AlertService {
-    protected readonly toast = toast;
+    private messageService = inject(MessageService)
 
     success(message: string) {
-        this.toast.success(message);
+        this.messageService.add({ 'text': message, severity: 'success' });
     }
 
     error(message: string) {
-        this.toast.error(message)
+        this.messageService.add({ 'text': message, severity: 'error' });
     }
 
     info(message: string) {
-        this.toast.info(message)
+        this.messageService.add({ 'text': message, severity: 'info' });
     }
 
-    warn(   message: string) {
-        this.toast.warning(message)
+    warn(message: string) {
+        this.messageService.add({ 'text': message, severity: 'warning' });
     }
 
     loading(message: string) {
-        this.toast.loading(message)
+        toast.loading(message)
     }
 }

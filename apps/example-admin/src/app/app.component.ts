@@ -2,13 +2,12 @@ import { CommonModule } from '@angular/common'
 import { Component, inject } from '@angular/core'
 import { RouterModule } from '@angular/router'
 import { PageLayout, PageLayoutService } from '@myorg/page-layouts'
-import { LucideIconConfig } from 'lucide-angular'
 import { NgxSonnerToaster } from 'ngx-sonner'
-import { LayoutCenteredComponent } from './main/layouts/components/layout-centered/layout-centered.component'
-import { LayoutDefaultComponent } from './main/layouts/components/layout-default/layout-default.component'
 import { ConfirmDialog } from 'primeng/confirmdialog'
 import { ConfirmPopup } from 'primeng/confirmpopup'
 import { Toast } from 'primeng/toast'
+import { LayoutCenteredComponent } from './main/layouts/components/layout-centered/layout-centered.component'
+import { LayoutDefaultComponent } from './main/layouts/components/layout-default/layout-default.component'
 
 @Component({
     standalone: true,
@@ -27,14 +26,8 @@ import { Toast } from 'primeng/toast'
     styleUrl: './app.component.scss',
 })
 export class AppComponent {
-    private lucideConfig = inject(LucideIconConfig)
-
     readonly PageLayout = PageLayout
 
     layoutService = inject(PageLayoutService)
 
-    constructor() {
-        this.lucideConfig.strokeWidth = 2
-        this.lucideConfig.size = 16
-    }
 }

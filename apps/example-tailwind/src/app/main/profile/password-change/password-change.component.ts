@@ -6,9 +6,9 @@ import {
     OnInit,
 } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
+import { AlertService } from '@myorg/app-example-core'
 import { AuthApiService, ChangePasswordFormService } from '@myorg/common-auth'
 import { ApiResponse } from '@myorg/common-models'
-import { toast } from 'ngx-sonner'
 import { toInt } from 'radash'
 
 @Component({
@@ -22,6 +22,7 @@ import { toInt } from 'radash'
 })
 export class PasswordChangeComponent implements OnInit {
     private authApiService = inject(AuthApiService)
+    private alertService = inject(AlertService)
     readonly changePasswordFormService = inject(ChangePasswordFormService)
 
     userId = 0
@@ -51,13 +52,13 @@ export class PasswordChangeComponent implements OnInit {
             .subscribe({
                 next: (res: ApiResponse<boolean>) => {
                     if (res.data == true) {
-                        toast.message(`Password changed successful`)
+                        this.alertService.success(`Password changed successfully`)
                     } else {
-                        toast.error(`${res.message}`)
+                        this.alertService.error(`${res.message}`)
                     }
                 },
                 error: () => {
-                    toast.error('password change failed')
+                    this.alertService.error('password change failed')
                 },
             })
     }
