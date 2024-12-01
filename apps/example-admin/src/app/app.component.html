@@ -1,17 +1,25 @@
 <ngx-sonner-toaster richColors />
+<p-toast />
+<p-confirmdialog />
+<p-confirmpopup />
 
-@switch (layoutService.layout$ | async) { @case (PageLayout.Default) {
-<app-layout-default>
-    <router-outlet></router-outlet>
-</app-layout-default>
-} @case (PageLayout.Center) {
-<app-layout-centered>
-    <router-outlet></router-outlet>
-</app-layout-centered>
-} @case (PageLayout.Blank) {
-<router-outlet></router-outlet>
-} @default {
-<app-layout-default>
-    <router-outlet></router-outlet>
-</app-layout-default>
-} }
+@switch (layoutService.layout$ | async) {
+    @case (PageLayout.Default) {
+        <app-layout-default>
+            <router-outlet></router-outlet>
+        </app-layout-default>
+    }
+    @case (PageLayout.Center) {
+        <app-layout-centered>
+            <router-outlet></router-outlet>
+        </app-layout-centered>
+    }
+    @case (PageLayout.Blank) {
+        <router-outlet></router-outlet>
+    }
+    @default {
+        <app-layout-default>
+            <router-outlet></router-outlet>
+        </app-layout-default>
+    }
+}

@@ -1,7 +1,6 @@
 {
-    "extends": "../../tsconfig.base.json",
     "compilerOptions": {
-        "module": "commonjs",
+        "target": "es2022",
         "forceConsistentCasingInFileNames": true,
         "strict": true,
         "noImplicitOverride": true,
@@ -18,5 +17,12 @@
         {
             "path": "./tsconfig.spec.json"
         }
-    ]
+    ],
+    "extends": "../../tsconfig.base.json",
+    "angularCompilerOptions": {
+        "enableI18nLegacyMessageIdFormat": false,
+        "strictInjectionParameters": true,
+        "strictInputAccessModifiers": true,
+        "strictTemplates": true
+    }
 }
