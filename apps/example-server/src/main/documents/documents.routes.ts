@@ -21,6 +21,10 @@ import {
     deleteDocumentRoute,
 } from './routes/delete-document'
 import { replaceFileRoute, replaceFileHandler } from './routes/replace-file'
+import {
+    getFilesByEntityNameHandler,
+    getFilesByEntityNameRoute,
+} from './routes/get-documentsByEntityName'
 
 export const documentV1Route = createRouter()
     .openapi(createDocumentRoute, createDocumentHandler)
@@ -30,3 +34,4 @@ export const documentV1Route = createRouter()
     .openapi(deleteDocumentRoute, deleteDocumentHandler)
     .openapi(deleteAllDocumentRoute, deleteAllDocumentHandler)
     .openapi(replaceFileRoute, replaceFileHandler)
+    .openapi(getFilesByEntityNameRoute, getFilesByEntityNameHandler)

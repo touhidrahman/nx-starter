@@ -1,5 +1,5 @@
 import { db } from '../../core/db/db'
-import { documentsTable } from '../../core/db/schema'
+import { documentsTable, storageTable } from '../../core/db/schema'
 import { and, eq, getTableColumns } from 'drizzle-orm'
 import { getFileType } from '../../core/utils/file.util'
 import { InsertDocument } from './documents.schema'
@@ -98,4 +98,27 @@ export const deleteAll = (id: string, groupId: string) => {
         .where(
             and(eq(documentsTable.id, id), eq(documentsTable.groupId, groupId)),
         )
+}
+
+export const getFilesByEntityNameAndEntityId = async (
+    entityId: string,
+    entityName: string,
+) => {
+    return db
+        .select({ ...getTableColumns(storageTable) })
+        .from(storageTable)
+        .where(
+            and(
+                eq(storageTable.entityId, entityId),
+                eq(storageTable.entityName, entityName),
+            ),
+        )
+}
+
+export const getFilesByEntityName = async (entityName: string) => {
+    const results = await db
+        .select({ ...getTableColumns(storageTable) })
+        .from(storageTable)
+        .where(eq(storageTable.entityName, entityName))
+    return results ? results : null
 }
