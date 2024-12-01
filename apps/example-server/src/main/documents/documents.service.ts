@@ -100,33 +100,30 @@ export const deleteAll = (id: string, groupId: string) => {
         )
 }
 
-export const getFilesByEntityNameAndEntityId = async (
-    entityId: string,
-    entityName: string,
-) => {
-    return db
-        .select({ ...getTableColumns(storageTable) })
-        .from(storageTable)
-        .where(
-            and(
-                eq(storageTable.entityName, entityName),
-                eq(storageTable.entityId, entityId),
-            ),
-        )
-}
+export const getAllDocuments = async (params: {
+    entityName?: string
+    entityId?: string
+    groupId?: string
+}) => {
+    const { entityName, entityId, groupId } = params
 
-export const getFilesByEntityName = async (entityName: string) => {
+    const conditions = []
+    if (entityName) {
+        conditions.push(eq(storageTable.entityName, entityName))
+    }
+    if (entityId) {
+        conditions.push(eq(storageTable.entityId, entityId))
+    }
+    if (groupId) {
+        conditions.push(eq(storageTable.entityId, groupId))
+    }
+
+    const whereClause = conditions.length > 0 ? and(...conditions) : undefined
+
     const results = await db
         .select({ ...getTableColumns(storageTable) })
         .from(storageTable)
-        .where(eq(storageTable.entityName, entityName))
-    return results ? results : null
-}
+        .where(whereClause)
 
-export const getFilesByGroupId = async (groupId: string) => {
-    const results = await db
-        .select({ ...getTableColumns(storageTable) })
-        .from(storageTable)
-        .where(eq(storageTable.entityId, groupId))
-    return results ? results : null
+    return results.length > 0 ? results : null
 }
