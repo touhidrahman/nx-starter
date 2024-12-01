@@ -1,4 +1,4 @@
-# My NX Starter
+# NX Starter
 
 <a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
 
@@ -21,12 +21,21 @@ find ./apps -type f -name "*.spec.ts" -exec rm -f {} +
 find ./libs -type f -name "*.spec.ts" -exec rm -f {} +
 ```
 
+### Spartan UI Scripts
+Update your package.json with following:
+```
+    "spartan1of3": "pnpm add -D @spartan-ng/cli@latest --strict-peer-dependencies",
+    "spartan2of3": "pnpm add @spartan-ng/ui-core@latest --strict-peer-dependencies",
+    "spartan3of3": "pnpm dlx nx g @spartan-ng/cli:ui",
+```
+
 ### Updating spartan UI
 
--   Run `npm run update-spartan-cli` to upgrade spartan cli.
+-   Run `pnpm spartan1of3` to upgrade spartan cli.
 -   Remove `libs/ui` directory.
 -   Remove all `@spartan/*` paths from `tsconfig.base.json`.
--   Run `npm run spartan-ui` and follow instructions. Enter `libs/ui` when asked about install folder. Select `all` components when prompted. (Omit `helm` if you encounter error)
+-   Run `pnpm spartan2of3`
+-   Run `pnpm spartan3of3` and follow instructions. Enter `libs/ui` when asked about install folder. Select `all` components when prompted. (Omit `helm` if you encounter error)
 -   Finally run `npm run format`
 
 ### Setup tailwind for a new project
