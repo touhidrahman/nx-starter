@@ -1,3 +1,25 @@
 :host {
     display: block;
 }
+
+.linear-color {
+    background: linear-gradient(
+        90deg,
+        #008b4b 38.37%,
+        #13d369 51.44%,
+        #4ccca8 64.52%
+    );
+    background-clip: text;
+    color: transparent;
+}
+
+.linear-color2 {
+    background: linear-gradient(
+        90deg,
+        #00c469 42.02%,
+        #00be16 63.12%,
+        #31d39b 84.23%
+    );
+    background-clip: text;
+    color: transparent;
+}

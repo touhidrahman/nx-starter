@@ -46,3 +46,7 @@ body {
 .text-primary-gray {
     @apply text-[#3a3a3a];
 }
+
+.btn-shadow {
+    box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.2);
+}

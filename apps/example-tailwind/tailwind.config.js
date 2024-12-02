@@ -18,6 +18,11 @@ module.exports = {
                     DEFAULT: 'max-w-xl',
                 },
             },
+            colors: {
+                lightGreen: '#eaffea',
+                green: '#0A5C36',
+                grayShade: '#292929',
+            },
         },
     },
     plugins: [require('tailwindcss-primeui')],
