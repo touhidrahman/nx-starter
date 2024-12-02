@@ -1,6 +1,6 @@
 export interface SuccessEmailTemplateProps {
     recipientName: string
-    profileType: 'Vendor' | 'Client'
+    profileType: 'vendor' | 'client'
     dashboardUrl: string
     organizationName?: string
 }
