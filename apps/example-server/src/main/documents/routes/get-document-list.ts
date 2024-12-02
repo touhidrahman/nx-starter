@@ -16,6 +16,9 @@ export const getDocumentsListRoute = createRoute({
         query: z.object({
             entityName: z.string().optional(),
             entityId: z.string().optional(),
+            search: z.string().optional(),
+            page: z.number().min(1).optional().default(1),
+            limit: z.number().min(1).max(100).optional().default(10),
         }),
     },
     responses: {
@@ -28,7 +31,7 @@ export const getDocumentsListHandler: AppRouteHandler<
     typeof getDocumentsListRoute
 > = async (c) => {
     const payload = await c.get('jwtPayload')
-    const { entityName, entityId } = await c.req.query()
+    const { entityName, entityId, search, page, limit } = await c.req.query()
 
     try {
         const { groupId } = payload
@@ -36,10 +39,13 @@ export const getDocumentsListHandler: AppRouteHandler<
             entityName,
             entityId,
             groupId,
+            search,
+            page,
+            limit,
         })
 
         return c.json(
-            { data: documents, message: 'Document list', success: true },
+            { data: documents, message: 'Documents list', success: true },
             OK,
         )
     } catch (error: any) {

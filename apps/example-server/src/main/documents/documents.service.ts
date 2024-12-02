@@ -1,6 +1,6 @@
 import { db } from '../../core/db/db'
 import { documentsTable, storageTable } from '../../core/db/schema'
-import { and, eq, getTableColumns } from 'drizzle-orm'
+import { and, eq, getTableColumns, like, sql } from 'drizzle-orm'
 import { getFileType } from '../../core/utils/file.util'
 import { InsertDocument } from './documents.schema'
 
@@ -101,11 +101,14 @@ export const deleteAll = (id: string, groupId: string) => {
 }
 
 export const getAllDocuments = async (params: {
-    entityName?: string
-    entityId?: string
-    groupId?: string
+    search: string
+    entityName: string
+    groupId: any
+    limit: string
+    entityId: string
+    page: string
 }) => {
-    const { entityName, entityId, groupId } = params
+    const { entityName, entityId, groupId, search, page, limit } = params
 
     const conditions = []
     if (entityName) {
@@ -118,12 +121,48 @@ export const getAllDocuments = async (params: {
         conditions.push(eq(storageTable.entityId, groupId))
     }
 
+    if (search) {
+        conditions.push(like(storageTable.filename, `%${search}%`))
+    }
+
     const whereClause = conditions.length > 0 ? and(...conditions) : undefined
 
-    const results = await db
-        .select({ ...getTableColumns(storageTable) })
-        .from(storageTable)
-        .where(whereClause)
+    const offset = (Number(page) - 1) * Number(limit)
 
-    return results.length > 0 ? results : null
+    const query = db
+        .select({
+            ...getTableColumns(storageTable),
+        })
+        .from(storageTable)
+        .limit(Number(limit))
+        .offset(offset)
+
+    if (whereClause) {
+        query.where(whereClause)
+    }
+
+    const results = await query
+
+    const totalCountQuery = db
+        .select({
+            count: sql`count(*)`.as<number>(),
+        })
+        .from(storageTable)
+
+    if (whereClause) {
+        totalCountQuery.where(whereClause)
+    }
+
+    const totalCountResult = await totalCountQuery
+    const totalCount = totalCountResult[0]?.count || 0
+
+    return {
+        data: results,
+        meta: {
+            page,
+            limit,
+            totalCount,
+            totalPages: Math.ceil(totalCount / Number(limit)),
+        },
+    }
 }
