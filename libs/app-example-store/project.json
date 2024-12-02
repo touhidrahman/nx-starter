@@ -12,9 +12,6 @@
             "options": {
                 "jestConfig": "libs/app-example-store/jest.config.ts"
             }
-        },
-        "lint": {
-            "executor": "@nx/eslint:lint"
         }
     }
 }

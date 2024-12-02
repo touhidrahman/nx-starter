@@ -107,9 +107,6 @@
                 "buildTarget": "example-ionic:build"
             }
         },
-        "lint": {
-            "executor": "@nx/eslint:lint"
-        },
         "test": {
             "executor": "@nx/jest:jest",
             "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],

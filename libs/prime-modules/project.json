@@ -12,9 +12,6 @@
             "options": {
                 "jestConfig": "libs/prime-modules/jest.config.ts"
             }
-        },
-        "lint": {
-            "executor": "@nx/eslint:lint"
         }
     }
 }
