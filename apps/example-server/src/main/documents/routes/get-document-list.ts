@@ -31,15 +31,15 @@ export const getDocumentsListHandler: AppRouteHandler<
     const { entityName, entityId } = await c.req.query()
 
     try {
-        const groupId = payload.groupId
-        const document = await getAllDocuments({
+        const { groupId } = payload
+        const documents = await getAllDocuments({
             entityName,
             entityId,
             groupId,
         })
 
         return c.json(
-            { data: document, message: 'Document list', success: true },
+            { data: documents, message: 'Document list', success: true },
             OK,
         )
     } catch (error: any) {
