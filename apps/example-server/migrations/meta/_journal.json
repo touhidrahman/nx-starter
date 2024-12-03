@@ -1,20 +1,13 @@
 {
-  "version": "7",
-  "dialect": "postgresql",
-  "entries": [
-    {
-      "idx": 0,
-      "version": "7",
-      "when": 1732723509472,
-      "tag": "0000_youthful_ego",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1732945538341,
-      "tag": "0001_quiet_layla_miller",
-      "breakpoints": true
-    }
-  ]
+    "version": "7",
+    "dialect": "postgresql",
+    "entries": [
+        {
+            "idx": 0,
+            "version": "7",
+            "when": 1733135515622,
+            "tag": "0000_famous_garia",
+            "breakpoints": true
+        }
+    ]
 }

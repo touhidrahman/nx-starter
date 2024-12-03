@@ -1,6 +1,6 @@
 import { db } from '../../core/db/db'
-import { documentsTable } from '../../core/db/schema'
-import { and, eq, getTableColumns } from 'drizzle-orm'
+import { documentsTable, storageTable } from '../../core/db/schema'
+import { and, eq, getTableColumns, like, sql } from 'drizzle-orm'
 import { getFileType } from '../../core/utils/file.util'
 import { InsertDocument } from './documents.schema'
 
@@ -98,4 +98,71 @@ export const deleteAll = (id: string, groupId: string) => {
         .where(
             and(eq(documentsTable.id, id), eq(documentsTable.groupId, groupId)),
         )
+}
+
+export const getAllDocuments = async (params: {
+    search: string
+    entityName: string
+    groupId: any
+    limit: string
+    entityId: string
+    page: string
+}) => {
+    const { entityName, entityId, groupId, search, page, limit } = params
+
+    const conditions = []
+    if (entityName) {
+        conditions.push(eq(storageTable.entityName, entityName))
+    }
+    if (entityId) {
+        conditions.push(eq(storageTable.entityId, entityId))
+    }
+    if (groupId) {
+        conditions.push(eq(storageTable.entityId, groupId))
+    }
+
+    if (search) {
+        conditions.push(like(storageTable.filename, `%${search}%`))
+    }
+
+    const whereClause = conditions.length > 0 ? and(...conditions) : undefined
+
+    const offset = (Number(page) - 1) * Number(limit)
+
+    const query = db
+        .select({
+            ...getTableColumns(storageTable),
+        })
+        .from(storageTable)
+        .limit(Number(limit))
+        .offset(offset)
+
+    if (whereClause) {
+        query.where(whereClause)
+    }
+
+    const results = await query
+
+    const totalCountQuery = db
+        .select({
+            count: sql`count(*)`.as<number>(),
+        })
+        .from(storageTable)
+
+    if (whereClause) {
+        totalCountQuery.where(whereClause)
+    }
+
+    const totalCountResult = await totalCountQuery
+    const totalCount = totalCountResult[0]?.count || 0
+
+    return {
+        data: results,
+        meta: {
+            page,
+            limit,
+            totalCount,
+            totalPages: Math.ceil(totalCount / Number(limit)),
+        },
+    }
 }
