@@ -10,6 +10,8 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zChangePassword } from '../auth.schema'
 import { findAuthUserById } from '../auth.service'
+import { buildpasswordChangeSuccessfulEmailTemplate } from '../../email/templates/password-change-successful'
+import { sendEmailUsingResend } from '../../../core/email/email.service'
 
 const tags = ['Auth']
 
@@ -72,6 +74,15 @@ export const changePasswordHandler: AppRouteHandler<
         .set({ password: hashedPassword })
         .where(eq(authUsersTable.id, userId))
 
+    const passwordChangeTemplate = buildpasswordChangeSuccessfulEmailTemplate({
+        email: user.email,
+    })
+    const { data, error } = await sendEmailUsingResend(
+        [user.email],
+        'Password change',
+        passwordChangeTemplate,
+    )
+    // TODO: log sending email error
     return c.json(
         {
             message: 'Password changed successfully',

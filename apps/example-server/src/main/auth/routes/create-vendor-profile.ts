@@ -1,5 +1,4 @@
 import { createRoute, z } from '@hono/zod-openapi'
-import { createRouter } from '../../../core/create-app'
 import { checkToken } from '../auth.middleware'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { zInsertGroup, zSelectGroup } from '../../group/group.schema'
@@ -8,8 +7,11 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { AppRouteHandler } from '../../../core/core.type'
 import { db } from '../../../core/db/db'
 import { groupsTable } from '../../../core/db/schema'
-import { and, count, eq } from 'drizzle-orm'
+import { eq } from 'drizzle-orm'
 import { zEmpty } from '../../../core/models/common.schema'
+import { buildSuccessEmailTemplate } from '../../email/templates/success-template'
+import { sendEmailUsingResend } from '../../../core/email/email.service'
+import env from '../../../env'
 
 export const createVendorProfileRoute = createRoute({
     path: '/v1/create-vendor-profile',
@@ -55,6 +57,21 @@ export const createVendorProfileHandler: AppRouteHandler<
             ownerId: authUserId,
         })
         .returning()
+
+    const createProfileSuccess = buildSuccessEmailTemplate({
+        recipientName: group.name,
+        profileType: group.type,
+        dashboardUrl: `${env.FRONTEND_URL}/dashboard`,
+        organizationName: '',
+    })
+
+    const { data, error } = await sendEmailUsingResend(
+        [group.email],
+        'Profile created successfully.',
+        createProfileSuccess,
+    )
+
+    // TODO: log sending email error
 
     return c.json(
         { data: group, success: true, message: 'Vendor profile created' },

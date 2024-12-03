@@ -13,6 +13,8 @@ import { zResetPassword } from '../auth.schema'
 import { findAuthUserByEmail } from '../auth.service'
 import { decodeVerificationToken } from '../token.util'
 import { BAD_REQUEST, OK } from 'stoker/http-status-codes'
+import { buildpasswordResetSuccessfulEmailTemplate } from '../../email/templates/password-reset-successful'
+import { sendEmailUsingResend } from '../../../core/email/email.service'
 
 const tags = ['Auth']
 
@@ -51,7 +53,16 @@ export const resetPasswordHandler: AppRouteHandler<
             .update(authUsersTable)
             .set({ password: hashedPassword })
             .where(eq(authUsersTable.id, user.id))
-        // TODO send a confirmation email to the user
+
+        const passwordResetSuccessfulTemplate =
+            buildpasswordResetSuccessfulEmailTemplate({ email: email })
+        const { data, error } = await sendEmailUsingResend(
+            [email],
+            'Your Password Has Been Successfully Reset',
+            passwordResetSuccessfulTemplate,
+        )
+        // TODO log email sending error
+
         console.log(`Password reset successful for ${email}`)
         return c.json(
             { message: 'Password reset success', data: {}, success: true },
