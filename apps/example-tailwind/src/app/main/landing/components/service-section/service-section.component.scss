@@ -1,0 +1,18 @@
+:host {
+    display: block;
+}
+
+.card-shadow {
+    box-shadow: 1px 1px 5px 0px #00000040;
+}
+
+.hover-border-shadow:hover {
+    background: linear-gradient(
+        180deg,
+        #029121 0%,
+        #62ff84 50%,
+        #64b375 75%,
+        #00ff99 100%
+    );
+    box-shadow: 5px 5px 20px 0px #00000040;
+}

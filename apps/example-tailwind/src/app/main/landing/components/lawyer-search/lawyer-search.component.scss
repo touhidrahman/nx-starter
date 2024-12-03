@@ -1,0 +1,53 @@
+:host {
+    display: block;
+}
+
+.gradient1 {
+    background: linear-gradient(
+        90deg,
+        #50e49a 38.37%,
+        #56e399 44.9%,
+        #34db81 48.17%,
+        #13d369 51.44%,
+        #2fd088 57.98%,
+        #8ee161 64.52%
+    );
+    background-clip: text;
+    color: transparent;
+}
+
+.gradient2 {
+    background: linear-gradient(
+        90deg,
+        #50e49a 38.37%,
+        #8ee161 40.85%,
+        #e2fff0 44.9%,
+        #34db81 48.17%,
+        #13d369 51.44%,
+        #2fd088 57.98%
+    );
+    background-clip: text;
+    color: transparent;
+}
+
+.gradient3 {
+    background: linear-gradient(
+        90deg,
+        #89e450 38.37%,
+        #dfe356 44.9%,
+        #34db81 48.17%,
+        #5cd313 51.44%,
+        #2fd088 57.98%,
+        #8ee161 64.52%
+    );
+    background-clip: text;
+    color: transparent;
+}
+
+.input-border-gradient {
+    background: linear-gradient(90deg, #155405 0%, #2eba0b 100%);
+}
+
+.btn-border {
+    background: linear-gradient(180deg, #008f05 0%, #002901 100%);
+}
