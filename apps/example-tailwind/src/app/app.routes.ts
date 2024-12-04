@@ -67,7 +67,15 @@ export const appRoutes: Route[] = [
             import('./pages/page-lawyers/page-lawyers.component').then(
                 (m) => m.PageLawyersComponent,
             ),
-        resolve: { layout: setLayout(PageLayout.Public) },
+        resolve: { layout: setLayout(PageLayout.PublicSecondary) },
+    },
+    {
+        path: 'blogs',
+        loadComponent: () =>
+            import('./pages/page-blogs/page-blogs.component').then(
+                (m) => m.PageBlogsComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.PublicSecondary) },
     },
     {
         path: 'home',
