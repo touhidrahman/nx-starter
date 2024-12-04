@@ -18,7 +18,7 @@ export const deleteUsersRoute = createRoute({
     request: {
         body: jsonContent(
             z.object({ ids: z.array(z.string()) }),
-            'Document IDs to delete',
+            'User IDs to delete',
         ),
     },
     responses: {
