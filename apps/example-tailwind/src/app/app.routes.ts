@@ -62,6 +62,14 @@ export const appRoutes: Route[] = [
         pathMatch: 'full',
     },
     {
+        path: 'lawyers',
+        loadComponent: () =>
+            import('./pages/page-lawyers/page-lawyers.component').then(
+                (m) => m.PageLawyersComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Public) },
+    },
+    {
         path: 'home',
         loadComponent: () =>
             import('./pages/page-home/page-home.component').then(
