@@ -43,6 +43,8 @@ module.exports = {
                 graye0: '#e0e0e0',
                 green15b: '#15b400',
                 gray47: '#474747',
+                blue6d: '#0086DA',
+                grayaf: '#afafaf',
             },
         },
     },

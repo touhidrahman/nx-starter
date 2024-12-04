@@ -78,6 +78,14 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.PublicSecondary) },
     },
     {
+        path: 'news',
+        loadComponent: () =>
+            import('./pages/page-news/page-news.component').then(
+                (m) => m.PageNewsComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.PublicSecondary) },
+    },
+    {
         path: 'home',
         loadComponent: () =>
             import('./pages/page-home/page-home.component').then(
