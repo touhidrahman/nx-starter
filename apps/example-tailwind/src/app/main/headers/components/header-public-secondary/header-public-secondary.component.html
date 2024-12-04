@@ -1,47 +1,15 @@
-<nav class="text-grayShade w-full relative h-16 overflow-x-clip">
+<header class="text-grayShade w-full relative h-16 overflow-x-clip">
     <div class="flex items-center justify-between px-6 py-2">
-        <div class="flex justify-start items-center gap-16">
-            <a class="flex justify-center cursor-pointer" [routerLink]="['/']">
-                <img
-                    src="assets/logo/sheresta.png"
-                    class="h-12 w-40 cursor-pointer"
-                    alt="" />
-            </a>
-            <div class="space-x-10 md:block hidden">
-                <a
-                    class="font-semibold text-xl cursor-pointer"
-                    routerLink="/lawyers"
-                    >Lawyers</a
-                >
-                <a
-                    class="font-semibold text-xl cursor-pointer"
-                    routerLink="/blogs"
-                    >Blogs</a
-                >
-                <a
-                    class="font-semibold text-xl cursor-pointer"
-                    routerLink="/news"
-                    >News</a
-                >
-            </div>
-        </div>
-        <div class="space-x-5 md:block hidden">
-            <button
-                class="text-sm bg-lightGreen px-4 py-1 btn-shadow rounded-md">
-                Sign Up
-            </button>
-            <button
-                class="text-sm bg-green px-4 py-1 btn-shadow rounded-md text-white">
-                Sign In
-            </button>
-        </div>
+        <a class="flex justify-center cursor-pointer" [routerLink]="['/']">
+            <img
+                src="assets/logo/sheresta.png"
+                class="h-12 w-40 cursor-pointer"
+                alt="" />
+        </a>
 
-        <div class="md:hidden block">
-            <button
-                class="hover:text-green"
-                (click)="toggleMobileMenu(mobileNav)">
-                <i class="pi pi-bars text-2xl"></i>
-            </button>
+        <div class="space-x-5 block">
+            <button class="text-sm px-4 py-1 rounded-md">Sign Up</button>
+            <button class="text-sm px-4 py-1 rounded-md">Sign In</button>
         </div>
     </div>
 
@@ -152,36 +120,4 @@
             </defs>
         </svg>
     </span>
-
-    <div
-        class="absolute w-80 bg-white -right-80 top-16 rounded-ss-md rounded-es-md py-4 shadow-sm transition-all duration-100 ease-linear z-50"
-        #mobileNav>
-        <div class="space-y-4 text-center">
-            <a
-                class="font-semibold text-xl cursor-pointer block hover:bg-lightGreen transition-all duration-100 ease-linear"
-                routerLink="/lawyers"
-                >Lawyers</a
-            >
-            <a
-                class="font-semibold text-xl cursor-pointer block hover:bg-lightGreen transition-all duration-100 ease-linear"
-                routerLink="/blogs"
-                >Blogs</a
-            >
-            <a
-                class="font-semibold text-xl cursor-pointer block hover:bg-lightGreen transition-all duration-100 ease-linear"
-                routerLink="/news"
-                >News</a
-            >
-        </div>
-        <div class="flex my-4 space-x-3 justify-center items-center">
-            <button
-                class="text-sm bg-lightGreen px-4 py-1 btn-shadow rounded-md">
-                Sign Up
-            </button>
-            <button
-                class="text-sm bg-green px-4 py-1 btn-shadow rounded-md text-white">
-                Sign In
-            </button>
-        </div>
-    </div>
-</nav>
+</header>

@@ -62,6 +62,30 @@ export const appRoutes: Route[] = [
         pathMatch: 'full',
     },
     {
+        path: 'lawyers',
+        loadComponent: () =>
+            import('./pages/page-lawyers/page-lawyers.component').then(
+                (m) => m.PageLawyersComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.PublicSecondary) },
+    },
+    {
+        path: 'blogs',
+        loadComponent: () =>
+            import('./pages/page-blogs/page-blogs.component').then(
+                (m) => m.PageBlogsComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.PublicSecondary) },
+    },
+    {
+        path: 'news',
+        loadComponent: () =>
+            import('./pages/page-news/page-news.component').then(
+                (m) => m.PageNewsComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.PublicSecondary) },
+    },
+    {
         path: 'home',
         loadComponent: () =>
             import('./pages/page-home/page-home.component').then(
