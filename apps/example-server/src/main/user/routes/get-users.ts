@@ -1,10 +1,17 @@
 import { createRoute, z } from '@hono/zod-openapi'
-import { eq, getTableColumns, sql, SQL } from 'drizzle-orm'
+import { eq, getTableColumns, ilike, sql, SQL } from 'drizzle-orm'
 import { toInt } from 'radash'
 import { OK } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { db } from '../../../core/db/db'
-import { usersTable } from '../../../core/db/schema'
+import {
+    usersTable,
+    groupsTable,
+    authUsersTable,
+    userStatusEnum,
+    userLevelEnum,
+    groupTypeEnum,
+} from '../../../core/db/schema' // Include authUserTable
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zSearchUser, zSelectUser } from '../user.schema'
@@ -15,12 +22,22 @@ export const getUsersRoute = createRoute({
     tags: ['User'],
     middleware: [checkToken] as const,
     request: {
-        query: zSearchUser,
+        query: zSearchUser.extend({
+            status: z.string().optional(),
+            groupType: z.string().optional(),
+            userType: z.string().optional(), // Level from authUserTable
+            search: z.string().optional(),
+        }),
     },
     responses: {
         [OK]: ApiResponse(
-            z.array(zSelectUser),
-
+            z.array(
+                zSelectUser.extend({
+                    status: z.enum(userStatusEnum.enumValues).optional(),
+                    groupType: z.enum(groupTypeEnum.enumValues).optional(),
+                    userType: z.enum(userLevelEnum.enumValues).optional(),
+                }),
+            ),
             'List of Users',
         ),
     },
@@ -30,29 +47,72 @@ export const getUsersHandler: AppRouteHandler<typeof getUsersRoute> = async (
     c,
 ) => {
     const query = c.req.valid('query')
-    const conditions: SQL[] = []
+    const conditions = []
 
-    query?.id && conditions.push(eq(usersTable.id, query?.id))
-    query?.email && conditions.push(eq(usersTable.email, query?.email))
+    // Add specific filters to conditions dynamically
+    query?.id && conditions.push(eq(usersTable.id, query.id))
+    query?.email && conditions.push(eq(usersTable.email, query.email))
     query?.firstName &&
-        conditions.push(eq(usersTable.firstName, query?.firstName))
-    query?.lastName && conditions.push(eq(usersTable.lastName, query?.lastName))
-    query?.groupId && conditions.push(eq(usersTable.groupId, query?.groupId))
+        conditions.push(eq(usersTable.firstName, query.firstName))
+    query?.lastName && conditions.push(eq(usersTable.lastName, query.lastName))
+    query?.groupId && conditions.push(eq(usersTable.groupId, query.groupId))
     query?.authUserId &&
-        conditions.push(eq(usersTable.authUserId, query?.authUserId))
-    query?.city && conditions.push(eq(usersTable.city, query?.city))
-    query?.country && conditions.push(eq(usersTable.country, query?.country))
-    query?.postCode && conditions.push(eq(usersTable.postCode, query?.postCode))
-    query?.role && conditions.push(eq(usersTable.role, query?.role))
+        conditions.push(eq(usersTable.authUserId, query.authUserId))
+    query?.city && conditions.push(eq(usersTable.city, query.city))
+    query?.country && conditions.push(eq(usersTable.country, query.country))
+    query?.postCode && conditions.push(eq(usersTable.postCode, query.postCode))
+    query?.role && conditions.push(eq(usersTable.role, query.role))
 
-    const limit = query?.size ? toInt(query?.size) : 10
-    const offset = (query?.page ? toInt(query?.page) : 0) * limit
+    // Filters from groupsTable
+    query?.groupType &&
+        conditions.push(
+            eq(groupsTable.type, query.groupType as 'client' | 'vendor'),
+        )
+    // Filter by userType from authUserTable
 
+    query?.status &&
+        conditions.push(
+            eq(
+                authUsersTable.status,
+                query.status as 'active' | 'inactive' | 'banned',
+            ),
+        )
+    query?.userType &&
+        conditions.push(
+            eq(
+                authUsersTable.level,
+                query.userType as 'user' | 'moderator' | 'admin',
+            ),
+        )
+
+    // Search by name or email
+    if (query?.search) {
+        const searchTerm = `%${query.search}%`
+        conditions.push(
+            sql`${ilike(usersTable.email, searchTerm)} OR ${ilike(
+                sql`LOWER(${usersTable.firstName} || ' ' || ${usersTable.lastName})`,
+                searchTerm,
+            )}`,
+        )
+    }
+
+    // Pagination
+    const limit = query?.size ? toInt(query.size) : 10
+    const offset = query?.page ? (toInt(query.page) - 1) * limit : 0
+
+    // Join query: usersTable with groupsTable and authUsersTable
     const users = await db
-        .select({ ...getTableColumns(usersTable) })
+        .select({
+            ...getTableColumns(usersTable),
+            status: authUsersTable.status,
+            authUserType: authUsersTable.level,
+            groupType: groupsTable.type,
+        })
+
         .from(usersTable)
+        .leftJoin(groupsTable, eq(usersTable.groupId, groupsTable.id))
+        .leftJoin(authUsersTable, eq(usersTable.authUserId, authUsersTable.id))
         .where(
-            // TODO verify if this is correct
             conditions.length
                 ? sql`${conditions.reduce(
                       (acc, condition, index) =>
@@ -66,5 +126,8 @@ export const getUsersHandler: AppRouteHandler<typeof getUsersRoute> = async (
         .limit(limit)
         .offset(offset)
 
-    return c.json({ data: users, message: 'List of users', success: true }, OK)
+    return c.json(
+        { data: users ?? [], message: 'List of users', success: true },
+        OK,
+    )
 }

@@ -18,6 +18,7 @@ import { storageV1Routes } from './main/storage/storage.routes'
 import { subscriptionV1Route } from './main/subscription/subscription.routes'
 import { taskV1Route } from './main/tasks/tasks.routes'
 import { userV1Routes } from './main/user/user.routes'
+import { invitesV1Route } from './main/invite/invites.routes'
 
 const app = createApp()
 
@@ -40,6 +41,7 @@ const routes = [
     subscriptionV1Route,
     taskV1Route,
     userV1Routes,
+    invitesV1Route,
 ]
 
 configureOpenAPI(app)
