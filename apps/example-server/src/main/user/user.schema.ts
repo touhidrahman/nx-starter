@@ -6,7 +6,6 @@ import {
     userStatusEnum,
 } from '../../core/db/schema'
 import { z } from 'zod'
-import { zFile } from '../../core/models/common.schema'
 
 export type UserDto = typeof usersTable.$inferInsert
 export type User = typeof usersTable.$inferSelect
@@ -43,4 +42,5 @@ export const zUpdateProfile = createSelectSchema(usersTable).omit({
     email: true,
 })
 
-export const zProfilePicture = zFile
+
+
