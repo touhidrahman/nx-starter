@@ -107,3 +107,11 @@ export const updateProfile = async (
 
     return [updatedUser]
 }
+
+export const uploadProfilePicture = (url: string, userId: string) => {
+    return db
+        .update(usersTable)
+        .set({ profilePhoto: url })
+        .where(eq(usersTable.id, userId))
+        .returning()
+}
