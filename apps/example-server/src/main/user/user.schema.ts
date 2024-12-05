@@ -37,3 +37,7 @@ export const [LEVEL_USER, LEVEL_MODERATOR, LEVEL_ADMIN] =
     userLevelEnum.enumValues
 export const [USER_STATUS_ACTIVE, USER_STATUS_INACTIVE, USER_STATUS_BANNED] =
     userStatusEnum.enumValues
+
+export const zUpdateProfile = createSelectSchema(usersTable).omit({
+    email: true,
+})
