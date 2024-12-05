@@ -60,8 +60,9 @@ export async function setDefaultGroupId(
     authUserId: string,
     groupId: string | null,
 ) {
-    await db
+    return db
         .update(authUsersTable)
         .set({ defaultGroupId: groupId })
         .where(eq(authUsersTable.id, authUserId))
+        .returning()
 }
