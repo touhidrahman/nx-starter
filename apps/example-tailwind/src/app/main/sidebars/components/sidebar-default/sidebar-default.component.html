@@ -51,6 +51,21 @@
                 <span class="font-medium" *ngIf="!isCollapsed">Clients</span>
             </a>
         </li>
+
+        <li>
+            <a
+                [routerLink]="['/dashboard/appointments']"
+                routerLinkActive="active"
+                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                <span
+                    class="pi pi-user-edit text-gray-500 text-3xl"
+                    routerLinkActive="text-white"></span>
+                <span class="font-medium" *ngIf="!isCollapsed"
+                    >Appointments</span
+                >
+            </a>
+        </li>
+
         <li>
             <a
                 [routerLink]="['/dashboard/documents']"

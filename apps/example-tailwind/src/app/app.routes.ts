@@ -102,6 +102,14 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
+        path: 'dashboard/appointments',
+        loadComponent: () =>
+            import(
+                './pages/page-appointments/page-appointments.component'
+            ).then((m) => m.PageAppointmentsComponent),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
         path: 'dashboard/calender',
         loadComponent: () =>
             import('./pages/page-calender/page-calender.component').then(

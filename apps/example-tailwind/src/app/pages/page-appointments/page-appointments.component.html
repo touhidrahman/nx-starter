@@ -1,5 +1,5 @@
 <div class="overflow-hidden">
-    <h1 class="font-semibold text-4xl">Cases</h1>
+    <h1 class="font-semibold text-4xl">Appointments</h1>
     <!-- filter row -->
     <div class="flex mt-4 justify-between items-center">
         <div class="flex justify-center items-center gap-4">
@@ -24,7 +24,7 @@
                 class="lg:px-8 lg:py-5 px-5 py-3 flex justify-center gap-3 items-center shadow-md shadow-black/20 rounded-xl bg-white">
                 <button
                     class="text-lg border border-graybc px-3 rounded-xl flex justify-center items-center gap-1.5 text-primary-gray">
-                    Pending
+                    Confirmed
                     <svg
                         width="8"
                         height="7"
@@ -82,7 +82,7 @@
                 </svg>
                 <span
                     class="font-medium text-2xl text-white hidden lg:inline whitespace-nowrap"
-                    >Create Case</span
+                    >Create Appointment</span
                 >
             </button>
         </div>
@@ -121,14 +121,14 @@
         </div>
     </div>
 
-    <div class="table-shadow m-3 bg-white rounded-lg h-screen">
+    <div class="table-shadow my-3 bg-white rounded-lg h-screen">
         <table class="w-full rounded-lg">
             <thead
                 class="bg-gray-50 dark:bg-gray-700 border-b border-green rounded-t-lg">
                 <tr class="rounded-t-lg">
                     @for (tableTitle of tableTitles; track $index) {
                         <th
-                            class="px-3 py-4 text-center text-xl font-medium whitespace-nowrap">
+                            class="px-3 py-4 text-left text-xl font-medium whitespace-nowrap">
                             {{ tableTitle }}
                         </th>
                     }
@@ -137,39 +137,37 @@
             <tbody
                 class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                 @for (user of users; track user) {
-                    <tr
-                        [routerLink]="['/dashboard/case', user.caseNumber]"
-                        class="cursor-pointer">
+                    <tr class="cursor-pointer">
                         <td
-                            class="px-3 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white text-center">
-                            {{ user.caseNumber }}
+                            class="px-3 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white text-left">
+                            {{ user.Date }}
                         </td>
                         <td
-                            class="px-3 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white text-center">
-                            {{ user.caseTitle }}
+                            class="px-3 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white text-left">
+                            {{ user.ClientName }}
                         </td>
                         <td
-                            class="px-3 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white text-center">
-                            {{ user.clientName }}
+                            class="px-3 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white text-left">
+                            {{ user.CaseSubject }}
                         </td>
                         <td
-                            class="px-3 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white text-center">
-                            {{ user.courtName }}
+                            class="px-3 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white text-left">
+                            {{ user.Location }}
                         </td>
                         <td
-                            class="px-3 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white text-center">
-                            {{ user.nextHearingDate }}
+                            class="px-3 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white text-left">
+                            {{ user.Contact }}
                         </td>
                         <td
-                            class="px-3 py-4 whitespace-nowrap text-xl font-medium dark:text-white text-center"
+                            class="px-3 py-4 whitespace-nowrap text-xl font-medium dark:text-white text-left"
                             [ngStyle]="{
-                                color: setColor(user.status.toLowerCase()),
+                                color: setColor(user.Status.toLowerCase()),
                             }">
-                            {{ user.status }}
+                            {{ user.Status }}
                         </td>
                         <td
-                            class="px-3 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white text-center">
-                            {{ user.caseType }}
+                            class="px-3 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white text-left">
+                            {{ user.Type }}
                         </td>
                         <td
                             class="px-3 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white flex justify-center items-center gap-3.5">
@@ -203,126 +201,92 @@
             </tbody>
         </table>
     </div>
+</div>
 
-    <!-- pop up -->
-    @if (popUpState.visiblity) {
-        <div class="w-screen h-screen absolute top-0 left-0 z-50">
-            <div class="w-full h-full blur-3xl bg-[#ffffff80]"></div>
+<!-- pop up -->
+@if (popUpState.visiblity) {
+    <div class="w-full h-full absolute top-0 left-0 z-50 overflow-x-hidden">
+        <div class="w-full h-full blur-3xl bg-[#ffffff80]"></div>
 
-            <div
-                class="bg-white border-2 border-grayf1 rounded-xl py-5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 mx-auto">
-                <div class="flex justify-between items-center px-8">
-                    <h2 class="text-4xl text-gray3a font-semibold">
-                        {{
-                            popUpState.createMode ? 'Create Case' : 'Edit Case'
-                        }}
-                    </h2>
-                    <span (click)="hidePopUp()">
-                        <svg
-                            width="14"
-                            height="14"
-                            viewBox="0 0 14 14"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z"
-                                fill="black" />
-                        </svg>
-                    </span>
+        <div
+            class="bg-white border-2 border-grayf1 rounded-xl py-5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 mx-auto">
+            <div class="flex justify-between items-center px-8">
+                <h2 class="text-4xl text-gray3a font-semibold">
+                    {{
+                        popUpState.createMode
+                            ? 'Create Appointment'
+                            : 'Edit Appointment'
+                    }}
+                </h2>
+                <span (click)="hidePopUp()">
+                    <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 14 14"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z"
+                            fill="black" />
+                    </svg>
+                </span>
+            </div>
+
+            <form class="px-12 pt-4">
+                <label class="label" for="ClientName"> Client Name</label>
+                <input type="text" name="" id="ClientName" class="input" />
+
+                <label class="label" for="Case/Subject"> Case/Subject</label>
+                <input type="text" name="" id="Case/Subject" class="input" />
+
+                <div class="grid grid-cols-2 gap-5">
+                    <div class="col-span-1">
+                        <label class="label" for="Date">Date</label>
+                        <input type="text" name="" id="Date" class="input" />
+                    </div>
+
+                    <div class="col-span-1">
+                        <label class="label" for="Type"> Type</label>
+                        <input type="text" name="" id="Type" class="input" />
+                    </div>
                 </div>
 
-                <form class="px-12 pt-4">
-                    <label class="label" for="caseTitle"> Case Title</label>
-                    <input type="text" name="" id="caseTitle" class="input" />
-
-                    <label class="label" for="clientname"> Client Name</label>
-                    <input type="text" name="" id="clientname" class="input" />
-
-                    <div class="grid grid-cols-2 gap-5">
-                        <div class="col-span-1">
-                            <label class="label" for="courtName">
-                                Court Name</label
-                            >
-                            <input
-                                type="text"
-                                name=""
-                                id="courtName"
-                                class="input" />
-                        </div>
-
-                        <div class="col-span-1">
-                            <label class="label" for="casenumber">
-                                Case Number</label
-                            >
-                            <input
-                                type="text"
-                                name=""
-                                id="casenumber"
-                                class="input" />
-                        </div>
+                <div class="grid grid-cols-3 gap-5">
+                    <div class="grid-cols-1">
+                        <label class="label" for="Status"> Status</label>
+                        <input type="text" name="" id="Status" class="input" />
                     </div>
 
-                    <div class="grid grid-cols-3 gap-5">
-                        <div class="grid-cols-1">
-                            <label class="label" for="nextHearingDate">
-                                Next Hearing Date</label
-                            >
-                            <input
-                                type="text"
-                                name=""
-                                id="nextHearingDate"
-                                class="input" />
-                        </div>
-                        <div class="grid-cols-1">
-                            <label class="label" for="status"> Status</label>
-                            <input
-                                type="text"
-                                name=""
-                                id="status"
-                                class="input" />
-                        </div>
-                        <div class="grid-cols-1">
-                            <label class="label" for="caseType"
-                                >Case Type</label
-                            >
-                            <input
-                                type="text"
-                                name=""
-                                id="caseType"
-                                class="input" />
-                        </div>
+                    <div class="grid-cols-1">
+                        <label class="label" for="Location">Location</label>
+                        <input
+                            type="text"
+                            name=""
+                            id="Location"
+                            class="input" />
                     </div>
+                </div>
 
-                    <label class="label" for="oppositeCounsel"
-                        >Opposing Counsel</label
-                    >
-                    <input
-                        type="text"
-                        name=""
-                        id="oppositeCounsel"
-                        class="input" />
+                <label class="label" for="notes">Notes</label>
+                <textarea
+                    name=""
+                    id="notes"
+                    class="border rounded-lg block border-grayD w-full resize-none h-28"></textarea>
 
-                    <label class="label" for="notes">Notes</label>
-                    <textarea
-                        name=""
-                        id="notes"
-                        class="border rounded-lg block border-grayD w-full resize-none h-28"></textarea>
-
-                    <div class="space-x-5 block pt-5 pb-7 text-right">
-                        <button
-                            (click)="hidePopUp()"
-                            class="text-sm bg-lightGreen px-4 py-1 btn-shadow rounded-md"
-                            type="button">
-                            Cancel
-                        </button>
-                        <button
-                            class="text-sm bg-green px-4 py-1 btn-shadow rounded-md text-white"
-                            type="submit">
-                            {{ popUpState.createMode ? 'Save' : 'Update' }}
-                        </button>
-                    </div>
-                </form>
-            </div>
+                <div class="space-x-5 block pt-5 pb-7 text-right">
+                    <button
+                        (click)="hidePopUp()"
+                        class="text-sm bg-lightGreen px-4 py-1 btn-shadow rounded-md"
+                        type="button">
+                        Cancel
+                    </button>
+                    <button
+                        class="text-sm bg-green px-4 py-1 btn-shadow rounded-md text-white"
+                        type="submit">
+                        {{ popUpState.createMode ? 'Save' : 'Update' }}
+                    </button>
+                </div>
+            </form>
         </div>
-    }
-</div>
+    </div>
+}
