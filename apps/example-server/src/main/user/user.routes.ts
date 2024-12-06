@@ -9,6 +9,10 @@ import { getUserHandler, getUserRoute } from './routes/get-user'
 import { getUsersHandler, getUsersRoute } from './routes/get-users'
 import { inviteUserHandler, inviteUserRoute } from './routes/invite-user'
 import { updateUserHandler, updateUserRoute } from './routes/update-user'
+import {
+    deleteUsersHandler,
+    deleteUsersRoute,
+} from './routes/delete-many-users'
 
 export const userV1Routes = createRouter()
     .openapi(getMeRoute, getMeHandler)
@@ -18,3 +22,4 @@ export const userV1Routes = createRouter()
     .openapi(getUserRoute, getUserHandler)
     .openapi(updateUserRoute, updateUserHandler)
     .openapi(deleteUserRoute, deleteUserHandler)
+    .openapi(deleteUsersRoute, deleteUsersHandler)

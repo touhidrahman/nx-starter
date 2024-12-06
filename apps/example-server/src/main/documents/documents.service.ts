@@ -1,6 +1,6 @@
 import { db } from '../../core/db/db'
 import { documentsTable, storageTable } from '../../core/db/schema'
-import { and, eq, getTableColumns, like, sql } from 'drizzle-orm'
+import { and, eq, getTableColumns, ilike, sql } from 'drizzle-orm'
 import { getFileType } from '../../core/utils/file.util'
 import { InsertDocument } from './documents.schema'
 
@@ -122,7 +122,7 @@ export const getAllDocuments = async (params: {
     }
 
     if (search) {
-        conditions.push(like(storageTable.filename, `%${search}%`))
+        conditions.push(ilike(storageTable.filename, `%${search}%`))
     }
 
     const whereClause = conditions.length > 0 ? and(...conditions) : undefined
