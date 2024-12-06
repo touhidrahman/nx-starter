@@ -31,10 +31,9 @@ export const createInviteHandler: AppRouteHandler<
 > = async (c) => {
     const body = c.req.valid('json') as InviteDto
     const payload = await c.get('jwtPayload')
-    const userId = payload.sub
 
     try {
-        const invite = await createInvite(body, userId)
+        const invite = await createInvite(body, payload.userId)
         return c.json(
             {
                 data: invite,

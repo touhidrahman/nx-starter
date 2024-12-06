@@ -108,7 +108,7 @@ export const updateProfile = async (
     return [updatedUser]
 }
 
-export const uploadProfilePicture = (url: string, userId: string) => {
+export const updateUserProfilePictureUrl = (url: string, userId: string) => {
     return db
         .update(usersTable)
         .set({ profilePhoto: url })

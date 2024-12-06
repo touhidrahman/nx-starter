@@ -14,8 +14,8 @@ import {
     updateUserProfileRoute,
 } from './routes/update-profile'
 import {
-    uploadProfilePictureHandler,
-    uploadProfilePictureRoute,
+    updateUserProfilePictureHandler,
+    updateUserProfilePictureRoute,
 } from './routes/upload-profile-picture'
 
 export const userV1Routes = createRouter()
@@ -23,8 +23,8 @@ export const userV1Routes = createRouter()
     .openapi(getMyProfilesRoute, getMyProfilesHandler)
     .openapi(inviteUserRoute, inviteUserHandler)
     .openapi(getUsersRoute, getUsersHandler)
+    .openapi(updateUserProfilePictureRoute, updateUserProfilePictureHandler)
+    .openapi(updateUserProfileRoute, updateUserProfileHandler)
     .openapi(getUserRoute, getUserHandler)
     .openapi(updateUserRoute, updateUserHandler)
     .openapi(deleteUserRoute, deleteUserHandler)
-    .openapi(updateUserProfileRoute, updateUserProfileHandler)
-    .openapi(uploadProfilePictureRoute, uploadProfilePictureHandler)

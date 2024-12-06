@@ -8,7 +8,7 @@ import { zAuthUserSelect } from '../auth.schema'
 import { setDefaultGroupId } from '../auth.service'
 
 export const setDefaulGroupRoute = createRoute({
-    path: '/v1/user',
+    path: '/v1/user/:id',
     tags: ['User'],
     method: 'post',
     middleware: [checkToken] as const,
