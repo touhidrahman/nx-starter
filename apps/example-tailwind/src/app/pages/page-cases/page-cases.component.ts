@@ -2,6 +2,7 @@ import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { DropdownModule } from 'primeng/dropdown'
 import { FormsModule } from '@angular/forms'
+import { RouterModule } from '@angular/router'
 
 interface Case {
     caseNumber: number
@@ -16,7 +17,7 @@ interface Case {
 @Component({
     selector: 'app-page-cases',
     standalone: true,
-    imports: [CommonModule, DropdownModule, FormsModule],
+    imports: [CommonModule, DropdownModule, FormsModule, RouterModule],
     templateUrl: './page-cases.component.html',
     styleUrl: './page-cases.component.scss',
 })
@@ -99,4 +100,22 @@ export class PageCasesComponent {
 
     Options = [{ name: 'Low' }, { name: 'High' }]
     selectedOption: undefined
+
+    popUpState = {
+        visiblity: false,
+        createMode: false,
+    }
+
+    showCreatePopUp() {
+        this.popUpState.visiblity = true
+        this.popUpState.createMode = true
+    }
+
+    showEditPopUp() {
+        this.popUpState.visiblity = true
+        this.popUpState.createMode = false
+    }
+    hidePopUp() {
+        this.popUpState.visiblity = false
+    }
 }

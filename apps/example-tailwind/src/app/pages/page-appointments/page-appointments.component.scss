@@ -1,3 +1,7 @@
+:host {
+    display: block;
+}
+
 input:checked ~ .dot {
     transform: translateX(100%);
     background-color: #48bb78;
@@ -8,5 +12,5 @@ input:checked ~ .dot {
 }
 
 .input {
-    @apply w-full border  rounded-lg h-10 border-grayD;
+    @apply w-full border rounded-lg h-10 border-grayD;
 }
