@@ -1,4 +1,4 @@
-<!-- <ngx-sonner-toaster richColors />
+<ngx-sonner-toaster richColors />
 <p-toast />
 <p-confirmdialog />
 <p-confirmpopup />
@@ -32,10 +32,14 @@
             <router-outlet></router-outlet>
         </app-layout-public-secondary>
     }
+    @case (PageLayout.lawyerDefault) {
+        <app-layout-lawyer-default>
+            <router-outlet></router-outlet>
+        </app-layout-lawyer-default>
+    }
     @default {
         <app-layout-default>
             <router-outlet></router-outlet>
         </app-layout-default>
     }
-} -->
-<app-lawyer-sidebar-default></app-lawyer-sidebar-default>
+}

@@ -1,4 +1,12 @@
-import { Component, inject, OnDestroy, OnInit, Renderer2 } from '@angular/core'
+import {
+    Component,
+    EventEmitter,
+    inject,
+    OnDestroy,
+    OnInit,
+    Output,
+    Renderer2,
+} from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { HeaderUtilService } from '../../header-utils/header-util.service'
 import { UIstate } from '../../header-utils/uiState-inteface'
@@ -11,6 +19,11 @@ import { UIstate } from '../../header-utils/uiState-inteface'
     styleUrl: './header-lawyer-default.component.scss',
 })
 export class HeaderLawyerDefaultComponent implements OnInit, OnDestroy {
+    @Output() sidebarToggle = new EventEmitter<void>()
+    toggleSidebar() {
+        this.sidebarToggle.emit()
+    }
+
     renderer = inject(Renderer2)
     headerUtilService = inject(HeaderUtilService)
 

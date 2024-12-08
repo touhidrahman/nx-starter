@@ -10,5 +10,5 @@ import { RouterModule } from '@angular/router'
     styleUrl: './lawyer-sidebar-default.component.scss',
 })
 export class LawyerSidebarDefaultComponent {
-    @Input() isCollapsed = false
+    @Input() isCollapsed: boolean | undefined
 }
