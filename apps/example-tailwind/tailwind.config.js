@@ -18,6 +18,9 @@ module.exports = {
                     DEFAULT: 'max-w-xl',
                 },
             },
+            fontFamily: {
+                poppins: ['Poppins', 'sans-serif'],
+            },
             colors: {
                 lightGreen: '#eaffea',
                 green: '#0A5C36',
@@ -52,6 +55,11 @@ module.exports = {
                 greenc4: '#c4ff72',
                 grayf8: '#f8f8f8',
                 graye: '#eeeeee',
+                blue0a: '#00A5BB',
+                black2e: '#302E2E',
+                blue8b: '#0078BB',
+                blue0b: '#00BBA5',
+                gray70: '#707070',
             },
         },
     },

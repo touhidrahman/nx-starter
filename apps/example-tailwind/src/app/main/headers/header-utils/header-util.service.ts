@@ -1,4 +1,4 @@
-import { inject, Injectable, Renderer2 } from '@angular/core'
+import { Injectable } from '@angular/core'
 import { UIstate } from './uiState-inteface'
 
 @Injectable({

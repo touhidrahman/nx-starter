@@ -6,4 +6,5 @@ export enum PageLayout {
     Blank = 'blank', // no frame
     Public = 'public', // for landing page
     PublicSecondary = 'PublicSecondary', //for lawyer and blog page
+    lawyerDefault = 'lawyerDefault', // lawyer  default
 }
