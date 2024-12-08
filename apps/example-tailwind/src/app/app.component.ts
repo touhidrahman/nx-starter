@@ -11,7 +11,7 @@ import { LayoutCtaComponent } from './main/layouts/components/layout-cta/layout-
 import { LayoutDefaultComponent } from './main/layouts/components/layout-default/layout-default.component'
 import { LayoutPublicComponent } from './main/layouts/components/layout-public/layout-public.component'
 import { LayoutPublicSecondaryComponent } from './main/layouts/components/layout-public-secondary/layout-public-secondary.component'
-import { HeaderLawyerDefaultComponent } from './main/headers/components/header-lawyer-default/header-lawyer-default.component'
+import { LawyerSidebarDefaultComponent } from './main/sidebars/components/lawyer-sidebar-default/lawyer-sidebar-default.component'
 
 @Component({
     standalone: true,
@@ -27,7 +27,7 @@ import { HeaderLawyerDefaultComponent } from './main/headers/components/header-l
         ConfirmPopup,
         Toast,
         LayoutPublicSecondaryComponent,
-        HeaderLawyerDefaultComponent,
+        LawyerSidebarDefaultComponent,
     ],
     selector: 'app-root',
     templateUrl: './app.component.html',
