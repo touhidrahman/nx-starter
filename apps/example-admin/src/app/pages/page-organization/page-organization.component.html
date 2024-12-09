@@ -1,0 +1,44 @@
+<section>
+    <h1 class="text-2xl font-bold">Organizations</h1>
+    <div class="my-5 flex justify-between items-center">
+        <div class="flex justify-start items-center gap-3">
+            <div>
+                <p-button
+                    label="Filters"
+                    icon="pi pi-filter"
+                    iconPos="left"></p-button>
+            </div>
+            <div class="flex justify-start gap-2 items-center bg-gray-300 p-1">
+                <p-select
+                    [options]="status"
+                    [(ngModel)]="selected"
+                    optionLabel="name"
+                    size="small"
+                    placeholder="Select a Status"
+                    class="w-full md:w-56" />
+                <p-select
+                    [options]="status"
+                    [(ngModel)]="selected"
+                    optionLabel="name"
+                    size="small"
+                    placeholder="Sorting"
+                    class="w-full md:w-56" />
+            </div>
+        </div>
+        <div class="flex justify-end items-center gap-3">
+            <div class="flex justify-start items-center gap-2">
+                <input type="text" pInputText size="small" />
+                <p-button icon="pi pi-search" />
+            </div>
+            <p-button class="" size="small">
+                <i class="pi pi-plus"></i> Create</p-button
+            >
+        </div>
+    </div>
+    <div>
+        <div class="bg-gray-100 p-2 rounded-md">
+            <app-organazation-table
+                [organizations]="organizations"></app-organazation-table>
+        </div>
+    </div>
+</section>
