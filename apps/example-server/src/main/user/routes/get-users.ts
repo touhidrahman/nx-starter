@@ -44,10 +44,10 @@ export const getUsersRoute = createRoute({
 })
 
 export const getUsersHandler: AppRouteHandler<typeof getUsersRoute> = async (
-    c,
+    c
 ) => {
     const query = c.req.valid('query')
-    const conditions = []
+    const conditions: SQL<unknown>[] = []
 
     // Add specific filters to conditions dynamically
     query?.id && conditions.push(eq(usersTable.id, query.id))
@@ -108,19 +108,18 @@ export const getUsersHandler: AppRouteHandler<typeof getUsersRoute> = async (
             authUserType: authUsersTable.level,
             groupType: groupsTable.type,
         })
-
         .from(usersTable)
         .leftJoin(groupsTable, eq(usersTable.groupId, groupsTable.id))
         .leftJoin(authUsersTable, eq(usersTable.authUserId, authUsersTable.id))
         .where(
             conditions.length
                 ? sql`${conditions.reduce(
-                      (acc, condition, index) =>
-                          index === 0
-                              ? condition
-                              : sql`${acc} AND ${condition}`,
-                      sql``,
-                  )}`
+                    (acc, condition, index) =>
+                        index === 0
+                            ? condition
+                            : sql`${acc} AND ${condition}`,
+                    sql``,
+                )}`
                 : undefined,
         )
         .limit(limit)

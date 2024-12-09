@@ -11,6 +11,7 @@ import { checkToken } from '../../auth/auth.middleware'
 import { uploadToS3AndGetUrl } from '../../../core/third-party/s3.service'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { zProfilePicture, zSelectUser } from '../user.schema'
+import { zEmpty } from '../../../core/models/common.schema'
 
 export const updateUserProfilePictureRoute = createRoute({
     path: '/v1/user/upload-profile-picture',
@@ -23,16 +24,12 @@ export const updateUserProfilePictureRoute = createRoute({
     responses: {
         [OK]: ApiResponse(zSelectUser, 'Profile picture updated successfully'),
         [BAD_REQUEST]: ApiResponse(
-            z.object({
-                error: z.string(),
-            }),
-            'Invalid image',
+            zEmpty,
+            'Invalid file error',
         ),
         [INTERNAL_SERVER_ERROR]: ApiResponse(
-            z.object({
-                error: z.string(),
-            }),
-            'Server error',
+            zEmpty,
+            'Internal Server error',
         ),
     },
 })
@@ -45,7 +42,7 @@ export const updateUserProfilePictureHandler: AppRouteHandler<
     const userId = userPayload?.userId
 
     try {
-        const errors = []
+        const errors: string[] = []
         const allowedFormats = ['image/jpeg', 'image/png']
         const MAX_FILE_SIZE = 5 * 1024 * 1024
 
@@ -112,8 +109,18 @@ export const updateUserProfilePictureHandler: AppRouteHandler<
                     success: false,
                     error: error.errors,
                 },
-                INTERNAL_SERVER_ERROR,
+                BAD_REQUEST,
             )
         }
+        return c.json(
+            {
+                data: {},
+                message:
+                    'An error occurred while uploading the profile picture',
+                success: false,
+                error: error,
+            },
+            INTERNAL_SERVER_ERROR,
+        )
     }
 }
