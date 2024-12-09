@@ -27,6 +27,16 @@
     @case (PageLayout.Blank) {
         <router-outlet></router-outlet>
     }
+    @case (PageLayout.PublicSecondary) {
+        <app-layout-public-secondary>
+            <router-outlet></router-outlet>
+        </app-layout-public-secondary>
+    }
+    @case (PageLayout.lawyerDefault) {
+        <app-layout-lawyer-default>
+            <router-outlet></router-outlet>
+        </app-layout-lawyer-default>
+    }
     @default {
         <app-layout-default>
             <router-outlet></router-outlet>

@@ -1,0 +1,181 @@
+<div>
+    <a class="flex justify-center pt-2">
+        <img
+            *ngIf="!isCollapsed"
+            [routerLink]="['/']"
+            src="assets/logo/sheresta.png"
+            class="h-16 w-48 cursor-pointer"
+            alt="Full Logo" />
+
+        <img
+            *ngIf="isCollapsed"
+            [routerLink]="['/']"
+            src="assets/logo/sheresta1.png"
+            class="h-12 w-12 cursor-pointer"
+            alt="Collapsed Logo" />
+    </a>
+</div>
+<div class="px-2 space-y-6">
+    <ul class="mt-6 space-y-1">
+        <li>
+            <a
+                [routerLink]="'lawyer/home'"
+                routerLinkActive="active"
+                class="text-black flex gap-4 items-center hover:bg-green-100 rounded-sm px-4 py-2 font-medium">
+                <span>
+                    <svg
+                        width="16"
+                        height="18"
+                        viewBox="0 0 16 18"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M5 10H11V16H14V7L8 2.5L2 7V16H5V10ZM0 18V6L8 0L16 6V18H0Z"
+                            fill="#292929" />
+                    </svg>
+                </span>
+                <span class="font-medium text-2xl" *ngIf="!isCollapsed"
+                    >Home</span
+                >
+            </a>
+        </li>
+
+        <li>
+            <a
+                [routerLink]=""
+                routerLinkActive="active"
+                class="text-black flex gap-4 items-center hover:bg-green-100 rounded-sm px-4 py-2 font-medium">
+                <span>
+                    <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 16 16"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M12 16H16V12H12M12 10H16V6H12M6 4H10V0H6M12 4H16V0H12M6 10H10V6H6M0 10H4V6H0M0 16H4V12H0M6 16H10V12H6M0 4H4V0H0V4Z"
+                            fill="#292929" />
+                    </svg>
+                </span>
+                <span class="font-medium text-2xl" *ngIf="!isCollapsed"
+                    >Organization</span
+                >
+            </a>
+        </li>
+
+        <li>
+            <a
+                [routerLink]=""
+                routerLinkActive="active"
+                class="text-black flex gap-4 items-center hover:bg-green-100 rounded-sm px-4 py-2 font-medium">
+                <span>
+                    <svg
+                        width="20"
+                        height="24"
+                        viewBox="0 0 20 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M14 0H6C4.9 0 4 0.9 4 2V18C4 19.1 4.9 20 6 20H18C19.1 20 20 19.1 20 18V6L14 0ZM18 18H6V2H13V7H18V18ZM2 4V22H18V24H2C0.9 24 0 23.1 0 22V4H2ZM8 10V12H16V10H8ZM8 14V16H13V14H8Z"
+                            fill="#292929" />
+                    </svg>
+                </span>
+                <span class="font-medium text-2xl" *ngIf="!isCollapsed"
+                    >Documents</span
+                >
+            </a>
+        </li>
+
+        <li>
+            <a
+                [routerLink]=""
+                routerLinkActive="active"
+                class="text-black flex gap-4 items-center hover:bg-green-100 rounded-sm px-4 py-2 font-medium">
+                <span>
+                    <svg
+                        width="18"
+                        height="20"
+                        viewBox="0 0 18 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M4 10H6V12H4V10ZM18 4V18C18 19.11 17.11 20 16 20H2C0.89 20 0 19.1 0 18V4C0 2.9 0.9 2 2 2H3V0H5V2H13V0H15V2H16C17.11 2 18 2.9 18 4ZM2 6H16V4H2V6ZM16 18V8H2V18H16ZM12 12V10H14V12H12ZM8 12V10H10V12H8ZM4 14H6V16H4V14ZM12 16V14H14V16H12ZM8 16V14H10V16H8Z"
+                            fill="#292929" />
+                    </svg>
+                </span>
+                <span class="font-medium text-2xl" *ngIf="!isCollapsed"
+                    >Calendar</span
+                >
+            </a>
+        </li>
+
+        <li>
+            <a
+                [routerLink]=""
+                routerLinkActive="active"
+                class="text-black flex gap-4 items-center hover:bg-green-100 rounded-sm px-4 py-2 font-medium">
+                <span>
+                    <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M9 12H7C7 7.03 11.03 3 16 3V5C12.13 5 9 8.13 9 12ZM16 9V7C13.24 7 11 9.24 11 12H13C13 10.34 14.34 9 16 9ZM5 2C5 0.89 4.11 0 3 0C1.89 0 1 0.89 1 2C1 3.11 1.89 4 3 4C4.11 4 5 3.11 5 2ZM9.45 2.5H7.45C7.21 3.92 6 5 4.5 5H1.5C0.67 5 0 5.67 0 6.5V9H6V6.74C7.86 6.15 9.25 4.5 9.45 2.5ZM17 15C18.11 15 19 14.11 19 13C19 11.89 18.11 11 17 11C15.89 11 15 11.89 15 13C15 14.11 15.89 15 17 15ZM18.5 16H15.5C14 16 12.79 14.92 12.55 13.5H10.55C10.75 15.5 12.14 17.15 14 17.74V20H20V17.5C20 16.67 19.33 16 18.5 16Z"
+                            fill="#292929" />
+                    </svg>
+                </span>
+                <span class="font-medium text-2xl" *ngIf="!isCollapsed"
+                    >Communication</span
+                >
+            </a>
+        </li>
+
+        <li>
+            <a
+                [routerLink]=""
+                routerLinkActive="active"
+                class="text-black flex gap-4 items-center hover:bg-green-100 rounded-sm px-4 py-2 font-medium">
+                <span>
+                    <svg
+                        width="20"
+                        height="20"
+                        viewBox="0 0 20 20"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M18 4H2V2H18M18 14H2V8H18M18 0H2C0.89 0 0 0.89 0 2V14C0 14.5304 0.210714 15.0391 0.585786 15.4142C0.960859 15.7893 1.46957 16 2 16H18C18.5304 16 19.0391 15.7893 19.4142 15.4142C19.7893 15.0391 20 14.5304 20 14V2C20 0.89 19.1 0 18 0ZM5 18H7V20H5V18ZM9 18H11V20H9V18ZM13 18H15V20H13V18Z"
+                            fill="#292929" />
+                    </svg>
+                </span>
+                <span class="font-medium text-2xl" *ngIf="!isCollapsed"
+                    >Billing</span
+                >
+            </a>
+        </li>
+
+        <li>
+            <a
+                [routerLink]=""
+                routerLinkActive="active"
+                class="text-black flex gap-4 items-center hover:bg-green-100 rounded-sm px-4 py-2 font-medium">
+                <span>
+                    <svg
+                        width="18"
+                        height="18"
+                        viewBox="0 0 18 18"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M0 0H6V4H0V0ZM12 7H18V11H12V7ZM12 14H18V18H12V14ZM10 10H4V15H10V17H4H2V6H4V8H10V10Z"
+                            fill="#292929" />
+                    </svg>
+                </span>
+                <span class="font-medium text-2xl" *ngIf="!isCollapsed"
+                    >Tasks</span
+                >
+            </a>
+        </li>
+    </ul>
+</div>

@@ -62,6 +62,30 @@ export const appRoutes: Route[] = [
         pathMatch: 'full',
     },
     {
+        path: 'lawyers',
+        loadComponent: () =>
+            import('./pages/page-lawyers/page-lawyers.component').then(
+                (m) => m.PageLawyersComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.PublicSecondary) },
+    },
+    {
+        path: 'blogs',
+        loadComponent: () =>
+            import('./pages/page-blogs/page-blogs.component').then(
+                (m) => m.PageBlogsComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.PublicSecondary) },
+    },
+    {
+        path: 'news',
+        loadComponent: () =>
+            import('./pages/page-news/page-news.component').then(
+                (m) => m.PageNewsComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.PublicSecondary) },
+    },
+    {
         path: 'home',
         loadComponent: () =>
             import('./pages/page-home/page-home.component').then(
@@ -75,6 +99,14 @@ export const appRoutes: Route[] = [
             import('./pages/page-case/page-case.component').then(
                 (m) => m.PageCaseComponent,
             ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'dashboard/appointments',
+        loadComponent: () =>
+            import(
+                './pages/page-appointments/page-appointments.component'
+            ).then((m) => m.PageAppointmentsComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
@@ -187,6 +219,14 @@ export const appRoutes: Route[] = [
                 (m) => m.PageClientComponent,
             ),
         resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'lawyer/home',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-account-pages/page-lawyer-dashboard/page-lawyer-dashboard.component'
+            ).then((m) => m.PageLawyerDashboardComponent),
+        resolve: { layout: setLayout(PageLayout.lawyerDefault) },
     },
     {
         path: '**',

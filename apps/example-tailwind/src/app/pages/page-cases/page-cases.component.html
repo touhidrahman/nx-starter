@@ -5,7 +5,7 @@
         <div class="flex justify-center items-center gap-4">
             <button
                 (click)="toggleFilter()"
-                class="font-normal text-2xl text-[#3a3a3a] shadow-md shadow-black/20 bg-[#eaffea] rounded-xl lg:py-2.5 lg:px-5 p-2.5 flex gap-1.5 justify-center items-center">
+                class="font-normal text-2xl text-gray3a shadow-md shadow-black/20 bg-lightGreen rounded-xl lg:py-2.5 lg:px-5 p-2.5 flex gap-1.5 justify-center items-center">
                 <svg
                     class="w-6 h-6 lg:w-5 lg:h-5"
                     viewBox="0 0 20 19"
@@ -15,8 +15,7 @@
                         d="M0.990591 2C0.770591 2 0.560591 2.08 0.39059 2.21C-0.0494095 2.55 -0.129409 3.18 0.210591 3.61V3.62L4.52059 9.14V15.05L8.16059 18.71C8.52059 19.1 9.18059 19.1 9.57059 18.71C9.96059 18.32 9.96059 17.69 9.58059 17.3L6.52059 14.22V8.45L1.79059 2.39C1.60059 2.14 1.30059 2 0.990591 2ZM19.1406 0.22C18.9506 0.08 18.7406 0 18.5206 0H4.52059C4.30059 0 4.09059 0.08 3.90059 0.22C3.47059 0.56 3.39059 1.19 3.73059 1.62L8.52059 7.75V12.87C8.48059 13.16 8.58059 13.47 8.81059 13.7L12.8206 17.71C13.2106 18.1 13.8406 18.1 14.2306 17.71C14.4606 17.5 14.5606 17.18 14.5206 16.88V7.75L19.3106 1.62C19.6506 1.19 19.5706 0.56 19.1406 0.22ZM12.5206 7.05V14.58L10.5206 12.58V7.06L6.56059 2H16.4806L12.5206 7.05Z"
                         fill="#3A3A3A" />
                 </svg>
-                <span
-                    class="font-normal text-2xl text-[#3a3a3a] hidden lg:inline"
+                <span class="font-normal text-2xl text-gray3a hidden lg:inline"
                     >Filters</span
                 >
             </button>
@@ -24,7 +23,7 @@
             <div
                 class="lg:px-8 lg:py-5 px-5 py-3 flex justify-center gap-3 items-center shadow-md shadow-black/20 rounded-xl bg-white">
                 <button
-                    class="text-lg border border-[#bcbcbc] px-3 rounded-xl flex justify-center items-center gap-1.5 text-primary-gray">
+                    class="text-lg border border-graybc px-3 rounded-xl flex justify-center items-center gap-1.5 text-primary-gray">
                     Pending
                     <svg
                         width="8"
@@ -36,7 +35,7 @@
                     </svg>
                 </button>
                 <button
-                    class="text-lg border border-[#bcbcbc] px-3 rounded-xl flex justify-center items-center gap-1.5 text-primary-gray">
+                    class="text-lg border border-graybc px-3 rounded-xl flex justify-center items-center gap-1.5 text-primary-gray">
                     Sorting
                     <svg
                         width="8"
@@ -58,7 +57,7 @@
                     placeholder="Search" />
 
                 <div
-                    class="flex items-center justify-center p-2.5 rounded-xl bg-[#eaffea] shadow-md shadow-black/20">
+                    class="flex items-center justify-center p-2.5 rounded-xl bg-lightGreen shadow-md shadow-black/20">
                     <svg
                         class="w-6 h-6"
                         viewBox="0 0 23 23"
@@ -72,7 +71,8 @@
             </div>
 
             <button
-                class="p-3 lg:px-5 lg:py-2.5 rounded-xl bg-[#0a5c36] flex justify-center items-center gap-1.5 text-white font-medium text-2xl">
+                (click)="showCreatePopUp()"
+                class="p-3 lg:px-5 lg:py-2.5 rounded-xl bg-green flex justify-center items-center gap-1.5 text-white font-medium text-2xl">
                 <svg
                     class="w-5 h-5 lg:w-4 lg:h-4"
                     viewBox="0 0 14 14"
@@ -121,78 +121,208 @@
         </div>
     </div>
 
-    <table class="min-w-full">
-        <thead class="bg-gray-50 dark:bg-gray-700">
-            <tr>
-                @for (tableTitle of tableTitles; track $index) {
-                    <th
-                        class="px-6 py-3 text-left text-[20px] font-medium whitespace-nowrap">
-                        {{ tableTitle }}
-                    </th>
-                }
-            </tr>
-        </thead>
-        <tbody
-            class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-            @for (user of users; track user) {
-                <tr>
-                    <td
-                        class="px-6 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white">
-                        {{ user.caseNumber }}
-                    </td>
-                    <td
-                        class="px-6 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white">
-                        {{ user.caseTitle }}
-                    </td>
-                    <td
-                        class="px-6 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white">
-                        {{ user.clientName }}
-                    </td>
-                    <td
-                        class="px-6 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white">
-                        {{ user.courtName }}
-                    </td>
-                    <td
-                        class="px-6 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white">
-                        {{ user.nextHearingDate }}
-                    </td>
-                    <td
-                        class="px-6 py-4 whitespace-nowrap text-xl font-medium dark:text-white"
-                        [ngStyle]="{
-                            color: setColor(user.status.toLowerCase()),
-                        }">
-                        {{ user.status }}
-                    </td>
-                    <td
-                        class="px-6 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white">
-                        {{ user.caseType }}
-                    </td>
-                    <td
-                        class="px-6 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white flex justify-center items-center gap-3.5">
-                        <svg
-                            width="20"
-                            height="21"
-                            viewBox="0 0 20 21"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M18.04 11.13C18.18 11.13 18.31 11.19 18.42 11.3L19.7 12.58C19.92 12.79 19.92 13.14 19.7 13.35L18.7 14.35L16.65 12.3L17.65 11.3C17.76 11.19 17.9 11.13 18.04 11.13ZM16.07 12.88L18.12 14.93L12.06 21H10V18.94L16.07 12.88ZM8 18L6 20H2C0.9 20 0 19.1 0 18V4C0 2.9 0.9 2 2 2H6.18C6.6 0.84 7.7 0 9 0C10.3 0 11.4 0.84 11.82 2H16C17.1 2 18 2.9 18 4V8L16 10V4H14V6H4V4H2V18H8ZM9 2C8.45 2 8 2.45 8 3C8 3.55 8.45 4 9 4C9.55 4 10 3.55 10 3C10 2.45 9.55 2 9 2Z"
-                                fill="#434343" />
-                        </svg>
-
-                        <svg
-                            width="16"
-                            height="18"
-                            viewBox="0 0 16 18"
-                            fill="none"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M5 0V1H0V3H1V16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H13C13.5304 18 14.0391 17.7893 14.4142 17.4142C14.7893 17.0391 15 16.5304 15 16V3H16V1H11V0H5ZM3 3H13V16H3V3ZM5 5V14H7V5H5ZM9 5V14H11V5H9Z"
-                                fill="#434343" />
-                        </svg>
-                    </td>
+    <div class="table-shadow m-3 bg-white rounded-lg h-screen">
+        <table class="w-full rounded-lg">
+            <thead
+                class="bg-gray-50 dark:bg-gray-700 border-b border-green rounded-t-lg">
+                <tr class="rounded-t-lg">
+                    @for (tableTitle of tableTitles; track $index) {
+                        <th
+                            class="px-3 py-4 text-center text-xl font-medium whitespace-nowrap">
+                            {{ tableTitle }}
+                        </th>
+                    }
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody
+                class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                @for (user of users; track user) {
+                    <tr
+                        [routerLink]="['/dashboard/case', user.caseNumber]"
+                        class="cursor-pointer">
+                        <td
+                            class="px-3 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white text-center">
+                            {{ user.caseNumber }}
+                        </td>
+                        <td
+                            class="px-3 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white text-center">
+                            {{ user.caseTitle }}
+                        </td>
+                        <td
+                            class="px-3 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white text-center">
+                            {{ user.clientName }}
+                        </td>
+                        <td
+                            class="px-3 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white text-center">
+                            {{ user.courtName }}
+                        </td>
+                        <td
+                            class="px-3 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white text-center">
+                            {{ user.nextHearingDate }}
+                        </td>
+                        <td
+                            class="px-3 py-4 whitespace-nowrap text-xl font-medium dark:text-white text-center"
+                            [ngStyle]="{
+                                color: setColor(user.status.toLowerCase()),
+                            }">
+                            {{ user.status }}
+                        </td>
+                        <td
+                            class="px-3 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white text-center">
+                            {{ user.caseType }}
+                        </td>
+                        <td
+                            class="px-3 py-4 whitespace-nowrap text-xl font-medium text-primary-gray dark:text-white flex justify-center items-center gap-3.5">
+                            <button (click)="showEditPopUp()">
+                                <svg
+                                    width="20"
+                                    height="21"
+                                    viewBox="0 0 20 21"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M18.04 11.13C18.18 11.13 18.31 11.19 18.42 11.3L19.7 12.58C19.92 12.79 19.92 13.14 19.7 13.35L18.7 14.35L16.65 12.3L17.65 11.3C17.76 11.19 17.9 11.13 18.04 11.13ZM16.07 12.88L18.12 14.93L12.06 21H10V18.94L16.07 12.88ZM8 18L6 20H2C0.9 20 0 19.1 0 18V4C0 2.9 0.9 2 2 2H6.18C6.6 0.84 7.7 0 9 0C10.3 0 11.4 0.84 11.82 2H16C17.1 2 18 2.9 18 4V8L16 10V4H14V6H4V4H2V18H8ZM9 2C8.45 2 8 2.45 8 3C8 3.55 8.45 4 9 4C9.55 4 10 3.55 10 3C10 2.45 9.55 2 9 2Z"
+                                        fill="#434343" />
+                                </svg>
+                            </button>
+                            <button>
+                                <svg
+                                    width="16"
+                                    height="18"
+                                    viewBox="0 0 16 18"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M5 0V1H0V3H1V16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H13C13.5304 18 14.0391 17.7893 14.4142 17.4142C14.7893 17.0391 15 16.5304 15 16V3H16V1H11V0H5ZM3 3H13V16H3V3ZM5 5V14H7V5H5ZM9 5V14H11V5H9Z"
+                                        fill="#434343" />
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- pop up -->
+    @if (popUpState.visiblity) {
+        <div class="w-screen h-screen absolute top-0 left-0 z-50">
+            <div class="w-full h-full blur-3xl bg-[#ffffff80]"></div>
+
+            <div
+                class="bg-white border-2 border-grayf1 rounded-xl py-5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4/5 mx-auto">
+                <div class="flex justify-between items-center px-8">
+                    <h2 class="text-4xl text-gray3a font-semibold">
+                        {{
+                            popUpState.createMode ? 'Create Case' : 'Edit Case'
+                        }}
+                    </h2>
+                    <span (click)="hidePopUp()">
+                        <svg
+                            width="14"
+                            height="14"
+                            viewBox="0 0 14 14"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z"
+                                fill="black" />
+                        </svg>
+                    </span>
+                </div>
+
+                <form class="px-12 pt-4">
+                    <label class="label" for="caseTitle"> Case Title</label>
+                    <input type="text" name="" id="caseTitle" class="input" />
+
+                    <label class="label" for="clientname"> Client Name</label>
+                    <input type="text" name="" id="clientname" class="input" />
+
+                    <div class="grid grid-cols-2 gap-5">
+                        <div class="col-span-1">
+                            <label class="label" for="courtName">
+                                Court Name</label
+                            >
+                            <input
+                                type="text"
+                                name=""
+                                id="courtName"
+                                class="input" />
+                        </div>
+
+                        <div class="col-span-1">
+                            <label class="label" for="casenumber">
+                                Case Number</label
+                            >
+                            <input
+                                type="text"
+                                name=""
+                                id="casenumber"
+                                class="input" />
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-5">
+                        <div class="grid-cols-1">
+                            <label class="label" for="nextHearingDate">
+                                Next Hearing Date</label
+                            >
+                            <input
+                                type="text"
+                                name=""
+                                id="nextHearingDate"
+                                class="input" />
+                        </div>
+                        <div class="grid-cols-1">
+                            <label class="label" for="status"> Status</label>
+                            <input
+                                type="text"
+                                name=""
+                                id="status"
+                                class="input" />
+                        </div>
+                        <div class="grid-cols-1">
+                            <label class="label" for="caseType"
+                                >Case Type</label
+                            >
+                            <input
+                                type="text"
+                                name=""
+                                id="caseType"
+                                class="input" />
+                        </div>
+                    </div>
+
+                    <label class="label" for="oppositeCounsel"
+                        >Opposing Counsel</label
+                    >
+                    <input
+                        type="text"
+                        name=""
+                        id="oppositeCounsel"
+                        class="input" />
+
+                    <label class="label" for="notes">Notes</label>
+                    <textarea
+                        name=""
+                        id="notes"
+                        class="border rounded-lg block border-grayD w-full resize-none h-28"></textarea>
+
+                    <div class="space-x-5 block pt-5 pb-7 text-right">
+                        <button
+                            (click)="hidePopUp()"
+                            class="text-sm bg-lightGreen px-4 py-1 btn-shadow rounded-md"
+                            type="button">
+                            Cancel
+                        </button>
+                        <button
+                            class="text-sm bg-green px-4 py-1 btn-shadow rounded-md text-white"
+                            type="submit">
+                            {{ popUpState.createMode ? 'Save' : 'Update' }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    }
 </div>

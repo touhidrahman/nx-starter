@@ -10,6 +10,8 @@ import { LayoutCenteredComponent } from './main/layouts/components/layout-center
 import { LayoutCtaComponent } from './main/layouts/components/layout-cta/layout-cta.component'
 import { LayoutDefaultComponent } from './main/layouts/components/layout-default/layout-default.component'
 import { LayoutPublicComponent } from './main/layouts/components/layout-public/layout-public.component'
+import { LayoutPublicSecondaryComponent } from './main/layouts/components/layout-public-secondary/layout-public-secondary.component'
+import { LayoutLawyerDefaultComponent } from './main/layouts/components/layout-lawyer-default/layout-lawyer-default.component'
 
 @Component({
     standalone: true,
@@ -24,6 +26,8 @@ import { LayoutPublicComponent } from './main/layouts/components/layout-public/l
         ConfirmDialog,
         ConfirmPopup,
         Toast,
+        LayoutPublicSecondaryComponent,
+        LayoutLawyerDefaultComponent,
     ],
     selector: 'app-root',
     templateUrl: './app.component.html',

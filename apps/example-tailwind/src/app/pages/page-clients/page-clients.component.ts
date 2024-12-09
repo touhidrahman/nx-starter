@@ -2,6 +2,7 @@ import { Component } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { DropdownModule } from 'primeng/dropdown'
 import { FormsModule } from '@angular/forms'
+import { RouterModule } from '@angular/router'
 interface Case {
     name: string
     phone: string
@@ -15,7 +16,7 @@ interface Case {
 @Component({
     selector: 'app-page-clients',
     standalone: true,
-    imports: [CommonModule, DropdownModule, FormsModule],
+    imports: [CommonModule, DropdownModule, FormsModule, RouterModule],
     templateUrl: './page-clients.component.html',
     styleUrl: './page-clients.component.scss',
 })

@@ -1,0 +1,56 @@
+<section class="py-16 px-5">
+    <app-section-title>
+        <span class="text-gray3e text-xl sm:text-2xl title"
+            >Services We Provide</span
+        >
+        <svg
+            class="title-icon"
+            width="20"
+            height="19"
+            viewBox="0 0 20 19"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M11.67 12.5975L17.67 18.5975L19.78 16.4375L13.78 10.4375L11.67 12.5975ZM15.39 7.3975C15 7.3975 14.58 7.3475 14.25 7.2075L2.86 18.5475L0.75 16.4375L8.16 9.0375L6.39 7.2575L5.67 7.9575L4.22 6.5475V9.4075L3.52 10.1075L0 6.5475L0.7 5.8475H3.51L2.11 4.4375L5.67 0.8775C6.84 -0.2925 8.72 -0.2925 9.89 0.8775L7.78 3.0375L9.19 4.4375L8.48 5.1475L10.27 6.9275L12.09 5.0475C11.95 4.7175 11.89 4.2975 11.89 3.9275C11.89 1.9575 13.45 0.4075 15.39 0.4075C15.98 0.4075 16.5 0.5475 16.97 0.8275L14.3 3.4975L15.8 4.9975L18.47 2.3275C18.75 2.7975 18.89 3.2975 18.89 3.9275C18.89 5.8475 17.34 7.3975 15.39 7.3975Z"
+                fill="#595959" />
+        </svg>
+        <h2
+            class="text-lg sm:text-xl md:text-2xl text-gray63 text-center my-4 subtitle">
+            At Sheresta, we pride ourselves on delivering exceptional
+            <br class="hidden sm:block" />
+            legal services tailored to meet the unique needs of each client.
+        </h2>
+    </app-section-title>
+
+    <div class="grid grid-cols-12 gap-5 lg:gap-7 py-4 xl:px-12">
+        @for (content of cardContent; track $index) {
+            <div
+                class="p-0.5 hover-border-shadow rounded-2xl card-shadow col-span-12 md:col-span-6 xl:col-span-4 transition-all ease-linear duration-500">
+                <div class="bg-white p-4 rounded-2xl w-full h-full">
+                    <div
+                        class="w-16 h-16 bg-lightGreen rounded-full border border-graye2 flex justify-center items-center mb-3">
+                        <span class="">
+                            <svg
+                                [attr.width]="content.width"
+                                [attr.height]="content.height"
+                                [attr.viewBox]="content.viewBox"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    [attr.d]="content.svgPath"
+                                    fill="#0A5C36" />
+                            </svg>
+                        </span>
+                    </div>
+
+                    <h5 class="text-black font-semibold text-xl mb-2">
+                        {{ content?.heading }}
+                    </h5>
+                    <p class="text-base text-gray59">
+                        {{ content?.description }}
+                    </p>
+                </div>
+            </div>
+        }
+    </div>
+</section>

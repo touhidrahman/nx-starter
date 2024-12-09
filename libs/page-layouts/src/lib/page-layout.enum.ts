@@ -5,4 +5,6 @@ export enum PageLayout {
     Cta = 'cta', // centered content, blank
     Blank = 'blank', // no frame
     Public = 'public', // for landing page
+    PublicSecondary = 'PublicSecondary', //for lawyer and blog page
+    lawyerDefault = 'lawyerDefault', // lawyer  default
 }
