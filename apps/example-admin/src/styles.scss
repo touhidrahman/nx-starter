@@ -6,6 +6,7 @@
 @layer tailwind-base {
     @tailwind base;
 }
+@layer primeng;
 
 @layer tailwind-utilities {
     @tailwind components;
