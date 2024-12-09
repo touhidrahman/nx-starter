@@ -7,6 +7,7 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zSelectUser } from '../user.schema'
 import { findUserByAuthUserIdAndGroupId } from '../user.service'
 import { Context } from 'hono'
+import { getUserRoute } from './get-user'
 
 export const getMeRoute = createRoute({
     path: '/v1/me',
@@ -19,10 +20,7 @@ export const getMeRoute = createRoute({
     },
 })
 
-type GetMeRoute = typeof getMeRoute
-export const getMeHandler: RouteHandler<GetMeRoute, AppBindings> = async (
-    c,
-) => {
+export const getMeHandler: AppRouteHandler<typeof getMeRoute> = async (c) => {
     const payload = c.get('jwtPayload')
     const user = await findUserByAuthUserIdAndGroupId(
         payload.sub,

@@ -82,3 +82,36 @@ export async function userExists(id: string) {
 
     return userCount?.[0]?.value === 1
 }
+
+export const updateProfile = async (
+    userId: string,
+    updates: Record<string, any>,
+    options?: { restrictFields?: string[] },
+) => {
+    const restrictFields = options?.restrictFields || []
+    const allowedUpdates = Object.fromEntries(
+        Object.entries(updates).filter(
+            ([key]) => !restrictFields.includes(key),
+        ),
+    )
+
+    if (Object.keys(allowedUpdates).length === 0) {
+        return [null] // No valid updates
+    }
+
+    const [updatedUser] = await db
+        .update(usersTable)
+        .set(allowedUpdates)
+        .where(eq(usersTable.id, userId))
+        .returning() // Return the updated user
+
+    return [updatedUser]
+}
+
+export const updateUserProfilePictureUrl = (url: string, userId: string) => {
+    return db
+        .update(usersTable)
+        .set({ profilePhoto: url })
+        .where(eq(usersTable.id, userId))
+        .returning()
+}

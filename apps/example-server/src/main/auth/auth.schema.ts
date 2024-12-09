@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { authUsersTable, userLevelEnum } from '../../core/db/schema'
-import { createInsertSchema } from 'drizzle-zod'
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 
 export const zLogin = z.object({
     email: z.string().email(),
@@ -44,3 +44,5 @@ export const zUpdateAuthUser = zInsertAuthUser.omit({
 
 export type AuthUserDto = typeof authUsersTable.$inferInsert
 export type AuthUser = typeof authUsersTable.$inferSelect
+
+export const zAuthUserSelect = createSelectSchema(authUsersTable)

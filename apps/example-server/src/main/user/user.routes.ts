@@ -10,6 +10,14 @@ import { getUsersHandler, getUsersRoute } from './routes/get-users'
 import { inviteUserHandler, inviteUserRoute } from './routes/invite-user'
 import { updateUserHandler, updateUserRoute } from './routes/update-user'
 import {
+    updateUserProfileHandler,
+    updateUserProfileRoute,
+} from './routes/update-profile'
+import {
+    updateUserProfilePictureHandler,
+    updateUserProfilePictureRoute,
+} from './routes/upload-profile-picture'
+import {
     deleteUsersHandler,
     deleteUsersRoute,
 } from './routes/delete-many-users'
@@ -19,6 +27,8 @@ export const userV1Routes = createRouter()
     .openapi(getMyProfilesRoute, getMyProfilesHandler)
     .openapi(inviteUserRoute, inviteUserHandler)
     .openapi(getUsersRoute, getUsersHandler)
+    .openapi(updateUserProfilePictureRoute, updateUserProfilePictureHandler)
+    .openapi(updateUserProfileRoute, updateUserProfileHandler)
     .openapi(getUserRoute, getUserHandler)
     .openapi(updateUserRoute, updateUserHandler)
     .openapi(deleteUserRoute, deleteUserHandler)
