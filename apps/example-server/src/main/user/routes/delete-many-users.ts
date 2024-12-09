@@ -1,14 +1,13 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { inArray } from 'drizzle-orm'
-import { OK } from 'stoker/http-status-codes'
+import { INTERNAL_SERVER_ERROR, OK } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { db } from '../../../core/db/db'
 import { usersTable } from '../../../core/db/schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
-import { jsonContent } from 'stoker/dist/esm/openapi/helpers'
-import { INTERNAL_SERVER_ERROR } from 'stoker/dist/esm/http-status-codes'
 import { zEmpty } from '../../../core/models/common.schema'
+import { jsonContent } from 'stoker/openapi/helpers'
 
 export const deleteUsersRoute = createRoute({
     path: '/v1/users/delete',
@@ -43,7 +42,7 @@ export const deleteUsersHandler: AppRouteHandler<
 
         return c.json(
             {
-                data: { deletedCount: result.rowCount }, // Number of rows affected
+                data: { deletedCount: result.rowCount || 0 }, // Number of rows affected
                 message: 'Users deleted successfully',
                 success: true,
             },
@@ -55,6 +54,7 @@ export const deleteUsersHandler: AppRouteHandler<
                 data: {},
                 message: 'Failed to delete users',
                 success: false,
+                error,
             },
             INTERNAL_SERVER_ERROR,
         )

@@ -6,6 +6,7 @@ import { InviteDto, zCreateInvite, zSelectInvite } from '../invite.schema'
 import { AppRouteHandler } from '../../../core/core.type'
 import { createInvite } from '../invite.service'
 import { INTERNAL_SERVER_ERROR, OK } from 'stoker/http-status-codes'
+import { zEmpty } from '../../../core/models/common.schema'
 
 export const createInviteRoute = createRoute({
     path: '/v1/invites/create-invite',
@@ -18,9 +19,7 @@ export const createInviteRoute = createRoute({
     responses: {
         [OK]: ApiResponse(zSelectInvite, 'Create Invite successfully!'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(
-            z.object({
-                error: z.string(),
-            }),
+            zEmpty,
             'Server error',
         ),
     },
@@ -33,7 +32,7 @@ export const createInviteHandler: AppRouteHandler<
     const payload = await c.get('jwtPayload')
 
     try {
-        const invite = await createInvite(body, payload.userId)
+        const [invite] = await createInvite(body, payload.userId)
         return c.json(
             {
                 data: invite,
@@ -43,15 +42,14 @@ export const createInviteHandler: AppRouteHandler<
             OK,
         )
     } catch (e) {
-        if (e instanceof z.ZodError) {
-            return c.json(
-                {
-                    data: {},
-                    message: 'Invite has been unsuccesfull!',
-                    success: false,
-                },
-                INTERNAL_SERVER_ERROR,
-            )
-        }
+        return c.json(
+            {
+                data: {},
+                message: 'Invite has been unsuccesfull!',
+                success: false,
+                error: e,
+            },
+            INTERNAL_SERVER_ERROR,
+        )
     }
 }

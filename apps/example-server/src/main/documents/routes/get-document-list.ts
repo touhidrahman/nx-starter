@@ -23,7 +23,6 @@ export const getDocumentsListRoute = createRoute({
     },
     responses: {
         [OK]: ApiResponse(z.array(zSelectDocument), 'List of documents'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'No document found!'),
     },
 })
 
@@ -33,30 +32,18 @@ export const getDocumentsListHandler: AppRouteHandler<
     const payload = await c.get('jwtPayload')
     const { entityName, entityId, search, page, limit } = await c.req.query()
 
-    try {
-        const { groupId } = payload
-        const documents = await getAllDocuments({
-            entityName,
-            entityId,
-            groupId,
-            search,
-            page,
-            limit,
-        })
+    const { groupId } = payload
+    const { data, meta } = await getAllDocuments({
+        entityName,
+        entityId,
+        groupId,
+        search,
+        page,
+        limit,
+    })
 
-        return c.json(
-            { data: documents, message: 'Documents list', success: true },
-            OK,
-        )
-    } catch (error: any) {
-        return c.json(
-            {
-                success: false,
-                message: 'Internal server error',
-                error: error,
-                data: {},
-            },
-            INTERNAL_SERVER_ERROR,
-        )
-    }
+    return c.json(
+        { data: data, pagination: { page: meta.page, size: meta.limit, total: meta.totalCount }, message: 'Documents list', success: true },
+        OK,
+    )
 }

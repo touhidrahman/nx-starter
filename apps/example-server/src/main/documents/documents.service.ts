@@ -1,6 +1,6 @@
 import { db } from '../../core/db/db'
 import { documentsTable, storageTable } from '../../core/db/schema'
-import { and, eq, getTableColumns, ilike, sql } from 'drizzle-orm'
+import { and, eq, getTableColumns, ilike, SQL, sql } from 'drizzle-orm'
 import { getFileType } from '../../core/utils/file.util'
 import { InsertDocument } from './documents.schema'
 
@@ -110,7 +110,7 @@ export const getAllDocuments = async (params: {
 }) => {
     const { entityName, entityId, groupId, search, page, limit } = params
 
-    const conditions = []
+    const conditions: SQL<unknown>[] = []
     if (entityName) {
         conditions.push(eq(storageTable.entityName, entityName))
     }
