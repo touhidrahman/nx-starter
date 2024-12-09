@@ -1,0 +1,21 @@
+<div class="flex gap-0">
+    <div
+        [ngClass]="{
+            'min-w-20': isSidebarCollapsed,
+            'min-w-64': !isSidebarCollapsed,
+        }"
+        class="sticky top-0 bottom-0 left-0 z-50 bg-white h-screen shadow-md">
+        <app-lawyer-sidebar-default
+            [isCollapsed]="isSidebarCollapsed"></app-lawyer-sidebar-default>
+    </div>
+
+    <section class="flex-1">
+        <app-header-lawyer-default
+            (sidebarToggle)="toggleSidebar()"
+            class="sticky top-0 z-50"></app-header-lawyer-default>
+
+        <main class="p-4">
+            <ng-content></ng-content>
+        </main>
+    </section>
+</div>
