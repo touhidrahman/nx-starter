@@ -30,7 +30,10 @@
                 <input type="text" pInputText size="small" />
                 <p-button icon="pi pi-search" />
             </div>
-            <p-button class="" size="small">
+            <p-button
+                class=""
+                size="small"
+                (onClick)="openCreateOrganizationModal()">
                 <i class="pi pi-plus"></i> Create</p-button
             >
         </div>
@@ -40,5 +43,35 @@
             <app-organazation-table
                 [organizations]="organizations"></app-organazation-table>
         </div>
+    </div>
+
+    <div>
+        <p-dialog
+            header="{{
+                editMode() ? 'Edit Organization' : 'Create Organization'
+            }}"
+            [modal]="true"
+            [(visible)]="visible"
+            [style]="{
+                width: '50%',
+            }">
+            <div class="flex flex-col justify-start items-start mb-4">
+                <label class="font-semibold mb-2">Name</label>
+                <input pInputText class="flex-auto w-full" autocomplete="off" />
+            </div>
+            <div class="flex flex-col justify-start items-start mb-4">
+                <label class="font-semibold mb-2">Email</label>
+                <input pInputText class="flex-auto w-full" autocomplete="off" />
+            </div>
+            <div class="flex justify-end gap-2">
+                <p-button
+                    label="Cancel"
+                    severity="secondary"
+                    (click)="visible.set(false)" />
+                <p-button
+                    label="{{ editMode() ? 'Update' : 'Save' }}"
+                    (click)="visible.set(false)" />
+            </div>
+        </p-dialog>
     </div>
 </section>
