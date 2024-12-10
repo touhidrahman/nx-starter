@@ -8,12 +8,14 @@
                     icon="pi pi-filter"
                     iconPos="left"></p-button>
             </div>
-            <div class="flex justify-start gap-2 items-center bg-gray-300 p-1">
+            <div
+                class="flex justify-start gap-2 items-center bg-gray-200 p-1 rounded-md px-3">
                 <p-select
                     [options]="status"
                     [(ngModel)]="selected"
                     optionLabel="name"
                     size="small"
+                    styleClass="{'border-radius': '24px'}"
                     placeholder="Select a Status"
                     class="w-full md:w-56" />
                 <p-select
@@ -47,8 +49,6 @@
         </div>
     </div>
 
-    {{ editMode() }}
-
     <div>
         <p-dialog
             header="{{
@@ -66,6 +66,50 @@
             <div class="flex flex-col justify-start items-start mb-4">
                 <label class="font-semibold mb-2">Email</label>
                 <input pInputText class="flex-auto w-full" autocomplete="off" />
+            </div>
+
+            <div class="flex justify-start items-center gap-5">
+                <div class="flex flex-col justify-start items-start mb-4 w-1/2">
+                    <label class="font-semibold mb-2">Working Hour start</label>
+                    <input
+                        pInputText
+                        class="flex-auto w-full"
+                        autocomplete="off" />
+                </div>
+
+                <div class="flex flex-col justify-start items-start mb-4 w-1/2">
+                    <label class="font-semibold mb-2">Working Hour End</label>
+                    <input
+                        pInputText
+                        class="flex-auto w-full"
+                        autocomplete="off" />
+                </div>
+            </div>
+
+            <div class="flex flex-col justify-start items-start mb-4">
+                <label class="font-semibold mb-2">Add Member</label>
+                <input pInputText class="flex-auto w-full" autocomplete="off" />
+            </div>
+
+            <div class="flex justify-start items-center my-5 gap-5">
+                <p-fileupload
+                    mode="basic"
+                    name="demo[]"
+                    chooseIcon="pi pi-upload"
+                    url="https://www.primefaces.org/cdn/api/upload.php"
+                    accept="image/*"
+                    maxFileSize="1000000"
+                    [auto]="true"
+                    chooseLabel="Upload organization profile image" />
+                <p-fileupload
+                    mode="basic"
+                    name="demo[]"
+                    chooseIcon="pi pi-upload"
+                    url="https://www.primefaces.org/cdn/api/upload.php"
+                    accept="image/*"
+                    maxFileSize="1000000"
+                    [auto]="true"
+                    chooseLabel="Upload organization cover image" />
             </div>
             <div class="flex justify-end gap-2">
                 <p-button

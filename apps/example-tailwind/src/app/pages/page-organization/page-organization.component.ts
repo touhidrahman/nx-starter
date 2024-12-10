@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core'
+import { Component, signal, ViewEncapsulation } from '@angular/core'
 import { Button } from 'primeng/button'
 import { Dialog } from 'primeng/dialog'
 import { InputText } from 'primeng/inputtext'
@@ -7,6 +7,7 @@ import { Select } from 'primeng/select'
 
 import { FormsModule } from '@angular/forms'
 import { OrganizationTableComponent } from '../../features/organizaiton/components/organization-table/organization-table.component'
+import { FileUpload } from 'primeng/fileupload'
 
 @Component({
     selector: 'app-page-organization',
@@ -18,6 +19,7 @@ import { OrganizationTableComponent } from '../../features/organizaiton/componen
         Select,
         FormsModule,
         OrganizationTableComponent,
+        FileUpload,
     ],
     templateUrl: './page-organization.component.html',
     styleUrl: './page-organization.component.css',
