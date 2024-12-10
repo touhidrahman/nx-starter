@@ -1,10 +1,9 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { AppRouteHandler } from '../../../core/core.type'
-import { INTERNAL_SERVER_ERROR, OK } from 'stoker/http-status-codes'
+import { OK } from 'stoker/http-status-codes'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { zEmpty } from '../../../core/models/common.schema'
 import { zSelectDocument } from '../documents.schema'
-import { getAllDocuments, listDocumentsByGroup } from '../documents.service'
+import { getAllDocuments } from '../documents.service'
 import { checkToken } from '../../auth/auth.middleware'
 
 export const getDocumentsListRoute = createRoute({
@@ -30,20 +29,32 @@ export const getDocumentsListHandler: AppRouteHandler<
     typeof getDocumentsListRoute
 > = async (c) => {
     const payload = await c.get('jwtPayload')
-    const { entityName, entityId, search, page, limit } = await c.req.query()
+    const { entityName, entityId, search, page, limit } = c.req.query()
 
-    const { groupId } = payload
+    const pageNumber = Number(page)
+    const limitNumber = Number(limit)
+
+    const { groupId } = payload || {}
     const { data, meta } = await getAllDocuments({
         entityName,
         entityId,
         groupId,
         search,
-        page,
-        limit,
+        page: pageNumber,
+        limit: limitNumber,
     })
 
     return c.json(
-        { data: data, pagination: { page: meta.page, size: meta.limit, total: meta.totalCount }, message: 'Documents list', success: true },
+        {
+            data: data,
+            pagination: {
+                page: meta.page,
+                size: meta.limit,
+                total: meta.totalCount,
+            },
+            message: 'Documents list',
+            success: true,
+        },
         OK,
     )
 }

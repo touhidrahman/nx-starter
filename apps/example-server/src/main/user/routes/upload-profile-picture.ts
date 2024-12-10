@@ -23,14 +23,8 @@ export const updateUserProfilePictureRoute = createRoute({
     },
     responses: {
         [OK]: ApiResponse(zSelectUser, 'Profile picture updated successfully'),
-        [BAD_REQUEST]: ApiResponse(
-            zEmpty,
-            'Invalid file error',
-        ),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(
-            zEmpty,
-            'Internal Server error',
-        ),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid file error'),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal Server error'),
     },
 })
 export const updateUserProfilePictureHandler: AppRouteHandler<

@@ -18,10 +18,7 @@ export const createInviteRoute = createRoute({
     },
     responses: {
         [OK]: ApiResponse(zSelectInvite, 'Create Invite successfully!'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(
-            zEmpty,
-            'Server error',
-        ),
+        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Server error'),
     },
 })
 

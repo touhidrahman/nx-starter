@@ -1,4 +1,4 @@
-import { createRoute } from '@hono/zod-openapi'
+import { createRoute, z } from '@hono/zod-openapi'
 import { NOT_FOUND, OK } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty, zId } from '../../../core/models/common.schema'
@@ -16,7 +16,7 @@ export const setDefaulGroupRoute = createRoute({
         params: zId,
     },
     responses: {
-        [OK]: ApiResponse(zAuthUserSelect, 'Auth user detail'),
+        [OK]: ApiResponse(z.array(zAuthUserSelect), 'Auth user detail'),
         [NOT_FOUND]: ApiResponse(zEmpty, ' not found!'),
     },
 })

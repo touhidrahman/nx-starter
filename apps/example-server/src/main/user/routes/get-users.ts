@@ -25,7 +25,7 @@ export const getUsersRoute = createRoute({
         query: zSearchUser.extend({
             status: z.string().optional(),
             groupType: z.string().optional(),
-            userType: z.string().optional(), // Level from authUserTable
+            authUserType: z.string().optional(), // Level from authUserTable
             search: z.string().optional(),
         }),
     },
@@ -35,7 +35,7 @@ export const getUsersRoute = createRoute({
                 zSelectUser.extend({
                     status: z.enum(userStatusEnum.enumValues).optional(),
                     groupType: z.enum(groupTypeEnum.enumValues).optional(),
-                    userType: z.enum(userLevelEnum.enumValues).optional(),
+                    authUserType: z.enum(userLevelEnum.enumValues).optional(),
                 }),
             ),
             'List of Users',
@@ -44,7 +44,7 @@ export const getUsersRoute = createRoute({
 })
 
 export const getUsersHandler: AppRouteHandler<typeof getUsersRoute> = async (
-    c
+    c,
 ) => {
     const query = c.req.valid('query')
     const conditions: SQL<unknown>[] = []
@@ -77,11 +77,11 @@ export const getUsersHandler: AppRouteHandler<typeof getUsersRoute> = async (
                 query.status as 'active' | 'inactive' | 'banned',
             ),
         )
-    query?.userType &&
+    query?.authUserType &&
         conditions.push(
             eq(
                 authUsersTable.level,
-                query.userType as 'user' | 'moderator' | 'admin',
+                query.authUserType as 'user' | 'moderator' | 'admin',
             ),
         )
 
@@ -100,7 +100,6 @@ export const getUsersHandler: AppRouteHandler<typeof getUsersRoute> = async (
     const limit = query?.size ? toInt(query.size) : 10
     const offset = query?.page ? (toInt(query.page) - 1) * limit : 0
 
-    // Join query: usersTable with groupsTable and authUsersTable
     const users = await db
         .select({
             ...getTableColumns(usersTable),
@@ -114,19 +113,27 @@ export const getUsersHandler: AppRouteHandler<typeof getUsersRoute> = async (
         .where(
             conditions.length
                 ? sql`${conditions.reduce(
-                    (acc, condition, index) =>
-                        index === 0
-                            ? condition
-                            : sql`${acc} AND ${condition}`,
-                    sql``,
-                )}`
+                      (acc, condition, index) =>
+                          index === 0
+                              ? condition
+                              : sql`${acc} AND ${condition}`,
+                      sql``,
+                  )}`
                 : undefined,
         )
         .limit(limit)
         .offset(offset)
 
+    const serializedUsers = users.map((user) => ({
+        ...user,
+        status: user.status ?? undefined,
+        authUserType: user.authUserType ?? undefined,
+        groupType: user.groupType ?? undefined,
+        updatedAt: user.updatedAt.toISOString(),
+    }))
+
     return c.json(
-        { data: users ?? [], message: 'List of users', success: true },
+        { data: serializedUsers, message: 'List of users', success: true },
         OK,
     )
 }
