@@ -1,29 +1,23 @@
 import { Component, signal } from '@angular/core'
 import { Button } from 'primeng/button'
-import { Card } from 'primeng/card'
-import { Select } from 'primeng/select'
-import { FormsModule } from '@angular/forms'
-import { IconField } from 'primeng/iconfield'
-import { InputIcon } from 'primeng/inputicon'
-import { InputTextModule } from 'primeng/inputtext'
-import { TableModule } from 'primeng/table'
-import { OrganazationTableComponent } from '../../features/organization/components/organazation-table/organazation-table.component'
-import { CreateOrganizationComponent } from '../../features/organization/components/create-organization/create-organization.component'
 import { Dialog } from 'primeng/dialog'
+import { InputText } from 'primeng/inputtext'
+
+import { Select } from 'primeng/select'
+
+import { FormsModule } from '@angular/forms'
+import { OrganizationTableComponent } from '../../features/organizaiton/components/organization-table/organization-table.component'
+
 @Component({
     selector: 'app-page-organization',
     standalone: true,
     imports: [
         Button,
-        Card,
+        Dialog,
+        InputText,
         Select,
         FormsModule,
-        InputIcon,
-        InputTextModule,
-        TableModule,
-        OrganazationTableComponent,
-        CreateOrganizationComponent,
-        Dialog,
+        OrganizationTableComponent,
     ],
     templateUrl: './page-organization.component.html',
     styleUrl: './page-organization.component.css',
@@ -59,6 +53,16 @@ export class PageOrganizationComponent {
     ]
 
     openCreateOrganizationModal() {
-        this.visible.set(!this.visible())
+        this.editMode.set(false)
+        this.visible.set(true)
+    }
+
+    cancel() {
+        this.editMode.set(false)
+        this.visible.set(false)
+    }
+
+    onSave() {
+        console.log('saving organization')
     }
 }

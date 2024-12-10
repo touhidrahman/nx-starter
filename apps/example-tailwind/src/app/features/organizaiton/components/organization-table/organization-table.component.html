@@ -7,10 +7,10 @@
     <ng-template #header>
         <tr>
             <th style="width: 20%">Name</th>
-            <th style="width: 20%">Email</th>
-            <th style="width: 25%">Address</th>
-            <th style="width: 10%">Working Hour</th>
-            <th style="width: 10%">Total Members</th>
+            <th style="width: 18%">Email</th>
+            <th style="width: 17%">Address</th>
+            <th style="width: 15%">Working Hour</th>
+            <th style="width: 15%">Total Members</th>
             <th style="width: 15%">Actions</th>
         </tr>
     </ng-template>
@@ -25,7 +25,8 @@
                 <p-button
                     icon="pi pi-pen-to-square"
                     [outlined]="true"
-                    [raised]="true" />
+                    [raised]="true"
+                    (click)="onEdit()" />
                 <p-button
                     severity="danger"
                     icon="pi pi-trash"

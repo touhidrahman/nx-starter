@@ -40,10 +40,14 @@
     </div>
     <div>
         <div class="bg-gray-100 p-2 rounded-md">
-            <app-organazation-table
-                [organizations]="organizations"></app-organazation-table>
+            <app-organization-table
+                [organizations]="organizations"
+                [(visible)]="visible"
+                [(editMode)]="editMode"></app-organization-table>
         </div>
     </div>
+
+    {{ editMode() }}
 
     <div>
         <p-dialog
@@ -67,10 +71,10 @@
                 <p-button
                     label="Cancel"
                     severity="secondary"
-                    (click)="visible.set(false)" />
+                    (click)="cancel()" />
                 <p-button
                     label="{{ editMode() ? 'Update' : 'Save' }}"
-                    (click)="visible.set(false)" />
+                    (click)="onSave()" />
             </div>
         </p-dialog>
     </div>
