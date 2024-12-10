@@ -66,7 +66,7 @@ export const createVendorProfileHandler: AppRouteHandler<
     })
 
     const { data, error } = await sendEmailUsingResend(
-        [group.email],
+        [group.email ?? ''],
         'Profile created successfully.',
         createProfileSuccess,
     )

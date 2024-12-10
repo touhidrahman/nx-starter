@@ -1,10 +1,9 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { AppRouteHandler } from '../../../core/core.type'
-import { INTERNAL_SERVER_ERROR, OK } from 'stoker/http-status-codes'
+import { OK } from 'stoker/http-status-codes'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { zEmpty } from '../../../core/models/common.schema'
 import { zSelectDocument } from '../documents.schema'
-import { getAllDocuments, listDocumentsByGroup } from '../documents.service'
+import { getAllDocuments } from '../documents.service'
 import { checkToken } from '../../auth/auth.middleware'
 
 export const getDocumentsListRoute = createRoute({
@@ -23,7 +22,6 @@ export const getDocumentsListRoute = createRoute({
     },
     responses: {
         [OK]: ApiResponse(z.array(zSelectDocument), 'List of documents'),
-        [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'No document found!'),
     },
 })
 
@@ -31,32 +29,32 @@ export const getDocumentsListHandler: AppRouteHandler<
     typeof getDocumentsListRoute
 > = async (c) => {
     const payload = await c.get('jwtPayload')
-    const { entityName, entityId, search, page, limit } = await c.req.query()
+    const { entityName, entityId, search, page, limit } = c.req.query()
 
-    try {
-        const { groupId } = payload
-        const documents = await getAllDocuments({
-            entityName,
-            entityId,
-            groupId,
-            search,
-            page,
-            limit,
-        })
+    const pageNumber = Number(page)
+    const limitNumber = Number(limit)
 
-        return c.json(
-            { data: documents, message: 'Documents list', success: true },
-            OK,
-        )
-    } catch (error: any) {
-        return c.json(
-            {
-                success: false,
-                message: 'Internal server error',
-                error: error,
-                data: {},
+    const { groupId } = payload || {}
+    const { data, meta } = await getAllDocuments({
+        entityName,
+        entityId,
+        groupId,
+        search,
+        page: pageNumber,
+        limit: limitNumber,
+    })
+
+    return c.json(
+        {
+            data: data,
+            pagination: {
+                page: meta.page,
+                size: meta.limit,
+                total: meta.totalCount,
             },
-            INTERNAL_SERVER_ERROR,
-        )
-    }
+            message: 'Documents list',
+            success: true,
+        },
+        OK,
+    )
 }

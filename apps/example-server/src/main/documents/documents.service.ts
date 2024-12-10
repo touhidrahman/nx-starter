@@ -1,6 +1,6 @@
 import { db } from '../../core/db/db'
 import { documentsTable, storageTable } from '../../core/db/schema'
-import { and, eq, getTableColumns, ilike, sql } from 'drizzle-orm'
+import { and, eq, getTableColumns, ilike, SQL, sql } from 'drizzle-orm'
 import { getFileType } from '../../core/utils/file.util'
 import { InsertDocument } from './documents.schema'
 
@@ -104,13 +104,13 @@ export const getAllDocuments = async (params: {
     search: string
     entityName: string
     groupId: any
-    limit: string
+    limit: number
     entityId: string
-    page: string
+    page: number
 }) => {
     const { entityName, entityId, groupId, search, page, limit } = params
 
-    const conditions = []
+    const conditions: SQL<unknown>[] = []
     if (entityName) {
         conditions.push(eq(storageTable.entityName, entityName))
     }
@@ -127,14 +127,14 @@ export const getAllDocuments = async (params: {
 
     const whereClause = conditions.length > 0 ? and(...conditions) : undefined
 
-    const offset = (Number(page) - 1) * Number(limit)
+    const offset = (page - 1) * limit
 
     const query = db
         .select({
-            ...getTableColumns(storageTable),
+            ...getTableColumns(documentsTable),
         })
-        .from(storageTable)
-        .limit(Number(limit))
+        .from(documentsTable)
+        .limit(limit)
         .offset(offset)
 
     if (whereClause) {
@@ -162,7 +162,7 @@ export const getAllDocuments = async (params: {
             page,
             limit,
             totalCount,
-            totalPages: Math.ceil(totalCount / Number(limit)),
+            totalPages: Math.ceil(totalCount / limit),
         },
     }
 }

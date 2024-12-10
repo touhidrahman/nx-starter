@@ -24,7 +24,6 @@ export const getGroupsRoute = createRoute({
     },
     responses: {
         [OK]: ApiResponse(z.array(zSelectGroup), 'List of Groups'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'No group found'),
     },
 })
 
@@ -34,7 +33,7 @@ export const getGroupsHandler: AppRouteHandler<typeof getGroupsRoute> = async (
     const payload = c.get('jwtPayload')
     const query = c.req.valid('query')
 
-    const conditions = []
+    const conditions: SQL<unknown>[] = []
 
     if (query.status) {
         conditions.push(eq(groupsTable.status, query.status))
@@ -77,16 +76,6 @@ export const getGroupsHandler: AppRouteHandler<typeof getGroupsRoute> = async (
         .limit(limit)
         .offset(offset)
 
-    if (!groups) {
-        return c.json(
-            {
-                data: {},
-                message: 'No groups found',
-                success: false,
-            },
-            OK,
-        )
-    }
     return c.json(
         {
             data: groups,
