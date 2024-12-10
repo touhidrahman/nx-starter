@@ -31,6 +31,19 @@
         </li>
         <li>
             <a
+                [routerLink]="['/dashboard/organizations']"
+                routerLinkActive="active"
+                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                <span
+                    class="pi pi-file text-gray-500 text-3xl"
+                    routerLinkActive="text-white"></span>
+                <span class="font-medium" *ngIf="!isCollapsed"
+                    >Organizations</span
+                >
+            </a>
+        </li>
+        <li>
+            <a
                 [routerLink]="['/dashboard/cases']"
                 routerLinkActive="active"
                 class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">

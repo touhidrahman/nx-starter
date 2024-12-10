@@ -205,6 +205,14 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
+        path: 'dashboard/organizations',
+        loadComponent: () =>
+            import(
+                './pages/page-organization/page-organization.component'
+            ).then((m) => m.PageOrganizationComponent),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
         path: 'dashboard/clients',
         loadComponent: () =>
             import('./pages/page-clients/page-clients.component').then(
