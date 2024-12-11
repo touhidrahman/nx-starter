@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core'
 import { CommonModule } from '@angular/common'
+import { RouterModule } from '@angular/router'
 
 @Component({
     selector: 'app-page-lawyer-organization',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, RouterModule],
     templateUrl: './page-lawyer-organization.component.html',
     styleUrl: './page-lawyer-organization.component.scss',
 })

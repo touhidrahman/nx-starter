@@ -237,6 +237,14 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.lawyerDefault) },
     },
     {
+        path: 'lawyer/profile',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-account-pages/page-lawyer-profile/page-lawyer-profile.component'
+            ).then((m) => m.PageLawyerProfileComponent),
+        resolve: { layout: setLayout(PageLayout.lawyerDefault) },
+    },
+    {
         path: '**',
         loadComponent: () =>
             import('@myorg/app-example-public-pages').then(

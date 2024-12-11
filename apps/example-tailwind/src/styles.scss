@@ -71,3 +71,12 @@ body {
 .active svg path {
     fill: white;
 }
+
+// popup input styles
+.label {
+    @apply font-medium text-base py-1.5 inline-block text-gray46;
+}
+
+.input {
+    @apply w-full border  rounded-lg h-10 border-grayD;
+}

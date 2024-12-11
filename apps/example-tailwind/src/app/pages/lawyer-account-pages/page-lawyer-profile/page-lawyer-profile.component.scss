@@ -1,0 +1,26 @@
+:host {
+    display: block;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator {
+    background: url('data:image/svg+xml,%3Csvg%20width%3D%2218%22%20height%3D%2220%22%20viewBox%3D%220%200%2018%2020%22%20fill%3D%22none%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cpath%20d%3D%22M4%2010H6V12H4V10ZM18%204V18C18%2019.11%2017.11%2020%2016%2020H2C0.89%2020%200%2019.1%200%2018V4C0%202.9%200.9%202%202%202H3V0H5V2H13V0H15V2H16C17.11%202%2018%202.9%2018%204ZM2%206H16V4H2V6ZM16%2018V8H2V18H16ZM12%2012V10H14V12H12ZM8%2012V10H10V12H8ZM4%2014H6V16H4V14ZM12%2016V14H14V16H12ZM8%2016V14H10V16H8Z%22%20fill%3D%22%23434343%22/%3E%3C/svg%3E')
+        no-repeat center;
+    background-size: contain;
+    cursor: pointer;
+    opacity: 0.8;
+}
+
+input[type='date']:before {
+    content: '- - / - - / - - - -';
+    position: absolute;
+    @apply text-gray43 bg-white;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 1.4rem;
+}
+
+input[type='date']:valid:before {
+    content: '';
+}

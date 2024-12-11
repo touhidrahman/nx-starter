@@ -2,11 +2,3 @@ input:checked ~ .dot {
     transform: translateX(100%);
     background-color: #48bb78;
 }
-
-.label {
-    @apply font-medium text-base py-1.5 inline-block text-gray46;
-}
-
-.input {
-    @apply w-full border  rounded-lg h-10 border-grayD;
-}

@@ -61,6 +61,7 @@ module.exports = {
                 blue0b: '#00BBA5',
                 gray70: '#707070',
                 blue4b: '#4B8AFF',
+                gary64: '#646464',
             },
         },
     },
