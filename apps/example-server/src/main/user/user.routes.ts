@@ -17,10 +17,6 @@ import {
     updateUserProfilePictureHandler,
     updateUserProfilePictureRoute,
 } from './routes/upload-profile-picture'
-import {
-    deleteUsersHandler,
-    deleteUsersRoute,
-} from './routes/delete-many-users'
 
 export const userV1Routes = createRouter()
     .openapi(getMeRoute, getMeHandler)
@@ -32,4 +28,3 @@ export const userV1Routes = createRouter()
     .openapi(getUserRoute, getUserHandler)
     .openapi(updateUserRoute, updateUserHandler)
     .openapi(deleteUserRoute, deleteUserHandler)
-    .openapi(deleteUsersRoute, deleteUsersHandler)

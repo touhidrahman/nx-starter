@@ -18,59 +18,66 @@
 
     <div class="mt-8">
         <h1 class="text-2xl mb-4 font-bold">Upcoming Cases</h1>
-        <div class="mt-4 grid lg:grid-cols-5 md:grid-cols-2 grid-cols-1">
-            <div *ngFor="let card of caseCard" class="card">
-                <div class="card-details">
-                    <div class="flex gap-2 items-center">
-                        <i class="pi pi-calendar-plus text-3xl font-medium"></i>
-                        <p class="text-title">{{ card.date }}</p>
-                    </div>
-                    <div class="flex gap-2">
-                        <i class="pi pi-map-marker text-sm"></i>
-                        <p class="text-body">{{ card.location }}</p>
-                    </div>
-                    <h1 class="text-center font-bold">{{ card.caseTitle }}</h1>
+        <div
+            class="mt-4 grid lg:grid-cols-4 xl:grid-cols-5 md:grid-cols-2 grid-cols-1 gap-3">
+            @for (card of caseCard; track card) {
+                <div class="card">
+                    <div class="card-details">
+                        <div class="flex gap-2 items-center">
+                            <i
+                                class="pi pi-calendar-plus text-3xl font-medium"></i>
+                            <p class="text-title">{{ card.date }}</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <i class="pi pi-map-marker text-sm"></i>
+                            <p class="text-body">{{ card.location }}</p>
+                        </div>
+                        <h1 class="text-center font-bold">
+                            {{ card.caseTitle }}
+                        </h1>
 
-                    <p class="text-body">{{ card.description }}</p>
+                        <p class="text-body">{{ card.description }}</p>
+                    </div>
+                    <button class="card-button">More info</button>
                 </div>
-                <button class="card-button">More info</button>
-            </div>
+            }
         </div>
     </div>
 
     <div class="mt-12">
         <h1 class="text-2xl font-bold">Pinned Cases</h1>
 
-        <div class="grid grid-cols-1 gap-2 lg:grid-cols-3">
-            <div
-                *ngFor="let card of pinnedCard"
-                class="pinned-card rounded-lg w-[400px] mt-8 flex justify-between items-center px-4 p-4">
-                <div class="flex gap-4">
-                    <div
-                        class="w-1 h-14 rounded-full bg-gradient-to-b from-green-200 to-green-600"></div>
-                    <div>
-                        <h1 class="text-2xl font-bold text-gray-700">
-                            {{ card.title }}
-                        </h1>
-                        <div class="flex gap-4">
-                            <div class="flex items-center gap-2">
-                                <i class="pi pi-map-marker text-sm"></i>
-                                <p class="text-body">{{ card.location }}</p>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <i
-                                    class="pi pi-calendar-plus text-sm font-medium"></i>
-                                <p class="text-body">{{ card.date }}</p>
+        <div class="grid grid-cols-1 gap-3 lg:grid-cols-3">
+            @for (card of pinnedCard; track card) {
+                <div
+                    class="pinned-card rounded-lg mt-8 flex justify-between items-center px-4 p-4">
+                    <div class="flex gap-4">
+                        <div
+                            class="w-1 h-auto rounded-full bg-gradient-to-b from-green3 to-emerald-500"></div>
+                        <div>
+                            <h1 class="text-2xl font-bold text-gray-700">
+                                {{ card.title }}
+                            </h1>
+                            <div class="flex gap-4">
+                                <div class="flex items-center gap-2">
+                                    <i class="pi pi-map-marker text-sm"></i>
+                                    <p class="text-body">{{ card.location }}</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <i
+                                        class="pi pi-calendar-plus text-sm font-medium"></i>
+                                    <p class="text-body">{{ card.date }}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <div
+                        class="h-12 w-12 rounded-full flex items-center cursor-pointer justify-center bg-green-100 shadow-md">
+                        <!-- <hlm-icon size="lg" name="lucidePinOff"></hlm-icon> -->
+                        <i class="pi pi-thumbtack text-2xl"></i>
+                    </div>
                 </div>
-                <div
-                    class="h-12 w-12 rounded-full flex items-center cursor-pointer justify-center bg-green-100 shadow-md">
-                    <!-- <hlm-icon size="lg" name="lucidePinOff"></hlm-icon> -->
-                    <i class="pi pi-thumbtack text-2xl"></i>
-                </div>
-            </div>
+            }
         </div>
     </div>
 
