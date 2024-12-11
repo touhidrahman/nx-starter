@@ -1,0 +1,33 @@
+@if (post(); as post) {
+    <div class="flex justify-start items-center gap-3 border-b pb-1">
+        <div class="w-[15%] h-24 overflow-hidden">
+            <img
+                [src]="post.image"
+                class="object-center object-cover rounded-md w-full h-24"
+                alt="" />
+        </div>
+        <div class="w-[20%]">{{ post.title }}</div>
+        <div class="w-[20%]">{{ post.description }}</div>
+        <div class="w-[18%] space-x-2">
+            @for (tag of post.tags; track tag) {
+                <span
+                    class="border-[1px] rounded-full px-4 py-[1px] text-gray-500 text-xs space-y-2">
+                    {{ tag }}
+                </span>
+            }
+        </div>
+        <div class="w-[12%]">Written By</div>
+        <div class="w-[15%] flex justify-start items-center gap-3">
+            <p-button
+                icon="pi pi-pen-to-square"
+                [outlined]="true"
+                [raised]="true"
+                (click)="onEdit(post)" />
+            <p-button
+                severity="danger"
+                icon="pi pi-trash"
+                [outlined]="true"
+                [raised]="true" />
+        </div>
+    </div>
+}

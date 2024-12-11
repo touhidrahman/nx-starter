@@ -1,0 +1,55 @@
+<section>
+    <h1 class="text-4xl font-bold mb-5">Blogs</h1>
+    <p-button size="large" class="font-bold" routerLink="/blogs/create"
+        >Create New Blog</p-button
+    >
+    <div class="my-5 flex justify-between items-center">
+        <div class="flex justify-start items-center gap-3">
+            <div>
+                <p-button
+                    label="Filters"
+                    icon="pi pi-filter"
+                    iconPos="left"></p-button>
+            </div>
+            <div
+                class="flex justify-start gap-2 items-center bg-gray-200 p-1 rounded-md px-3">
+                <p-select
+                    [options]="status"
+                    [(ngModel)]="selected"
+                    size="small"
+                    styleClass="{'border-radius': '24px'}"
+                    placeholder="Select a Status"
+                    class="w-full md:w-56" />
+                <p-select
+                    [options]="status"
+                    [(ngModel)]="selected"
+                    size="small"
+                    placeholder="Sorting"
+                    class="w-full md:w-56" />
+            </div>
+        </div>
+        <div class="flex justify-end items-center gap-3">
+            <div class="flex justify-start items-center gap-2">
+                <input type="text" pInputText size="small" />
+                <p-button icon="pi pi-search" size="large" />
+            </div>
+        </div>
+    </div>
+
+    <div class="rounded-lg shadow-md h-screen">
+        <div
+            class="flex justify-start items-center border-green-800 border-b gap-3 p-2">
+            <div class="w-[15%]">Preview</div>
+            <div class="w-[20%]">Title</div>
+            <div class="w-[20%]">Description</div>
+            <div class="w-[18%]">Tags</div>
+            <div class="w-[12%]">Written By</div>
+            <div class="w-[15%]">Action</div>
+        </div>
+        <div class="p-2 space-y-1">
+            @for (post of posts(); track post.title) {
+                <app-single-blog [post]="post"></app-single-blog>
+            }
+        </div>
+    </div>
+</section>

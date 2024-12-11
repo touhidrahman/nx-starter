@@ -1,38 +1,37 @@
 import { Component, signal } from '@angular/core'
-import { FileUpload } from 'primeng/fileupload'
 import { Button } from 'primeng/button'
+
 import { Dialog } from 'primeng/dialog'
+import { FloatLabel } from 'primeng/floatlabel'
+import { InputText } from 'primeng/inputtext'
+import { RadioButton } from 'primeng/radiobutton'
 import { Select } from 'primeng/select'
 import { FormsModule } from '@angular/forms'
-import { InputTextModule } from 'primeng/inputtext'
-import { FloatLabel } from 'primeng/floatlabel'
-import { RadioButton } from 'primeng/radiobutton'
-import { ClientUserListTableComponent } from '../../features/client-user-list/components/client-user-list-table/client-user-list-table.component'
+import { LawyerListTableComponent } from '../../features/lawyer-list/components/lawyer-list-table/lawyer-list-table.component'
 
 @Component({
-    selector: 'app-page-client-client-user-list',
+    selector: 'app-page-lawyer-list',
     standalone: true,
     imports: [
-        FileUpload,
         Button,
+        LawyerListTableComponent,
         Dialog,
-        ClientUserListTableComponent,
+        FloatLabel,
+        InputText,
+        RadioButton,
         Select,
         FormsModule,
-        InputTextModule,
-        FloatLabel,
-        RadioButton,
     ],
-    templateUrl: './page-client-user-list.component.html',
-    styleUrl: './page-client-user-list.component.css',
+    templateUrl: './page-lawyer-list.component.html',
+    styleUrl: './page-lawyer-list.component.css',
 })
-export class PageClientUserListComponent {
+export class PageLawyerListComponent {
     status = ['Ordered', 'Unpaid', 'Paid', 'Confirmed', 'Cancelled']
     selected = ''
     visible = signal(false)
     editMode = signal(false)
 
-    userList = [
+    lawyers = [
         {
             firstName: 'AAA ',
             lastName: 'BBB ',
@@ -58,6 +57,11 @@ export class PageClientUserListComponent {
             signUpDate: 'date',
         },
     ]
+
+    cancel() {
+        this.editMode.set(false)
+        this.visible.set(false)
+    }
 
     onSave() {
         console.log('saving organization')
