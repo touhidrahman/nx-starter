@@ -245,6 +245,14 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.lawyerDefault) },
     },
     {
+        path: 'lawyer/forgot-password',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-account-pages/page-lawyer-forgot-password/page-lawyer-forgot-password.component'
+            ).then((m) => m.PageLawyerForgotPasswordComponent),
+        resolve: { layout: setLayout(PageLayout.Center) },
+    },
+    {
         path: '**',
         loadComponent: () =>
             import('@myorg/app-example-public-pages').then(
