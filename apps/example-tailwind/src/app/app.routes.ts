@@ -245,6 +245,14 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.lawyerDefault) },
     },
     {
+        path: 'lawyer/settings',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-account-pages/page-lawyer-settings/page-lawyer-settings.component'
+            ).then((m) => m.PageLawyerSettingsComponent),
+        resolve: { layout: setLayout(PageLayout.lawyerDefault) },
+    },
+    {
         path: 'lawyer/forgot-password',
         loadComponent: () =>
             import(
