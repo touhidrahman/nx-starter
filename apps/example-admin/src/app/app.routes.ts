@@ -101,6 +101,15 @@ export const appRoutes: Route[] = [
             ).then((m) => m.PageAdminUserlistComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
+
+    {
+        path: 'client-user-list',
+        loadComponent: () =>
+            import(
+                './pages/page-client-user-list/page-user-list.component'
+            ).then((m) => m.PageUserListComponent),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
     {
         path: '',
         redirectTo: 'dashboard-home',

@@ -1,4 +1,4 @@
-import { Component, signal, ViewEncapsulation } from '@angular/core'
+import { Component, signal } from '@angular/core'
 import { FileUpload } from 'primeng/fileupload'
 import { Button } from 'primeng/button'
 import { Dialog } from 'primeng/dialog'
@@ -11,7 +11,7 @@ import { Table } from 'primeng/table'
 import { RadioButton } from 'primeng/radiobutton'
 
 @Component({
-    selector: 'app-page-user-list',
+    selector: 'app-page-client-user-list',
     standalone: true,
     imports: [
         FileUpload,

@@ -73,6 +73,23 @@
                 <!-- Hide text when collapsed -->
             </a>
         </li>
+        <li>
+            <a
+                [routerLink]="['/client-user-list']"
+                routerLinkActive="bg-green-800 hover:bg-green-700 text-white"
+                class="text-black flex gap-4 items-center hover:bg-green-100 rounded-sm px-4 py-2 font-medium">
+                <!-- <hlm-icon
+                    routerLinkActive="text-white"
+                    class="text-gray-500"
+                    size="lg"
+                    name="lucideGroup" /> -->
+                <i class="pi pi-user !text-2xl"></i>
+                <span class="font-medium" *ngIf="!isCollapsed"
+                    >Client List</span
+                >
+                <!-- Hide text when collapsed -->
+            </a>
+        </li>
 
         <!-- <li>
             <a
