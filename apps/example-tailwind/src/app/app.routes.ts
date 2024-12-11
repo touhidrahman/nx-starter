@@ -253,12 +253,18 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.lawyerDefault) },
     },
     {
+        path: 'pricing',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-account-pages/page-subscription/page-subscription.component'
+            ).then((m) => m.PageSubscriptionComponent),
+    },
+    {
         path: 'lawyer/forgot-password',
         loadComponent: () =>
             import(
                 './pages/lawyer-account-pages/page-lawyer-forgot-password/page-lawyer-forgot-password.component'
             ).then((m) => m.PageLawyerForgotPasswordComponent),
-        resolve: { layout: setLayout(PageLayout.Center) },
     },
     {
         path: '**',
