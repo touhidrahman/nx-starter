@@ -2,33 +2,31 @@ import { Component, signal } from '@angular/core'
 import { FileUpload } from 'primeng/fileupload'
 import { Button } from 'primeng/button'
 import { Dialog } from 'primeng/dialog'
-import { UserListTableComponent } from '../../features/user-list/components/user-list-table/user-list-table.component'
 import { Select } from 'primeng/select'
 import { FormsModule } from '@angular/forms'
 import { InputTextModule } from 'primeng/inputtext'
 import { FloatLabel } from 'primeng/floatlabel'
-import { Table } from 'primeng/table'
 import { RadioButton } from 'primeng/radiobutton'
+import { ClientUserListTableComponent } from '../../features/client-user-list/components/client-user-list-table/client-user-list-table.component'
 
 @Component({
-    selector: 'app-page-client-user-list',
+    selector: 'app-page-client-client-user-list',
     standalone: true,
     imports: [
         FileUpload,
         Button,
         Dialog,
-        UserListTableComponent,
+        ClientUserListTableComponent,
         Select,
         FormsModule,
         InputTextModule,
         FloatLabel,
-        Table,
         RadioButton,
     ],
-    templateUrl: './page-user-list.component.html',
-    styleUrl: './page-user-list.component.css',
+    templateUrl: './page-client-user-list.component.html',
+    styleUrl: './page-client-user-list.component.css',
 })
-export class PageUserListComponent {
+export class PageClientUserListComponent {
     status = ['Ordered', 'Unpaid', 'Paid', 'Confirmed', 'Cancelled']
     selected = ''
     visible = signal(false)

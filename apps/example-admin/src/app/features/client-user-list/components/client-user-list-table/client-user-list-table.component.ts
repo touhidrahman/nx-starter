@@ -1,15 +1,15 @@
 import { Component, input, model } from '@angular/core'
-import { Table } from 'primeng/table'
 import { Button } from 'primeng/button'
+import { TableModule } from 'primeng/table'
 
 @Component({
-    selector: 'app-user-list-table',
+    selector: 'app-client-user-list-table',
     standalone: true,
-    imports: [Table, Button],
-    templateUrl: './user-list-table.component.html',
-    styleUrl: './user-list-table.component.css',
+    imports: [Button, TableModule],
+    templateUrl: './client-user-list-table.component.html',
+    styleUrl: './client-user-list-table.component.css',
 })
-export class UserListTableComponent {
+export class ClientUserListTableComponent {
     userList = input<any>([])
 
     editMode = model(false)

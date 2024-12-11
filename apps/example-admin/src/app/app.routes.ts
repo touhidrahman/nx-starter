@@ -103,11 +103,11 @@ export const appRoutes: Route[] = [
     },
 
     {
-        path: 'client-user-list',
+        path: 'client-client-user-list',
         loadComponent: () =>
             import(
-                './pages/page-client-user-list/page-user-list.component'
-            ).then((m) => m.PageUserListComponent),
+                './pages/page-client-user-list/page-client-user-list.component'
+            ).then((m) => m.PageClientUserListComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
