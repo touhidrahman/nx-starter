@@ -213,6 +213,14 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
+        path: 'dashboard/user-list',
+        loadComponent: () =>
+            import('./pages/page-user-list/page-user-list.component').then(
+                (m) => m.PageUserListComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
         path: 'dashboard/client/:id',
         loadComponent: () =>
             import('./pages/page-client/page-client.component').then(
