@@ -237,6 +237,44 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.lawyerDefault) },
     },
     {
+        path: 'lawyer/organization',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-account-pages/page-lawyer-organization/page-lawyer-organization.component'
+            ).then((m) => m.PageLawyerOrganizationComponent),
+        resolve: { layout: setLayout(PageLayout.lawyerDefault) },
+    },
+    {
+        path: 'lawyer/profile',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-account-pages/page-lawyer-profile/page-lawyer-profile.component'
+            ).then((m) => m.PageLawyerProfileComponent),
+        resolve: { layout: setLayout(PageLayout.lawyerDefault) },
+    },
+    {
+        path: 'lawyer/settings',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-account-pages/page-lawyer-settings/page-lawyer-settings.component'
+            ).then((m) => m.PageLawyerSettingsComponent),
+        resolve: { layout: setLayout(PageLayout.lawyerDefault) },
+    },
+    {
+        path: 'pricing',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-account-pages/page-subscription/page-subscription.component'
+            ).then((m) => m.PageSubscriptionComponent),
+    },
+    {
+        path: 'lawyer/forgot-password',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-account-pages/page-lawyer-forgot-password/page-lawyer-forgot-password.component'
+            ).then((m) => m.PageLawyerForgotPasswordComponent),
+    },
+    {
         path: '**',
         loadComponent: () =>
             import('@myorg/app-example-public-pages').then(
