@@ -1,0 +1,113 @@
+<section>
+    <h1 class="text-2xl font-bold">Client User List</h1>
+    <div class="my-5 flex justify-between items-center">
+        <div class="flex justify-start items-center gap-3">
+            <div>
+                <p-button
+                    label="Filters"
+                    icon="pi pi-filter"
+                    iconPos="left"></p-button>
+            </div>
+            <div
+                class="flex justify-start gap-2 items-center bg-gray-200 p-1 rounded-md px-3">
+                <p-select
+                    [options]="status"
+                    [(ngModel)]="selected"
+                    size="small"
+                    styleClass="{'border-radius': '24px'}"
+                    placeholder="Select a Status"
+                    class="w-full md:w-56" />
+                <p-select
+                    [options]="status"
+                    [(ngModel)]="selected"
+                    size="small"
+                    placeholder="Sorting"
+                    class="w-full md:w-56" />
+            </div>
+        </div>
+        <div class="flex justify-end items-center gap-3">
+            <div class="flex justify-start items-center gap-2">
+                <input type="text" pInputText size="small" />
+                <p-button icon="pi pi-search" size="large" />
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="bg-gray-100 p-2 rounded-md">
+            <app-client-user-list-table
+                [userList]="userList"
+                [(visible)]="visible"></app-client-user-list-table>
+        </div>
+    </div>
+
+    <div>
+        <p-dialog
+            header="Ariful Haque"
+            [modal]="true"
+            [(visible)]="visible"
+            [style]="{
+                width: '50%',
+            }">
+            <p-floatlabel class="w-full md:w-56" variant="in">
+                <p-select
+                    inputId="in_label"
+                    [options]="status"
+                    styleClass="w-full"
+                    variant="filled" />
+                <label for="in_label">In Label</label>
+            </p-floatlabel>
+
+            <div class="my-5">
+                <div
+                    class="flex justify-around items-center gap-5 bg-gray-200 p-2">
+                    <div class="w-1/4 pl-3">Set all to</div>
+                    <div class="flex items-center w-1/4">
+                        <p-radiobutton inputId="ingredient2" />
+                        <label for="ingredient2" class="ml-2">Delete</label>
+                    </div>
+                    <div class="flex items-center w-1/4">
+                        <p-radiobutton inputId="ingredient2" />
+                        <label for="ingredient2" class="ml-2">Read only</label>
+                    </div>
+                    <div class="flex items-center w-1/4">
+                        <p-radiobutton inputId="ingredient2" />
+                        <label for="ingredient2" class="ml-2">Edit</label>
+                    </div>
+                </div>
+                @for (v of [0, 1, 2, 3]; track $index) {
+                    <div
+                        class="flex justify-around items-center gap-5 bg-gray-100 p-2">
+                        <div class="w-1/4 pl-3">{{ v }}</div>
+                        <div class="flex items-center w-1/4">
+                            <p-radiobutton
+                                name="pizza"
+                                value="Mushroom"
+                                inputId="ingredient2" />
+                            <label for="ingredient2" class="ml-2">Delete</label>
+                        </div>
+                        <div class="flex items-center w-1/4">
+                            <p-radiobutton
+                                name="pizza"
+                                value="Mushroom"
+                                inputId="ingredient2" />
+                            <label for="ingredient2" class="ml-2"
+                                >Read only</label
+                            >
+                        </div>
+                        <div class="flex items-center w-1/4">
+                            <p-radiobutton
+                                name="pizza"
+                                value="Mushroom"
+                                inputId="ingredient2" />
+                            <label for="ingredient2" class="ml-2">Edit</label>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="flex justify-end gap-2">
+                <p-button label="Update" (click)="onSave()" />
+            </div>
+        </p-dialog>
+    </div>
+</section>

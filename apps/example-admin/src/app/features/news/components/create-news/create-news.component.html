@@ -1,0 +1,40 @@
+<section>
+    <h1 class="text-4xl font-semibold">
+        {{ title() ? 'Update' : 'Create' }} New News
+    </h1>
+
+    <div class="my-5">
+        <form>
+            <div class="mb-3 space-y-2">
+                <label>Blog Title</label>
+                <input type="text" pInputText class="w-full" />
+            </div>
+            <div class="mb-3 space-y-2">
+                <label>Blog Description</label>
+                <textarea
+                    rows="5"
+                    cols="30"
+                    pTextarea
+                    class="w-full"></textarea>
+            </div>
+
+            <div class="w-40 mb-8">
+                <p-fileupload
+                    mode="basic"
+                    name="demo[]"
+                    chooseIcon="pi pi-upload"
+                    url="https://www.primefaces.org/cdn/api/upload.php"
+                    accept="image/*"
+                    maxFileSize="1000000"
+                    [auto]="true"
+                    chooseLabel="Upload thumbnail" />
+            </div>
+
+            <div>
+                <p-button class="font-bold">{{
+                    title() ? 'Update' : 'Save'
+                }}</p-button>
+            </div>
+        </form>
+    </div>
+</section>

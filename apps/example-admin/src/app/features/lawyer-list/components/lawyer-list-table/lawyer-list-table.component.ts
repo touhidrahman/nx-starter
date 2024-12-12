@@ -3,14 +3,14 @@ import { Button } from 'primeng/button'
 import { TableModule } from 'primeng/table'
 
 @Component({
-    selector: 'app-organization-table',
+    selector: 'app-lawyer-list-table',
     standalone: true,
     imports: [Button, TableModule],
-    templateUrl: './organization-table.component.html',
-    styleUrl: './organization-table.component.css',
+    templateUrl: './lawyer-list-table.component.html',
+    styleUrl: './lawyer-list-table.component.css',
 })
-export class OrganizationTableComponent {
-    organizations = input<any>([])
+export class LawyerListTableComponent {
+    lawyers = input<any>([])
 
     editMode = model(false)
     visible = model(false)

@@ -101,6 +101,71 @@ export const appRoutes: Route[] = [
             ).then((m) => m.PageAdminUserlistComponent),
         resolve: { layout: setLayout(PageLayout.Default) },
     },
+
+    {
+        path: 'client-client-user-list',
+        loadComponent: () =>
+            import(
+                './pages/page-client-user-list/page-client-user-list.component'
+            ).then((m) => m.PageClientUserListComponent),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'lawyer-list',
+        loadComponent: () =>
+            import('./pages/page-lawyer-list/page-lawyer-list.component').then(
+                (m) => m.PageLawyerListComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'blogs',
+        loadComponent: () =>
+            import('./pages/page-blog/page-blog.component').then(
+                (m) => m.PageBlogComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'blogs/create',
+        loadComponent: () =>
+            import(
+                './features/blog/components/create-blog/create-blog.component'
+            ).then((m) => m.CreateBlogComponent),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'blogs/edit/:title',
+        loadComponent: () =>
+            import(
+                './features/blog/components/create-blog/create-blog.component'
+            ).then((m) => m.CreateBlogComponent),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'news',
+        loadComponent: () =>
+            import('./pages/page-news/page-news.component').then(
+                (m) => m.PageNewsComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'news/create',
+        loadComponent: () =>
+            import(
+                './features/news/components/create-news/create-news.component'
+            ).then((m) => m.CreateNewsComponent),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
+        path: 'news/edit/:title',
+        loadComponent: () =>
+            import(
+                './features/news/components/create-news/create-news.component'
+            ).then((m) => m.CreateNewsComponent),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
     {
         path: '',
         redirectTo: 'dashboard-home',
