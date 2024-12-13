@@ -1,11 +1,10 @@
 import { Component, input, model } from '@angular/core'
-import { Button } from 'primeng/button'
-import { TableModule } from 'primeng/table'
+import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-client-user-list-table',
     standalone: true,
-    imports: [Button, TableModule],
+    imports: [PrimeModules],
     templateUrl: './client-user-list-table.component.html',
     styleUrl: './client-user-list-table.component.css',
 })
