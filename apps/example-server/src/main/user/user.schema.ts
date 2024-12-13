@@ -42,5 +42,6 @@ export const zUpdateProfile = createSelectSchema(usersTable).omit({
     email: true,
 })
 
-
-
+export const zProfilePicture = z.object({
+    file: z.instanceof(File).optional(),
+})
