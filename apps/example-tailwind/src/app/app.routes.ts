@@ -1,5 +1,6 @@
 import { Route } from '@angular/router'
 import { PageLayout, setLayout } from '@myorg/page-layouts'
+import { PageCreateProfileComponent } from '../../../../libs/app-example-auth/src/lib/page-create-profile/page-create-profile.component'
 
 const authRoutes: Route[] = [
     {
@@ -46,6 +47,14 @@ const authRoutes: Route[] = [
         path: 'login',
         loadComponent: () =>
             import('@myorg/app-example-auth').then((m) => m.PageLoginComponent),
+        resolve: { layout: setLayout(PageLayout.Center) },
+    },
+    {
+        path: 'create-profile',
+        loadComponent: () =>
+            import('@myorg/app-example-auth').then(
+                (m) => m.PageCreateProfileComponent,
+            ),
         resolve: { layout: setLayout(PageLayout.Center) },
     },
 ]

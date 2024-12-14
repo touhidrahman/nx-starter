@@ -50,7 +50,7 @@ export class PageLoginComponent {
         this.authStateService.login(email, password).subscribe({
             next: (res) => {
                 this.loading = false
-                this.router.navigateByUrl(this.returnUrl)
+                this.router.navigateByUrl('/create-profile')
             },
             error: (err) => {
                 this.loading = false
