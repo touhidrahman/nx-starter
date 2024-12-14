@@ -14,11 +14,26 @@ import {
     resetPasswordRoute,
     resetPasswordHandler,
 } from './routes/reset-password'
+import {
+    createClientProfileHandler,
+    createClientProfileRoute,
+} from './routes/create-client-profile'
+import {
+    createVendorProfileHandler,
+    createVendorProfileRoute,
+} from './routes/create-vendor-profile'
+import {
+    setDefaulGroupRoute,
+    setDefaultGroupHandler,
+} from './routes/set-default-group-to-authUser'
 
 export const authV1Routes = createRouter()
     .openapi(loginRoute, loginHandler)
     .openapi(registerRoute, registerHandler)
-    .openapi(verifyEmailRoute, verifyEmailHandler)
+    .openapi(createClientProfileRoute, createClientProfileHandler)
+    .openapi(createVendorProfileRoute, createVendorProfileHandler)
+    .openapi(setDefaulGroupRoute, setDefaultGroupHandler)
     .openapi(changePasswordRoute, changePasswordHandler)
     .openapi(forgotPasswordRoute, forgotPasswordHandler)
     .openapi(resetPasswordRoute, resetPasswordHandler)
+    .openapi(verifyEmailRoute, verifyEmailHandler)
