@@ -1,11 +1,11 @@
-<div class="surface-card p-4 shadow-2 border-round w-full">
+<div class="surface-card p-4 shadow-2 border-round max-w-md mx-auto">
     <div class="text-center mb-5">
         <!-- <img src="assets/images/blocks/logos/hyper.svg" alt="Image" height="50" class="mb-3"> -->
         <div class="text-900 text-3xl font-medium mb-3">Register</div>
         <span class="text-600 font-medium line-height-3">Have an account?</span>
         <a
             [routerLink]="['/login']"
-            class="font-medium no-underline ml-2 text-blue-500 cursor-pointer"
+            class="font-medium no-underline ml-2 text-emerald-700 cursor-pointer"
             >Login here</a
         >
     </div>
@@ -99,8 +99,6 @@
             label="Sign Up"
             [disabled]="signUpForm.invalid"
             icon="pi pi-user"
-            class="w-full"></button>
-
-        {{ signUpForm.valid }}
+            class="w-full bg-emerald-700"></button>
     </div>
 </div>

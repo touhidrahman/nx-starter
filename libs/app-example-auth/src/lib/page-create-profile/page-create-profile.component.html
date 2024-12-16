@@ -9,7 +9,7 @@
             <div class="grid grid-cols-1 gap-4">
                 <div class="group">
                     <button
-                        onclick="window.location.href='/create-profile/client'"
+                        [routerLink]="['/create-profile', 'client']"
                         class="w-full py-4 text-lg font-medium bg-blue6d text-white rounded-lg shadow-md hover:bg-blue4b focus:ring-4 focus:ring-blue4b focus:outline-none">
                         <div class="flex items-center justify-center gap-3">
                             <svg
@@ -31,7 +31,7 @@
 
                 <div class="group">
                     <button
-                        onclick="window.location.href='/create-profile/vendor'"
+                        [routerLink]="['/create-profile', 'vendor']"
                         class="w-full py-4 text-lg font-medium bg-green text-white rounded-lg shadow-md hover:bg-green3 focus:ring-4 focus:ring-green focus:outline-none">
                         <div class="flex items-center justify-center gap-3">
                             <svg
@@ -50,17 +50,6 @@
                         </div>
                     </button>
                 </div>
-            </div>
-
-            <div class="text-center mt-6">
-                <p class="text-gray-500 text-sm">
-                    Already have an account?
-                    <a
-                        href="/login"
-                        class="text-indigo-500 font-medium hover:underline"
-                        >Login here</a
-                    >
-                </p>
             </div>
         </div>
     </div>

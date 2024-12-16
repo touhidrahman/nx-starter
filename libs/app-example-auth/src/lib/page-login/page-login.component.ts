@@ -48,12 +48,13 @@ export class PageLoginComponent {
 
         const { email, password } = this.loginFormService.getValue()
         this.authStateService.login(email, password).subscribe({
-            next: (res) => {
+            next: (res: any) => {
                 this.loading = false
                 this.router.navigateByUrl('/create-profile')
             },
             error: (err) => {
                 this.loading = false
+                console.log(err.error)
                 this.alertService.error(
                     'Email or password incorrect. Please try again',
                 )

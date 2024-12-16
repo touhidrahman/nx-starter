@@ -1,4 +1,4 @@
-<div class="flex items-center justify-center min-h-fit">
+<div class="flex items-center justify-center min-h-fit max-w-md mx-auto">
     <div class="surface-card p-4 shadow-2 border-round w-full">
         <div class="text-center mb-5">
             <!-- <img src="assets/images/blocks/logos/hyper.svg" alt="Image" height="50" class="mb-3"> -->
@@ -8,7 +8,7 @@
             >
             <a
                 [routerLink]="['/signup']"
-                class="font-medium no-underline ml-2 text-blue-500 cursor-pointer"
+                class="font-medium no-underline ml-2 text-emerald-700 cursor-pointer"
                 >Sign Up!</a
             >
         </div>
@@ -51,18 +51,18 @@
             }
 
             <div class="flex align-items-center justify-content-between mb-6">
-                <div class="flex align-items-center">
-                    <p-checkbox
-                        id="rememberme1"
-                        [binary]="true"
-                        styleClass="mr-2"></p-checkbox>
-                    <label for="rememberme1" class="text-900"
-                        >Remember me</label
-                    >
-                </div>
+                <!--                <div class="flex align-items-center">-->
+                <!--                    <p-checkbox-->
+                <!--                        id="rememberme1"-->
+                <!--                        [binary]="true"-->
+                <!--                        styleClass="mr-2"></p-checkbox>-->
+                <!--                    <label for="rememberme1" class="text-900"-->
+                <!--                        >Remember me</label-->
+                <!--                    >-->
+                <!--                </div>-->
                 <a
                     [routerLink]="['/forgot-password']"
-                    class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer"
+                    class="font-medium no-underline ml-2 text-emerald-700 text-right cursor-pointer"
                     >Forgot password?</a
                 >
             </div>
@@ -74,7 +74,7 @@
                 label="Sign In"
                 [disabled]="loginFormService.loginForm.invalid"
                 icon="pi pi-user"
-                class="w-full"></button>
+                class="w-full bg-emerald-800"></button>
         </div>
     </div>
 </div>
