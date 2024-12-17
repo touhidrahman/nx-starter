@@ -104,6 +104,14 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.PublicSecondary) },
     },
     {
+        path: 'dashboard/chat',
+        loadComponent: () =>
+            import('./pages/page-chat/page-chat.component').then(
+                (m) => m.PageChatComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
         path: 'home',
         loadComponent: () =>
             import('./pages/page-home/page-home.component').then(
