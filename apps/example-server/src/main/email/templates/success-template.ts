@@ -17,7 +17,7 @@ export const SuccessEmailTemplate: string = `
         <a href="{{dashboardUrl}}">Go to Dashboard</a>
     </p>
     <p>If the link does not work, copy and paste the following URL into your browser:</p>
-    <p>{{dashboardUrl}}</p>
+    <a style="text-decoration: underline" href="{{dashboardUrl}}">Click Here</a>
     <p>Thank you for choosing {{organizationName}}!</p>
 </div>
 `

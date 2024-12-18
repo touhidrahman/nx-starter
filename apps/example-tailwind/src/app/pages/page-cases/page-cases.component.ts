@@ -1,8 +1,9 @@
-import { Component } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { DropdownModule } from 'primeng/dropdown'
 import { FormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
+import { CasesStateService } from '../../features/case/states/cases-state.service'
 
 interface Case {
     caseNumber: number
@@ -22,6 +23,8 @@ interface Case {
     styleUrl: './page-cases.component.scss',
 })
 export class PageCasesComponent {
+    casesStateService = inject(CasesStateService)
+
     showFilter = true
 
     toggleFilter() {

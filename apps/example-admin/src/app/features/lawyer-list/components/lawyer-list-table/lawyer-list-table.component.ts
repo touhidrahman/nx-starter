@@ -1,11 +1,10 @@
 import { Component, input, model } from '@angular/core'
-import { Button } from 'primeng/button'
-import { TableModule } from 'primeng/table'
+import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-lawyer-list-table',
     standalone: true,
-    imports: [Button, TableModule],
+    imports: [PrimeModules],
     templateUrl: './lawyer-list-table.component.html',
     styleUrl: './lawyer-list-table.component.css',
 })

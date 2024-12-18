@@ -1,5 +1,7 @@
 import { Route } from '@angular/router'
 import { PageLayout, setLayout } from '@myorg/page-layouts'
+import { PageCreateProfileComponent } from '../../../../libs/app-example-auth/src/lib/page-create-profile/page-create-profile.component'
+import { PageCreateProfileFormComponent } from '../../../../libs/app-example-auth/src/lib/page-create-profile-form/page-create-profile-form.component'
 
 const authRoutes: Route[] = [
     {
@@ -48,6 +50,22 @@ const authRoutes: Route[] = [
             import('@myorg/app-example-auth').then((m) => m.PageLoginComponent),
         resolve: { layout: setLayout(PageLayout.Center) },
     },
+    {
+        path: 'create-profile',
+        loadComponent: () =>
+            import('@myorg/app-example-auth').then(
+                (m) => m.PageCreateProfileComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Center) },
+    },
+    {
+        path: 'create-profile/:profileType',
+        loadComponent: () =>
+            import('@myorg/app-example-auth').then(
+                (m) => m.PageCreateProfileFormComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Center) },
+    },
 ]
 
 export const appRoutes: Route[] = [
@@ -84,6 +102,14 @@ export const appRoutes: Route[] = [
                 (m) => m.PageNewsComponent,
             ),
         resolve: { layout: setLayout(PageLayout.PublicSecondary) },
+    },
+    {
+        path: 'dashboard/chat',
+        loadComponent: () =>
+            import('./pages/page-chat/page-chat.component').then(
+                (m) => m.PageChatComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
         path: 'home',

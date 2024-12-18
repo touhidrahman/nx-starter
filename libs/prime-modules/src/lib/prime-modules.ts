@@ -34,6 +34,9 @@ import { Toolbar } from 'primeng/toolbar'
 import { Tooltip } from 'primeng/tooltip'
 import { Tree } from 'primeng/tree'
 import { TreeSelect } from 'primeng/treeselect'
+import { FileUpload } from 'primeng/fileupload'
+import { DropdownModule } from 'primeng/dropdown'
+import { RadioButton } from 'primeng/radiobutton'
 
 export const PrimeModules = [
     AutoComplete,
@@ -47,7 +50,9 @@ export const PrimeModules = [
     ContextMenuModule,
     Dialog,
     DividerModule,
+    DropdownModule,
     DynamicDialog,
+    FileUpload,
     FloatLabel,
     IconField,
     IftaLabelModule,
@@ -60,6 +65,7 @@ export const PrimeModules = [
     Menubar,
     Popover,
     ProgressBar,
+    RadioButton,
     Ripple,
     Select,
     SharedModule,

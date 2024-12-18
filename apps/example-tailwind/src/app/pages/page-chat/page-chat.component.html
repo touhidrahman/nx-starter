@@ -1,0 +1,56 @@
+<div class="py-2 bg-greenc4 px-3 rounded-lg">Select a member to chat.</div>
+<div class="flex h-[80vh]">
+    <div class="w-1/3 bg-gray-100 border-r border-gray-300">
+        <ul class="px-1">
+            <li
+                *ngFor="let chat of chatList"
+                (click)="selectChat(chat)"
+                [class.bg-green]="chat.id === selectedChat?.id"
+                class="px-3 py-1 cursor-pointer hover:bg-green border-b border-gray-200 border-b-[1px] rounded-lg hover:text-white">
+                {{ chat.name }}
+            </li>
+        </ul>
+    </div>
+
+    <div class="w-2/3 flex flex-col">
+        @if (selectChat.name) {
+            <div class="p-4 bg-gray-200 text-xl font-semibold">
+                {{ selectedChat?.name }}
+            </div>
+        }
+
+        <div class="flex-1 p-4 overflow-y-auto bg-white rounded-lg">
+            <div
+                *ngFor="let message of selectedChat?.messages"
+                [ngClass]="{
+                    'ml-auto text-right': message.type === 'sent',
+                    'text-left': message.type === 'received',
+                }"
+                class="mb-2">
+                <span
+                    class="inline-block px-4 py-2 rounded-lg"
+                    [ngClass]="{
+                        'bg-greenc4 text-black': message.type === 'sent',
+                        'bg-gray-200 text-black': message.type === 'received',
+                    }">
+                    {{ message.text }}
+                </span>
+                <div class="text-xs text-gray-400 mt-3">
+                    12 Dec 2024 11:45PM
+                </div>
+            </div>
+        </div>
+        <!-- Chat Input -->
+        <div class="p-4 border-t border-gray-300 bg-gray-100 flex">
+            <input
+                [(ngModel)]="newMessage"
+                placeholder="Type your message..."
+                class="flex-1 p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-800" />
+            <button
+                (click)="sendMessage()"
+                class="ml-2 px-4 py-2 bg-emerald-800 text-white rounded-md hover:bg-emerald-700">
+                Send
+            </button>
+        </div>
+    </div>
+</div>

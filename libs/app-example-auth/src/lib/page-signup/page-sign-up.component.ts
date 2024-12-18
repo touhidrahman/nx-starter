@@ -31,7 +31,6 @@ export class PageSignUpComponent {
         const signupInput: SignupInput = {
             email: formValues.email,
             password: formValues.password,
-            passwordConfirmation: formValues.passwordConfirmation,
             firstName: formValues.firstName,
             lastName: formValues.lastName,
         }

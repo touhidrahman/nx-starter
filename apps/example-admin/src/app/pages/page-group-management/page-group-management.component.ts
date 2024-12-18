@@ -10,10 +10,7 @@ import {
 } from '@angular/forms'
 import { GroupApiService } from '@myorg/app-example-api-services'
 import { GroupDto, GroupStatus, GroupType } from '@myorg/app-example-models'
-
-import { DialogModule } from 'primeng/dialog'
-import { ButtonModule } from 'primeng/button'
-import { InputTextModule } from 'primeng/inputtext'
+import { PrimeModules } from '@myorg/prime-modules'
 @Component({
     selector: 'app-page-group-management',
     standalone: true,
@@ -23,9 +20,7 @@ import { InputTextModule } from 'primeng/inputtext'
         ReactiveFormsModule,
         TitleCasePipe,
         UpperCasePipe,
-        DialogModule,
-        ButtonModule,
-        InputTextModule,
+        PrimeModules,
     ],
     templateUrl: './page-group-management.component.html',
     styleUrl: './page-group-management.component.css',
