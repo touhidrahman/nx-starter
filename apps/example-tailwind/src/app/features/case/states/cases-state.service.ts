@@ -22,7 +22,7 @@ export class CasesStateService extends SimpleStore<CasesState> {
 
     constructor() {
         super(initialState)
-        //this.loadFromStorage()
+        this.continueLoadingCases()
     }
 
     continueLoadingCases() {
@@ -33,6 +33,7 @@ export class CasesStateService extends SimpleStore<CasesState> {
             },
             error: (err) => {
                 this.setState({ loading: false })
+                this.alertService.error(err.error.message)
             },
         })
     }
