@@ -1,6 +1,6 @@
-import { and, count, eq } from 'drizzle-orm'
+import { and, count, eq, getTableColumns } from 'drizzle-orm'
 import { db } from '../../core/db/db'
-import { casesTable } from '../../core/db/schema'
+import { casesTable, groupsTable } from '../../core/db/schema'
 import { InsertCase } from './case.schema'
 
 // Retrieve all cases by group ID, limiting results to 100.
