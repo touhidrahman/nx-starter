@@ -19,7 +19,7 @@ interface Case {
     selector: 'app-page-cases',
     imports: [CommonModule, DropdownModule, FormsModule, RouterModule],
     templateUrl: './page-cases.component.html',
-    styleUrl: './page-cases.component.scss'
+    styleUrl: './page-cases.component.scss',
 })
 export class PageCasesComponent {
     casesStateService = inject(CasesStateService)

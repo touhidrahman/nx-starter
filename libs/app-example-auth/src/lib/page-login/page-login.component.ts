@@ -11,7 +11,7 @@ import { PrimeModules } from '@myorg/prime-modules'
     imports: [...PrimeModules, ReactiveFormsModule, RouterModule],
     templateUrl: './page-login.component.html',
     styleUrl: './page-login.component.scss',
-    providers: [LoginFormService]
+    providers: [LoginFormService],
 })
 export class PageLoginComponent {
     private authStateService = inject(AuthStateService)

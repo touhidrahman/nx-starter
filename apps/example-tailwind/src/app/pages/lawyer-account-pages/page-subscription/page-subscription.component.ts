@@ -6,6 +6,6 @@ import { HeaderPublicSecondaryComponent } from '../../../main/headers/components
     selector: 'app-page-subscription',
     imports: [CommonModule, HeaderPublicSecondaryComponent],
     templateUrl: './page-subscription.component.html',
-    styleUrl: './page-subscription.component.scss'
+    styleUrl: './page-subscription.component.scss',
 })
 export class PageSubscriptionComponent {}

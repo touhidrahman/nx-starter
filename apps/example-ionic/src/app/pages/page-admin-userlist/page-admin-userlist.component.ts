@@ -12,7 +12,7 @@ interface User {
     selector: 'myorg-page-admin-userlist',
     imports: [CommonModule, IonicModule],
     templateUrl: './page-admin-userlist.component.html',
-    styleUrl: './page-admin-userlist.component.scss'
+    styleUrl: './page-admin-userlist.component.scss',
 })
 export class PageAdminUserlistComponent implements OnInit {
     users: User[] = []
@@ -94,9 +94,9 @@ export class PageAdminUserlistComponent implements OnInit {
         ]
     }
 
-    isModalOpen = false;
+    isModalOpen = false
 
-  setOpen(isOpen: boolean) {
-    this.isModalOpen = isOpen;
-  }
+    setOpen(isOpen: boolean) {
+        this.isModalOpen = isOpen
+    }
 }

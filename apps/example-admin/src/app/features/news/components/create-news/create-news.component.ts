@@ -5,7 +5,7 @@ import { PrimeModules } from '@myorg/prime-modules'
     selector: 'app-create-news',
     imports: [PrimeModules],
     templateUrl: './create-news.component.html',
-    styleUrl: './create-news.component.css'
+    styleUrl: './create-news.component.css',
 })
 export class CreateNewsComponent {
     title = input()

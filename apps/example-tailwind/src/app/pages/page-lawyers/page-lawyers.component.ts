@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common'
     selector: 'app-page-lawyers',
     imports: [CommonModule],
     templateUrl: './page-lawyers.component.html',
-    styleUrl: './page-lawyers.component.scss'
+    styleUrl: './page-lawyers.component.scss',
 })
 export class PageLawyersComponent {
     experience = [

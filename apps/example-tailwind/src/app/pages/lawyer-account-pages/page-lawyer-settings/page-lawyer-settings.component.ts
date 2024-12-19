@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms'
     selector: 'app-page-lawyer-settings',
     imports: [CommonModule, FormsModule],
     templateUrl: './page-lawyer-settings.component.html',
-    styleUrl: './page-lawyer-settings.component.scss'
+    styleUrl: './page-lawyer-settings.component.scss',
 })
 export class PageLawyerSettingsComponent {
     togglebtnState = true

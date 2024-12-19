@@ -10,7 +10,7 @@ import { ApiResponse } from '@myorg/common-models'
     selector: 'app-page-admin-userlist',
     templateUrl: './page-admin-userlist.component.html',
     styleUrl: './page-admin-userlist.component.scss',
-    imports: [NgClass, FormsModule, CommonModule]
+    imports: [NgClass, FormsModule, CommonModule],
 })
 export class PageAdminUserlistComponent implements OnInit {
     private userService = inject(UserApiService)

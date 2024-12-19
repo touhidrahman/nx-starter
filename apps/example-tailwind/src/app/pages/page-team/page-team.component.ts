@@ -14,7 +14,7 @@ interface Team {
     selector: 'app-page-team',
     imports: [RouterModule, CommonModule],
     templateUrl: './page-team.component.html',
-    styleUrl: './page-team.component.scss'
+    styleUrl: './page-team.component.scss',
 })
 export class PageTeamComponent {
     teams: Team[] = [

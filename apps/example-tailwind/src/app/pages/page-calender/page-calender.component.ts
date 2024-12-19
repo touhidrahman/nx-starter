@@ -12,7 +12,7 @@ import { CalendarOptions, EventClickArg, EventInput } from '@fullcalendar/core'
     imports: [CommonModule, FullCalendarModule],
     templateUrl: './page-calender.component.html',
     styleUrl: './page-calender.component.scss',
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class PageCalenderComponent {
     events: EventInput[] = [

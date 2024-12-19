@@ -12,7 +12,7 @@ interface User {
     selector: 'app-page-admin-userlist',
     templateUrl: './page-admin-userlist.component.html',
     styleUrl: './page-admin-userlist.component.scss',
-    imports: []
+    imports: [],
 })
 export class PageAdminUserlistComponent {
     users: User[] = [

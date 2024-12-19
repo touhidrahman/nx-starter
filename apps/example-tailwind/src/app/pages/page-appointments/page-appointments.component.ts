@@ -8,7 +8,7 @@ import { RouterModule } from '@angular/router'
     selector: 'app-page-appointments',
     imports: [CommonModule, DropdownModule, FormsModule, RouterModule],
     templateUrl: './page-appointments.component.html',
-    styleUrl: './page-appointments.component.scss'
+    styleUrl: './page-appointments.component.scss',
 })
 export class PageAppointmentsComponent {
     showFilter = true

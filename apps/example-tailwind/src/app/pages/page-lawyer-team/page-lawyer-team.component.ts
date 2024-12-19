@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router'
     selector: 'app-page-lawyer-team',
     imports: [CommonModule, RouterModule],
     templateUrl: './page-lawyer-team.component.html',
-    styleUrl: './page-lawyer-team.component.scss'
+    styleUrl: './page-lawyer-team.component.scss',
 })
 export class PageLawyerTeamComponent {
     teams = [

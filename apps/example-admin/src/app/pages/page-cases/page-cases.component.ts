@@ -6,6 +6,6 @@ import { RouterModule } from '@angular/router'
     selector: 'app-page-cases',
     imports: [RouterModule],
     templateUrl: './page-cases.component.html',
-    styleUrl: './page-cases.component.scss'
+    styleUrl: './page-cases.component.scss',
 })
 export class PageCasesComponent {}

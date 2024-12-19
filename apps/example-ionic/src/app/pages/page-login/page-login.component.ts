@@ -11,7 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms'
     imports: [CommonModule, IonicModule, RouterModule, ReactiveFormsModule],
     templateUrl: './page-login.component.html',
     styleUrl: './page-login.component.scss',
-    providers: [LoginFormService]
+    providers: [LoginFormService],
 })
 export class PageLoginComponent {
     loginFormService = inject(LoginFormService)

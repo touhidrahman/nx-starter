@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router'
     selector: 'app-page-case',
     imports: [CommonModule],
     templateUrl: './page-case.component.html',
-    styleUrl: './page-case.component.scss'
+    styleUrl: './page-case.component.scss',
 })
 export class PageCaseComponent implements OnInit {
     activateRoute = inject(ActivatedRoute)

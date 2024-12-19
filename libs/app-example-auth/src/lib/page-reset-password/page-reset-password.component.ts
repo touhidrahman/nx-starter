@@ -12,7 +12,7 @@ import { AuthApiService } from '@myorg/common-auth'
     selector: 'app-page-reset-password',
     imports: [ReactiveFormsModule],
     templateUrl: './page-reset-password.component.html',
-    styleUrls: ['./page-reset-password.component.scss']
+    styleUrls: ['./page-reset-password.component.scss'],
 })
 export class PageResetPasswordComponent {
     private fb = inject(FormBuilder)

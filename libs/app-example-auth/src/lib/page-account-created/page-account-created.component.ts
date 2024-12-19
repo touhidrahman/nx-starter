@@ -6,6 +6,6 @@ import { RouterModule } from '@angular/router'
     selector: 'app-page-account-created',
     imports: [RouterModule],
     templateUrl: './page-account-created.component.html',
-    styleUrl: './page-account-created.component.scss'
+    styleUrl: './page-account-created.component.scss',
 })
 export class PageAccountCreatedComponent {}

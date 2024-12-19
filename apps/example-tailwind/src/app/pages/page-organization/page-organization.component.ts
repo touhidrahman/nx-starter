@@ -21,7 +21,7 @@ import { FileUpload } from 'primeng/fileupload'
         FileUpload,
     ],
     templateUrl: './page-organization.component.html',
-    styleUrl: './page-organization.component.css'
+    styleUrl: './page-organization.component.css',
 })
 export class PageOrganizationComponent {
     status = ['Ordered', 'Unpaid', 'Paid', 'Confirmed', 'Cancelled']

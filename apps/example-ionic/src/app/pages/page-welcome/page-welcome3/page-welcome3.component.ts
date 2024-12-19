@@ -7,6 +7,6 @@ import { RouterModule } from '@angular/router'
     selector: 'myorg-page-welcome3',
     imports: [CommonModule, IonicModule, RouterModule],
     templateUrl: './page-welcome3.component.html',
-    styleUrl: './page-welcome3.component.scss'
+    styleUrl: './page-welcome3.component.scss',
 })
 export class PageWelcome3Component {}

@@ -6,7 +6,7 @@ import { Data, Hero } from '../../../../../assets/data/data'
     imports: [],
     templateUrl: './hero.component.html',
     styleUrl: './hero.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeroComponent {
     public hero: Hero = Data.hero

@@ -6,6 +6,6 @@ import { RouterLink } from '@angular/router'
     selector: 'app-header-public-secondary',
     imports: [CommonModule, RouterLink],
     templateUrl: './header-public-secondary.component.html',
-    styleUrl: './header-public-secondary.component.scss'
+    styleUrl: './header-public-secondary.component.scss',
 })
 export class HeaderPublicSecondaryComponent {}

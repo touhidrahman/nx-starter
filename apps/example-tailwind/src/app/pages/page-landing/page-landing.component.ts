@@ -16,10 +16,6 @@ import { FaqComponent } from '../../main/landing/components/FAQ/faq.component'
     imports: [
         ...PrimeModules,
         HeroComponent,
-        PricePlanComponent,
-        PublicFooterComponent,
-        DownloadAppComponent,
-        FeaturesComponent,
         CountingComponent,
         LawyerSearchComponent,
         ServiceSectionComponent,
@@ -28,6 +24,6 @@ import { FaqComponent } from '../../main/landing/components/FAQ/faq.component'
     ],
     templateUrl: './page-landing.component.html',
     styleUrl: './page-landing.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageLandingComponent {}

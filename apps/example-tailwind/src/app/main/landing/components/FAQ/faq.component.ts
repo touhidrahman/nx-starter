@@ -5,7 +5,7 @@ import { SectionTitleComponent } from './../../utils/section-title/section-title
     selector: 'app-faq',
     imports: [CommonModule, SectionTitleComponent],
     templateUrl: './faq.component.html',
-    styleUrl: './faq.component.scss'
+    styleUrl: './faq.component.scss',
 })
 export class FaqComponent {
     showFaqAns(

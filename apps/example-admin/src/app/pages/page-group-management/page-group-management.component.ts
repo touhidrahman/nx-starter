@@ -22,7 +22,7 @@ import { PrimeModules } from '@myorg/prime-modules'
         PrimeModules,
     ],
     templateUrl: './page-group-management.component.html',
-    styleUrl: './page-group-management.component.css'
+    styleUrl: './page-group-management.component.css',
 })
 export class PageGroupManagementComponent {
     private groupApiService = inject(GroupApiService)

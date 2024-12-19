@@ -7,7 +7,7 @@ import { BannerCarouselComponent } from '../../home/banner-carousel/banner-carou
     selector: 'myorg-page-home',
     imports: [CommonModule, IonicModule, BannerCarouselComponent],
     templateUrl: './page-home.component.html',
-    styleUrl: './page-home.component.scss'
+    styleUrl: './page-home.component.scss',
 })
 export class PageHomeComponent implements OnInit {
     slides: any[] = []

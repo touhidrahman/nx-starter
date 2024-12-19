@@ -5,6 +5,6 @@ import { CommonModule } from '@angular/common'
     selector: 'app-section-title',
     imports: [CommonModule],
     templateUrl: './section-title.component.html',
-    styleUrl: './section-title.component.scss'
+    styleUrl: './section-title.component.scss',
 })
 export class SectionTitleComponent {}

@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router'
     selector: 'app-lawyer-sidebar-default',
     imports: [CommonModule, RouterModule],
     templateUrl: './lawyer-sidebar-default.component.html',
-    styleUrl: './lawyer-sidebar-default.component.scss'
+    styleUrl: './lawyer-sidebar-default.component.scss',
 })
 export class LawyerSidebarDefaultComponent {
     @Input() isCollapsed: boolean | undefined

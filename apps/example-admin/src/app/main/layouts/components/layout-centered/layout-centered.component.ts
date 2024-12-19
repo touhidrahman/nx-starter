@@ -7,6 +7,6 @@ import { HeaderDefaultComponent } from '../../../headers/components/header-defau
     selector: 'app-layout-centered',
     templateUrl: './layout-centered.component.html',
     styleUrl: './layout-centered.component.scss',
-    imports: [SidebarDefaultComponent, HeaderDefaultComponent]
+    imports: [SidebarDefaultComponent, HeaderDefaultComponent],
 })
 export class LayoutCenteredComponent {}

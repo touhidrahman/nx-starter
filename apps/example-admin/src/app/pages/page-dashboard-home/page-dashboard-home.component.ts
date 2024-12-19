@@ -4,6 +4,6 @@ import { Component } from '@angular/core'
     selector: 'app-page-dashboard-home',
     imports: [],
     templateUrl: './page-dashboard-home.component.html',
-    styleUrls: ['./page-dashboard-home.component.scss']
+    styleUrls: ['./page-dashboard-home.component.scss'],
 })
 export class PageDashboardHomeComponent {}

@@ -6,6 +6,6 @@ import { IonicModule } from '@ionic/angular'
     selector: 'myorg-page-case',
     imports: [CommonModule, IonicModule],
     templateUrl: './page-case.component.html',
-    styleUrl: './page-case.component.scss'
+    styleUrl: './page-case.component.scss',
 })
 export class PageCaseComponent {}

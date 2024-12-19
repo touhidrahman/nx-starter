@@ -22,11 +22,10 @@ import { LayoutDefaultComponent } from './main/layouts/components/layout-default
     ],
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrl: './app.component.scss'
+    styleUrl: './app.component.scss',
 })
 export class AppComponent {
     readonly PageLayout = PageLayout
 
     layoutService = inject(PageLayoutService)
-
 }

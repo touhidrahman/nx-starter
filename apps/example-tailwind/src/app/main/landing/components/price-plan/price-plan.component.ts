@@ -7,7 +7,7 @@ import { pricePlan, PricePlan } from './price-plan-data'
     imports: [NgClass],
     templateUrl: './price-plan.component.html',
     styleUrl: './price-plan.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PricePlanComponent {
     pricePlan: PricePlan[] = pricePlan

@@ -6,6 +6,6 @@ import { HeaderBlankComponent } from '../../../headers/components/header-blank/h
     selector: 'app-layout-cta',
     imports: [CommonModule, HeaderBlankComponent],
     templateUrl: './layout-cta.component.html',
-    styleUrl: './layout-cta.component.scss'
+    styleUrl: './layout-cta.component.scss',
 })
 export class LayoutCtaComponent {}

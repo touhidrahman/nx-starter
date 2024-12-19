@@ -4,6 +4,6 @@ import { Component } from '@angular/core'
     selector: 'app-page-profile',
     imports: [],
     templateUrl: './page-profile.component.html',
-    styleUrl: './page-profile.component.scss'
+    styleUrl: './page-profile.component.scss',
 })
 export class PageProfileComponent {}

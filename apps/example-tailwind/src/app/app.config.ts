@@ -6,7 +6,13 @@ import {
     withJsonpSupport,
     withXsrfConfiguration,
 } from '@angular/common/http'
-import { APP_INITIALIZER, type ApplicationConfig, importProvidersFrom, inject, provideAppInitializer } from '@angular/core'
+import {
+    APP_INITIALIZER,
+    type ApplicationConfig,
+    importProvidersFrom,
+    inject,
+    provideAppInitializer,
+} from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import {
@@ -36,6 +42,7 @@ import { providePrimeNG } from 'primeng/config'
 import { DialogService } from 'primeng/dynamicdialog'
 import { environment } from '../environment/environment'
 import { appRoutes } from './app.routes'
+import { catchError, of } from 'rxjs'
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -56,17 +63,15 @@ export const appConfig: ApplicationConfig = {
         ),
         importProvidersFrom(BrowserModule),
         importProvidersFrom(FullCalendarModule),
-        {
-            provide: APP_INITIALIZER,
-            useFactory: appInitializerFactory,
-            multi: true,
-            deps: [
-                AuthStateService,
-                AuthApiService,
-                TokenStorageService,
-                LocalStorageService,
-            ],
-        },
+        provideAppInitializer(() => {
+            const authStateService = inject(AuthStateService)
+            return authStateService.refreshAccessToken().pipe(
+                catchError((err) => {
+                    console.error('Error on provideAppInitializer', err)
+                    return of()
+                }),
+            )
+        }),
         {
             provide: DATE_PIPE_DEFAULT_OPTIONS,
             useValue: { timezone: 'UTC', dateFormat: 'shortDate' },

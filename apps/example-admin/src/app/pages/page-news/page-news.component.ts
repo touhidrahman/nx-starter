@@ -8,7 +8,7 @@ import { PrimeModules } from '@myorg/prime-modules'
     selector: 'app-page-news',
     imports: [PrimeModules, FormsModule, SingleNewsComponent, RouterLink],
     templateUrl: './page-news.component.html',
-    styleUrl: './page-news.component.css'
+    styleUrl: './page-news.component.css',
 })
 export class PageNewsComponent {
     status = ['Ordered', 'Unpaid', 'Paid', 'Confirmed', 'Cancelled']

@@ -7,6 +7,6 @@ import { RouterModule } from '@angular/router'
     selector: 'myorg-page-account-created',
     imports: [CommonModule, IonicModule, RouterModule],
     templateUrl: './page-account-created.component.html',
-    styleUrl: './page-account-created.component.scss'
+    styleUrl: './page-account-created.component.scss',
 })
 export class PageAccountCreatedComponent {}

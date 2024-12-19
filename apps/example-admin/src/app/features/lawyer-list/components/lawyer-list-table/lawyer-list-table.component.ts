@@ -5,7 +5,7 @@ import { PrimeModules } from '@myorg/prime-modules'
     selector: 'app-lawyer-list-table',
     imports: [PrimeModules],
     templateUrl: './lawyer-list-table.component.html',
-    styleUrl: './lawyer-list-table.component.css'
+    styleUrl: './lawyer-list-table.component.css',
 })
 export class LawyerListTableComponent {
     lawyers = input<any>([])

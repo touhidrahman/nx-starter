@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router'
     selector: 'app-sidebar-default',
     imports: [RouterModule, CommonModule],
     templateUrl: './sidebar-default.component.html',
-    styleUrl: './sidebar-default.component.scss'
+    styleUrl: './sidebar-default.component.scss',
 })
 export class SidebarDefaultComponent {
     @Input() isCollapsed = false

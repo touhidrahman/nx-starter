@@ -7,7 +7,7 @@ import { IonicSlides } from '@ionic/angular'
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     imports: [CommonModule],
     templateUrl: './banner-carousel.component.html',
-    styleUrl: './banner-carousel.component.scss'
+    styleUrl: './banner-carousel.component.scss',
 })
 export class BannerCarouselComponent {
     @Input() slides: any[] = []

@@ -5,6 +5,6 @@ import { RouterLink } from '@angular/router'
     selector: 'myorg-page-create-profile',
     imports: [RouterLink],
     templateUrl: './page-create-profile.component.html',
-    styleUrl: './page-create-profile.component.css'
+    styleUrl: './page-create-profile.component.css',
 })
 export class PageCreateProfileComponent {}

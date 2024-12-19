@@ -18,6 +18,6 @@ import { Component } from '@angular/core'
             </a>
         </div>
     `,
-    styleUrl: './page-not-found.component.css'
+    styleUrl: './page-not-found.component.css',
 })
 export class PageNotFoundComponent {}

@@ -17,7 +17,7 @@ import { toInt } from 'radash'
     templateUrl: './password-change.component.html',
     styleUrl: './password-change.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [ChangePasswordFormService]
+    providers: [ChangePasswordFormService],
 })
 export class PasswordChangeComponent implements OnInit {
     private authApiService = inject(AuthApiService)
@@ -51,7 +51,9 @@ export class PasswordChangeComponent implements OnInit {
             .subscribe({
                 next: (res: ApiResponse<boolean>) => {
                     if (res.data == true) {
-                        this.alertService.success(`Password changed successfully`)
+                        this.alertService.success(
+                            `Password changed successfully`,
+                        )
                     } else {
                         this.alertService.error(`${res.message}`)
                     }

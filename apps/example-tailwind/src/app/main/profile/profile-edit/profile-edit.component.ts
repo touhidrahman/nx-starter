@@ -6,6 +6,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core'
     imports: [CommonModule],
     templateUrl: './profile-edit.component.html',
     styleUrl: './profile-edit.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileEditComponent {}

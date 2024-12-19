@@ -5,6 +5,6 @@ import { CommonModule } from '@angular/common'
     selector: 'app-page-news',
     imports: [CommonModule],
     templateUrl: './page-news.component.html',
-    styleUrl: './page-news.component.scss'
+    styleUrl: './page-news.component.scss',
 })
 export class PageNewsComponent {}

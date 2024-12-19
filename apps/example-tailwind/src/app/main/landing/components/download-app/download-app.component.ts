@@ -5,6 +5,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core'
     imports: [],
     templateUrl: './download-app.component.html',
     styleUrl: './download-app.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DownloadAppComponent {}

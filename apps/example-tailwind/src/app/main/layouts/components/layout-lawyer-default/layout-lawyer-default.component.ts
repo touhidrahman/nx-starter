@@ -11,7 +11,7 @@ import { LawyerSidebarDefaultComponent } from '../../../sidebars/components/lawy
         LawyerSidebarDefaultComponent,
     ],
     templateUrl: './layout-lawyer-default.component.html',
-    styleUrl: './layout-lawyer-default.component.scss'
+    styleUrl: './layout-lawyer-default.component.scss',
 })
 export class LayoutLawyerDefaultComponent {
     isSidebarCollapsed = true

@@ -6,6 +6,6 @@ import { IonicModule } from '@ionic/angular'
     selector: 'myorg-page-account-verified',
     imports: [CommonModule, IonicModule],
     templateUrl: './page-account-verified.component.html',
-    styleUrl: './page-account-verified.component.scss'
+    styleUrl: './page-account-verified.component.scss',
 })
 export class PageAccountVerifiedComponent {}

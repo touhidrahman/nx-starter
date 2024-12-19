@@ -22,7 +22,7 @@ import { PrimeModules } from '@myorg/prime-modules'
     selector: 'app-page-area-management',
     imports: [CommonModule, FormsModule, ReactiveFormsModule, PrimeModules],
     templateUrl: './page-area-management.component.html',
-    styleUrl: './page-area-management.component.scss'
+    styleUrl: './page-area-management.component.scss',
 })
 export class PageAreaManagementComponent implements OnInit {
     visible = false

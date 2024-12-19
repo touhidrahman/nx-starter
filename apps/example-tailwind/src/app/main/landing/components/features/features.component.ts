@@ -6,7 +6,7 @@ import { features, Features } from './feature.data'
     imports: [],
     templateUrl: './features.component.html',
     styleUrl: './features.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FeaturesComponent {
     features: Features[] = features

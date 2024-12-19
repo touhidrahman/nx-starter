@@ -15,7 +15,7 @@ export interface UserDetail {
     selector: 'myorg-page-profile',
     imports: [CommonModule, IonicModule, FormsModule, RouterModule],
     templateUrl: './page-profile.component.html',
-    styleUrl: './page-profile.component.scss'
+    styleUrl: './page-profile.component.scss',
 })
 export class PageProfileComponent {
     async canDismiss(data?: any, role?: string) {

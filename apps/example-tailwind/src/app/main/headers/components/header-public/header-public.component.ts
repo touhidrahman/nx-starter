@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router'
     selector: 'app-header-public',
     imports: [RouterModule],
     templateUrl: './header-public.component.html',
-    styleUrl: './header-public.component.scss'
+    styleUrl: './header-public.component.scss',
 })
 export class HeaderPublicComponent {
     toggleMobileMenu(mobilenav: HTMLDivElement) {

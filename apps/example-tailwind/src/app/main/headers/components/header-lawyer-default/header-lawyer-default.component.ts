@@ -15,7 +15,7 @@ import { UIstate } from '../../header-utils/uiState-inteface'
     selector: 'app-header-lawyer-default',
     imports: [CommonModule],
     templateUrl: './header-lawyer-default.component.html',
-    styleUrl: './header-lawyer-default.component.scss'
+    styleUrl: './header-lawyer-default.component.scss',
 })
 export class HeaderLawyerDefaultComponent implements OnInit, OnDestroy {
     @Output() sidebarToggle = new EventEmitter<void>()

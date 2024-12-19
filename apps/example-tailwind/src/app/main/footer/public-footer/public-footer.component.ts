@@ -5,7 +5,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core'
     imports: [],
     templateUrl: './public-footer.component.html',
     styleUrl: './public-footer.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PublicFooterComponent {
     year = new Date().getFullYear()

@@ -15,7 +15,7 @@ import { UIstate } from '../../header-utils/uiState-inteface'
     selector: 'app-header-default',
     imports: [RouterModule],
     templateUrl: './header-default.component.html',
-    styleUrl: './header-default.component.scss'
+    styleUrl: './header-default.component.scss',
 })
 export class HeaderDefaultComponent implements OnInit, OnDestroy {
     renderer: Renderer2 = inject(Renderer2)

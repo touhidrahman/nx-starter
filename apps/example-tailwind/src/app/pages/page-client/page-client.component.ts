@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms'
     selector: 'app-page-client',
     imports: [CommonModule, FormsModule],
     templateUrl: './page-client.component.html',
-    styleUrl: './page-client.component.scss'
+    styleUrl: './page-client.component.scss',
 })
 export class PageClientComponent {
     value!: number

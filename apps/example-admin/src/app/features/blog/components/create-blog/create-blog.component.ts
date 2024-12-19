@@ -6,7 +6,7 @@ import { PrimeModules } from '@myorg/prime-modules'
     selector: 'app-create-blog',
     imports: [PrimeModules],
     templateUrl: './create-blog.component.html',
-    styleUrl: './create-blog.component.css'
+    styleUrl: './create-blog.component.css',
 })
 export class CreateBlogComponent {
     title = input()

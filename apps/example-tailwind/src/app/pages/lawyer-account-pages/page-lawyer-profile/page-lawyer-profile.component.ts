@@ -6,6 +6,6 @@ import { RouterModule } from '@angular/router'
     selector: 'app-page-lawyer-profile',
     imports: [CommonModule, RouterModule],
     templateUrl: './page-lawyer-profile.component.html',
-    styleUrl: './page-lawyer-profile.component.scss'
+    styleUrl: './page-lawyer-profile.component.scss',
 })
 export class PageLawyerProfileComponent {}

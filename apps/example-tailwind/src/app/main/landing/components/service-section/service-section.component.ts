@@ -6,7 +6,7 @@ import { SectionTitleComponent } from '../../utils/section-title/section-title.c
     selector: 'app-service-section',
     imports: [CommonModule, SectionTitleComponent],
     templateUrl: './service-section.component.html',
-    styleUrl: './service-section.component.scss'
+    styleUrl: './service-section.component.scss',
 })
 export class ServiceSectionComponent {
     cardContent = [

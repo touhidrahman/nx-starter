@@ -6,7 +6,7 @@ import { PrimeModules } from '@myorg/prime-modules'
     selector: 'app-single-blog',
     imports: [PrimeModules],
     templateUrl: './single-blog.component.html',
-    styleUrl: './single-blog.component.css'
+    styleUrl: './single-blog.component.css',
 })
 export class SingleBlogComponent {
     post = input<any>()
