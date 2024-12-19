@@ -15,10 +15,9 @@ interface Chat {
 
 @Component({
     selector: 'app-page-chat',
-    standalone: true,
     imports: [FormsModule, NgClass, NgFor],
     templateUrl: './page-chat.component.html',
-    styleUrl: './page-chat.component.css',
+    styleUrl: './page-chat.component.css'
 })
 export class PageChatComponent {
     chatList: Chat[] = [

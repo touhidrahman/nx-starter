@@ -10,10 +10,9 @@ interface User {
 
 @Component({
     selector: 'myorg-page-admin-userlist',
-    standalone: true,
     imports: [CommonModule, IonicModule],
     templateUrl: './page-admin-userlist.component.html',
-    styleUrl: './page-admin-userlist.component.scss',
+    styleUrl: './page-admin-userlist.component.scss'
 })
 export class PageAdminUserlistComponent implements OnInit {
     users: User[] = []

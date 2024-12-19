@@ -2,7 +2,6 @@ import { Component } from '@angular/core'
 
 @Component({
     selector: 'app-page-not-found',
-    standalone: true,
     imports: [],
     template: `
         <div class="flex flex-col items-center py-8 justify-center">
@@ -19,6 +18,6 @@ import { Component } from '@angular/core'
             </a>
         </div>
     `,
-    styleUrl: './page-not-found.component.css',
+    styleUrl: './page-not-found.component.css'
 })
 export class PageNotFoundComponent {}

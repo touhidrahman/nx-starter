@@ -5,14 +5,13 @@ import { LawyerSidebarDefaultComponent } from '../../../sidebars/components/lawy
 
 @Component({
     selector: 'app-layout-lawyer-default',
-    standalone: true,
     imports: [
         CommonModule,
         HeaderLawyerDefaultComponent,
         LawyerSidebarDefaultComponent,
     ],
     templateUrl: './layout-lawyer-default.component.html',
-    styleUrl: './layout-lawyer-default.component.scss',
+    styleUrl: './layout-lawyer-default.component.scss'
 })
 export class LayoutLawyerDefaultComponent {
     isSidebarCollapsed = true

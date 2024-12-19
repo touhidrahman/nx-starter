@@ -13,7 +13,6 @@ import { GroupDto, GroupStatus, GroupType } from '@myorg/app-example-models'
 import { PrimeModules } from '@myorg/prime-modules'
 @Component({
     selector: 'app-page-group-management',
-    standalone: true,
     imports: [
         CommonModule,
         FormsModule,
@@ -23,7 +22,7 @@ import { PrimeModules } from '@myorg/prime-modules'
         PrimeModules,
     ],
     templateUrl: './page-group-management.component.html',
-    styleUrl: './page-group-management.component.css',
+    styleUrl: './page-group-management.component.css'
 })
 export class PageGroupManagementComponent {
     private groupApiService = inject(GroupApiService)

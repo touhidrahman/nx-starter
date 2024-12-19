@@ -11,10 +11,9 @@ import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-page-blog',
-    standalone: true,
     imports: [PrimeModules, FormsModule, SingleBlogComponent, RouterLink],
     templateUrl: './page-blog.component.html',
-    styleUrl: './page-blog.component.css',
+    styleUrl: './page-blog.component.css'
 })
 export class PageBlogComponent {
     status = ['Ordered', 'Unpaid', 'Paid', 'Confirmed', 'Cancelled']

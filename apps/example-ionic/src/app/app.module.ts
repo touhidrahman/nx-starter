@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, NgModule } from '@angular/core'
+import { NgModule, inject, provideAppInitializer } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 import { RouteReuseStrategy } from '@angular/router'
 
@@ -19,17 +19,10 @@ import { environment } from '../environment/environment'
     providers: [
         { provide: APP_EXAMPLE_ENVIRONMENT, useValue: environment },
         { provide: AUTH_API_URL, useValue: environment.authApiUrl },
-        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy, }, {
-        provide: APP_INITIALIZER,
-        useFactory: appInitializerFactory,
-        multi: true,
-        deps: [
-            AuthStateService,
-            AuthApiService,
-            TokenStorageService,
-            LocalStorageService,
-        ],
-    },
+        { provide: RouteReuseStrategy, useClass: IonicRouteStrategy, }, provideAppInitializer(() => {
+        const initializerFn = (appInitializerFactory)(inject(AuthStateService), inject(AuthApiService), inject(TokenStorageService), inject(LocalStorageService));
+        return initializerFn();
+      }),
 
 ],
     bootstrap: [AppComponent],

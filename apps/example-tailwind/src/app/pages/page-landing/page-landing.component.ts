@@ -13,7 +13,6 @@ import { FaqComponent } from '../../main/landing/components/FAQ/faq.component'
 
 @Component({
     selector: 'app-page-landing',
-    standalone: true,
     imports: [
         ...PrimeModules,
         HeroComponent,
@@ -29,6 +28,6 @@ import { FaqComponent } from '../../main/landing/components/FAQ/faq.component'
     ],
     templateUrl: './page-landing.component.html',
     styleUrl: './page-landing.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PageLandingComponent {}

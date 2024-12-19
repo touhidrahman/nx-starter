@@ -4,11 +4,10 @@ import { IonicSlides } from '@ionic/angular';
 
 @Component({
     selector: 'myorg-case-date-carousel',
-    standalone: true,
     imports: [CommonModule],
-    schemas:[CUSTOM_ELEMENTS_SCHEMA],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
     templateUrl: './case-date-carousel.component.html',
-    styleUrl: './case-date-carousel.component.scss',
+    styleUrl: './case-date-carousel.component.scss'
 })
 export class CaseDateCarouselComponent implements OnInit {
     @Input() slides: any[]=[];

@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common'
 
 @Component({
     selector: 'app-lawyer-search',
-    standalone: true,
     imports: [CommonModule],
     templateUrl: './lawyer-search.component.html',
-    styleUrl: './lawyer-search.component.scss',
+    styleUrl: './lawyer-search.component.scss'
 })
 export class LawyerSearchComponent {
     onInputFocus(customPlaceHolder: HTMLSpanElement) {

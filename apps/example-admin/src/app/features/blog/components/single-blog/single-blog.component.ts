@@ -4,10 +4,9 @@ import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-single-blog',
-    standalone: true,
     imports: [PrimeModules],
     templateUrl: './single-blog.component.html',
-    styleUrl: './single-blog.component.css',
+    styleUrl: './single-blog.component.css'
 })
 export class SingleBlogComponent {
     post = input<any>()

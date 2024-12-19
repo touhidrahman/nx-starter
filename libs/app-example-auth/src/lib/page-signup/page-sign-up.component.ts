@@ -7,11 +7,10 @@ import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-page-sign-up',
-    standalone: true,
     imports: [...PrimeModules, RouterModule, ReactiveFormsModule],
     templateUrl: './page-sign-up.component.html',
     styleUrls: ['./page-sign-up.component.scss'],
-    providers: [RegisterFormService],
+    providers: [RegisterFormService]
 })
 export class PageSignUpComponent {
     private authStateService = inject(AuthStateService)

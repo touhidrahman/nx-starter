@@ -3,10 +3,9 @@ import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-organization-table',
-    standalone: true,
     imports: [PrimeModules],
     templateUrl: './organization-table.component.html',
-    styleUrl: './organization-table.component.css',
+    styleUrl: './organization-table.component.css'
 })
 export class OrganizationTableComponent {
     organizations = input<any>([])

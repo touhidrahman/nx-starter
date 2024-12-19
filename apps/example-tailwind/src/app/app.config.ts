@@ -6,11 +6,7 @@ import {
     withJsonpSupport,
     withXsrfConfiguration,
 } from '@angular/common/http'
-import {
-    APP_INITIALIZER,
-    type ApplicationConfig,
-    importProvidersFrom,
-} from '@angular/core'
+import { APP_INITIALIZER, type ApplicationConfig, importProvidersFrom, inject, provideAppInitializer } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import {

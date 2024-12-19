@@ -5,10 +5,9 @@ import { CaseDateCarouselComponent } from '../../cases/case-date-carousel/case-d
 
 @Component({
     selector: 'myorg-page-cases',
-    standalone: true,
     imports: [CommonModule, IonicModule, CaseDateCarouselComponent],
     templateUrl: './page-cases.component.html',
-    styleUrl: './page-cases.component.scss',
+    styleUrl: './page-cases.component.scss'
 })
 export class PageCasesComponent implements OnInit {
     slides: any[] = []

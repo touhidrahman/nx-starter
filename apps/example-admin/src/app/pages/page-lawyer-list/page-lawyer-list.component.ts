@@ -11,7 +11,6 @@ import { LawyerListTableComponent } from '../../features/lawyer-list/components/
 
 @Component({
     selector: 'app-page-lawyer-list',
-    standalone: true,
     imports: [
         Button,
         LawyerListTableComponent,
@@ -23,7 +22,7 @@ import { LawyerListTableComponent } from '../../features/lawyer-list/components/
         FormsModule,
     ],
     templateUrl: './page-lawyer-list.component.html',
-    styleUrl: './page-lawyer-list.component.css',
+    styleUrl: './page-lawyer-list.component.css'
 })
 export class PageLawyerListComponent {
     status = ['Ordered', 'Unpaid', 'Paid', 'Confirmed', 'Cancelled']

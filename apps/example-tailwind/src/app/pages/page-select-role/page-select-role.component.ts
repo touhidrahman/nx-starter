@@ -4,9 +4,8 @@ import { RouterModule } from '@angular/router'
 
 @Component({
     selector: 'app-page-select-role',
-    standalone: true,
     imports: [CommonModule, RouterModule],
     templateUrl: './page-select-role.component.html',
-    styleUrl: './page-select-role.component.scss',
+    styleUrl: './page-select-role.component.scss'
 })
 export class PageSelectRoleComponent {}

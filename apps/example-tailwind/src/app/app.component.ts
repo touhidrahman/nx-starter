@@ -14,7 +14,6 @@ import { LayoutPublicSecondaryComponent } from './main/layouts/components/layout
 import { LayoutLawyerDefaultComponent } from './main/layouts/components/layout-lawyer-default/layout-lawyer-default.component'
 
 @Component({
-    standalone: true,
     imports: [
         CommonModule,
         LayoutDefaultComponent,
@@ -31,7 +30,7 @@ import { LayoutLawyerDefaultComponent } from './main/layouts/components/layout-l
     ],
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrl: './app.component.scss',
+    styleUrl: './app.component.scss'
 })
 export class AppComponent {
     readonly PageLayout = PageLayout

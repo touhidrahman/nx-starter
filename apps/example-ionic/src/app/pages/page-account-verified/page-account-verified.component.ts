@@ -4,9 +4,8 @@ import { IonicModule } from '@ionic/angular'
 
 @Component({
     selector: 'myorg-page-account-verified',
-    standalone: true,
     imports: [CommonModule, IonicModule],
     templateUrl: './page-account-verified.component.html',
-    styleUrl: './page-account-verified.component.scss',
+    styleUrl: './page-account-verified.component.scss'
 })
 export class PageAccountVerifiedComponent {}

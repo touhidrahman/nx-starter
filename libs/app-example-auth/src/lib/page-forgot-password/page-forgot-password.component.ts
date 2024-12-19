@@ -11,10 +11,9 @@ import { AuthApiService } from '@myorg/common-auth'
 
 @Component({
     selector: 'app-page-forgot-password',
-    standalone: true,
     imports: [ReactiveFormsModule, RouterModule],
     templateUrl: './page-forgot-password.component.html',
-    styleUrl: './page-forgot-password.component.scss',
+    styleUrl: './page-forgot-password.component.scss'
 })
 export class PageForgotPasswordComponent {
     private fb = inject(FormBuilder)

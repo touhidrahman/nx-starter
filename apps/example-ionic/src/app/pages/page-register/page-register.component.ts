@@ -12,7 +12,6 @@ import { HttpClient, HttpClientModule } from '@angular/common/http'
 
 @Component({
     selector: 'myorg-page-register',
-    standalone: true,
     imports: [
         CommonModule,
         IonicModule,
@@ -22,7 +21,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http'
     ],
     templateUrl: './page-register.component.html',
     styleUrl: './page-register.component.scss',
-    providers: [RegisterFormService],
+    providers: [RegisterFormService]
 })
 export class PageRegisterComponent {
     registerFormService = inject(RegisterFormService)

@@ -6,13 +6,12 @@ import { HeaderPublicComponent } from '../../../headers/components/header-public
 
 @Component({
     selector: 'app-layout-centered',
-    standalone: true,
     templateUrl: './layout-centered.component.html',
     styleUrl: './layout-centered.component.scss',
     imports: [
         SidebarDefaultComponent,
         HeaderDefaultComponent,
         HeaderPublicComponent,
-    ],
+    ]
 })
 export class LayoutCenteredComponent {}

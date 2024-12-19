@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 @Component({
     selector: 'app-page-client',
-    standalone: true,
     imports: [CommonModule, FormsModule],
     templateUrl: './page-client.component.html',
-    styleUrl: './page-client.component.scss',
+    styleUrl: './page-client.component.scss'
 })
 export class PageClientComponent {
     value!: number

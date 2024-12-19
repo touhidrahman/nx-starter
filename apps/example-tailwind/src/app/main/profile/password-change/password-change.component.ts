@@ -13,12 +13,11 @@ import { toInt } from 'radash'
 
 @Component({
     selector: 'app-password-change',
-    standalone: true,
     imports: [CommonModule, ReactiveFormsModule],
     templateUrl: './password-change.component.html',
     styleUrl: './password-change.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    providers: [ChangePasswordFormService],
+    providers: [ChangePasswordFormService]
 })
 export class PasswordChangeComponent implements OnInit {
     private authApiService = inject(AuthApiService)

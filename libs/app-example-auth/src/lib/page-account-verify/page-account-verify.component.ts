@@ -4,10 +4,9 @@ import { AuthApiService } from '@myorg/common-auth'
 
 @Component({
     selector: 'app-page-account-verify',
-    standalone: true,
     imports: [RouterModule],
     templateUrl: './page-account-verify.component.html',
-    styleUrl: './page-account-verify.component.scss',
+    styleUrl: './page-account-verify.component.scss'
 })
 export class PageAccountVerifyComponent implements OnInit {
     private authApiService = inject(AuthApiService)

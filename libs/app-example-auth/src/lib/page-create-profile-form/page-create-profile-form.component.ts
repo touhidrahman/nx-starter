@@ -10,11 +10,10 @@ import { CreateProfileFormService } from '../create-profile-form.service'
 
 @Component({
     selector: 'myorg-page-create-profile-form',
-    standalone: true,
     imports: [ReactiveFormsModule],
     templateUrl: './page-create-profile-form.component.html',
     styleUrl: './page-create-profile-form.component.css',
-    providers: [CreateProfileFormService],
+    providers: [CreateProfileFormService]
 })
 export class PageCreateProfileFormComponent implements OnInit {
     profileType = input()

@@ -5,10 +5,9 @@ import { CommonModule } from '@angular/common'
 
 @Component({
     selector: 'app-layout-default',
-    standalone: true,
     imports: [SidebarDefaultComponent, HeaderDefaultComponent, CommonModule],
     templateUrl: './layout-default.component.html',
-    styleUrl: './layout-default.component.scss',
+    styleUrl: './layout-default.component.scss'
 })
 export class LayoutDefaultComponent {
     isSidebarCollapsed = false

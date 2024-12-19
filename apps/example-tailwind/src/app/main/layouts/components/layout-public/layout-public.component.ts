@@ -6,10 +6,9 @@ import { PublicFooterComponent } from '../../../footer/public-footer/public-foot
 
 @Component({
     selector: 'app-layout-public',
-    standalone: true,
     imports: [HeaderPublicComponent, PublicFooterComponent],
     templateUrl: './layout-public.component.html',
-    styleUrl: './layout-public.component.scss',
+    styleUrl: './layout-public.component.scss'
 })
 export class LayoutPublicComponent implements OnInit {
     private authStateService = inject(AuthStateService)

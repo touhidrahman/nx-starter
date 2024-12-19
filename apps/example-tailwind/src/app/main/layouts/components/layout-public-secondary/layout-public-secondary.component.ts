@@ -5,13 +5,12 @@ import { PublicFooterComponent } from '../../../footer/public-footer/public-foot
 
 @Component({
     selector: 'app-layout-public-secondary',
-    standalone: true,
     imports: [
         CommonModule,
         HeaderPublicSecondaryComponent,
         PublicFooterComponent,
     ],
     templateUrl: './layout-public-secondary.component.html',
-    styleUrl: './layout-public-secondary.component.scss',
+    styleUrl: './layout-public-secondary.component.scss'
 })
 export class LayoutPublicSecondaryComponent {}

@@ -4,9 +4,8 @@ import { RouterModule } from '@angular/router'
 
 @Component({
     selector: 'app-page-lawyer-profile',
-    standalone: true,
     imports: [CommonModule, RouterModule],
     templateUrl: './page-lawyer-profile.component.html',
-    styleUrl: './page-lawyer-profile.component.scss',
+    styleUrl: './page-lawyer-profile.component.scss'
 })
 export class PageLawyerProfileComponent {}

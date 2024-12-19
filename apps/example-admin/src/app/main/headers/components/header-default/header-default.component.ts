@@ -15,10 +15,9 @@ import { HeaderUtilService } from '../../header-utils/header-util.service'
 
 @Component({
     selector: 'app-header-default',
-    standalone: true,
     imports: [RouterModule],
     templateUrl: './header-default.component.html',
-    styleUrl: './header-default.component.scss',
+    styleUrl: './header-default.component.scss'
 })
 export class HeaderDefaultComponent implements OnInit, OnDestroy {
     authState = inject(AuthStateService)

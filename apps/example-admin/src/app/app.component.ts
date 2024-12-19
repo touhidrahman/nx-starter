@@ -10,7 +10,6 @@ import { LayoutCenteredComponent } from './main/layouts/components/layout-center
 import { LayoutDefaultComponent } from './main/layouts/components/layout-default/layout-default.component'
 
 @Component({
-    standalone: true,
     imports: [
         CommonModule,
         LayoutDefaultComponent,
@@ -23,7 +22,7 @@ import { LayoutDefaultComponent } from './main/layouts/components/layout-default
     ],
     selector: 'app-root',
     templateUrl: './app.component.html',
-    styleUrl: './app.component.scss',
+    styleUrl: './app.component.scss'
 })
 export class AppComponent {
     readonly PageLayout = PageLayout

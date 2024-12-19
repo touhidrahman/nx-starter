@@ -15,10 +15,9 @@ interface Case {
 
 @Component({
     selector: 'app-page-clients',
-    standalone: true,
     imports: [CommonModule, DropdownModule, FormsModule, RouterModule],
     templateUrl: './page-clients.component.html',
-    styleUrl: './page-clients.component.scss',
+    styleUrl: './page-clients.component.scss'
 })
 export class PageClientsComponent {
     showFilter = true

@@ -4,9 +4,8 @@ import { HeaderPublicSecondaryComponent } from '../../../main/headers/components
 
 @Component({
     selector: 'app-page-subscription',
-    standalone: true,
     imports: [CommonModule, HeaderPublicSecondaryComponent],
     templateUrl: './page-subscription.component.html',
-    styleUrl: './page-subscription.component.scss',
+    styleUrl: './page-subscription.component.scss'
 })
 export class PageSubscriptionComponent {}
