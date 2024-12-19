@@ -13,7 +13,6 @@ import { toInt } from 'radash'
 
 @Component({
     selector: 'app-password-change',
-    standalone: true,
     imports: [CommonModule, ReactiveFormsModule],
     templateUrl: './password-change.component.html',
     styleUrl: './password-change.component.scss',
@@ -52,7 +51,9 @@ export class PasswordChangeComponent implements OnInit {
             .subscribe({
                 next: (res: ApiResponse<boolean>) => {
                     if (res.data == true) {
-                        this.alertService.success(`Password changed successfully`)
+                        this.alertService.success(
+                            `Password changed successfully`,
+                        )
                     } else {
                         this.alertService.error(`${res.message}`)
                     }

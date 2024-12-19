@@ -17,7 +17,6 @@ interface Case {
 
 @Component({
     selector: 'app-page-cases',
-    standalone: true,
     imports: [CommonModule, DropdownModule, FormsModule, RouterModule],
     templateUrl: './page-cases.component.html',
     styleUrl: './page-cases.component.scss',

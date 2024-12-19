@@ -11,7 +11,6 @@ import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-page-blog',
-    standalone: true,
     imports: [PrimeModules, FormsModule, SingleBlogComponent, RouterLink],
     templateUrl: './page-blog.component.html',
     styleUrl: './page-blog.component.css',

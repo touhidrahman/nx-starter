@@ -1,25 +1,18 @@
-import { Component, inject } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { IonicModule } from '@ionic/angular'
+import { HttpClient } from '@angular/common/http'
+import { Component, inject } from '@angular/core'
+import { ReactiveFormsModule } from '@angular/forms'
 import { Router, RouterModule } from '@angular/router'
+import { IonicModule } from '@ionic/angular'
 import {
     AuthApiService,
     RegisterFormService,
     SignupInput,
 } from '@myorg/common-auth'
-import { ReactiveFormsModule } from '@angular/forms'
-import { HttpClient, HttpClientModule } from '@angular/common/http'
 
 @Component({
     selector: 'myorg-page-register',
-    standalone: true,
-    imports: [
-        CommonModule,
-        IonicModule,
-        RouterModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-    ],
+    imports: [CommonModule, IonicModule, RouterModule, ReactiveFormsModule],
     templateUrl: './page-register.component.html',
     styleUrl: './page-register.component.scss',
     providers: [RegisterFormService],
@@ -40,7 +33,6 @@ export class PageRegisterComponent {
         const signupInput: SignupInput = {
             email: formValues.email,
             password: formValues.password,
-            passwordConfirmation: formValues.passwordConfirmation,
             firstName: formValues.firstName,
             lastName: formValues.lastName,
         }

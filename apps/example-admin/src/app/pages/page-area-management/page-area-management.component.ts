@@ -20,7 +20,6 @@ import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-page-area-management',
-    standalone: true,
     imports: [CommonModule, FormsModule, ReactiveFormsModule, PrimeModules],
     templateUrl: './page-area-management.component.html',
     styleUrl: './page-area-management.component.scss',

@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router'
 
 @Component({
     selector: 'app-page-appointments',
-    standalone: true,
     imports: [CommonModule, DropdownModule, FormsModule, RouterModule],
     templateUrl: './page-appointments.component.html',
     styleUrl: './page-appointments.component.scss',

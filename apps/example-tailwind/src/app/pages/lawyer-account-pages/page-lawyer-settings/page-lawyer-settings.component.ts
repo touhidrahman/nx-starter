@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
 @Component({
     selector: 'app-page-lawyer-settings',
-    standalone: true,
     imports: [CommonModule, FormsModule],
     templateUrl: './page-lawyer-settings.component.html',
     styleUrl: './page-lawyer-settings.component.scss',

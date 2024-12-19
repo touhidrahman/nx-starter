@@ -11,7 +11,6 @@ import { AuthApiService } from '@myorg/common-auth'
 
 @Component({
     selector: 'app-page-forgot-password',
-    standalone: true,
     imports: [ReactiveFormsModule, RouterModule],
     templateUrl: './page-forgot-password.component.html',
     styleUrl: './page-forgot-password.component.scss',
@@ -34,7 +33,9 @@ export class PageForgotPasswordComponent {
             this.authApiService.forgotPassword(email).subscribe({
                 next: (response) => {
                     if (response.data) {
-                        this.alertService.success('Reset link sent successfully.')
+                        this.alertService.success(
+                            'Reset link sent successfully.',
+                        )
                     } else {
                         this.alertService.error('Failed to send reset link.')
                         this.error = 'Failed to send reset link.'

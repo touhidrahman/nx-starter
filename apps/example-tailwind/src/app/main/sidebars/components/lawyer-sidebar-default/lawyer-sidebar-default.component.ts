@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router'
 
 @Component({
     selector: 'app-lawyer-sidebar-default',
-    standalone: true,
     imports: [CommonModule, RouterModule],
     templateUrl: './lawyer-sidebar-default.component.html',
     styleUrl: './lawyer-sidebar-default.component.scss',

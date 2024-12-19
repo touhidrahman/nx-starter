@@ -13,7 +13,6 @@ import { UIstate } from '../../header-utils/uiState-inteface'
 
 @Component({
     selector: 'app-header-default',
-    standalone: true,
     imports: [RouterModule],
     templateUrl: './header-default.component.html',
     styleUrl: './header-default.component.scss',

@@ -4,7 +4,6 @@ import { HeaderPublicSecondaryComponent } from '../../../main/headers/components
 
 @Component({
     selector: 'app-page-lawyer-forgot-password',
-    standalone: true,
     imports: [CommonModule, HeaderPublicSecondaryComponent],
     templateUrl: './page-lawyer-forgot-password.component.html',
     styleUrl: './page-lawyer-forgot-password.component.scss',

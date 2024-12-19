@@ -14,7 +14,6 @@ import { LayoutPublicSecondaryComponent } from './main/layouts/components/layout
 import { LayoutLawyerDefaultComponent } from './main/layouts/components/layout-lawyer-default/layout-lawyer-default.component'
 
 @Component({
-    standalone: true,
     imports: [
         CommonModule,
         LayoutDefaultComponent,

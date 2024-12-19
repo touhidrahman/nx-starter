@@ -6,7 +6,6 @@ import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-page-news',
-    standalone: true,
     imports: [PrimeModules, FormsModule, SingleNewsComponent, RouterLink],
     templateUrl: './page-news.component.html',
     styleUrl: './page-news.component.css',

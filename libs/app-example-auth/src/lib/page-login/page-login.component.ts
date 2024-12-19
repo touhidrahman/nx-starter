@@ -8,7 +8,6 @@ import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-page-login',
-    standalone: true,
     imports: [...PrimeModules, ReactiveFormsModule, RouterModule],
     templateUrl: './page-login.component.html',
     styleUrl: './page-login.component.scss',

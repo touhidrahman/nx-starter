@@ -7,9 +7,10 @@ import {
     withXsrfConfiguration,
 } from '@angular/common/http'
 import {
-    APP_INITIALIZER,
     ApplicationConfig,
     importProvidersFrom,
+    inject,
+    provideAppInitializer,
 } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
@@ -22,10 +23,7 @@ import {
     withRouterConfig,
 } from '@angular/router'
 import { AuthStateService } from '@myorg/app-example-auth'
-import {
-    APP_EXAMPLE_ENVIRONMENT,
-    appInitializerFactory,
-} from '@myorg/app-example-core'
+import { APP_EXAMPLE_ENVIRONMENT } from '@myorg/app-example-core'
 import {
     AUTH_API_URL,
     AuthApiService,
@@ -58,17 +56,15 @@ export const appConfig: ApplicationConfig = {
             withInterceptorsFromDi(),
         ),
         importProvidersFrom(BrowserModule),
-        {
-            provide: APP_INITIALIZER,
-            useFactory: appInitializerFactory,
-            multi: true,
-            deps: [
-                AuthStateService,
-                AuthApiService,
-                TokenStorageService,
-                LocalStorageService,
-            ],
-        },
+        provideAppInitializer(() => {
+            const initializerFn = appInitializerFactory(
+                inject(AuthStateService),
+                inject(AuthApiService),
+                inject(TokenStorageService),
+                inject(LocalStorageService),
+            )
+            return initializerFn()
+        }),
         {
             provide: DATE_PIPE_DEFAULT_OPTIONS,
             useValue: { timezone: 'UTC', dateFormat: 'shortDate' },

@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router'
 
 @Component({
     selector: 'app-page-home',
-    standalone: true,
     imports: [FormsModule, ReactiveFormsModule, RouterModule, CommonModule],
     templateUrl: './page-home.component.html',
     styleUrl: './page-home.component.scss',

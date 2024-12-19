@@ -5,7 +5,6 @@ import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-page-client-client-user-list',
-    standalone: true,
     imports: [ClientUserListTableComponent, FormsModule, PrimeModules],
     templateUrl: './page-client-user-list.component.html',
     styleUrl: './page-client-user-list.component.css',

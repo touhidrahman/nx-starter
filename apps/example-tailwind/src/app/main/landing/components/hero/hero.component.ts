@@ -3,7 +3,6 @@ import { Data, Hero } from '../../../../../assets/data/data'
 
 @Component({
     selector: 'app-hero',
-    standalone: true,
     imports: [],
     templateUrl: './hero.component.html',
     styleUrl: './hero.component.scss',

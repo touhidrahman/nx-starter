@@ -5,7 +5,6 @@ import { PublicFooterComponent } from '../../../footer/public-footer/public-foot
 
 @Component({
     selector: 'app-layout-public-secondary',
-    standalone: true,
     imports: [
         CommonModule,
         HeaderPublicSecondaryComponent,

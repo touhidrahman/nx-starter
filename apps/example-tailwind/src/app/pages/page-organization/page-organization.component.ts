@@ -11,7 +11,6 @@ import { FileUpload } from 'primeng/fileupload'
 
 @Component({
     selector: 'app-page-organization',
-    standalone: true,
     imports: [
         Button,
         Dialog,

@@ -13,7 +13,6 @@ import { UIstate } from '../../header-utils/uiState-inteface'
 
 @Component({
     selector: 'app-header-lawyer-default',
-    standalone: true,
     imports: [CommonModule],
     templateUrl: './header-lawyer-default.component.html',
     styleUrl: './header-lawyer-default.component.scss',

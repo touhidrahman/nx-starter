@@ -5,8 +5,7 @@ import { RouterModule } from '@angular/router'
 
 @Component({
     selector: 'myorg-page-reset-password',
-    standalone: true,
-    imports: [CommonModule,IonicModule,RouterModule],
+    imports: [CommonModule, IonicModule, RouterModule],
     templateUrl: './page-reset-password.component.html',
     styleUrl: './page-reset-password.component.scss',
 })

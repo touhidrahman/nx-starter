@@ -10,7 +10,6 @@ interface User {
 }
 @Component({
     selector: 'app-page-admin-userlist',
-    standalone: true,
     templateUrl: './page-admin-userlist.component.html',
     styleUrl: './page-admin-userlist.component.scss',
     imports: [],

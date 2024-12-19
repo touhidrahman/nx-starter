@@ -3,7 +3,6 @@ import { features, Features } from './feature.data'
 
 @Component({
     selector: 'app-features',
-    standalone: true,
     imports: [],
     templateUrl: './features.component.html',
     styleUrl: './features.component.scss',

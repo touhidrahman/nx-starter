@@ -4,8 +4,7 @@ import { IonicModule } from '@ionic/angular'
 
 @Component({
     selector: 'myorg-page-case',
-    standalone: true,
-    imports: [CommonModule,IonicModule],
+    imports: [CommonModule, IonicModule],
     templateUrl: './page-case.component.html',
     styleUrl: './page-case.component.scss',
 })

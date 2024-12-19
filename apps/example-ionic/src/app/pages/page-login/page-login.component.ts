@@ -8,7 +8,6 @@ import { ReactiveFormsModule } from '@angular/forms'
 
 @Component({
     selector: 'myorg-page-login',
-    standalone: true,
     imports: [CommonModule, IonicModule, RouterModule, ReactiveFormsModule],
     templateUrl: './page-login.component.html',
     styleUrl: './page-login.component.scss',

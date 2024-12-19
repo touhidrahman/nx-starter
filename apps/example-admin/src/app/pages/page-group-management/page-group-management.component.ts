@@ -13,7 +13,6 @@ import { GroupDto, GroupStatus, GroupType } from '@myorg/app-example-models'
 import { PrimeModules } from '@myorg/prime-modules'
 @Component({
     selector: 'app-page-group-management',
-    standalone: true,
     imports: [
         CommonModule,
         FormsModule,

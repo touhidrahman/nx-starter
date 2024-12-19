@@ -10,7 +10,6 @@ import { CreateProfileFormService } from '../create-profile-form.service'
 
 @Component({
     selector: 'myorg-page-create-profile-form',
-    standalone: true,
     imports: [ReactiveFormsModule],
     templateUrl: './page-create-profile-form.component.html',
     styleUrl: './page-create-profile-form.component.css',

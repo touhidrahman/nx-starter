@@ -4,7 +4,6 @@ import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-single-news',
-    standalone: true,
     imports: [PrimeModules],
     templateUrl: './single-news.component.html',
     styleUrl: './single-news.component.css',

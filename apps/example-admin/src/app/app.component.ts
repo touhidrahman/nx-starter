@@ -10,7 +10,6 @@ import { LayoutCenteredComponent } from './main/layouts/components/layout-center
 import { LayoutDefaultComponent } from './main/layouts/components/layout-default/layout-default.component'
 
 @Component({
-    standalone: true,
     imports: [
         CommonModule,
         LayoutDefaultComponent,
@@ -29,5 +28,4 @@ export class AppComponent {
     readonly PageLayout = PageLayout
 
     layoutService = inject(PageLayoutService)
-
 }
