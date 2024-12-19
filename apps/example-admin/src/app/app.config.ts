@@ -23,10 +23,7 @@ import {
     withRouterConfig,
 } from '@angular/router'
 import { AuthStateService } from '@myorg/app-example-auth'
-import {
-    APP_EXAMPLE_ENVIRONMENT,
-    appInitializerFactory,
-} from '@myorg/app-example-core'
+import { APP_EXAMPLE_ENVIRONMENT } from '@myorg/app-example-core'
 import {
     AUTH_API_URL,
     AuthApiService,

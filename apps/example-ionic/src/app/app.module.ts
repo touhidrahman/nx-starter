@@ -1,24 +1,16 @@
-import { NgModule, inject, provideAppInitializer } from '@angular/core'
+import { provideHttpClient } from '@angular/common/http'
+import { NgModule, provideAppInitializer } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 import { RouteReuseStrategy } from '@angular/router'
-
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular'
-
-import { AppRoutingModule } from './app-routing.module'
-import { AppComponent } from './app.component'
 import {
     APP_EXAMPLE_ENVIRONMENT,
-    appInitializerFactory,
+    appInitializerFn,
 } from '@myorg/app-example-core'
-import { AuthStateService } from '@myorg/app-example-auth'
-import {
-    AUTH_API_URL,
-    AuthApiService,
-    TokenStorageService,
-} from '@myorg/common-auth'
-import { LocalStorageService } from '@myorg/common-services'
-import { HttpClientModule } from '@angular/common/http'
+import { AUTH_API_URL } from '@myorg/common-auth'
 import { environment } from '../environment/environment'
+import { AppRoutingModule } from './app-routing.module'
+import { AppComponent } from './app.component'
 
 @NgModule({
     declarations: [AppComponent],
@@ -26,22 +18,14 @@ import { environment } from '../environment/environment'
         BrowserModule,
         IonicModule.forRoot(),
         AppRoutingModule,
-        HttpClientModule,
         IonicModule.forRoot({}),
     ],
     providers: [
         { provide: APP_EXAMPLE_ENVIRONMENT, useValue: environment },
         { provide: AUTH_API_URL, useValue: environment.authApiUrl },
         { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-        provideAppInitializer(() => {
-            const initializerFn = appInitializerFactory(
-                inject(AuthStateService),
-                inject(AuthApiService),
-                inject(TokenStorageService),
-                inject(LocalStorageService),
-            )
-            return initializerFn()
-        }),
+        provideAppInitializer(appInitializerFn),
+        provideHttpClient(),
     ],
     bootstrap: [AppComponent],
 })
