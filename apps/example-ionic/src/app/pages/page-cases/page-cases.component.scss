@@ -122,7 +122,9 @@ ion-icon {
     background-color: rgb(220, 252, 231);
     border: 1px solid rgb(156, 163, 175);
     border-radius: 9999px;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    box-shadow:
+        0 4px 6px -1px rgb(0 0 0 / 0.1),
+        0 2px 4px -2px rgb(0 0 0 / 0.1);
 }
 
 .type-text {
@@ -135,6 +137,6 @@ ion-icon {
 }
 
 ion-button {
-    --background: linear-gradient(90deg, #0A5C36, #00341C);
+    --background: linear-gradient(90deg, #0a5c36, #00341c);
     margin: 1rem;
 }
