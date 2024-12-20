@@ -8,6 +8,18 @@
  * For more information on global stylesheets, visit the documentation:
  * https://ionicframework.com/docs/layout/global-stylesheets
  */
-.custom-background {
-    background-color: #f5fff5; /* Replace with your desired color */
+
+ *{
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+ }
+
+
+ .custom-background {
+    background: linear-gradient(180deg, #FFFEF3, #F4FFD6, #FFFCD7);
+}
+
+.back-icon{
+    color: rgb(22 101 52);
+    height: 2.5rem;
+    width: 2.5rem;
 }
