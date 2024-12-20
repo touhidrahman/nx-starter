@@ -7,7 +7,6 @@ import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-page-sign-up',
-    standalone: true,
     imports: [...PrimeModules, RouterModule, ReactiveFormsModule],
     templateUrl: './page-sign-up.component.html',
     styleUrls: ['./page-sign-up.component.scss'],
@@ -31,7 +30,6 @@ export class PageSignUpComponent {
         const signupInput: SignupInput = {
             email: formValues.email,
             password: formValues.password,
-            passwordConfirmation: formValues.passwordConfirmation,
             firstName: formValues.firstName,
             lastName: formValues.lastName,
         }

@@ -16,24 +16,11 @@ import {
 } from '@myorg/app-example-models'
 import { AreaApiService } from '@myorg/app-example-api-services'
 import { ApiResponse } from '@myorg/common-models'
-
-import { DropdownModule } from 'primeng/dropdown'
-import { DialogModule } from 'primeng/dialog'
-import { ButtonModule } from 'primeng/button'
-import { InputTextModule } from 'primeng/inputtext'
+import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-page-area-management',
-    standalone: true,
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        DropdownModule,
-        DialogModule,
-        ButtonModule,
-        InputTextModule,
-    ],
+    imports: [CommonModule, FormsModule, ReactiveFormsModule, PrimeModules],
     templateUrl: './page-area-management.component.html',
     styleUrl: './page-area-management.component.scss',
 })

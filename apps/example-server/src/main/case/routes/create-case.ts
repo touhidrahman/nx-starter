@@ -8,7 +8,7 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
-import { zInsertCase, zSelectCase } from '../case.schema'
+import { InsertCase, zInsertCase, zSelectCase } from '../case.schema'
 import { zEmpty } from '../../../core/models/common.schema'
 import { createCase } from '../case.service'
 
@@ -30,7 +30,7 @@ export const createCaseRoute = createRoute({
 export const createCaseHandler: AppRouteHandler<
     typeof createCaseRoute
 > = async (c) => {
-    const body = c.req.valid('json')
+    const body = c.req.valid('json') as InsertCase
 
     try {
         const [newCase] = await createCase(body)

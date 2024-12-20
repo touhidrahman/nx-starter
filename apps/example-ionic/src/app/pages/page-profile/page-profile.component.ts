@@ -13,7 +13,6 @@ export interface UserDetail {
 
 @Component({
     selector: 'myorg-page-profile',
-    standalone: true,
     imports: [CommonModule, IonicModule, FormsModule, RouterModule],
     templateUrl: './page-profile.component.html',
     styleUrl: './page-profile.component.scss',

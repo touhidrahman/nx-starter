@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router'
 
 @Component({
     selector: 'app-page-case',
-    standalone: true,
     imports: [CommonModule],
     templateUrl: './page-case.component.html',
     styleUrl: './page-case.component.scss',

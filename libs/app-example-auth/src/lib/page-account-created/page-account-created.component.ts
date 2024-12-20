@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router'
 
 @Component({
     selector: 'app-page-account-created',
-    standalone: true,
     imports: [RouterModule],
     templateUrl: './page-account-created.component.html',
     styleUrl: './page-account-created.component.scss',

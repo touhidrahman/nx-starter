@@ -7,21 +7,11 @@ import { Tag } from 'primeng/tag'
 import { Chip } from 'primeng/chip'
 import { SingleBlogComponent } from '../../features/blog/components/single-blog/single-blog.component'
 import { RouterLink } from '@angular/router'
+import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-page-blog',
-    standalone: true,
-    imports: [
-        Button,
-        InputText,
-        Select,
-        FormsModule,
-        Button,
-        Tag,
-        Chip,
-        SingleBlogComponent,
-        RouterLink,
-    ],
+    imports: [PrimeModules, FormsModule, SingleBlogComponent, RouterLink],
     templateUrl: './page-blog.component.html',
     styleUrl: './page-blog.component.css',
 })

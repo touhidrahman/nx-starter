@@ -11,7 +11,6 @@ import { LawyerListTableComponent } from '../../features/lawyer-list/components/
 
 @Component({
     selector: 'app-page-lawyer-list',
-    standalone: true,
     imports: [
         Button,
         LawyerListTableComponent,

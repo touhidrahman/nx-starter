@@ -7,9 +7,9 @@ import {
     withXsrfConfiguration,
 } from '@angular/common/http'
 import {
-    APP_INITIALIZER,
     type ApplicationConfig,
     importProvidersFrom,
+    provideAppInitializer,
 } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
@@ -22,18 +22,11 @@ import {
     withRouterConfig,
 } from '@angular/router'
 import { FullCalendarModule } from '@fullcalendar/angular'
-import { AuthStateService } from '@myorg/app-example-auth'
 import {
     APP_EXAMPLE_ENVIRONMENT,
-    appInitializerFactory,
+    appInitializerFn,
 } from '@myorg/app-example-core'
-import {
-    AUTH_API_URL,
-    AuthApiService,
-    AuthHeaderInterceptorFn,
-    TokenStorageService,
-} from '@myorg/common-auth'
-import { LocalStorageService } from '@myorg/common-services'
+import { AUTH_API_URL, AuthHeaderInterceptorFn } from '@myorg/common-auth'
 import Aura from '@primeng/themes/aura'
 import { ConfirmationService, MessageService } from 'primeng/api'
 import { providePrimeNG } from 'primeng/config'
@@ -60,17 +53,7 @@ export const appConfig: ApplicationConfig = {
         ),
         importProvidersFrom(BrowserModule),
         importProvidersFrom(FullCalendarModule),
-        {
-            provide: APP_INITIALIZER,
-            useFactory: appInitializerFactory,
-            multi: true,
-            deps: [
-                AuthStateService,
-                AuthApiService,
-                TokenStorageService,
-                LocalStorageService,
-            ],
-        },
+        provideAppInitializer(appInitializerFn),
         {
             provide: DATE_PIPE_DEFAULT_OPTIONS,
             useValue: { timezone: 'UTC', dateFormat: 'shortDate' },

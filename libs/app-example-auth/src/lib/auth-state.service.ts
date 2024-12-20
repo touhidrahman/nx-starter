@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { inject, Injectable } from '@angular/core'
 import { Router } from '@angular/router'
 import { JwtHelperService } from '@auth0/angular-jwt'
 import {
@@ -41,13 +41,12 @@ export const initialAuthState: AuthState = {
 export class AuthStateService extends SimpleStore<AuthState> {
     private refreshTokenTimeout?: any
     private jwtHelper = new JwtHelperService()
+    private tokenStorageService = inject(TokenStorageService)
+    private authApiService = inject(AuthApiService)
+    private localStorageService = inject(LocalStorageService)
+    private router = inject(Router)
 
-    constructor(
-        private tokenStorageService: TokenStorageService,
-        private authApiService: AuthApiService<User>,
-        private localStorageService: LocalStorageService,
-        private router: Router,
-    ) {
+    constructor() {
         super(initialAuthState)
     }
 

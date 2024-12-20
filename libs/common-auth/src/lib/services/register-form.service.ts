@@ -24,25 +24,20 @@ export class RegisterFormService {
 
     constructor(private fb: NonNullableFormBuilder) {
         const { required, minLength, maxLength, pattern, email } = Validators
-
-        this.form = this.fb.group(
-            {
-                email: ['', [required, email, pattern(RegexEmailPattern)]],
-                password: [
-                    '',
-                    [
-                        required,
-                        minLength(8),
-                        maxLength(32),
-                        pattern(Regex8CharsSmallCapitalDigitSpecial),
-                    ],
+        this.form = this.fb.group({
+            firstName: ['', required],
+            lastName: ['', required],
+            email: ['', [required, email, pattern(RegexEmailPattern)]],
+            password: [
+                '',
+                [
+                    required,
+                    minLength(8),
+                    maxLength(32),
+                    pattern(Regex8CharsSmallCapitalDigitSpecial),
                 ],
-                passwordConfirmation: ['', required],
-                firstName: ['', required],
-                lastName: ['', required],
-            },
-            { validators: [confirmPasswordValidator] },
-        )
+            ],
+        })
     }
 
     getValue(): SignupInput {

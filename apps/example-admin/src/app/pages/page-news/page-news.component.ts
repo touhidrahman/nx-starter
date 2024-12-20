@@ -1,22 +1,12 @@
 import { Component, signal } from '@angular/core'
-import { Button } from 'primeng/button'
-import { InputText } from 'primeng/inputtext'
-import { Select } from 'primeng/select'
 import { FormsModule } from '@angular/forms'
 import { SingleNewsComponent } from '../../features/news/components/single-news/single-news.component'
 import { RouterLink } from '@angular/router'
+import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-page-news',
-    standalone: true,
-    imports: [
-        Button,
-        InputText,
-        Select,
-        FormsModule,
-        SingleNewsComponent,
-        RouterLink,
-    ],
+    imports: [PrimeModules, FormsModule, SingleNewsComponent, RouterLink],
     templateUrl: './page-news.component.html',
     styleUrl: './page-news.component.css',
 })

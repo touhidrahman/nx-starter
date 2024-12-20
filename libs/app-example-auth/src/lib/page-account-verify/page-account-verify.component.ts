@@ -1,15 +1,14 @@
-import { Component, inject, input } from '@angular/core'
+import { Component, inject, input, OnInit } from '@angular/core'
 import { RouterModule } from '@angular/router'
 import { AuthApiService } from '@myorg/common-auth'
 
 @Component({
     selector: 'app-page-account-verify',
-    standalone: true,
     imports: [RouterModule],
     templateUrl: './page-account-verify.component.html',
     styleUrl: './page-account-verify.component.scss',
 })
-export class PageAccountVerifyComponent {
+export class PageAccountVerifyComponent implements OnInit {
     private authApiService = inject(AuthApiService)
     verified = false
 

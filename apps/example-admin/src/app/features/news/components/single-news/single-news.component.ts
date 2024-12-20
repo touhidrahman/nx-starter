@@ -1,11 +1,10 @@
 import { Component, inject, input } from '@angular/core'
 import { Router } from '@angular/router'
-import { Button } from 'primeng/button'
+import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-single-news',
-    standalone: true,
-    imports: [Button],
+    imports: [PrimeModules],
     templateUrl: './single-news.component.html',
     styleUrl: './single-news.component.css',
 })

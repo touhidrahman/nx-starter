@@ -4,7 +4,6 @@ import { SectionTitleComponent } from '../../utils/section-title/section-title.c
 
 @Component({
     selector: 'app-service-section',
-    standalone: true,
     imports: [CommonModule, SectionTitleComponent],
     templateUrl: './service-section.component.html',
     styleUrl: './service-section.component.scss',

@@ -5,7 +5,6 @@ import { HeaderDefaultComponent } from '../../../headers/components/header-defau
 
 @Component({
     selector: 'app-layout-centered',
-    standalone: true,
     templateUrl: './layout-centered.component.html',
     styleUrl: './layout-centered.component.scss',
     imports: [SidebarDefaultComponent, HeaderDefaultComponent],

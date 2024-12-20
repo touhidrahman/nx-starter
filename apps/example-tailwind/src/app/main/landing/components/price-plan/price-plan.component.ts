@@ -4,7 +4,6 @@ import { pricePlan, PricePlan } from './price-plan-data'
 
 @Component({
     selector: 'app-price-plan',
-    standalone: true,
     imports: [NgClass],
     templateUrl: './price-plan.component.html',
     styleUrl: './price-plan.component.scss',

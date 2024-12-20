@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common'
 import { SectionTitleComponent } from './../../utils/section-title/section-title.component'
 @Component({
     selector: 'app-faq',
-    standalone: true,
     imports: [CommonModule, SectionTitleComponent],
     templateUrl: './faq.component.html',
     styleUrl: './faq.component.scss',

@@ -1,13 +1,9 @@
 import { Component, input } from '@angular/core'
-import { Button } from 'primeng/button'
-import { FileUpload } from 'primeng/fileupload'
-import { InputText } from 'primeng/inputtext'
-import { Textarea } from 'primeng/textarea'
+import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-create-news',
-    standalone: true,
-    imports: [Button, FileUpload, InputText, Textarea],
+    imports: [PrimeModules],
     templateUrl: './create-news.component.html',
     styleUrl: './create-news.component.css',
 })

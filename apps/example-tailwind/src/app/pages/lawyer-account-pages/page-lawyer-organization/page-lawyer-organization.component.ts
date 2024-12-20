@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router'
 
 @Component({
     selector: 'app-page-lawyer-organization',
-    standalone: true,
     imports: [CommonModule, RouterModule],
     templateUrl: './page-lawyer-organization.component.html',
     styleUrl: './page-lawyer-organization.component.scss',

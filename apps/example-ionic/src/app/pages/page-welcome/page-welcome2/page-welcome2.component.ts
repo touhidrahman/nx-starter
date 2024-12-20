@@ -5,7 +5,6 @@ import { RouterModule } from '@angular/router'
 
 @Component({
     selector: 'myorg-page-welcome2',
-    standalone: true,
     imports: [CommonModule, IonicModule, RouterModule],
     templateUrl: './page-welcome2.component.html',
     styleUrl: './page-welcome2.component.scss',

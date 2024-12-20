@@ -13,14 +13,9 @@ import { FaqComponent } from '../../main/landing/components/FAQ/faq.component'
 
 @Component({
     selector: 'app-page-landing',
-    standalone: true,
     imports: [
         ...PrimeModules,
         HeroComponent,
-        PricePlanComponent,
-        PublicFooterComponent,
-        DownloadAppComponent,
-        FeaturesComponent,
         CountingComponent,
         LawyerSearchComponent,
         ServiceSectionComponent,

@@ -1,11 +1,9 @@
 import { Component, input, model } from '@angular/core'
-import { Button } from 'primeng/button'
-import { TableModule } from 'primeng/table'
+import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-organization-table',
-    standalone: true,
-    imports: [Button, TableModule],
+    imports: [PrimeModules],
     templateUrl: './organization-table.component.html',
     styleUrl: './organization-table.component.css',
 })

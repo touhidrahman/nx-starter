@@ -1,15 +1,70 @@
-import { and, count, eq } from 'drizzle-orm'
+import { and, count, eq, getTableColumns, ilike, sql, SQL } from 'drizzle-orm'
 import { db } from '../../core/db/db'
 import { casesTable } from '../../core/db/schema'
 import { InsertCase } from './case.schema'
 
-// Retrieve all cases by group ID, limiting results to 100.
-export const findCasesByGroupId = async (groupId: string) =>
-    db
-        .select()
+export const getAllCasesByGroupId = async (params: {
+    groupId: string
+    search: string
+    page: number
+    limit: number
+}) => {
+    const { groupId, search, page, limit } = params
+
+    const conditions: SQL<unknown>[] = []
+
+    if (groupId) {
+        conditions.push(eq(casesTable.groupId, groupId))
+    }
+
+    if (search) {
+        const searchTerm = `%${search}%`
+        conditions.push(
+            sql`(${ilike(casesTable.name, searchTerm)} OR ${ilike(casesTable.court, searchTerm)})`,
+        )
+    }
+
+    const whereClause = conditions.length > 0 ? and(...conditions) : undefined
+
+    const offset = (page - 1) * limit
+
+    const query = db
+        .select({
+            ...getTableColumns(casesTable),
+        })
         .from(casesTable)
-        .where(eq(casesTable.groupId, groupId))
-        .limit(100)
+        .limit(limit)
+        .offset(offset)
+
+    if (whereClause) {
+        query.where(whereClause)
+    }
+
+    const results = await query
+
+    const totalCountQuery = db
+        .select({
+            count: sql`count(*)`.as<number>(),
+        })
+        .from(casesTable)
+
+    if (whereClause) {
+        totalCountQuery.where(whereClause)
+    }
+
+    const totalCountResult = await totalCountQuery
+    const totalCount = totalCountResult[0]?.count || 0
+
+    return {
+        data: results,
+        meta: {
+            page,
+            limit,
+            totalCount,
+            totalPages: Math.ceil(totalCount / limit),
+        },
+    }
+}
 
 // Retrieve a specific case by ID.
 export const findCaseById = async (id: string) =>
@@ -19,7 +74,7 @@ export const findCaseById = async (id: string) =>
 
 // Insert a new case.
 export const createCase = async (caseItem: InsertCase) =>
-    db.insert(casesTable).values(caseItem).returning()
+    await db.insert(casesTable).values(caseItem).returning()
 
 // Update an existing case by ID.
 export const updateCase = async (id: string, caseItem: Partial<InsertCase>) =>

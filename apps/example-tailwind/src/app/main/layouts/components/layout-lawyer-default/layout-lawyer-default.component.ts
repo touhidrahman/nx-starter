@@ -5,7 +5,6 @@ import { LawyerSidebarDefaultComponent } from '../../../sidebars/components/lawy
 
 @Component({
     selector: 'app-layout-lawyer-default',
-    standalone: true,
     imports: [
         CommonModule,
         HeaderLawyerDefaultComponent,

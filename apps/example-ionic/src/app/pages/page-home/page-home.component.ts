@@ -5,7 +5,6 @@ import { BannerCarouselComponent } from '../../home/banner-carousel/banner-carou
 
 @Component({
     selector: 'myorg-page-home',
-    standalone: true,
     imports: [CommonModule, IonicModule, BannerCarouselComponent],
     templateUrl: './page-home.component.html',
     styleUrl: './page-home.component.scss',

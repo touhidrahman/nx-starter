@@ -10,7 +10,6 @@ import { AuthApiService } from '@myorg/common-auth'
 
 @Component({
     selector: 'app-page-reset-password',
-    standalone: true,
     imports: [ReactiveFormsModule],
     templateUrl: './page-reset-password.component.html',
     styleUrls: ['./page-reset-password.component.scss'],

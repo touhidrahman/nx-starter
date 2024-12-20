@@ -1,16 +1,54 @@
-<div class="surface-card p-4 shadow-2 border-round w-full">
+<div class="surface-card p-4 shadow-2 border-round max-w-md mx-auto">
     <div class="text-center mb-5">
         <!-- <img src="assets/images/blocks/logos/hyper.svg" alt="Image" height="50" class="mb-3"> -->
         <div class="text-900 text-3xl font-medium mb-3">Register</div>
         <span class="text-600 font-medium line-height-3">Have an account?</span>
         <a
             [routerLink]="['/login']"
-            class="font-medium no-underline ml-2 text-blue-500 cursor-pointer"
+            class="font-medium no-underline ml-2 text-emerald-700 cursor-pointer"
             >Login here</a
         >
     </div>
 
     <div [formGroup]="signUpForm">
+        <label for="firstName" class="block text-900 font-medium mb-2"
+            >First Name</label
+        >
+        <input
+            id="firstName"
+            type="text"
+            placeholder="First Name"
+            pInputText
+            formControlName="firstName"
+            required
+            class="w-full mb-3" />
+        @if (
+            signUpForm.get('firstName')?.hasError('required') &&
+            signUpForm.get('firstName')?.touched &&
+            signUpForm.get('firstName')?.dirty
+        ) {
+            <p class="text-xs text-red-700">First name is required</p>
+        }
+
+        <label for="lastName" class="block text-900 font-medium mb-2"
+            >Last Name</label
+        >
+        <input
+            id="lastName"
+            type="text"
+            placeholder="Last Name"
+            pInputText
+            formControlName="lastName"
+            required
+            class="w-full mb-3" />
+        @if (
+            signUpForm.get('lastName')?.hasError('required') &&
+            signUpForm.get('lastName')?.touched &&
+            signUpForm.get('lastName')?.dirty
+        ) {
+            <p class="text-xs text-red-700">Last name is required</p>
+        }
+
         <label for="email1" class="block text-900 font-medium mb-2"
             >Email</label
         >
@@ -54,18 +92,6 @@
             </p>
         }
 
-        <div class="flex align-items-center justify-content-between mb-6">
-            <div class="flex align-items-center">
-                <p-checkbox
-                    id="rememberme1"
-                    [binary]="true"
-                    styleClass="mr-2"></p-checkbox>
-                <label for="rememberme1" class="text-900"
-                    >I agree to the Terms & Conditions</label
-                >
-            </div>
-        </div>
-
         <button
             pButton
             pRipple
@@ -73,6 +99,6 @@
             label="Sign Up"
             [disabled]="signUpForm.invalid"
             icon="pi pi-user"
-            class="w-full"></button>
+            class="w-full bg-emerald-700"></button>
     </div>
 </div>

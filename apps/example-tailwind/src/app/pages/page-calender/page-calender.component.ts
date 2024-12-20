@@ -9,7 +9,6 @@ import { CalendarOptions, EventClickArg, EventInput } from '@fullcalendar/core'
 
 @Component({
     selector: 'app-page-calender',
-    standalone: true,
     imports: [CommonModule, FullCalendarModule],
     templateUrl: './page-calender.component.html',
     styleUrl: './page-calender.component.scss',
