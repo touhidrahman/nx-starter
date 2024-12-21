@@ -15,15 +15,15 @@
             alt="Collapsed Logo" />
     </a>
 </div>
-<div class="px-2 space-y-6">
+<div class="space-y-6 px-2">
     <ul class="mt-6 space-y-1">
         <li>
             <a
                 [routerLink]="['/home']"
                 routerLinkActive="active"
-                class="text-black flex gap-4 items-center hover:bg-green-100 rounded-sm px-4 py-2 font-medium">
+                class="flex items-center gap-4 rounded-sm px-4 py-2 font-medium text-black hover:bg-green-100">
                 <span
-                    class="pi pi-home text-gray-500 text-3xl"
+                    class="pi pi-home text-3xl text-gray-500"
                     routerLinkActive="text-white"></span>
                 <span class="font-medium" *ngIf="!isCollapsed">Home</span>
                 <!-- Hide text when collapsed -->
@@ -33,9 +33,9 @@
             <a
                 [routerLink]="['/dashboard/organizations']"
                 routerLinkActive="active"
-                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                class="flex items-center gap-4 rounded-sm px-4 py-2 font-medium text-black hover:bg-green-100">
                 <span
-                    class="pi pi-file text-gray-500 text-3xl"
+                    class="pi pi-file text-3xl text-gray-500"
                     routerLinkActive="text-white"></span>
                 <span class="font-medium" *ngIf="!isCollapsed"
                     >Organizations</span
@@ -46,9 +46,9 @@
             <a
                 [routerLink]="['/dashboard/cases']"
                 routerLinkActive="active"
-                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                class="flex items-center gap-4 rounded-sm px-4 py-2 font-medium text-black hover:bg-green-100">
                 <span
-                    class="pi pi-file text-gray-500 text-3xl"
+                    class="pi pi-file text-3xl text-gray-500"
                     routerLinkActive="text-white"></span>
                 <span class="font-medium" *ngIf="!isCollapsed">Cases</span>
             </a>
@@ -57,9 +57,9 @@
             <a
                 [routerLink]="['/dashboard/clients']"
                 routerLinkActive="active"
-                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                class="flex items-center gap-4 rounded-sm px-4 py-2 font-medium text-black hover:bg-green-100">
                 <span
-                    class="pi pi-users text-gray-500 text-3xl"
+                    class="pi pi-users text-3xl text-gray-500"
                     routerLinkActive="text-white"></span>
                 <span class="font-medium" *ngIf="!isCollapsed">Clients</span>
             </a>
@@ -69,9 +69,9 @@
             <a
                 [routerLink]="['/dashboard/appointments']"
                 routerLinkActive="active"
-                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                class="flex items-center gap-4 rounded-sm px-4 py-2 font-medium text-black hover:bg-green-100">
                 <span
-                    class="pi pi-user-edit text-gray-500 text-3xl"
+                    class="pi pi-user-edit text-3xl text-gray-500"
                     routerLinkActive="text-white"></span>
                 <span class="font-medium" *ngIf="!isCollapsed"
                     >Appointments</span
@@ -83,9 +83,9 @@
             <a
                 [routerLink]="['/dashboard/documents']"
                 routerLinkActive="active"
-                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                class="flex items-center gap-4 rounded-sm px-4 py-2 font-medium text-black hover:bg-green-100">
                 <span
-                    class="pi pi-file text-gray-500 text-3xl"
+                    class="pi pi-file text-3xl text-gray-500"
                     routerLinkActive="text-white"></span>
                 <span class="font-medium" *ngIf="!isCollapsed">Documents</span>
             </a>
@@ -94,9 +94,9 @@
             <a
                 [routerLink]="['/dashboard/calender']"
                 routerLinkActive="active"
-                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                class="flex items-center gap-4 rounded-sm px-4 py-2 font-medium text-black hover:bg-green-100">
                 <span
-                    class="pi pi-calendar text-gray-500 text-3xl"
+                    class="pi pi-calendar text-3xl text-gray-500"
                     routerLinkActive="text-white"></span>
                 <span class="font-medium" *ngIf="!isCollapsed">Calender</span>
             </a>
@@ -105,9 +105,9 @@
             <a
                 [routerLink]="['/dashboard/lucideCircuitBoard']"
                 routerLinkActive="active"
-                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                class="flex items-center gap-4 rounded-sm px-4 py-2 font-medium text-black hover:bg-green-100">
                 <span
-                    class="pi pi-file text-gray-500 text-3xl"
+                    class="pi pi-file text-3xl text-gray-500"
                     routerLinkActive="text-white"></span>
                 <span class="font-medium" *ngIf="!isCollapsed"
                     >Communication</span
@@ -118,9 +118,9 @@
             <a
                 [routerLink]="['/dashboard/billing']"
                 routerLinkActive="active"
-                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                class="flex items-center gap-4 rounded-sm px-4 py-2 font-medium text-black hover:bg-green-100">
                 <span
-                    class="pi pi-wallet text-gray-500 text-3xl"
+                    class="pi pi-wallet text-3xl text-gray-500"
                     routerLinkActive="text-white"></span>
                 <span class="font-medium" *ngIf="!isCollapsed">Billing</span>
             </a>
@@ -129,9 +129,9 @@
             <a
                 [routerLink]="['/dashboard/tasks']"
                 routerLinkActive="active"
-                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                class="flex items-center gap-4 rounded-sm px-4 py-2 font-medium text-black hover:bg-green-100">
                 <span
-                    class="pi pi-list-check text-gray-500 text-3xl"
+                    class="pi pi-list-check text-3xl text-gray-500"
                     routerLinkActive="text-white"></span>
                 <span class="font-medium" *ngIf="!isCollapsed">Tasks</span>
             </a>
@@ -141,9 +141,9 @@
             <a
                 [routerLink]="['/dashboard/chat']"
                 routerLinkActive="active"
-                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                class="flex items-center gap-4 rounded-sm px-4 py-2 font-medium text-black hover:bg-green-100">
                 <span
-                    class="pi pi-comments text-gray-500 text-3xl"
+                    class="pi pi-comments text-3xl text-gray-500"
                     routerLinkActive="text-white"></span>
                 <span class="font-medium" *ngIf="!isCollapsed">Chat</span>
             </a>
@@ -152,9 +152,9 @@
             <a
                 [routerLink]="['/dashboard/report']"
                 routerLinkActive="active"
-                class="flex gap-4 items-center rounded-sm text-black hover:bg-green-100 px-4 py-2 font-medium">
+                class="flex items-center gap-4 rounded-sm px-4 py-2 font-medium text-black hover:bg-green-100">
                 <span
-                    class="pi pi-cog text-gray-500 text-3xl"
+                    class="pi pi-cog text-3xl text-gray-500"
                     routerLinkActive="text-white"></span>
                 <span class="font-medium" *ngIf="!isCollapsed">Report</span>
             </a>
@@ -163,9 +163,9 @@
             <a
                 [routerLink]="['/dashboard/settings']"
                 routerLinkActive="active"
-                class="flex gap-4 items-center rounded-sm !text-black hover:bg-green-100 px-4 py-2 font-medium">
+                class="flex items-center gap-4 rounded-sm px-4 py-2 font-medium !text-black hover:bg-green-100">
                 <span
-                    class="pi pi-cog text-gray-500 text-3xl"
+                    class="pi pi-cog text-3xl text-gray-500"
                     routerLinkActive="text-white"></span>
                 <span class="font-medium" *ngIf="!isCollapsed">Settings</span>
             </a>

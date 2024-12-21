@@ -25,11 +25,11 @@ body {
 }
 
 .btn-fill {
-    @apply px-4 py-1.5 text-base border border-primary-500 bg-primary-500 text-white rounded-[4px] hover:bg-primary-600 transition-all duration-300;
+    @apply border-primary-500 bg-primary-500 hover:bg-primary-600 rounded-[4px] border px-4 py-1.5 text-base text-white transition-all duration-300;
 }
 
 .btn-outline {
-    @apply px-4 py-1.5 text-base border border-primary-500 hover:bg-primary-500 text-primary-500 hover:text-white rounded-[4px] transition-all duration-300;
+    @apply border-primary-500 hover:bg-primary-500 text-primary-500 rounded-[4px] border px-4 py-1.5 text-base transition-all duration-300 hover:text-white;
 }
 
 .section-padding {
@@ -74,9 +74,9 @@ body {
 
 // popup input styles
 .label {
-    @apply font-medium text-base py-1.5 inline-block text-gray46;
+    @apply text-gray46 inline-block py-1.5 text-base font-medium;
 }
 
 .input {
-    @apply w-full border  rounded-lg h-10 border-grayD;
+    @apply border-grayD h-10 w-full rounded-lg border;
 }

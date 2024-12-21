@@ -1,15 +1,15 @@
 @if (post(); as post) {
-    <div class="flex justify-start items-center gap-3 border-b pb-1">
-        <div class="w-[15%] h-24 overflow-hidden">
+    <div class="flex items-center justify-start gap-3 border-b pb-1">
+        <div class="h-24 w-[15%] overflow-hidden">
             <img
                 [src]="post.image"
-                class="object-center object-cover rounded-md w-full h-24"
+                class="h-24 w-full rounded-md object-cover object-center"
                 alt="" />
         </div>
         <div class="w-[30%]">{{ post.title }}</div>
         <div class="w-[40%]">{{ post.description }}</div>
 
-        <div class="w-[15%] flex justify-start items-center gap-3">
+        <div class="flex w-[15%] items-center justify-start gap-3">
             <p-button
                 icon="pi pi-pen-to-square"
                 [outlined]="true"

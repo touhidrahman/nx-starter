@@ -1,10 +1,10 @@
-<div class="p-5 w-full overflow-x-clip relative">
-    <div class="flex gap-4 items-center">
+<div class="relative w-full overflow-x-clip p-5">
+    <div class="flex items-center gap-4">
         <div
-            class="bg-white p-4 rounded-xl flex justify-between items-center w-64"
+            class="flex w-64 items-center justify-between rounded-xl bg-white p-4"
             style="box-shadow: 1px 1px 10px 0px #0000001a">
             <div
-                class="bg-black2e rounded-full w-16 h-16 flex justify-center items-center"
+                class="bg-black2e flex h-16 w-16 items-center justify-center rounded-full"
                 style="box-shadow: 1px 1px 10px 0px #00000080">
                 <svg
                     width="66"
@@ -73,18 +73,18 @@
                 </svg>
             </div>
             <div class="text-right">
-                <p class="text-2xl text-grayShade font-bold">Total Cases</p>
-                <span class="text-blue0a font-semibold text-7xl !font-poppins"
+                <p class="text-grayShade text-2xl font-bold">Total Cases</p>
+                <span class="text-blue0a !font-poppins text-7xl font-semibold"
                     >12</span
                 >
             </div>
         </div>
 
         <div
-            class="bg-white p-4 rounded-xl flex justify-between items-center w-64"
+            class="flex w-64 items-center justify-between rounded-xl bg-white p-4"
             style="box-shadow: 1px 1px 10px 0px #0000001a">
             <div
-                class="bg-black2e rounded-full w-16 h-16 flex justify-center items-center"
+                class="bg-black2e flex h-16 w-16 items-center justify-center rounded-full"
                 style="box-shadow: 1px 1px 10px 0px #00000080">
                 <svg
                     width="55"
@@ -113,21 +113,21 @@
                 </svg>
             </div>
             <div class="text-right">
-                <p class="text-2xl text-grayShade font-bold">Total Cases</p>
-                <span class="text-blue8b font-semibold text-7xl !font-poppins"
+                <p class="text-grayShade text-2xl font-bold">Total Cases</p>
+                <span class="text-blue8b !font-poppins text-7xl font-semibold"
                     >12</span
                 >
             </div>
         </div>
 
         <div
-            class="bg-white p-4 rounded-xl flex justify-between items-center w-64"
+            class="flex w-64 items-center justify-between rounded-xl bg-white p-4"
             style="box-shadow: 1px 1px 10px 0px #0000001a">
             <div
-                class="bg-black2e rounded-full w-16 h-16 flex justify-center items-center"
+                class="bg-black2e flex h-16 w-16 items-center justify-center rounded-full"
                 style="box-shadow: 1px 1px 10px 0px #00000080">
                 <svg
-                    class="-mt-2 -ml-0.5"
+                    class="-ml-0.5 -mt-2"
                     width="55"
                     height="49"
                     viewBox="0 0 55 49"
@@ -154,8 +154,8 @@
                 </svg>
             </div>
             <div class="text-right">
-                <p class="text-2xl text-grayShade font-bold">Total Cases</p>
-                <span class="text-blue0b font-semibold text-7xl !font-poppins"
+                <p class="text-grayShade text-2xl font-bold">Total Cases</p>
+                <span class="text-blue0b !font-poppins text-7xl font-semibold"
                     >12</span
                 >
             </div>
@@ -163,17 +163,17 @@
     </div>
 
     <div class="relative">
-        <h2 class="font-semibold text-4xl text-grayShade my-6">
+        <h2 class="text-grayShade my-6 text-4xl font-semibold">
             Upcoming Cases
         </h2>
         <div class="grid grid-cols-4 gap-4 px-4">
             @for (i of [1, 2, 3, 4]; track $index) {
                 <div
-                    class="col-span-1 p-4 relative z-40"
+                    class="relative z-40 col-span-1 p-4"
                     style="box-shadow: 1px 1px 10px 0px #0000001a">
                     <div class="pb-5">
                         <div
-                            class="flex justify-center items-center space-x-2 text-grayShade">
+                            class="text-grayShade flex items-center justify-center space-x-2">
                             <span>
                                 <svg
                                     width="20"
@@ -186,11 +186,11 @@
                                         fill="black" />
                                 </svg>
                             </span>
-                            <span class="font-bold text-2xl">10/12/2024</span>
+                            <span class="text-2xl font-bold">10/12/2024</span>
                         </div>
 
                         <div
-                            class="flex justify-center items-center space-x-2 text-gray70 text-xs">
+                            class="text-gray70 flex items-center justify-center space-x-2 text-xs">
                             <span>
                                 <svg
                                     width="8"
@@ -208,11 +208,11 @@
                         </div>
                     </div>
                     <h4
-                        class="text-center font-bold text-2xl text-grayShade mb-2.5">
+                        class="text-grayShade mb-2.5 text-center text-2xl font-bold">
                         Ariful vs Ferdous
                     </h4>
 
-                    <p class="text-center text-base px-3">
+                    <p class="px-3 text-center text-base">
                         Here are the details of the card. Lorem ipsum dolor sit
                         amet consectetur adipisicing elit.Here are the details
                         of the card. Lorem ipsum dolor sit amet consectetur
@@ -226,7 +226,7 @@
         </div>
 
         <div
-            class="absolute -top-1/2 -right-20 inline-block"
+            class="absolute -right-20 -top-1/2 inline-block"
             style="z-index: -999">
             <svg
                 width="356"
@@ -285,19 +285,19 @@
     </div>
 
     <div>
-        <h2 class="font-semibold text-4xl text-grayShade my-6">Pinned Cases</h2>
+        <h2 class="text-grayShade my-6 text-4xl font-semibold">Pinned Cases</h2>
         <div class="grid grid-cols-3 gap-4">
             @for (i of [1, 2, 3, 4, 5, 6]; track $index) {
                 <div
-                    class="bg-white rounded-xl p-4 flex justify-between items-center col-span-1"
+                    class="col-span-1 flex items-center justify-between rounded-xl bg-white p-4"
                     style="box-shadow: 1px 1px 10px 0px #0000001a">
                     <div class="customAfter pl-4">
-                        <h3 class="text-bold text-2xl text-grayShade">
+                        <h3 class="text-bold text-grayShade text-2xl">
                             Ariful vs Ferdous
                         </h3>
-                        <div class="flex justify-start items-center gap-5">
+                        <div class="flex items-center justify-start gap-5">
                             <div
-                                class="flex justify-center items-center space-x-2 text-gray70 text-base">
+                                class="text-gray70 flex items-center justify-center space-x-2 text-base">
                                 <span>
                                     <svg
                                         width="8"
@@ -314,7 +314,7 @@
                                 <span> Dhaka Judge Court </span>
                             </div>
                             <div
-                                class="flex justify-center items-center space-x-2 text-gray70 text-base">
+                                class="text-gray70 flex items-center justify-center space-x-2 text-base">
                                 <span>
                                     <svg
                                         width="9"
@@ -334,7 +334,7 @@
                     </div>
 
                     <div
-                        class="bg-lightGreen rounded-full flex justify-center items-center p-2.5"
+                        class="bg-lightGreen flex items-center justify-center rounded-full p-2.5"
                         style="box-shadow: 1px 1px 10px 0px #00000026">
                         <svg
                             width="26"

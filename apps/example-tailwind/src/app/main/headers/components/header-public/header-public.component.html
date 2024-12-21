@@ -1,44 +1,44 @@
-<nav class="text-grayShade w-full relative h-16 overflow-x-clip">
+<nav class="text-grayShade relative h-16 w-full overflow-x-clip">
     <div class="flex items-center justify-between px-6 py-2">
-        <div class="flex justify-start items-center gap-16">
-            <a class="flex justify-center cursor-pointer" [routerLink]="['/']">
+        <div class="flex items-center justify-start gap-16">
+            <a class="flex cursor-pointer justify-center" [routerLink]="['/']">
                 <img
                     src="assets/logo/sheresta.png"
                     class="h-12 w-40 cursor-pointer"
                     alt="" />
             </a>
-            <div class="space-x-10 md:block hidden">
+            <div class="hidden space-x-10 md:block">
                 <a
-                    class="font-semibold text-xl cursor-pointer"
+                    class="cursor-pointer text-xl font-semibold"
                     routerLink="/lawyers"
                     >Lawyers</a
                 >
                 <a
-                    class="font-semibold text-xl cursor-pointer"
+                    class="cursor-pointer text-xl font-semibold"
                     routerLink="/blogs"
                     >Blogs</a
                 >
                 <a
-                    class="font-semibold text-xl cursor-pointer"
+                    class="cursor-pointer text-xl font-semibold"
                     routerLink="/news"
                     >News</a
                 >
             </div>
         </div>
-        <div class="space-x-5 md:block hidden">
+        <div class="hidden space-x-5 md:block">
             <button
-                class="text-sm bg-lightGreen px-4 py-1 btn-shadow rounded-md"
+                class="bg-lightGreen btn-shadow rounded-md px-4 py-1 text-sm"
                 routerLink="/signup">
                 Sign Up
             </button>
             <button
-                class="text-sm bg-green px-4 py-1 btn-shadow rounded-md text-white"
+                class="bg-green btn-shadow rounded-md px-4 py-1 text-sm text-white"
                 routerLink="/login">
                 Sign In
             </button>
         </div>
 
-        <div class="md:hidden block">
+        <div class="block md:hidden">
             <button
                 class="hover:text-green"
                 (click)="toggleMobileMenu(mobileNav)">
@@ -101,7 +101,7 @@
         </svg>
     </span>
 
-    <span class="absolute top-0 right-0 -z-50">
+    <span class="absolute right-0 top-0 -z-50">
         <svg
             width="280"
             height="417"
@@ -156,32 +156,32 @@
     </span>
 
     <div
-        class="absolute w-80 bg-white -right-80 top-16 rounded-ss-md rounded-es-md py-4 shadow-sm transition-all duration-100 ease-linear"
+        class="absolute -right-80 top-16 w-80 rounded-es-md rounded-ss-md bg-white py-4 shadow-sm transition-all duration-100 ease-linear"
         #mobileNav>
         <div class="space-y-4 text-center">
             <a
-                class="font-semibold text-xl cursor-pointer block hover:bg-lightGreen transition-all duration-100 ease-linear"
+                class="hover:bg-lightGreen block cursor-pointer text-xl font-semibold transition-all duration-100 ease-linear"
                 routerLink="/lawyers"
                 >Lawyers</a
             >
             <a
-                class="font-semibold text-xl cursor-pointer block hover:bg-lightGreen transition-all duration-100 ease-linear"
+                class="hover:bg-lightGreen block cursor-pointer text-xl font-semibold transition-all duration-100 ease-linear"
                 routerLink="/blogs"
                 >Blogs</a
             >
             <a
-                class="font-semibold text-xl cursor-pointer block hover:bg-lightGreen transition-all duration-100 ease-linear"
+                class="hover:bg-lightGreen block cursor-pointer text-xl font-semibold transition-all duration-100 ease-linear"
                 routerLink="/news"
                 >News</a
             >
         </div>
-        <div class="flex my-4 space-x-3 justify-center items-center">
+        <div class="my-4 flex items-center justify-center space-x-3">
             <button
-                class="text-sm bg-lightGreen px-4 py-1 btn-shadow rounded-md">
+                class="bg-lightGreen btn-shadow rounded-md px-4 py-1 text-sm">
                 Sign Up
             </button>
             <button
-                class="text-sm bg-green px-4 py-1 btn-shadow rounded-md text-white">
+                class="bg-green btn-shadow rounded-md px-4 py-1 text-sm text-white">
                 Sign In
             </button>
         </div>

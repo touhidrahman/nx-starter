@@ -1,6 +1,6 @@
-<header class="w-full shadow-sm relative">
+<header class="relative w-full shadow-sm">
     <div
-        class="flex flex-wrap items-center justify-between mx-auto px-4 py-3 bg-white text-gray-700 rounded-3xl relative z-50">
+        class="relative z-50 mx-auto flex flex-wrap items-center justify-between rounded-3xl bg-white px-4 py-3 text-gray-700">
         <div class="cursor-pointer" (click)="toggleSidebar()">
             <i class="pi pi-bars text-3xl"></i>
         </div>
@@ -22,10 +22,10 @@
 
     @if (uiState.showProfileDropDown) {
         <div
-            class="flex flex-col absolute bg-white shadow-md w-48 top-24 right-4 py-4 px-2 rounded-md border border-gray-300 z-50"
+            class="absolute right-4 top-24 z-50 flex w-48 flex-col rounded-md border border-gray-300 bg-white px-2 py-4 shadow-md"
             id="profileDropDown">
             <div
-                class="flex justify-start items-center space-x-2 py-1 my-1 px-3 hover:bg-green hover:text-white group transition-all duration-100 ease-linear rounded-full">
+                class="hover:bg-green group my-1 flex items-center justify-start space-x-2 rounded-full px-3 py-1 transition-all duration-100 ease-linear hover:text-white">
                 <span class="">
                     <svg
                         class="group-hover:fill-white"
@@ -43,7 +43,7 @@
             </div>
 
             <div
-                class="flex justify-start items-center space-x-2 my-1 py-1 px-3 hover:bg-green hover:text-white group transition-all duration-100 ease-linear rounded-full">
+                class="hover:bg-green group my-1 flex items-center justify-start space-x-2 rounded-full px-3 py-1 transition-all duration-100 ease-linear hover:text-white">
                 <span class="">
                     <svg
                         width="22"
@@ -61,7 +61,7 @@
             </div>
 
             <div
-                class="flex justify-start items-center space-x-2 my-1 py-1 px-3 hover:bg-green hover:text-white group transition-all duration-100 ease-linear rounded-full">
+                class="hover:bg-green group my-1 flex items-center justify-start space-x-2 rounded-full px-3 py-1 transition-all duration-100 ease-linear hover:text-white">
                 <span class="">
                     <svg
                         width="22"
@@ -79,7 +79,7 @@
             </div>
         </div>
     }
-    <div class="absolute top-0 right-0" style="z-index: -999">
+    <div class="absolute right-0 top-0" style="z-index: -999">
         <svg
             width="278"
             height="180"

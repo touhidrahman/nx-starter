@@ -1,6 +1,6 @@
-<section class="py-16 px-5">
+<section class="px-5 py-16">
     <app-section-title>
-        <span class="text-gray3e text-xl sm:text-2xl title"
+        <span class="text-gray3e title text-xl sm:text-2xl"
             >Services We Provide</span
         >
         <svg
@@ -15,20 +15,20 @@
                 fill="#595959" />
         </svg>
         <h2
-            class="text-lg sm:text-xl md:text-2xl text-gray63 text-center my-4 subtitle">
+            class="text-gray63 subtitle my-4 text-center text-lg sm:text-xl md:text-2xl">
             At Sheresta, we pride ourselves on delivering exceptional
             <br class="hidden sm:block" />
             legal services tailored to meet the unique needs of each client.
         </h2>
     </app-section-title>
 
-    <div class="grid grid-cols-12 gap-5 lg:gap-7 py-4 xl:px-12">
+    <div class="grid grid-cols-12 gap-5 py-4 lg:gap-7 xl:px-12">
         @for (content of cardContent; track $index) {
             <div
-                class="p-0.5 hover-border-shadow rounded-2xl card-shadow col-span-12 md:col-span-6 xl:col-span-4 transition-all ease-linear duration-500">
-                <div class="bg-white p-4 rounded-2xl w-full h-full">
+                class="hover-border-shadow card-shadow col-span-12 rounded-2xl p-0.5 transition-all duration-500 ease-linear md:col-span-6 xl:col-span-4">
+                <div class="h-full w-full rounded-2xl bg-white p-4">
                     <div
-                        class="w-16 h-16 bg-lightGreen rounded-full border border-graye2 flex justify-center items-center mb-3">
+                        class="bg-lightGreen border-graye2 mb-3 flex h-16 w-16 items-center justify-center rounded-full border">
                         <span class="">
                             <svg
                                 [attr.width]="content.width"
@@ -43,10 +43,10 @@
                         </span>
                     </div>
 
-                    <h5 class="text-black font-semibold text-xl mb-2">
+                    <h5 class="mb-2 text-xl font-semibold text-black">
                         {{ content?.heading }}
                     </h5>
-                    <p class="text-base text-gray59">
+                    <p class="text-gray59 text-base">
                         {{ content?.description }}
                     </p>
                 </div>

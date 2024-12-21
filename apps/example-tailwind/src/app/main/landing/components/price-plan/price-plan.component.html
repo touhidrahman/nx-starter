@@ -7,28 +7,28 @@
                     >Plan Awaits</span
                 >
             </h3>
-            <p class="text-lg max-w-xl mx-auto mt-6">
+            <p class="mx-auto mt-6 max-w-xl text-lg">
                 Unlock the full potential of advanced legal solutions. Upgrade
                 or downgrade anytime.
             </p>
         </div>
-        <div class="grid grid-cols-12 xl:gap-8 mt-16">
+        <div class="mt-16 grid grid-cols-12 xl:gap-8">
             @for (item of pricePlan; track item.id) {
-                <div class="col-span-12 sm:colspan-6 lg:col-span-4">
+                <div class="sm:colspan-6 col-span-12 lg:col-span-4">
                     <div
-                        class="p-10 border rounded-md"
+                        class="rounded-md border p-10"
                         [ngClass]="
                             item.isPopular ? 'bg-primary-40 -mt-8' : 'bg-white'
                         ">
                         <div class="text-center font-semibold">
                             <h4 class="text-2xl">{{ item.title }}</h4>
-                            <h6 class="pt-2 pb-2">
+                            <h6 class="pb-2 pt-2">
                                 <span class="text-3xl font-bold"
                                     >${{ item.price }}</span
                                 >
                                 <span>/Month</span>
                             </h6>
-                            <p class="text-[1rem] px-2">
+                            <p class="px-2 text-[1rem]">
                                 {{ item.description }}
                             </p>
                         </div>
@@ -37,15 +37,15 @@
 
                         @for (feature of item.features; track feature) {
                             <ul class="">
-                                <li class="py-1.5 text-base flex items-center">
+                                <li class="flex items-center py-1.5 text-base">
                                     <i
-                                        class="pi pi-check mr-2 text-primary-500"></i>
+                                        class="pi pi-check text-primary-500 mr-2"></i>
                                     {{ feature }}
                                 </li>
                             </ul>
                         }
 
-                        <div class="flex justify-center w-full mt-6">
+                        <div class="mt-6 flex w-full justify-center">
                             <button class="btn-fill !px-10">Get Start</button>
                         </div>
                     </div>

@@ -1,27 +1,27 @@
-<div class="surface-card p-4 shadow-2 border-round max-w-md mx-auto">
-    <div class="text-center mb-5">
+<div class="surface-card shadow-2 border-round mx-auto max-w-md p-4">
+    <div class="mb-5 text-center">
         <!-- <img src="assets/images/blocks/logos/hyper.svg" alt="Image" height="50" class="mb-3"> -->
-        <div class="text-900 text-3xl font-medium mb-3">Register</div>
-        <span class="text-600 font-medium line-height-3">Have an account?</span>
+        <div class="text-900 mb-3 text-3xl font-medium">Register</div>
+        <span class="text-600 line-height-3 font-medium">Have an account?</span>
         <a
             [routerLink]="['/login']"
-            class="font-medium no-underline ml-2 text-emerald-700 cursor-pointer"
+            class="ml-2 cursor-pointer font-medium text-emerald-700 no-underline"
             >Login here</a
         >
     </div>
 
-    <div class="min-h-8 mb-4">
+    <div class="mb-4 min-h-8">
         @if (errors().length) {
-            <div class="border-red-700 border-2 rounded p-4 bg-red-200">
+            <div class="rounded border-2 border-red-700 bg-red-200 p-4">
                 @for (error of errors(); track $index) {
-                    <div class="text-red-700 text-sm">{{ error }}</div>
+                    <div class="text-sm text-red-700">{{ error }}</div>
                 }
             </div>
         }
     </div>
 
     <div [formGroup]="signUpForm">
-        <label for="firstName" class="block text-900 font-medium mb-2"
+        <label for="firstName" class="text-900 mb-2 block font-medium"
             >First Name</label
         >
         <input
@@ -31,7 +31,7 @@
             pInputText
             formControlName="firstName"
             required
-            class="w-full mb-3" />
+            class="mb-3 w-full" />
         @if (
             signUpForm.get('firstName')?.hasError('required') &&
             signUpForm.get('firstName')?.touched &&
@@ -40,7 +40,7 @@
             <p class="text-xs text-red-700">First name is required</p>
         }
 
-        <label for="lastName" class="block text-900 font-medium mb-2"
+        <label for="lastName" class="text-900 mb-2 block font-medium"
             >Last Name</label
         >
         <input
@@ -50,7 +50,7 @@
             pInputText
             formControlName="lastName"
             required
-            class="w-full mb-3" />
+            class="mb-3 w-full" />
         @if (
             signUpForm.get('lastName')?.hasError('required') &&
             signUpForm.get('lastName')?.touched &&
@@ -59,7 +59,7 @@
             <p class="text-xs text-red-700">Last name is required</p>
         }
 
-        <label for="email1" class="block text-900 font-medium mb-2"
+        <label for="email1" class="text-900 mb-2 block font-medium"
             >Email</label
         >
         <input
@@ -69,7 +69,7 @@
             pInputText
             formControlName="email"
             required
-            class="w-full mb-3" />
+            class="mb-3 w-full" />
         @if (
             (signUpForm.get('email')?.hasError('required') ||
                 signUpForm.get('email')?.hasError('email')) &&
@@ -79,7 +79,7 @@
             <p class="text-xs text-red-700">Valid email is required</p>
         }
 
-        <label for="password1" class="block text-900 font-medium mb-2"
+        <label for="password1" class="text-900 mb-2 block font-medium"
             >Password</label
         >
         <input
@@ -89,7 +89,7 @@
             formControlName="password"
             pInputText
             required
-            class="w-full mb-3" />
+            class="mb-3 w-full" />
         @if (
             (signUpForm.get('password')?.hasError('required') ||
                 signUpForm.get('password')?.hasError('minLength') ||
