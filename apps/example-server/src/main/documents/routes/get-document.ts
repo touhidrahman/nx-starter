@@ -40,7 +40,11 @@ export const getDocumentHandler: AppRouteHandler<
     if (document.userId && document.userId !== payload.userId) {
         // document does not belong to user
         return c.json(
-            { data: {}, message: 'Document does not belong to the user', success: false },
+            {
+                data: {},
+                message: 'Document does not belong to the user',
+                success: false,
+            },
             FORBIDDEN,
         )
     }

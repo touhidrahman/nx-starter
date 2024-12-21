@@ -11,9 +11,7 @@ export const deleteTaskRoute = createRoute({
     path: '/v1/tasks/:id',
     method: 'delete',
     tags: ['Task'],
-    middleware: [
-        checkToken,
-    ] as const,
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
     },

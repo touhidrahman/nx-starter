@@ -9,7 +9,12 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zEmpty } from '../../../core/models/common.schema'
 import { checkToken } from '../../auth/auth.middleware'
-import { SelectDocument, zInsertDocument, zSelectDocument, zUploadDocument } from '../documents.schema'
+import {
+    SelectDocument,
+    zInsertDocument,
+    zSelectDocument,
+    zUploadDocument,
+} from '../documents.schema'
 import { createDocument } from '../documents.service'
 import { uploadToS3AndGetUrl } from '../../../core/third-party/s3.service'
 
@@ -52,7 +57,9 @@ export const createDocumentHandler: AppRouteHandler<
                     file,
                     url,
                     entityName,
-                    entityId, folder, description,
+                    entityId,
+                    folder,
+                    description,
                     userId: payload.userId,
                     groupId: payload.groupId,
                 })
@@ -65,7 +72,9 @@ export const createDocumentHandler: AppRouteHandler<
                 file,
                 url,
                 entityName,
-                entityId, folder, description,
+                entityId,
+                folder,
+                description,
                 userId: payload.userId,
                 groupId: payload.groupId,
             })

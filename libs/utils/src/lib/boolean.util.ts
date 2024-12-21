@@ -1,5 +1,16 @@
 export function parseBool(
-    value: boolean | 'true' | 'false' | 'Yes' | 'No' | 'Y' | 'N' | '1' | '0' | 1 | 0,
+    value:
+        | boolean
+        | 'true'
+        | 'false'
+        | 'Yes'
+        | 'No'
+        | 'Y'
+        | 'N'
+        | '1'
+        | '0'
+        | 1
+        | 0,
 ): boolean {
     if (value === undefined) return false
     if (value === null) return false

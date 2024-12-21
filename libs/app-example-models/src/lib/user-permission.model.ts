@@ -1,7 +1,9 @@
-import { UserDto, UserPermissions, Permission } from "./user.model"
+import { UserDto, UserPermissions, Permission } from './user.model'
 
 export function getUserImageNamesConcatenated(UserDtos: UserDto[]) {
-    const imageNames = UserDtos.filter((user) => user.profileImage).map((user) => user.profileImage)
+    const imageNames = UserDtos.filter((user) => user.profileImage).map(
+        (user) => user.profileImage,
+    )
 
     return imageNames.join('&')
 }
@@ -61,4 +63,3 @@ export function getCustomerPermissions(): UserPermissions {
         advertisers: [Permission.Read],
     }
 }
-

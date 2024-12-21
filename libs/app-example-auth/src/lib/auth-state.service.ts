@@ -125,8 +125,7 @@ export class AuthStateService extends SimpleStore<AuthState> {
     }
 
     register(signupInput: SignupInput) {
-        return this.authApiService.register(signupInput).pipe(
-        )
+        return this.authApiService.register(signupInput).pipe()
     }
 
     refreshAccessToken() {

@@ -17,9 +17,7 @@ export const updateDocumentRoute = createRoute({
     path: '/v1/documents/:id',
     method: 'patch',
     tags: ['Document'],
-    middleware: [
-        checkToken,
-    ] as const,
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
         body: jsonContent(zUpdateDocument, 'Document details'),
@@ -75,7 +73,12 @@ export const updateDocumentHandler: AppRouteHandler<
         }
 
         return c.json(
-            { data: {}, message: 'Internal Server Error', success: false , error},
+            {
+                data: {},
+                message: 'Internal Server Error',
+                success: false,
+                error,
+            },
             INTERNAL_SERVER_ERROR,
         )
     }

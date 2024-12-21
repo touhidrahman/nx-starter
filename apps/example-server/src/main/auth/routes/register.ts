@@ -6,9 +6,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { db } from '../../../core/db/db'
 import { authUsersTable } from '../../../core/db/schema'
 import { sendEmailUsingResend } from '../../../core/email/email.service'
-import {
-    buildWelcomeEmailTemplate
-} from '../../email/templates/welcome'
+import { buildWelcomeEmailTemplate } from '../../email/templates/welcome'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import env from '../../../env'
@@ -79,13 +77,16 @@ export const registerHandler: AppRouteHandler<typeof registerRoute> = async (
         const welcomeEmail = buildWelcomeEmailTemplate({
             firstName: createdAuthUser.firstName,
             lastName: createdAuthUser.lastName,
-            email: env.NODE_ENV !== 'production' ? 'touhidrahman.me@gmail.com' : createdAuthUser.email,
+            email:
+                env.NODE_ENV !== 'production'
+                    ? 'touhidrahman.me@gmail.com'
+                    : createdAuthUser.email,
             verificationUrl: `${env.FRONTEND_URL}/account-verify/${token}`,
         })
         const { data, error } = await sendEmailUsingResend(
             [createdAuthUser.email],
             'Please verify your email',
-            welcomeEmail
+            welcomeEmail,
         )
         // TODO: log email sending error
     }

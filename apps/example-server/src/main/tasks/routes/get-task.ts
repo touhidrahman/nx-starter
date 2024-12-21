@@ -12,9 +12,7 @@ export const getTaskRoute = createRoute({
     path: '/v1/tasks/:id',
     tags: ['Task'],
     method: 'get',
-    middleware: [
-        checkToken,
-    ] as const,
+    middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),
     },

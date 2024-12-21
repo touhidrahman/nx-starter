@@ -62,5 +62,8 @@ module.exports = {
             },
         },
     },
-    plugins: [require('tailwindcss-primeui')],
+    plugins: [
+        require('tailwindcss-primeui'),
+        require('prettier-plugin-tailwindcss'),
+    ],
 }

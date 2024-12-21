@@ -8,9 +8,9 @@
 
 ### Common dependencies by Spartan-Ng
 
--   ngx-scrollbar
--   embla-carousel
--   clsx
+- ngx-scrollbar
+- embla-carousel
+- clsx
 
 ## Common Tasks
 
@@ -22,7 +22,9 @@ find ./libs -type f -name "*.spec.ts" -exec rm -f {} +
 ```
 
 ### Spartan UI Scripts
+
 Update your package.json with following:
+
 ```
     "spartan1of3": "pnpm add -D @spartan-ng/cli@latest --strict-peer-dependencies",
     "spartan2of3": "pnpm add @spartan-ng/ui-core@latest --strict-peer-dependencies",
@@ -31,12 +33,12 @@ Update your package.json with following:
 
 ### Updating spartan UI
 
--   Run `pnpm spartan1of3` to upgrade spartan cli.
--   Remove `libs/ui` directory.
--   Remove all `@spartan/*` paths from `tsconfig.base.json`.
--   Run `pnpm spartan2of3`
--   Run `pnpm spartan3of3` and follow instructions. Enter `libs/ui` when asked about install folder. Select `all` components when prompted. (Omit `helm` if you encounter error)
--   Finally run `npm run format`
+- Run `pnpm spartan1of3` to upgrade spartan cli.
+- Remove `libs/ui` directory.
+- Remove all `@spartan/*` paths from `tsconfig.base.json`.
+- Run `pnpm spartan2of3`
+- Run `pnpm spartan3of3` and follow instructions. Enter `libs/ui` when asked about install folder. Select `all` components when prompted. (Omit `helm` if you encounter error)
+- Finally run `npm run format`
 
 ### Setup tailwind for a new project
 
@@ -92,19 +94,19 @@ Just run `nx build demoapp` to build the application. The build artifacts will b
 
 Nx comes with local caching already built-in (check your `nx.json`). On CI you might want to go a step further.
 
--   [Set up remote caching](https://nx.dev/features/share-your-cache)
--   [Set up task distribution across multiple machines](https://nx.dev/nx-cloud/features/distribute-task-execution)
--   [Learn more how to setup CI](https://nx.dev/recipes/ci)
+- [Set up remote caching](https://nx.dev/features/share-your-cache)
+- [Set up task distribution across multiple machines](https://nx.dev/nx-cloud/features/distribute-task-execution)
+- [Learn more how to setup CI](https://nx.dev/recipes/ci)
 
 ## Explore the Project Graph
 
 Run `nx graph` to show the graph of the workspace.
 It will show tasks that you can run with Nx.
 
--   [Learn more about Exploring the Project Graph](https://nx.dev/core-features/explore-graph)
+- [Learn more about Exploring the Project Graph](https://nx.dev/core-features/explore-graph)
 
 ## Connect with us!
 
--   [Join the community](https://nx.dev/community)
--   [Subscribe to the Nx Youtube Channel](https://www.youtube.com/@nxdevtools)
--   [Follow us on Twitter](https://twitter.com/nxdevtools)
+- [Join the community](https://nx.dev/community)
+- [Subscribe to the Nx Youtube Channel](https://www.youtube.com/@nxdevtools)
+- [Follow us on Twitter](https://twitter.com/nxdevtools)

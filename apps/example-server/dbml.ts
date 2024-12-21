@@ -1,7 +1,7 @@
-import * as schema from './src/core/db/schema.ts';
-import { pgGenerate } from 'drizzle-dbml-generator';
+import * as schema from './src/core/db/schema.ts'
+import { pgGenerate } from 'drizzle-dbml-generator'
 
-const out = './apps/example-server/schema.dbml';
-const relational = true;
+const out = './apps/example-server/schema.dbml'
+const relational = true
 
-pgGenerate({ schema, out, relational });
+pgGenerate({ schema, out, relational })
