@@ -1,6 +1,6 @@
-<section class="bg-green2 py-24 relative">
+<section class="bg-green2 relative py-24">
     <app-section-title>
-        <span class="text-gray3e text-xl sm:text-2xl title"
+        <span class="text-gray3e title text-xl sm:text-2xl"
             >What people say</span
         >
         <svg
@@ -16,35 +16,35 @@
         </svg>
 
         <h2
-            class="text-lg sm:text-xl md:text-2xl text-grayD text-center my-4 subtitle">
+            class="text-grayD subtitle my-4 text-center text-lg sm:text-xl md:text-2xl">
             Discover what our satisfied customers have to say
             <br class="hidden sm:block" />
             about their experience with our services
         </h2>
     </app-section-title>
 
-    <div class="px-12 py-8 grid grid-cols-12 gap-4 relative z-20">
+    <div class="relative z-20 grid grid-cols-12 gap-4 px-12 py-8">
         @for (i of [1, 2, 3]; track $index) {
             <div
-                class="carosel-item-border p-1 inline-block rounded-md col-span-4">
-                <div class="relative max-w-md h-[26rem] overflow-hidden p-6">
+                class="carosel-item-border col-span-4 inline-block rounded-md p-1">
+                <div class="relative h-[26rem] max-w-md overflow-hidden p-6">
                     <div
-                        class="bg-green020 absolute top-0 left-0 w-full h-full opacity-90 rounded-md"></div>
+                        class="bg-green020 absolute left-0 top-0 h-full w-full rounded-md opacity-90"></div>
                     <div class="relative z-10">
                         <div>
                             <img
                                 src="https://s3-alpha-sig.figma.com/img/14ab/2eb6/346c564f457e998974da4d21becf436d?Expires=1734307200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=GbkUUb~0w-q-KFaXVLuw3cHQGFZnBJuofBxa2x5h57f9mK2VmtR9K6Z-iZPZYwLiMBVEqf4D9sPpLXYsiFYM2f4iOGhjvAq4DCAnCL4iJVmsZ0mOEVjH5VnL8u5PMApcXOXareeqotYDB-B2zbK-k3TChFwWiWXW530xowtanqlOg0qGmPQd6w91mYKpm2acpCUVajh6TXqeSAxGoAeDDA7gWVhdjPta42QUJd9401Lg55byk7aduP0cr~cBITi-hDims~iF80aRWDOSslzcIPhtERe5IxqTRee1NrA1J7NZDExkR8Z0-7-FmiRXmC-CbjHgg-MrVpEeIXDqn4w68A__"
                                 alt=""
-                                class="w-20 h-20 rounded-full" />
+                                class="h-20 w-20 rounded-full" />
                             <div class="my-4">
                                 <span class="text-2xl text-white"
                                     >John Smith</span
                                 >
-                                <p class="text-base text-graye9">
+                                <p class="text-graye9 text-base">
                                     CEO of Tech Innovators Inc.
                                 </p>
                                 <p
-                                    class="text-white my-8 text-base leading-relaxed">
+                                    class="my-8 text-base leading-relaxed text-white">
                                     "The legal team at Sheresta provided
                                     exceptional service and insightful advice
                                     that was crucial for our business expansion.

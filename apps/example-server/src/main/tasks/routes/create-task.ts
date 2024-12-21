@@ -17,9 +17,7 @@ export const createTaskRoute = createRoute({
     path: '/v1/tasks',
     method: 'post',
     tags: ['Task'],
-    middleware: [
-        checkToken,
-    ] as const,
+    middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertTask, 'Task details'),
     },

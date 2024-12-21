@@ -7,9 +7,11 @@
             label-placement="floating"
             fill="outline"
             placeholder="Your first name"></ion-input>
-        @if ( registerFormService.form.get('firstName')!.invalid &&
-        registerFormService.form.get('firstName')!.touched) {
-        <div class="input-validation">First name is required</div>
+        @if (
+            registerFormService.form.get('firstName')!.invalid &&
+            registerFormService.form.get('firstName')!.touched
+        ) {
+            <div class="input-validation">First name is required</div>
         }
     </div>
     <div class="input-field">
@@ -19,9 +21,11 @@
             label-placement="floating"
             fill="outline"
             placeholder="Your last name"></ion-input>
-        @if ( registerFormService.form.get('lastName')!.invalid &&
-        registerFormService.form.get('lastName')!.touched ) {
-        <div class="input-validation">Last name is required</div>
+        @if (
+            registerFormService.form.get('lastName')!.invalid &&
+            registerFormService.form.get('lastName')!.touched
+        ) {
+            <div class="input-validation">Last name is required</div>
         }
     </div>
 
@@ -33,9 +37,11 @@
             label-placement="floating"
             fill="outline"
             placeholder="Enter your email"></ion-input>
-        @if ( registerFormService.form.get('email')!.invalid &&
-        registerFormService.form.get('email')!.touched ) {
-        <div class="input-validation">Valid email is required</div>
+        @if (
+            registerFormService.form.get('email')!.invalid &&
+            registerFormService.form.get('email')!.touched
+        ) {
+            <div class="input-validation">Valid email is required</div>
         }
     </div>
 
@@ -47,19 +53,32 @@
             label-placement="floating"
             fill="outline"
             placeholder="Enter your Password"></ion-input>
-        @if ( registerFormService.form.get('password')!.touched &&
-        registerFormService.form.get('password')!.dirty &&
-        registerFormService.form.get('password')! .errors; as errors ) {
-        <div class="input-validation">
-            @if (errors['required']) { Password is required. } @if
-            (errors['minlength'] && !errors['required']) { Password must be at
-            least 8 characters long. } @if (errors['maxlength'] &&
-            !errors['required']) { Password cannot be more than 32 characters
-            long. } @if ( errors['pattern'] && !errors['required'] &&
-            !errors['minlength'] && !errors['maxlength'] ) { Password must
-            contain at least one uppercase letter, one lowercase letter, and one
-            number. }
-        </div>
+        @if (
+            registerFormService.form.get('password')!.touched &&
+                registerFormService.form.get('password')!.dirty &&
+                registerFormService.form.get('password')!.errors;
+            as errors
+        ) {
+            <div class="input-validation">
+                @if (errors['required']) {
+                    Password is required.
+                }
+                @if (errors['minlength'] && !errors['required']) {
+                    Password must be at least 8 characters long.
+                }
+                @if (errors['maxlength'] && !errors['required']) {
+                    Password cannot be more than 32 characters long.
+                }
+                @if (
+                    errors['pattern'] &&
+                    !errors['required'] &&
+                    !errors['minlength'] &&
+                    !errors['maxlength']
+                ) {
+                    Password must contain at least one uppercase letter, one
+                    lowercase letter, and one number.
+                }
+            </div>
         }
     </div>
 
@@ -72,12 +91,17 @@
             fill="outline"
             placeholder="Confirm Password"></ion-input>
 
-        @if ( registerFormService.form.get('passwordConfirmation')! .invalid &&
-        registerFormService.form.get('passwordConfirmation')! .touched &&
-        registerFormService.form.get('passwordConfirmation')! .dirty ) {
-        <div class="input-validation">Password confirmation is required</div>
-        } @if (registerFormService.form.hasError('passwordNotMatched')) {
-        <div class="input-validation">Passwords do not match.</div>
+        @if (
+            registerFormService.form.get('passwordConfirmation')!.invalid &&
+            registerFormService.form.get('passwordConfirmation')!.touched &&
+            registerFormService.form.get('passwordConfirmation')!.dirty
+        ) {
+            <div class="input-validation">
+                Password confirmation is required
+            </div>
+        }
+        @if (registerFormService.form.hasError('passwordNotMatched')) {
+            <div class="input-validation">Passwords do not match.</div>
         }
     </div>
 
@@ -91,7 +115,6 @@
         >Sign Up</ion-button
     >
     <ion-text class="ion-text" [routerLink]="['/login']" color="primary"
-    >Already have an account? Login?
-</ion-text>
+        >Already have an account? Login?
+    </ion-text>
 </div>
-

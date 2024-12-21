@@ -1,9 +1,9 @@
 @if (post(); as post) {
-    <div class="flex justify-start items-center gap-3 border-b pb-1">
-        <div class="w-[15%] h-24 overflow-hidden">
+    <div class="flex items-center justify-start gap-3 border-b pb-1">
+        <div class="h-24 w-[15%] overflow-hidden">
             <img
                 [src]="post.image"
-                class="object-center object-cover rounded-md w-full h-24"
+                class="h-24 w-full rounded-md object-cover object-center"
                 alt="" />
         </div>
         <div class="w-[20%]">{{ post.title }}</div>
@@ -11,13 +11,13 @@
         <div class="w-[18%] space-x-2">
             @for (tag of post.tags; track tag) {
                 <span
-                    class="border-[1px] rounded-full px-4 py-[1px] text-gray-500 text-xs space-y-2">
+                    class="space-y-2 rounded-full border-[1px] px-4 py-[1px] text-xs text-gray-500">
                     {{ tag }}
                 </span>
             }
         </div>
         <div class="w-[12%]">Written By</div>
-        <div class="w-[15%] flex justify-start items-center gap-3">
+        <div class="flex w-[15%] items-center justify-start gap-3">
             <p-button
                 icon="pi pi-pen-to-square"
                 [outlined]="true"

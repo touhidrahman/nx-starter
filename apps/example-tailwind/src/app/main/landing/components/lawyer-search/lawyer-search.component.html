@@ -1,60 +1,60 @@
-<section class="relative w-full overflow-x-clip bg-green2">
+<section class="bg-green2 relative w-full overflow-x-clip">
     <div
-        class="py-14 px-4 lg:px-8 flex justify-center xl:justify-between items-center flex-col lg:flex-row lg:gap-10 xl:gap-20 relative z-50">
+        class="relative z-50 flex flex-col items-center justify-center px-4 py-14 lg:flex-row lg:gap-10 lg:px-8 xl:justify-between xl:gap-20">
         <div class="w-full max-w-lg xl:max-w-2xl xl:pl-10">
             <img
                 src="./../../../../../assets/images/lawyer-search-left-img.png"
                 alt=""
-                class="w-full h-full object-contain" />
+                class="h-full w-full object-contain" />
         </div>
 
-        <div class="w-full mt-3 sm:mt-6">
+        <div class="mt-3 w-full sm:mt-6">
             <h2
-                class="gradient1 md:text-6xl text-2xl sm:text-5xl lg:text-[2.7rem] italic text-center lg:text-left xl:text-5xl">
+                class="gradient1 text-center text-2xl italic sm:text-5xl md:text-6xl lg:text-left lg:text-[2.7rem] xl:text-5xl">
                 Meet our most experienced
             </h2>
             <div class="text-center lg:text-left">
                 <i
-                    class="gradient2 md:text-6xl text-2xl sm:text-5xl lg:text-[2.7rem] xl:text-5xl">
+                    class="gradient2 text-2xl sm:text-5xl md:text-6xl lg:text-[2.7rem] xl:text-5xl">
                     Lawyer panel</i
                 >
                 <i
-                    class="gradient3 md:text-6xl text-2xl sm:text-5xl lg:text-[2.7rem] xl:text-5xl">
+                    class="gradient3 text-2xl sm:text-5xl md:text-6xl lg:text-[2.7rem] xl:text-5xl">
                     around You</i
                 >
             </div>
 
             <div
-                class="flex w-full justify-center lg:justify-start items-center gap-2 mt-4 sm:mt-8">
+                class="mt-4 flex w-full items-center justify-center gap-2 sm:mt-8 lg:justify-start">
                 <div
-                    class="input-border-gradient p-1 rounded-md -skew-x-12 relative">
-                    <div class="w-full h-full bg-white rounded-md">
+                    class="input-border-gradient relative -skew-x-12 rounded-md p-1">
+                    <div class="h-full w-full rounded-md bg-white">
                         <input
                             type="text"
-                            class="border-none outline-none h-10 w-56 sm:w-72 xl:w-96 px-4 py-1 bg-transparent skew-x-12"
+                            class="h-10 w-56 skew-x-12 border-none bg-transparent px-4 py-1 outline-none sm:w-72 xl:w-96"
                             #inputFeild
                             (focus)="onInputFocus(customPlaceHolder)"
                             (blur)="onBlur(customPlaceHolder, inputFeild)" />
                         <span
-                            class="flex justify-start items-center gap-2 absolute top-2.5 left-4"
+                            class="absolute left-4 top-2.5 flex items-center justify-start gap-2"
                             (click)="inputFeild.focus()"
                             #customPlaceHolder>
                             <i
-                                class="pi pi-search text-base text-lightAsh font-extralight xl:text-xl"></i>
+                                class="pi pi-search text-lightAsh text-base font-extralight xl:text-xl"></i>
                             <span
-                                class="text-base text-lightAsh font-extralight xl:text-xl"
+                                class="text-lightAsh text-base font-extralight xl:text-xl"
                                 >Search Lawyer around you</span
                             >
                         </span>
                     </div>
                 </div>
-                <div class="btn-border p-1 -skew-x-12 rounded-md">
+                <div class="btn-border -skew-x-12 rounded-md p-1">
                     <button
-                        class="text-white bg-green-3 text-3xl px-4 rounded-md hidden sm:block">
+                        class="bg-green-3 hidden rounded-md px-4 text-3xl text-white sm:block">
                         Search
                     </button>
                     <button
-                        class="text-white bg-green-3 text-xl px-3 h-10 rounded-md pi pi-search sm:hidden"></button>
+                        class="bg-green-3 pi pi-search h-10 rounded-md px-3 text-xl text-white sm:hidden"></button>
                 </div>
             </div>
         </div>
@@ -125,7 +125,7 @@
         </svg>
     </span>
 
-    <span class="absolute left-0 bottom-0">
+    <span class="absolute bottom-0 left-0">
         <svg
             width="1440"
             height="175"

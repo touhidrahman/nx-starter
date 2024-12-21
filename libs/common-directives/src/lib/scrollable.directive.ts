@@ -26,7 +26,10 @@ export class ScrollableDirective {
     }
 
     get canScrollEnd() {
-        return this.element.scrollLeft + this.element.clientWidth !== this.element.scrollWidth
+        return (
+            this.element.scrollLeft + this.element.clientWidth !==
+            this.element.scrollWidth
+        )
     }
 
     @HostListener('window:resize')

@@ -16,7 +16,11 @@ export class ShowingResultsTextPipe implements PipeTransform {
         )} of ${totalResults} items`
     }
 
-    private calculateResultRange(page: number, pageSize: number, totalResults: number): string {
+    private calculateResultRange(
+        page: number,
+        pageSize: number,
+        totalResults: number,
+    ): string {
         const end = page * pageSize
         if (totalResults === 0) return '0 - 0'
         if (end > totalResults) return `1 - ${totalResults}`

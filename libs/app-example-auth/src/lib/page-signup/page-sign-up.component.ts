@@ -1,8 +1,8 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, signal } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { Router, RouterModule } from '@angular/router'
 import { AuthStateService } from '@myorg/app-example-auth'
-import { RegisterFormService, SignupInput } from '@myorg/common-auth'
+import { RegisterFormService } from '@myorg/common-auth'
 import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
@@ -17,6 +17,8 @@ export class PageSignUpComponent {
     private registerFormService = inject(RegisterFormService)
     private router = inject(Router)
 
+    errors = signal<string[]>([])
+
     get signUpForm() {
         return this.registerFormService.form
     }
@@ -26,20 +28,14 @@ export class PageSignUpComponent {
             return
         }
 
-        const formValues = this.registerFormService.getValue()
-        const signupInput: SignupInput = {
-            email: formValues.email,
-            password: formValues.password,
-            firstName: formValues.firstName,
-            lastName: formValues.lastName,
-        }
+        const signupInput = this.registerFormService.getValue()
 
         this.authStateService.register(signupInput).subscribe({
             next: (response) => {
                 this.router.navigate(['/account-created'])
             },
             error: (error) => {
-                console.error('An error occurred:', error)
+                this.errors.set([error.error.message])
             },
         })
     }

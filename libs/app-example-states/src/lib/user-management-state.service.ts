@@ -17,9 +17,7 @@ export const initialUserManagementState: UserManagementState = {
     providedIn: 'root',
 })
 export class UserManagementStateService extends SimpleStore<UserManagementState> {
-    constructor(
-        private userApiService: UserApiService,
-    ) {
+    constructor(private userApiService: UserApiService) {
         super(initialUserManagementState)
     }
 

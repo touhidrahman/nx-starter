@@ -37,12 +37,10 @@ export abstract class AbstractFormService<T> {
     abstract buildForm(): FormGroup
 
     fillFormById$(id: string): Observable<T> {
-        return this.apiService
-            .findById(id)
-            .pipe(
-                map(({data: value}) => value as T & { id?: string }),
-                tap((value) => this.setFormValue(value as T & { id?: string })),
-            )
+        return this.apiService.findById(id).pipe(
+            map(({ data: value }) => value as T & { id?: string }),
+            tap((value) => this.setFormValue(value as T & { id?: string })),
+        )
     }
 
     save$(): Observable<T> {
@@ -54,14 +52,16 @@ export abstract class AbstractFormService<T> {
     }
 
     protected create$(resetForm = false): Observable<T> {
-        return this.apiService
-            .create(this.getFormValue())
-            .pipe(map(({data: value}) => value as T), tap(() => resetForm && this.setFormValue(null)))
+        return this.apiService.create(this.getFormValue()).pipe(
+            map(({ data: value }) => value as T),
+            tap(() => resetForm && this.setFormValue(null)),
+        )
     }
 
     protected update$(id: string, resetForm = false): Observable<T> {
-        return this.apiService
-            .update(id, this.getFormValue())
-            .pipe(map(({data: value}) => value as T), tap(() => resetForm && this.setFormValue(null)))
+        return this.apiService.update(id, this.getFormValue()).pipe(
+            map(({ data: value }) => value as T),
+            tap(() => resetForm && this.setFormValue(null)),
+        )
     }
 }

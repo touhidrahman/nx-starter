@@ -1,12 +1,11 @@
 export interface WelcomeEmailTemplateProps {
-  firstName: string;
-  lastName: string;
-  email: string;
-  verificationUrl: string
+    firstName: string
+    lastName: string
+    email: string
+    verificationUrl: string
 }
 
-export const WelcomeEmailTemplate: string = (
-`
+export const WelcomeEmailTemplate: string = `
 <div>
     <h1>Welcome, {{firstName}} {{lastName}}!</h1>
     <p>
@@ -17,7 +16,7 @@ export const WelcomeEmailTemplate: string = (
     <p>{{verificationUrl}}</p>
     <p>Thank you!</p>
 </div>
-`)
+`
 
 export function buildWelcomeEmailTemplate(props: WelcomeEmailTemplateProps) {
     let html = WelcomeEmailTemplate

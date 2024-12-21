@@ -4,9 +4,9 @@
             <div class="px-1">
                 @for (item of userRoute; track item.id) {
                     <ul class="space-y-1">
-                        <li class="text-gray-500 mb-1">
+                        <li class="mb-1 text-gray-500">
                             <a
-                                class="w-full inline-block hover:bg-primary-40 transition-all duration-300 hover:text-primary-500 py-1.5 px-3 rounded-sm"
+                                class="hover:bg-primary-40 hover:text-primary-500 inline-block w-full rounded-sm px-3 py-1.5 transition-all duration-300"
                                 routerLinkActive="bg-primary-40 text-primary-500"
                                 [routerLink]="item.path"
                                 >{{ item.title }}</a

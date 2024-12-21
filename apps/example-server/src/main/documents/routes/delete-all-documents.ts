@@ -7,10 +7,7 @@ import { deleteS3File } from '../../../core/third-party/s3.service'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { getFileNameFromUrl } from '../../../core/utils/file.util'
 import { checkToken } from '../../auth/auth.middleware'
-import {
-    deleteDocument,
-    findDocumentById
-} from '../documents.service'
+import { deleteDocument, findDocumentById } from '../documents.service'
 
 export const deleteAllDocumentRoute = createRoute({
     path: '/v1/documents',

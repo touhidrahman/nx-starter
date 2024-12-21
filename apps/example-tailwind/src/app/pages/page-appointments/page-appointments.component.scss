@@ -8,9 +8,9 @@ input:checked ~ .dot {
 }
 
 .label {
-    @apply font-medium text-base py-1.5 inline-block text-gray46;
+    @apply text-gray46 inline-block py-1.5 text-base font-medium;
 }
 
 .input {
-    @apply w-full border rounded-lg h-10 border-grayD;
+    @apply border-grayD h-10 w-full rounded-lg border;
 }
