@@ -10,6 +10,16 @@
         >
     </div>
 
+    <div class="min-h-8 mb-4">
+        @if (errors().length) {
+            <div class="border-red-700 border-2 rounded p-4 bg-red-200">
+                @for (error of errors(); track $index) {
+                    <div class="text-red-700 text-sm">{{ error }}</div>
+                }
+            </div>
+        }
+    </div>
+
     <div [formGroup]="signUpForm">
         <label for="firstName" class="block text-900 font-medium mb-2"
             >First Name</label

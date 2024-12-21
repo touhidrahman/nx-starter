@@ -42,7 +42,7 @@ export class AuthStateService extends SimpleStore<AuthState> {
     private refreshTokenTimeout?: any
     private jwtHelper = new JwtHelperService()
     private tokenStorageService = inject(TokenStorageService)
-    private authApiService = inject(AuthApiService)
+    private authApiService = inject<AuthApiService<User>>(AuthApiService)
     private localStorageService = inject(LocalStorageService)
     private router = inject(Router)
 
@@ -126,9 +126,6 @@ export class AuthStateService extends SimpleStore<AuthState> {
 
     register(signupInput: SignupInput) {
         return this.authApiService.register(signupInput).pipe(
-            map(({ data }) => {
-                return data
-            }),
         )
     }
 
