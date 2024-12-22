@@ -108,6 +108,13 @@ const routes: Routes = [
                 './pages/page-admin-userlist/page-admin-userlist.component'
             ).then((m) => m.PageAdminUserlistComponent),
     },
+    {
+        path: 'lawyer/home',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-accout-pages/page-lawyer-home/page-lawyer-home.component'
+            ).then((m) => m.PageLawyerHomeComponent),
+    },
 ]
 
 @NgModule({
