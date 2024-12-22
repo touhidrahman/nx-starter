@@ -1,7 +1,7 @@
 import { Route } from '@angular/router'
 import { PageLayout, setLayout } from '@myorg/page-layouts'
-import { PageCreateProfileComponent } from '../../../../libs/app-example-auth/src/lib/page-create-profile/page-create-profile.component'
-import { PageCreateProfileFormComponent } from '../../../../libs/app-example-auth/src/lib/page-create-profile-form/page-create-profile-form.component'
+import { PageCreateProfileComponent } from '@myorg/app-example-auth'
+import { PageCreateProfileFormComponent } from '@myorg/app-example-auth'
 
 const authRoutes: Route[] = [
     {

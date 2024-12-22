@@ -38,7 +38,6 @@ export const loginRoute = createRoute({
                 refreshToken: z.string(),
                 lastLogin: z.string(),
             }),
-
             'User login successful',
         ),
 
@@ -56,10 +55,16 @@ export const loginRoute = createRoute({
     },
 })
 
-export type LoginRoute = typeof loginRoute
-
-export const loginHandler: AppRouteHandler<LoginRoute> = async (c) => {
+/**
+ * Login uses primarily authUser table to authenticate user. If user is admin or moderator, access token is returned.
+ * If user is not admin or moderator, user is asked to select a group to login to. If there is only one group the user is member of,
+ * the user is logged in to that group by default.
+ * @param c
+ * @returns
+ */
+export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
     const { email, password } = c.req.valid('json')
+    // optional, group id. If provided, user is logged in to that group
     const groupId = c.req.query('groupId')
 
     const authUser = await findAuthUserByEmail(email)
@@ -83,10 +88,10 @@ export const loginHandler: AppRouteHandler<LoginRoute> = async (c) => {
 
     await updateLastLogin(authUser.id)
 
-    // if previledged user, return access token
+    // if previledged user, do not check for groups and just return access token
+    // TODO: fix as any
     if ([LEVEL_ADMIN, LEVEL_MODERATOR].includes(authUser.level as any)) {
         const accessToken = await createAccessToken(authUser)
-        // TODO: fix as any
         return c.json(
             {
                 message: 'Priviledged user login successful',
@@ -112,7 +117,7 @@ export const loginHandler: AppRouteHandler<LoginRoute> = async (c) => {
         ) // TODO: fix as any
         return c.json(
             {
-                message: 'User login to group successful',
+                message: 'User login to provided group was successful',
                 data: {
                     accessToken,
                     refreshToken,

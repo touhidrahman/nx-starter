@@ -79,7 +79,7 @@ export const registerHandler: AppRouteHandler<typeof registerRoute> = async (
             lastName: createdAuthUser.lastName,
             email:
                 env.NODE_ENV !== 'production'
-                    ? 'touhidrahman.me@gmail.com'
+                    ? env.EMAIL_TEST_EMAIL
                     : createdAuthUser.email,
             verificationUrl: `${env.FRONTEND_URL}/account-verify/${token}`,
         })
