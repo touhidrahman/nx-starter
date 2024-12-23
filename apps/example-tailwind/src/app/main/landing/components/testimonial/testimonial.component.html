@@ -23,11 +23,11 @@
         </h2>
     </app-section-title>
 
-    <div class="relative z-20 grid grid-cols-12 gap-4 px-12 py-8">
+    <div class="relative z-20 grid grid-cols-12 gap-4 px-16 py-8">
         @for (i of [1, 2, 3]; track $index) {
             <div
                 class="carosel-item-border col-span-4 inline-block rounded-md p-1">
-                <div class="relative h-[26rem] max-w-md overflow-hidden p-6">
+                <div class="relative h-[26rem] overflow-hidden p-6 max-w-screen-sm">
                     <div
                         class="bg-green020 absolute left-0 top-0 h-full w-full rounded-md opacity-90"></div>
                     <div class="relative z-10">
@@ -58,6 +58,7 @@
             </div>
         }
     </div>
+
 
     <span class="absolute right-0 top-0">
         <svg
