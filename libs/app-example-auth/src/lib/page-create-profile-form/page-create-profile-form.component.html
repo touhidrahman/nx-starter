@@ -1,10 +1,9 @@
-<div class="m-auto mt-10 max-w-lg rounded-lg bg-white p-8 shadow-lg">
+<div class="m-auto -mt-10 max-w-lg rounded-lg bg-white p-8 shadow-lg">
     <h2 class="mb-6 text-2xl font-bold text-gray-800">
-        Create {{ profileType() ? profileType() : '' }} profile
+        Create Your Organization
     </h2>
-    <form
-        [formGroup]="createProfileFormService.createProfileForm"
-        (ngSubmit)="submit()">
+
+    <form [formGroup]="groupFormService.form">
         <div class="mb-4">
             <label class="mb-2 block text-sm font-medium text-gray-700"
                 >Address</label
@@ -12,7 +11,6 @@
             <input
                 type="text"
                 class="w-full rounded-lg border px-4 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-300"
-                placeholder="Enter your address"
                 formControlName="address"
                 required />
         </div>
@@ -25,7 +23,6 @@
                 <input
                     type="text"
                     class="w-full rounded-lg border px-4 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-300"
-                    placeholder="Enter your Phone Number"
                     formControlName="phone"
                     required />
             </div>
@@ -36,7 +33,6 @@
                 <input
                     type="text"
                     class="w-full rounded-lg border px-4 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-300"
-                    placeholder="Enter your city"
                     formControlName="city"
                     required />
             </div>
@@ -50,7 +46,6 @@
                 <input
                     type="text"
                     class="w-full rounded-lg border px-4 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-300"
-                    placeholder="Enter your country"
                     formControlName="country"
                     required />
             </div>
@@ -61,43 +56,16 @@
                 <input
                     type="text"
                     class="w-full rounded-lg border px-4 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-300"
-                    placeholder="Enter your post code"
                     formControlName="postCode"
                     required />
             </div>
         </div>
 
-        <!--        <div class="mb-4">-->
-        <!--            <label for="role" class="block text-sm font-medium text-gray-700 mb-2">Role</label>-->
-        <!--            <select id="role" name="role" class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none" required>-->
-        <!--                <option value="">Select your role</option>-->
-        <!--                <option value="developer">Developer</option>-->
-        <!--                <option value="designer">Designer</option>-->
-        <!--                <option value="manager">Manager</option>-->
-        <!--            </select>-->
-        <!--        </div>-->
-
-        <!--        <div class="mb-6">-->
-        <!--            <label class="block text-sm font-medium text-gray-700 mb-2">Gender</label>-->
-        <!--            <div class="flex items-center mb-2">-->
-        <!--                <input type="radio" id="male" name="gender" value="male" class="mr-2 focus:ring focus:ring-blue-300" required>-->
-        <!--                <label for="male" class="text-gray-700">Male</label>-->
-        <!--            </div>-->
-        <!--            <div class="flex items-center mb-2">-->
-        <!--                <input type="radio" id="female" name="gender" value="female" class="mr-2 focus:ring focus:ring-blue-300" required>-->
-        <!--                <label for="female" class="text-gray-700">Female</label>-->
-        <!--            </div>-->
-        <!--            <div class="flex items-center">-->
-        <!--                <input type="radio" id="other" name="gender" value="other" class="mr-2 focus:ring focus:ring-blue-300" required>-->
-        <!--                <label for="other" class="text-gray-700">Other</label>-->
-        <!--            </div>-->
-        <!--        </div>-->
-
-        <!-- Submit Button -->
         <button
             type="submit"
-            class="bg-green focus:ring-green3 w-full rounded-lg px-4 py-2 font-semibold text-white transition duration-200 hover:bg-emerald-700 focus:ring">
-            Submit
+            (click)="submit()"
+            class="bg-green focus:ring-green3 mt-6 w-full rounded-lg px-4 py-2 font-semibold text-white transition duration-200 hover:bg-emerald-700 focus:ring">
+            Create My Organization
         </button>
     </form>
 </div>

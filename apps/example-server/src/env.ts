@@ -23,6 +23,8 @@ const EnvSchema = z.object({
     EMAIL_RESEND_API_KEY: z.string(),
     EMAIL_SENDER_NAME: z.string(),
     EMAIL_SENDER_EMAIL: z.string(),
+    /** Developer's email that was used to create resend account */
+    EMAIL_TEST_EMAIL: z.string(),
 })
 
 export type TEnv = z.infer<typeof EnvSchema>
