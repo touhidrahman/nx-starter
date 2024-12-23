@@ -19,7 +19,7 @@ import { findAuthUserByEmail, updateLastLogin } from '../auth.service'
 import { createAccessToken, createRefreshToken } from '../token.util'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zEmpty } from '../../../core/models/common.schema'
-import { OK } from 'stoker/http-status-codes'
+import { BAD_REQUEST, OK, PRECONDITION_REQUIRED } from 'stoker/http-status-codes'
 
 const tags = ['Auth']
 
@@ -41,12 +41,12 @@ export const loginRoute = createRoute({
             'User login successful',
         ),
 
-        [HttpStatusCodes.BAD_REQUEST]: ApiResponse(
+        [BAD_REQUEST]: ApiResponse(
             zEmpty,
             'Invalid email or password',
         ),
 
-        [HttpStatusCodes.PRECONDITION_REQUIRED]: ApiResponse(
+        [PRECONDITION_REQUIRED]: ApiResponse(
             z.object({
                 availableGroups: z.array(z.any()),
             }),
@@ -72,7 +72,7 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
     if (!authUser) {
         return c.json(
             { message: 'Invalid email or password', data: {}, success: false },
-            HttpStatusCodes.BAD_REQUEST,
+            BAD_REQUEST,
         )
     }
 
@@ -82,7 +82,7 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
     if (!(await argon2.verify(authUser.password, password))) {
         return c.json(
             { message: 'Invalid email or password', data: {}, success: false },
-            HttpStatusCodes.BAD_REQUEST,
+            BAD_REQUEST,
         )
     }
 
@@ -102,7 +102,7 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
                 },
                 success: true,
             },
-            HttpStatusCodes.OK,
+            OK,
         )
     }
 
@@ -125,7 +125,7 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
                 },
                 success: true,
             },
-            HttpStatusCodes.OK,
+            OK,
         )
     }
 
@@ -149,7 +149,7 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
                 },
                 success: true,
             },
-            HttpStatusCodes.OK,
+            OK,
         )
     } else {
         // get all profiles of the user
@@ -166,7 +166,7 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
                 },
                 success: false,
             },
-            HttpStatusCodes.PRECONDITION_REQUIRED,
+            PRECONDITION_REQUIRED,
         )
     }
 }

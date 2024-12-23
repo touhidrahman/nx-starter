@@ -5,6 +5,7 @@ import { Observable } from 'rxjs'
 import { AUTH_API_URL } from '../auth-api-url.injector'
 import { LoginResponse } from '../models/login-response'
 import { SignupInput } from '../models/signup-input'
+import { GroupInput } from '../models/group'
 
 @Injectable({
     providedIn: 'root',
@@ -13,7 +14,7 @@ export class AuthApiService<TUser> {
     constructor(
         private http: HttpClient,
         @Inject(AUTH_API_URL) private authApiUrl: string,
-    ) {}
+    ) { }
 
     getMe(): Observable<ApiResponse<TUser>> {
         return this.http.get<ApiResponse<TUser>>(`${this.authApiUrl}/me`)
@@ -29,8 +30,8 @@ export class AuthApiService<TUser> {
     login(
         email: string,
         password: string,
-    ): Observable<ApiResponse<LoginResponse<TUser>>> {
-        return this.http.post<ApiResponse<LoginResponse<TUser>>>(
+    ): Observable<ApiResponse<LoginResponse>> {
+        return this.http.post<ApiResponse<LoginResponse>>(
             `${this.authApiUrl}/login`,
             {
                 email,
@@ -55,8 +56,8 @@ export class AuthApiService<TUser> {
 
     refreshAccessToken(
         refreshToken: string,
-    ): Observable<ApiResponse<LoginResponse<TUser>>> {
-        return this.http.post<ApiResponse<LoginResponse<TUser>>>(
+    ): Observable<ApiResponse<LoginResponse>> {
+        return this.http.post<ApiResponse<LoginResponse>>(
             `${this.authApiUrl}/refresh-access-token`,
             {
                 token: refreshToken,
@@ -112,6 +113,23 @@ export class AuthApiService<TUser> {
     verifyEmail(token: string): Observable<ApiResponse<boolean>> {
         return this.http.get<ApiResponse<boolean>>(
             `${this.authApiUrl}/verify-email/${token}`,
+        )
+    }
+
+    setDefaultGroupToAuthUser(
+        userId: string,
+        groupId: string,
+    ): Observable<ApiResponse<boolean>> {
+        return this.http.post<ApiResponse<boolean>>(
+            `${this.authApiUrl}/set-default-group`,
+            { userId, groupId },
+        )
+    }
+
+    createGroupAndProfile(input: Partial<GroupInput>, type: 'client' | 'vendor'): Observable<ApiResponse<{}>> {
+        return this.http.post<ApiResponse<{}>>(
+            `${this.authApiUrl}/create-profile/${type}`,
+            input,
         )
     }
 }

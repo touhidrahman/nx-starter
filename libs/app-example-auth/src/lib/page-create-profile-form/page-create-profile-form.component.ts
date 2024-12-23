@@ -6,44 +6,24 @@ import {
     ReactiveFormsModule,
     Validators,
 } from '@angular/forms'
-import { CreateProfileFormService } from '../create-profile-form.service'
+import { GroupFormService } from '../group-form.service'
 
 @Component({
     selector: 'myorg-page-create-profile-form',
     imports: [ReactiveFormsModule],
     templateUrl: './page-create-profile-form.component.html',
     styleUrl: './page-create-profile-form.component.css',
-    providers: [CreateProfileFormService],
+    providers: [GroupFormService],
 })
 export class PageCreateProfileFormComponent implements OnInit {
-    profileType = input()
     authStateService = inject(AuthStateService)
-    createProfileFormService = inject(CreateProfileFormService)
-    fb = inject(FormBuilder)
+    groupFormService = inject(GroupFormService)
 
-    createProfileForm!: FormGroup
+    profileType = input<'client' | 'vendor'>()
 
     ngOnInit(): void {
-        this.initForm()
-    }
-
-    initForm() {
-        this.createProfileForm = this.fb.nonNullable.group({
-            type: [this.profileType(), Validators.required],
-            status: ['', Validators.required],
-            name: ['', [Validators.required]],
-            email: ['', [Validators.required, Validators.email]],
-            phone: ['', [Validators.required]],
-            address: ['', [Validators.required]],
-            city: ['', [Validators.required]],
-            country: ['', [Validators.required]],
-            postCode: ['', [Validators.required]],
-            ownerId: ['', [Validators.required]],
-            verified: [false, [Validators.required]],
-        })
     }
 
     submit() {
-        console.log(this.createProfileForm.value)
     }
 }

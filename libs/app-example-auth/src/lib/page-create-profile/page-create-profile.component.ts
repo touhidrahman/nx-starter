@@ -1,10 +1,20 @@
-import { Component } from '@angular/core'
-import { RouterLink } from '@angular/router'
+import { Component, inject } from '@angular/core'
+import { Router, RouterLink } from '@angular/router'
+import { AuthStateService } from '../auth-state.service'
 
 @Component({
-    selector: 'myorg-page-create-profile',
     imports: [RouterLink],
     templateUrl: './page-create-profile.component.html',
     styleUrl: './page-create-profile.component.css',
 })
-export class PageCreateProfileComponent {}
+export class PageCreateProfileComponent {
+    private authStateService = inject(AuthStateService)
+    private router = inject(Router)
+
+    ngOnInit(): void {
+        const { groupId, level, userId } = this.authStateService.getState()
+        if (groupId && userId) {
+            this.router.navigateByUrl('/')
+        }
+    }
+}
