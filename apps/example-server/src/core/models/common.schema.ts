@@ -24,6 +24,7 @@ export const zMessage = z.object({
 })
 
 export const zEmpty = z.object({})
+export const zEmptyList = z.array(z.any()).length(0)
 
 export const zFile = z.object({
     file: z.instanceof(File).optional(),

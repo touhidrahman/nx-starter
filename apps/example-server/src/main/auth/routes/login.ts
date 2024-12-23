@@ -19,7 +19,11 @@ import { findAuthUserByEmail, updateLastLogin } from '../auth.service'
 import { createAccessToken, createRefreshToken } from '../token.util'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zEmpty } from '../../../core/models/common.schema'
-import { OK } from 'stoker/http-status-codes'
+import {
+    BAD_REQUEST,
+    OK,
+    PRECONDITION_REQUIRED,
+} from 'stoker/http-status-codes'
 
 const tags = ['Auth']
 
@@ -38,16 +42,12 @@ export const loginRoute = createRoute({
                 refreshToken: z.string(),
                 lastLogin: z.string(),
             }),
-
             'User login successful',
         ),
 
-        [HttpStatusCodes.BAD_REQUEST]: ApiResponse(
-            zEmpty,
-            'Invalid email or password',
-        ),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid email or password'),
 
-        [HttpStatusCodes.PRECONDITION_REQUIRED]: ApiResponse(
+        [PRECONDITION_REQUIRED]: ApiResponse(
             z.object({
                 availableGroups: z.array(z.any()),
             }),
@@ -56,10 +56,16 @@ export const loginRoute = createRoute({
     },
 })
 
-export type LoginRoute = typeof loginRoute
-
-export const loginHandler: AppRouteHandler<LoginRoute> = async (c) => {
+/**
+ * Login uses primarily authUser table to authenticate user. If user is admin or moderator, access token is returned.
+ * If user is not admin or moderator, user is asked to select a group to login to. If there is only one group the user is member of,
+ * the user is logged in to that group by default.
+ * @param c
+ * @returns
+ */
+export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
     const { email, password } = c.req.valid('json')
+    // optional, group id. If provided, user is logged in to that group
     const groupId = c.req.query('groupId')
 
     const authUser = await findAuthUserByEmail(email)
@@ -67,26 +73,27 @@ export const loginHandler: AppRouteHandler<LoginRoute> = async (c) => {
     if (!authUser) {
         return c.json(
             { message: 'Invalid email or password', data: {}, success: false },
-            HttpStatusCodes.BAD_REQUEST,
+            BAD_REQUEST,
         )
     }
 
-    const refreshToken = await createRefreshToken(authUser)
     const now = dayjs()
 
     if (!(await argon2.verify(authUser.password, password))) {
         return c.json(
             { message: 'Invalid email or password', data: {}, success: false },
-            HttpStatusCodes.BAD_REQUEST,
+            BAD_REQUEST,
         )
     }
 
     await updateLastLogin(authUser.id)
 
-    // if previledged user, return access token
+    // if previledged user, do not check for groups and just return access token
+    // TODO: fix as any
     if ([LEVEL_ADMIN, LEVEL_MODERATOR].includes(authUser.level as any)) {
         const accessToken = await createAccessToken(authUser)
-        // TODO: fix as any
+        const refreshToken = await createRefreshToken(authUser)
+
         return c.json(
             {
                 message: 'Priviledged user login successful',
@@ -97,7 +104,7 @@ export const loginHandler: AppRouteHandler<LoginRoute> = async (c) => {
                 },
                 success: true,
             },
-            HttpStatusCodes.OK,
+            OK,
         )
     }
 
@@ -110,9 +117,11 @@ export const loginHandler: AppRouteHandler<LoginRoute> = async (c) => {
             user,
             group as any,
         ) // TODO: fix as any
+        const refreshToken = await createRefreshToken(authUser, groupId)
+
         return c.json(
             {
-                message: 'User login to group successful',
+                message: 'User login to provided group was successful',
                 data: {
                     accessToken,
                     refreshToken,
@@ -120,7 +129,7 @@ export const loginHandler: AppRouteHandler<LoginRoute> = async (c) => {
                 },
                 success: true,
             },
-            HttpStatusCodes.OK,
+            OK,
         )
     }
 
@@ -134,6 +143,8 @@ export const loginHandler: AppRouteHandler<LoginRoute> = async (c) => {
             user,
             group as any,
         ) // TODO: fix as any
+        const refreshToken = await createRefreshToken(authUser, group?.id)
+
         return c.json(
             {
                 message: 'User login successful',
@@ -144,7 +155,7 @@ export const loginHandler: AppRouteHandler<LoginRoute> = async (c) => {
                 },
                 success: true,
             },
-            HttpStatusCodes.OK,
+            OK,
         )
     } else {
         // get all profiles of the user
@@ -161,7 +172,7 @@ export const loginHandler: AppRouteHandler<LoginRoute> = async (c) => {
                 },
                 success: false,
             },
-            HttpStatusCodes.PRECONDITION_REQUIRED,
+            PRECONDITION_REQUIRED,
         )
     }
 }

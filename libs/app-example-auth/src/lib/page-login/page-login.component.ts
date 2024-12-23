@@ -3,6 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms'
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'
 import { AuthStateService } from '@myorg/app-example-auth'
 import { AlertService } from '@myorg/app-example-core'
+import { UserLevel } from '@myorg/app-example-models'
 import { LoginFormService } from '@myorg/common-auth'
 import { PrimeModules } from '@myorg/prime-modules'
 
@@ -31,6 +32,7 @@ export class PageLoginComponent {
     ngOnInit(): void {
         this.returnUrl =
             this.activatedRoute.snapshot.queryParams['returnUrl'] ?? '/'
+
         if (this.authStateService.isLoggedIn())
             this.router.navigateByUrl(this.returnUrl)
     }
@@ -47,17 +49,23 @@ export class PageLoginComponent {
 
         const { email, password } = this.loginFormService.getValue()
         this.authStateService.login(email, password).subscribe({
-            next: (res: any) => {
+            next: (res) => {
                 this.loading = false
-                this.router.navigateByUrl('/create-profile')
+                this.redirectAfterLogin()
             },
             error: (err) => {
                 this.loading = false
-                console.log(err.error)
-                this.alertService.error(
-                    'Email or password incorrect. Please try again',
-                )
+                this.errors.push(err.error.message)
             },
         })
+    }
+
+    private redirectAfterLogin(): void {
+        const { groupId, role, level } = this.authStateService.getState()
+        if (!groupId && level !== UserLevel.Admin) {
+            this.router.navigateByUrl('/create-profile')
+            return
+        }
+        this.router.navigateByUrl(this.returnUrl)
     }
 }

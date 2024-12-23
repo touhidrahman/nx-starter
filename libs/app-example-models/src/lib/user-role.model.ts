@@ -1,17 +1,21 @@
 import { LabelValuePair } from '@myorg/common-models'
 
 export enum UserRole {
-    Advertiser = 'Advertiser',
-    Customer = 'Customer',
+    Member = 'Member',
     Manager = 'Manager',
     Owner = 'Owner',
 }
 
+export enum UserLevel {
+    Admin = 'Admin',
+    Moderator = 'Moderator',
+    User = 'User',
+}
+
 export const USER_ROLES: LabelValuePair<UserRole>[] = [
-    { label: 'Advertiser', value: UserRole.Advertiser },
+    { label: 'Member', value: UserRole.Member },
     { label: 'Manager', value: UserRole.Manager },
     { label: 'Owner', value: UserRole.Owner },
-    { label: 'Customer', value: UserRole.Customer },
 ]
 
 export const ALL_USER_ROLES: UserRole[] = USER_ROLES.map(({ value }) => value)

@@ -15,11 +15,15 @@ export class TokenStorageService {
     }
 
     saveAccessToken(token: string): void {
+        const saved = this.getAccessToken()
+        if (saved === token) return
         this.windowRef.sessionStorage.removeItem(ACCESS_TOKEN_KEY)
         this.windowRef.sessionStorage.setItem(ACCESS_TOKEN_KEY, token)
     }
 
     saveRefreshToken(token: string): void {
+        const saved = this.getRefreshToken()
+        if (saved === token) return
         this.windowRef.sessionStorage.removeItem(REFRESH_TOKEN_KEY)
         this.windowRef.sessionStorage.setItem(REFRESH_TOKEN_KEY, token)
     }
