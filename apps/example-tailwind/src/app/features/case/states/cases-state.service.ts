@@ -6,6 +6,7 @@ import { AlertService } from '@myorg/app-example-core'
 export type CasesState = {
     loading: boolean
     cases: any[]
+    caseId:
 }
 
 const initialState: CasesState = {
@@ -29,6 +30,7 @@ export class CasesStateService extends SimpleStore<CasesState> {
         this.setState({ loading: true })
         this.casesApiService.getAllCases().subscribe({
             next: (value) => {
+                console.log(value)
                 this.setState({ loading: false, cases: value.data })
             },
             error: (err) => {
@@ -36,5 +38,9 @@ export class CasesStateService extends SimpleStore<CasesState> {
                 this.alertService.error(err.error.message)
             },
         })
+    }
+
+    deleteCase(id:string) {
+        
     }
 }

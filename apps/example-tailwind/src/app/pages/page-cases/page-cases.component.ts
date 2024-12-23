@@ -1,9 +1,16 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, signal } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { DropdownModule } from 'primeng/dropdown'
 import { FormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
 import { CasesStateService } from '../../features/case/states/cases-state.service'
+import { Button } from 'primeng/button'
+import { Dialog } from 'primeng/dialog'
+import { FileUpload } from 'primeng/fileupload'
+import { InputText } from 'primeng/inputtext'
+import { Select } from 'primeng/select'
+import { CasesTableComponent } from '../../features/case/components/cases-table/cases-table.component'
+import { ProgressSpinner } from 'primeng/progressspinner'
 
 interface Case {
     caseNumber: number
@@ -17,77 +24,26 @@ interface Case {
 
 @Component({
     selector: 'app-page-cases',
-    imports: [CommonModule, DropdownModule, FormsModule, RouterModule],
+    imports: [
+        CommonModule,
+        DropdownModule,
+        FormsModule,
+        RouterModule,
+        Button,
+        Dialog,
+        FileUpload,
+        InputText,
+        CasesTableComponent,
+        Select,
+        ProgressSpinner,
+    ],
     templateUrl: './page-cases.component.html',
     styleUrl: './page-cases.component.scss',
 })
 export class PageCasesComponent {
     casesStateService = inject(CasesStateService)
 
-    showFilter = true
-
-    toggleFilter() {
-        this.showFilter = !this.showFilter
-    }
-
-    users: Case[] = [
-        {
-            caseNumber: 1212121,
-            caseTitle: 'Ariful vs Ferdous',
-            clientName: 'Ariful Hoque',
-            courtName: 'Chittagong Judge Court',
-            nextHearingDate: '10/12/2024',
-            status: 'Open',
-            caseType: 'Personal Injury',
-        },
-        {
-            caseNumber: 1212121,
-            caseTitle: 'Ariful vs Ferdous',
-            clientName: 'Ariful Hoque',
-            courtName: 'Chittagong Judge Court',
-            nextHearingDate: '10/12/2024',
-            status: 'Pending',
-            caseType: 'Personal Injury',
-        },
-        {
-            caseNumber: 1212121,
-            caseTitle: 'Ariful vs Ferdous',
-            clientName: 'Ariful Hoque',
-            courtName: 'Chittagong Judge Court',
-            nextHearingDate: '10/12/2024',
-            status: 'Closed',
-            caseType: 'Personal Injury',
-        },
-        {
-            caseNumber: 1212121,
-            caseTitle: 'Ariful vs Ferdous',
-            clientName: 'Ariful Hoque',
-            courtName: 'Chittagong Judge Court',
-            nextHearingDate: '10/12/2024',
-            status: 'Pending',
-            caseType: 'Personal Injury',
-        },
-        {
-            caseNumber: 1212121,
-            caseTitle: 'Ariful vs Ferdous',
-            clientName: 'Ariful Hoque',
-            courtName: 'Chittagong Judge Court',
-            nextHearingDate: '10/12/2024',
-            status: 'Open',
-            caseType: 'Personal Injury',
-        },
-    ]
-
-    tableTitles: string[] = [
-        'Case Number',
-        'Case Title',
-        'Client Name',
-        'Court Name',
-        'Next Hearing Date',
-        'Status',
-        'Case Type',
-        'Action',
-    ]
+    showFilter = signal<boolean>(false)
 
     setColor(value: string) {
         if (value === 'open') {
@@ -101,7 +57,6 @@ export class PageCasesComponent {
     }
 
     Options = [{ name: 'Low' }, { name: 'High' }]
-    selectedOption: undefined
 
     popUpState = {
         visiblity: false,
@@ -119,5 +74,48 @@ export class PageCasesComponent {
     }
     hidePopUp() {
         this.popUpState.visiblity = false
+    }
+
+    status = ['Ordered', 'Unpaid', 'Paid', 'Confirmed', 'Cancelled']
+    selected = ''
+    visible = signal(false)
+    editMode = signal(false)
+
+    organizations = [
+        {
+            name: 'A ',
+            email: 'a@example.com',
+            address: 'abc',
+            workHour: 5,
+            totalMembers: 5,
+        },
+        {
+            name: 'A ',
+            email: 'a@example.com',
+            address: 'abc',
+            workHour: 5,
+            totalMembers: 5,
+        },
+        {
+            name: 'A ',
+            email: 'a@example.com',
+            address: 'abc',
+            workHour: 5,
+            totalMembers: 5,
+        },
+    ]
+
+    openCreateCaseModal() {
+        this.editMode.set(false)
+        this.visible.set(true)
+    }
+
+    cancel() {
+        this.editMode.set(false)
+        this.visible.set(false)
+    }
+
+    onSave() {
+        console.log('saving Case')
     }
 }

@@ -8,7 +8,7 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
-import { InsertCase, zInsertCase, zSelectCase } from '../case.schema'
+import { InsertCase, zCreateCase, zInsertCase, zSelectCase } from '../case.schema'
 import { zEmpty } from '../../../core/models/common.schema'
 import { createCase } from '../case.service'
 
