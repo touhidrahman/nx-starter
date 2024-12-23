@@ -19,7 +19,11 @@ import { findAuthUserByEmail, updateLastLogin } from '../auth.service'
 import { createAccessToken, createRefreshToken } from '../token.util'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zEmpty } from '../../../core/models/common.schema'
-import { BAD_REQUEST, OK, PRECONDITION_REQUIRED } from 'stoker/http-status-codes'
+import {
+    BAD_REQUEST,
+    OK,
+    PRECONDITION_REQUIRED,
+} from 'stoker/http-status-codes'
 
 const tags = ['Auth']
 
@@ -41,10 +45,7 @@ export const loginRoute = createRoute({
             'User login successful',
         ),
 
-        [BAD_REQUEST]: ApiResponse(
-            zEmpty,
-            'Invalid email or password',
-        ),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid email or password'),
 
         [PRECONDITION_REQUIRED]: ApiResponse(
             z.object({

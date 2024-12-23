@@ -1,11 +1,10 @@
-import { Component, inject, input, OnInit } from '@angular/core'
-import { AuthStateService } from '../auth-state.service'
+import { Component, inject, OnInit } from '@angular/core'
 import {
-    FormBuilder,
-    FormGroup,
-    ReactiveFormsModule,
-    Validators,
+    ReactiveFormsModule
 } from '@angular/forms'
+import { ActivatedRoute, Router } from '@angular/router'
+import { AuthApiService } from '@myorg/common-auth'
+import { AuthStateService } from '../auth-state.service'
 import { GroupFormService } from '../group-form.service'
 
 @Component({
@@ -16,14 +15,25 @@ import { GroupFormService } from '../group-form.service'
     providers: [GroupFormService],
 })
 export class PageCreateProfileFormComponent implements OnInit {
+    private authApiService = inject(AuthApiService)
+    private activatedRoute = inject(ActivatedRoute)
+    private router = inject(Router)
     authStateService = inject(AuthStateService)
     groupFormService = inject(GroupFormService)
 
-    profileType = input<'client' | 'vendor'>()
+    profileType = this.activatedRoute.snapshot.params['profileType'] as 'client' | 'vendor'
 
-    ngOnInit(): void {
-    }
+    ngOnInit(): void {}
 
     submit() {
+        if (this.groupFormService.form.invalid) {
+            return
+        }
+
+        this.authApiService
+            .createGroupAndProfile(this.groupFormService.getValue(), this.profileType)
+            .subscribe((res) => {
+                this.router.navigate(['/profile-created'])
+            })
     }
 }

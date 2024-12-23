@@ -30,7 +30,8 @@ export class PageLoginComponent {
     ) {}
 
     ngOnInit(): void {
-        this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] ?? '/'
+        this.returnUrl =
+            this.activatedRoute.snapshot.queryParams['returnUrl'] ?? '/'
 
         if (this.authStateService.isLoggedIn())
             this.router.navigateByUrl(this.returnUrl)

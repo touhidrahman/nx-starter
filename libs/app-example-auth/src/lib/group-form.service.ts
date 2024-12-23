@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 
 @Injectable()
 export class GroupFormService {
-   private fb = inject(FormBuilder)
+    private fb = inject(FormBuilder)
     form: FormGroup = this.buildForm()
 
     buildForm(): FormGroup {

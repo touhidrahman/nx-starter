@@ -5,7 +5,7 @@ import {
     User,
     UserLevel,
     UserPermissionKeys,
-    UserRole
+    UserRole,
 } from '@myorg/app-example-models'
 import {
     AuthApiService,
@@ -117,10 +117,7 @@ export class AuthStateService extends SimpleStore<AuthState> {
         return this.authApiService.login(username, password).pipe(
             map(({ data }) => {
                 data &&
-                    this.setStateAfterLogin(
-                        data.accessToken,
-                        data.refreshToken,
-                    )
+                    this.setStateAfterLogin(data.accessToken, data.refreshToken)
                 return data
             }),
         )
@@ -136,10 +133,7 @@ export class AuthStateService extends SimpleStore<AuthState> {
         return this.authApiService.refreshAccessToken(refreshToken ?? '').pipe(
             map(({ data }) => {
                 data &&
-                    this.setStateAfterLogin(
-                        data.accessToken,
-                        data.refreshToken,
-                    )
+                    this.setStateAfterLogin(data.accessToken, data.refreshToken)
                 return data
             }),
         )
@@ -167,13 +161,13 @@ export class AuthStateService extends SimpleStore<AuthState> {
         this.startRefreshTokenTimer()
     }
 
-    logout(redirectPath = '') {
+    logout(redirectPath = '', reload = false) {
         this.authApiService.logout().subscribe()
         this.reset()
         this.stopRefreshTokenTimer()
         this.tokenStorageService.clear()
         this.router.navigate([redirectPath])
-        timer(1000).subscribe(() => window.location.reload())
+        timer(1000).subscribe(() => reload && window.location.reload())
     }
 
     private saveInLocalStorage() {

@@ -14,7 +14,7 @@ export class AuthApiService<TUser> {
     constructor(
         private http: HttpClient,
         @Inject(AUTH_API_URL) private authApiUrl: string,
-    ) { }
+    ) {}
 
     getMe(): Observable<ApiResponse<TUser>> {
         return this.http.get<ApiResponse<TUser>>(`${this.authApiUrl}/me`)
@@ -116,6 +116,7 @@ export class AuthApiService<TUser> {
         )
     }
 
+    // TODO: implement
     setDefaultGroupToAuthUser(
         userId: string,
         groupId: string,
@@ -126,7 +127,10 @@ export class AuthApiService<TUser> {
         )
     }
 
-    createGroupAndProfile(input: Partial<GroupInput>, type: 'client' | 'vendor'): Observable<ApiResponse<{}>> {
+    createGroupAndProfile(
+        input: Partial<GroupInput>,
+        type: 'client' | 'vendor',
+    ): Observable<ApiResponse<{}>> {
         return this.http.post<ApiResponse<{}>>(
             `${this.authApiUrl}/create-profile/${type}`,
             input,
