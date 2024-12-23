@@ -77,7 +77,6 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
         )
     }
 
-    const refreshToken = await createRefreshToken(authUser)
     const now = dayjs()
 
     if (!(await argon2.verify(authUser.password, password))) {
@@ -93,6 +92,8 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
     // TODO: fix as any
     if ([LEVEL_ADMIN, LEVEL_MODERATOR].includes(authUser.level as any)) {
         const accessToken = await createAccessToken(authUser)
+        const refreshToken = await createRefreshToken(authUser)
+
         return c.json(
             {
                 message: 'Priviledged user login successful',
@@ -116,6 +117,8 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
             user,
             group as any,
         ) // TODO: fix as any
+        const refreshToken = await createRefreshToken(authUser, groupId)
+
         return c.json(
             {
                 message: 'User login to provided group was successful',
@@ -140,6 +143,8 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
             user,
             group as any,
         ) // TODO: fix as any
+        const refreshToken = await createRefreshToken(authUser, group?.id)
+
         return c.json(
             {
                 message: 'User login successful',

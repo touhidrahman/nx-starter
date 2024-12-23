@@ -3,7 +3,7 @@
         Create Your Organization
     </h2>
 
-    <form [formGroup]="groupFormService.form" (ngSubmit)="submit()">
+    <form [formGroup]="groupFormService.form">
         <div class="mb-4">
             <label class="mb-2 block text-sm font-medium text-gray-700"
                 >Address</label
@@ -63,6 +63,7 @@
 
         <button
             type="submit"
+            (click)="submit()"
             class="bg-green focus:ring-green3 mt-6 w-full rounded-lg px-4 py-2 font-semibold text-white transition duration-200 hover:bg-emerald-700 focus:ring">
             Create My Organization
         </button>

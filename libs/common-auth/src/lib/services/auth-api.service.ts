@@ -58,9 +58,9 @@ export class AuthApiService<TUser> {
         refreshToken: string,
     ): Observable<ApiResponse<LoginResponse>> {
         return this.http.post<ApiResponse<LoginResponse>>(
-            `${this.authApiUrl}/refresh-access-token`,
+            `${this.authApiUrl}/token`,
             {
-                token: refreshToken,
+                refreshToken,
             },
         )
     }

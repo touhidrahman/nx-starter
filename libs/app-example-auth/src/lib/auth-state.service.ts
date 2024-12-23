@@ -13,7 +13,7 @@ import {
     TokenStorageService,
 } from '@myorg/common-auth'
 import { SimpleStore } from '@myorg/store'
-import { debounceTime, map, timer } from 'rxjs'
+import { catchError, debounceTime, map, of, timer } from 'rxjs'
 
 export interface AuthState {
     isLoggedIn: boolean
@@ -127,8 +127,20 @@ export class AuthStateService extends SimpleStore<AuthState> {
         return this.authApiService.register(signupInput).pipe()
     }
 
+    initAuthFromStorage() {
+        const accessToken = this.tokenStorageService.getAccessToken()
+        const refreshToken = this.tokenStorageService.getRefreshToken()
+
+        if (!accessToken || !refreshToken) {
+            return
+        }
+
+        this.setStateAfterLogin(accessToken, refreshToken)
+    }
+
     refreshAccessToken() {
         const refreshToken = this.tokenStorageService.getRefreshToken()
+        console.log('TCL: | refreshAccessToken | refreshToken:', refreshToken)
 
         return this.authApiService.refreshAccessToken(refreshToken ?? '').pipe(
             map(({ data }) => {
@@ -136,6 +148,11 @@ export class AuthStateService extends SimpleStore<AuthState> {
                     this.setStateAfterLogin(data.accessToken, data.refreshToken)
                 return data
             }),
+            catchError((err) => {
+                console.error(err)
+                // this.logout()
+                return of(null)
+            })
         )
     }
 
@@ -190,10 +207,10 @@ export class AuthStateService extends SimpleStore<AuthState> {
         // set a timeout to refresh the token a minute before it expires
         const expires = new Date(decoded.exp * 1000)
         const timeout = expires.getTime() - Date.now() - 60 * 1000
-        this.refreshTokenTimeout = setTimeout(
-            () => this.refreshAccessToken().subscribe(),
-            timeout,
-        )
+        // this.refreshTokenTimeout = setTimeout(
+        //     () => this.refreshAccessToken().subscribe(),
+        //     timeout,
+        // )
     }
 
     private stopRefreshTokenTimer() {

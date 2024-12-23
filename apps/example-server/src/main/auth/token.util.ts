@@ -6,17 +6,24 @@ import { GroupDto } from '../group/group.schema'
 import { User } from '../user/user.schema'
 import { AuthUser } from './auth.schema'
 
-export type TokenPayload = {
+export type AccessTokenPayload = {
     userId: string
     firstName: string
     lastName: string
     email: string
     level: 'admin' | 'moderator' | 'user' | ''
     role: 'owner' | 'manager' | 'member' | ''
-    groupId: string | null
+    groupId: string | ''
     groupType: 'client' | 'vendor' | ''
     sub: string // authUserId
     exp: number
+}
+
+export type RefreshTokenPayload = {
+    email: string
+    sub: string // authUserId
+    exp: number
+    groupId: string
 }
 
 export async function createAccessToken(
@@ -24,7 +31,7 @@ export async function createAccessToken(
     user?: User,
     group?: GroupDto,
 ) {
-    const tokenPayload: TokenPayload = {
+    const tokenPayload: AccessTokenPayload = {
         userId: user?.id ?? '',
         firstName: user?.firstName ?? authUser.firstName,
         lastName: user?.lastName ?? authUser.lastName,
@@ -43,15 +50,25 @@ export async function createAccessToken(
     return await sign(tokenPayload, env.ACCESS_TOKEN_SECRET)
 }
 
-export async function createRefreshToken(authUser: AuthUser) {
-    return await sign(
-        {
-            email: authUser.email,
-            sub: authUser.id,
-            exp: dayjs().add(7, 'day').valueOf(),
-        },
-        env.REFRESH_TOKEN_SECRET,
+export async function createRefreshToken(authUser: AuthUser, groupId?: string) {
+    const tokenPayload: RefreshTokenPayload = {
+        email: authUser.email,
+        sub: authUser.id,
+        exp: dayjs().add(7, 'day').valueOf(),
+        groupId: groupId ?? '',
+    }
+    return await sign(tokenPayload, env.REFRESH_TOKEN_SECRET)
+}
+
+export async function decodeRefreshToken(
+    token: string,
+): Promise<RefreshTokenPayload | null> {
+    const { email, sub, exp, groupId } = await verify(
+        token,
+        env.REFRESH_TOKEN_SECRET
     )
+    if (exp && exp < dayjs().valueOf()) return null
+    return { email: email as string, sub: sub as string, groupId: groupId as string, exp: exp as number }
 }
 
 export async function decodeVerificationToken(

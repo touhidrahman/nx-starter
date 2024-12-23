@@ -21,10 +21,12 @@ import {
     setDefaulGroupRoute,
     setDefaultGroupHandler,
 } from './routes/set-default-group-to-authUser'
+import { getTokenRoute, getTokenRouteHandler } from './routes/token'
 import { verifyEmailHandler, verifyEmailRoute } from './routes/verify-email'
 
 export const authV1Routes = createRouter()
     .openapi(loginRoute, loginHandler)
+    .openapi(getTokenRoute, getTokenRouteHandler)
     .openapi(registerRoute, registerHandler)
     .openapi(createProfileRoute, createProfileHandler)
     .openapi(setDefaulGroupRoute, setDefaultGroupHandler)
