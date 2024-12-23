@@ -2,13 +2,6 @@
     display: block;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Archivo Narrow', serif;
-}
-
 .text-gradient {
     background: linear-gradient(90deg, #009459 0%, #04712d 100%);
     -webkit-background-clip: text;
