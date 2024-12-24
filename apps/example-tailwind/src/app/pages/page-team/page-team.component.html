@@ -1,6 +1,6 @@
-<h1 class="font-bold text-3xl">Teams</h1>
+<h1 class="text-3xl font-bold">Teams</h1>
 
-<div class="flex mt-4">
+<div class="mt-4 flex">
     <button class="btn-fill">Invite User</button>
 </div>
 
@@ -9,53 +9,53 @@
         <tr>
             <th
                 scope="col"
-                class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-500">
                 User name
             </th>
             <th
                 scope="col"
-                class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-500">
                 Email
             </th>
             <th
                 scope="col"
-                class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-500">
                 Role
             </th>
             <th
                 scope="col"
-                class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-500">
                 Join Date
             </th>
             <th
                 scope="col"
-                class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-500">
                 Action
             </th>
         </tr>
     </thead>
     <tbody
-        class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+        class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
         @for (user of teams; track user) {
             <tr>
                 <td
-                    class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                    class="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
                     {{ user.name }}
                 </td>
                 <td
-                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                    class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
                     {{ user.email }}
                 </td>
                 <td
-                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                    class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
                     {{ user.role }}
                 </td>
                 <td
-                    class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                    class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
                     {{ user.joinDate }}
                 </td>
 
-                <td class="px-6 whitespace-nowrap text-sm font-medium">
+                <td class="whitespace-nowrap px-6 text-sm font-medium">
                     <div class="flex gap-2">
                         <button>
                             <i class="pi pi-cog text-sm"></i>

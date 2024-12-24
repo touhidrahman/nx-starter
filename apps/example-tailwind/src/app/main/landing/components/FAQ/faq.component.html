@@ -1,6 +1,6 @@
-<section class="py-14 relative z-50 bg-white">
+<section class="relative z-50 bg-white py-14">
     <app-section-title>
-        <span class="text-gray3e text-xl sm:text-2xl title">FAQ</span>
+        <span class="text-gray3e title text-xl sm:text-2xl">FAQ</span>
         <svg
             class="title-icon"
             width="32"
@@ -14,7 +14,7 @@
         </svg>
 
         <h2
-            class="text-lg sm:text-xl md:text-2xl text-gray63 text-center my-4 subtitle">
+            class="text-gray63 subtitle my-4 text-center text-lg sm:text-xl md:text-2xl">
             Feel free to let me know if you need any additional
             <br class="hidden sm:block" />
             questions or if there are specific areas you want to focus
@@ -25,12 +25,12 @@
         <div class="box-shadow rounded-xl px-4 py-10">
             @for (i of [1, 2, 3, 4, 5]; track $index) {
                 <div class="" (click)="showFaqAns(faqAns, minus, plus)">
-                    <div class="flex justify-between items-center px-6 mt-5">
+                    <div class="mt-5 flex items-center justify-between px-6">
                         <span class="text-2xl text-black"
                             >What if I have an urgent question outside of office
                             hours?</span
                         >
-                        <span class="text-2xl text-black hidden" #minus>
+                        <span class="hidden text-2xl text-black" #minus>
                             <svg
                                 width="16"
                                 height="4"
@@ -55,7 +55,7 @@
                         </span>
                     </div>
                     <div
-                        class="h-0 overflow-hidden px-6 transition-all duration-300 mt-8 text-xl text-gray39"
+                        class="text-gray39 mt-8 h-0 overflow-hidden px-6 text-xl transition-all duration-300"
                         #faqAns>
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Repellat ab perferendis doloribus inventore dolor

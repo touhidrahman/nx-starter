@@ -16,10 +16,11 @@ import { InjectionToken } from '@angular/core'
 export const SAMEORIGIN = new InjectionToken<RegExp>('wizdm.sameorigin.regex', {
     factory: () => {
         // Test the given URL to start with "data:" or "blob:" or the current host
-        return new RegExp(`^data:|^blob:|^http(?:s)?:\/\/${window.location.host}`)
+        return new RegExp(
+            `^data:|^blob:|^http(?:s)?:\/\/${window.location.host}`,
+        )
     },
 })
-
 
 @Directive({
     selector: 'a[download]',
@@ -43,7 +44,8 @@ export class DownloadDirective implements OnDestroy {
 
     // Turns the 'download' attribute into an input
     @HostBinding('attr.download')
-    @Input() download: string = ''
+    @Input()
+    download: string = ''
 
     // Intercepts the href
     @Input('href') set source(href: string) {

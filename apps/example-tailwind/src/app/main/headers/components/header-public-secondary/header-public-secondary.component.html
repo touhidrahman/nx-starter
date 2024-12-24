@@ -1,17 +1,17 @@
-<header class="text-grayShade w-full relative h-16 overflow-x-clip">
+<header class="text-grayShade relative h-16 w-full overflow-x-clip">
     <div class="flex items-center justify-between px-6 py-2">
-        <a class="flex justify-center cursor-pointer" [routerLink]="['/']">
+        <a class="flex cursor-pointer justify-center" [routerLink]="['/']">
             <img
                 src="assets/logo/sheresta.png"
                 class="h-12 w-40 cursor-pointer"
                 alt="" />
         </a>
 
-        <div class="space-x-5 block">
-            <button class="text-sm px-4 py-1 rounded-md" routerLink="/signup">
+        <div class="block space-x-5">
+            <button class="rounded-md px-4 py-1 text-sm" routerLink="/signup">
                 Sign Up
             </button>
-            <button class="text-sm px-4 py-1 rounded-md" routerLink="/login">
+            <button class="rounded-md px-4 py-1 text-sm" routerLink="/login">
                 Sign In
             </button>
         </div>
@@ -71,7 +71,7 @@
         </svg>
     </span>
 
-    <span class="absolute top-0 right-0 -z-50">
+    <span class="absolute right-0 top-0 -z-50">
         <svg
             width="280"
             height="417"

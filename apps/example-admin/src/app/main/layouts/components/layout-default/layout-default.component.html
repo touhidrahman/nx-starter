@@ -2,9 +2,9 @@
     <div
         [ngClass]="{
             'w-20': isSidebarCollapsed,
-            'w-64': !isSidebarCollapsed
+            'w-64': !isSidebarCollapsed,
         }"
-        class="sticky top-0 bottom-0 left-0 z-50 flex bg-white h-screen w-64 flex-col justify-between shadow-md overflow-y-auto text-gray-100">
+        class="sticky bottom-0 left-0 top-0 z-50 flex h-screen w-64 flex-col justify-between overflow-y-auto bg-white text-gray-100 shadow-md">
         <app-sidebar-default
             [isCollapsed]="isSidebarCollapsed"></app-sidebar-default>
     </div>

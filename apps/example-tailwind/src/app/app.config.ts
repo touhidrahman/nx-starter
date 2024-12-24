@@ -38,6 +38,7 @@ export const appConfig: ApplicationConfig = {
     providers: [
         { provide: APP_EXAMPLE_ENVIRONMENT, useValue: environment },
         { provide: AUTH_API_URL, useValue: environment.authApiUrl },
+        provideAppInitializer(appInitializerFn),
         provideRouter(
             appRoutes,
             withInMemoryScrolling({ scrollPositionRestoration: 'enabled' }),

@@ -7,20 +7,20 @@
                     >Features</span
                 >
             </h3>
-            <p class="text-lg max-w-xl mx-auto mt-6">
+            <p class="mx-auto mt-6 max-w-xl text-lg">
                 Unlock the full potential of advanced legal solutions. Upgrade
                 or downgrade anytime.
             </p>
         </div>
-        <div class="grid grid-cols-12 xl:gap-4 mt-8">
+        <div class="mt-8 grid grid-cols-12 xl:gap-4">
             @for (item of features; track item.id) {
-                <div class="col-span-12 sm:colspan-6 lg:col-span-3">
+                <div class="sm:colspan-6 col-span-12 lg:col-span-3">
                     <div
-                        class="py-4 px-5 border border-t-primary-500 rounded-md min-h-[250px]">
+                        class="border-t-primary-500 min-h-[250px] rounded-md border px-5 py-4">
                         <div class="text-center font-semibold">
-                            <div class="flex justify-center items-center">
+                            <div class="flex items-center justify-center">
                                 <div
-                                    class="w-14 h-14 bg-primary-40 border rounded-lg flex justify-center items-center">
+                                    class="bg-primary-40 flex h-14 w-14 items-center justify-center rounded-lg border">
                                     <!-- <hlm-icon
                                     size="lg"
                                     name="lucideShieldCheck"
@@ -32,7 +32,7 @@
                                 </div>
                             </div>
 
-                            <h4 class="text-2xl py-4">{{ item.title }}</h4>
+                            <h4 class="py-4 text-2xl">{{ item.title }}</h4>
                             <p class="text-base">{{ item.description }}</p>
                         </div>
                     </div>

@@ -2,8 +2,8 @@ import { inject, Injectable } from '@angular/core'
 import { Router } from '@angular/router'
 import { JwtHelperService } from '@auth0/angular-jwt'
 import {
-    Permission,
     User,
+    UserLevel,
     UserPermissionKeys,
     UserRole,
 } from '@myorg/app-example-models'
@@ -12,27 +12,37 @@ import {
     SignupInput,
     TokenStorageService,
 } from '@myorg/common-auth'
-import { LocalStorageService } from '@myorg/common-services'
-
 import { SimpleStore } from '@myorg/store'
-import { debounceTime, map, timer } from 'rxjs'
+import { catchError, debounceTime, map, of, timer } from 'rxjs'
 
 export interface AuthState {
     isLoggedIn: boolean
     accessToken: string
     refreshToken: string
-    user: User | null
+    authUserId: string | null
+    userId: string | null
+    groupId: string | null
+    firstName: string | null
+    lastName: string | null
+    email: string | null
+    role: UserRole | null
     lastUpdated: Date | null
-    isSuperAdmin: boolean
+    level: UserLevel | null
 }
 
 export const initialAuthState: AuthState = {
     isLoggedIn: false,
     accessToken: '',
     refreshToken: '',
-    user: null,
+    authUserId: null,
+    userId: null,
+    groupId: null,
+    firstName: null,
+    lastName: null,
+    email: null,
+    role: null,
+    level: null,
     lastUpdated: null,
-    isSuperAdmin: false,
 }
 
 @Injectable({
@@ -42,36 +52,27 @@ export class AuthStateService extends SimpleStore<AuthState> {
     private refreshTokenTimeout?: any
     private jwtHelper = new JwtHelperService()
     private tokenStorageService = inject(TokenStorageService)
-    private authApiService = inject(AuthApiService)
-    private localStorageService = inject(LocalStorageService)
+    private authApiService = inject<AuthApiService<User>>(AuthApiService)
     private router = inject(Router)
 
     constructor() {
         super(initialAuthState)
     }
 
-    getUser(): User | null {
-        return this.getState().user ?? null
-    }
-
     getUserId(): string | null {
-        return this.getState().user?.id ?? null
+        return this.getState().userId
     }
 
     getUserRole(): UserRole | null {
-        return this.getState().user?.role ?? null
+        return this.getState().role
     }
 
     getLoginStatus(): boolean {
         return this.getState().isLoggedIn
     }
 
-    getOrganizationId(): string | null {
-        return this.getState().user?.organizationId ?? null
-    }
-
-    isAuthenticated(): boolean {
-        return this.getState().isLoggedIn
+    getGroupId(): string | null {
+        return this.getState().groupId
     }
 
     isLoggedIn(): boolean {
@@ -79,11 +80,11 @@ export class AuthStateService extends SimpleStore<AuthState> {
     }
 
     isSuperAdmin(): boolean {
-        return this.getState().isSuperAdmin ?? false
+        return this.getState().level === UserLevel.Admin
     }
 
     isOwner(): boolean {
-        return this.getUser()?.isOwner ?? false
+        return this.getState().role === UserRole.Owner
     }
 
     canAccess(key: UserPermissionKeys | '') {
@@ -91,96 +92,102 @@ export class AuthStateService extends SimpleStore<AuthState> {
         return this.canDelete(key) || this.canRead(key) || this.canWrite(key)
     }
 
+    /**
+     * TODO: to be implemented
+     */
     canRead(key: UserPermissionKeys) {
-        return (
-            this.getUser()?.permissions[key].includes(Permission.Read) ?? false
-        )
+        return false
     }
 
+    /**
+     * TODO: to be implemented
+     */
     canWrite(key: UserPermissionKeys) {
-        return (
-            this.getUser()?.permissions[key].includes(Permission.Write) ?? false
-        )
+        return false
     }
 
+    /**
+     * TODO: to be implemented
+     */
     canDelete(key: UserPermissionKeys) {
-        return (
-            this.getUser()?.permissions[key].includes(Permission.Delete) ??
-            false
-        )
+        return false
     }
 
     login(username: string, password: string) {
         return this.authApiService.login(username, password).pipe(
             map(({ data }) => {
                 data &&
-                    this.setStateAfterLogin(
-                        data.accessToken,
-                        data.refreshToken,
-                        data.user,
-                    )
+                    this.setStateAfterLogin(data.accessToken, data.refreshToken)
                 return data
             }),
         )
     }
 
     register(signupInput: SignupInput) {
-        return this.authApiService.register(signupInput).pipe(
-            map(({ data }) => {
-                return data
-            }),
-        )
+        return this.authApiService.register(signupInput).pipe()
+    }
+
+    initAuthFromStorage() {
+        const accessToken = this.tokenStorageService.getAccessToken()
+        const refreshToken = this.tokenStorageService.getRefreshToken()
+
+        if (!accessToken || !refreshToken) {
+            return
+        }
+
+        this.setStateAfterLogin(accessToken, refreshToken)
     }
 
     refreshAccessToken() {
         const refreshToken = this.tokenStorageService.getRefreshToken()
+        console.log('TCL: | refreshAccessToken | refreshToken:', refreshToken)
 
         return this.authApiService.refreshAccessToken(refreshToken ?? '').pipe(
             map(({ data }) => {
                 data &&
-                    this.setStateAfterLogin(
-                        data.accessToken,
-                        data.refreshToken,
-                        data.user,
-                    )
+                    this.setStateAfterLogin(data.accessToken, data.refreshToken)
                 return data
             }),
+            catchError((err) => {
+                console.error(err)
+                // this.logout()
+                return of(null)
+            })
         )
     }
 
-    setStateAfterLogin(accessToken: string, refreshToken: string, user: User) {
+    setStateAfterLogin(accessToken: string, refreshToken: string) {
         const decoded = this.jwtHelper.decodeToken(accessToken)
-        console.log(decoded)
+        console.log('TCL: AuthStateService -> decoded', decoded)
 
         this.setState({
             accessToken,
             refreshToken,
             isLoggedIn: true,
-            user,
+            authUserId: decoded.sub,
+            userId: decoded.userId,
+            groupId: decoded.groupId,
+            firstName: decoded.firstName,
+            lastName: decoded.lastName,
+            email: decoded.email,
+            role: decoded.role,
+            level: decoded.level,
             lastUpdated: new Date(),
-            isSuperAdmin: decoded.superAdmin,
         })
-        this.saveInLocalStorage(user)
+        this.saveInLocalStorage()
         this.startRefreshTokenTimer()
     }
 
-    logout(redirectPath = '') {
+    logout(redirectPath = '', reload = false) {
         this.authApiService.logout().subscribe()
         this.reset()
         this.stopRefreshTokenTimer()
-        this.localStorageService.removeItem('user')
         this.tokenStorageService.clear()
         this.router.navigate([redirectPath])
-        timer(1000).subscribe(() => window.location.reload())
+        timer(1000).subscribe(() => reload && window.location.reload())
     }
 
-    setUser(user: User) {
-        this.setState({ user, lastUpdated: new Date() })
-        this.saveInLocalStorage(user)
-    }
-
-    private saveInLocalStorage(user: User) {
-        this.localStorageService.setItem('user', JSON.stringify(user))
+    private saveInLocalStorage() {
         this.tokenStorageService.saveAccessToken(this.getState().accessToken)
         this.tokenStorageService.saveRefreshToken(this.getState().refreshToken)
     }
@@ -200,10 +207,10 @@ export class AuthStateService extends SimpleStore<AuthState> {
         // set a timeout to refresh the token a minute before it expires
         const expires = new Date(decoded.exp * 1000)
         const timeout = expires.getTime() - Date.now() - 60 * 1000
-        this.refreshTokenTimeout = setTimeout(
-            () => this.refreshAccessToken().subscribe(),
-            timeout,
-        )
+        // this.refreshTokenTimeout = setTimeout(
+        //     () => this.refreshAccessToken().subscribe(),
+        //     timeout,
+        // )
     }
 
     private stopRefreshTokenTimer() {

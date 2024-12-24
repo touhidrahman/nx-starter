@@ -1,7 +1,7 @@
 <section>
     <h1 class="text-2xl font-bold">Organizations</h1>
-    <div class="my-5 flex justify-between items-center">
-        <div class="flex justify-start items-center gap-3">
+    <div class="my-5 flex items-center justify-between">
+        <div class="flex items-center justify-start gap-3">
             <div>
                 <p-button
                     label="Filters"
@@ -9,7 +9,7 @@
                     iconPos="left"></p-button>
             </div>
             <div
-                class="flex justify-start gap-2 items-center bg-gray-200 p-1 rounded-md px-3">
+                class="flex items-center justify-start gap-2 rounded-md bg-gray-200 p-1 px-3">
                 <p-select
                     [options]="status"
                     [(ngModel)]="selected"
@@ -27,8 +27,8 @@
                     class="w-full md:w-56" />
             </div>
         </div>
-        <div class="flex justify-end items-center gap-3">
-            <div class="flex justify-start items-center gap-2">
+        <div class="flex items-center justify-end gap-3">
+            <div class="flex items-center justify-start gap-2">
                 <input type="text" pInputText size="small" />
                 <p-button icon="pi pi-search" />
             </div>
@@ -41,7 +41,7 @@
         </div>
     </div>
     <div>
-        <div class="bg-gray-100 p-2 rounded-md">
+        <div class="rounded-md bg-gray-100 p-2">
             <app-organization-table
                 [organizations]="organizations"
                 [(visible)]="visible"
@@ -59,39 +59,39 @@
             [style]="{
                 width: '50%',
             }">
-            <div class="flex flex-col justify-start items-start mb-4">
-                <label class="font-semibold mb-2">Name</label>
-                <input pInputText class="flex-auto w-full" autocomplete="off" />
+            <div class="mb-4 flex flex-col items-start justify-start">
+                <label class="mb-2 font-semibold">Name</label>
+                <input pInputText class="w-full flex-auto" autocomplete="off" />
             </div>
-            <div class="flex flex-col justify-start items-start mb-4">
-                <label class="font-semibold mb-2">Email</label>
-                <input pInputText class="flex-auto w-full" autocomplete="off" />
+            <div class="mb-4 flex flex-col items-start justify-start">
+                <label class="mb-2 font-semibold">Email</label>
+                <input pInputText class="w-full flex-auto" autocomplete="off" />
             </div>
 
-            <div class="flex justify-start items-center gap-5">
-                <div class="flex flex-col justify-start items-start mb-4 w-1/2">
-                    <label class="font-semibold mb-2">Working Hour start</label>
+            <div class="flex items-center justify-start gap-5">
+                <div class="mb-4 flex w-1/2 flex-col items-start justify-start">
+                    <label class="mb-2 font-semibold">Working Hour start</label>
                     <input
                         pInputText
-                        class="flex-auto w-full"
+                        class="w-full flex-auto"
                         autocomplete="off" />
                 </div>
 
-                <div class="flex flex-col justify-start items-start mb-4 w-1/2">
-                    <label class="font-semibold mb-2">Working Hour End</label>
+                <div class="mb-4 flex w-1/2 flex-col items-start justify-start">
+                    <label class="mb-2 font-semibold">Working Hour End</label>
                     <input
                         pInputText
-                        class="flex-auto w-full"
+                        class="w-full flex-auto"
                         autocomplete="off" />
                 </div>
             </div>
 
-            <div class="flex flex-col justify-start items-start mb-4">
-                <label class="font-semibold mb-2">Add Member</label>
-                <input pInputText class="flex-auto w-full" autocomplete="off" />
+            <div class="mb-4 flex flex-col items-start justify-start">
+                <label class="mb-2 font-semibold">Add Member</label>
+                <input pInputText class="w-full flex-auto" autocomplete="off" />
             </div>
 
-            <div class="flex justify-start items-center my-5 gap-5">
+            <div class="my-5 flex items-center justify-start gap-5">
                 <p-fileupload
                     mode="basic"
                     name="demo[]"

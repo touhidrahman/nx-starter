@@ -1,15 +1,15 @@
 <div class="w-full overflow-x-hidden">
-    <div class="mt-4 grid lg:grid-cols-5 md:grid-cols-2 grid-cols-1 gap-4">
+    <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-5">
         <div
             *ngFor="let card of cards"
-            class="bg-white shadow-lg rounded-lg w-75 flex justify-between items-center px-4 p-4">
+            class="w-75 flex items-center justify-between rounded-lg bg-white p-4 px-4 shadow-lg">
             <div
-                class="bg-gray-700 h-20 w-20 rounded-full shadow-gray-600 shadow-md">
+                class="h-20 w-20 rounded-full bg-gray-700 shadow-md shadow-gray-600">
                 <img [src]="card.icon" class="h-18 w-18 p-1" alt="case icon" />
             </div>
             <div>
-                <h1 class="font-bold text-end">{{ card.title }}</h1>
-                <h1 class="text-7xl text-end font-bold" [ngClass]="card.color">
+                <h1 class="text-end font-bold">{{ card.title }}</h1>
+                <h1 class="text-end text-7xl font-bold" [ngClass]="card.color">
                     {{ card.count }}
                 </h1>
             </div>
@@ -17,13 +17,13 @@
     </div>
 
     <div class="mt-8">
-        <h1 class="text-2xl mb-4 font-bold">Upcoming Cases</h1>
+        <h1 class="mb-4 text-2xl font-bold">Upcoming Cases</h1>
         <div
-            class="mt-4 grid lg:grid-cols-4 xl:grid-cols-5 md:grid-cols-2 grid-cols-1 gap-3">
+            class="mt-4 grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5">
             @for (card of caseCard; track card) {
                 <div class="card">
                     <div class="card-details">
-                        <div class="flex gap-2 items-center">
+                        <div class="flex items-center gap-2">
                             <i
                                 class="pi pi-calendar-plus text-3xl font-medium"></i>
                             <p class="text-title">{{ card.date }}</p>
@@ -50,10 +50,10 @@
         <div class="grid grid-cols-1 gap-3 lg:grid-cols-3">
             @for (card of pinnedCard; track card) {
                 <div
-                    class="pinned-card rounded-lg mt-8 flex justify-between items-center px-4 p-4">
+                    class="pinned-card mt-8 flex items-center justify-between rounded-lg p-4 px-4">
                     <div class="flex gap-4">
                         <div
-                            class="w-1 h-auto rounded-full bg-gradient-to-b from-green3 to-emerald-500"></div>
+                            class="from-green3 h-auto w-1 rounded-full bg-gradient-to-b to-emerald-500"></div>
                         <div>
                             <h1 class="text-2xl font-bold text-gray-700">
                                 {{ card.title }}
@@ -72,7 +72,7 @@
                         </div>
                     </div>
                     <div
-                        class="h-12 w-12 rounded-full flex items-center cursor-pointer justify-center bg-green-100 shadow-md">
+                        class="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-green-100 shadow-md">
                         <!-- <hlm-icon size="lg" name="lucidePinOff"></hlm-icon> -->
                         <i class="pi pi-thumbtack text-2xl"></i>
                     </div>

@@ -1,16 +1,16 @@
 <div class="">
     <div class="flex justify-between">
-        <h1 class="font-bold text-3xl">Users</h1>
+        <h1 class="text-3xl font-bold">Users</h1>
         <div class="flex gap-4">
             <div>
                 <div class="relative w-96">
                     <div
-                        class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
                         <!-- Heroicon: search icon -->
                         <i class="pi pi-search text-sm"></i>
                     </div>
                     <input
-                        class="w-full pl-10 bg-green-50 border sm:text-sm"
+                        class="w-full border bg-green-50 pl-10 sm:text-sm"
                         type="text"
                         placeholder="Search" />
                 </div>
@@ -24,52 +24,52 @@
             <tr>
                 <th
                     scope="col"
-                    class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                    class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-500">
                     First Name
                 </th>
                 <th
                     scope="col"
-                    class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                    class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-500">
                     Last Name
                 </th>
                 <th
                     scope="col"
-                    class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                    class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-500">
                     Email
                 </th>
                 <th
                     scope="col"
-                    class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                    class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-500">
                     Role
                 </th>
                 <th
                     scope="col"
-                    class="px-6 py-3 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">
+                    class="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider text-gray-500">
                     Action
                 </th>
             </tr>
         </thead>
         <tbody
-            class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+            class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
             @for (user of users; track user) {
                 <tr>
                     <td
-                        class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                        class="whitespace-nowrap px-6 py-4 text-sm font-medium text-gray-900 dark:text-white">
                         {{ user.firstName }}
                     </td>
                     <td
-                        class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                        class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
                         {{ user.lastName }}
                     </td>
                     <td
-                        class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                        class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
                         {{ user.email }}
                     </td>
                     <td
-                        class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                        class="whitespace-nowrap px-6 py-4 text-sm text-gray-500 dark:text-gray-400">
                         {{ user.role }}
                     </td>
-                    <td class="px-6 whitespace-nowrap text-sm font-medium">
+                    <td class="whitespace-nowrap px-6 text-sm font-medium">
                         <div class="flex gap-2">
                             <button id="edit-profile">
                                 <i class="pi pi-cog text-sm"></i>
@@ -85,7 +85,7 @@
     </table>
 
     <div class="mt-6">
-        <h1 class="font-bold text-4xl">Roles</h1>
+        <h1 class="text-4xl font-bold">Roles</h1>
         <div class="mt-4 flex gap-4">
             <button>Lawyer</button>
             <button>Barrister</button>

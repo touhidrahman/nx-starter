@@ -1,29 +1,29 @@
 <div>
-    <h2 class="text-2xl font-semibold mb-6">Admin User List</h2>
+    <h2 class="mb-6 text-2xl font-semibold">Admin User List</h2>
 
     <div class="overflow-x-auto">
-        <table class="min-w-full bg-white border border-gray-300">
+        <table class="min-w-full border border-gray-300 bg-white">
             <thead>
                 <tr class="bg-gray-100 text-left">
-                    <th class="py-2 px-4 font-bold text-sm md:text-base">
+                    <th class="px-4 py-2 text-sm font-bold md:text-base">
                         Name
                     </th>
-                    <th class="py-2 px-4 font-bold text-sm md:text-base">
+                    <th class="px-4 py-2 text-sm font-bold md:text-base">
                         Email
                     </th>
-                    <th class="py-2 px-4 font-bold text-sm md:text-base">
+                    <th class="px-4 py-2 text-sm font-bold md:text-base">
                         Role
                     </th>
-                    <th class="py-2 px-4 font-bold text-sm md:text-base">
+                    <th class="px-4 py-2 text-sm font-bold md:text-base">
                         Status
                     </th>
-                    <th class="py-2 px-4 font-bold text-sm md:text-base">
+                    <th class="px-4 py-2 text-sm font-bold md:text-base">
                         Group Name
                     </th>
-                    <th class="py-2 px-4 font-bold text-sm md:text-base">
+                    <th class="px-4 py-2 text-sm font-bold md:text-base">
                         Group Type
                     </th>
-                    <th class="py-2 px-4 font-bold text-sm md:text-base">
+                    <th class="px-4 py-2 text-sm font-bold md:text-base">
                         Actions
                     </th>
                 </tr>
@@ -32,34 +32,34 @@
                 @if (loading) {
                     @for (_ of [].constructor(10); track _) {
                         <tr class="border-b">
-                            <td class="py-2 px-4 text-sm md:text-base">
+                            <td class="px-4 py-2 text-sm md:text-base">
                                 <div
-                                    class="h-4 bg-gray-300 rounded w-3/4 animate-pulse"></div>
+                                    class="h-4 w-3/4 animate-pulse rounded bg-gray-300"></div>
                             </td>
-                            <td class="py-2 px-4 text-sm md:text-base">
+                            <td class="px-4 py-2 text-sm md:text-base">
                                 <div
-                                    class="h-4 bg-gray-300 rounded w-3/4 animate-pulse"></div>
+                                    class="h-4 w-3/4 animate-pulse rounded bg-gray-300"></div>
                             </td>
-                            <td class="py-2 px-4 text-sm md:text-base">
+                            <td class="px-4 py-2 text-sm md:text-base">
                                 <div
-                                    class="h-4 bg-gray-300 rounded w-1/2 animate-pulse"></div>
+                                    class="h-4 w-1/2 animate-pulse rounded bg-gray-300"></div>
                             </td>
-                            <td class="py-2 px-4 text-sm md:text-base">
+                            <td class="px-4 py-2 text-sm md:text-base">
                                 <div
-                                    class="h-4 bg-gray-300 rounded w-1/3 animate-pulse"></div>
+                                    class="h-4 w-1/3 animate-pulse rounded bg-gray-300"></div>
                             </td>
-                            <td class="py-2 px-4 text-sm md:text-base">
+                            <td class="px-4 py-2 text-sm md:text-base">
                                 <div
-                                    class="h-4 bg-gray-300 rounded w-1/2 animate-pulse"></div>
+                                    class="h-4 w-1/2 animate-pulse rounded bg-gray-300"></div>
                             </td>
-                            <td class="py-2 px-4 text-sm md:text-base">
+                            <td class="px-4 py-2 text-sm md:text-base">
                                 <div
-                                    class="h-4 bg-gray-300 rounded w-1/2 animate-pulse"></div>
+                                    class="h-4 w-1/2 animate-pulse rounded bg-gray-300"></div>
                             </td>
                             <td
-                                class="py-2 px-4 flex space-x-2 text-sm md:text-base">
+                                class="flex space-x-2 px-4 py-2 text-sm md:text-base">
                                 <div
-                                    class="h-4 bg-gray-300 rounded w-1/2 animate-pulse"></div>
+                                    class="h-4 w-1/2 animate-pulse rounded bg-gray-300"></div>
                             </td>
                         </tr>
                     }
@@ -67,19 +67,19 @@
                     @for (user of users; track user) {
                         <tr class="border-b hover:bg-gray-50">
                             <td
-                                class="py-2 px-4 text-sm text-gray-700 md:text-base">
+                                class="px-4 py-2 text-sm text-gray-700 md:text-base">
                                 {{ user.firstName }} {{ user.lastName }}
                             </td>
                             <td
-                                class="py-2 px-4 text-gray-700 text-sm md:text-base">
+                                class="px-4 py-2 text-sm text-gray-700 md:text-base">
                                 {{ user.email }}
                             </td>
                             <td
-                                class="py-2 px-4 text-gray-700 text-sm md:text-base">
+                                class="px-4 py-2 text-sm text-gray-700 md:text-base">
                                 {{ user.type === 'admin' ? 'Admin' : 'User' }}
                             </td>
                             <td
-                                class="py-2 px-4 text-gray-700 text-sm md:text-base">
+                                class="px-4 py-2 text-sm text-gray-700 md:text-base">
                                 <span
                                     [ngClass]="{
                                         'text-green-600': user.verified,
@@ -93,15 +93,15 @@
                                 </span>
                             </td>
                             <td
-                                class="py-2 px-4 text-gray-700 text-sm md:text-base">
+                                class="px-4 py-2 text-sm text-gray-700 md:text-base">
                                 {{ user.groupName || '-' }}
                             </td>
                             <td
-                                class="py-2 px-4 text-gray-700 text-sm md:text-base">
+                                class="px-4 py-2 text-sm text-gray-700 md:text-base">
                                 {{ user.groupType || '-' }}
                             </td>
                             <td
-                                class="py-2 px-4 flex items-center text-gray-700 space-x-4 text-sm md:text-base">
+                                class="flex items-center space-x-4 px-4 py-2 text-sm text-gray-700 md:text-base">
                                 <button
                                     brnDialogTrigger
                                     (click)="openEditModal(user)">
@@ -128,7 +128,7 @@
                         <button
                             (click)="goToPage(currentPage - 1)"
                             [disabled]="currentPage === 1"
-                            class="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-200 border border-gray-300 rounded-lg hover:bg-gray-300 disabled:opacity-50">
+                            class="rounded-lg border border-gray-300 bg-gray-200 px-3 py-1 text-sm font-medium text-gray-700 hover:bg-gray-300 disabled:opacity-50">
                             &lt;
                         </button>
                     </li>
@@ -147,7 +147,7 @@
                                     'bg-gray-200 text-gray-700':
                                         currentPage !== i + 1,
                                 }"
-                                class="px-3 py-1 text-sm font-medium border border-gray-300 rounded-lg hover:bg-gray-300">
+                                class="rounded-lg border border-gray-300 px-3 py-1 text-sm font-medium hover:bg-gray-300">
                                 {{ i + 1 }}
                             </button>
                         </li>
@@ -157,7 +157,7 @@
                         <button
                             (click)="goToPage(currentPage + 1)"
                             [disabled]="currentPage === totalPages"
-                            class="px-3 py-1 text-sm font-medium text-gray-700 bg-gray-200 border border-gray-300 rounded-lg hover:bg-gray-300 disabled:opacity-50">
+                            class="rounded-lg border border-gray-300 bg-gray-200 px-3 py-1 text-sm font-medium text-gray-700 hover:bg-gray-300 disabled:opacity-50">
                             &gt;
                         </button>
                     </li>

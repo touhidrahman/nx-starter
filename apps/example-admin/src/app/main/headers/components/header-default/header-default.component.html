@@ -1,5 +1,5 @@
-<nav class="bg-white text-gray-700 w-full shadow-sm relative">
-    <div class="flex flex-wrap items-center justify-between mx-auto px-4 py-4">
+<nav class="relative w-full bg-white text-gray-700 shadow-sm">
+    <div class="mx-auto flex flex-wrap items-center justify-between px-4 py-4">
         <div (click)="toggleSidebar()" class="cursor-pointer">
             <i class="pi pi-bars !text-3xl"></i>
         </div>
@@ -7,14 +7,14 @@
             @if (!authState.getLoginStatus()) {
                 <div class="flex gap-4">
                     <button
-                        class="bg-success button-small text-success-foreground hover:bg-green-400 px-4 py-2 rounded-md"
+                        class="bg-success button-small text-success-foreground rounded-md px-4 py-2 hover:bg-green-400"
                         [routerLink]="['/signup']">
                         Sign Up
                     </button>
                     <button
                         [routerLink]="['/login']"
                         variant="default"
-                        class="bg-gray-900 button-small text-white hover:bg-green-400 px-4 py-2 rounded-md">
+                        class="button-small rounded-md bg-gray-900 px-4 py-2 text-white hover:bg-green-400">
                         Login
                     </button>
                 </div>
@@ -24,10 +24,10 @@
                         src="avatar/avater.img"
                         alt="User image"
                         (error)="showFallback($event)"
-                        class="w-10 h-10 object-cover rounded-full" />
+                        class="h-10 w-10 rounded-full object-cover" />
                     @if (!uiState.imageLoaded) {
                         <div
-                            class="w-10 h-10 inline-block bg-destructive text-white font-semibold text-xl rounded-full">
+                            class="bg-destructive inline-block h-10 w-10 rounded-full text-xl font-semibold text-white">
                             <span class="leading-10">RG</span>
                         </div>
                     }
@@ -38,7 +38,7 @@
 
     @if (uiState.showProfileDropDown) {
         <div
-            class="flex flex-col gap-3 absolute bg-white shadow-md w-56 top-20 right-4 py-4 rounded-md border border-gray-300"
+            class="absolute right-4 top-20 flex w-56 flex-col gap-3 rounded-md border border-gray-300 bg-white py-4 shadow-md"
             id="profileDropDown">
             <button class="flex justify-start px-3 leading-relaxed">
                 <span>John Doe</span>
@@ -47,84 +47,84 @@
             <hr class="opacity-70" />
 
             <button
-                class="flex justify-start items-center gap-2 hover:bg-slate-200 transition-all px-3 leading-relaxed"
+                class="flex items-center justify-start gap-2 px-3 leading-relaxed transition-all hover:bg-slate-200"
                 routerLink="/profile">
-                <span class="pi pi-user text-black font-medium"></span>
+                <span class="pi pi-user font-medium text-black"></span>
                 <span>Profile</span>
             </button>
 
             <button
-                class="flex justify-start items-center gap-2 hover:bg-slate-200 transition-all px-3 leading-relaxed">
-                <span class="pi pi-cog text-black font-medium"></span>
+                class="flex items-center justify-start gap-2 px-3 leading-relaxed transition-all hover:bg-slate-200">
+                <span class="pi pi-cog font-medium text-black"></span>
                 <span>Settings</span>
             </button>
 
             <button
-                class="flex justify-start gap-2 items-center hover:bg-slate-200 transition-all px-3 leading-relaxed">
+                class="flex items-center justify-start gap-2 px-3 leading-relaxed transition-all hover:bg-slate-200">
                 <!-- Keyborad icon is missing in primeng -->
-                <span class="pi pi-users text-black font-medium"></span>
+                <span class="pi pi-users font-medium text-black"></span>
                 <!-- <lucide-icon name="keyboard" hlmMenuIcon /> -->
                 <span>Keyboard Shortcuts</span>
             </button>
 
             <button
-                class="flex justify-start items-center gap-2 hover:bg-slate-200 transition-all px-3 leading-relaxed">
-                <span class="pi pi-users text-black font-medium"></span>
+                class="flex items-center justify-start gap-2 px-3 leading-relaxed transition-all hover:bg-slate-200">
+                <span class="pi pi-users font-medium text-black"></span>
                 <span>Team</span>
             </button>
 
-            <div class="w-56 m-0 p-0">
+            <div class="m-0 w-56 p-0">
                 <button
-                    class="flex justify-between items-center hover:bg-slate-200 transition-all px-3 leading-relaxed w-full"
+                    class="flex w-full items-center justify-between px-3 leading-relaxed transition-all hover:bg-slate-200"
                     (click)="
                         headerUtilService.toggleMoreOptions(
                             moreOptions,
                             chevron
                         )
                     ">
-                    <span class="flex justify-start items-center gap-2">
+                    <span class="flex items-center justify-start gap-2">
                         <span>
                             <!-- <lucide-icon
                                     name="headset"
                                     hlmMenuIcon
                                     class="m-0" /> -->
                             <span
-                                class="pi pi-headphones text-black font-medium"></span>
+                                class="pi pi-headphones font-medium text-black"></span>
                         </span>
                         <span>Support</span>
                     </span>
                     <span
-                        class="pi pi-chevron-right text-black font-medium !text-xs transition-all duration-400"
+                        class="pi pi-chevron-right duration-400 !text-xs font-medium text-black transition-all"
                         #chevron></span>
                 </button>
 
                 <div
-                    class="h-0 overflow-hidden transition-all duration-400 mt-3"
+                    class="duration-400 mt-3 h-0 overflow-hidden transition-all"
                     #moreOptions>
                     <button
-                        class="flex justify-start items-center gap-2 hover:bg-slate-200 transition-all px-3 leading-loose w-full">
+                        class="flex w-full items-center justify-start gap-2 px-3 leading-loose transition-all hover:bg-slate-200">
                         <span
-                            class="pi pi-envelope text-black font-medium"></span>
+                            class="pi pi-envelope font-medium text-black"></span>
                         <span>Email</span>
                     </button>
 
                     <button
-                        class="flex justify-start items-center gap-2 hover:bg-slate-200 transition-all px-3 leading-loose w-full">
+                        class="flex w-full items-center justify-start gap-2 px-3 leading-loose transition-all hover:bg-slate-200">
                         <span
-                            class="pi pi-comment text-black font-medium"></span>
+                            class="pi pi-comment font-medium text-black"></span>
                         <span>Message</span>
                     </button>
                     <button
-                        class="flex justify-center items-center hover:bg-slate-200 transition-all px-3 leading-loose w-full">
+                        class="flex w-full items-center justify-center px-3 leading-loose transition-all hover:bg-slate-200">
                         <span>More</span>
                     </button>
                 </div>
             </div>
             <hr class="opacity-50" />
             <button
-                class="flex justify-start items-center gap-2 hover:bg-slate-200 transition-all px-3 leading-relaxed"
+                class="flex items-center justify-start gap-2 px-3 leading-relaxed transition-all hover:bg-slate-200"
                 (click)="logout()">
-                <span class="pi pi-sign-out text-black font-medium"></span>
+                <span class="pi pi-sign-out font-medium text-black"></span>
                 <span>Log Out</span>
             </button>
         </div>

@@ -1,103 +1,71 @@
-<div class="max-w-lg m-auto bg-white rounded-lg shadow-lg p-8 mt-10">
-    <h2 class="text-2xl font-bold mb-6 text-gray-800">
-        Create {{ profileType() ? profileType() : '' }} profile
+<div class="m-auto -mt-10 max-w-lg rounded-lg bg-white p-8 shadow-lg">
+    <h2 class="mb-6 text-2xl font-bold text-gray-800">
+        Create Your Organization
     </h2>
-    <form
-        [formGroup]="createProfileFormService.createProfileForm"
-        (ngSubmit)="submit()">
+
+    <form [formGroup]="groupFormService.form">
         <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700 mb-2"
+            <label class="mb-2 block text-sm font-medium text-gray-700"
                 >Address</label
             >
             <input
                 type="text"
-                class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none"
-                placeholder="Enter your address"
+                class="w-full rounded-lg border px-4 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-300"
                 formControlName="address"
                 required />
         </div>
 
-        <div class="flex justify-between items-center gap-5">
+        <div class="flex items-center justify-between gap-5">
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2"
+                <label class="mb-2 block text-sm font-medium text-gray-700"
                     >Phone</label
                 >
                 <input
                     type="text"
-                    class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none"
-                    placeholder="Enter your Phone Number"
+                    class="w-full rounded-lg border px-4 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-300"
                     formControlName="phone"
                     required />
             </div>
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2"
+                <label class="mb-2 block text-sm font-medium text-gray-700"
                     >City</label
                 >
                 <input
                     type="text"
-                    class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none"
-                    placeholder="Enter your city"
+                    class="w-full rounded-lg border px-4 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-300"
                     formControlName="city"
                     required />
             </div>
         </div>
 
-        <div class="flex justify-between gap-5 items-center">
+        <div class="flex items-center justify-between gap-5">
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2"
+                <label class="mb-2 block text-sm font-medium text-gray-700"
                     >Country</label
                 >
                 <input
                     type="text"
-                    class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none"
-                    placeholder="Enter your country"
+                    class="w-full rounded-lg border px-4 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-300"
                     formControlName="country"
                     required />
             </div>
             <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700 mb-2"
+                <label class="mb-2 block text-sm font-medium text-gray-700"
                     >Post code</label
                 >
                 <input
                     type="text"
-                    class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none"
-                    placeholder="Enter your post code"
+                    class="w-full rounded-lg border px-4 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-300"
                     formControlName="postCode"
                     required />
             </div>
         </div>
 
-        <!--        <div class="mb-4">-->
-        <!--            <label for="role" class="block text-sm font-medium text-gray-700 mb-2">Role</label>-->
-        <!--            <select id="role" name="role" class="w-full px-4 py-2 border rounded-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none" required>-->
-        <!--                <option value="">Select your role</option>-->
-        <!--                <option value="developer">Developer</option>-->
-        <!--                <option value="designer">Designer</option>-->
-        <!--                <option value="manager">Manager</option>-->
-        <!--            </select>-->
-        <!--        </div>-->
-
-        <!--        <div class="mb-6">-->
-        <!--            <label class="block text-sm font-medium text-gray-700 mb-2">Gender</label>-->
-        <!--            <div class="flex items-center mb-2">-->
-        <!--                <input type="radio" id="male" name="gender" value="male" class="mr-2 focus:ring focus:ring-blue-300" required>-->
-        <!--                <label for="male" class="text-gray-700">Male</label>-->
-        <!--            </div>-->
-        <!--            <div class="flex items-center mb-2">-->
-        <!--                <input type="radio" id="female" name="gender" value="female" class="mr-2 focus:ring focus:ring-blue-300" required>-->
-        <!--                <label for="female" class="text-gray-700">Female</label>-->
-        <!--            </div>-->
-        <!--            <div class="flex items-center">-->
-        <!--                <input type="radio" id="other" name="gender" value="other" class="mr-2 focus:ring focus:ring-blue-300" required>-->
-        <!--                <label for="other" class="text-gray-700">Other</label>-->
-        <!--            </div>-->
-        <!--        </div>-->
-
-        <!-- Submit Button -->
         <button
             type="submit"
-            class="w-full bg-green text-white font-semibold py-2 px-4 rounded-lg hover:bg-emerald-700 focus:ring focus:ring-green3 transition duration-200">
-            Submit
+            (click)="submit()"
+            class="bg-green focus:ring-green3 mt-6 w-full rounded-lg px-4 py-2 font-semibold text-white transition duration-200 hover:bg-emerald-700 focus:ring">
+            Create My Organization
         </button>
     </form>
 </div>

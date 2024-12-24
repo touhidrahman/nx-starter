@@ -7,7 +7,10 @@ import { ApiResponse } from '@myorg/common-models'
 export class ApiService<T, DtoT> implements AbstractApiService<T> {
     protected apiUrl: string
 
-    constructor(protected http: HttpClient, apiUrl: string) {
+    constructor(
+        protected http: HttpClient,
+        apiUrl: string,
+    ) {
         this.apiUrl = apiUrl
     }
 

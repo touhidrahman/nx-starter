@@ -1,5 +1,5 @@
-export interface LoginResponse<TUser> {
-    user: TUser
+export interface LoginResponse {
+    lastLogin: Date
     refreshToken: string
     accessToken: string
 }

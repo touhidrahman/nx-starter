@@ -12,17 +12,17 @@ Access API Docs: Run `npm run dev:server` then go to http:localhost:3000/docs in
 
 ## System Overview
 
--   `AuthUser` is for authentication only. No business code should directly reference auth user.
--   `User` is to be used for relationship to models. An `AuthUser` can have many `User`.
+- `AuthUser` is for authentication only. No business code should directly reference auth user.
+- `User` is to be used for relationship to models. An `AuthUser` can have many `User`.
 
 # TODO: (20/10/2024) Reveiew following sections
 
 ## User - Group System
 
--   A user can be part of Group.
--   A group can be of either "Vendor" or "Client" type.
--   Group and User are connected Many-to-Many.
--   A user can be in a group only once, at a certain role.
+- A user can be part of Group.
+- A group can be of either "Vendor" or "Client" type.
+- Group and User are connected Many-to-Many.
+- A user can be in a group only once, at a certain role.
 
 ## Auth
 
