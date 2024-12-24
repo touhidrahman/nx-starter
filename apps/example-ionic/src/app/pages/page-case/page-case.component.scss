@@ -1,3 +1,34 @@
+.title-heading {
+    font-weight: 700;
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+}
+
+.title-subheading {
+    font-weight: 700;
+    color: rgb(55 65 81);
+    font-size: 1.125rem;
+    line-height: 1.75rem;
+}
+
+.court-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.case-type {
+    font-weight: 700;
+    font-size: 0.75rem;
+    line-height: 1rem;
+    padding: 0 0.5rem;
+    margin-left: 0.5rem;
+    color: rgb(220, 38, 38);
+    background-color: rgb(229, 231, 235);
+    border-radius: 9999px;
+    border: 2px solid rgb(189, 189, 189);
+}
+
 .case-text {
     display: grid;
     font-weight: 400;
@@ -12,7 +43,7 @@
     justify-content: space-between;
 }
 
-.date {
+.court {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -21,7 +52,8 @@
     line-height: 2rem;
 }
 
-.tribunal {
+.tribunal,
+.date {
     display: flex;
     gap: 0.5rem;
     align-items: center;
@@ -34,6 +66,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    gap: 1rem; /* Add spacing between the cards */
 }
 
 .title {
@@ -50,18 +83,31 @@
 }
 
 .card-pinned {
-    background: rgb(214, 250, 226);
+    background: #ffffff; /* White background */
+    border-radius: 8px; /* Add rounded corners */
     height: 6rem;
     margin-top: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    border: 1px solid #e0e0e0; /* Light border for definition */
+    transition:
+        transform 0.2s ease-in-out,
+        box-shadow 0.2s ease-in-out; /* Smooth interaction effects */
 }
+
 .overview-card {
-    background: rgb(214, 250, 226);
     height: 6rem;
     margin-top: 1rem;
+    background: #ffffff; /* White background */
+    border-radius: 8px; /* Add rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    border: 1px solid #e0e0e0; /* Light border for definition */
 }
 
 .card {
-    background: rgb(214, 250, 226);
+    background: #ffffff; /* White background */
+    border-radius: 8px; /* Add rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    border: 1px solid #e0e0e0; /* Light border for definition */
     height: 8rem;
     margin-top: 1rem;
 }

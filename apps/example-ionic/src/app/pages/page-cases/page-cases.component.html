@@ -1,32 +1,129 @@
 <div class="title-section">
-    <ion-text class="title">Upcoming Cases</ion-text>
-    <ion-button size="small" color="success">Show All</ion-button>
+    <ion-icon class="back-icon" name="arrow-back-circle-outline"></ion-icon>
+    <span class="title">Cases</span>
 </div>
 
-<myorg-case-date-carousel
-    class="carousel"
-    [slides]="slides"></myorg-case-date-carousel>
+<ion-content>
+    <div class="searchbar">
+        <ion-icon name="search-outline"></ion-icon>
+        <ion-input placeholder="Search Case"></ion-input>
+    </div>
 
-<ion-text class="title-pin">Pinned Cases</ion-text>
-<ion-content class="content-pinned">
-    <ion-card class="card-pinned">
-        <ion-card-content class="text-pinned">
-            S. al Hasan vs Tamim Iqbal
-        </ion-card-content>
-    </ion-card>
-    <ion-card class="card-pinned">
-        <ion-card-content class="text-pinned">
-            Tahsan Khan vs John Kabir
-        </ion-card-content>
-    </ion-card>
-    <ion-card class="card-pinned">
-        <ion-card-content class="text-pinned">
-            Alamgir vs Banani Club
-        </ion-card-content>
-    </ion-card>
-    <ion-card class="card-pinned">
-        <ion-card-content class="text-pinned">
-            Rafsan vs Bank
-        </ion-card-content>
-    </ion-card>
+    <div class="case-card">
+        <div class="card-title-section">
+            <div class="text-dec">
+                <span class="title-dec">Ariful vs Ferdous</span>
+                <span class="case-status">Pending</span>
+            </div>
+            <div class="action">
+                <button class="action-edit">
+                    <ion-icon
+                        class="icon-edit"
+                        name="create-outline"></ion-icon>
+                </button>
+                <button class="action-delete">
+                    <ion-icon
+                        class="icon-delete"
+                        name="trash-outline"></ion-icon>
+                </button>
+            </div>
+        </div>
+
+        <div class="case-info">
+            <div class="case-details">
+                <div class="case-court">
+                    <ion-icon name="location-outline"></ion-icon>
+                    <span class="details-text">Dhaka Judge Court</span>
+                </div>
+                <div class="case-date">
+                    <ion-icon name="calendar-outline"></ion-icon>
+                    <span class="details-text">10/2/2025</span>
+                </div>
+            </div>
+            <div class="case-type">
+                <span
+                    >Type: <span class="type-text">Personal Injury</span></span
+                >
+            </div>
+            <img
+                class="client-img"
+                src="assets/images/default.png"
+                alt="Client Image" />
+        </div>
+    </div>
+
+    <ion-modal [isOpen]="isModalOpen">
+        <ng-template>
+            <ion-header>
+                <ion-toolbar>
+                    <ion-title class="dialog-title">Create Case</ion-title>
+                    <ion-buttons slot="end">
+                        <ion-button (click)="setOpen(false)">Close</ion-button>
+                    </ion-buttons>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+                <ion-input
+                    label="Case Title"
+                    label-placement="floating"
+                    fill="outline"
+                    placeholder="Enter Case Title"></ion-input>
+
+                <ion-input
+                    label="Client Name"
+                    label-placement="floating"
+                    fill="outline"
+                    placeholder="Enter Client Name"></ion-input>
+
+                <ion-input
+                    label="Court Name"
+                    label-placement="floating"
+                    fill="outline"
+                    placeholder="Enter Court Name"></ion-input>
+
+                <ion-input
+                    label="Case Number"
+                    label-placement="floating"
+                    fill="outline"
+                    placeholder="Enter Case Number"></ion-input>
+
+                <ion-input
+                    label="Case Type"
+                    label-placement="floating"
+                    fill="outline"
+                    placeholder="Enter Case Type"></ion-input>
+
+                <ion-input
+                    label="Next Hearing Date"
+                    label-placement="floating"
+                    fill="outline"
+                    placeholder="Enter Hearing Date"></ion-input>
+                <ion-input
+                    label="Status"
+                    label-placement="floating"
+                    fill="outline"
+                    placeholder="Enter Case Status"></ion-input
+                >'
+
+                <ion-input
+                    label="Opposition Counsel"
+                    label-placement="floating"
+                    fill="outline"
+                    placeholder="Enter Opposition Counsel Name"></ion-input>
+
+                <ion-input
+                    label="Case Note"
+                    label-placement="floating"
+                    fill="outline"
+                    placeholder="Enter Case Note"></ion-input>
+            </ion-content>
+            <ion-button expand="block" shape="round">
+                <ion-text>Save</ion-text>
+            </ion-button>
+        </ng-template>
+    </ion-modal>
 </ion-content>
+
+<ion-button expand="block" (click)="setOpen(true)" shape="round">
+    <ion-text>Create New Case</ion-text>
+</ion-button>
