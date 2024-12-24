@@ -6,6 +6,27 @@
     <form [formGroup]="groupFormService.form">
         <div class="mb-4">
             <label class="mb-2 block text-sm font-medium text-gray-700"
+                >Organization Name</label
+            >
+            <input
+                type="text"
+                class="w-full rounded-lg border px-4 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-300"
+                formControlName="name"
+                required />
+        </div>
+        <div class="mb-4">
+            <label class="mb-2 block text-sm font-medium text-gray-700"
+                >Organization Email</label
+            >
+            <input
+                type="text"
+                class="w-full rounded-lg border px-4 py-2 shadow-sm focus:outline-none focus:ring focus:ring-blue-300"
+                formControlName="email"
+                required />
+        </div>
+
+        <div class="mb-4">
+            <label class="mb-2 block text-sm font-medium text-gray-700"
                 >Address</label
             >
             <input

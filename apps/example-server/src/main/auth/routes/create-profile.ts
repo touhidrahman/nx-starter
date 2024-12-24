@@ -83,6 +83,7 @@ export const createProfileHandler: AppRouteHandler<
                 body.name ??
                 `${authUser.firstName} ${authUser.lastName}'s Organization`,
             type,
+            email: body.email ?? authUser.email,
         })
         .returning()
 

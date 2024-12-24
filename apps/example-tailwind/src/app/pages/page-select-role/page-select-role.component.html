@@ -1,17 +1,19 @@
-<div class="mt-16 flex flex-col items-center justify-center">
+<div class="flex flex-col items-center justify-center">
     <img src="/assets/images/role-select.png" alt="" />
     <!-- <h1 class="text-4xl text-green-600 font-semibold">Please!</h1> -->
     <h1 class="text-4xl text-green-600">Select your role</h1>
-    <div class="mt-4 flex">
-        <div [routerLink]="['/lawyer-team']" class="card">
-            <div class="card-details">
-                <h1>Lawyer</h1>
-            </div>
-        </div>
-        <div [routerLink]="['/client-team']" class="card">
-            <div class="card-details">
-                <h1>Client</h1>
-            </div>
-        </div>
+    <div class="mt-4 flex gap-5">
+        <p-button
+            label="Vendor"
+            size="small"
+            rounded="true"
+            styleClass="w-32 bg-green3"
+            [routerLink]="['vendor']" />
+        <p-button
+            label="Client"
+            size="small"
+            rounded="true"
+            styleClass="w-32  bg-green3"
+            [routerLink]="['client']" />
     </div>
 </div>
