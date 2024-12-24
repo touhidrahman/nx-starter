@@ -14,8 +14,8 @@ export const getCasesRoute = createRoute({
     request: {
         query: zSelectCase.extend({
             search: z.string().optional(),
-            page: z.number().optional(),
-            size: z.number().optional(),
+            page: z.string().optional(),
+            size: z.string().optional(),
         }),
     },
     responses: {

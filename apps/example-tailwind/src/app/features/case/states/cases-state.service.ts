@@ -2,7 +2,8 @@ import { Injectable, inject } from '@angular/core'
 import { SimpleStore } from '@myorg/store'
 import { CasesApiService } from '../services/cases-api.service'
 import { AlertService } from '@myorg/app-example-core'
-import { combineLatest, switchMap, tap } from 'rxjs'
+import { combineLatest, debounceTime, switchMap, tap } from 'rxjs'
+import { Case } from '../models/case.model'
 
 export type CasesState = {
     loading: boolean
@@ -10,6 +11,7 @@ export type CasesState = {
     searchTerm: string
     page: number
     size: number
+    totalCases: number
 }
 
 const initialState: CasesState = {
@@ -17,7 +19,8 @@ const initialState: CasesState = {
     cases: [],
     searchTerm: '',
     page: 1,
-    size: 10,
+    size: 5,
+    totalCases: 0,
 }
 
 @Injectable({
@@ -39,6 +42,7 @@ export class CasesStateService extends SimpleStore<CasesState> {
             this.select('size'),
         ])
             .pipe(
+                debounceTime(300),
                 tap(() => this.setState({ loading: true })),
                 switchMap(([searchTerm, page, size]) => {
                     return this.casesApiService.getAllCases({
@@ -60,5 +64,23 @@ export class CasesStateService extends SimpleStore<CasesState> {
             })
     }
 
-    deleteCase(id: string) {}
+    deleteCase(id: string) {
+        this.setState({ loading: true })
+        this.casesApiService.deleteCase(id).subscribe({
+            next: (value) => {
+                this.setState({
+                    loading: false,
+                    cases: this.getUpdatedCases(id),
+                })
+            },
+            error: (err) => {
+                this.alertService.warn(err.error.message)
+            },
+        })
+    }
+
+    private getUpdatedCases(id: string | undefined) {
+        const { cases } = this.getState()
+        return cases.filter((c) => c.id !== id)
+    }
 }

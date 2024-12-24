@@ -33,65 +33,12 @@ export class PageCasesComponent {
 
     showFilter = signal<boolean>(false)
 
-    setColor(value: string) {
-        if (value === 'open') {
-            return '#0b9c2b'
-        }
-        if (value === 'pending') {
-            return '#9c0b0b'
-        }
-
-        return '#989898'
-    }
-
     Options = [{ name: 'Low' }, { name: 'High' }]
-
-    popUpState = {
-        visiblity: false,
-        createMode: false,
-    }
-
-    showCreatePopUp() {
-        this.popUpState.visiblity = true
-        this.popUpState.createMode = true
-    }
-
-    showEditPopUp() {
-        this.popUpState.visiblity = true
-        this.popUpState.createMode = false
-    }
-    hidePopUp() {
-        this.popUpState.visiblity = false
-    }
 
     status = ['Ordered', 'Unpaid', 'Paid', 'Confirmed', 'Cancelled']
     selected = ''
     visible = signal(false)
     editMode = signal(false)
-
-    organizations = [
-        {
-            name: 'A ',
-            email: 'a@example.com',
-            address: 'abc',
-            workHour: 5,
-            totalMembers: 5,
-        },
-        {
-            name: 'A ',
-            email: 'a@example.com',
-            address: 'abc',
-            workHour: 5,
-            totalMembers: 5,
-        },
-        {
-            name: 'A ',
-            email: 'a@example.com',
-            address: 'abc',
-            workHour: 5,
-            totalMembers: 5,
-        },
-    ]
 
     openCreateCaseModal() {
         this.editMode.set(false)
