@@ -6,21 +6,10 @@ import { RouterModule } from '@angular/router'
 import { CasesStateService } from '../../features/case/states/cases-state.service'
 import { Button } from 'primeng/button'
 import { Dialog } from 'primeng/dialog'
-import { FileUpload } from 'primeng/fileupload'
 import { InputText } from 'primeng/inputtext'
 import { Select } from 'primeng/select'
 import { CasesTableComponent } from '../../features/case/components/cases-table/cases-table.component'
 import { ProgressSpinner } from 'primeng/progressspinner'
-
-interface Case {
-    caseNumber: number
-    caseTitle: string
-    clientName: string
-    courtName: string
-    nextHearingDate: string
-    status: string
-    caseType: string
-}
 
 @Component({
     selector: 'app-page-cases',
@@ -31,7 +20,6 @@ interface Case {
         RouterModule,
         Button,
         Dialog,
-        FileUpload,
         InputText,
         CasesTableComponent,
         Select,

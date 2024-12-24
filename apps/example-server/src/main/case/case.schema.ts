@@ -13,5 +13,7 @@ export const zUpdateCase = zInsertCase.partial() // Allow partial
 
 // updates
 
-
-export const zCreateCase = zInsertCase.omit({groupId: true, plaintiffGroupId: true})
+export const zCreateCase = zInsertCase.omit({
+    groupId: true,
+    plaintiffGroupId: true,
+})

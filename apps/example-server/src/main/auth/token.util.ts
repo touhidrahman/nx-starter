@@ -65,10 +65,15 @@ export async function decodeRefreshToken(
 ): Promise<RefreshTokenPayload | null> {
     const { email, sub, exp, groupId } = await verify(
         token,
-        env.REFRESH_TOKEN_SECRET
+        env.REFRESH_TOKEN_SECRET,
     )
     if (exp && exp < dayjs().valueOf()) return null
-    return { email: email as string, sub: sub as string, groupId: groupId as string, exp: exp as number }
+    return {
+        email: email as string,
+        sub: sub as string,
+        groupId: groupId as string,
+        exp: exp as number,
+    }
 }
 
 export async function decodeVerificationToken(

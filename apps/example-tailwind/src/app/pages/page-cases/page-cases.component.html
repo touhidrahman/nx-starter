@@ -7,10 +7,11 @@
                     label="Filters"
                     styleClass="bg-green3"
                     icon="pi pi-filter"
-                    iconPos="left" (click)="showFilter.set(!showFilter())"></p-button>
+                    iconPos="left"
+                    (click)="showFilter.set(!showFilter())"></p-button>
             </div>
 
-            @if(showFilter()) {
+            @if (showFilter()) {
                 <div
                     class="flex items-center justify-start gap-2 rounded-md bg-gray-200 p-1 px-3">
                     <p-select
@@ -18,8 +19,7 @@
                         [(ngModel)]="selected"
                         size="small"
                         styleClass="rounded-full w-32"
-                        placeholder="Select a Status"
-                    />
+                        placeholder="Select a Status" />
                     <p-select
                         [options]="Options"
                         [(ngModel)]="selected"
@@ -29,7 +29,6 @@
                         placeholder="Sorting" />
                 </div>
             }
-
         </div>
         <div class="flex items-center justify-end gap-3">
             <div class="flex items-center justify-start gap-2">
@@ -46,36 +45,28 @@
         </div>
     </div>
     <div>
-        @let cases = casesStateService.select('cases')  | async;
-        @let isLoading = casesStateService.select('loading')  | async;
+        @let cases = casesStateService.select('cases') | async;
+        @let isLoading = casesStateService.select('loading') | async;
 
         @if (isLoading) {
             <div class="text-center">
                 <p-progress-spinner ariaLabel="loading" />
             </div>
         } @else {
-            @if( cases !== null && cases.length > 0) {
+            @if (cases !== null && cases.length > 0) {
                 <app-cases-table
                     [cases]="cases"
                     [(visible)]="visible"
                     [(editMode)]="editMode"></app-cases-table>
-
             } @else {
-                <div class="text-center mt-6">
-                    No cases found!
-                </div>
+                <div class="mt-6 text-center">No cases found!</div>
             }
         }
-
-
-
     </div>
 
     <div>
         <p-dialog
-            header="{{
-                editMode() ? 'Edit Case' : 'Create Case'
-            }}"
+            header="{{ editMode() ? 'Edit Case' : 'Create Case' }}"
             [modal]="true"
             [(visible)]="visible"
             [style]="{
@@ -89,15 +80,23 @@
                 <label class="mb-2 font-semibold">Case Title</label>
                 <input pInputText class="w-full flex-auto" autocomplete="off" />
             </div>
-            <div class="flex justify-between items-center gap-5">
-                <div class="mb-4 flex flex-col items-start justify-start w-full">
+            <div class="flex items-center justify-between gap-5">
+                <div
+                    class="mb-4 flex w-full flex-col items-start justify-start">
                     <label class="mb-2 font-semibold">Defendant</label>
-                    <input pInputText class="w-full flex-auto" autocomplete="off" />
+                    <input
+                        pInputText
+                        class="w-full flex-auto"
+                        autocomplete="off" />
                 </div>
 
-                <div class="mb-4 flex flex-col items-start justify-start w-full">
+                <div
+                    class="mb-4 flex w-full flex-col items-start justify-start">
                     <label class="mb-2 font-semibold">Plaintiff</label>
-                    <input pInputText class="w-full flex-auto" autocomplete="off" />
+                    <input
+                        pInputText
+                        class="w-full flex-auto"
+                        autocomplete="off" />
                 </div>
             </div>
 
@@ -132,10 +131,10 @@
                     severity="secondary"
                     (click)="cancel()" />
                 <p-button
-                    label="{{ editMode() ? 'Update' : 'Save' }}" styleClass="bg-green3"
+                    label="{{ editMode() ? 'Update' : 'Save' }}"
+                    styleClass="bg-green3"
                     (click)="onSave()" />
             </div>
         </p-dialog>
     </div>
 </section>
-

@@ -2,16 +2,22 @@ import { Injectable, inject } from '@angular/core'
 import { SimpleStore } from '@myorg/store'
 import { CasesApiService } from '../services/cases-api.service'
 import { AlertService } from '@myorg/app-example-core'
+import { combineLatest, switchMap, tap } from 'rxjs'
 
 export type CasesState = {
     loading: boolean
     cases: any[]
-    caseId:
+    searchTerm: string
+    page: number
+    size: number
 }
 
 const initialState: CasesState = {
     loading: false,
     cases: [],
+    searchTerm: '',
+    page: 1,
+    size: 10,
 }
 
 @Injectable({
@@ -27,20 +33,32 @@ export class CasesStateService extends SimpleStore<CasesState> {
     }
 
     continueLoadingCases() {
-        this.setState({ loading: true })
-        this.casesApiService.getAllCases().subscribe({
-            next: (value) => {
-                console.log(value)
-                this.setState({ loading: false, cases: value.data })
-            },
-            error: (err) => {
-                this.setState({ loading: false })
-                this.alertService.error(err.error.message)
-            },
-        })
+        combineLatest([
+            this.select('searchTerm'),
+            this.select('page'),
+            this.select('size'),
+        ])
+            .pipe(
+                tap(() => this.setState({ loading: true })),
+                switchMap(([searchTerm, page, size]) => {
+                    return this.casesApiService.getAllCases({
+                        search: searchTerm,
+                        page,
+                        size,
+                    })
+                }),
+            )
+            .subscribe({
+                next: (value) => {
+                    console.log(value)
+                    this.setState({ loading: false, cases: value.data })
+                },
+                error: (err) => {
+                    this.setState({ loading: false })
+                    this.alertService.error(err.error.message)
+                },
+            })
     }
 
-    deleteCase(id:string) {
-        
-    }
+    deleteCase(id: string) {}
 }

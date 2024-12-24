@@ -8,9 +8,14 @@ import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
-import { InsertCase, zCreateCase, zInsertCase, zSelectCase } from '../case.schema'
+import {
+    InsertCase,
+    zCreateCase,
+    zInsertCase,
+    zSelectCase,
+} from '../case.schema'
 import { zEmpty } from '../../../core/models/common.schema'
-import { createCase } from '../case.service'
+import { createCase, findCaseByNumber } from '../case.service'
 
 export const createCaseRoute = createRoute({
     path: '/v1/cases',
@@ -33,6 +38,19 @@ export const createCaseHandler: AppRouteHandler<
     const body = c.req.valid('json') as InsertCase
 
     try {
+        const [existingCase] = await findCaseByNumber(body.number)
+
+        if (existingCase) {
+            return c.json(
+                {
+                    data: {},
+                    message: `Case already exists with case number: ${body.number}`,
+                    success: false,
+                },
+                BAD_REQUEST,
+            )
+        }
+
         const [newCase] = await createCase(body)
         return c.json(
             {
