@@ -95,11 +95,25 @@ const routes: Routes = [
             ),
     },
     {
-        path: 'dashboard/cases/:id',
+        path: 'dashboard/case',
         loadComponent: () =>
             import('./pages/page-case/page-case.component').then(
                 (m) => m.PageCaseComponent,
             ),
+    },
+    {
+        path: 'dashboard/clients',
+        loadComponent: () =>
+            import('./pages/page-clients/page-clients.component').then(
+                (m) => m.PageClientsComponent,
+            ),
+    },
+    {
+        path: 'dashboard/appointments',
+        loadComponent: () =>
+            import(
+                './pages/page-appointments/page-appointments.component'
+            ).then((m) => m.PageAppointmentsComponent),
     },
     {
         path: 'admin/userlist',

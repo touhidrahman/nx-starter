@@ -1,4 +1,4 @@
-<section class="relative z-50 bg-white py-14">
+<section class="relative z-50 bg-[#FFFEF3] py-14">
     <app-section-title>
         <span class="text-gray3e title text-xl sm:text-2xl">FAQ</span>
         <svg
@@ -14,7 +14,7 @@
         </svg>
 
         <h2
-            class="text-gray63 subtitle my-4 text-center text-lg sm:text-xl md:text-2xl">
+            class="text-gray63 subtitle mb-8 mt-10 text-center text-lg sm:text-xl md:text-2xl">
             Feel free to let me know if you need any additional
             <br class="hidden sm:block" />
             questions or if there are specific areas you want to focus
@@ -22,7 +22,7 @@
     </app-section-title>
 
     <div class="px-16 py-8">
-        <div class="box-shadow rounded-xl px-4 py-10">
+        <div class="box-shadow rounded-xl bg-white px-4 pt-5">
             @for (i of [1, 2, 3, 4, 5]; track $index) {
                 <div class="" (click)="showFaqAns(faqAns, minus, plus)">
                     <div class="mt-5 flex items-center justify-between px-6">

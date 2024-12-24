@@ -5,6 +5,7 @@ import { Observable } from 'rxjs'
 import { AUTH_API_URL } from '../auth-api-url.injector'
 import { LoginResponse } from '../models/login-response'
 import { SignupInput } from '../models/signup-input'
+import { GroupInput } from '../models/group'
 
 @Injectable({
     providedIn: 'root',
@@ -29,8 +30,8 @@ export class AuthApiService<TUser> {
     login(
         email: string,
         password: string,
-    ): Observable<ApiResponse<LoginResponse<TUser>>> {
-        return this.http.post<ApiResponse<LoginResponse<TUser>>>(
+    ): Observable<ApiResponse<LoginResponse>> {
+        return this.http.post<ApiResponse<LoginResponse>>(
             `${this.authApiUrl}/login`,
             {
                 email,
@@ -55,11 +56,11 @@ export class AuthApiService<TUser> {
 
     refreshAccessToken(
         refreshToken: string,
-    ): Observable<ApiResponse<LoginResponse<TUser>>> {
-        return this.http.post<ApiResponse<LoginResponse<TUser>>>(
-            `${this.authApiUrl}/refresh-access-token`,
+    ): Observable<ApiResponse<LoginResponse>> {
+        return this.http.post<ApiResponse<LoginResponse>>(
+            `${this.authApiUrl}/token`,
             {
-                token: refreshToken,
+                refreshToken,
             },
         )
     }
@@ -112,6 +113,27 @@ export class AuthApiService<TUser> {
     verifyEmail(token: string): Observable<ApiResponse<boolean>> {
         return this.http.get<ApiResponse<boolean>>(
             `${this.authApiUrl}/verify-email/${token}`,
+        )
+    }
+
+    // TODO: implement
+    setDefaultGroupToAuthUser(
+        userId: string,
+        groupId: string,
+    ): Observable<ApiResponse<boolean>> {
+        return this.http.post<ApiResponse<boolean>>(
+            `${this.authApiUrl}/set-default-group`,
+            { userId, groupId },
+        )
+    }
+
+    createGroupAndProfile(
+        input: Partial<GroupInput>,
+        type: 'client' | 'vendor',
+    ): Observable<ApiResponse<{}>> {
+        return this.http.post<ApiResponse<{}>>(
+            `${this.authApiUrl}/create-profile/${type}`,
+            input,
         )
     }
 }

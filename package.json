@@ -54,6 +54,8 @@
         "@hono/zod-openapi": "^0.18.3",
         "@hono/zod-validator": "^0.4.2",
         "@ionic/angular": "^8.4.1",
+        "@ionic/angular-server": "^8.4.1",
+        "@ionic/angular-toolkit": "11",
         "@neondatabase/serverless": "^0.10.4",
         "@ng-icons/core": "^29.10.0",
         "@ng-icons/lucide": "^29.10.0",

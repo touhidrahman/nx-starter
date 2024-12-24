@@ -1,7 +1,10 @@
 import { Route } from '@angular/router'
 import { PageLayout, setLayout } from '@myorg/page-layouts'
-import { PageCreateProfileComponent } from '../../../../libs/app-example-auth/src/lib/page-create-profile/page-create-profile.component'
-import { PageCreateProfileFormComponent } from '../../../../libs/app-example-auth/src/lib/page-create-profile-form/page-create-profile-form.component'
+import {
+    authGuardFn,
+    PageCreateProfileComponent,
+} from '@myorg/app-example-auth'
+import { PageCreateProfileFormComponent } from '@myorg/app-example-auth'
 
 const authRoutes: Route[] = [
     {
@@ -60,9 +63,18 @@ const authRoutes: Route[] = [
     },
     {
         path: 'create-profile/:profileType',
+        canActivate: [authGuardFn],
         loadComponent: () =>
             import('@myorg/app-example-auth').then(
                 (m) => m.PageCreateProfileFormComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Center) },
+    },
+    {
+        path: 'profile-created',
+        loadComponent: () =>
+            import('@myorg/app-example-auth').then(
+                (m) => m.PageProfileCreatedComponent,
             ),
         resolve: { layout: setLayout(PageLayout.Center) },
     },

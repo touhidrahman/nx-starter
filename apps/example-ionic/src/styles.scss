@@ -1,11 +1,52 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo+Narrow:ital,wght@0,400..700;1,400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
-.custom-background {
-    background-color: #f5fff5;
-    /* Replace with your desired color */
-}
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Archivo Narrow', serif;
+    font-family:
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        'Segoe UI',
+        Roboto,
+        Oxygen,
+        Ubuntu,
+        Cantarell,
+        'Open Sans',
+        'Helvetica Neue',
+        sans-serif;
+}
+
+.custom-background {
+    background: linear-gradient(180deg, #fffef3, #f4ffd6, #fffcd7);
+}
+
+ion-content {
+    --background: transparent;
+}
+
+.back-icon {
+    color: rgb(22 101 52);
+    height: 2.5rem;
+    width: 2.5rem;
+}
+
+.title-section {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 0.5rem;
+
+    .title {
+        font-weight: 700;
+        font-size: 2rem;
+        line-height: 2rem;
+    }
 }

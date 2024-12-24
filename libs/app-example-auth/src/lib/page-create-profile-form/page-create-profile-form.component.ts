@@ -1,49 +1,42 @@
-import { Component, inject, input, OnInit } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
+import { ReactiveFormsModule } from '@angular/forms'
+import { ActivatedRoute, Router } from '@angular/router'
+import { AuthApiService } from '@myorg/common-auth'
 import { AuthStateService } from '../auth-state.service'
-import {
-    FormBuilder,
-    FormGroup,
-    ReactiveFormsModule,
-    Validators,
-} from '@angular/forms'
-import { CreateProfileFormService } from '../create-profile-form.service'
+import { GroupFormService } from '../group-form.service'
 
 @Component({
     selector: 'myorg-page-create-profile-form',
     imports: [ReactiveFormsModule],
     templateUrl: './page-create-profile-form.component.html',
     styleUrl: './page-create-profile-form.component.css',
-    providers: [CreateProfileFormService],
+    providers: [GroupFormService],
 })
 export class PageCreateProfileFormComponent implements OnInit {
-    profileType = input()
+    private authApiService = inject(AuthApiService)
+    private activatedRoute = inject(ActivatedRoute)
+    private router = inject(Router)
     authStateService = inject(AuthStateService)
-    createProfileFormService = inject(CreateProfileFormService)
-    fb = inject(FormBuilder)
+    groupFormService = inject(GroupFormService)
 
-    createProfileForm!: FormGroup
+    profileType = this.activatedRoute.snapshot.params['profileType'] as
+        | 'client'
+        | 'vendor'
 
-    ngOnInit(): void {
-        this.initForm()
-    }
-
-    initForm() {
-        this.createProfileForm = this.fb.nonNullable.group({
-            type: [this.profileType(), Validators.required],
-            status: ['', Validators.required],
-            name: ['', [Validators.required]],
-            email: ['', [Validators.required, Validators.email]],
-            phone: ['', [Validators.required]],
-            address: ['', [Validators.required]],
-            city: ['', [Validators.required]],
-            country: ['', [Validators.required]],
-            postCode: ['', [Validators.required]],
-            ownerId: ['', [Validators.required]],
-            verified: [false, [Validators.required]],
-        })
-    }
+    ngOnInit(): void {}
 
     submit() {
-        console.log(this.createProfileForm.value)
+        if (this.groupFormService.form.invalid) {
+            return
+        }
+
+        this.authApiService
+            .createGroupAndProfile(
+                this.groupFormService.getValue(),
+                this.profileType,
+            )
+            .subscribe((res) => {
+                this.router.navigate(['/profile-created'])
+            })
     }
 }

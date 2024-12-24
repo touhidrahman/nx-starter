@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, HostListener } from '@angular/core'
 import { RouterModule } from '@angular/router'
 
 @Component({
@@ -8,8 +8,20 @@ import { RouterModule } from '@angular/router'
     styleUrl: './header-public.component.scss',
 })
 export class HeaderPublicComponent {
+    isScrolled = false
+
     toggleMobileMenu(mobilenav: HTMLDivElement) {
         mobilenav.classList.toggle('-right-80')
         mobilenav.classList.toggle('right-0')
+    }
+
+    @HostListener('window:scroll', [])
+    onWindowScroll() {
+        const scrollPosition =
+            window.pageYOffset ||
+            document.documentElement.scrollTop ||
+            document.body.scrollTop ||
+            0
+        this.isScrolled = scrollPosition > 50
     }
 }
