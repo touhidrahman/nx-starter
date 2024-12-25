@@ -32,7 +32,11 @@
         </div>
         <div class="flex items-center justify-end gap-3">
             <div class="flex items-center justify-start gap-2">
-                <input type="text" pInputText size="small" />
+                <input
+                    type="text"
+                    pInputText
+                    size="small"
+                    (input)="onSearch($event)" />
 
                 <p-button icon="pi pi-search" styleClass="bg-green" />
             </div>
@@ -72,69 +76,69 @@
             [style]="{
                 width: '50%',
             }">
-            <div class="mb-4 flex flex-col items-start justify-start">
-                <label class="mb-2 font-semibold">Case Number</label>
-                <input pInputText class="w-full flex-auto" autocomplete="off" />
-            </div>
-            <div class="mb-4 flex flex-col items-start justify-start">
-                <label class="mb-2 font-semibold">Case Title</label>
-                <input pInputText class="w-full flex-auto" autocomplete="off" />
-            </div>
-            <div class="flex items-center justify-between gap-5">
-                <div
-                    class="mb-4 flex w-full flex-col items-start justify-start">
-                    <label class="mb-2 font-semibold">Defendant</label>
+            <form [formGroup]="this.caseFormService.form">
+                <div class="mb-4 flex flex-col items-start justify-start">
+                    <label class="mb-2 font-semibold">Case Number</label>
                     <input
                         pInputText
                         class="w-full flex-auto"
-                        autocomplete="off" />
+                        autocomplete="off"
+                        formControlName="number" />
+                </div>
+                <div class="mb-4 flex flex-col items-start justify-start">
+                    <label class="mb-2 font-semibold">Case Title</label>
+                    <input
+                        pInputText
+                        class="w-full flex-auto"
+                        autocomplete="off"
+                        formControlName="name" />
+                </div>
+                <div class="flex items-center justify-between gap-5">
+                    <div
+                        class="mb-4 flex w-full flex-col items-start justify-start">
+                        <label class="mb-2 font-semibold">Defendant</label>
+                        <input
+                            pInputText
+                            class="w-full flex-auto"
+                            autocomplete="off"
+                            formControlName="defendant" />
+                    </div>
+
+                    <div
+                        class="mb-4 flex w-full flex-col items-start justify-start">
+                        <label class="mb-2 font-semibold">Plaintiff</label>
+                        <input
+                            pInputText
+                            class="w-full flex-auto"
+                            autocomplete="off"
+                            formControlName="plaintiffName" />
+                    </div>
                 </div>
 
-                <div
-                    class="mb-4 flex w-full flex-col items-start justify-start">
-                    <label class="mb-2 font-semibold">Plaintiff</label>
-                    <input
-                        pInputText
-                        class="w-full flex-auto"
-                        autocomplete="off" />
+                <div class="flex items-center justify-start gap-5">
+                    <div
+                        class="mb-4 flex w-1/2 flex-col items-start justify-start">
+                        <label class="mb-2 font-semibold">Court</label>
+                        <input
+                            pInputText
+                            class="w-full flex-auto"
+                            autocomplete="off"
+                            formControlName="court" />
+                    </div>
                 </div>
-            </div>
-
-            <div class="flex items-center justify-start gap-5">
-                <div class="mb-4 flex w-1/2 flex-col items-start justify-start">
-                    <label class="mb-2 font-semibold">Court</label>
-                    <input
-                        pInputText
-                        class="w-full flex-auto"
-                        autocomplete="off" />
+                <div class="flex justify-end gap-2">
+                    <p-button
+                        label="Cancel"
+                        styleClass="bg-greenSecondary"
+                        severity="secondary"
+                        (click)="cancel()" />
+                    <p-button
+                        label="{{ editMode() ? 'Update' : 'Save' }}"
+                        styleClass="bg-green3"
+                        [disabled]="this.caseFormService.form.invalid"
+                        (click)="onSave()" />
                 </div>
-
-                <div class="mb-4 flex w-1/2 flex-col items-start justify-start">
-                    <label class="mb-2 font-semibold">Group ID</label>
-                    <input
-                        pInputText
-                        class="w-full flex-auto"
-                        autocomplete="off" />
-                </div>
-                <div class="mb-4 flex w-1/2 flex-col items-start justify-start">
-                    <label class="mb-2 font-semibold">Plaintiff Group ID</label>
-                    <input
-                        pInputText
-                        class="w-full flex-auto"
-                        autocomplete="off" />
-                </div>
-            </div>
-            <div class="flex justify-end gap-2">
-                <p-button
-                    label="Cancel"
-                    styleClass="bg-greenSecondary"
-                    severity="secondary"
-                    (click)="cancel()" />
-                <p-button
-                    label="{{ editMode() ? 'Update' : 'Save' }}"
-                    styleClass="bg-green3"
-                    (click)="onSave()" />
-            </div>
+            </form>
         </p-dialog>
     </div>
 </section>

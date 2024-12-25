@@ -8,8 +8,9 @@ export const getAllCasesByGroupId = async (params: {
     search: string
     page: number
     size: number
+    orderBy?: string
 }) => {
-    const { groupId, search, page, size } = params
+    const { groupId, search, page, size, orderBy } = params
 
     const conditions: SQL<unknown>[] = []
 
@@ -38,6 +39,11 @@ export const getAllCasesByGroupId = async (params: {
 
     if (whereClause) {
         query.where(whereClause)
+    }
+
+    if (orderBy) {
+        const direction = orderBy.toLowerCase() === 'desc' ? 'DESC' : 'ASC'
+        query.orderBy(sql`${casesTable.createdAt} ${sql.raw(direction)}`)
     }
 
     const results = await query

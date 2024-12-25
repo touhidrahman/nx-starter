@@ -64,23 +64,38 @@ export class CasesStateService extends SimpleStore<CasesState> {
             })
     }
 
-    deleteCase(id: string) {
+    saveCase(data: Case) {
+        const { cases } = this.getState()
         this.setState({ loading: true })
-        this.casesApiService.deleteCase(id).subscribe({
+        this.casesApiService.createCase(data).subscribe({
             next: (value) => {
+                this.alertService.success('Case created successfully')
                 this.setState({
                     loading: false,
-                    cases: this.getUpdatedCases(id),
+                    cases: [...cases, value.data],
                 })
             },
             error: (err) => {
-                this.alertService.warn(err.error.message)
+                this.alertService.error(err.error.message)
             },
         })
     }
 
-    private getUpdatedCases(id: string | undefined) {
+    deleteCase(id: string) {
         const { cases } = this.getState()
-        return cases.filter((c) => c.id !== id)
+        this.setState({ loading: true })
+        this.casesApiService.deleteCase(id).subscribe({
+            next: (value) => {
+                this.alertService.success('Case deleted successfully')
+                this.setState({
+                    loading: false,
+                    cases: cases.filter((c) => c.id !== id),
+                })
+            },
+            error: (err) => {
+                console.log(err.error)
+                this.alertService.warn(err.error.message)
+            },
+        })
     }
 }

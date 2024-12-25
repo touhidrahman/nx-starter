@@ -16,6 +16,7 @@ export const getCasesRoute = createRoute({
             search: z.string().optional(),
             page: z.string().optional(),
             size: z.string().optional(),
+            orderBy: z.string().optional(),
         }),
     },
     responses: {
@@ -27,7 +28,7 @@ export const getCasesHandler: AppRouteHandler<typeof getCasesRoute> = async (
     c,
 ) => {
     const payload = await c.get('jwtPayload')
-    const { search, page, size } = c.req.query()
+    const { search, page, size, orderBy } = c.req.query()
 
     const pageNumber = Number(page)
     const limitNumber = Number(size)
@@ -38,6 +39,7 @@ export const getCasesHandler: AppRouteHandler<typeof getCasesRoute> = async (
         search,
         page: pageNumber,
         size: limitNumber,
+        orderBy,
     })
 
     return c.json(
