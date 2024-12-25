@@ -49,3 +49,20 @@ ion-content {
     border-radius: 50%;
     margin: 2px;
 }
+
+// page title and back btn style with ion-grid
+
+.navigation-grid {
+    padding: 1rem 0;
+    margin: 10px 10px 10px;
+}
+.page-title-col {
+    margin-top: -1px;
+}
+.page-title-text {
+    font-weight: 700;
+    font-size: 2rem;
+    margin: 0 5px;
+    color: #292929;
+    display: block;
+}
