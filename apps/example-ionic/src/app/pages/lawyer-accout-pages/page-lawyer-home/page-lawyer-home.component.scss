@@ -2,6 +2,13 @@
     display: block;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Archivo Narrow', serif;
+}
+
 .text-gradient {
     background: linear-gradient(90deg, #009459 0%, #04712d 100%);
     -webkit-background-clip: text;
@@ -48,9 +55,9 @@
     border-radius: 10px;
     position: absolute;
     z-index: 1000;
-    right: 0;
+    right: 8px;
     top: 64px;
-    padding: 1rem 0;
+    padding: 0.75rem 0.25rem;
 }
 
 .popover-icon {
@@ -62,12 +69,11 @@
     color: #292929;
     display: block;
     font-weight: 500;
-    line-height: 0%;
     margin-left: 8px;
 }
 
 .popover-row {
-    padding: 0.5rem 1rem 0.3rem;
+    padding: 0.3rem 1rem 0;
 }
 
 .popover-row:active {

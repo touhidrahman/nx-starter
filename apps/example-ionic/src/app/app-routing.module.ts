@@ -136,6 +136,13 @@ const routes: Routes = [
                 './pages/lawyer-accout-pages/page-lawyer-organization/page-lawyer-organization.component'
             ).then((m) => m.PageLawyerOrganizationComponent),
     },
+    {
+        path: 'lawyer/profile',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-accout-pages/page-lawyer-profile/page-lawyer-profile.component'
+            ).then((m) => m.PageLawyerProfileComponent),
+    },
 ]
 
 @NgModule({

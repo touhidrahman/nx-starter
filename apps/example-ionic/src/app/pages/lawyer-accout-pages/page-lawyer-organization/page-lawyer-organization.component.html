@@ -1,317 +1,330 @@
-<!-- <ion-img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCQQWxn19VSAeYcWxDNfas-94t-ygMPn2zaA&s"
+<ion-content>
+    <!-- <ion-img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCQQWxn19VSAeYcWxDNfas-94t-ygMPn2zaA&s"
     class="cover-img"></ion-img> -->
 
-<ion-content class="cover-pic-wrapper">
-    <ion-text class="cover-pic ion-text-center">[ Cover Photo ]</ion-text>
-    <ion-text class="upload-icon ion-text-center"
-        ><svg
-            width="20"
-            height="17"
-            viewBox="0 0 20 17"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <path
-                d="M0 10H2V15H18V10H20V15C20 16.11 19.11 17 18 17H2C0.9 17 0 16.11 0 15V10ZM10 0L4.46 5.46L5.88 6.88L9 3.75V13H11V3.75L14.13 6.88L15.55 5.45L10 0Z"
-                fill="#CDCDCD" />
-        </svg>
-    </ion-text>
-</ion-content>
-
-<ion-grid class="orginization-info-grid">
-    <ion-row class="organization-info-row ion-align-items-center">
-        <!-- oprfile pic col -->
-        <ion-col size="auto" class="profile-col">
-            <ion-grid>
-                <ion-row>
-                    <ion-img
-                        src="assets/images/organization-image.png"
-                        class="profile-img"></ion-img>
-                </ion-row>
-                <ion-row class="ion-justify-content-center">
-                    <ion-button
-                        class="edit-icon-btn"
-                        size="small"
-                        fill="transparent">
-                        <svg width="10" viewBox="0 0 10 11">
-                            <path
-                                d="M1.11111 0C0.494444 0 0 0.543889 0 1.22222V9.77778C0 10.1019 0.117063 10.4128 0.325437 10.642C0.533811 10.8712 0.816426 11 1.11111 11H8.88889C9.18357 11 9.46619 10.8712 9.67456 10.642C9.88294 10.4128 10 10.1019 10 9.77778V5.5H8.88889V9.77778H1.11111V1.22222H5V0H1.11111ZM8.21111 0.611111C8.11667 0.611111 8.01667 0.653889 7.94444 0.733333L7.26667 1.47278L8.65556 3.00056L9.33333 2.26111C9.47778 2.10222 9.47778 1.83333 9.33333 1.68056L8.47222 0.733333C8.4 0.653889 8.30556 0.611111 8.21111 0.611111ZM6.87222 1.90667L2.77778 6.41667V7.94444H4.16667L8.26111 3.43444L6.87222 1.90667Z"
-                                fill="black" />
-                        </svg>
-                    </ion-button>
-                    <ion-button
-                        class="delete-icon-btn"
-                        size="small"
-                        fill="transparent">
-                        <svg width="10" viewBox="0 0 10 11">
-                            <path
-                                d="M3.125 0V0.611111H0V1.83333H0.625V9.77778C0.625 10.1019 0.756696 10.4128 0.991116 10.642C1.22554 10.8712 1.54348 11 1.875 11H8.125C8.45652 11 8.77446 10.8712 9.00888 10.642C9.2433 10.4128 9.375 10.1019 9.375 9.77778V1.83333H10V0.611111H6.875V0H3.125ZM1.875 1.83333H8.125V9.77778H1.875V1.83333ZM3.125 3.05556V8.55556H4.375V3.05556H3.125ZM5.625 3.05556V8.55556H6.875V3.05556H5.625Z"
-                                fill="#E20000" />
-                        </svg>
-                    </ion-button>
-                </ion-row>
-            </ion-grid>
-        </ion-col>
-        <!-- oranization info col -->
-        <ion-col class="info-col">
-            <ion-grid>
-                <!-- title row -->
-                <ion-row
-                    class="ion-justify-content-between ion-align-items-center organization-title-row">
-                    <ion-col size="auto"
-                        ><ion-text class="organization-name"
-                            >Afiful Hoque’s Organization</ion-text
-                        ></ion-col
-                    >
-                    <ion-col size="auto">
-                        <ion-button
-                            fill="transparent"
-                            size="small"
-                            class="edit-btn">
-                            <svg width="8" height="8" viewBox="0 0 8 8">
-                                <path
-                                    d="M4.91487 2.66667L5.33259 3.08444L1.2976 7.11111H0.888766V6.70222L4.91487 2.66667ZM6.51465 0C6.40356 0 6.28802 0.0444444 6.20358 0.128889L5.39036 0.942222L7.0568 2.60889L7.87002 1.79556C8.04333 1.62222 8.04333 1.33333 7.87002 1.16889L6.83016 0.128889C6.74129 0.04 6.63019 0 6.51465 0ZM4.91487 1.41778L0 6.33333V8H1.66644L6.58131 3.08444L4.91487 1.41778Z"
-                                    fill="#009F72" />
-                            </svg>
-                            <ion-text> Edit </ion-text>
-                        </ion-button>
-                    </ion-col>
-                </ion-row>
-                <!-- locaiton row -->
-                <ion-row class="ion-align-items-center">
-                    <ion-col size="auto">
-                        <ion-grid>
-                            <ion-row
-                                class="ion-align-items-start orginization-location-row">
-                                <ion-col size="auto">
-                                    <svg
-                                        width="6"
-                                        height="10"
-                                        viewBox="0 0 6 10">
-                                        <path
-                                            d="M3 2.25C3.28416 2.25 3.55668 2.3817 3.75761 2.61612C3.95855 2.85054 4.07143 3.16848 4.07143 3.5C4.07143 3.66415 4.04372 3.8267 3.98987 3.97835C3.93603 4.13001 3.85711 4.26781 3.75761 4.38388C3.65812 4.49996 3.54001 4.59203 3.41002 4.65485C3.28003 4.71767 3.1407 4.75 3 4.75C2.71584 4.75 2.44332 4.6183 2.24239 4.38388C2.04145 4.14946 1.92857 3.83152 1.92857 3.5C1.92857 3.16848 2.04145 2.85054 2.24239 2.61612C2.44332 2.3817 2.71584 2.25 3 2.25ZM3 0C3.79565 0 4.55871 0.368749 5.12132 1.02513C5.68393 1.6815 6 2.57174 6 3.5C6 6.125 3 10 3 10C3 10 0 6.125 0 3.5C0 2.57174 0.31607 1.6815 0.87868 1.02513C1.44129 0.368749 2.20435 0 3 0ZM3 1C2.43168 1 1.88663 1.26339 1.48477 1.73223C1.08291 2.20107 0.857143 2.83696 0.857143 3.5C0.857143 4 0.857143 5 3 8.355C5.14286 5 5.14286 4 5.14286 3.5C5.14286 2.83696 4.91709 2.20107 4.51523 1.73223C4.11337 1.26339 3.56832 1 3 1Z"
-                                            fill="#707070" />
-                                    </svg>
-                                </ion-col>
-                                <ion-col size="auto">
-                                    <ion-text>Chittagong, Bangladesh</ion-text>
-                                </ion-col>
-                            </ion-row>
-                        </ion-grid>
-                    </ion-col>
-                    <ion-col size="auto">
-                        <ion-button
-                            fill="transparent"
-                            size="small"
-                            class="opening-time">
-                            <svg
-                                width="7"
-                                height="7"
-                                viewBox="0 0 7 7"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M3.5 6.3C4.24261 6.3 4.9548 6.005 5.4799 5.4799C6.005 4.9548 6.3 4.24261 6.3 3.5C6.3 2.75739 6.005 2.0452 5.4799 1.5201C4.9548 0.994999 4.24261 0.7 3.5 0.7C2.75739 0.7 2.0452 0.994999 1.5201 1.5201C0.994999 2.0452 0.7 2.75739 0.7 3.5C0.7 4.24261 0.994999 4.9548 1.5201 5.4799C2.0452 6.005 2.75739 6.3 3.5 6.3ZM3.5 0C3.95963 0 4.41475 0.0905302 4.83939 0.266422C5.26403 0.442313 5.64987 0.700121 5.97487 1.02513C6.29988 1.35013 6.55769 1.73597 6.73358 2.16061C6.90947 2.58525 7 3.04037 7 3.5C7 4.42826 6.63125 5.3185 5.97487 5.97487C5.3185 6.63125 4.42826 7 3.5 7C1.5645 7 0 5.425 0 3.5C0 2.57174 0.368749 1.6815 1.02513 1.02513C1.6815 0.368749 2.57174 0 3.5 0ZM3.675 1.75V3.5875L5.25 4.522L4.9875 4.9525L3.15 3.85V1.75H3.675Z"
-                                    fill="#393939" />
-                            </svg>
-                            <ion-text> 10AM - 7PM</ion-text>
-                        </ion-button>
-                    </ion-col>
-                </ion-row>
-                <!-- contact row -->
-                <ion-row>
-                    <ion-col size="auto">
-                        <ion-grid>
-                            <ion-row class="ion-align-items-start web-link-row">
-                                <ion-col size="auto">
-                                    <svg
-                                        width="9"
-                                        height="10"
-                                        viewBox="0 0 9 10"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M6.462 6C6.498 5.67 6.525 5.34 6.525 5C6.525 4.66 6.498 4.33 6.462 4H7.983C8.055 4.32 8.1 4.655 8.1 5C8.1 5.345 8.055 5.68 7.983 6M5.6655 8.78C5.9355 8.225 6.1425 7.625 6.2865 7H7.614C7.182 7.825 6.4935 8.465 5.6655 8.78ZM5.553 6H3.447C3.402 5.67 3.375 5.34 3.375 5C3.375 4.66 3.402 4.325 3.447 4H5.553C5.5935 4.325 5.625 4.66 5.625 5C5.625 5.34 5.5935 5.67 5.553 6ZM4.5 8.98C4.1265 8.38 3.825 7.715 3.6405 7H5.3595C5.175 7.715 4.8735 8.38 4.5 8.98ZM2.7 3H1.386C1.8135 2.17 2.5065 1.53 3.33 1.22C3.06 1.775 2.8575 2.375 2.7 3ZM1.386 7H2.7C2.8575 7.625 3.06 8.225 3.33 8.78C2.5065 8.465 1.8135 7.825 1.386 7ZM1.017 6C0.945 5.68 0.9 5.345 0.9 5C0.9 4.655 0.945 4.32 1.017 4H2.538C2.502 4.33 2.475 4.66 2.475 5C2.475 5.34 2.502 5.67 2.538 6M4.5 1.015C4.8735 1.615 5.175 2.285 5.3595 3H3.6405C3.825 2.285 4.1265 1.615 4.5 1.015ZM7.614 3H6.2865C6.1425 2.375 5.9355 1.775 5.6655 1.22C6.4935 1.535 7.182 2.17 7.614 3ZM4.5 0C2.0115 0 0 2.25 0 5C0 6.32608 0.474106 7.59785 1.31802 8.53553C1.73588 8.99983 2.23196 9.36812 2.77792 9.6194C3.32389 9.87067 3.90905 10 4.5 10C5.69347 10 6.83807 9.47322 7.68198 8.53553C8.52589 7.59785 9 6.32608 9 5C9 4.34339 8.8836 3.69321 8.65746 3.08658C8.43131 2.47995 8.09984 1.92876 7.68198 1.46447C7.26412 1.00017 6.76804 0.631876 6.22208 0.380602C5.67611 0.129329 5.09095 0 4.5 0Z"
-                                            fill="#707070" />
-                                    </svg>
-                                </ion-col>
-                                <ion-col size="auto">
-                                    <ion-text>www.ariful.com</ion-text>
-                                </ion-col>
-                            </ion-row>
-                        </ion-grid>
-                    </ion-col>
-                    <ion-col size="auto">
-                        <ion-grid>
-                            <ion-row class="ion-align-items-start phone-no-row">
-                                <ion-col size="auto">
-                                    <svg
-                                        width="7"
-                                        height="9"
-                                        viewBox="0 0 7 9"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M6.61111 6.25C6.14444 6.25 5.63889 6.15 5.21111 5.95H5.09444C4.97778 5.95 4.9 6 4.82222 6.1L3.96667 7.2C2.87778 6.45 1.94444 5.3 1.4 3.9L2.25556 2.8C2.37222 2.65 2.41111 2.45 2.33333 2.3C2.21667 1.75 2.13889 1.1 2.13889 0.5C2.13889 0.25 1.94444 0 1.75 0H0.388889C0.194444 0 0 0.25 0 0.5C0 5.2 2.95556 9 6.61111 9C6.80556 9 7 8.75 7 8.5V6.75C7 6.5 6.80556 6.25 6.61111 6.25ZM0.777778 1H1.36111C1.4 1.45 1.47778 1.9 1.55556 2.3L1.08889 2.9C0.933333 2.3 0.816667 1.65 0.777778 1ZM6.22222 8C5.71667 7.95 5.21111 7.8 4.74444 7.6L5.21111 7C5.52222 7.1 5.87222 7.2 6.22222 7.2V8ZM4.66667 4.5H5.44444C5.44444 3.83696 5.23958 3.20107 4.87493 2.73223C4.51028 2.26339 4.0157 2 3.5 2V3C3.80942 3 4.10617 3.15804 4.32496 3.43934C4.54375 3.72064 4.66667 4.10218 4.66667 4.5ZM6.22222 4.5H7C7 2 5.43278 0 3.5 0V1C5.00111 1 6.22222 2.565 6.22222 4.5Z"
-                                            fill="#707070" />
-                                    </svg>
-                                </ion-col>
-                                <ion-col size="auto">
-                                    <ion-text>+88016 000 0000</ion-text>
-                                </ion-col>
-                            </ion-row>
-                        </ion-grid>
-                    </ion-col>
-                    <ion-col size="auto">
-                        <ion-grid>
-                            <ion-row class="ion-align-items-start mail-row">
-                                <ion-col size="auto">
-                                    <svg
-                                        width="10"
-                                        height="7"
-                                        viewBox="0 0 10 7"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M10 0.875C10 0.39375 9.55 0 9 0H1C0.45 0 0 0.39375 0 0.875V6.125C0 6.60625 0.45 7 1 7H9C9.55 7 10 6.60625 10 6.125V0.875ZM9 0.875L5 3.0625L1 0.875H9ZM9 6.125H1V1.75L5 3.9375L9 1.75V6.125Z"
-                                            fill="#707070" />
-                                    </svg>
-                                </ion-col>
-                                <ion-col size="auto">
-                                    <ion-text
-                                        >ariful{{ '@' }}gmail.com</ion-text
-                                    >
-                                </ion-col>
-                            </ion-row>
-                        </ion-grid>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </ion-col>
-    </ion-row>
-</ion-grid>
-<ion-grid class="organization-members-wrapper">
-    <ion-row class="ion-justify-content-between ion-align-items-center">
-        <ion-col class="members">Members</ion-col>
-        <ion-col class="ion-text-end">
-            <ion-button size="small" fill="transparent" class="invite-btn">
-                <svg width="8" height="8" viewBox="0 0 8 8">
-                    <path
-                        d="M8 4.57143H4.57143V8H3.42857V4.57143H0V3.42857H3.42857V0H4.57143V3.42857H8V4.57143Z"
-                        fill="white" />
-                </svg>
-                &nbsp; Invite Member</ion-button
-            >
-        </ion-col>
-    </ion-row>
-    <ion-row class="input-row">
-        <ion-item>
-            <ion-input class="input-field"></ion-input>
-        </ion-item>
-        <ion-text class="input-placeholder ion-align-items-center">
-            <svg width="15" height="15" viewBox="0 0 18 18">
+    <ion-content class="cover-pic-wrapper">
+        <ion-text class="cover-pic ion-text-center">[ Cover Photo ]</ion-text>
+        <ion-text class="upload-icon ion-text-center"
+            ><svg
+                width="20"
+                height="17"
+                viewBox="0 0 20 17"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg">
                 <path
-                    d="M6.5 0C8.22391 0 9.87721 0.684819 11.0962 1.90381C12.3152 3.12279 13 4.77609 13 6.5C13 8.11 12.41 9.59 11.44 10.73L11.71 11H12.5L17.5 16L16 17.5L11 12.5V11.71L10.73 11.44C9.59 12.41 8.11 13 6.5 13C4.77609 13 3.12279 12.3152 1.90381 11.0962C0.684819 9.87721 0 8.22391 0 6.5C0 4.77609 0.684819 3.12279 1.90381 1.90381C3.12279 0.684819 4.77609 0 6.5 0ZM6.5 2C4 2 2 4 2 6.5C2 9 4 11 6.5 11C9 11 11 9 11 6.5C11 4 9 2 6.5 2Z"
-                    fill="#9D9D9D" />
+                    d="M0 10H2V15H18V10H20V15C20 16.11 19.11 17 18 17H2C0.9 17 0 16.11 0 15V10ZM10 0L4.46 5.46L5.88 6.88L9 3.75V13H11V3.75L14.13 6.88L15.55 5.45L10 0Z"
+                    fill="#CDCDCD" />
             </svg>
-            &nbsp; <ion-text>Search organization member</ion-text>
         </ion-text>
-    </ion-row>
-    <!-- memebers -->
-    @for (item of [1, 2, 3, 4]; track $index) {
-        <ion-row class="team-member-row ion-align-items-center">
-            <ion-col size="auto"
-                ><ion-img
-                    src="assets/avatar/profile.png"
-                    class="member-img"></ion-img
-            ></ion-col>
-            <ion-col>
-                <ion-grid class="member-name-grid">
+    </ion-content>
+    <ion-grid class="orginization-info-grid">
+        <ion-row class="organization-info-row ion-align-items-center">
+            <!-- oprfile pic col -->
+            <ion-col size="auto" class="profile-col">
+                <ion-grid>
                     <ion-row>
-                        <ion-col size="auto"
-                            ><ion-text class="member-name"
-                                >John Doe</ion-text
-                            ></ion-col
-                        >
-                        <ion-col size="auto"
-                            ><ion-text class="job-position"
-                                >Senior Partner</ion-text
-                            ></ion-col
-                        >
-                        <ion-col class="ion-text-end">
-                            <ion-button
-                                class="edit-icon-btn"
-                                size="small"
-                                fill="transparent">
-                                <svg width="10" viewBox="0 0 10 11">
-                                    <path
-                                        d="M1.11111 0C0.494444 0 0 0.543889 0 1.22222V9.77778C0 10.1019 0.117063 10.4128 0.325437 10.642C0.533811 10.8712 0.816426 11 1.11111 11H8.88889C9.18357 11 9.46619 10.8712 9.67456 10.642C9.88294 10.4128 10 10.1019 10 9.77778V5.5H8.88889V9.77778H1.11111V1.22222H5V0H1.11111ZM8.21111 0.611111C8.11667 0.611111 8.01667 0.653889 7.94444 0.733333L7.26667 1.47278L8.65556 3.00056L9.33333 2.26111C9.47778 2.10222 9.47778 1.83333 9.33333 1.68056L8.47222 0.733333C8.4 0.653889 8.30556 0.611111 8.21111 0.611111ZM6.87222 1.90667L2.77778 6.41667V7.94444H4.16667L8.26111 3.43444L6.87222 1.90667Z"
-                                        fill="black" />
-                                </svg>
-                            </ion-button>
-                            <ion-button
-                                class="delete-icon-btn"
-                                size="small"
-                                fill="transparent">
-                                <svg width="10" viewBox="0 0 10 11">
-                                    <path
-                                        d="M3.125 0V0.611111H0V1.83333H0.625V9.77778C0.625 10.1019 0.756696 10.4128 0.991116 10.642C1.22554 10.8712 1.54348 11 1.875 11H8.125C8.45652 11 8.77446 10.8712 9.00888 10.642C9.2433 10.4128 9.375 10.1019 9.375 9.77778V1.83333H10V0.611111H6.875V0H3.125ZM1.875 1.83333H8.125V9.77778H1.875V1.83333ZM3.125 3.05556V8.55556H4.375V3.05556H3.125ZM5.625 3.05556V8.55556H6.875V3.05556H5.625Z"
-                                        fill="#E20000" />
-                                </svg>
-                            </ion-button>
-                        </ion-col>
+                        <ion-img
+                            src="assets/images/organization-image.png"
+                            class="profile-img"></ion-img>
+                    </ion-row>
+                    <ion-row class="ion-justify-content-center">
+                        <ion-button
+                            class="edit-icon-btn"
+                            size="small"
+                            fill="transparent">
+                            <svg width="10" viewBox="0 0 10 11">
+                                <path
+                                    d="M1.11111 0C0.494444 0 0 0.543889 0 1.22222V9.77778C0 10.1019 0.117063 10.4128 0.325437 10.642C0.533811 10.8712 0.816426 11 1.11111 11H8.88889C9.18357 11 9.46619 10.8712 9.67456 10.642C9.88294 10.4128 10 10.1019 10 9.77778V5.5H8.88889V9.77778H1.11111V1.22222H5V0H1.11111ZM8.21111 0.611111C8.11667 0.611111 8.01667 0.653889 7.94444 0.733333L7.26667 1.47278L8.65556 3.00056L9.33333 2.26111C9.47778 2.10222 9.47778 1.83333 9.33333 1.68056L8.47222 0.733333C8.4 0.653889 8.30556 0.611111 8.21111 0.611111ZM6.87222 1.90667L2.77778 6.41667V7.94444H4.16667L8.26111 3.43444L6.87222 1.90667Z"
+                                    fill="black" />
+                            </svg>
+                        </ion-button>
+                        <ion-button
+                            class="delete-icon-btn"
+                            size="small"
+                            fill="transparent">
+                            <svg width="10" viewBox="0 0 10 11">
+                                <path
+                                    d="M3.125 0V0.611111H0V1.83333H0.625V9.77778C0.625 10.1019 0.756696 10.4128 0.991116 10.642C1.22554 10.8712 1.54348 11 1.875 11H8.125C8.45652 11 8.77446 10.8712 9.00888 10.642C9.2433 10.4128 9.375 10.1019 9.375 9.77778V1.83333H10V0.611111H6.875V0H3.125ZM1.875 1.83333H8.125V9.77778H1.875V1.83333ZM3.125 3.05556V8.55556H4.375V3.05556H3.125ZM5.625 3.05556V8.55556H6.875V3.05556H5.625Z"
+                                    fill="#E20000" />
+                            </svg>
+                        </ion-button>
                     </ion-row>
                 </ion-grid>
+            </ion-col>
+            <!-- oranization info col -->
+            <ion-col class="info-col">
                 <ion-grid>
-                    <ion-row class="member-contact">
-                        <ion-col size="auto">
-                            <ion-text class="contact-info-property"
-                                >Contact:
-                            </ion-text>
-                        </ion-col>
+                    <!-- title row -->
+                    <ion-row
+                        class="ion-justify-content-between ion-align-items-center organization-title-row">
                         <ion-col size="auto"
-                            ><ion-text class="contact-info-value">
-                                +880 16 00000 00</ion-text
+                            ><ion-text class="organization-name"
+                                >Afiful Hoque’s Organization</ion-text
                             ></ion-col
                         >
+                        <ion-col size="auto">
+                            <ion-button
+                                fill="transparent"
+                                size="small"
+                                class="edit-btn">
+                                <svg width="8" height="8" viewBox="0 0 8 8">
+                                    <path
+                                        d="M4.91487 2.66667L5.33259 3.08444L1.2976 7.11111H0.888766V6.70222L4.91487 2.66667ZM6.51465 0C6.40356 0 6.28802 0.0444444 6.20358 0.128889L5.39036 0.942222L7.0568 2.60889L7.87002 1.79556C8.04333 1.62222 8.04333 1.33333 7.87002 1.16889L6.83016 0.128889C6.74129 0.04 6.63019 0 6.51465 0ZM4.91487 1.41778L0 6.33333V8H1.66644L6.58131 3.08444L4.91487 1.41778Z"
+                                        fill="#009F72" />
+                                </svg>
+                                <ion-text> Edit </ion-text>
+                            </ion-button>
+                        </ion-col>
                     </ion-row>
-                    <ion-row class="member-contact">
+                    <!-- locaiton row -->
+                    <ion-row class="ion-align-items-center">
                         <ion-col size="auto">
-                            <ion-text class="contact-info-property"
-                                >Email:
-                            </ion-text>
+                            <ion-grid>
+                                <ion-row
+                                    class="ion-align-items-start orginization-location-row">
+                                    <ion-col size="auto">
+                                        <svg
+                                            width="6"
+                                            height="10"
+                                            viewBox="0 0 6 10">
+                                            <path
+                                                d="M3 2.25C3.28416 2.25 3.55668 2.3817 3.75761 2.61612C3.95855 2.85054 4.07143 3.16848 4.07143 3.5C4.07143 3.66415 4.04372 3.8267 3.98987 3.97835C3.93603 4.13001 3.85711 4.26781 3.75761 4.38388C3.65812 4.49996 3.54001 4.59203 3.41002 4.65485C3.28003 4.71767 3.1407 4.75 3 4.75C2.71584 4.75 2.44332 4.6183 2.24239 4.38388C2.04145 4.14946 1.92857 3.83152 1.92857 3.5C1.92857 3.16848 2.04145 2.85054 2.24239 2.61612C2.44332 2.3817 2.71584 2.25 3 2.25ZM3 0C3.79565 0 4.55871 0.368749 5.12132 1.02513C5.68393 1.6815 6 2.57174 6 3.5C6 6.125 3 10 3 10C3 10 0 6.125 0 3.5C0 2.57174 0.31607 1.6815 0.87868 1.02513C1.44129 0.368749 2.20435 0 3 0ZM3 1C2.43168 1 1.88663 1.26339 1.48477 1.73223C1.08291 2.20107 0.857143 2.83696 0.857143 3.5C0.857143 4 0.857143 5 3 8.355C5.14286 5 5.14286 4 5.14286 3.5C5.14286 2.83696 4.91709 2.20107 4.51523 1.73223C4.11337 1.26339 3.56832 1 3 1Z"
+                                                fill="#707070" />
+                                        </svg>
+                                    </ion-col>
+                                    <ion-col size="auto">
+                                        <ion-text
+                                            >Chittagong, Bangladesh</ion-text
+                                        >
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
                         </ion-col>
-                        <ion-col size="auto"
-                            ><ion-text class="contact-info-value">
-                                john.doe{{ '@' }}lawfirm.com</ion-text
-                            ></ion-col
-                        >
+                        <ion-col size="auto">
+                            <ion-button
+                                fill="transparent"
+                                size="small"
+                                class="opening-time">
+                                <svg
+                                    width="7"
+                                    height="7"
+                                    viewBox="0 0 7 7"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M3.5 6.3C4.24261 6.3 4.9548 6.005 5.4799 5.4799C6.005 4.9548 6.3 4.24261 6.3 3.5C6.3 2.75739 6.005 2.0452 5.4799 1.5201C4.9548 0.994999 4.24261 0.7 3.5 0.7C2.75739 0.7 2.0452 0.994999 1.5201 1.5201C0.994999 2.0452 0.7 2.75739 0.7 3.5C0.7 4.24261 0.994999 4.9548 1.5201 5.4799C2.0452 6.005 2.75739 6.3 3.5 6.3ZM3.5 0C3.95963 0 4.41475 0.0905302 4.83939 0.266422C5.26403 0.442313 5.64987 0.700121 5.97487 1.02513C6.29988 1.35013 6.55769 1.73597 6.73358 2.16061C6.90947 2.58525 7 3.04037 7 3.5C7 4.42826 6.63125 5.3185 5.97487 5.97487C5.3185 6.63125 4.42826 7 3.5 7C1.5645 7 0 5.425 0 3.5C0 2.57174 0.368749 1.6815 1.02513 1.02513C1.6815 0.368749 2.57174 0 3.5 0ZM3.675 1.75V3.5875L5.25 4.522L4.9875 4.9525L3.15 3.85V1.75H3.675Z"
+                                        fill="#393939" />
+                                </svg>
+                                <ion-text> 10AM - 7PM</ion-text>
+                            </ion-button>
+                        </ion-col>
                     </ion-row>
-                    <ion-row class="member-contact">
+                    <!-- contact row -->
+                    <ion-row>
                         <ion-col size="auto">
-                            <ion-text class="contact-info-property"
-                                >Address:
-                            </ion-text>
+                            <ion-grid>
+                                <ion-row
+                                    class="ion-align-items-start web-link-row">
+                                    <ion-col size="auto">
+                                        <svg
+                                            width="9"
+                                            height="10"
+                                            viewBox="0 0 9 10"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M6.462 6C6.498 5.67 6.525 5.34 6.525 5C6.525 4.66 6.498 4.33 6.462 4H7.983C8.055 4.32 8.1 4.655 8.1 5C8.1 5.345 8.055 5.68 7.983 6M5.6655 8.78C5.9355 8.225 6.1425 7.625 6.2865 7H7.614C7.182 7.825 6.4935 8.465 5.6655 8.78ZM5.553 6H3.447C3.402 5.67 3.375 5.34 3.375 5C3.375 4.66 3.402 4.325 3.447 4H5.553C5.5935 4.325 5.625 4.66 5.625 5C5.625 5.34 5.5935 5.67 5.553 6ZM4.5 8.98C4.1265 8.38 3.825 7.715 3.6405 7H5.3595C5.175 7.715 4.8735 8.38 4.5 8.98ZM2.7 3H1.386C1.8135 2.17 2.5065 1.53 3.33 1.22C3.06 1.775 2.8575 2.375 2.7 3ZM1.386 7H2.7C2.8575 7.625 3.06 8.225 3.33 8.78C2.5065 8.465 1.8135 7.825 1.386 7ZM1.017 6C0.945 5.68 0.9 5.345 0.9 5C0.9 4.655 0.945 4.32 1.017 4H2.538C2.502 4.33 2.475 4.66 2.475 5C2.475 5.34 2.502 5.67 2.538 6M4.5 1.015C4.8735 1.615 5.175 2.285 5.3595 3H3.6405C3.825 2.285 4.1265 1.615 4.5 1.015ZM7.614 3H6.2865C6.1425 2.375 5.9355 1.775 5.6655 1.22C6.4935 1.535 7.182 2.17 7.614 3ZM4.5 0C2.0115 0 0 2.25 0 5C0 6.32608 0.474106 7.59785 1.31802 8.53553C1.73588 8.99983 2.23196 9.36812 2.77792 9.6194C3.32389 9.87067 3.90905 10 4.5 10C5.69347 10 6.83807 9.47322 7.68198 8.53553C8.52589 7.59785 9 6.32608 9 5C9 4.34339 8.8836 3.69321 8.65746 3.08658C8.43131 2.47995 8.09984 1.92876 7.68198 1.46447C7.26412 1.00017 6.76804 0.631876 6.22208 0.380602C5.67611 0.129329 5.09095 0 4.5 0Z"
+                                                fill="#707070" />
+                                        </svg>
+                                    </ion-col>
+                                    <ion-col size="auto">
+                                        <ion-text>www.ariful.com</ion-text>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
                         </ion-col>
-                        <ion-col size="auto"
-                            ><ion-text class="contact-info-value">
-                                Chittagong</ion-text
-                            ></ion-col
-                        >
-                    </ion-row>
-                    <ion-row class="member-contact">
                         <ion-col size="auto">
-                            <ion-text class="contact-info-property"
-                                >Specialization:
-                            </ion-text>
+                            <ion-grid>
+                                <ion-row
+                                    class="ion-align-items-start phone-no-row">
+                                    <ion-col size="auto">
+                                        <svg
+                                            width="7"
+                                            height="9"
+                                            viewBox="0 0 7 9"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M6.61111 6.25C6.14444 6.25 5.63889 6.15 5.21111 5.95H5.09444C4.97778 5.95 4.9 6 4.82222 6.1L3.96667 7.2C2.87778 6.45 1.94444 5.3 1.4 3.9L2.25556 2.8C2.37222 2.65 2.41111 2.45 2.33333 2.3C2.21667 1.75 2.13889 1.1 2.13889 0.5C2.13889 0.25 1.94444 0 1.75 0H0.388889C0.194444 0 0 0.25 0 0.5C0 5.2 2.95556 9 6.61111 9C6.80556 9 7 8.75 7 8.5V6.75C7 6.5 6.80556 6.25 6.61111 6.25ZM0.777778 1H1.36111C1.4 1.45 1.47778 1.9 1.55556 2.3L1.08889 2.9C0.933333 2.3 0.816667 1.65 0.777778 1ZM6.22222 8C5.71667 7.95 5.21111 7.8 4.74444 7.6L5.21111 7C5.52222 7.1 5.87222 7.2 6.22222 7.2V8ZM4.66667 4.5H5.44444C5.44444 3.83696 5.23958 3.20107 4.87493 2.73223C4.51028 2.26339 4.0157 2 3.5 2V3C3.80942 3 4.10617 3.15804 4.32496 3.43934C4.54375 3.72064 4.66667 4.10218 4.66667 4.5ZM6.22222 4.5H7C7 2 5.43278 0 3.5 0V1C5.00111 1 6.22222 2.565 6.22222 4.5Z"
+                                                fill="#707070" />
+                                        </svg>
+                                    </ion-col>
+                                    <ion-col size="auto">
+                                        <ion-text>+88016 000 0000</ion-text>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
                         </ion-col>
-                        <ion-col size="auto"
-                            ><ion-text class="contact-info-value">
-                                Corporate Law</ion-text
-                            ></ion-col
-                        >
+                        <ion-col size="auto">
+                            <ion-grid>
+                                <ion-row class="ion-align-items-start mail-row">
+                                    <ion-col size="auto">
+                                        <svg
+                                            width="10"
+                                            height="7"
+                                            viewBox="0 0 10 7"
+                                            fill="none"
+                                            xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M10 0.875C10 0.39375 9.55 0 9 0H1C0.45 0 0 0.39375 0 0.875V6.125C0 6.60625 0.45 7 1 7H9C9.55 7 10 6.60625 10 6.125V0.875ZM9 0.875L5 3.0625L1 0.875H9ZM9 6.125H1V1.75L5 3.9375L9 1.75V6.125Z"
+                                                fill="#707070" />
+                                        </svg>
+                                    </ion-col>
+                                    <ion-col size="auto">
+                                        <ion-text
+                                            >ariful{{ '@' }}gmail.com</ion-text
+                                        >
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-col>
                     </ion-row>
                 </ion-grid>
             </ion-col>
         </ion-row>
-    }
-</ion-grid>
+    </ion-grid>
+
+    <ion-grid class="organization-members-wrapper">
+        <ion-row class="ion-justify-content-between ion-align-items-center">
+            <ion-col class="members">Members</ion-col>
+            <ion-col class="ion-text-end">
+                <ion-button size="small" fill="transparent" class="invite-btn">
+                    <svg width="8" height="8" viewBox="0 0 8 8">
+                        <path
+                            d="M8 4.57143H4.57143V8H3.42857V4.57143H0V3.42857H3.42857V0H4.57143V3.42857H8V4.57143Z"
+                            fill="white" />
+                    </svg>
+                    &nbsp; Invite Member</ion-button
+                >
+            </ion-col>
+        </ion-row>
+        <ion-row
+            class="input-row"
+            #inputrow
+            (focusin)="toggleFocus(placeholder, inputWrapper, true)"
+            (focusout)="toggleFocus(placeholder, inputWrapper, false)">
+            <ion-item #inputWrapper>
+                <ion-input class="input-field"></ion-input>
+            </ion-item>
+            <ion-text
+                class="input-placeholder ion-align-items-center"
+                #placeholder
+                (click)="triggerFocusEventOnInput(inputrow)">
+                <svg width="15" height="15" viewBox="0 0 18 18">
+                    <path
+                        d="M6.5 0C8.22391 0 9.87721 0.684819 11.0962 1.90381C12.3152 3.12279 13 4.77609 13 6.5C13 8.11 12.41 9.59 11.44 10.73L11.71 11H12.5L17.5 16L16 17.5L11 12.5V11.71L10.73 11.44C9.59 12.41 8.11 13 6.5 13C4.77609 13 3.12279 12.3152 1.90381 11.0962C0.684819 9.87721 0 8.22391 0 6.5C0 4.77609 0.684819 3.12279 1.90381 1.90381C3.12279 0.684819 4.77609 0 6.5 0ZM6.5 2C4 2 2 4 2 6.5C2 9 4 11 6.5 11C9 11 11 9 11 6.5C11 4 9 2 6.5 2Z"
+                        fill="#9D9D9D" />
+                </svg>
+                &nbsp; <ion-text>Search organization member</ion-text>
+            </ion-text>
+        </ion-row>
+        <!-- memebers -->
+        @for (item of [1, 2, 3, 4]; track $index) {
+            <ion-row class="team-member-row ion-align-items-center">
+                <ion-col size="auto"
+                    ><ion-img
+                        src="assets/avatar/profile.png"
+                        class="member-img"></ion-img
+                ></ion-col>
+                <ion-col>
+                    <ion-grid class="member-name-grid">
+                        <ion-row>
+                            <ion-col size="auto"
+                                ><ion-text class="member-name"
+                                    >John Doe</ion-text
+                                ></ion-col
+                            >
+                            <ion-col size="auto"
+                                ><ion-text class="job-position"
+                                    >Senior Partner</ion-text
+                                ></ion-col
+                            >
+                            <ion-col class="ion-text-end">
+                                <ion-button
+                                    class="edit-icon-btn"
+                                    size="small"
+                                    fill="transparent">
+                                    <svg width="10" viewBox="0 0 10 11">
+                                        <path
+                                            d="M1.11111 0C0.494444 0 0 0.543889 0 1.22222V9.77778C0 10.1019 0.117063 10.4128 0.325437 10.642C0.533811 10.8712 0.816426 11 1.11111 11H8.88889C9.18357 11 9.46619 10.8712 9.67456 10.642C9.88294 10.4128 10 10.1019 10 9.77778V5.5H8.88889V9.77778H1.11111V1.22222H5V0H1.11111ZM8.21111 0.611111C8.11667 0.611111 8.01667 0.653889 7.94444 0.733333L7.26667 1.47278L8.65556 3.00056L9.33333 2.26111C9.47778 2.10222 9.47778 1.83333 9.33333 1.68056L8.47222 0.733333C8.4 0.653889 8.30556 0.611111 8.21111 0.611111ZM6.87222 1.90667L2.77778 6.41667V7.94444H4.16667L8.26111 3.43444L6.87222 1.90667Z"
+                                            fill="black" />
+                                    </svg>
+                                </ion-button>
+                                <ion-button
+                                    class="delete-icon-btn"
+                                    size="small"
+                                    fill="transparent">
+                                    <svg width="10" viewBox="0 0 10 11">
+                                        <path
+                                            d="M3.125 0V0.611111H0V1.83333H0.625V9.77778C0.625 10.1019 0.756696 10.4128 0.991116 10.642C1.22554 10.8712 1.54348 11 1.875 11H8.125C8.45652 11 8.77446 10.8712 9.00888 10.642C9.2433 10.4128 9.375 10.1019 9.375 9.77778V1.83333H10V0.611111H6.875V0H3.125ZM1.875 1.83333H8.125V9.77778H1.875V1.83333ZM3.125 3.05556V8.55556H4.375V3.05556H3.125ZM5.625 3.05556V8.55556H6.875V3.05556H5.625Z"
+                                            fill="#E20000" />
+                                    </svg>
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                    <ion-grid>
+                        <ion-row class="member-contact">
+                            <ion-col size="auto">
+                                <ion-text class="contact-info-property"
+                                    >Contact:
+                                </ion-text>
+                            </ion-col>
+                            <ion-col size="auto"
+                                ><ion-text class="contact-info-value">
+                                    +880 16 00000 00</ion-text
+                                ></ion-col
+                            >
+                        </ion-row>
+                        <ion-row class="member-contact">
+                            <ion-col size="auto">
+                                <ion-text class="contact-info-property"
+                                    >Email:
+                                </ion-text>
+                            </ion-col>
+                            <ion-col size="auto"
+                                ><ion-text class="contact-info-value">
+                                    john.doe{{ '@' }}lawfirm.com</ion-text
+                                ></ion-col
+                            >
+                        </ion-row>
+                        <ion-row class="member-contact">
+                            <ion-col size="auto">
+                                <ion-text class="contact-info-property"
+                                    >Address:
+                                </ion-text>
+                            </ion-col>
+                            <ion-col size="auto"
+                                ><ion-text class="contact-info-value">
+                                    Chittagong</ion-text
+                                ></ion-col
+                            >
+                        </ion-row>
+                        <ion-row class="member-contact">
+                            <ion-col size="auto">
+                                <ion-text class="contact-info-property"
+                                    >Specialization:
+                                </ion-text>
+                            </ion-col>
+                            <ion-col size="auto"
+                                ><ion-text class="contact-info-value">
+                                    Corporate Law</ion-text
+                                ></ion-col
+                            >
+                        </ion-row>
+                    </ion-grid>
+                </ion-col>
+            </ion-row>
+        }
+    </ion-grid>
+</ion-content>
