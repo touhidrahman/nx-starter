@@ -1,0 +1,115 @@
+<div class="title-section">
+    <ion-icon class="back-icon" name="arrow-back-circle-outline"></ion-icon>
+    <span class="title">Organizations</span>
+</div>
+<div class="searchbar">
+    <ion-icon name="search-outline"></ion-icon>
+    <ion-input placeholder="Search Organization"></ion-input>
+</div>
+<ion-content>
+    <ion-card>
+        <ion-grid>
+            <!-- Row for the card content -->
+            <ion-row class="align-items-center">
+                <!-- Column for the image -->
+                <ion-col size="2">
+                    <img src="assets/images/default.png" />
+                </ion-col>
+                <!-- Column for the information -->
+                <ion-col size="8">
+                    <ion-text class="org-title"
+                        >Ariful Hoque's Organization</ion-text
+                    >
+                    <br />
+                    <ion-text class="org-time">9AM-5PM</ion-text>
+                    <br />
+                    <ion-text>Contact: +880 16 00000 00</ion-text>
+                    <br />
+                    <ion-text>Email: john.doe</ion-text>
+                    <br />
+                    <ion-text>Address: Chittagong</ion-text>
+                    <br />
+                    <ion-text>Members: 15</ion-text>
+                </ion-col>
+
+                <!-- Column for the buttons -->
+                <ion-col size="2" class="action">
+                    <button class="action-edit">
+                        <ion-icon
+                            class="icon-edit"
+                            name="create-outline"></ion-icon>
+                    </button>
+                    <button class="action-delete">
+                        <ion-icon
+                            class="icon-delete"
+                            name="trash-outline"></ion-icon>
+                    </button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-card>
+
+    <ion-modal [isOpen]="isModalOpen">
+        <ng-template>
+            <ion-header>
+                <ion-toolbar>
+                    <ion-title class="dialog-title"
+                        >Create Organization</ion-title
+                    >
+                    <ion-buttons slot="end">
+                        <ion-button (click)="setOpen(false)">Close</ion-button>
+                    </ion-buttons>
+                </ion-toolbar>
+            </ion-header>
+            <ion-content class="ion-padding">
+                <ion-input
+                    label="Organization Name"
+                    label-placement="floating"
+                    fill="outline"
+                    placeholder="Enter Organization Name"></ion-input>
+
+                <ion-input
+                    label="Address"
+                    label-placement="floating"
+                    fill="outline"
+                    placeholder="Enter Organization Address"></ion-input>
+
+                <ion-input
+                    label="Email"
+                    label-placement="floating"
+                    fill="outline"
+                    placeholder="Enter Email"></ion-input>
+
+                <ion-input
+                    label="Phone Number"
+                    label-placement="floating"
+                    fill="outline"
+                    placeholder="Enter Phone Number"></ion-input>
+
+                <ion-input
+                    label="Case Type"
+                    label-placement="floating"
+                    fill="outline"
+                    placeholder="Enter Case Type"></ion-input>
+
+                <ion-input
+                    label="Working Hour Start"
+                    label-placement="floating"
+                    fill="outline"
+                    placeholder="Enter Working Hour Start"></ion-input>
+                <ion-input
+                    label="Working Hour End"
+                    label-placement="floating"
+                    fill="outline"
+                    placeholder="Enter Working Hour End"></ion-input>
+            </ion-content>
+            <ion-button expand="block" shape="round">
+                <ion-text>Save</ion-text>
+            </ion-button>
+        </ng-template>
+    </ion-modal>
+</ion-content>
+
+<ion-button (click)="setOpen(true)" shape="round">
+    <ion-text>Create New Organization</ion-text>
+</ion-button>
