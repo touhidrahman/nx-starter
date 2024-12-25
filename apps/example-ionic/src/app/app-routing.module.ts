@@ -150,6 +150,13 @@ const routes: Routes = [
                 './pages/lawyer-accout-pages/page-lawyer-plans/page-lawyer-plans.component'
             ).then((m) => m.PageLawyerPlansComponent),
     },
+    {
+        path: 'lawyer/settings',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-accout-pages/page-lawyer-settings/page-lawyer-settings.component'
+            ).then((m) => m.PageLawyerSettingsComponent),
+    },
 ]
 
 @NgModule({
