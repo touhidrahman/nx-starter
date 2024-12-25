@@ -1,4 +1,4 @@
-<section class="px-5 py-16 bg-[#FFFEF3]">
+<section class="bg-[#FFFEF3] px-5 py-16">
     <app-section-title>
         <span class="text-gray3e title text-xl sm:text-2xl"
             >Services We Provide</span
@@ -15,19 +15,20 @@
                 fill="#595959" />
         </svg>
         <h2
-            class="text-gray63 subtitle mt-10 mb-8 text-center text-lg sm:text-xl md:text-2xl">
+            class="text-gray63 subtitle mb-8 mt-10 text-center text-lg sm:text-xl md:text-2xl">
             At Sheresta, we pride ourselves on delivering exceptional
             <br class="hidden sm:block" />
             legal services tailored to meet the unique needs of each client.
         </h2>
     </app-section-title>
 
-    <div class="mx-9 lg:mx-11 xl:mx-15">
+    <div class="xl:mx-15 mx-9 lg:mx-11">
         <div class="grid grid-cols-12 gap-5 py-4 lg:gap-7">
             @for (content of cardContent; track $index) {
                 <div
                     class="hover-border-shadow card-shadow col-span-12 rounded-2xl p-0.5 transition-all duration-500 ease-linear md:col-span-6 xl:col-span-4">
-                    <div class="h-full w-full rounded-2xl bg-white pl-5 pt-5 pb-8 pr-5">
+                    <div
+                        class="h-full w-full rounded-2xl bg-white pb-8 pl-5 pr-5 pt-5">
                         <div
                             class="bg-lightGreen border-graye2 mb-3 flex h-16 w-16 items-center justify-center rounded-full border">
                             <span class="">
@@ -43,7 +44,7 @@
                                 </svg>
                             </span>
                         </div>
-    
+
                         <h5 class="mb-2 text-xl font-semibold text-black">
                             {{ content?.heading }}
                         </h5>
@@ -55,6 +56,4 @@
             }
         </div>
     </div>
-
 </section>
-

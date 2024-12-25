@@ -152,7 +152,7 @@ export class AuthStateService extends SimpleStore<AuthState> {
                 console.error(err)
                 // this.logout()
                 return of(null)
-            })
+            }),
         )
     }
 

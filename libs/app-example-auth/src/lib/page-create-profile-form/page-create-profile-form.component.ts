@@ -1,7 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core'
-import {
-    ReactiveFormsModule
-} from '@angular/forms'
+import { ReactiveFormsModule } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { AuthApiService } from '@myorg/common-auth'
 import { AuthStateService } from '../auth-state.service'
@@ -21,7 +19,9 @@ export class PageCreateProfileFormComponent implements OnInit {
     authStateService = inject(AuthStateService)
     groupFormService = inject(GroupFormService)
 
-    profileType = this.activatedRoute.snapshot.params['profileType'] as 'client' | 'vendor'
+    profileType = this.activatedRoute.snapshot.params['profileType'] as
+        | 'client'
+        | 'vendor'
 
     ngOnInit(): void {}
 
@@ -31,7 +31,10 @@ export class PageCreateProfileFormComponent implements OnInit {
         }
 
         this.authApiService
-            .createGroupAndProfile(this.groupFormService.getValue(), this.profileType)
+            .createGroupAndProfile(
+                this.groupFormService.getValue(),
+                this.profileType,
+            )
             .subscribe((res) => {
                 this.router.navigate(['/profile-created'])
             })

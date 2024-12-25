@@ -1,62 +1,85 @@
 <nav
-  class="text-grayShade h-16 w-full overflow-x-clip sticky top-0 z-[100] transition-all duration-300"
-  [class]="isScrolled ? 'bg-white shadow-md' : ''"
-  class="text-grayShade h-16 w-full overflow-x-clip sticky top-0 z-[100]">
-  <div class="flex items-center justify-between mx-16 py-2">
-    <div class="flex items-center justify-start gap-16">
-      <a class="flex cursor-pointer justify-center" [routerLink]="['/']">
-        <div class="w-36 h-11">
-          <img
-            src="assets/logo/sheresta.png"
-            class="h-full w-full cursor-pointer"
-            alt="" />
+    class="text-grayShade sticky top-0 z-[100] h-16 w-full overflow-x-clip transition-all duration-300"
+    [class]="isScrolled ? 'bg-white shadow-md' : ''"
+    class="text-grayShade sticky top-0 z-[100] h-16 w-full overflow-x-clip">
+    <div class="mx-16 flex items-center justify-between py-2">
+        <div class="flex items-center justify-start gap-16">
+            <a class="flex cursor-pointer justify-center" [routerLink]="['/']">
+                <div class="h-11 w-36">
+                    <img
+                        src="assets/logo/sheresta.png"
+                        class="h-full w-full cursor-pointer"
+                        alt="" />
+                </div>
+            </a>
+            <div class="hidden space-x-10 md:block">
+                <a
+                    class="cursor-pointer text-xl font-semibold"
+                    routerLink="/lawyers"
+                    >Lawyers</a
+                >
+                <a
+                    class="cursor-pointer text-xl font-semibold"
+                    routerLink="/blogs"
+                    >Blogs</a
+                >
+                <a
+                    class="cursor-pointer text-xl font-semibold"
+                    routerLink="/news"
+                    >News</a
+                >
+            </div>
         </div>
-      </a>
-      <div class="hidden space-x-10 md:block">
-        <a class="cursor-pointer text-xl font-semibold" routerLink="/lawyers">Lawyers</a>
-        <a class="cursor-pointer text-xl font-semibold" routerLink="/blogs">Blogs</a>
-        <a class="cursor-pointer text-xl font-semibold" routerLink="/news">News</a>
-      </div>
-    </div>
-    <div class="hidden space-x-5 md:block">
-      <button
-        class="bg-lightGreen btn-shadow rounded-md px-4 py-1 text-sm"
-        routerLink="/signup">
-        Sign Up
-      </button>
-      <button
-        class="bg-green btn-shadow rounded-md px-4 py-1 text-sm text-white"
-        routerLink="/login">
-        Sign In
-      </button>
-    </div>
+        <div class="hidden space-x-5 md:block">
+            <button
+                class="bg-lightGreen btn-shadow rounded-md px-4 py-1 text-sm"
+                routerLink="/signup">
+                Sign Up
+            </button>
+            <button
+                class="bg-green btn-shadow rounded-md px-4 py-1 text-sm text-white"
+                routerLink="/login">
+                Sign In
+            </button>
+        </div>
 
-    <div class="block md:hidden">
-      <button
-        class="hover:text-green"
-        (click)="toggleMobileMenu(mobileNav)">
-        <i class="pi pi-bars text-2xl"></i>
-      </button>
+        <div class="block md:hidden">
+            <button
+                class="hover:text-green"
+                (click)="toggleMobileMenu(mobileNav)">
+                <i class="pi pi-bars text-2xl"></i>
+            </button>
+        </div>
     </div>
-  </div>
-  <div
-    class="absolute -right-80 top-16 w-80 rounded-es-md rounded-ss-md bg-white py-4 shadow-sm transition-all duration-100 ease-linear"
-    #mobileNav>
-    <div class="space-y-4 text-center">
-      <a
-        class="hover:bg-lightGreen block cursor-pointer text-xl font-semibold transition-all duration-100 ease-linear"
-        routerLink="/lawyers">Lawyers</a>
-      <a
-        class="hover:bg-lightGreen block cursor-pointer text-xl font-semibold transition-all duration-100 ease-linear"
-        routerLink="/blogs">Blogs</a>
-      <a
-        class="hover:bg-lightGreen block cursor-pointer text-xl font-semibold transition-all duration-100 ease-linear"
-        routerLink="/news">News</a>
+    <div
+        class="absolute -right-80 top-16 w-80 rounded-es-md rounded-ss-md bg-white py-4 shadow-sm transition-all duration-100 ease-linear"
+        #mobileNav>
+        <div class="space-y-4 text-center">
+            <a
+                class="hover:bg-lightGreen block cursor-pointer text-xl font-semibold transition-all duration-100 ease-linear"
+                routerLink="/lawyers"
+                >Lawyers</a
+            >
+            <a
+                class="hover:bg-lightGreen block cursor-pointer text-xl font-semibold transition-all duration-100 ease-linear"
+                routerLink="/blogs"
+                >Blogs</a
+            >
+            <a
+                class="hover:bg-lightGreen block cursor-pointer text-xl font-semibold transition-all duration-100 ease-linear"
+                routerLink="/news"
+                >News</a
+            >
+        </div>
+        <div class="my-4 flex items-center justify-center space-x-3">
+            <button
+                class="bg-lightGreen btn-shadow rounded-md px-4 py-1 text-sm">
+                Sign Up
+            </button>
+            <button
+                class="bg-green btn-shadow rounded-md px-4 py-1 text-sm text-white">
+                Sign In
+            </button>
+        </div>
     </div>
-    <div class="my-4 flex items-center justify-center space-x-3">
-      <button class="bg-lightGreen btn-shadow rounded-md px-4 py-1 text-sm">Sign Up</button>
-      <button class="bg-green btn-shadow rounded-md px-4 py-1 text-sm text-white">Sign In</button>
-    </div>
-  </div>
 </nav>
-

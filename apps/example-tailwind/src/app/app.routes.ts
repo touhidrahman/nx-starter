@@ -1,6 +1,9 @@
 import { Route } from '@angular/router'
 import { PageLayout, setLayout } from '@myorg/page-layouts'
-import { authGuardFn, PageCreateProfileComponent } from '@myorg/app-example-auth'
+import {
+    authGuardFn,
+    PageCreateProfileComponent,
+} from '@myorg/app-example-auth'
 import { PageCreateProfileFormComponent } from '@myorg/app-example-auth'
 
 const authRoutes: Route[] = [
