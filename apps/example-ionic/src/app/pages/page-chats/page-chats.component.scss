@@ -1,0 +1,52 @@
+.searchbar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0 1rem;
+    margin: 0 1rem;
+    background-color: #fff;
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+ion-button {
+    --background: linear-gradient(90deg, #0a5c36, #00341c);
+    margin: 0.5rem;
+}
+
+.search-tab {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chat-card {
+    display: flex;
+    align-items: center;
+}
+
+.chat-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: rgb(0 0 0);
+}
+
+.edit-icon {
+    padding: 0.5rem;
+    font-size: 1.8rem;
+}
+
+ion-card {
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.dot-icon {
+    font-size: 1.2rem;
+}
+
+.time {
+    margin-left: 0.5rem;
+}

@@ -1,0 +1,41 @@
+:host {
+    display: block;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Archivo Narrow', serif;
+}
+.daily-updates-title {
+    font-size: 20px;
+    color: #000000;
+    display: block;
+    padding: 0.5rem 10px;
+}
+
+.daily-updates-description,
+.daily-updates-item {
+    color: #393939;
+    font-size: 12px;
+    display: block;
+    padding: 0 10px;
+}
+
+.daily-updates-item {
+    height: 30px;
+}
+
+.daily-updates-col {
+    color: #393939;
+    font-size: 12px;
+}
+
+ion-icon[name='ellipse'] {
+    width: 6px;
+    height: 6px;
+}
+
+.daily-updates-grid {
+    padding: 20px 10px;
+}

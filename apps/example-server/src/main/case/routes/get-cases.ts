@@ -14,8 +14,9 @@ export const getCasesRoute = createRoute({
     request: {
         query: zSelectCase.extend({
             search: z.string().optional(),
-            page: z.number().int().optional().default(1),
-            size: z.number().int().optional().default(10),
+            page: z.string().optional(),
+            size: z.string().optional(),
+            orderBy: z.string().optional(),
         }),
     },
     responses: {
@@ -27,17 +28,18 @@ export const getCasesHandler: AppRouteHandler<typeof getCasesRoute> = async (
     c,
 ) => {
     const payload = await c.get('jwtPayload')
-    const { search, page, limit } = c.req.query()
+    const { search, page, size, orderBy } = c.req.query()
 
     const pageNumber = Number(page)
-    const limitNumber = Number(limit)
+    const limitNumber = Number(size)
 
     const { groupId } = payload || {}
     const { data, meta } = await getAllCasesByGroupId({
         groupId,
         search,
         page: pageNumber,
-        limit: limitNumber,
+        size: limitNumber,
+        orderBy,
     })
 
     return c.json(
@@ -45,7 +47,7 @@ export const getCasesHandler: AppRouteHandler<typeof getCasesRoute> = async (
             data: data,
             pagination: {
                 page: meta.page,
-                size: meta.limit,
+                size: meta.size,
                 total: meta.totalCount,
             },
             message: 'Cases list',

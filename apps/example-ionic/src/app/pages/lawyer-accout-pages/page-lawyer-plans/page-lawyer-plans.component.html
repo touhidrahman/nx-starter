@@ -1,0 +1,174 @@
+<ion-content>
+    <ion-grid class="navigation-grid">
+        <ion-row class="navigation-row ion-align-items-start">
+            <ion-col size="auto">
+                <ion-icon
+                    class="back-icon"
+                    name="arrow-back-circle-outline"></ion-icon>
+            </ion-col>
+            <ion-col size="auto" class="page-title-col">
+                <ion-text class="page-title-text">Plans</ion-text>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-text class="choose-plan-title ion-text-center"
+        >Choose Your Plan</ion-text
+    >
+    <ion-text class="choose-plan-subtitle ion-text-center"
+        >Choose your best plan</ion-text
+    >
+
+    <ion-grid class="plan-options-grid">
+        <ion-row
+            class="plan-options-row ion-justify-content-center ion-align-items-center">
+            <ion-col class="plan-option-col1 ion-text-center">
+                <ion-text class="plan-option-text">Monthly</ion-text>
+            </ion-col>
+            <ion-col class="plan-option-col ion-text-center">
+                <ion-text class="plan-option-text">Yearly</ion-text>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid class="plan-card">
+        <ion-row>
+            <ion-col class="card-col">
+                <ion-text class="plan-title">Free</ion-text>
+                <ion-text class="plan-price">BDT 0.00/Month</ion-text>
+                <ion-grid class="plan-features-grid">
+                    <ion-row>
+                        @for (item of [1, 2, 3, 4, 5]; track $index) {
+                            <ion-col size="12" class="plan-feature-col">
+                                <ion-item
+                                    class="plan-feature-item"
+                                    lines="none">
+                                    <svg
+                                        class="feature-icon"
+                                        width="15"
+                                        height="15"
+                                        viewBox="0 0 12 12">
+                                        <path
+                                            d="M6 0C2.7 0 0 2.7 0 6C0 9.3 2.7 12 6 12C9.3 12 12 9.3 6 0ZM4.8 9L1.8 6L2.646 5.154L4.8 7.302L9.354 2.748L10.2 3.6L4.8 9Z"
+                                            fill="url(#paint0_linear_15_884)" />
+                                        <defs>
+                                            <linearGradient
+                                                id="paint0_linear_15_884"
+                                                x1="6"
+                                                y1="0"
+                                                x2="6"
+                                                y2="12"
+                                                gradientUnits="userSpaceOnUse">
+                                                <stop stop-color="#009A12" />
+                                                <stop
+                                                    offset="0.5"
+                                                    stop-color="#00BE16" />
+                                                <stop
+                                                    offset="1"
+                                                    stop-color="#63E202" />
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </ion-item>
+                            </ion-col>
+                        }
+                    </ion-row>
+                </ion-grid>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid class="plan-card2">
+        <ion-row>
+            <ion-col class="card-col">
+                <ion-text class="plan-title">Pro Plus</ion-text>
+                <ion-text class="plan-price">BDT 0.00/Month</ion-text>
+                <ion-grid class="plan-features-grid">
+                    <ion-row>
+                        @for (item of [1, 2, 3, 4, 5, 6, 7]; track $index) {
+                            <ion-col size="12" class="plan-feature-col">
+                                <ion-item
+                                    class="plan-feature-item"
+                                    lines="none">
+                                    <svg
+                                        class="feature-icon"
+                                        width="15"
+                                        height="15"
+                                        viewBox="0 0 12 12">
+                                        <path
+                                            d="M6 0C2.7 0 0 2.7 0 6C0 9.3 2.7 12 6 12C9.3 12 12 9.3 6 0ZM4.8 9L1.8 6L2.646 5.154L4.8 7.302L9.354 2.748L10.2 3.6L4.8 9Z"
+                                            fill="url(#paint0_linear_15_884)" />
+                                        <defs>
+                                            <linearGradient
+                                                id="paint0_linear_15_884"
+                                                x1="6"
+                                                y1="0"
+                                                x2="6"
+                                                y2="12"
+                                                gradientUnits="userSpaceOnUse">
+                                                <stop stop-color="#009A12" />
+                                                <stop
+                                                    offset="0.5"
+                                                    stop-color="#00BE16" />
+                                                <stop
+                                                    offset="1"
+                                                    stop-color="#63E202" />
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </ion-item>
+                            </ion-col>
+                        }
+                    </ion-row>
+                </ion-grid>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid class="plan-card3">
+        <ion-row>
+            <ion-col class="card-col">
+                <ion-text class="plan-title">Premium</ion-text>
+                <ion-text class="plan-price">BDT 0.00/Month</ion-text>
+                <ion-grid class="plan-features-grid">
+                    <ion-row>
+                        @for (item of [1, 2, 3, 4]; track $index) {
+                            <ion-col size="12" class="plan-feature-col">
+                                <ion-item
+                                    class="plan-feature-item"
+                                    lines="none">
+                                    <svg
+                                        class="feature-icon"
+                                        width="15"
+                                        height="15"
+                                        viewBox="0 0 12 12">
+                                        <path
+                                            d="M6 0C2.7 0 0 2.7 0 6C0 9.3 2.7 12 6 12C9.3 12 12 9.3 6 0ZM4.8 9L1.8 6L2.646 5.154L4.8 7.302L9.354 2.748L10.2 3.6L4.8 9Z"
+                                            fill="url(#paint0_linear_15_884)" />
+                                        <defs>
+                                            <linearGradient
+                                                id="paint0_linear_15_884"
+                                                x1="6"
+                                                y1="0"
+                                                x2="6"
+                                                y2="12"
+                                                gradientUnits="userSpaceOnUse">
+                                                <stop stop-color="#009A12" />
+                                                <stop
+                                                    offset="0.5"
+                                                    stop-color="#00BE16" />
+                                                <stop
+                                                    offset="1"
+                                                    stop-color="#63E202" />
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </ion-item>
+                            </ion-col>
+                        }
+                    </ion-row>
+                </ion-grid>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

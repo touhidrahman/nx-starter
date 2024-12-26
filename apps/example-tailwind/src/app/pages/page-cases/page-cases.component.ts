@@ -1,123 +1,73 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, signal } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { DropdownModule } from 'primeng/dropdown'
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
 import { CasesStateService } from '../../features/case/states/cases-state.service'
-
-interface Case {
-    caseNumber: number
-    caseTitle: string
-    clientName: string
-    courtName: string
-    nextHearingDate: string
-    status: string
-    caseType: string
-}
+import { Button } from 'primeng/button'
+import { Dialog } from 'primeng/dialog'
+import { InputText } from 'primeng/inputtext'
+import { Select } from 'primeng/select'
+import { CasesTableComponent } from '../../features/case/components/cases-table/cases-table.component'
+import { ProgressSpinner } from 'primeng/progressspinner'
+import { CaseFormService } from '../../features/case/services/case-form.service'
 
 @Component({
     selector: 'app-page-cases',
-    imports: [CommonModule, DropdownModule, FormsModule, RouterModule],
+    imports: [
+        CommonModule,
+        DropdownModule,
+        FormsModule,
+        RouterModule,
+        Button,
+        Dialog,
+        InputText,
+        CasesTableComponent,
+        Select,
+        ProgressSpinner,
+        ReactiveFormsModule,
+    ],
     templateUrl: './page-cases.component.html',
     styleUrl: './page-cases.component.scss',
+    providers: [CaseFormService],
 })
 export class PageCasesComponent {
     casesStateService = inject(CasesStateService)
+    caseFormService = inject(CaseFormService)
 
-    showFilter = true
-
-    toggleFilter() {
-        this.showFilter = !this.showFilter
-    }
-
-    users: Case[] = [
-        {
-            caseNumber: 1212121,
-            caseTitle: 'Ariful vs Ferdous',
-            clientName: 'Ariful Hoque',
-            courtName: 'Chittagong Judge Court',
-            nextHearingDate: '10/12/2024',
-            status: 'Open',
-            caseType: 'Personal Injury',
-        },
-        {
-            caseNumber: 1212121,
-            caseTitle: 'Ariful vs Ferdous',
-            clientName: 'Ariful Hoque',
-            courtName: 'Chittagong Judge Court',
-            nextHearingDate: '10/12/2024',
-            status: 'Pending',
-            caseType: 'Personal Injury',
-        },
-        {
-            caseNumber: 1212121,
-            caseTitle: 'Ariful vs Ferdous',
-            clientName: 'Ariful Hoque',
-            courtName: 'Chittagong Judge Court',
-            nextHearingDate: '10/12/2024',
-            status: 'Closed',
-            caseType: 'Personal Injury',
-        },
-        {
-            caseNumber: 1212121,
-            caseTitle: 'Ariful vs Ferdous',
-            clientName: 'Ariful Hoque',
-            courtName: 'Chittagong Judge Court',
-            nextHearingDate: '10/12/2024',
-            status: 'Pending',
-            caseType: 'Personal Injury',
-        },
-        {
-            caseNumber: 1212121,
-            caseTitle: 'Ariful vs Ferdous',
-            clientName: 'Ariful Hoque',
-            courtName: 'Chittagong Judge Court',
-            nextHearingDate: '10/12/2024',
-            status: 'Open',
-            caseType: 'Personal Injury',
-        },
-    ]
-
-    tableTitles: string[] = [
-        'Case Number',
-        'Case Title',
-        'Client Name',
-        'Court Name',
-        'Next Hearing Date',
-        'Status',
-        'Case Type',
-        'Action',
-    ]
-
-    setColor(value: string) {
-        if (value === 'open') {
-            return '#0b9c2b'
-        }
-        if (value === 'pending') {
-            return '#9c0b0b'
-        }
-
-        return '#989898'
-    }
+    showFilter = signal<boolean>(false)
 
     Options = [{ name: 'Low' }, { name: 'High' }]
-    selectedOption: undefined
 
-    popUpState = {
-        visiblity: false,
-        createMode: false,
+    status = ['Pending', 'Accepted', 'Rejected']
+    selected = ''
+    visible = signal(false)
+    editMode = signal(false)
+
+    openCreateCaseModal() {
+        this.editMode.set(false)
+        this.visible.set(true)
     }
 
-    showCreatePopUp() {
-        this.popUpState.visiblity = true
-        this.popUpState.createMode = true
+    onSearch(value: Event) {
+        this.casesStateService.setState({
+            searchTerm: (value.target as HTMLInputElement).value,
+        })
     }
 
-    showEditPopUp() {
-        this.popUpState.visiblity = true
-        this.popUpState.createMode = false
+    cancel() {
+        this.editMode.set(false)
+        this.visible.set(false)
     }
-    hidePopUp() {
-        this.popUpState.visiblity = false
+
+    onSave() {
+        if (this.caseFormService.form.invalid) {
+            return
+        }
+        const formData = this.caseFormService.getValue()
+        const data = { ...formData, groupId: '1', plaintiffGroupId: '1' }
+        console.log('saving Case', data)
+        this.casesStateService.saveCase(data)
+        this.cancel()
     }
 }

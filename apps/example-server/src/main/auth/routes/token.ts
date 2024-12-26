@@ -1,20 +1,19 @@
 import { createRoute } from '@hono/zod-openapi'
 import dayjs from 'dayjs'
-import {
-    BAD_REQUEST,
-    OK
-} from 'stoker/http-status-codes'
+import { BAD_REQUEST, OK } from 'stoker/http-status-codes'
 import { jsonContentRequired } from 'stoker/openapi/helpers'
 import { z } from 'zod'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { LEVEL_ADMIN, LEVEL_MODERATOR } from '../../user/user.schema'
-import {
-    findUserByAuthUserIdAndGroupId
-} from '../../user/user.service'
+import { findUserByAuthUserIdAndGroupId } from '../../user/user.service'
 import { findAuthUserByEmail, updateLastLogin } from '../auth.service'
-import { createAccessToken, createRefreshToken, decodeRefreshToken } from '../token.util'
+import {
+    createAccessToken,
+    createRefreshToken,
+    decodeRefreshToken,
+} from '../token.util'
 
 const tags = ['Auth']
 
@@ -23,7 +22,10 @@ export const getTokenRoute = createRoute({
     method: 'post',
     tags,
     request: {
-        body: jsonContentRequired(z.object({ refreshToken: z.string() }), 'Refresh token'),
+        body: jsonContentRequired(
+            z.object({ refreshToken: z.string() }),
+            'Refresh token',
+        ),
     },
     responses: {
         [OK]: ApiResponse(
@@ -39,13 +41,19 @@ export const getTokenRoute = createRoute({
     },
 })
 
-export const getTokenRouteHandler: AppRouteHandler<typeof getTokenRoute> = async (c) => {
+export const getTokenRouteHandler: AppRouteHandler<
+    typeof getTokenRoute
+> = async (c) => {
     const { refreshToken: incomingRefreshToken } = c.req.valid('json')
     const decoded = await decodeRefreshToken(incomingRefreshToken)
 
     if (!decoded) {
         return c.json(
-            { message: 'Invalid or expired refresh token', data: {}, success: false },
+            {
+                message: 'Invalid or expired refresh token',
+                data: {},
+                success: false,
+            },
             BAD_REQUEST,
         )
     }
@@ -74,23 +82,22 @@ export const getTokenRouteHandler: AppRouteHandler<typeof getTokenRoute> = async
         )
     }
 
-        const user = await findUserByAuthUserIdAndGroupId(authUser.id, decoded.groupId)
-        const group = user?.group
-        const accessToken = await createAccessToken(
-            authUser,
-            user,
-            group as any,
-        ) // TODO: fix as any
-        return c.json(
-            {
-                message: 'User login to provided group was successful',
-                data: {
-                    accessToken,
-                    refreshToken,
-                    lastLogin: now.toISOString(),
-                },
-                success: true,
+    const user = await findUserByAuthUserIdAndGroupId(
+        authUser.id,
+        decoded.groupId,
+    )
+    const group = user?.group
+    const accessToken = await createAccessToken(authUser, user, group as any) // TODO: fix as any
+    return c.json(
+        {
+            message: 'User login to provided group was successful',
+            data: {
+                accessToken,
+                refreshToken,
+                lastLogin: now.toISOString(),
             },
-            OK,
-        )
+            success: true,
+        },
+        OK,
+    )
 }

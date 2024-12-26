@@ -1,8 +1,10 @@
 import { Route } from '@angular/router'
 import { authGuardFn } from '@myorg/app-example-auth'
 import { PageLayout, setLayout } from '@myorg/page-layouts'
-// import { authGuardFn} from '@myorg/app-example-auth'
-
+import {
+    authGuardFn,
+    PageCreateProfileComponent,
+} from '@myorg/app-example-auth'
 
 const authRoutes: Route[] = [
     {
@@ -54,8 +56,8 @@ const authRoutes: Route[] = [
     {
         path: 'create-profile',
         loadComponent: () =>
-            import('@myorg/app-example-auth').then(
-                (m) => m.PageCreateProfileComponent,
+            import('./pages/page-select-role/page-select-role.component').then(
+                (m) => m.PageSelectRoleComponent,
             ),
         resolve: { layout: setLayout(PageLayout.Center) },
     },

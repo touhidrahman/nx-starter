@@ -109,6 +109,20 @@ const routes: Routes = [
             ),
     },
     {
+        path: 'dashboard/chats',
+        loadComponent: () =>
+            import('./pages/page-chats/page-chats.component').then(
+                (m) => m.PageChatsComponent,
+            ),
+    },
+    {
+        path: 'dashboard/chat',
+        loadComponent: () =>
+            import('./pages/page-chat/page-chat.component').then(
+                (m) => m.PageChatComponent,
+            ),
+    },
+    {
         path: 'dashboard/appointments',
         loadComponent: () =>
             import(
@@ -116,11 +130,53 @@ const routes: Routes = [
             ).then((m) => m.PageAppointmentsComponent),
     },
     {
+        path: 'dashboard/organizations',
+        loadComponent: () =>
+            import(
+                './pages/page-organizations/page-organizations.component'
+            ).then((m) => m.PageOrganizationsComponent),
+    },
+    {
         path: 'admin/userlist',
         loadComponent: () =>
             import(
                 './pages/page-admin-userlist/page-admin-userlist.component'
             ).then((m) => m.PageAdminUserlistComponent),
+    },
+    {
+        path: 'lawyer/home',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-accout-pages/page-lawyer-home/page-lawyer-home.component'
+            ).then((m) => m.PageLawyerHomeComponent),
+    },
+    {
+        path: 'lawyer/organization',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-accout-pages/page-lawyer-organization/page-lawyer-organization.component'
+            ).then((m) => m.PageLawyerOrganizationComponent),
+    },
+    {
+        path: 'lawyer/profile',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-accout-pages/page-lawyer-profile/page-lawyer-profile.component'
+            ).then((m) => m.PageLawyerProfileComponent),
+    },
+    {
+        path: 'lawyer/plans',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-accout-pages/page-lawyer-plans/page-lawyer-plans.component'
+            ).then((m) => m.PageLawyerPlansComponent),
+    },
+    {
+        path: 'lawyer/settings',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-accout-pages/page-lawyer-settings/page-lawyer-settings.component'
+            ).then((m) => m.PageLawyerSettingsComponent),
     },
 ]
 

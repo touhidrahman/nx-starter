@@ -10,8 +10,8 @@ export class GroupFormService {
         return this.fb.nonNullable.group({
             name: ['', [Validators.required]],
             email: ['', [Validators.required, Validators.email]],
-            phone: [''],
             address: [''],
+            phone: [''],
             city: [''],
             country: [''],
             postCode: [''],

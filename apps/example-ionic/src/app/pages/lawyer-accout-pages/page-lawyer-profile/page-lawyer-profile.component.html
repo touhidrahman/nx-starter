@@ -1,0 +1,277 @@
+<ion-content>
+    <!-- navigation  -->
+    <ion-grid class="navigation-grid">
+        <ion-row class="navigation-row ion-align-items-start">
+            <ion-col size="auto">
+                <ion-icon
+                    class="back-icon"
+                    name="arrow-back-circle-outline"></ion-icon>
+            </ion-col>
+            <ion-col size="auto" class="page-title-col">
+                <ion-text class="page-title-text">Profile</ion-text>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <!-- profile pic and information card -->
+    <ion-grid class="profile-grid">
+        <ion-row>
+            <ion-col size="auto">
+                <ion-grid>
+                    <ion-row class="ion-justify-content-center">
+                        <ion-img
+                            src="assets/avatar/profile.png"
+                            class="profile-pic"></ion-img>
+                    </ion-row>
+                    <ion-row class="ion-justify-content-center">
+                        <ion-button
+                            class="edit-icon-btn"
+                            size="small"
+                            fill="transparent">
+                            <svg width="10" viewBox="0 0 10 11">
+                                <path
+                                    d="M1.11111 0C0.494444 0 0 0.543889 0 1.22222V9.77778C0 10.1019 0.117063 10.4128 0.325437 10.642C0.533811 10.8712 0.816426 11 1.11111 11H8.88889C9.18357 11 9.46619 10.8712 9.67456 10.642C9.88294 10.4128 10 10.1019 10 9.77778V5.5H8.88889V9.77778H1.11111V1.22222H5V0H1.11111ZM8.21111 0.611111C8.11667 0.611111 8.01667 0.653889 7.94444 0.733333L7.26667 1.47278L8.65556 3.00056L9.33333 2.26111C9.47778 2.10222 9.47778 1.83333 9.33333 1.68056L8.47222 0.733333C8.4 0.653889 8.30556 0.611111 8.21111 0.611111ZM6.87222 1.90667L2.77778 6.41667V7.94444H4.16667L8.26111 3.43444L6.87222 1.90667Z"
+                                    fill="black" />
+                            </svg>
+                        </ion-button>
+                        <ion-button
+                            class="delete-icon-btn"
+                            size="small"
+                            fill="transparent">
+                            <svg width="10" viewBox="0 0 10 11">
+                                <path
+                                    d="M3.125 0V0.611111H0V1.83333H0.625V9.77778C0.625 10.1019 0.756696 10.4128 0.991116 10.642C1.22554 10.8712 1.54348 11 1.875 11H8.125C8.45652 11 8.77446 10.8712 9.00888 10.642C9.2433 10.4128 9.375 10.1019 9.375 9.77778V1.83333H10V0.611111H6.875V0H3.125ZM1.875 1.83333H8.125V9.77778H1.875V1.83333ZM3.125 3.05556V8.55556H4.375V3.05556H3.125ZM5.625 3.05556V8.55556H6.875V3.05556H5.625Z"
+                                    fill="#E20000" />
+                            </svg>
+                        </ion-button>
+                    </ion-row>
+                </ion-grid>
+            </ion-col>
+            <ion-col class="profile-info-col">
+                <ion-text class="profile-name">Afiful Hoque</ion-text>
+                <ion-text class="profile-email"
+                    >ariful{{ '@' }}gmail.com</ion-text
+                >
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <!-- change password row -->
+    <ion-grid class="profile-info-change-password-grid">
+        <ion-row class="ion-justify-content-between ion-align-items-center">
+            <ion-col>
+                <ion-text class="profile-info-text"
+                    >Profile Information</ion-text
+                >
+            </ion-col>
+            <ion-col class="change-password-col ion-text-end">
+                <ion-button
+                    class="change-password-btn"
+                    fill="transparent"
+                    size="small"
+                    id="open-modal"
+                    >Change Password</ion-button
+                >
+                <ion-modal
+                    #changepasswordmodal
+                    trigger="open-modal"
+                    [presentingElement]="presentingElement"
+                    class="password-change-modal">
+                    <ng-template>
+                        <ion-content>
+                            <ion-grid class="change-password-modal-grid">
+                                <ion-row
+                                    class="modal-header-row ion-align-items-center">
+                                    <ion-col class="modal-title-col">
+                                        <ion-text class="modal-title-text"
+                                            >Change Password</ion-text
+                                        >
+                                    </ion-col>
+                                    <ion-col
+                                        class="modal-close-col ion-text-end">
+                                        <ion-icon
+                                            class="modal-close-icon"
+                                            name="close"
+                                            (click)="
+                                                changepasswordmodal.dismiss()
+                                            "></ion-icon>
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row class="modal-input-row">
+                                    <ion-text class="modal-input-label"
+                                        >Current Password</ion-text
+                                    >
+                                    <ion-input class="modal-input"></ion-input>
+                                </ion-row>
+                                <ion-row class="modal-input-row">
+                                    <ion-text class="modal-input-label">
+                                        Password</ion-text
+                                    >
+                                    <ion-input class="modal-input"></ion-input>
+                                </ion-row>
+                                <ion-row class="modal-input-row">
+                                    <ion-text class="modal-input-label"
+                                        >Confirm Password</ion-text
+                                    >
+                                    <ion-input class="modal-input"></ion-input>
+                                </ion-row>
+                                <ion-row class="modal-forgot-row">
+                                    <ion-col class="ion-text-center">
+                                        <ion-text
+                                            id="forgotpassword"
+                                            (click)="
+                                                changepasswordmodal.dismiss();
+                                                forgotPasswordModal.present()
+                                            "
+                                            >Forgot password?</ion-text
+                                        >
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row class="modal-button-row">
+                                    <ion-grid class="full-btn-gredient-bg-grid">
+                                        <ion-row>
+                                            <ion-col>
+                                                <ion-button
+                                                    class="full-btn-gredient-bg"
+                                                    fill="transparent"
+                                                    expand="block"
+                                                    >Submit</ion-button
+                                                >
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-content>
+                    </ng-template>
+                </ion-modal>
+
+                <ion-modal
+                    #forgotPasswordModal
+                    trigger="forgotpassword"
+                    [presentingElement]="presentingElement"
+                    class="password-forgot-modal">
+                    <ng-template>
+                        <ion-content>
+                            <ion-grid class="change-password-modal-grid">
+                                <ion-row
+                                    class="modal-header-row ion-align-items-center">
+                                    <ion-col class="modal-title-col">
+                                        <ion-text class="modal-title-text"
+                                            >Password Recover</ion-text
+                                        >
+                                    </ion-col>
+                                    <ion-col
+                                        class="modal-close-col ion-text-end">
+                                        <ion-icon
+                                            class="modal-close-icon"
+                                            name="close"
+                                            (click)="
+                                                forgotPasswordModal.dismiss()
+                                            "></ion-icon>
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row class="modal-input-row">
+                                    <ion-text class="modal-input-label"
+                                        >Email</ion-text
+                                    >
+                                    <ion-input class="modal-input"></ion-input>
+                                </ion-row>
+                                <ion-row class="modal-button-row">
+                                    <ion-grid class="full-btn-gredient-bg-grid">
+                                        <ion-row>
+                                            <ion-col>
+                                                <ion-button
+                                                    class="full-btn-gredient-bg"
+                                                    fill="transparent"
+                                                    expand="block"
+                                                    (click)="
+                                                        forgotPasswordModal.dismiss()
+                                                    "
+                                                    >Send reset
+                                                    email</ion-button
+                                                >
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-content>
+                    </ng-template>
+                </ion-modal>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid class="account-infomation-grid">
+        <ion-row>
+            <ion-col size="auto">
+                <ion-img src="assets/icon/user_profile_icon.png"></ion-img>
+            </ion-col>
+            <ion-col>
+                <ion-text class="row-title">Name</ion-text>
+                <ion-text class="row-description">John Doe</ion-text>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="auto">
+                <ion-img src="assets/icon/call_folder_icon.png"></ion-img>
+            </ion-col>
+            <ion-col>
+                <ion-text class="row-title">Contact</ion-text>
+                <ion-text class="row-description">+880 19 00 000 00</ion-text>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="auto">
+                <ion-img src="assets/icon/earth-icon.png"></ion-img>
+            </ion-col>
+            <ion-col>
+                <ion-text class="row-title">Division</ion-text>
+                <ion-text class="row-description">Dhaka</ion-text>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="auto">
+                <ion-img
+                    src="assets/icon/multiple-buildings-icon.png"></ion-img>
+            </ion-col>
+            <ion-col>
+                <ion-text class="row-title">District</ion-text>
+                <ion-text class="row-description">Kishoreganj</ion-text>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="auto">
+                <ion-img src="assets/icon/location-in-squre-icon.png"></ion-img>
+            </ion-col>
+            <ion-col>
+                <ion-text class="row-title">Address</ion-text>
+                <ion-text class="row-description"
+                    >Harua, Gurudayal college road</ion-text
+                >
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col size="auto">
+                <ion-img src="assets/icon/mail-icon.png"></ion-img>
+            </ion-col>
+            <ion-col>
+                <ion-text class="row-title">Post</ion-text>
+                <ion-text class="row-description">2300</ion-text>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-grid class="full-btn-gredient-bg-grid">
+        <ion-row>
+            <ion-col>
+                <ion-button
+                    class="full-btn-gredient-bg"
+                    fill="transparent"
+                    expand="block"
+                    >Edit Profile</ion-button
+                >
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+
+<!-- <ion-button >Close</ion-button> -->

@@ -7,9 +7,10 @@ export const getAllCasesByGroupId = async (params: {
     groupId: string
     search: string
     page: number
-    limit: number
+    size: number
+    orderBy?: string
 }) => {
-    const { groupId, search, page, limit } = params
+    const { groupId, search, page, size, orderBy } = params
 
     const conditions: SQL<unknown>[] = []
 
@@ -26,18 +27,23 @@ export const getAllCasesByGroupId = async (params: {
 
     const whereClause = conditions.length > 0 ? and(...conditions) : undefined
 
-    const offset = (page - 1) * limit
+    const offset = (page - 1) * size
 
     const query = db
         .select({
             ...getTableColumns(casesTable),
         })
         .from(casesTable)
-        .limit(limit)
+        .limit(size)
         .offset(offset)
 
     if (whereClause) {
         query.where(whereClause)
+    }
+
+    if (orderBy) {
+        const direction = orderBy.toLowerCase() === 'desc' ? 'DESC' : 'ASC'
+        query.orderBy(sql`${casesTable.createdAt} ${sql.raw(direction)}`)
     }
 
     const results = await query
@@ -59,9 +65,9 @@ export const getAllCasesByGroupId = async (params: {
         data: results,
         meta: {
             page,
-            limit,
+            size,
             totalCount,
-            totalPages: Math.ceil(totalCount / limit),
+            totalPages: Math.ceil(totalCount / size),
         },
     }
 }
@@ -71,6 +77,13 @@ export const findCaseById = async (id: string) =>
     db.query.casesTable.findFirst({
         where: eq(casesTable.id, id),
     })
+
+// Retrieve a specific case by Number
+export const findCaseByNumber = async (number: string) =>
+    await db
+        .select({ ...getTableColumns(casesTable) })
+        .from(casesTable)
+        .where(eq(casesTable.number, number))
 
 // Insert a new case.
 export const createCase = async (caseItem: InsertCase) =>
