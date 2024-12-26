@@ -137,38 +137,6 @@
             (onPageChange)="onPageChange ($event)"
             class="mt-4">
         </p-paginator>
-
-        <!-- <span class="cursor-pointer">
-            <svg
-                width="35"
-                height="35"
-                viewBox="0 0 35 35"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M28 15.75V19.25H14L20.125 25.375L17.64 27.86L7.28 17.5L17.64 7.14L20.125 9.625L14 15.75H28ZM0 17.5C0 12.8587 1.84374 8.40752 5.12563 5.12563C8.40752 1.84374 12.8587 0 17.5 0C19.7981 0 22.0738 0.452651 24.197 1.33211C26.3202 2.21157 28.2493 3.50061 29.8744 5.12563C31.4994 6.75066 32.7884 8.67984 33.6679 10.803C34.5474 12.9262 35 15.2019 35 17.5C35 22.1413 33.1563 26.5925 29.8744 29.8744C26.5925 33.1563 22.1413 35 17.5 35C15.2019 35 12.9262 34.5474 10.803 33.6679C8.67984 32.7884 6.75066 31.4994 5.12563 29.8744C1.84374 26.5925 0 22.1413 0 17.5ZM3.5 17.5C3.5 21.213 4.975 24.774 7.60051 27.3995C10.226 30.025 13.787 31.5 17.5 31.5C21.213 31.5 24.774 30.025 27.3995 27.3995C30.025 24.774 31.5 21.213 31.5 17.5C31.5 13.787 30.025 10.226 27.3995 7.60051C24.774 4.975 21.213 3.5 17.5 3.5C13.787 3.5 10.226 4.975 7.60051 7.60051C4.975 10.226 3.5 13.787 3.5 17.5Z"
-                    fill="#595959" />
-            </svg>
-        </span>
-
-        @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track $index) {
-            <div
-                class="hover:bg-lightGreen border-graye2 flex h-16 w-16 cursor-pointer items-center justify-center rounded-full border">
-                <span class="text-gray59 text-3xl font-bold">{{ i }}</span>
-            </div>
-        }
-        <span class="cursor-pointer">
-            <svg
-                width="35"
-                height="35"
-                viewBox="0 0 35 35"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <path
-                    d="M7 19.25V15.75H21L14.875 9.625L17.36 7.14L27.72 17.5L17.36 27.86L14.875 25.375L21 19.25H7ZM35 17.5C35 22.1413 33.1563 26.5925 29.8744 29.8744C26.5925 33.1563 22.1413 35 17.5 35C15.2019 35 12.9262 34.5474 10.803 33.6679C8.67984 32.7884 6.75066 31.4994 5.12563 29.8744C1.84374 26.5925 0 22.1413 0 17.5C0 12.8587 1.84374 8.40752 5.12563 5.12563C8.40752 1.84374 12.8587 0 17.5 0C19.7981 0 22.0738 0.452651 24.197 1.33211C26.3202 2.21157 28.2493 3.50061 29.8744 5.12563C31.4994 6.75066 32.7884 8.67984 33.6679 10.803C34.5474 12.9262 35 15.2019 35 17.5ZM31.5 17.5C31.5 13.787 30.025 10.226 27.3995 7.60051C24.774 4.975 21.213 3.5 17.5 3.5C13.787 3.5 10.226 4.975 7.60051 7.60051C4.975 10.226 3.5 13.787 3.5 17.5C3.5 21.213 4.975 24.774 7.60051 27.3995C10.226 30.025 13.787 31.5 17.5 31.5C21.213 31.5 24.774 30.025 27.3995 27.3995C30.025 24.774 31.5 21.213 31.5 17.5Z"
-                    fill="#595959" />
-            </svg>
-        </span> -->
     </div>
 
     <span class="absolute bottom-0 left-0 -z-10">
@@ -217,50 +185,3 @@
         </svg>
     </span>
 </section>
-
-
-
-<!-- 
-<p-card class="gradient-border col-span-4 p-0.5 rounded-2xl transition: all 300ms ease;">
-                <div class="relative h-full w-full rounded-2xl bg-white p-4">
-                    <div class="flex items-start justify-start gap-2">
-                        
-                        <p-avatar [image]="i.img" size="large" shape="circle"></p-avatar>
-            
-                        <span class="inline-block">
-                            <h3 class="text-xl font-semibold text-black">John Doe</h3>
-                            <p class="text-gray-500 text-sm">
-                                <span class="font-medium text-black">Title:</span> Senior Lawyer
-                            </p>
-                            <p class="text-gray-500 text-sm">
-                                <span class="font-medium text-black">Specialization:</span> Corporate Law, Mergers & Acquisitions
-                            </p>
-                            <p class="text-gray-500 text-sm">
-                                <span class="font-medium text-black">Education:</span> Harvard Law School
-                            </p>
-                            <p class="text-gray-500 text-sm">
-                                <span class="font-medium text-black">Contact:</span> john.doelawfirm.com
-                            </p>
-                            <hr class="border-gray-300 my-2.5 w-4/5 border-t" />
-                            <p class="whitespace-pre-wrap text-sm font-medium">
-                                John Doe has led numerous high-profile mergers and acquisitions, delivering exceptional results for his clients.
-                            </p>
-                        </span>
-                    </div>
-                    <div 
-                        class="text-gray-500 absolute right-3 top-4 flex items-center justify-center rounded-2xl px-3 py-0.5 text-xs"
-                        [ngStyle]="{ background: i.bg }">
-                        <p-tag>{{ i.content }}</p-tag>
-                    </div>
-                </div>
-            </p-card>
-<div class="flex items-center justify-center gap-4 py-8">
-
-        @for (i of [1, 2, 3, 4, 5, 6, 7, 8]; track $index) {
-            <div
-                class="hover:bg-lightGreen border-graye2 flex h-16 w-16 cursor-pointer items-center justify-center rounded-full border">
-                <span class="text-gray59 text-3xl font-bold">{{ i }}</span>
-            </div>
-        }
-    </div>
--->
