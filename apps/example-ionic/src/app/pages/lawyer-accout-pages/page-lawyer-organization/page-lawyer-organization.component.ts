@@ -1,5 +1,5 @@
 import { style } from '@angular/animations'
-import { Component, viewChild, signal } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { IonicModule, IonText, IonItem, IonRow, IonInput } from '@ionic/angular'
 
@@ -9,7 +9,7 @@ import { IonicModule, IonText, IonItem, IonRow, IonInput } from '@ionic/angular'
     templateUrl: './page-lawyer-organization.component.html',
     styleUrl: './page-lawyer-organization.component.scss',
 })
-export class PageLawyerOrganizationComponent {
+export class PageLawyerOrganizationComponent implements OnInit {
     toggleFocus(
         placeholder: IonText,
         inputWrapper: IonItem,
@@ -42,5 +42,11 @@ export class PageLawyerOrganizationComponent {
                 inputElement.focus()
             }
         }
+    }
+
+    // Typically referenced to your ion-router-outlet
+    presentingElement: Element | null = null
+    ngOnInit() {
+        this.presentingElement = document.querySelector('.ion-page')
     }
 }

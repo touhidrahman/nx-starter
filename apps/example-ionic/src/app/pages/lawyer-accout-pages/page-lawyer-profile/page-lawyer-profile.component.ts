@@ -11,7 +11,6 @@ import { IonicModule } from '@ionic/angular'
 export class PageLawyerProfileComponent implements OnInit {
     // Typically referenced to your ion-router-outlet
     presentingElement: Element | null = null
-
     ngOnInit() {
         this.presentingElement = document.querySelector('.ion-page')
     }

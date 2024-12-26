@@ -67,8 +67,136 @@
                     class="change-password-btn"
                     fill="transparent"
                     size="small"
+                    id="open-modal"
                     >Change Password</ion-button
                 >
+                <ion-modal
+                    #changepasswordmodal
+                    trigger="open-modal"
+                    [presentingElement]="presentingElement"
+                    class="password-change-modal">
+                    <ng-template>
+                        <ion-content>
+                            <ion-grid class="change-password-modal-grid">
+                                <ion-row
+                                    class="modal-header-row ion-align-items-center">
+                                    <ion-col class="modal-title-col">
+                                        <ion-text class="modal-title-text"
+                                            >Change Password</ion-text
+                                        >
+                                    </ion-col>
+                                    <ion-col
+                                        class="modal-close-col ion-text-end">
+                                        <ion-icon
+                                            class="modal-close-icon"
+                                            name="close"
+                                            (click)="
+                                                changepasswordmodal.dismiss()
+                                            "></ion-icon>
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row class="modal-input-row">
+                                    <ion-text class="modal-input-label"
+                                        >Current Password</ion-text
+                                    >
+                                    <ion-input class="modal-input"></ion-input>
+                                </ion-row>
+                                <ion-row class="modal-input-row">
+                                    <ion-text class="modal-input-label">
+                                        Password</ion-text
+                                    >
+                                    <ion-input class="modal-input"></ion-input>
+                                </ion-row>
+                                <ion-row class="modal-input-row">
+                                    <ion-text class="modal-input-label"
+                                        >Confirm Password</ion-text
+                                    >
+                                    <ion-input class="modal-input"></ion-input>
+                                </ion-row>
+                                <ion-row class="modal-forgot-row">
+                                    <ion-col class="ion-text-center">
+                                        <ion-text
+                                            id="forgotpassword"
+                                            (click)="
+                                                changepasswordmodal.dismiss();
+                                                forgotPasswordModal.present()
+                                            "
+                                            >Forgot password?</ion-text
+                                        >
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row class="modal-button-row">
+                                    <ion-grid class="full-btn-gredient-bg-grid">
+                                        <ion-row>
+                                            <ion-col>
+                                                <ion-button
+                                                    class="full-btn-gredient-bg"
+                                                    fill="transparent"
+                                                    expand="block"
+                                                    >Submit</ion-button
+                                                >
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-content>
+                    </ng-template>
+                </ion-modal>
+
+                <ion-modal
+                    #forgotPasswordModal
+                    trigger="forgotpassword"
+                    [presentingElement]="presentingElement"
+                    class="password-forgot-modal">
+                    <ng-template>
+                        <ion-content>
+                            <ion-grid class="change-password-modal-grid">
+                                <ion-row
+                                    class="modal-header-row ion-align-items-center">
+                                    <ion-col class="modal-title-col">
+                                        <ion-text class="modal-title-text"
+                                            >Password Recover</ion-text
+                                        >
+                                    </ion-col>
+                                    <ion-col
+                                        class="modal-close-col ion-text-end">
+                                        <ion-icon
+                                            class="modal-close-icon"
+                                            name="close"
+                                            (click)="
+                                                forgotPasswordModal.dismiss()
+                                            "></ion-icon>
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row class="modal-input-row">
+                                    <ion-text class="modal-input-label"
+                                        >Email</ion-text
+                                    >
+                                    <ion-input class="modal-input"></ion-input>
+                                </ion-row>
+                                <ion-row class="modal-button-row">
+                                    <ion-grid class="full-btn-gredient-bg-grid">
+                                        <ion-row>
+                                            <ion-col>
+                                                <ion-button
+                                                    class="full-btn-gredient-bg"
+                                                    fill="transparent"
+                                                    expand="block"
+                                                    (click)="
+                                                        forgotPasswordModal.dismiss()
+                                                    "
+                                                    >Send reset
+                                                    email</ion-button
+                                                >
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-content>
+                    </ng-template>
+                </ion-modal>
             </ion-col>
         </ion-row>
     </ion-grid>
@@ -132,55 +260,15 @@
             </ion-col>
         </ion-row>
     </ion-grid>
-
-    <ion-grid class="edit-btn-grid">
+    <ion-grid class="full-btn-gredient-bg-grid">
         <ion-row>
             <ion-col>
                 <ion-button
-                    class="edit-profile-btn"
+                    class="full-btn-gredient-bg"
                     fill="transparent"
                     expand="block"
-                    id="open-modal"
                     >Edit Profile</ion-button
                 >
-                <ion-modal
-                    #modal
-                    trigger="open-modal"
-                    [presentingElement]="presentingElement"
-                    style="height: 50%">
-                    <ng-template>
-                        <ion-content>
-                            <ion-grid>
-                                <ion-row>
-                                    <ion-col>
-                                        <ion-text></ion-text>
-                                    </ion-col>
-                                    <ion-col>
-                                        <ion-button (click)="modal.dismiss()"
-                                            >X</ion-button
-                                        >
-                                    </ion-col>
-                                </ion-row>
-                                <ion-row>
-                                    <ion-text></ion-text>
-                                    <ion-input></ion-input>
-                                </ion-row>
-
-                                <ion-row>
-                                    <ion-text></ion-text>
-                                    <ion-input></ion-input>
-                                </ion-row>
-                                <ion-row>
-                                    <ion-text></ion-text>
-                                </ion-row>
-
-                                <ion-row>
-                                    <ion-button></ion-button>
-                                </ion-row>
-                            </ion-grid>
-                        </ion-content>
-                    </ng-template>
-                </ion-modal>
             </ion-col>
         </ion-row>
     </ion-grid>

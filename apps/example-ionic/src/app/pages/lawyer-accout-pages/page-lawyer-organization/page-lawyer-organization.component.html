@@ -198,7 +198,11 @@
         <ion-row class="ion-justify-content-between ion-align-items-center">
             <ion-col class="members">Members</ion-col>
             <ion-col class="ion-text-end">
-                <ion-button size="small" fill="transparent" class="invite-btn">
+                <ion-button
+                    size="small"
+                    fill="transparent"
+                    class="invite-btn"
+                    id="inviteMember">
                     <svg width="8" height="8" viewBox="0 0 8 8">
                         <path
                             d="M8 4.57143H4.57143V8H3.42857V4.57143H0V3.42857H3.42857V0H4.57143V3.42857H8V4.57143Z"
@@ -206,6 +210,65 @@
                     </svg>
                     &nbsp; Invite Member</ion-button
                 >
+
+                <ion-modal
+                    #inviteMemberModal
+                    trigger="inviteMember"
+                    [presentingElement]="presentingElement"
+                    class="invite-member-modal">
+                    <ng-template>
+                        <ion-content>
+                            <ion-grid class="invite-member-modal-grid">
+                                <ion-row
+                                    class="modal-header-row ion-align-items-center">
+                                    <ion-col class="modal-title-col">
+                                        <ion-text class="modal-title-text"
+                                            >Invite Member</ion-text
+                                        >
+                                    </ion-col>
+                                    <ion-col
+                                        class="modal-close-col ion-text-end">
+                                        <ion-icon
+                                            class="modal-close-icon"
+                                            name="close"
+                                            (click)="
+                                                inviteMemberModal.dismiss()
+                                            "></ion-icon>
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row class="modal-input-row">
+                                    <ion-text class="modal-input-label"
+                                        >Email</ion-text
+                                    >
+                                    <ion-input class="modal-input"></ion-input>
+                                </ion-row>
+                                <ion-row class="modal-input-row">
+                                    <ion-text class="modal-input-label"
+                                        >Role</ion-text
+                                    >
+                                    <ion-input class="modal-input"></ion-input>
+                                </ion-row>
+                                <ion-row class="modal-button-row">
+                                    <ion-grid class="full-btn-gredient-bg-grid">
+                                        <ion-row>
+                                            <ion-col>
+                                                <ion-button
+                                                    class="full-btn-gredient-bg"
+                                                    fill="transparent"
+                                                    expand="block"
+                                                    (click)="
+                                                        inviteMemberModal.dismiss()
+                                                    "
+                                                    >Save</ion-button
+                                                >
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-content>
+                    </ng-template>
+                </ion-modal>
             </ion-col>
         </ion-row>
         <ion-row

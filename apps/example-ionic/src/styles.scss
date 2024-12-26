@@ -66,3 +66,43 @@ ion-content {
     color: #292929;
     display: block;
 }
+
+// modal styles
+
+.modal-title-text {
+    font-size: 20px;
+    font-weight: 600;
+    color: #464646;
+}
+
+.modal-close-btn {
+    color: #000000;
+}
+.modal-input-label {
+    font-size: 16px;
+    font-weight: 400;
+    margin: 4px 2px;
+    color: #5a5a5a;
+}
+
+.modal-input {
+    border: 1px solid #dddddd;
+    background: #ffffff;
+    border-radius: 10px;
+    outline: none;
+    padding: 0 6px;
+}
+
+//full width button with gredient bg
+
+.full-btn-gredient-bg {
+    background: linear-gradient(90deg, #0a5c36 0%, #00341c 100%);
+    box-shadow: 1px 1px 5px 0px #00000040;
+    font-size: 20px;
+    font-weight: 500;
+    color: #ffffff;
+    border-radius: 20px;
+}
+.full-btn-gredient-bg-grid {
+    margin: 0.5rem;
+}

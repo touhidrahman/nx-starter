@@ -131,15 +131,34 @@
     margin-top: -5px;
 }
 
-.edit-profile-btn {
-    background: linear-gradient(90deg, #0a5c36 0%, #00341c 100%);
-    box-shadow: 1px 1px 5px 0px #00000040;
-    font-size: 24px;
-    font-weight: 500;
-    color: #ffffff;
-    border-radius: 20px;
+.password-change-modal {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    height: 65%;
+    top: 35%;
 }
 
-.edit-btn-grid {
-    margin: 0.5rem;
+.password-forgot-modal {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    height: 35%;
+    top: 65%;
+}
+
+.modal-forgot-row {
+    font-size: 12px;
+    color: #646464;
+    text-decoration: underline;
+    margin: 0.4rem 0;
+}
+.change-password-modal-grid {
+    padding: 1rem;
+}
+
+.modal-header-row {
+    margin: 0.5rem 0;
+}
+
+.modal-input-row {
+    margin: 0.5rem 0;
 }
