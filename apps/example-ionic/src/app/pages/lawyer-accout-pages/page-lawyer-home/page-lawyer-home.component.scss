@@ -1,0 +1,239 @@
+:host {
+    display: block;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Archivo Narrow', serif;
+}
+
+.text-gradient {
+    background: linear-gradient(90deg, #009459 0%, #04712d 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+// header
+
+.header {
+    padding: 12px 8px;
+}
+
+.logo {
+    width: 100px;
+}
+
+.profile-img {
+    width: 47px;
+    height: 47px;
+    border-radius: 50%;
+    border: 2px solid #d3d3d3;
+    margin-left: 8px;
+}
+
+.username {
+    font-size: 20px;
+    font-weight: 600;
+    color: #3a3a3a;
+    display: block;
+    line-height: 1;
+}
+
+.position {
+    font-size: 14px;
+    color: #434343;
+    display: block;
+}
+
+// profile pop up
+.profile-popover {
+    display: inline-block;
+    width: 240px;
+    border-radius: 10px;
+    position: absolute;
+    z-index: 1000;
+    right: 8px;
+    top: 64px;
+    padding: 0.75rem 0.25rem;
+}
+
+.popover-icon {
+    fill: #292929;
+}
+
+.popover-text {
+    font-size: 18px;
+    color: #292929;
+    display: block;
+    font-weight: 500;
+    margin-left: 8px;
+}
+
+.popover-row {
+    padding: 0.3rem 1rem 0;
+}
+
+.popover-row:active {
+    background-color: #0a5c36;
+    color: white;
+    border-radius: 50px;
+}
+
+.popover-row:active .popover-icon,
+.popover-row:active .popover-text {
+    background-color: #0a5c36;
+    color: white;
+    fill: white;
+}
+
+// status cards
+.status-grid {
+    padding: 0 8px;
+}
+
+.status-card {
+    margin: 5px;
+    background: white;
+    padding: 4px 8px;
+    border: border 1px solid #d3d3d3;
+    box-shadow: 1px 1px 10px -3px #0000001a;
+    border-radius: 12px;
+}
+
+.status-title {
+    font-size: 13px;
+    color: #3a3a3a;
+    display: block;
+    text-align: center;
+}
+
+.status-icon {
+    background: #302e2e;
+    box-shadow: 1px 1px 10px 0px #00000080;
+    border-radius: 50%;
+    padding: 3px;
+    width: 25px;
+    height: 25px;
+    margin-right: 6px;
+}
+
+.status-count {
+    background: linear-gradient(180deg, #00bba5 0%, #00554b 220%);
+    background-clip: text;
+    color: transparent;
+    font-family: 'Poppins', serif;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+// upcoming cases
+.section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #292929;
+    display: block;
+    margin: 1rem 0.5rem;
+}
+
+.case-grid {
+    margin: 0 8px;
+}
+
+.case-card {
+    background: #fff;
+    border-radius: 12px;
+    margin: 4px;
+    box-shadow: 1px 1px 10px -3px #0000001a;
+    padding: 12px 7px;
+}
+
+.calender-icon {
+    margin-right: 5px;
+}
+
+.case-date {
+    font-size: 14px;
+    font-weight: bold;
+    color: #3a3a3a;
+    display: block;
+}
+
+.case-location {
+    margin-top: -8px;
+}
+
+.case-court {
+    font-size: 10px;
+    color: #707070;
+    line-height: 0;
+}
+
+.location-icon {
+    margin-right: 3px;
+}
+
+.divider {
+    width: 80%;
+    margin: 4px auto;
+    height: 1px;
+    background-color: #707070;
+    opacity: 0.6;
+}
+
+.case-title {
+    font-size: 12px;
+    font-weight: 700;
+    margin: 0 auto 4px;
+}
+
+.case-description {
+    font-size: 8px;
+    color: #707070;
+}
+
+//pinned case
+
+.pinned-case-title {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.pinned-case-location,
+.pinned-case-date {
+    font-size: 12px;
+    color: #707070;
+    margin-left: 3px;
+    margin-right: 12px;
+}
+
+.pin-icon {
+    box-shadow: 1px 1px 10px -3px #00000026;
+    background: #eaffea;
+    padding: 5px;
+    border-radius: 50%;
+    width: 37px;
+    height: 37px;
+}
+
+.pinned-case-row {
+    margin: 8px 12px;
+    padding: 5px 0 5px 25px;
+    background: #fff;
+    box-shadow: 1px 1px 10px -3px #0000001a;
+    border-radius: 12px;
+    position: relative;
+}
+
+.pinned-case-row::after {
+    position: absolute;
+    content: '';
+    width: 3px;
+    height: 70%;
+    background: linear-gradient(90deg, #0a5c36 0%, #15c272 100%);
+    top: 10px;
+    left: 15px;
+    z-index: 10;
+}

@@ -1,0 +1,48 @@
+<ion-content>
+    <ion-grid class="navigation-grid">
+        <ion-row class="navigation-row ion-align-items-start">
+            <ion-col size="auto">
+                <ion-icon
+                    class="back-icon"
+                    name="arrow-back-circle-outline"></ion-icon>
+            </ion-col>
+            <ion-col size="auto" class="page-title-col">
+                <ion-text class="page-title-text">Settings</ion-text>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-text class="daily-updates-title"> Daily Updates </ion-text>
+
+    <ion-text class="daily-updates-description"
+        >Do you want to enable daily update feature for your team? If enabled,
+        every team member must fill a daily report where they will be asked to
+        answer following questions:</ion-text
+    >
+    <ion-list lines="none" class="daily-updates-list">
+        <ion-item class="daily-updates-item">
+            <ion-icon name="ellipse"></ion-icon> &nbsp; Brief of the work
+            done</ion-item
+        >
+        <ion-item class="daily-updates-item">
+            <ion-icon name="ellipse"></ion-icon> &nbsp; Challenges</ion-item
+        >
+        <ion-item class="daily-updates-item">
+            <ion-icon name="ellipse"></ion-icon> &nbsp; Questions</ion-item
+        >
+    </ion-list>
+
+    <ion-grid class="daily-updates-grid">
+        <ion-row class="daily-updates-row">
+            <ion-col class="daily-updates-col" size="auto">
+                Disabled &nbsp;
+            </ion-col>
+            <ion-col class="daily-updates-col" size="auto"
+                ><ion-toggle></ion-toggle
+            ></ion-col>
+            <ion-col class="daily-updates-col" size="auto">
+                &nbsp; Enabled
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

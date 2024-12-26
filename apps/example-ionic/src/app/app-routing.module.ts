@@ -122,6 +122,41 @@ const routes: Routes = [
                 './pages/page-admin-userlist/page-admin-userlist.component'
             ).then((m) => m.PageAdminUserlistComponent),
     },
+    {
+        path: 'lawyer/home',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-accout-pages/page-lawyer-home/page-lawyer-home.component'
+            ).then((m) => m.PageLawyerHomeComponent),
+    },
+    {
+        path: 'lawyer/organization',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-accout-pages/page-lawyer-organization/page-lawyer-organization.component'
+            ).then((m) => m.PageLawyerOrganizationComponent),
+    },
+    {
+        path: 'lawyer/profile',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-accout-pages/page-lawyer-profile/page-lawyer-profile.component'
+            ).then((m) => m.PageLawyerProfileComponent),
+    },
+    {
+        path: 'lawyer/plans',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-accout-pages/page-lawyer-plans/page-lawyer-plans.component'
+            ).then((m) => m.PageLawyerPlansComponent),
+    },
+    {
+        path: 'lawyer/settings',
+        loadComponent: () =>
+            import(
+                './pages/lawyer-accout-pages/page-lawyer-settings/page-lawyer-settings.component'
+            ).then((m) => m.PageLawyerSettingsComponent),
+    },
 ]
 
 @NgModule({
