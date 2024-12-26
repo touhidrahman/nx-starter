@@ -45,6 +45,7 @@ module.exports = {
                 red9c: '#9c0b0b',
                 grayc6: '#c6c6c6',
                 greenc4: '#c4ff72',
+                greenSecondary: '#EAFFEA',
                 grayf8: '#f8f8f8',
                 graye: '#eeeeee',
                 blue0a: '#00A5BB',

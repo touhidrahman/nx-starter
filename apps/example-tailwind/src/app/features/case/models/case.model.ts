@@ -1,12 +1,22 @@
 export interface Case {
-    id?: string
-    number: string
+    id: string
     name: string
-    defendant: string
+    court: string
     plaintiffName: string
     plaintiffGroupId: string
+    defendant: string
     groupId: string
+    number: string
+    createdAt: Date
+    updatedAt: Date
+}
+
+export interface CaseInput {
+    name: string
     court: string
-    createdAt?: Date
-    updatedAt?: Date
+    plaintiffName: string
+    plaintiffGroupId: string
+    defendant: string
+    groupId: string
+    number: string
 }

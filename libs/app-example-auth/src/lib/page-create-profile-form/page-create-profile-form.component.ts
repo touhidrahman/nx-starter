@@ -29,7 +29,7 @@ export class PageCreateProfileFormComponent implements OnInit {
         if (this.groupFormService.form.invalid) {
             return
         }
-
+        console.log(this.groupFormService.getValue())
         this.authApiService
             .createGroupAndProfile(
                 this.groupFormService.getValue(),

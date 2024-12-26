@@ -2,19 +2,17 @@ import { inject, Injectable } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 
 @Injectable()
-export class GroupFormService {
+export class CaseFormService {
     private fb = inject(FormBuilder)
     form: FormGroup = this.buildForm()
 
     buildForm(): FormGroup {
         return this.fb.nonNullable.group({
+            number: ['', [Validators.required]],
             name: ['', [Validators.required]],
-            email: ['', [Validators.required, Validators.email]],
-            address: [''],
-            phone: [''],
-            city: [''],
-            country: [''],
-            postCode: [''],
+            defendant: ['', [Validators.required]],
+            plaintiffName: ['', [Validators.required]],
+            court: ['', [Validators.required]],
         })
     }
 
