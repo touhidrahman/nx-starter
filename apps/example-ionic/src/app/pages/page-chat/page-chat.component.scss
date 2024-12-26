@@ -1,0 +1,64 @@
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    margin-bottom: 4rem; /* Adjust for input container space */
+}
+
+.incoming {
+    align-self: flex-start;
+    .message {
+        background-color: #f1f1f1;
+        color: #000;
+    }
+}
+
+.outgoing {
+    align-self: flex-end;
+    .message {
+        background-color: #1e5f00;
+        color: #fff;
+    }
+}
+
+.message {
+    max-width: full;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    padding-top: 0.05rem;
+    padding-bottom: 0.05rem;
+    border-radius: 1rem;
+    margin: 1rem 0;
+    position: relative;
+}
+
+.time {
+    font-size: 0.75rem;
+    position: absolute;
+    bottom: -1.25rem;
+    right: 0.5rem;
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.input-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    background: #fff;
+    padding: 0.5rem;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+ion-input {
+    flex: 1;
+    margin-right: 0.5rem;
+}
+
+.divider {
+    height: 1px;
+    background-color: #ccc; /* Line color */
+    width: 100%;
+}

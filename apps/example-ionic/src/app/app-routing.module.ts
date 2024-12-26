@@ -109,11 +109,32 @@ const routes: Routes = [
             ),
     },
     {
+        path: 'dashboard/chats',
+        loadComponent: () =>
+            import('./pages/page-chats/page-chats.component').then(
+                (m) => m.PageChatsComponent,
+            ),
+    },
+    {
+        path: 'dashboard/chat',
+        loadComponent: () =>
+            import('./pages/page-chat/page-chat.component').then(
+                (m) => m.PageChatComponent,
+            ),
+    },
+    {
         path: 'dashboard/appointments',
         loadComponent: () =>
             import(
                 './pages/page-appointments/page-appointments.component'
             ).then((m) => m.PageAppointmentsComponent),
+    },
+    {
+        path: 'dashboard/organizations',
+        loadComponent: () =>
+            import(
+                './pages/page-organizations/page-organizations.component'
+            ).then((m) => m.PageOrganizationsComponent),
     },
     {
         path: 'admin/userlist',

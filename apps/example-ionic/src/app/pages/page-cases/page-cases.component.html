@@ -3,12 +3,12 @@
     <span class="title">Cases</span>
 </div>
 
-<ion-content>
-    <div class="searchbar">
-        <ion-icon name="search-outline"></ion-icon>
-        <ion-input placeholder="Search Case"></ion-input>
-    </div>
+<div class="searchbar">
+    <ion-icon name="search-outline"></ion-icon>
+    <ion-input placeholder="Search Case"></ion-input>
+</div>
 
+<ion-content>
     <div class="case-card">
         <div class="card-title-section">
             <div class="text-dec">
@@ -56,7 +56,9 @@
         <ng-template>
             <ion-header>
                 <ion-toolbar>
-                    <ion-title class="dialog-title">Create Case</ion-title>
+                    <ion-title class="dialog-title"
+                        >Create Organization</ion-title
+                    >
                     <ion-buttons slot="end">
                         <ion-button (click)="setOpen(false)">Close</ion-button>
                     </ion-buttons>
@@ -102,8 +104,7 @@
                     label="Status"
                     label-placement="floating"
                     fill="outline"
-                    placeholder="Enter Case Status"></ion-input
-                >'
+                    placeholder="Enter Case Status"></ion-input>
 
                 <ion-input
                     label="Opposition Counsel"

@@ -1,0 +1,25 @@
+<div class="title-section">
+    <ion-icon class="back-icon" name="arrow-back-circle-outline"></ion-icon>
+    <span class="title">Ariful hoque</span>
+</div>
+<div class="divider"></div>
+<ion-content>
+    <div class="chat-container">
+        <div *ngFor="let message of messages" [class]="message.sender">
+            <div class="message">
+                <p>{{ message.text }}</p>
+                <span class="time">{{ message.time }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="input-container">
+        <ion-input
+            [(ngModel)]="newMessage"
+            placeholder="Type a message..."
+            (keyup.enter)="sendMessage()">
+        </ion-input>
+        <ion-button fill="clear" (click)="sendMessage()">
+            <ion-icon slot="icon-only" name="send"></ion-icon>
+        </ion-button>
+    </div>
+</ion-content>
