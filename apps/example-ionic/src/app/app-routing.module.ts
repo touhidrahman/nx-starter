@@ -178,6 +178,13 @@ const routes: Routes = [
                 './pages/lawyer-accout-pages/page-lawyer-settings/page-lawyer-settings.component'
             ).then((m) => m.PageLawyerSettingsComponent),
     },
+    {
+        path: 'public/lawyers',
+        loadComponent: () =>
+            import(
+                './pages/public-pages/page-public-lawyer/page-public-lawyer.component'
+            ).then((m) => m.PagePublicLawyerComponent),
+    },
 ]
 
 @NgModule({
