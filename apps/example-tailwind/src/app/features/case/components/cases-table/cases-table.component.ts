@@ -1,8 +1,10 @@
-import { Component, inject, input, model } from '@angular/core'
+import { Component, inject, input, model, output } from '@angular/core'
 import { PrimeModules } from '@myorg/prime-modules'
-import { RouterLink } from '@angular/router'
+import { Router, RouterLink } from '@angular/router'
 import { CasesStateService } from '../../states/cases-state.service'
 import { AsyncPipe } from '@angular/common'
+import { Case } from '../../models/case.model'
+import { CaseFormService } from '../../services/case-form.service'
 
 @Component({
     selector: 'app-cases-table',
@@ -12,14 +14,19 @@ import { AsyncPipe } from '@angular/common'
 })
 export class CasesTableComponent {
     casesStateService = inject(CasesStateService)
-    cases = input<any>([])
+    caseFormService = inject(CaseFormService)
+    router = inject(Router)
+    cases = input<Case[]>([])
+    selectedCase = output<Case>()
 
     editMode = model(false)
     visible = model(false)
 
-    onEdit() {
-        this.visible.set(!this.visible())
-        this.editMode.set(!this.editMode())
+    onEdit(selectedCase: Case) {
+        this.visible.set(true)
+        this.editMode.set(true)
+        this.casesStateService.setState({ selectedCase: selectedCase })
+        this.caseFormService.form.patchValue(selectedCase)
     }
 
     pageChange(event: any) {

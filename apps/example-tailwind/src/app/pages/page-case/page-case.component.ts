@@ -1,6 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core'
+import { Component, OnInit, inject, input, signal } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { ActivatedRoute } from '@angular/router'
+import { CasesApiService } from '../../features/case/services/cases-api.service'
+import { Case } from '../../features/case/models/case.model'
+import { AlertService } from '@myorg/app-example-core'
 
 @Component({
     selector: 'app-page-case',
@@ -9,11 +12,21 @@ import { ActivatedRoute } from '@angular/router'
     styleUrl: './page-case.component.scss',
 })
 export class PageCaseComponent implements OnInit {
-    activateRoute = inject(ActivatedRoute)
+    casesApiService = inject(CasesApiService)
+    alertService = inject(AlertService)
+    id = input('')
+    casedata = signal<Case | null>(null)
 
     ngOnInit() {
-        this.activateRoute.paramMap.subscribe((p) => {
-            console.log(p.get('id'))
+        this.casesApiService.getCase(this.id() ?? '').subscribe({
+            next: (value) => {
+                this.casedata.set(value.data)
+                console.log(value)
+            },
+            error: (err) => {
+                this.alertService.error(err.error.message)
+                console.log(err)
+            },
         })
     }
 }

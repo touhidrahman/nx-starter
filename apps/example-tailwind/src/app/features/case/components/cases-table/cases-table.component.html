@@ -19,30 +19,30 @@
                 <th style="width: 15%">Actions</th>
             </tr>
         </ng-template>
-        <ng-template #body let-cases>
+        <ng-template #body let-case>
             <tr>
-                <td>{{ cases.number }}</td>
-                <td>{{ cases.name }}</td>
-                <td>{{ cases.defendant }}</td>
-                <td>{{ cases.court }}</td>
+                <td>{{ case.number }}</td>
+                <td>{{ case.name }}</td>
+                <td>{{ case.defendant }}</td>
+                <td>{{ case.court }}</td>
                 <td class="flex items-center justify-start gap-3">
                     <p-button
                         severity="secondary"
                         icon="pi pi-eye"
                         [outlined]="true"
                         [raised]="true"
-                        [routerLink]="['/dashboard/case', cases.number]" />
+                        [routerLink]="['/dashboard/case', case.id]" />
                     <p-button
                         icon="pi pi-pen-to-square"
                         [outlined]="true"
                         [raised]="true"
-                        (click)="onEdit()" />
+                        (click)="onEdit(case)" />
                     <p-button
                         severity="danger"
                         icon="pi pi-trash"
                         [outlined]="true"
                         [raised]="true"
-                        (click)="deleteCase(cases.id)" />
+                        (click)="deleteCase(case.id)" />
                 </td>
             </tr>
         </ng-template>
