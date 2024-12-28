@@ -1,32 +1,8 @@
 <section>
     <h1 class="text-2xl font-bold">Organizations</h1>
     <div class="my-5 flex items-center justify-between">
-        <div class="flex items-center justify-start gap-3">
-            <div>
-                <p-button
-                    label="Filters"
-                    icon="pi pi-filter"
-                    iconPos="left"></p-button>
-            </div>
-            <div
-                class="flex items-center justify-start gap-2 rounded-md bg-gray-200 p-1 px-3">
-                <p-select
-                    [options]="status"
-                    [(ngModel)]="selected"
-                    optionLabel="name"
-                    size="small"
-                    styleClass="rounded-full"
-                    placeholder="Select a Status"
-                    class="w-full md:w-56" />
-                <p-select
-                    [options]="status"
-                    [(ngModel)]="selected"
-                    optionLabel="name"
-                    size="small"
-                    placeholder="Sorting"
-                    class="w-full md:w-56" />
-            </div>
-        </div>
+        <app-filter [status]="status" [Options]="Options"></app-filter>
+
         <div class="flex items-center justify-end gap-3">
             <div class="flex items-center justify-start gap-2">
                 <input type="text" pInputText size="small" />
@@ -40,12 +16,23 @@
             >
         </div>
     </div>
+
     <div>
         <div class="rounded-md bg-gray-100 p-2">
-            <app-organization-table
-                [organizations]="organizations"
-                [(visible)]="visible"
-                [(editMode)]="editMode"></app-organization-table>
+            @if (store.loading()) {
+                <div class="text-center">
+                    <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
+                </div>
+            } @else {
+                @if (store.organizations().length > 0) {
+                    <app-organization-table
+                        [organizations]="store.organizations()"
+                        [(visible)]="visible"
+                        [(editMode)]="editMode"></app-organization-table>
+                } @else {
+                    <div class="mt-6 text-center">No organizations found!</div>
+                }
+            }
         </div>
     </div>
 

@@ -1,0 +1,29 @@
+<div class="flex items-center justify-start gap-3">
+    <div>
+        <p-button
+            label="Filters"
+            styleClass="bg-green3"
+            icon="pi pi-filter"
+            iconPos="left"
+            (click)="showFilter.set(!showFilter())"></p-button>
+    </div>
+
+    @if (showFilter()) {
+        <div
+            class="flex items-center justify-start gap-2 rounded-md bg-gray-200 p-1 px-3">
+            <p-select
+                [options]="status()"
+                [(ngModel)]="selected"
+                size="small"
+                styleClass="rounded-full w-32"
+                placeholder="Select a Status" />
+            <p-select
+                [options]="Options()"
+                [(ngModel)]="selected"
+                styleClass="rounded-full w-32"
+                optionLabel="name"
+                size="small"
+                placeholder="Sorting" />
+        </div>
+    }
+</div>
