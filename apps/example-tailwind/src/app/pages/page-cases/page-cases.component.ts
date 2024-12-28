@@ -4,13 +4,9 @@ import { DropdownModule } from 'primeng/dropdown'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
 import { CasesStateService } from '../../features/case/states/cases-state.service'
-import { Button } from 'primeng/button'
-import { Dialog } from 'primeng/dialog'
-import { InputText } from 'primeng/inputtext'
-import { Select } from 'primeng/select'
 import { CasesTableComponent } from '../../features/case/components/cases-table/cases-table.component'
-import { ProgressSpinner } from 'primeng/progressspinner'
 import { CaseFormService } from '../../features/case/services/case-form.service'
+import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-page-cases',
@@ -19,13 +15,9 @@ import { CaseFormService } from '../../features/case/services/case-form.service'
         DropdownModule,
         FormsModule,
         RouterModule,
-        Button,
-        Dialog,
-        InputText,
         CasesTableComponent,
-        Select,
-        ProgressSpinner,
         ReactiveFormsModule,
+        PrimeModules,
     ],
     templateUrl: './page-cases.component.html',
     styleUrl: './page-cases.component.scss',
@@ -47,6 +39,7 @@ export class PageCasesComponent {
     openCreateCaseModal() {
         this.editMode.set(false)
         this.visible.set(true)
+        this.caseFormService.form.reset()
     }
 
     onSearch(value: Event) {
@@ -61,13 +54,27 @@ export class PageCasesComponent {
     }
 
     onSave() {
+        if (!this.editMode()) {
+            this.create()
+        }
+        this.update()
+    }
+
+    create() {
         if (this.caseFormService.form.invalid) {
             return
         }
         const formData = this.caseFormService.getValue()
-        const data = { ...formData, groupId: '1', plaintiffGroupId: '1' }
+        const data = { ...formData, groupId: '1', plaintiffGroupId: '1' } //TODO: need to fix groupId and PlaintiffGroupId
         console.log('saving Case', data)
         this.casesStateService.saveCase(data)
+        this.cancel()
+    }
+    update() {
+        console.log('updating')
+        const { selectedCase } = this.casesStateService.getState()
+        const formData = this.caseFormService.getValue()
+        this.casesStateService.updateCase(selectedCase?.id ?? '', formData)
         this.cancel()
     }
 }

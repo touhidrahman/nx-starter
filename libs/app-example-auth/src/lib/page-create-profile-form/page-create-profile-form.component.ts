@@ -12,7 +12,7 @@ import { GroupFormService } from '../group-form.service'
     styleUrl: './page-create-profile-form.component.css',
     providers: [GroupFormService],
 })
-export class PageCreateProfileFormComponent implements OnInit {
+export class PageCreateProfileFormComponent {
     private authApiService = inject(AuthApiService)
     private activatedRoute = inject(ActivatedRoute)
     private router = inject(Router)
@@ -22,8 +22,6 @@ export class PageCreateProfileFormComponent implements OnInit {
     profileType = this.activatedRoute.snapshot.params['profileType'] as
         | 'client'
         | 'vendor'
-
-    ngOnInit(): void {}
 
     submit() {
         if (this.groupFormService.form.invalid) {

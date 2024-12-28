@@ -14,9 +14,10 @@ export class CasesApiService {
     apiUrl = environment.apiUrl
 
     getAllCases(filterOptions: {
-        search: string
-        page: number
-        size: number
+        search: any
+        size: any
+        orderBy: any
+        page: any
     }): Observable<ApiResponse<Case[]>> {
         let params = new HttpParams({})
 
@@ -30,6 +31,9 @@ export class CasesApiService {
             if (filterOptions.size !== undefined) {
                 params = params.set('size', filterOptions.size)
             }
+            if (filterOptions.orderBy !== undefined) {
+                params = params.set('orderBy', filterOptions.orderBy)
+            }
         }
         return this.http.get<ApiResponse<Case[]>>(`${this.apiUrl}/cases`, {
             params,
@@ -37,7 +41,7 @@ export class CasesApiService {
     }
 
     getCase(id: string): Observable<ApiResponse<any>> {
-        return this.http.get<ApiResponse<any>>(`${this.apiUrl}/cases/${id}`)
+        return this.http.get<ApiResponse<any>>(`${this.apiUrl}/case/${id}`)
     }
 
     createCase(data: Case): Observable<ApiResponse<Case>> {
