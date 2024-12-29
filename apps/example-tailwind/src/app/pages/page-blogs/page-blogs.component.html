@@ -45,7 +45,7 @@
                         <div class="flex items-center justify-start gap-8">
                             <div class="flex items-center justify-start gap-2">
                                 <img
-                                    src="https://s3-alpha-sig.figma.com/img/e632/dc20/86efa3df337e8c215dd8095476bb6513?Expires=1734307200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=jGdpjP4VlIrvTTqnhyQLQCrno4O6YdJb~-rvJP-m5i2zPPunIInJJjdMDHcsdUkm-nbs8ggJxm2fE5RXyg55NJs2EWMZS1m7GJvkGvZNhWL2BnW2hPnJPKCO8Usw5mS3uIdd3XcOSrqqaGu9dzG8pOswu~IG5HXdiIVhgJfiKijYxwhAJNZRuvac6s4XF8O2VRGtCeyGV3zCupRqe2M94FJ~J5ACjCNTh6bTuyCvlrChWPkkpQjBBeYr6NHvcxzg-ebhYjaoDop5lgygzJkQ9kdES5CT5mSqtRjIWNuHx1y2bmQrnZ83YoALK0ZPXiDOa-O~HT1P7CkkWVdpsB~Rtw__"
+                                    src="https://cdn3.vectorstock.com/i/1000x1000/50/27/lawyer-icon-male-user-person-profile-avatar-vector-20905027.jpg"
                                     alt=""
                                     class="h-14 w-14 rounded-full object-cover" />
                                 <p class="text-green15b text-xl">John Doe</p>
@@ -94,47 +94,155 @@
 
 <section class="mb-28 px-9">
     <div class="relative flex items-center justify-between py-10">
-        <div>
-            <div class="mb-2 flex items-center justify-start gap-3">
-                <span class="text-gray47 text-xl">All</span>
-                <span class="text-gray47 text-xl"> Legal Advice</span>
-                <span class="text-gray47 text-xl">Law</span>
-                <span class="text-gray47 text-xl">Employment Law</span>
-                <span class="text-gray47 text-xl">Legal Strategy</span>
-                <span class="text-gray47 text-xl">Business Law</span>
-                <span class="text-gray47 text-xl">
-                    <svg
-                        width="12"
-                        height="8"
-                        viewBox="0 0 12 8"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M1.41 0L6 4.59L10.59 0L12 1.42L6 7.42L0 1.42L1.41 0Z"
-                            fill="#684F4F" />
-                    </svg>
-                </span>
-            </div>
-            <hr class="border-grayc5 border-b" />
-        </div>
-        <div class="flex items-center justify-center gap-2.5">
-            <input
-                class="hidden h-11 w-72 rounded-xl bg-white px-3 shadow-md shadow-black/20 lg:inline-block"
-                type="text"
-                placeholder="Search" />
+        <div class="w-full pt-2">
+            <p-tabs [value]="0" class="">
+                <div class="mb-2 flex items-center justify-between gap-3">
+                    <p-tablist class="border-b-2">
+                        @for (tab of tabTags; track $index) {
+                            <p-tab [value]="$index">{{ tab }}</p-tab>
+                        }
+                        <!-- <div>
+                            <span class="text-gray47 text-xl">
+                                <svg
+                                    width="12"
+                                    height="8"
+                                    viewBox="0 0 12 8"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M1.41 0L6 4.59L10.59 0L12 1.42L6 7.42L0 1.42L1.41 0Z"
+                                        fill="#684F4F" />
+                                </svg>
+                            </span>
+                        </div>  -->
+                    </p-tablist>
+                    <div class="flex items-center justify-center gap-2.5">
+                        <input
+                            class="hidden h-11 w-72 rounded-xl bg-white px-3 shadow-md shadow-black/20 lg:inline-block"
+                            pInputText
+                            [(ngModel)]="searchText"
+                            type="text"
+                            placeholder="Search" />
 
-            <div
-                class="bg-lightGreen flex items-center justify-center rounded-xl p-2.5 shadow-md shadow-black/20">
-                <svg
-                    class="h-6 w-6"
-                    viewBox="0 0 23 23"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M8.54286 0C10.8086 0 12.9815 0.900048 14.5836 2.50214C16.1857 4.10424 17.0857 6.27715 17.0857 8.54286C17.0857 10.6589 16.3103 12.604 15.0354 14.1023L15.3903 14.4571H16.4286L23 21.0286L21.0286 23L14.4571 16.4286V15.3903L14.1023 15.0354C12.604 16.3103 10.6589 17.0857 8.54286 17.0857C6.27715 17.0857 4.10424 16.1857 2.50214 14.5836C0.900048 12.9815 0 10.8086 0 8.54286C0 6.27715 0.900048 4.10424 2.50214 2.50214C4.10424 0.900048 6.27715 0 8.54286 0ZM8.54286 2.62857C5.25714 2.62857 2.62857 5.25714 2.62857 8.54286C2.62857 11.8286 5.25714 14.4571 8.54286 14.4571C11.8286 14.4571 14.4571 11.8286 14.4571 8.54286C14.4571 5.25714 11.8286 2.62857 8.54286 2.62857Z"
-                        fill="#424242" />
-                </svg>
-            </div>
+                        <div
+                            class="bg-lightGreen flex items-center justify-center rounded-xl p-2.5 shadow-md shadow-black/20"
+                            (click)="onSearch()">
+                            <svg
+                                class="h-6 w-6"
+                                viewBox="0 0 23 23"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M8.54286 0C10.8086 0 12.9815 0.900048 14.5836 2.50214C16.1857 4.10424 17.0857 6.27715 17.0857 8.54286C17.0857 10.6589 16.3103 12.604 15.0354 14.1023L15.3903 14.4571H16.4286L23 21.0286L21.0286 23L14.4571 16.4286V15.3903L14.1023 15.0354C12.604 16.3103 10.6589 17.0857 8.54286 17.0857C6.27715 17.0857 4.10424 16.1857 2.50214 14.5836C0.900048 12.9815 0 10.8086 0 8.54286C0 6.27715 0.900048 4.10424 2.50214 2.50214C4.10424 0.900048 6.27715 0 8.54286 0ZM8.54286 2.62857C5.25714 2.62857 2.62857 5.25714 2.62857 8.54286C2.62857 11.8286 5.25714 14.4571 8.54286 14.4571C11.8286 14.4571 14.4571 11.8286 14.4571 8.54286C14.4571 5.25714 11.8286 2.62857 8.54286 2.62857Z"
+                                    fill="#424242" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+                <p-tabpanels>
+                    @for (tab of tabTags; track $index) {
+                        <p-tabpanel [value]="$index">
+                            <div class="grid grid-cols-12 gap-4">
+                                @for (i of data; track $index) {
+                                    @if (i.tabTag.includes(tab)) {
+                                        <div
+                                            class="border-graye9 col-span-4 rounded-2xl border">
+                                            <img
+                                                [src]="i.image"
+                                                alt=""
+                                                class="h-56 w-full rounded-2xl" />
+                                            <div class="p-4">
+                                                <div
+                                                    class="flex justify-start gap-2">
+                                                    @for (
+                                                        tag of i.tags;
+                                                        track $index
+                                                    ) {
+                                                        <div
+                                                            class="flex justify-start gap-2">
+                                                            <span
+                                                                class="border-gray59 text-gray59 inline-block rounded-full border px-4 text-sm"
+                                                                >{{ tag }}
+                                                                <!-- tag.tags[$index] -->
+                                                            </span>
+                                                        </div>
+                                                    }
+                                                </div>
+                                                <div class="mb-5 mt-3">
+                                                    <h5
+                                                        class="text-xl font-semibold text-black">
+                                                        {{ i.title }}
+                                                    </h5>
+                                                    <p
+                                                        class="text-gray59 text-base font-semibold">
+                                                        {{ i.description }}
+                                                    </p>
+                                                </div>
+                                                <div
+                                                    class="flex items-center justify-between">
+                                                    <div
+                                                        class="flex items-center justify-start gap-4">
+                                                        <div
+                                                            class="flex items-center justify-start gap-2.5">
+                                                            <img
+                                                                [src]="
+                                                                    i.avatorImage
+                                                                "
+                                                                alt=""
+                                                                class="h-9 w-9 rounded-full" />
+                                                            <span
+                                                                class="text-gray59 text-xs font-semibold"
+                                                                >{{
+                                                                    i.name
+                                                                }}</span
+                                                            >
+                                                        </div>
+                                                        <div
+                                                            class="flex items-center justify-start gap-2.5">
+                                                            <span>
+                                                                <svg
+                                                                    width="15"
+                                                                    height="15"
+                                                                    viewBox="0 0 15 15"
+                                                                    fill="none"
+                                                                    xmlns="http://www.w3.org/2000/svg">
+                                                                    <path
+                                                                        d="M2.5 2H3V1.5V0.5H3.66667V1.5V2H4.16667H10.8333H11.3333V1.5V0.5H12V1.5V2H12.5H13.3333C14.0313 2 14.5 2.49786 14.5 3V13.5C14.5 14.0081 14.033 14.5 13.3333 14.5H1.66667C0.968654 14.5 0.5 14.0021 0.5 13.5V3C0.5 2.49939 0.975286 2 1.66667 2H2.5ZM1.16667 4.5V5H1.66667H13.3333H13.8333V4.5V3V2.5H13.3333H1.66667H1.16667V3V4.5ZM13.3333 14H13.8333V13.5V6V5.5H13.3333H1.66667H1.16667V6V13.5V14H1.66667H13.3333ZM4.5 8V8.5H3.83333V8H4.5ZM10.5 8.5V8H11.1667V8.5H10.5ZM7.16667 8.5V8H7.83333V8.5H7.16667ZM4.5 11V11.5H3.83333V11H4.5ZM10.5 11.5V11H11.1667V11.5H10.5ZM7.16667 11.5V11H7.83333V11.5H7.16667Z"
+                                                                        fill="#E0E0E0"
+                                                                        stroke="#595959" />
+                                                                </svg>
+                                                            </span>
+                                                            <span
+                                                                class="text-gray59 text-xs font-semibold"
+                                                                >{{
+                                                                    i.date
+                                                                }}</span
+                                                            >
+                                                        </div>
+                                                    </div>
+                                                    <span>
+                                                        <svg
+                                                            width="25"
+                                                            height="25"
+                                                            viewBox="0 0 25 25"
+                                                            fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M0 22.4821L18.9107 3.57143H7.14286V0H25V17.8571H21.4286V6.08929L2.51786 25L0 22.4821Z"
+                                                                fill="#595959" />
+                                                        </svg>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </p-tabpanel>
+                    }
+                </p-tabpanels>
+            </p-tabs>
+            <hr class="border-grayc5 border-b" />
         </div>
 
         <span class="absolute -left-10 -top-28 -z-10">
@@ -193,85 +301,23 @@
             </svg>
         </span>
     </div>
-
-    <div class="grid grid-cols-12 gap-4">
-        @for (i of [1, 2, 3, 4, 5, 6]; track $index) {
-            <div class="border-graye9 col-span-4 rounded-2xl border">
-                <img
-                    src="https://s3-alpha-sig.figma.com/img/546b/247d/4c5c1cac64dfdd0eb79166ab0dd6eb17?Expires=1734307200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=QpJCArs-Y4Nlz60XGUsWvOixrBXrzj~EdAwZApIbnX2moqM3nonLcPaMlCY9kejjaqMZnF8EvkdCmxaQrTd4X1VwcpwnYVTQ4jPrSWf63Au5hWm1Hzhboh4PiORyfbKPMtLQnY7gLlzQAGo77kj~1VIf4C8wF-oUE6OrmPmoZ-4BgD6TribJyD0jQ3zLiXZkl1FVjXM16Hg7eNh-xel5UcRVY2GIQ3axA0PW6ODtCL-edAMVImLuOVyRETglm2fOy9XfyLclSPdATJvpg3xIUWFoih2q1DdY6iBAKbarkHaAgMpxW3c5A1F~Cwdcz-CUb3jP3IXCpjobBNXHGe3uyg__"
-                    alt=""
-                    class="w-full rounded-2xl" />
-                <div class="p-4">
-                    <div class="flex justify-start gap-2">
-                        <span
-                            class="border-gray59 text-gray59 inline-block rounded-full border px-4 text-sm"
-                            >Intellectual Property</span
-                        >
-                        <span
-                            class="border-gray59 text-gray59 inline-block rounded-full border px-4 text-sm"
-                            >Law</span
-                        >
-                        <span
-                            class="border-gray59 text-gray59 inline-block rounded-full border px-4 text-sm"
-                            >Legal Advice</span
-                        >
-                    </div>
-                    <div class="mb-5 mt-3">
-                        <h5 class="text-xl font-semibold text-black">
-                            The Impact of Recent Changes in Employment Law
-                        </h5>
-                        <p class="text-gray59 text-base font-semibold">
-                            Explore the latest updates in employment law and
-                            what they mean for both employers and employees...
-                        </p>
-                    </div>
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center justify-start gap-4">
-                            <div
-                                class="flex items-center justify-start gap-2.5">
-                                <img
-                                    src="https://s3-alpha-sig.figma.com/img/e632/dc20/86efa3df337e8c215dd8095476bb6513?Expires=1734307200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=jGdpjP4VlIrvTTqnhyQLQCrno4O6YdJb~-rvJP-m5i2zPPunIInJJjdMDHcsdUkm-nbs8ggJxm2fE5RXyg55NJs2EWMZS1m7GJvkGvZNhWL2BnW2hPnJPKCO8Usw5mS3uIdd3XcOSrqqaGu9dzG8pOswu~IG5HXdiIVhgJfiKijYxwhAJNZRuvac6s4XF8O2VRGtCeyGV3zCupRqe2M94FJ~J5ACjCNTh6bTuyCvlrChWPkkpQjBBeYr6NHvcxzg-ebhYjaoDop5lgygzJkQ9kdES5CT5mSqtRjIWNuHx1y2bmQrnZ83YoALK0ZPXiDOa-O~HT1P7CkkWVdpsB~Rtw__"
-                                    alt=""
-                                    class="h-9 w-9 rounded-full" />
-                                <span class="text-gray59 text-xs font-semibold"
-                                    >John Doe</span
-                                >
-                            </div>
-                            <div
-                                class="flex items-center justify-start gap-2.5">
-                                <span>
-                                    <svg
-                                        width="15"
-                                        height="15"
-                                        viewBox="0 0 15 15"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M2.5 2H3V1.5V0.5H3.66667V1.5V2H4.16667H10.8333H11.3333V1.5V0.5H12V1.5V2H12.5H13.3333C14.0313 2 14.5 2.49786 14.5 3V13.5C14.5 14.0081 14.033 14.5 13.3333 14.5H1.66667C0.968654 14.5 0.5 14.0021 0.5 13.5V3C0.5 2.49939 0.975286 2 1.66667 2H2.5ZM1.16667 4.5V5H1.66667H13.3333H13.8333V4.5V3V2.5H13.3333H1.66667H1.16667V3V4.5ZM13.3333 14H13.8333V13.5V6V5.5H13.3333H1.66667H1.16667V6V13.5V14H1.66667H13.3333ZM4.5 8V8.5H3.83333V8H4.5ZM10.5 8.5V8H11.1667V8.5H10.5ZM7.16667 8.5V8H7.83333V8.5H7.16667ZM4.5 11V11.5H3.83333V11H4.5ZM10.5 11.5V11H11.1667V11.5H10.5ZM7.16667 11.5V11H7.83333V11.5H7.16667Z"
-                                            fill="#E0E0E0"
-                                            stroke="#595959" />
-                                    </svg>
-                                </span>
-                                <span class="text-gray59 text-xs font-semibold"
-                                    >Oct 25, 2924</span
-                                >
-                            </div>
-                        </div>
-                        <span>
-                            <svg
-                                width="25"
-                                height="25"
-                                viewBox="0 0 25 25"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path
-                                    d="M0 22.4821L18.9107 3.57143H7.14286V0H25V17.8571H21.4286V6.08929L2.51786 25L0 22.4821Z"
-                                    fill="#595959" />
-                            </svg>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
 </section>
+
+<!-- <p-tabs value="0">
+    <p-tablist>
+        @for (tab of tabTags; track $index) {
+            <p-tab [value]="$index">{{ tab }}</p-tab>
+        }
+    </p-tablist>
+    <p-tabpanels>
+        @for (tab of tabTags; track $index) {
+            <p-tabpanel [value]="$index">
+                @for(i of data;track $index){
+                    @if(i.tabTag.includes(tab)){
+                        <p>{{i.title}}</p>
+                    }
+                }
+            </p-tabpanel>
+        }
+    </p-tabpanels>
+</p-tabs> -->
