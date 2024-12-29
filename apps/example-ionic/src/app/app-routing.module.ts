@@ -192,6 +192,13 @@ const routes: Routes = [
                 './pages/public-pages/page-public-blogs/page-public-blogs.component'
             ).then((m) => m.PagePublicBlogsComponent),
     },
+    {
+        path: 'public/news',
+        loadComponent: () =>
+            import(
+                './pages/public-pages/page-public-news/page-public-news.component'
+            ).then((m) => m.PagePublicNewsComponent),
+    },
 ]
 
 @NgModule({
