@@ -1,1 +1,228 @@
-<p>page-public-blogs works!</p>
+<ion-content>
+    <ion-grid class="navigation-grid">
+        <ion-row class="navigation-row ion-align-items-start">
+            <ion-col size="auto">
+                <ion-icon
+                    class="back-icon"
+                    name="arrow-back-circle-outline"></ion-icon>
+            </ion-col>
+            <ion-col size="auto" class="page-title-col">
+                <ion-text class="page-title-text">Blogs</ion-text>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid>
+        <!-- featured blog -->
+        <ion-row>
+            <ion-col class="featured-blog-col">
+                <ion-img
+                    src="assets/images/blog-img.png"
+                    class="featured-blog-img"></ion-img>
+                <!-- features blog info -->
+                <ion-grid class="featured-blog-info">
+                    <!-- title and icon row -->
+                    <ion-row
+                        class="ion-align-items-center featured-blog-title-icon-row">
+                        <ion-col>
+                            <ion-text class="featured-blog-title"
+                                >Understanding Intellectual Property
+                                Law</ion-text
+                            >
+                        </ion-col>
+                        <ion-col class="ion-text-end" size="auto">
+                            <svg
+                                width="9"
+                                class="featured-blog-arrow-icon"
+                                height="9"
+                                viewBox="0 0 9 9"
+                                fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M0 8.09357L6.80786 1.28571H2.57143V0H9V6.42857H7.71429V2.19214L0.906428 9L0 8.09357Z"
+                                    fill="white" />
+                            </svg>
+                        </ion-col>
+                    </ion-row>
+
+                    <!-- featured blog description -->
+                    <ion-row>
+                        <ion-col class="featured-description">
+                            An in-depth look at the different types of
+                            intellectual property and how they can protect your
+                            creations.</ion-col
+                        >
+                    </ion-row>
+                    <!-- relese date tags author row -->
+                    <ion-row
+                        class="featured-blog-relese-tags-row ion-align-items-center">
+                        <ion-col
+                            class="ion-align-items-start author-relese-date-col"
+                            size="5">
+                            <ion-grid>
+                                <ion-row>
+                                    <ion-col>
+                                        <ion-grid>
+                                            <ion-row
+                                                class="ion-align-items-center author-row">
+                                                <ion-col size="auto">
+                                                    <ion-img
+                                                        src="assets/avatar/profile.png"
+                                                        class="author-img"></ion-img
+                                                ></ion-col>
+                                                <ion-col
+                                                    size="auto"
+                                                    class="author-name"
+                                                    >John Doe</ion-col
+                                                >
+                                            </ion-row>
+                                        </ion-grid>
+                                    </ion-col>
+                                    <ion-col>
+                                        <ion-grid>
+                                            <ion-row
+                                                class="ion-align-items-center">
+                                                <ion-col size="auto"
+                                                    ><svg
+                                                        width="12"
+                                                        height="12"
+                                                        viewBox="0 0 8 8"
+                                                        fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M1.77778 4H2.66667V4.8H1.77778V4ZM8 1.6V7.2C8 7.644 7.60444 8 7.11111 8H0.888889C0.395556 8 0 7.64 0 7.2V1.6C0 1.16 0.4 0.8 0.888889 0.8H1.33333V0H2.22222V0.8H5.77778V0H6.66667V0.8H7.11111C7.60444 0.8 8 1.16 8 1.6ZM0.888889 2.4H7.11111V1.6H0.888889V2.4ZM7.11111 7.2V3.2H0.888889V7.2H7.11111ZM5.33333 4.8V4H6.22222V4.8H5.33333ZM3.55556 4.8V4H4.44444V4.8H3.55556ZM1.77778 5.6H2.66667V6.4H1.77778V5.6ZM5.33333 6.4V5.6H6.22222V6.4H5.33333ZM3.55556 6.4V5.6H4.44444V6.4H3.55556Z"
+                                                            fill="#E0E0E0" /></svg
+                                                ></ion-col>
+                                                <ion-col
+                                                    size="auto"
+                                                    class="relese-date"
+                                                    >Oct 25, 2024</ion-col
+                                                >
+                                            </ion-row>
+                                        </ion-grid>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </ion-col>
+                        <ion-col size="auto">
+                            <ion-button
+                                class="tags-btn"
+                                fill="transparent"
+                                size="small"
+                                >Law</ion-button
+                            >
+                            <ion-button
+                                class="tags-btn"
+                                fill="transparent"
+                                size="small"
+                                >Legal Advice</ion-button
+                            >
+                            <ion-button
+                                class="tags-btn"
+                                fill="transparent"
+                                size="small"
+                                >Intellectual Property</ion-button
+                            >
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="blog-card-row ion-justify-content-center">
+            @for (item of [1, 2, 3, 4]; track $index) {
+                <ion-col class="blog-card" size="5">
+                    <ion-img
+                        src="assets/images/blog-img.png"
+                        class="blog-img"></ion-img>
+                    <ion-button
+                        size="small"
+                        class="blog-card-btn"
+                        fill="transparent"
+                        >Family law</ion-button
+                    >
+                    <ion-button
+                        size="small"
+                        class="blog-card-btn"
+                        fill="transparent"
+                        >law</ion-button
+                    >
+                    <ion-text class="blog-card-title"
+                        >The Impact of Recent Changes in Employment
+                        Law</ion-text
+                    >
+                    <ion-text class="blog-card-description"
+                        >Explore the latest updates in employment law and what
+                        they mean for both employers and employees...</ion-text
+                    >
+
+                    <ion-grid>
+                        <ion-row
+                            class="ion-align-items-center featured-blog-title-icon-row">
+                            <ion-col>
+                                <ion-grid>
+                                    <ion-row>
+                                        <ion-col>
+                                            <ion-grid>
+                                                <ion-row
+                                                    class="ion-align-items-center author-row">
+                                                    <ion-col size="auto">
+                                                        <ion-img
+                                                            src="assets/avatar/profile.png"
+                                                            class="author-img"></ion-img
+                                                    ></ion-col>
+                                                    <ion-col
+                                                        size="auto"
+                                                        class="blog-card-author-name"
+                                                        >John Doe</ion-col
+                                                    >
+                                                </ion-row>
+                                            </ion-grid>
+                                        </ion-col>
+                                        <ion-col>
+                                            <ion-grid>
+                                                <ion-row
+                                                    class="ion-align-items-center">
+                                                    <ion-col size="auto"
+                                                        ><svg
+                                                            width="12"
+                                                            height="12"
+                                                            viewBox="0 0 8 8"
+                                                            fill="none"
+                                                            xmlns="http://www.w3.org/2000/svg">
+                                                            <path
+                                                                d="M1.77778 4H2.66667V4.8H1.77778V4ZM8 1.6V7.2C8 7.644 7.60444 8 7.11111 8H0.888889C0.395556 8 0 7.64 0 7.2V1.6C0 1.16 0.4 0.8 0.888889 0.8H1.33333V0H2.22222V0.8H5.77778V0H6.66667V0.8H7.11111C7.60444 0.8 8 1.16 8 1.6ZM0.888889 2.4H7.11111V1.6H0.888889V2.4ZM7.11111 7.2V3.2H0.888889V7.2H7.11111ZM5.33333 4.8V4H6.22222V4.8H5.33333ZM3.55556 4.8V4H4.44444V4.8H3.55556ZM1.77778 5.6H2.66667V6.4H1.77778V5.6ZM5.33333 6.4V5.6H6.22222V6.4H5.33333ZM3.55556 6.4V5.6H4.44444V6.4H3.55556Z"
+                                                                fill="#595959" /></svg
+                                                    ></ion-col>
+                                                    <ion-col
+                                                        size="auto"
+                                                        class="blog-card-relese-date">
+                                                        &nbsp; Oct 25,
+                                                        2024</ion-col
+                                                    >
+                                                </ion-row>
+                                            </ion-grid>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </ion-col>
+                            <ion-col class="ion-text-end" size="auto">
+                                <svg
+                                    width="9"
+                                    class="featured-blog-arrow-icon"
+                                    height="9"
+                                    viewBox="0 0 9 9"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M0 8.09357L6.80786 1.28571H2.57143V0H9V6.42857H7.71429V2.19214L0.906428 9L0 8.09357Z"
+                                        fill="#595959" />
+                                </svg>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </ion-col>
+            }
+        </ion-row>
+    </ion-grid>
+</ion-content>

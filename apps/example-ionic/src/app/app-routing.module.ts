@@ -185,6 +185,13 @@ const routes: Routes = [
                 './pages/public-pages/page-public-lawyer/page-public-lawyer.component'
             ).then((m) => m.PagePublicLawyerComponent),
     },
+    {
+        path: 'public/blogs',
+        loadComponent: () =>
+            import(
+                './pages/public-pages/page-public-blogs/page-public-blogs.component'
+            ).then((m) => m.PagePublicBlogsComponent),
+    },
 ]
 
 @NgModule({
