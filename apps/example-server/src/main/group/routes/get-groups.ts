@@ -1,17 +1,13 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { checkToken } from '../../auth/auth.middleware'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { NOT_FOUND, OK } from 'stoker/http-status-codes'
+import { OK } from 'stoker/http-status-codes'
 import { zSelectGroup } from '../group.schema'
 import { AppRouteHandler } from '../../../core/core.type'
-import { zEmpty } from '../../../core/models/common.schema'
-import { eq, getTableColumns, ilike, sql, SQL } from 'drizzle-orm'
-import { groupsTable } from '../../../core/db/schema'
-import { db } from '../../../core/db/db'
-import { toInt } from 'radash'
+import { getAllGroups } from '../group.service'
 
 export const getGroupsRoute = createRoute({
-    path: '/v1/group',
+    path: '/v1/groups',
     tags: ['Group'],
     method: 'get',
     middleware: [checkToken] as const,
@@ -20,6 +16,8 @@ export const getGroupsRoute = createRoute({
             search: z.string().optional(),
             size: z.string().optional(),
             page: z.string().optional(),
+            status: z.enum(['active', 'inactive', 'pending']).optional(),
+            type: z.enum(['client', 'vendor']).optional(),
         }),
     },
     responses: {
@@ -30,56 +28,35 @@ export const getGroupsRoute = createRoute({
 export const getGroupsHandler: AppRouteHandler<typeof getGroupsRoute> = async (
     c,
 ) => {
-    const payload = c.get('jwtPayload')
-    const query = c.req.valid('query')
+    const { search, page, size, orderBy, status, type } = c.req.query()
 
-    const conditions: SQL<unknown>[] = []
+    const pageNumber = Number(page)
+    const limitNumber = Number(size)
 
-    if (query.status) {
-        conditions.push(eq(groupsTable.status, query.status))
-    }
+    const validStatus: 'active' | 'inactive' | 'pending' = status as
+        | 'active'
+        | 'inactive'
+        | 'pending'
+    const validType: 'client' | 'vendor' = type as 'client' | 'vendor'
 
-    if (query.type) {
-        conditions.push(eq(groupsTable.type, query.type))
-    }
-
-    if (query.search) {
-        const searchTerm = `%${query.search}%`
-        conditions.push(
-            sql`${ilike(groupsTable.name, searchTerm)} OR ${ilike(
-                groupsTable.email,
-                searchTerm,
-            )}`,
-        )
-    }
-
-    conditions.push(eq(groupsTable.ownerId, payload.groupId))
-
-    const limit = query?.size ? toInt(query.size) : 10
-    const offset = query?.page ? (toInt(query.page) - 1) * limit : 0
-
-    const whereCondition =
-        conditions.length > 0
-            ? sql`${conditions.reduce(
-                  (acc, condition, index) =>
-                      index === 0 ? condition : sql`${acc} AND ${condition}`,
-                  sql``,
-              )}`
-            : undefined
-
-    const groups = await db
-        .select({
-            ...getTableColumns(groupsTable),
-        })
-        .from(groupsTable)
-        .where(whereCondition)
-        .limit(limit)
-        .offset(offset)
+    const { data, meta } = await getAllGroups({
+        status: validStatus,
+        type: validType,
+        search,
+        page: pageNumber,
+        size: limitNumber,
+        orderBy,
+    })
 
     return c.json(
         {
-            data: groups,
-            message: 'Filtered Groups',
+            data: data,
+            pagination: {
+                page: meta.page,
+                size: meta.size,
+                total: meta.totalCount,
+            },
+            message: 'Group list',
             success: true,
         },
         OK,

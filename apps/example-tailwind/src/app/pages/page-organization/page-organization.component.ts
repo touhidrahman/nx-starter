@@ -1,30 +1,25 @@
-import { Component, signal, ViewEncapsulation } from '@angular/core'
-import { Button } from 'primeng/button'
-import { Dialog } from 'primeng/dialog'
-import { InputText } from 'primeng/inputtext'
-
-import { Select } from 'primeng/select'
-
+import { Component, inject, signal } from '@angular/core'
 import { FormsModule } from '@angular/forms'
 import { OrganizationTableComponent } from '../../features/organizaiton/components/organization-table/organization-table.component'
-import { FileUpload } from 'primeng/fileupload'
+import { FilterComponent } from '../../main/dashboard/components/filter/filter.component'
+import { PrimeModules } from '@myorg/prime-modules'
+import { OrganizationsStore } from '../../features/organizaiton/state/organization.state'
 
 @Component({
     selector: 'app-page-organization',
     imports: [
-        Button,
-        Dialog,
-        InputText,
-        Select,
         FormsModule,
         OrganizationTableComponent,
-        FileUpload,
+        FilterComponent,
+        PrimeModules,
     ],
     templateUrl: './page-organization.component.html',
     styleUrl: './page-organization.component.css',
 })
 export class PageOrganizationComponent {
-    status = ['Ordered', 'Unpaid', 'Paid', 'Confirmed', 'Cancelled']
+    store = inject(OrganizationsStore)
+    Options = [{ name: 'Low' }, { name: 'High' }]
+    status = ['Pending', 'Accepted', 'Rejected']
     selected = ''
     visible = signal(false)
     editMode = signal(false)

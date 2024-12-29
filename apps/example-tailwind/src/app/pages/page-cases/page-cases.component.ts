@@ -7,6 +7,7 @@ import { CasesStateService } from '../../features/case/states/cases-state.servic
 import { CasesTableComponent } from '../../features/case/components/cases-table/cases-table.component'
 import { CaseFormService } from '../../features/case/services/case-form.service'
 import { PrimeModules } from '@myorg/prime-modules'
+import { FilterComponent } from '../../main/dashboard/components/filter/filter.component'
 
 @Component({
     selector: 'app-page-cases',
@@ -18,6 +19,7 @@ import { PrimeModules } from '@myorg/prime-modules'
         CasesTableComponent,
         ReactiveFormsModule,
         PrimeModules,
+        FilterComponent,
     ],
     templateUrl: './page-cases.component.html',
     styleUrl: './page-cases.component.scss',
@@ -27,10 +29,7 @@ export class PageCasesComponent {
     casesStateService = inject(CasesStateService)
     caseFormService = inject(CaseFormService)
 
-    showFilter = signal<boolean>(false)
-
     Options = [{ name: 'Low' }, { name: 'High' }]
-
     status = ['Pending', 'Accepted', 'Rejected']
     selected = ''
     visible = signal(false)
