@@ -178,6 +178,27 @@ const routes: Routes = [
                 './pages/lawyer-accout-pages/page-lawyer-settings/page-lawyer-settings.component'
             ).then((m) => m.PageLawyerSettingsComponent),
     },
+    {
+        path: 'public/lawyers',
+        loadComponent: () =>
+            import(
+                './pages/public-pages/page-public-lawyer/page-public-lawyer.component'
+            ).then((m) => m.PagePublicLawyerComponent),
+    },
+    {
+        path: 'public/blogs',
+        loadComponent: () =>
+            import(
+                './pages/public-pages/page-public-blogs/page-public-blogs.component'
+            ).then((m) => m.PagePublicBlogsComponent),
+    },
+    {
+        path: 'public/news',
+        loadComponent: () =>
+            import(
+                './pages/public-pages/page-public-news/page-public-news.component'
+            ).then((m) => m.PagePublicNewsComponent),
+    },
 ]
 
 @NgModule({

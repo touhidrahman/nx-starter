@@ -23,7 +23,9 @@
                     <br />
                     <ion-text class="org-time">9AM-5PM</ion-text>
                     <br />
-                    <ion-text>Contact: +880 16 00000 00</ion-text>
+                    <ion-text class="contact"
+                        >Contact: +880 16 00000 00</ion-text
+                    >
                     <br />
                     <ion-text>Email: john.doe</ion-text>
                     <br />
@@ -102,6 +104,30 @@
                     label-placement="floating"
                     fill="outline"
                     placeholder="Enter Working Hour End"></ion-input>
+
+                <div class="ion-padding">
+                    <div class="image-container" *ngIf="selectedImage">
+                        <ion-img [src]="selectedImage"></ion-img>
+                    </div>
+                    <ion-button
+                        class="custom-button"
+                        expand="block"
+                        (click)="pickImage()"
+                        >Upload Profile Image</ion-button
+                    >
+                </div>
+
+                <div class="ion-padding">
+                    <div class="image-container" *ngIf="selectedImage">
+                        <ion-img [src]="selectedImage"></ion-img>
+                    </div>
+                    <ion-button
+                        class="custom-button"
+                        expand="block"
+                        (click)="pickImage()"
+                        >Upload Cover Image</ion-button
+                    >
+                </div>
             </ion-content>
             <ion-button expand="block" shape="round">
                 <ion-text>Save</ion-text>

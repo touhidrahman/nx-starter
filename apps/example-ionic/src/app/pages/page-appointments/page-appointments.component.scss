@@ -1,3 +1,118 @@
-:host {
-    display: block;
+.searchbar {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 1rem;
+    margin: 0 1rem;
+    background-color: #fff;
+    border-radius: 9999px;
+    border: 2px solid transparent;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.05);
+}
+
+ion-button {
+    --background: linear-gradient(90deg, #0a5c36, #00341c);
+    margin: 0.5rem;
+}
+
+.action {
+    display: flex;
+    align-items: end;
+    gap: 0.5rem;
+}
+
+.action-edit,
+.action-delete {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 1.5rem;
+    width: 1.5rem;
+    background-color: rgb(220, 252, 231);
+    border: 1px solid rgb(156, 163, 175);
+    border-radius: 9999px;
+    box-shadow:
+        0 4px 6px -1px rgb(0 0 0 / 0.1),
+        0 2px 4px -2px rgb(0 0 0 / 0.1);
+}
+
+.icon-edit,
+.icon-delete {
+    font-size: 1.2rem;
+}
+
+ion-row {
+    display: flex;
+}
+
+ion-card {
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+.org-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: rgb(0 0 0);
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.org-time {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    padding: 0 0.5rem;
+    color: rgb(220, 38, 38);
+    background-color: rgb(229, 231, 235);
+    border-radius: 9999px;
+    border: 2px solid rgb(189, 189, 189);
+}
+
+.date {
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+.dialog-title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+
+.gap-1 {
+    margin-bottom: 2rem;
+}
+
+.custom-datetime-input {
+    display: flex;
+    margin-top: 1rem;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid var(--ion-color-medium);
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+
+    ion-label {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 2rem;
+        color: var(--ion-color-dark);
+        font-size: 16px;
+    }
+
+    ion-icon {
+        color: var(--ion-color-medium);
+        font-size: 20px;
+    }
+}
+
+.ion-padding {
+    ion-input {
+        width: 100%;
+        margin-top: 1rem;
+    }
 }

@@ -21,6 +21,11 @@ ion-button {
     gap: 0.5rem;
 }
 
+.contact {
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
 .action-edit,
 .action-delete {
     display: flex;
@@ -70,13 +75,47 @@ ion-card {
     border: 2px solid rgb(189, 189, 189);
 }
 
-ion-input {
-    width: 100%;
-    margin-top: 1rem;
-}
-
 .dialog-title {
     font-weight: 700;
     font-size: 1.5rem;
     line-height: 2rem;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    ion-img {
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+        border-radius: 8px;
+        border: 2px solid #ccc;
+    }
+}
+
+.ion-padding {
+    ion-input {
+        width: 100%;
+        margin-top: 1rem;
+    }
+}
+
+.custom-button {
+    --background: #ffffff; /* White background */
+    --border-color: #d3d3d3; /* Light gray border */
+    --border-width: 1px; /* Border thickness */
+    --border-radius: 8px; /* Rounded corners (optional) */
+    --color: #333333; /* Text color (dark gray) */
+    --padding-top: 1rem;
+    --padding-bottom: 1rem;
+
+    --width: 100%;
+
+    /* Hover effect (optional) */
+    &:hover {
+        --background: #f9f9f9; /* Slightly darker background on hover */
+        --border-color: #bcbcbc; /* Slightly darker border on hover */
+    }
 }

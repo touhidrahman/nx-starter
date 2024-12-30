@@ -48,7 +48,7 @@ export class PageLawyersComponent implements OnInit {
             img: 'https://cdn3.vectorstock.com/i/1000x1000/50/27/lawyer-icon-male-user-person-profile-avatar-vector-20905027.jpg',
             content: '15+ years in corporate law',
             bg: '#fffbab',
-            name: 'Jone Doe',
+            name: 'Jon Doe',
             title: 'Senior Lawyer',
             specialization: 'Corporate Law, Mergers & Acquisitions',
             education: 'Harvard Law School',
@@ -212,7 +212,7 @@ export class PageLawyersComponent implements OnInit {
         this.updatePageData(0, this.rowsPerPage)
     }
 
-    getDis() {
+    getDistrict() {
         if (this.selectedDistrict) {
             console.log('Selected District:', this.selectedDistrict)
         } else {
@@ -220,12 +220,28 @@ export class PageLawyersComponent implements OnInit {
         }
     }
 
-    getTha() {
+    getThana() {
         console.log('thana data')
     }
 
     onSearch() {
-        console.log('Searching for:', this.searchText)
+        if (this.searchText) {
+            const searchTerm = this.searchText.toLowerCase()
+
+            this.displayedLawyers = this.experience.filter(
+                (lawyer) =>
+                    lawyer.name.toLowerCase().includes(searchTerm) ||
+                    lawyer.title.toLowerCase().includes(searchTerm) ||
+                    lawyer.specialization.toLowerCase().includes(searchTerm) ||
+                    lawyer.education.toLowerCase().includes(searchTerm) ||
+                    lawyer.description.toLowerCase().includes(searchTerm),
+            )
+            this.totalRecords = this.displayedLawyers.length
+        } else {
+            this.displayedLawyers = this.experience
+        }
+
+        this.totalRecords = this.displayedLawyers.length
     }
 
     updatePageData(startIndex: number, endIndex: number) {
