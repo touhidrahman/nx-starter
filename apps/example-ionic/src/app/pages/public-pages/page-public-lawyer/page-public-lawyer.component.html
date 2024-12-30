@@ -1,0 +1,137 @@
+<ion-content>
+    <ion-grid class="navigation-grid">
+        <ion-row class="navigation-row ion-align-items-start">
+            <ion-col size="auto">
+                <ion-icon
+                    class="back-icon"
+                    name="arrow-back-circle-outline"></ion-icon>
+            </ion-col>
+            <ion-col size="auto" class="page-title-col">
+                <ion-text class="page-title-text">Profile</ion-text>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <ion-text class="page-description"
+        >This title is professional and inviting, encouraging visitors to learn
+        more about the talented lawyers at our firm.</ion-text
+    >
+
+    <ion-button class="filter-btn" fill="transparent">
+        <svg
+            width="11"
+            height="10"
+            viewBox="0 0 11 10"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+                d="M0.558167 1.05249C0.434204 1.05249 0.315876 1.09459 0.220086 1.163C-0.0278407 1.34193 -0.0729182 1.67346 0.118661 1.89975V1.90501L2.54721 4.80989V7.92001L4.59824 9.84607C4.80109 10.0513 5.17298 10.0513 5.39273 9.84607C5.61249 9.64084 5.61249 9.3093 5.39837 9.10407L3.67415 7.48323V4.44678L1.00894 1.25773C0.901884 1.12617 0.732843 1.05249 0.558167 1.05249ZM10.7851 0.115774C10.6781 0.0420997 10.5597 0 10.4358 0H2.54721C2.42325 0 2.30492 0.0420997 2.19786 0.115774C1.95557 0.294698 1.91049 0.626233 2.10207 0.852519L4.80109 4.07841V6.77279C4.77855 6.92541 4.8349 7.08854 4.9645 7.20958L7.22401 9.31983C7.44376 9.52506 7.79875 9.52506 8.0185 9.31983C8.1481 9.20932 8.20445 9.04092 8.18191 8.88304V4.07841L10.8809 0.852519C11.0725 0.626233 11.0274 0.294698 10.7851 0.115774ZM7.05497 3.71004V7.67268L5.92803 6.62018V3.7153L3.69669 1.05249H9.28631L7.05497 3.71004Z"
+                fill="#3A3A3A" />
+        </svg>
+        <ion-text> &nbsp; filters</ion-text>
+    </ion-button>
+
+    <ion-grid class="content-grid">
+        <ion-row
+            class="input-row"
+            #inputrow
+            (focusin)="toggleFocus(placeholder, inputWrapper, true)"
+            (focusout)="toggleFocus(placeholder, inputWrapper, false)">
+            <ion-item #inputWrapper>
+                <ion-input class="input-field"></ion-input>
+            </ion-item>
+            <ion-text
+                class="input-placeholder ion-align-items-center"
+                #placeholder
+                (click)="triggerFocusEventOnInput(inputrow)">
+                <svg width="15" height="15" viewBox="0 0 18 18">
+                    <path
+                        d="M6.5 0C8.22391 0 9.87721 0.684819 11.0962 1.90381C12.3152 3.12279 13 4.77609 13 6.5C13 8.11 12.41 9.59 11.44 10.73L11.71 11H12.5L17.5 16L16 17.5L11 12.5V11.71L10.73 11.44C9.59 12.41 8.11 13 6.5 13C4.77609 13 3.12279 12.3152 1.90381 11.0962C0.684819 9.87721 0 8.22391 0 6.5C0 4.77609 0.684819 3.12279 1.90381 1.90381C3.12279 0.684819 4.77609 0 6.5 0ZM6.5 2C4 2 2 4 2 6.5C2 9 4 11 6.5 11C9 11 11 9 11 6.5C11 4 9 2 6.5 2Z"
+                        fill="#9D9D9D" />
+                </svg>
+                &nbsp; <ion-text>Search organization member</ion-text>
+            </ion-text>
+        </ion-row>
+        @for (item of [1, 2, 3, 4]; track $index) {
+            <ion-row class="team-member-row ion-align-items-start">
+                <ion-col size="auto"
+                    ><ion-img
+                        src="assets/avatar/profile.png"
+                        class="member-img"></ion-img
+                ></ion-col>
+                <ion-col>
+                    <ion-grid class="member-name-grid">
+                        <ion-row>
+                            <ion-col size="auto"
+                                ><ion-text class="member-name"
+                                    >John Doe</ion-text
+                                ></ion-col
+                            >
+                            <ion-col class="ion-text-end">
+                                <ion-text class="experience"
+                                    >15+ years in corporate law</ion-text
+                                >
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                    <ion-grid>
+                        <ion-row class="member-contact">
+                            <ion-col size="auto">
+                                <ion-text class="contact-info-property"
+                                    >Title:
+                                </ion-text>
+                            </ion-col>
+                            <ion-col size="auto"
+                                ><ion-text class="contact-info-value">
+                                    Senior Lawyer</ion-text
+                                ></ion-col
+                            >
+                        </ion-row>
+                        <ion-row class="member-contact">
+                            <ion-col size="auto">
+                                <ion-text class="contact-info-property"
+                                    >Contact:
+                                </ion-text>
+                            </ion-col>
+                            <ion-col size="auto"
+                                ><ion-text class="contact-info-value">
+                                    +880 16 00000 00</ion-text
+                                ></ion-col
+                            >
+                        </ion-row>
+                        <ion-row class="member-contact">
+                            <ion-col size="auto">
+                                <ion-text class="contact-info-property"
+                                    >Email:
+                                </ion-text>
+                            </ion-col>
+                            <ion-col size="auto"
+                                ><ion-text class="contact-info-value">
+                                    john.doe{{ '@' }}lawfirm.com</ion-text
+                                ></ion-col
+                            >
+                        </ion-row>
+                        <ion-row class="member-contact">
+                            <ion-col size="auto">
+                                <ion-text class="contact-info-property"
+                                    >Address:
+                                </ion-text>
+                            </ion-col>
+                            <ion-col size="auto"
+                                ><ion-text class="contact-info-value">
+                                    Chittagong</ion-text
+                                ></ion-col
+                            >
+                        </ion-row>
+                        <ion-row class="about">
+                            <ion-text
+                                >John Doe has led numerous high-profile mergers
+                                and acquisitions, delivering exceptional results
+                                for his clients.</ion-text
+                            >
+                        </ion-row>
+                    </ion-grid>
+                </ion-col>
+            </ion-row>
+        }
+    </ion-grid>
+</ion-content>

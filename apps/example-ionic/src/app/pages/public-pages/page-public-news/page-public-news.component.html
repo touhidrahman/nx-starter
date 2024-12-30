@@ -1,0 +1,63 @@
+<ion-content>
+    <ion-grid class="navigation-grid">
+        <ion-row class="navigation-row ion-align-items-start">
+            <ion-col size="auto">
+                <ion-icon
+                    class="back-icon"
+                    name="arrow-back-circle-outline"></ion-icon>
+            </ion-col>
+            <ion-col size="auto" class="page-title-col">
+                <ion-text class="page-title-text">News</ion-text>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid>
+        <ion-row class="featured-news-row">
+            <ion-col>
+                <ion-img
+                    src="assets/images/blog-img.png"
+                    class="news-img"></ion-img>
+            </ion-col>
+            <ion-col>
+                <ion-text class="news-date">November 25, 2024</ion-text>
+                <ion-text class="news-title"
+                    >New Legal Reforms to Impact Corporate Taxation in
+                    2024</ion-text
+                >
+                <ion-text class="news-description"
+                    >"The upcoming legal reforms in 2024 are poised to
+                    significantly impact corporate taxation. These changes aim
+                    to simplify tax codes, reduce corporate tax rates, and
+                    introduce new compliance requirements. Businesses must
+                    prepare for these adjustments to avoid potential pitfalls
+                    and take advantage of new opportunities. Our comprehensive
+                    analysis breaks down what you need to know to stay compliant
+                    and benefit from the new tax landscape."</ion-text
+                >
+                <ion-text class="readmore">Read more...</ion-text>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid>
+        <ion-row class="blog-card-row ion-justify-content-center">
+            @for (item of [1, 2, 3, 4]; track $index) {
+                <ion-col class="blog-card" size="5">
+                    <ion-img
+                        src="assets/images/blog-img.png"
+                        class="blog-img"></ion-img>
+                    <ion-text class="blog-card-title"
+                        >The Impact of Recent Changes in Employment
+                        Law</ion-text
+                    >
+                    <ion-text class="blog-card-description"
+                        >Explore the latest updates in employment law and what
+                        they mean for both employers and employees...</ion-text
+                    >
+                    <ion-text class="readmore">Read more...</ion-text>
+                </ion-col>
+            }
+        </ion-row>
+    </ion-grid>
+</ion-content>
