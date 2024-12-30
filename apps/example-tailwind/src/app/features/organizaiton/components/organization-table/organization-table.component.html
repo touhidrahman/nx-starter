@@ -38,27 +38,18 @@
                 <td>{{ organization.phone }}</td>
                 <td class="flex gap-2">
                     <p-button
-                        severity="info"
-                        icon="pi pi-eye"
-                        size="small"
-                        [raised]="true"
-                        [routerLink]="[
-                            '/dashboard/organization',
-                            organization.id,
-                        ]"></p-button>
-                    <p-button
                         styleClass="bg-green"
                         size="small"
                         severity="success"
                         icon="pi pi-pen-to-square"
                         [raised]="true"
-                        (click)="onEdit(organization)"></p-button>
+                        (click)="onEdit(organization)" />
                     <p-button
                         severity="warn"
                         size="small"
                         [raised]="true"
                         icon="pi pi-trash"
-                        (click)="delete(organization.id)"></p-button>
+                        (click)="delete(organization.id)" />
                 </td>
             </tr>
         </ng-template>
