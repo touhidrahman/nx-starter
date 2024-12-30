@@ -128,9 +128,11 @@ ion-button {
     margin: 1rem;
 }
 
-ion-input {
-    width: 100%;
-    margin-top: 1rem;
+.ion-padding {
+    ion-input {
+        width: 100%;
+        margin-top: 1rem;
+    }
 }
 
 .dialog-title {

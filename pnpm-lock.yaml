@@ -41,6 +41,9 @@ importers:
       '@aws-sdk/client-s3':
         specifier: ^3.715.0
         version: 3.715.0
+      '@capacitor/camera':
+        specifier: ^6.1.2
+        version: 6.1.2(@capacitor/core@6.2.0)
       '@capacitor/core':
         specifier: ^6.2.0
         version: 6.2.0
@@ -1563,6 +1566,11 @@ packages:
     resolution: {integrity: sha512-3YIDPylV0Q2adEQ/H568p496QdYG0jK/XGMdx7OGSqdBZen92ciAsYdyhLtyl91UVsN1lBhDi5H6j3T2KS6aJg==}
     peerDependencies:
       '@capacitor/core': ^6.2.0
+
+  '@capacitor/camera@6.1.2':
+    resolution: {integrity: sha512-UH5srvOHDzIM1o4yFkRZCsP7WfQQOvyn+aS7ycqHFbgofr/xBTqPQUdwN+COtwaZYCwnDunPFYIGQAwSdzq6jg==}
+    peerDependencies:
+      '@capacitor/core': ^6.0.0
 
   '@capacitor/cli@5.7.8':
     resolution: {integrity: sha512-qN8LDlREMhrYhOvVXahoJVNkP8LP55/YPRJrzTAFrMqlNJC18L3CzgWYIblFPnuwfbH/RxbfoZT/ydkwgVpMrw==}
@@ -11344,6 +11352,10 @@ snapshots:
   '@bcoe/v8-coverage@0.2.3': {}
 
   '@capacitor/android@6.2.0(@capacitor/core@6.2.0)':
+    dependencies:
+      '@capacitor/core': 6.2.0
+
+  '@capacitor/camera@6.1.2(@capacitor/core@6.2.0)':
     dependencies:
       '@capacitor/core': 6.2.0
 
