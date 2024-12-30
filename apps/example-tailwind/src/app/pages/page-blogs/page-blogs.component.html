@@ -99,7 +99,7 @@
                 <div class="mb-2 flex items-center justify-between gap-3">
                     <p-tablist class="border-b-2">
                         @for (tab of tabTags; track $index) {
-                            <p-tab [value]="$index">{{ tab }}</p-tab>
+                            <p-tab [value]="$index" class="">{{ tab }}</p-tab>
                         }
                         <!-- <div>
                             <span class="text-gray47 text-xl">
@@ -139,14 +139,14 @@
                         </div>
                     </div>
                 </div>
-                <p-tabpanels>
+                <p-tabpanels class="!bg-inherit">
                     @for (tab of tabTags; track $index) {
                         <p-tabpanel [value]="$index">
                             <div class="grid grid-cols-12 gap-4">
                                 @for (i of data; track $index) {
                                     @if (i.tabTag.includes(tab)) {
                                         <div
-                                            class="border-graye9 col-span-4 rounded-2xl border">
+                                            class="border-graye9 col-span-4 rounded-2xl border bg-white">
                                             <img
                                                 [src]="i.image"
                                                 alt=""
