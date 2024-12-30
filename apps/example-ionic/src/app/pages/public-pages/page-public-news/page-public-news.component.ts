@@ -6,6 +6,9 @@ import { CommonModule } from '@angular/common'
     selector: 'myorg-page-public-news',
     imports: [CommonModule, IonicModule],
     templateUrl: './page-public-news.component.html',
-    styleUrl: './page-public-news.component.scss',
+    styleUrls: [
+        './page-public-news.component.scss',
+        './../page-public-blogs/page-public-blogs.component.scss',
+    ],
 })
 export class PagePublicNewsComponent {}
