@@ -38,9 +38,11 @@ export const createProfileRoute = createRoute({
  * He will be the owner of the group.
  */
 export const createProfileHandler: AppRouteHandler<typeof createProfileRoute> = async (c) => {
+    console.log(c.req);
     const body = c.req.valid('json')
     const { sub: authUserId } = await c.get('jwtPayload')
     const { type } = c.req.valid('param')
+
 
     const [authUser] = await db
         .select()
@@ -71,12 +73,28 @@ export const createProfileHandler: AppRouteHandler<typeof createProfileRoute> = 
         )
     }
 
+
+
+    // create user profile
+    const [user] = await db
+        .insert(usersTable)
+        .values({
+            authUserId,
+            role: 'owner',
+            firstName: authUser.firstName,
+            lastName: authUser.lastName,
+            email: authUser.email,
+            phone: authUser.phone,
+        })
+        .returning()
+
+
     // create a group
     const [group] = await db
         .insert(groupsTable)
         .values({
             ...body,
-            ownerId: authUserId,
+            ownerId: user.id,
             name:
                 body.name ??
                 `${authUser.firstName} ${authUser.lastName}'s Organization`,
@@ -85,19 +103,7 @@ export const createProfileHandler: AppRouteHandler<typeof createProfileRoute> = 
         })
         .returning()
 
-    // create user profile
-    const [user] = await db
-        .insert(usersTable)
-        .values({
-            authUserId,
-            groupId: group.id,
-            role: 'owner',
-            firstName: authUser.firstName,
-            lastName: authUser.lastName,
-            email: authUser.email,
-            phone: authUser.phone,
-        })
-        .returning()
+    await db.update(usersTable).set({ groupId: group.id }).where(eq(usersTable.id, user.id)).returning()
 
     // update auth user with default group id
     await db

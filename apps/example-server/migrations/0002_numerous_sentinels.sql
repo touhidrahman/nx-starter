@@ -1,0 +1,1 @@
+ALTER TABLE "groups" ALTER COLUMN "owner_id" SET NOT NULL;
