@@ -8,7 +8,7 @@ import { zSelectAppointment } from '../appointments.schema'
 import { findAppointmentById } from '../appointments.service'
 
 export const getAppointmentRoute = createRoute({
-    path: '/v1/appointment/:id',
+    path: '/v1/appointments/:id',
     method: 'get',
     tags: ['Appointment'],
     middleware: [checkToken] as const,

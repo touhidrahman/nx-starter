@@ -4,7 +4,7 @@
 // import { QueryResultStore } from '@myorg/store'
 // import { shake } from 'radash'
 // import { Observable, debounceTime, map, of, switchMap, tap } from 'rxjs'
-// import { AppStateService } from './app-state.service'
+// import { AppStateService } from './app-state.services'
 
 // const DEFAULT_PAGE_SIZE = 24
 

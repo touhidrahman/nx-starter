@@ -41,7 +41,7 @@ export const updateUserProfileHandler: AppRouteHandler<
         )
     }
 
-    // Call the service to update user
+    // Call the services to update user
     const [updatedUser] = await updateProfile(userId, body, {
         restrictFields: ['email', 'password'],
     })

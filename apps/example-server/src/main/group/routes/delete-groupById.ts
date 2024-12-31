@@ -37,6 +37,6 @@ export const deleteGroupHandler: AppRouteHandler<
 
     return c.json(
         { data: result[0], message: 'Group deleted', success: true },
-        NO_CONTENT,
+        NOT_FOUND,
     )
 }

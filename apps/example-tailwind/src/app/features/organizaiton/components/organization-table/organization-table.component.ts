@@ -7,7 +7,7 @@ import { NgClass, NgStyle } from '@angular/common'
 
 @Component({
     selector: 'app-organization-table',
-    imports: [PrimeModules, RouterLink, NgStyle, NgClass],
+    imports: [PrimeModules, NgClass],
     templateUrl: './organization-table.component.html',
     styleUrl: './organization-table.component.css',
 })
