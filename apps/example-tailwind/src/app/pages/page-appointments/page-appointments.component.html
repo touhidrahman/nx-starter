@@ -52,7 +52,7 @@
         <div class="flex items-center justify-center gap-4">
             <div class="flex items-center justify-center gap-2.5">
                 <input
-                    class="hidden h-11 w-72 rounded-xl bg-white px-3 shadow-md shadow-black/20 lg:inline-block"
+                    class="hidden h-11 w-56 rounded-xl bg-white px-3 shadow-md shadow-black/20 lg:inline-block"
                     type="text"
                     placeholder="Search" />
 
@@ -121,7 +121,7 @@
         </div>
     </div>
 
-    <div class="table-shadow my-3 h-screen rounded-lg bg-white">
+    <!-- <div class="table-shadow my-3 h-screen rounded-lg bg-white">
         <table class="w-full rounded-lg">
             <thead
                 class="border-green rounded-t-lg border-b bg-gray-50 dark:bg-gray-700">
@@ -200,6 +200,71 @@
                 }
             </tbody>
         </table>
+    </div> -->
+
+    <div class="my-10 rounded-xl bg-white p-4">
+        <div class="card">
+            <p-table [value]="users" [tableStyle]="{ 'min-width': '50rem' }">
+                <ng-template #header>
+                    <tr>
+                        <th>Date</th>
+                        <th>Client Name</th>
+                        <th>Case/Subject</th>
+                        <th>Location</th>
+                        <th>Contact</th>
+                        <th>Status</th>
+                        <th>Type</th>
+                        <th>Action</th>
+                    </tr>
+                </ng-template>
+                <ng-template #body let-user>
+                    <tr>
+                        <td>{{ user.Date }}</td>
+                        <td>{{ user.ClientName }}</td>
+                        <td>{{ user.CaseSubject }}</td>
+                        <td>{{ user.Location }}</td>
+                        <td>{{ user.Contact }}</td>
+                        <td
+                            [ngClass]="{
+                                'text-green15b': user.Status === 'Open',
+                                'text-red-500': user.Status === 'Pending',
+                                'text-gray-500':
+                                    user.Status !== 'Open' &&
+                                    user.Status !== 'Pending',
+                            }">
+                            {{ user.Status }}
+                        </td>
+                        <td>{{ user.Type }}</td>
+                        <td class="">
+                            <button (click)="showEditPopUp()" class="mr-5">
+                                <svg
+                                    width="20"
+                                    height="21"
+                                    viewBox="0 0 20 21"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M18.04 11.13C18.18 11.13 18.31 11.19 18.42 11.3L19.7 12.58C19.92 12.79 19.92 13.14 19.7 13.35L18.7 14.35L16.65 12.3L17.65 11.3C17.76 11.19 17.9 11.13 18.04 11.13ZM16.07 12.88L18.12 14.93L12.06 21H10V18.94L16.07 12.88ZM8 18L6 20H2C0.9 20 0 19.1 0 18V4C0 2.9 0.9 2 2 2H6.18C6.6 0.84 7.7 0 9 0C10.3 0 11.4 0.84 11.82 2H16C17.1 2 18 2.9 18 4V8L16 10V4H14V6H4V4H2V18H8ZM9 2C8.45 2 8 2.45 8 3C8 3.55 8.45 4 9 4C9.55 4 10 3.55 10 3C10 2.45 9.55 2 9 2Z"
+                                        fill="#434343" />
+                                </svg>
+                            </button>
+                            <button>
+                                <svg
+                                    width="16"
+                                    height="18"
+                                    viewBox="0 0 16 18"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M5 0V1H0V3H1V16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H13C13.5304 18 14.0391 17.7893 14.4142 17.4142C14.7893 17.0391 15 16.5304 15 16V3H16V1H11V0H5ZM3 3H13V16H3V3ZM5 5V14H7V5H5ZM9 5V14H11V5H9Z"
+                                        fill="#434343" />
+                                </svg>
+                            </button>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
     </div>
 </div>
 
