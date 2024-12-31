@@ -37,9 +37,7 @@ export const createProfileRoute = createRoute({
  * One user can create at most one group per type (but may be member of multiple groups).
  * He will be the owner of the group.
  */
-export const createProfileHandler: AppRouteHandler<
-    typeof createProfileRoute
-> = async (c) => {
+export const createProfileHandler: AppRouteHandler<typeof createProfileRoute> = async (c) => {
     const body = c.req.valid('json')
     const { sub: authUserId } = await c.get('jwtPayload')
     const { type } = c.req.valid('param')

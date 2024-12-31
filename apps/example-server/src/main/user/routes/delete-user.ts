@@ -21,9 +21,7 @@ export const deleteUserRoute = createRoute({
     },
 })
 
-export const deleteUserHandler: AppRouteHandler<
-    typeof deleteUserRoute
-> = async (c) => {
+export const deleteUserHandler: AppRouteHandler<typeof deleteUserRoute> = async (c) => {
     const userId = c.req.param('id')
     const [user] = await deleteUser(userId)
 
@@ -36,6 +34,6 @@ export const deleteUserHandler: AppRouteHandler<
 
     return c.json(
         { data: user, success: true, message: 'User deleted' },
-        NO_CONTENT,
+        NOT_FOUND,
     )
 }

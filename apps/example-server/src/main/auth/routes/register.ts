@@ -37,6 +37,8 @@ export const registerHandler: AppRouteHandler<typeof registerRoute> = async (
 ) => {
     const { email, password, firstName, lastName, level } = c.req.valid('json')
     const hash = await argon2.hash(password)
+    console.log(env.NODE_ENV);
+    console.log(process.env.DATABASE_URL);
 
     // some checks
     const exists = await countAuthUserByEmail(email)

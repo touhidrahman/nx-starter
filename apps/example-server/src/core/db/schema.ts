@@ -13,8 +13,13 @@ import {
 } from 'drizzle-orm/pg-core'
 import { generateId } from './id.util'
 import { lower } from './orm.util'
-
+/**
+ * userLevelEnum is an enum for user levels in the system , applies to auth_users table only
+ */
 export const userLevelEnum = pgEnum('userLevel', ['user', 'moderator', 'admin'])
+/**
+ * userRoleEnum is an enum for user roles in the application, applies to  users table only, owner for one group
+ */
 export const userRoleEnum = pgEnum('userRole', ['owner', 'manager', 'member'])
 export const userStatusEnum = pgEnum('userStatus', [
     'active',

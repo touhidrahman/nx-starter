@@ -1,5 +1,4 @@
 import { createRouter } from '../../core/create-app'
-import { deleteUserHandler, deleteUserRoute } from './routes/delete-user'
 import { getMeHandler, getMeRoute } from './routes/get-me'
 import {
     getMyProfilesHandler,
@@ -27,4 +26,4 @@ export const userV1Routes = createRouter()
     .openapi(updateUserProfileRoute, updateUserProfileHandler)
     .openapi(getUserRoute, getUserHandler)
     .openapi(updateUserRoute, updateUserHandler)
-    .openapi(deleteUserRoute, deleteUserHandler)
+// .openapi(deleteUserRoute, deleteUserHandler)
