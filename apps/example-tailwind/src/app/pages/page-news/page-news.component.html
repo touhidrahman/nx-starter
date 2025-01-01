@@ -1,4 +1,4 @@
-<div class="bg-[]">
+<div class="">
     <section class="relative px-9">
         <h2 class="text-gray3a my-5 text-4xl font-semibold">News</h2>
         <div
@@ -7,13 +7,13 @@
             <img
                 [src]="breakingNews.image"
                 alt=""
-                class="h-64 w-full rounded-2xl object-cover sm:h-96 lg:col-span-7" />
+                class="h-64 w-full rounded-xl object-cover sm:h-96 lg:col-span-7" />
             <div class="space-y-2 p-6 lg:col-span-5">
-                <span class="text-xs">{{ breakingNews.date }}</span>
-                <h3 class="text-2xl font-semibold sm:text-4xl">
+                <h3 class="pb-4 text-2xl font-semibold sm:text-4xl">
                     {{ breakingNews.title }}
                 </h3>
-                <p>{{ breakingNews.description }}</p>
+                <span class="text-xs">{{ breakingNews.date }}</span>
+                <p class="pt-2">{{ breakingNews.description }}</p>
                 <span class="text-blue6d pt-1.5">Read more...</span>
             </div>
         </div>
@@ -77,63 +77,38 @@
     <section class="relative px-9">
         <div
             class="grid grid-cols-1 gap-6 py-20 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-8">
-            <!-- <div class="col-span-5">
-                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-3">
-                    @for (i of generalNews; track $index) {
-                        <div class="border-grayaf col-span-1 rounded-2xl border">
-                            <img
-                                [src]="i.image"
-                                alt=""
-                                class="w-full rounded-2xl" />
-                            <div class="p-3">
-                                <p class="text-gray59 text-base">
-                                    {{i.date}}
-                                </p>
-                                <div class="mb-5 mt-3">
-                                    <h5 class="text-3xl font-semibold text-black">
-                                        {{i.title}}
-                                    </h5>
-                                    <p class="text-gray59 text-2xl">
-                                        {{i.description}}
-                                    </p>
-                                    <p class="text-blue6d pt-1.5">Read more...</p>
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-            </div> -->
             <div class="col-span-5">
                 <div
-                    class="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
+                    class="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2">
                     <div
                         *ngFor="let i of generalNews; let index = index"
-                        class="border-grayaf col-span-1 rounded-2xl border">
-                        <p-card>
+                        class="!rounded-full">
+                        <p-card
+                            class="mx-auto max-w-sm !rounded-full shadow-xl">
                             <ng-template pTemplate="header">
                                 <img
                                     [src]="i.image"
-                                    alt=""
-                                    class="w-full rounded-2xl" />
+                                    alt="News Image"
+                                    class="h-44 w-full rounded object-cover" />
                             </ng-template>
+
+                            <ng-template pTemplate="subtitle">
+                                <span class="text-xs">{{ i.date }}</span>
+                            </ng-template>
+
+                            <ng-template pTemplate="title">
+                                <h3 class="text-2xl font-semibold">
+                                    {{ i.title }}
+                                </h3>
+                            </ng-template>
+
                             <ng-template pTemplate="content">
-                                <div class="p-3">
-                                    <p class="text-gray59 text-base">
-                                        {{ i.date }}
-                                    </p>
-                                    <div class="mb-5 mt-3">
-                                        <h5
-                                            class="text-3xl font-semibold text-black">
-                                            {{ i.title }}
-                                        </h5>
-                                        <p class="text-gray59 text-2xl">
-                                            {{ i.description }}
-                                        </p>
-                                        <p class="text-blue6d pt-1.5">
-                                            Read more...
-                                        </p>
-                                    </div>
-                                </div>
+                                <p class="!text-lg">
+                                    {{ i.description }}
+                                    <span class="text-blue6d pt-1.5"
+                                        >Read more...</span
+                                    >
+                                </p>
                             </ng-template>
                         </p-card>
                     </div>

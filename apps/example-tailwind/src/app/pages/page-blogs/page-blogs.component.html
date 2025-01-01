@@ -42,13 +42,14 @@
                     </div>
 
                     <div class="flex items-center justify-between py-5">
-                        <div class="flex items-center justify-start gap-8">
+                        <div
+                            class="flex flex-col items-center justify-start gap-4 sm:flex-row sm:gap-4 md:gap-4 lg:gap-8 xl:gap-10">
                             <div class="flex items-center justify-start gap-2">
                                 <img
                                     src="https://cdn3.vectorstock.com/i/1000x1000/50/27/lawyer-icon-male-user-person-profile-avatar-vector-20905027.jpg"
                                     alt=""
                                     class="h-14 w-14 rounded-full object-cover" />
-                                <p class="text-green15b text-xl">John Doe</p>
+                                <p class="text-xl text-white">John Doe</p>
                             </div>
 
                             <div class="flex items-center justify-start gap-2">
@@ -65,13 +66,12 @@
                                             fill="#E0E0E0" />
                                     </svg>
                                 </span>
-                                <p class="text-green15b text-xl">
-                                    Oct 25, 2924
-                                </p>
+                                <p class="text-xl text-white">Oct 25, 2924</p>
                             </div>
                         </div>
 
-                        <div class="flex items-center justify-center gap-2">
+                        <div
+                            class="flex flex-col items-end justify-start gap-4 sm:flex-row sm:gap-4 md:gap-4 lg:gap-4 xl:gap-4">
                             <span
                                 class="text-graye0 inline-block rounded-full border border-white px-4 py-0.5 text-base"
                                 >Intellectual Property</span
@@ -93,13 +93,13 @@
 </section>
 
 <section class="mb-28 px-9">
-    <div class="relative flex items-center justify-between py-10">
+    <div class="relative flex w-full items-center justify-between py-10">
         <div class="w-full pt-2">
             <p-tabs [value]="0" class="">
                 <div class="mb-2 flex items-center justify-between gap-3">
                     <p-tablist class="border-b-2">
                         @for (tab of tabTags; track $index) {
-                            <p-tab [value]="$index">{{ tab }}</p-tab>
+                            <p-tab [value]="$index" class="">{{ tab }}</p-tab>
                         }
                         <!-- <div>
                             <span class="text-gray47 text-xl">
@@ -139,18 +139,19 @@
                         </div>
                     </div>
                 </div>
-                <p-tabpanels>
+                <p-tabpanels class="!bg-inherit !px-0 !pt-5">
                     @for (tab of tabTags; track $index) {
                         <p-tabpanel [value]="$index">
-                            <div class="grid grid-cols-12 gap-4">
+                            <div
+                                class="grid gap-5 md:grid-cols-8 lg:grid-cols-12">
                                 @for (i of data; track $index) {
                                     @if (i.tabTag.includes(tab)) {
                                         <div
-                                            class="border-graye9 col-span-4 rounded-2xl border">
+                                            class="col-span-4 rounded-md bg-white shadow-md">
                                             <img
                                                 [src]="i.image"
                                                 alt=""
-                                                class="h-56 w-full rounded-2xl" />
+                                                class="h-56 w-full rounded-2xl p-3" />
                                             <div class="p-4">
                                                 <div
                                                     class="flex justify-start gap-2">
@@ -170,7 +171,7 @@
                                                 </div>
                                                 <div class="mb-5 mt-3">
                                                     <h5
-                                                        class="text-xl font-semibold text-black">
+                                                        class="pb-3 text-xl font-semibold text-black">
                                                         {{ i.title }}
                                                     </h5>
                                                     <p
@@ -242,7 +243,6 @@
                     }
                 </p-tabpanels>
             </p-tabs>
-            <hr class="border-grayc5 border-b" />
         </div>
 
         <span class="absolute -left-10 -top-28 -z-10">
@@ -302,22 +302,3 @@
         </span>
     </div>
 </section>
-
-<!-- <p-tabs value="0">
-    <p-tablist>
-        @for (tab of tabTags; track $index) {
-            <p-tab [value]="$index">{{ tab }}</p-tab>
-        }
-    </p-tablist>
-    <p-tabpanels>
-        @for (tab of tabTags; track $index) {
-            <p-tabpanel [value]="$index">
-                @for(i of data;track $index){
-                    @if(i.tabTag.includes(tab)){
-                        <p>{{i.title}}</p>
-                    }
-                }
-            </p-tabpanel>
-        }
-    </p-tabpanels>
-</p-tabs> -->
