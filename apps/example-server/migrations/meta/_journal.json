@@ -5,22 +5,8 @@
         {
             "idx": 0,
             "version": "7",
-            "when": 1735651761905,
-            "tag": "0000_absurd_praxagora",
-            "breakpoints": true
-        },
-        {
-            "idx": 1,
-            "version": "7",
-            "when": 1735669167197,
-            "tag": "0001_brave_nebula",
-            "breakpoints": true
-        },
-        {
-            "idx": 2,
-            "version": "7",
-            "when": 1735669619055,
-            "tag": "0002_numerous_sentinels",
+            "when": 1735707493492,
+            "tag": "0000_mixed_callisto",
             "breakpoints": true
         }
     ]
