@@ -1,73 +1,6 @@
 <section>
-    <div>
-        <div class="relative rounded-md shadow-md">
-            <img
-                src="https://placehold.co/1500x300"
-                class="rounded-md"
-                alt="" />
-            <div class="absolute -bottom-36 left-5 space-y-5">
-                <div
-                    class="flex h-44 w-44 items-center justify-center rounded-full bg-white shadow-md">
-                    <div class="">
-                        <img
-                            src="https://placehold.co/130x130"
-                            class="ring-green rounded-full shadow-md ring-8"
-                            alt="" />
-                    </div>
-                </div>
-                <div class="flex items-center justify-center gap-3">
-                    <p-button
-                        severity="secondary"
-                        [raised]="true"
-                        size="small"
-                        icon="pi pi-pen-to-square"></p-button>
-                    <p-button
-                        severity="warn"
-                        [raised]="true"
-                        size="small"
-                        icon="pi pi-trash"></p-button>
-                </div>
-            </div>
-        </div>
-        <div class="flex items-center justify-evenly gap-5">
-            <div class="mt-3 md:pl-28 lg:pl-0">
-                <div class="flex items-center justify-start gap-5">
-                    <h2 class="text-4xl font-semibold">Organization</h2>
-                    <span
-                        class="flex items-center justify-center gap-1 rounded-full bg-gray-200 px-2"
-                        ><i class="pi pi-clock" size="small"></i> 10AM -
-                        7PM</span
-                    >
-                </div>
-                <div class="flex items-center justify-start gap-3">
-                    <div class="flex items-center justify-start gap-1">
-                        <i class="pi pi-map-marker" size="small"></i>
-                        <span class="text-md">Address</span>
-                    </div>
-                    <div class="flex items-center justify-start gap-1">
-                        <i class="pi pi-globe" size="small"></i>
-                        <span class="text-md">Address</span>
-                    </div>
-                    <div class="flex items-center justify-start gap-1">
-                        <i class="pi pi-phone" size="small"></i>
-                        <span class="text-md">0133424 2342</span>
-                    </div>
-                    <div class="flex items-center justify-start gap-1">
-                        <i class="pi pi-envelope" size="small"></i>
-                        <span class="text-md">asf asfd</span>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <p-button
-                    styleClass="text-blue-600 flex justify-center items-center gap-2"
-                    label="EDIT"
-                    icon="pi pi-pencil"
-                    [link]="true" />
-            </div>
-        </div>
-    </div>
-    <div class="mb-3 mt-24 flex items-center justify-between">
+    <h2 class="text-4xl font-bold leading-10">Organizations</h2>
+    <div class="my-5 mb-3 flex items-center justify-between">
         <app-filter [status]="status" [Options]="Options"></app-filter>
 
         <div class="flex items-center justify-end gap-3">
@@ -82,7 +15,7 @@
                 size="small"
                 styleClass="bg-green py-2"
                 (onClick)="openCreateOrganizationModal()">
-                <i class="pi pi-plus"></i> Invite Member</p-button
+                <i class="pi pi-plus"></i> Create</p-button
             >
         </div>
     </div>
