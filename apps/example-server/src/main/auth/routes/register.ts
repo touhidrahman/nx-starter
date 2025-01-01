@@ -13,6 +13,8 @@ import env from '../../../env'
 import { zRegister } from '../auth.schema'
 import { countAuthUserByEmail, isFirstAuthUser } from '../auth.service'
 import { createVerficationToken } from '../token.util'
+import { logger, pinoLogger } from 'hono-pino'
+import pino from 'pino'
 
 const tags = ['Auth']
 
@@ -37,8 +39,6 @@ export const registerHandler: AppRouteHandler<typeof registerRoute> = async (
 ) => {
     const { email, password, firstName, lastName, level } = c.req.valid('json')
     const hash = await argon2.hash(password)
-    console.log(env.NODE_ENV)
-    console.log(process.env.DATABASE_URL)
 
     // some checks
     const exists = await countAuthUserByEmail(email)
@@ -74,7 +74,10 @@ export const registerHandler: AppRouteHandler<typeof registerRoute> = async (
             unit: 'day',
             value: 7,
         })
-        console.log('TCL: | verificationToken:', token)
+
+        if (env.NODE_ENV !== 'production') {
+            console.log('TCL: | verificationToken:', token)
+        }
 
         const welcomeEmail = buildWelcomeEmailTemplate({
             firstName: createdAuthUser.firstName,

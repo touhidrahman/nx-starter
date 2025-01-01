@@ -57,11 +57,7 @@ export const authUsersTable = pgTable(
             .notNull()
             .$onUpdate(() => new Date()),
     },
-    (table) => ({
-        emailUniqueIndex: uniqueIndex('emailUniqueIndex').on(
-            lower(table.email),
-        ),
-    }),
+    (table) => [uniqueIndex('emailUniqueIndex').on(lower(table.email))],
 )
 
 /**
@@ -95,13 +91,11 @@ export const usersTable = pgTable(
             .notNull()
             .$onUpdate(() => new Date()),
     },
-    (table) => {
-        return {
-            pk: primaryKey({
-                columns: [table.groupId, table.authUserId],
-            }),
-        }
-    },
+    (table) => [
+        primaryKey({
+            columns: [table.groupId, table.authUserId],
+        }),
+    ],
 )
 
 export const usersRelations = relations(usersTable, ({ one, many }) => ({
@@ -217,13 +211,11 @@ export const permissionsTable = pgTable(
         area: text('area').notNull(),
         access: integer('access').notNull().default(1), // refer to README.md for access levels
     },
-    (table) => {
-        return {
-            pk: primaryKey({
-                columns: [table.groupId, table.role, table.area],
-            }),
-        }
-    },
+    (table) => [
+        primaryKey({
+            columns: [table.groupId, table.role, table.area],
+        }),
+    ],
 )
 
 // to keep a list of areas/resources/entities in the application to attach permissions to. Usually the table names

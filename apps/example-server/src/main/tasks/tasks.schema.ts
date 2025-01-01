@@ -6,6 +6,8 @@ export type InsertTask = typeof tasksTable.$inferInsert
 export type SelectTask = typeof tasksTable.$inferSelect
 
 export const zInsertTask = createInsertSchema(tasksTable, {
+    todo: (schema) => schema.min(1), // Example: todo should have at least 1 character
+    status: (schema) => schema.optional(), // Optional status
 })
 
 export const zSelectTask = createSelectSchema(tasksTable)
