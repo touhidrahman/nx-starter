@@ -12,14 +12,14 @@
         </ion-row>
     </ion-grid>
 
-    <ion-grid>
+    <ion-grid class="featured-news-grid">
         <ion-row class="featured-news-row">
-            <ion-col>
+            <ion-col size="12" size-sm="6">
                 <ion-img
                     src="assets/images/blog-img.png"
                     class="news-img"></ion-img>
             </ion-col>
-            <ion-col>
+            <ion-col size="12" size-sm="6" class="news-text-col">
                 <ion-text class="news-date">November 25, 2024</ion-text>
                 <ion-text class="news-title"
                     >New Legal Reforms to Impact Corporate Taxation in
@@ -41,21 +41,25 @@
     </ion-grid>
 
     <ion-grid>
-        <ion-row class="blog-card-row ion-justify-content-center">
+        <ion-row>
             @for (item of [1, 2, 3, 4]; track $index) {
-                <ion-col class="blog-card" size="5">
-                    <ion-img
-                        src="assets/images/blog-img.png"
-                        class="blog-img"></ion-img>
-                    <ion-text class="blog-card-title"
-                        >The Impact of Recent Changes in Employment
-                        Law</ion-text
-                    >
-                    <ion-text class="blog-card-description"
-                        >Explore the latest updates in employment law and what
-                        they mean for both employers and employees...</ion-text
-                    >
-                    <ion-text class="readmore">Read more...</ion-text>
+                <ion-col size="12" size-sm="6">
+                    <ion-card class="blog-card">
+                        <ion-img
+                            src="assets/images/blog-img.png"
+                            class="blog-card-img" />
+                        <ion-card-header class="blog-card-header">
+                            <ion-card-title class="blog-card-title"
+                                >The Impact of Recent Changes in Employment
+                                Law</ion-card-title
+                            >
+                        </ion-card-header>
+                        <ion-card-content class="blog-card-content">
+                            Explore the latest updates in employment law and
+                            what they mean for both employers and employees...
+                            <ion-text class="readmore">Read more...</ion-text>
+                        </ion-card-content>
+                    </ion-card>
                 </ion-col>
             }
         </ion-row>
