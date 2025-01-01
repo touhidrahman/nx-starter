@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'
-import { AuthStateService } from '../auth-state.service';
+import { AuthStateService } from '../auth-state.service'
 import { UserLevel } from '@myorg/app-example-models'
 import { LoginFormService } from '@myorg/common-auth'
 import { PrimeModules } from '@myorg/prime-modules'

@@ -19,7 +19,10 @@ import {
     removeUserFromGroupRoute,
 } from './routes/remove-user-from-group'
 import { leaveGroupHandler, leaveGroupRoute } from './routes/leave-group'
-import { deleteGroupByIdRoute, deleteGroupHandler } from './routes/delete-groupById'
+import {
+    deleteGroupByIdRoute,
+    deleteGroupHandler,
+} from './routes/delete-groupById'
 
 export const groupsV1Route = createRouter()
     .openapi(getGroupsRoute, getGroupsHandler)

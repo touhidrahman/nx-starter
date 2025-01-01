@@ -22,7 +22,9 @@ export const deleteGroupByIdRoute = createRoute({
     },
 })
 
-export const deleteGroupHandler: AppRouteHandler<typeof deleteGroupByIdRoute> = async (c) => {
+export const deleteGroupHandler: AppRouteHandler<
+    typeof deleteGroupByIdRoute
+> = async (c) => {
     const id = c.req.param('id')
     const result = await deleteGroup(id)
 

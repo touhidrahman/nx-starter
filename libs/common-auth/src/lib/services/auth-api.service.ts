@@ -127,7 +127,10 @@ export class AuthApiService<TUser> {
         )
     }
 
-    createGroupAndProfile(input: Partial<GroupInput>, type: 'client' | 'vendor'): Observable<ApiResponse<Group>> {
+    createGroupAndProfile(
+        input: Partial<GroupInput>,
+        type: 'client' | 'vendor',
+    ): Observable<ApiResponse<Group>> {
         return this.http.post<ApiResponse<Group>>(
             `${this.authApiUrl}/create-profile/${type}`,
             input,

@@ -35,19 +35,21 @@ export class PageCreateProfileFormComponent {
             return
         }
         console.log('form value', this.groupFormService.getValue())
-        this.authApiService.createGroupAndProfile(
-            this.groupFormService.getValue(),
-            this.profileType,
-        ).subscribe({
-            next: () => {
-                this.isLoading = false
-                this.router.navigate(['/profile-created'])
-            },
-            error: (error) => {
-                this.isLoading = false
-                this.error = error.error.message
-                console.log(error.error.message);
-            }
-        })
+        this.authApiService
+            .createGroupAndProfile(
+                this.groupFormService.getValue(),
+                this.profileType,
+            )
+            .subscribe({
+                next: () => {
+                    this.isLoading = false
+                    this.router.navigate(['/profile-created'])
+                },
+                error: (error) => {
+                    this.isLoading = false
+                    this.error = error.error.message
+                    console.log(error.error.message)
+                },
+            })
     }
 }

@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+    postgres:
+        image: postgres:latest
+        container_name: nx_postgres
+        environment:
+            POSTGRES_USER: myuser
+            POSTGRES_PASSWORD: mypassword
+            POSTGRES_DB: mydatabase
+        ports:
+            - '5432:5432'
+        volumes:
+            - postgres_data:/var/lib/postgresql/data
+        networks:
+            - nx_network
+
+#   app:
+#     container_name: nx_app
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     ports:
+#       - "3000:3000"
+#     environment:
+#       DATABASE_URL: "postgresql://myuser:mypassword@postgres:5432/mydatabase"
+#     depends_on:
+#       - postgres
+#     networks:
+#       - nx_network
+
+volumes:
+    postgres_data:
+
+networks:
+    nx_network:

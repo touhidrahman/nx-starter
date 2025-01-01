@@ -37,12 +37,13 @@ export const createProfileRoute = createRoute({
  * One user can create at most one group per type (but may be member of multiple groups).
  * He will be the owner of the group.
  */
-export const createProfileHandler: AppRouteHandler<typeof createProfileRoute> = async (c) => {
-    console.log(c.req);
+export const createProfileHandler: AppRouteHandler<
+    typeof createProfileRoute
+> = async (c) => {
+    console.log(c.req)
     const body = c.req.valid('json')
     const { sub: authUserId } = await c.get('jwtPayload')
     const { type } = c.req.valid('param')
-
 
     const [authUser] = await db
         .select()
@@ -73,8 +74,6 @@ export const createProfileHandler: AppRouteHandler<typeof createProfileRoute> = 
         )
     }
 
-
-
     // create user profile
     const [user] = await db
         .insert(usersTable)
@@ -87,7 +86,6 @@ export const createProfileHandler: AppRouteHandler<typeof createProfileRoute> = 
             phone: authUser.phone,
         })
         .returning()
-
 
     // create a group
     const [group] = await db
@@ -103,7 +101,11 @@ export const createProfileHandler: AppRouteHandler<typeof createProfileRoute> = 
         })
         .returning()
 
-    await db.update(usersTable).set({ groupId: group.id }).where(eq(usersTable.id, user.id)).returning()
+    await db
+        .update(usersTable)
+        .set({ groupId: group.id })
+        .where(eq(usersTable.id, user.id))
+        .returning()
 
     // update auth user with default group id
     await db
