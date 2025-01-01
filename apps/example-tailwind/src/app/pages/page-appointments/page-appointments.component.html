@@ -6,15 +6,8 @@
             <button
                 (click)="toggleFilter()"
                 class="text-gray3a bg-lightGreen flex items-center justify-center gap-1.5 rounded-xl p-2.5 text-2xl font-normal shadow-md shadow-black/20 lg:px-5 lg:py-2.5">
-                <svg
-                    class="h-6 w-6 lg:h-5 lg:w-5"
-                    viewBox="0 0 20 19"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                        d="M0.990591 2C0.770591 2 0.560591 2.08 0.39059 2.21C-0.0494095 2.55 -0.129409 3.18 0.210591 3.61V3.62L4.52059 9.14V15.05L8.16059 18.71C8.52059 19.1 9.18059 19.1 9.57059 18.71C9.96059 18.32 9.96059 17.69 9.58059 17.3L6.52059 14.22V8.45L1.79059 2.39C1.60059 2.14 1.30059 2 0.990591 2ZM19.1406 0.22C18.9506 0.08 18.7406 0 18.5206 0H4.52059C4.30059 0 4.09059 0.08 3.90059 0.22C3.47059 0.56 3.39059 1.19 3.73059 1.62L8.52059 7.75V12.87C8.48059 13.16 8.58059 13.47 8.81059 13.7L12.8206 17.71C13.2106 18.1 13.8406 18.1 14.2306 17.71C14.4606 17.5 14.5606 17.18 14.5206 16.88V7.75L19.3106 1.62C19.6506 1.19 19.5706 0.56 19.1406 0.22ZM12.5206 7.05V14.58L10.5206 12.58V7.06L6.56059 2H16.4806L12.5206 7.05Z"
-                        fill="#3A3A3A" />
-                </svg>
+                <span
+                    class="pi pi-filter-slash !text-xl !font-extrabold"></span>
                 <span class="text-gray3a hidden text-2xl font-normal lg:inline"
                     >Filters</span
                 >
@@ -25,26 +18,14 @@
                 <button
                     class="border-graybc text-primary-gray flex items-center justify-center gap-1.5 rounded-xl border px-3 text-lg">
                     Confirmed
-                    <svg
-                        width="8"
-                        height="7"
-                        viewBox="0 0 8 7"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0 0H8L4 7" fill="#696969" />
-                    </svg>
+                    <span
+                        class="pi pi-sort-down-fill !text-xs !text-[#696969]"></span>
                 </button>
                 <button
                     class="border-graybc text-primary-gray flex items-center justify-center gap-1.5 rounded-xl border px-3 text-lg">
                     Sorting
-                    <svg
-                        width="8"
-                        height="7"
-                        viewBox="0 0 8 7"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0 0H8L4 7" fill="#696969" />
-                    </svg>
+                    <span
+                        class="pi pi-sort-down-fill !text-xs !text-[#696969]"></span>
                 </button>
             </div>
         </div>
@@ -57,29 +38,15 @@
                     placeholder="Search" />
 
                 <div
-                    class="bg-lightGreen flex items-center justify-center rounded-xl p-2.5 shadow-md shadow-black/20">
-                    <svg
-                        class="h-6 w-6"
-                        viewBox="0 0 23 23"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M8.54286 0C10.8086 0 12.9815 0.900048 14.5836 2.50214C16.1857 4.10424 17.0857 6.27715 17.0857 8.54286C17.0857 10.6589 16.3103 12.604 15.0354 14.1023L15.3903 14.4571H16.4286L23 21.0286L21.0286 23L14.4571 16.4286V15.3903L14.1023 15.0354C12.604 16.3103 10.6589 17.0857 8.54286 17.0857C6.27715 17.0857 4.10424 16.1857 2.50214 14.5836C0.900048 12.9815 0 10.8086 0 8.54286C0 6.27715 0.900048 4.10424 2.50214 2.50214C4.10424 0.900048 6.27715 0 8.54286 0ZM8.54286 2.62857C5.25714 2.62857 2.62857 5.25714 2.62857 8.54286C2.62857 11.8286 5.25714 14.4571 8.54286 14.4571C11.8286 14.4571 14.4571 11.8286 14.4571 8.54286C14.4571 5.25714 11.8286 2.62857 8.54286 2.62857Z"
-                            fill="#424242" />
-                    </svg>
+                    class="bg-lightGreen flex items-center justify-center rounded-xl p-3 shadow-md shadow-black/20">
+                    <span class="pi pi-search !text-[1.2rem] !font-bold"></span>
                 </div>
             </div>
 
             <button
                 (click)="showCreatePopUp()"
                 class="bg-green flex items-center justify-center gap-1.5 rounded-xl p-3 text-2xl font-medium text-white lg:px-5 lg:py-2.5">
-                <svg
-                    class="h-5 w-5 lg:h-4 lg:w-4"
-                    viewBox="0 0 14 14"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path d="M14 8H8V14H6V8H0V6H6V0H8V6H14V8Z" fill="white" />
-                </svg>
+                <span class="pi pi-plus !text-[1.1rem] !font-bold"></span>
                 <span
                     class="hidden whitespace-nowrap text-2xl font-medium text-white lg:inline"
                     >Create Appointment</span
@@ -236,29 +203,11 @@
                         </td>
                         <td>{{ user.Type }}</td>
                         <td class="">
-                            <button (click)="showEditPopUp()" class="mr-5">
-                                <svg
-                                    width="20"
-                                    height="21"
-                                    viewBox="0 0 20 21"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M18.04 11.13C18.18 11.13 18.31 11.19 18.42 11.3L19.7 12.58C19.92 12.79 19.92 13.14 19.7 13.35L18.7 14.35L16.65 12.3L17.65 11.3C17.76 11.19 17.9 11.13 18.04 11.13ZM16.07 12.88L18.12 14.93L12.06 21H10V18.94L16.07 12.88ZM8 18L6 20H2C0.9 20 0 19.1 0 18V4C0 2.9 0.9 2 2 2H6.18C6.6 0.84 7.7 0 9 0C10.3 0 11.4 0.84 11.82 2H16C17.1 2 18 2.9 18 4V8L16 10V4H14V6H4V4H2V18H8ZM9 2C8.45 2 8 2.45 8 3C8 3.55 8.45 4 9 4C9.55 4 10 3.55 10 3C10 2.45 9.55 2 9 2Z"
-                                        fill="#434343" />
-                                </svg>
+                            <button (click)="showEditPopUp()" class="mr-3">
+                                <span class="pi pi-file-edit"></span>
                             </button>
                             <button>
-                                <svg
-                                    width="16"
-                                    height="18"
-                                    viewBox="0 0 16 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M5 0V1H0V3H1V16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H13C13.5304 18 14.0391 17.7893 14.4142 17.4142C14.7893 17.0391 15 16.5304 15 16V3H16V1H11V0H5ZM3 3H13V16H3V3ZM5 5V14H7V5H5ZM9 5V14H11V5H9Z"
-                                        fill="#434343" />
-                                </svg>
+                                <span class="pi pi-trash"></span>
                             </button>
                         </td>
                     </tr>
@@ -284,16 +233,7 @@
                     }}
                 </h2>
                 <span (click)="hidePopUp()">
-                    <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 14 14"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path
-                            d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z"
-                            fill="black" />
-                    </svg>
+                    <span class="pi pi-times"></span>
                 </span>
             </div>
 
