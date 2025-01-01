@@ -48,6 +48,7 @@ export const PrimeModules = [
     Checkbox,
     ConfirmDialogModule,
     ConfirmPopupModule,
+    ConfirmPopupModule,
     ContextMenuModule,
     Dialog,
     DividerModule,

@@ -1,5 +1,5 @@
 // import { createMiddleware } from 'hono/factory'
-// import { uploadToS3AndGetUrl } from '../../core/third-party/s3.service';
+// import { uploadToS3AndGetUrl } from '../../core/third-party/s3.services';
 
 // export const uploadMiddleware = createMiddleware(async (c, next) => {
 //     const body = await c.req.parseBody({ all: true });

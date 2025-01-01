@@ -9,7 +9,7 @@ import { deleteGroup } from '../group.service'
 import { AppRouteHandler } from '../../../core/core.type'
 
 export const deleteGroupByIdRoute = createRoute({
-    path: '/v1/group/:id',
+    path: '/v1/groups/:id',
     method: 'delete',
     tags: ['Group'],
     middleware: [checkToken, isGroupOwner] as const,
@@ -37,6 +37,6 @@ export const deleteGroupHandler: AppRouteHandler<
 
     return c.json(
         { data: result[0], message: 'Group deleted', success: true },
-        NO_CONTENT,
+        NOT_FOUND,
     )
 }

@@ -9,7 +9,7 @@ import { findGroupById } from '../group.service'
 import { isGroupParticipant } from '../../../core/middlewares/is-group-owner.middleware'
 
 export const getGroupByIDRoute = createRoute({
-    path: '/v1/group/:id',
+    path: '/v1/groups/:id',
     method: 'get',
     tags: ['Group'],
     middleware: [checkToken, isGroupParticipant] as const,

@@ -10,7 +10,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { updateGroup } from '../group.service'
 
 export const updateGroupByIdRoute = createRoute({
-    path: '/v1/group/:id',
+    path: '/v1/groups/:id',
     method: 'put',
     tags: ['Group'],
     middleware: [checkToken, isGroupOwner] as const,

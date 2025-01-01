@@ -17,7 +17,7 @@ import { createUser } from '../../user/user.service'
 import { isGroupOwner } from '../../../core/middlewares/is-group-owner.middleware'
 
 export const addAuthUserToGroupRoute = createRoute({
-    path: '/v1/group/:id/add-user',
+    path: '/v1/groups/:id/add-user',
     method: 'post',
     tags: ['Group'],
     middleware: [checkToken, isGroupOwner] as const,

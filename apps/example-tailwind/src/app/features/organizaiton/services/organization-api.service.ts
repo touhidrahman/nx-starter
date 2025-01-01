@@ -52,13 +52,13 @@ export class OrganizationApiService {
 
     get(id: string): Observable<ApiResponse<Organization>> {
         return this.http.get<ApiResponse<Organization>>(
-            `${this.apiUrl}/group/${id}`,
+            `${this.apiUrl}/groups/${id}`,
         )
     }
 
     create(data: Organization): Observable<ApiResponse<Organization>> {
         return this.http.post<ApiResponse<Organization>>(
-            `${this.apiUrl}/group`,
+            `${this.apiUrl}/groups`,
             data,
         )
     }
@@ -68,14 +68,35 @@ export class OrganizationApiService {
         data: Organization,
     ): Observable<ApiResponse<Organization>> {
         return this.http.put<ApiResponse<Organization>>(
-            `${this.apiUrl}/group/${id}`,
+            `${this.apiUrl}/groups/${id}`,
             data,
         )
     }
 
     delete(id: string): Observable<ApiResponse<Organization>> {
         return this.http.delete<ApiResponse<Organization>>(
-            `${this.apiUrl}/group/${id}`,
+            `${this.apiUrl}/groups/${id}`,
         )
+    }
+
+    addUserToOrganization(id: string, email: string) {
+        return this.http.post(`${this.apiUrl}/groups/${id}/add-user`, { email })
+    }
+
+    updateUserRoleInOrganization(id: string, userId: string, role: string) {
+        return this.http.post(`${this.apiUrl}/groups/${id}/update-user-role`, {
+            userId,
+            role,
+        })
+    }
+
+    removeUserFromOrganization(id: string, userId: string) {
+        return this.http.delete(
+            `${this.apiUrl}/groups/${id}/remove-user/${userId}`,
+        )
+    }
+
+    leaveGroup(id: string) {
+        return this.http.delete(`${this.apiUrl}/groups/${id}/leave`)
     }
 }
