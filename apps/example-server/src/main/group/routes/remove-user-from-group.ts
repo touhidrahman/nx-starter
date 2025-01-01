@@ -13,7 +13,7 @@ import { isGroupOwner } from '../../../core/middlewares/is-group-owner.middlewar
 import { deleteUser, findUserByUserIdAndGroupId } from '../../user/user.service'
 
 export const removeUserFromGroupRoute = createRoute({
-    path: '/v1/group/:id/remove-user/:userId',
+    path: '/v1/groups/:id/remove-user/:userId',
     method: 'delete',
     tags: ['Group'],
     middleware: [checkToken, isGroupOwner] as const,

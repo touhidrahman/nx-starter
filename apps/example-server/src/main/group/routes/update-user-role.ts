@@ -20,7 +20,7 @@ import { isGroupOwner } from '../../../core/middlewares/is-group-owner.middlewar
 import { zSelectUser } from '../../user/user.schema'
 
 export const updateUserRoleRoute = createRoute({
-    path: '/v1/group/:id/update-user-role',
+    path: '/v1/groups/:id/update-user-role',
     method: 'post',
     tags: ['Group'],
     middleware: [checkToken, isGroupOwner] as const,

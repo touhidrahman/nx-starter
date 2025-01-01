@@ -13,7 +13,7 @@ import { GroupDto, zInsertGroup, zSelectGroup } from '../group.schema'
 import { createGroup, isOwner } from '../group.service'
 
 export const createGroupRoute = createRoute({
-    path: '/v1/group',
+    path: '/v1/groups',
     method: 'post',
     tags: ['Group'],
     middleware: [checkToken] as const,
