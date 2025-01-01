@@ -38,10 +38,10 @@
             }
         },
         "serve": {
-            "executor": "@nx/js:node",
-            "defaultConfiguration": "development",
+            "executor": "nx:run-commands",
             "options": {
-                "buildTarget": "example-server:build"
+                "command": "nodemon",
+                "cwd": "apps/example-server"
             },
             "configurations": {
                 "development": {
@@ -50,6 +50,13 @@
                 "production": {
                     "buildTarget": "example-server:build:production"
                 }
+            }
+        },
+        "db-generate": {
+            "executor": "nx:run-commands",
+            "options": {
+                "command": "pnpm dlx drizzle-kit generate",
+                "cwd": "apps/example-server"
             }
         }
     }

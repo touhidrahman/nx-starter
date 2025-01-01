@@ -6,7 +6,7 @@ export type GroupDto = typeof groupsTable.$inferInsert
 export type Group = typeof groupsTable.$inferSelect
 
 export const zInsertGroup = createInsertSchema(groupsTable, {
-    email: (schema) => schema.email.email(),
+    email: (schema) => schema.email(),
     verifiedOn: z.coerce.date().optional(),
     ownerId: z.string().optional(),
 })
