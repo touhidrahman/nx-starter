@@ -8,10 +8,11 @@ import {
 import { Router, RouterModule } from '@angular/router'
 import { AlertService } from '@myorg/app-example-core'
 import { AuthApiService } from '@myorg/common-auth'
+import { CardModule } from 'primeng/card'
 
 @Component({
     selector: 'app-page-forgot-password',
-    imports: [ReactiveFormsModule, RouterModule],
+    imports: [ReactiveFormsModule, RouterModule, CardModule],
     templateUrl: './page-forgot-password.component.html',
     styleUrl: './page-forgot-password.component.scss',
 })
