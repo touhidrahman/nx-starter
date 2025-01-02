@@ -19,7 +19,6 @@ export interface AuthState {
     isLoggedIn: boolean
     accessToken: string
     refreshToken: string
-    authUserId: string | null
     userId: string | null
     groupId: string | null
     firstName: string | null
@@ -34,7 +33,6 @@ export const initialAuthState: AuthState = {
     isLoggedIn: false,
     accessToken: '',
     refreshToken: '',
-    authUserId: null,
     userId: null,
     groupId: null,
     firstName: null,
@@ -164,8 +162,7 @@ export class AuthStateService extends SimpleStore<AuthState> {
             accessToken,
             refreshToken,
             isLoggedIn: true,
-            authUserId: decoded.sub,
-            userId: decoded.userId,
+            userId: decoded.sub,
             groupId: decoded.groupId,
             firstName: decoded.firstName,
             lastName: decoded.lastName,

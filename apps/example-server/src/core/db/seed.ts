@@ -1,8 +1,8 @@
 import { db } from './db'
-import { authUsersTable } from './schema'
+import { usersTable } from './schema'
 
 export const seed = async () => {
-    await db.insert(authUsersTable).values({
+    await db.insert(usersTable).values({
         firstName: 'Super',
         lastName: 'Admin',
         email: 'super@admin.com',
