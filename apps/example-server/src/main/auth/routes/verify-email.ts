@@ -1,6 +1,6 @@
 import { createRoute } from '@hono/zod-openapi'
 import { and, eq } from 'drizzle-orm'
-import * as HttpStatusCodes from 'stoker/http-status-codes'
+import { BAD_REQUEST, OK } from 'stoker/http-status-codes'
 import { z } from 'zod'
 import { AppRouteHandler } from '../../../core/core.type'
 import { db } from '../../../core/db/db'
@@ -8,7 +8,6 @@ import { usersTable } from '../../../core/db/schema'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { decodeVerificationToken } from '../token.util'
-import { BAD_REQUEST, OK } from 'stoker/http-status-codes'
 
 const tags = ['Auth']
 

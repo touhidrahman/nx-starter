@@ -1,11 +1,17 @@
 import { createRouter } from '../../core/create-app'
-import { addUserToGroupHandler, addUserToGroupRoute } from './routes/add-user-to-group'
+import {
+    addUserToGroupHandler,
+    addUserToGroupRoute,
+} from './routes/add-user-to-group'
 import { createGroupHandler, createGroupRoute } from './routes/create-group'
 import {
     deleteGroupByIdRoute,
     deleteGroupHandler,
 } from './routes/delete-group-by-Id'
-import { getGroupByIdHandler, getGroupByIDRoute } from './routes/get-group-by-id'
+import {
+    getGroupByIdHandler,
+    getGroupByIDRoute,
+} from './routes/get-group-by-id'
 import { getGroupsHandler, getGroupsRoute } from './routes/get-groups'
 import { leaveGroupHandler, leaveGroupRoute } from './routes/leave-group'
 import {

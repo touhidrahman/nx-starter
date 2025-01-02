@@ -1,7 +1,7 @@
 import dayjs from 'dayjs'
 import { and, count, eq } from 'drizzle-orm'
 import { db } from '../../core/db/db'
-import { usersTable } from '../../core/db/schema'
+import { usersGroupsTable, usersTable } from '../../core/db/schema'
 
 export async function updateLastLogin(userId: string) {
     await db
@@ -14,16 +14,6 @@ export async function isFirstUser() {
     const userCount = await db.select({ value: count() }).from(usersTable)
 
     return userCount?.[0]?.value === 0
-}
-
-export async function findAuthUserById(id: string) {
-    const results = await db
-        .select()
-        .from(usersTable)
-        .where(eq(usersTable.id, id))
-        .limit(1)
-
-    return results?.[0] ?? null
 }
 
 export async function findUserByEmail(email: string) {
@@ -45,4 +35,13 @@ export async function setDefaultGroupId(
         .set({ defaultGroupId: groupId })
         .where(eq(usersTable.id, userId))
         .returning()
+}
+
+export async function getRoleByUserAndGroup(userId: string, groupId: string) {
+    return db.query.usersGroupsTable.findFirst({
+        where: and(
+            eq(usersGroupsTable.userId, userId),
+            eq(usersGroupsTable.groupId, groupId),
+        ),
+    })
 }

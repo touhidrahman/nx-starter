@@ -6,7 +6,6 @@ import { UserDto } from './user.schema'
 export async function findUserById(id: string) {
     return db.query.usersTable.findFirst({
         where: eq(usersTable.id, id),
-        with: { group: true },
     })
 }
 

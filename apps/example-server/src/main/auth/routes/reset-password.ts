@@ -1,7 +1,6 @@
 import { createRoute } from '@hono/zod-openapi'
 import * as argon2 from 'argon2'
 import { eq } from 'drizzle-orm'
-import * as HttpStatusCodes from 'stoker/http-status-codes'
 import { jsonContentRequired } from 'stoker/openapi/helpers'
 import { z } from 'zod'
 import { AppRouteHandler } from '../../../core/core.type'
@@ -10,11 +9,11 @@ import { usersTable } from '../../../core/db/schema'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zResetPassword } from '../auth.schema'
-import { findAuthUserByEmail } from '../auth.service'
 import { decodeVerificationToken } from '../token.util'
 import { BAD_REQUEST, OK } from 'stoker/http-status-codes'
 import { buildpasswordResetSuccessfulEmailTemplate } from '../../email/templates/password-reset-successful'
 import { sendEmailUsingResend } from '../../../core/email/email.service'
+import { findUserByEmail } from '../auth.service'
 
 const tags = ['Auth']
 
@@ -37,7 +36,7 @@ export const resetPasswordHandler: AppRouteHandler<
 > = async (c) => {
     const { email, password } = c.req.valid('json')
     const token = c.req.query('token') ?? ''
-    const user = await findAuthUserByEmail(email)
+    const user = await findUserByEmail(email)
     const decoded = await decodeVerificationToken(token)
 
     if (!decoded || !user || user.id !== decoded.userId) {

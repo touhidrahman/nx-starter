@@ -17,6 +17,7 @@ import { buildSuccessEmailTemplate } from '../../email/templates/success-templat
 import { zInsertGroup, zSelectGroup } from '../../group/group.schema'
 import { findUserById } from '../../user/user.service'
 import { checkToken } from '../auth.middleware'
+import { ROLE_OWNER } from '../../user/user.schema'
 
 export const createProfileRoute = createRoute({
     path: '/v1/create-profile/:type',
@@ -78,8 +79,7 @@ export const createProfileHandler: AppRouteHandler<
         .values({
             ...body,
             ownerId: user.id,
-            name:
-                body.name ??
+            name: body.name ??
                 `${user.firstName} ${user.lastName}'s Organization`,
             type,
             email: body.email ?? user.email,
@@ -88,7 +88,7 @@ export const createProfileHandler: AppRouteHandler<
 
     await db
         .insert(usersGroupsTable)
-        .values({ groupId: group.id, userId: user.id, role: 'admin' })
+        .values({ groupId: group.id, userId: user.id, role: ROLE_OWNER })
         .returning()
 
     // update user with default group id

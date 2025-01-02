@@ -1,9 +1,6 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { and, eq } from 'drizzle-orm'
-import {
-    BAD_REQUEST,
-    CREATED
-} from 'stoker/http-status-codes'
+import { BAD_REQUEST, CREATED } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { db } from '../../../core/db/db'
 import { usersGroupsTable } from '../../../core/db/schema'
@@ -21,10 +18,7 @@ export const leaveGroupRoute = createRoute({
         params: z.object({ id: z.string() }),
     },
     responses: {
-        [CREATED]: ApiResponse(
-            zEmpty,
-            'User deleted from group successfully',
-        ),
+        [CREATED]: ApiResponse(zEmpty, 'User deleted from group successfully'),
         [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid group data'),
     },
 })
@@ -34,7 +28,15 @@ export const leaveGroupHandler: AppRouteHandler<
     const id = c.req.param('id')
     const { userId } = await c.get('jwtPayload')
 
-    const [user] = await db.delete(usersGroupsTable).where(and(eq(usersGroupsTable.groupId, id), eq(usersGroupsTable.userId, userId))).returning()
+    const [user] = await db
+        .delete(usersGroupsTable)
+        .where(
+            and(
+                eq(usersGroupsTable.groupId, id),
+                eq(usersGroupsTable.userId, userId),
+            ),
+        )
+        .returning()
     if (!user) {
         return c.json(
             {

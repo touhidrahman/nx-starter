@@ -15,9 +15,9 @@ import { groupsTable, usersGroupsTable } from '../../../core/db/schema'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { LEVEL_ADMIN, LEVEL_MODERATOR } from '../../user/user.schema'
-import {} from '../../user/user.service'
+import { } from '../../user/user.service'
 import { zLogin } from '../auth.schema'
-import { findUserByEmail, updateLastLogin } from '../auth.service'
+import { findUserByEmail, getRoleByUserAndGroup, updateLastLogin } from '../auth.service'
 import { createAccessToken, createRefreshToken } from '../token.util'
 
 const tags = ['Auth']
@@ -78,7 +78,7 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
     // if previledged user, do not check for groups and just return access token
     // TODO: fix as any
     if ([LEVEL_ADMIN, LEVEL_MODERATOR].includes(user.level as any)) {
-        const accessToken = await createAccessToken(user, user.level as any)
+        const accessToken = await createAccessToken(user, 'admin')
         const refreshToken = await createRefreshToken(user)
 
         return c.json(
@@ -136,17 +136,12 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
     const group = await db.query.groupsTable.findFirst({
         where: eq(groupsTable.id, chosenGroupId),
     })
-    const role = await db.query.usersGroupsTable.findFirst({
-        where: and(
-            eq(usersGroupsTable.userId, user.id),
-            eq(usersGroupsTable.groupId, chosenGroupId),
-        ),
-    })
+    const role = await getRoleByUserAndGroup(user.id, chosenGroupId)
     const accessToken = await createAccessToken(
         user,
-        role?.role as any,
-        group as any,
-    ) // TODO: fix as any
+        role?.role ?? 'member',
+        group,
+    )
     const refreshToken = await createRefreshToken(user, chosenGroupId)
 
     return c.json(

@@ -38,7 +38,7 @@ export const setDefaultGroupHandler: AppRouteHandler<
 
     if (!user) {
         return c.json(
-            { data: {}, message: 'something went wrong', success: false },
+            { data: {}, message: 'Something went wrong', success: false },
             NOT_FOUND,
         )
     }

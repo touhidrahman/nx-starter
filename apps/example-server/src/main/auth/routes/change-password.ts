@@ -9,9 +9,9 @@ import { usersTable } from '../../../core/db/schema'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zChangePassword } from '../auth.schema'
-import { findAuthUserById } from '../auth.service'
 import { buildpasswordChangeSuccessfulEmailTemplate } from '../../email/templates/password-change-successful'
 import { sendEmailUsingResend } from '../../../core/email/email.service'
+import { findUserById } from '../../user/user.service'
 
 const tags = ['Auth']
 
@@ -42,7 +42,7 @@ export const changePasswordHandler: AppRouteHandler<
 
     const { currentPassword, password } = c.req.valid('json')
 
-    const user = await findAuthUserById(userId)
+    const user = await findUserById(userId)
 
     if (!user) {
         return c.json(
@@ -83,6 +83,7 @@ export const changePasswordHandler: AppRouteHandler<
         passwordChangeTemplate,
     )
     // TODO: log sending email error
+
     return c.json(
         {
             message: 'Password changed successfully',

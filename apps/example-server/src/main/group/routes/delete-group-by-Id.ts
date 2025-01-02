@@ -1,13 +1,12 @@
-import { createRoute } from "@hono/zod-openapi"
-import { NO_CONTENT, NOT_FOUND } from "stoker/http-status-codes"
-import { z } from "zod"
-import { AppRouteHandler } from "../../../core/core.type"
-import { zEmpty } from "../../../core/models/common.schema"
-import { ApiResponse } from "../../../core/utils/api-response.util"
-import { checkToken } from "../../auth/auth.middleware"
-import { deleteGroup } from "../group.service"
-import { isGroupOwner } from "../../../core/middlewares/is-group-owner.middleware"
-
+import { createRoute } from '@hono/zod-openapi'
+import { NO_CONTENT, NOT_FOUND } from 'stoker/http-status-codes'
+import { z } from 'zod'
+import { AppRouteHandler } from '../../../core/core.type'
+import { zEmpty } from '../../../core/models/common.schema'
+import { ApiResponse } from '../../../core/utils/api-response.util'
+import { checkToken } from '../../auth/auth.middleware'
+import { deleteGroup } from '../group.service'
+import { isGroupOwner } from '../../../core/middlewares/is-group-owner.middleware'
 
 export const deleteGroupByIdRoute = createRoute({
     path: '/v1/groups/:id',

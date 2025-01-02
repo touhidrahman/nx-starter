@@ -1,8 +1,5 @@
 import { createRoute, z } from '@hono/zod-openapi'
-import {
-    CREATED,
-    INTERNAL_SERVER_ERROR
-} from 'stoker/http-status-codes'
+import { CREATED, INTERNAL_SERVER_ERROR } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { db } from '../../../core/db/db'
@@ -34,15 +31,18 @@ export const updateUserRoleHandler: AppRouteHandler<
     const { userId, role } = c.req.valid('json')
 
     try {
-        await db.insert(usersGroupsTable)
+        await db
+            .insert(usersGroupsTable)
             .values({
                 groupId,
                 userId,
                 role: role as any,
-            }).onConflictDoUpdate({
+            })
+            .onConflictDoUpdate({
                 target: [usersGroupsTable.groupId, usersGroupsTable.userId],
                 set: { role: role as any },
-            }).returning()
+            })
+            .returning()
 
         return c.json(
             { data: {}, message: 'User role updated', success: true },
