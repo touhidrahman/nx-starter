@@ -40,11 +40,11 @@ export const createProfileRoute = createRoute({
 export const createProfileHandler: AppRouteHandler<
     typeof createProfileRoute
 > = async (c) => {
-    console.log(c.req)
+
     const body = c.req.valid('json')
     const { sub: authUserId } = await c.get('jwtPayload')
     const { type } = c.req.valid('param')
-
+    console.log(c.req)
     const [authUser] = await db
         .select()
         .from(usersTable)

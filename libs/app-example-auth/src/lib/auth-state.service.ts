@@ -116,8 +116,7 @@ export class AuthStateService extends SimpleStore<AuthState> {
     login(username: string, password: string) {
         return this.authApiService.login(username, password).pipe(
             map(({ data }) => {
-                data &&
-                    this.setStateAfterLogin(data.accessToken, data.refreshToken)
+                data && this.setStateAfterLogin(data.accessToken, data.refreshToken)
                 return data
             }),
         )
@@ -140,7 +139,6 @@ export class AuthStateService extends SimpleStore<AuthState> {
 
     refreshAccessToken() {
         const refreshToken = this.tokenStorageService.getRefreshToken()
-        console.log('TCL: | refreshAccessToken | refreshToken:', refreshToken)
 
         return this.authApiService.refreshAccessToken(refreshToken ?? '').pipe(
             map(({ data }) => {
@@ -158,7 +156,6 @@ export class AuthStateService extends SimpleStore<AuthState> {
 
     setStateAfterLogin(accessToken: string, refreshToken: string) {
         const decoded = this.jwtHelper.decodeToken(accessToken)
-        console.log('TCL: AuthStateService -> decoded', decoded)
 
         this.setState({
             accessToken,
