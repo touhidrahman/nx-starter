@@ -20,7 +20,7 @@ export const userLevelEnum = pgEnum('userLevel', ['user', 'moderator', 'admin'])
 /**
  * userRoleEnum is an enum for user roles in the application, applies to  users table only, owner for one group
  */
-export const userRoleEnum = pgEnum('userRole', ['owner', 'manager', 'member'])
+export const userRoleEnum = pgEnum('userRole', ['admin', 'manager', 'member'])
 export const userStatusEnum = pgEnum('userStatus', [
     'active',
     'inactive',
@@ -113,6 +113,7 @@ export const usersRelations = relations(usersTable, ({ one, many }) => ({
 
 const authUsersRelations = relations(authUsersTable, ({ many }) => ({
     users: many(usersTable),
+    groups: many(groupsTable),
 }))
 
 export const groupTypeEnum = pgEnum('groupType', ['client', 'vendor'])

@@ -34,14 +34,17 @@ export class PageCreateProfileFormComponent {
             this.isLoading = false
             return
         }
+
         console.log('form value', this.groupFormService.getValue())
+
         this.authApiService
             .createGroupAndProfile(
                 this.groupFormService.getValue(),
                 this.profileType,
             )
             .subscribe({
-                next: () => {
+                next: (res) => {
+                    console.log('TCL: ~ res ', res);
                     this.isLoading = false
                     this.router.navigate(['/profile-created'])
                 },

@@ -40,17 +40,16 @@ export const createProfileRoute = createRoute({
 export const createProfileHandler: AppRouteHandler<
     typeof createProfileRoute
 > = async (c) => {
-    console.log(c.req)
     const body = c.req.valid('json')
     const { sub: authUserId } = await c.get('jwtPayload')
     const { type } = c.req.valid('param')
 
-    const [authUser] = await db
+    const [userAsOwner] = await db
         .select()
         .from(usersTable)
         .where(
             and(
-                eq(groupsTable.ownerId, authUserId),
+                eq(usersTable.authUserId, authUserId),
                 eq(groupsTable.type, type),
             ),
         )
