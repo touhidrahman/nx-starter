@@ -107,15 +107,23 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
         })
 
         if (records.length === 0) {
+            const accessToken = await createAccessToken(
+                user,
+                'admin',
+            )
+            const refreshToken = await createRefreshToken(user, '')
+
             return c.json(
                 {
-                    message: 'No group found',
+                    message: 'No group found. Logged in groupless mode.',
                     data: {
-                        availableGroups: [],
+                        accessToken,
+                        refreshToken,
+                        lastLogin: now.toISOString(),
                     },
-                    success: false,
+                    success: true,
                 },
-                PRECONDITION_REQUIRED,
+                OK,
             )
         }
 
