@@ -9,7 +9,7 @@ export default defineConfig({
     },
     schema: './src/core/db/schema.ts',
     out: './migrations',
-    verbose: true,
+    verbose: false,
     strict: true,
     migrations: {
         schema: 'public', // used in PostgreSQL only and default to `drizzle`

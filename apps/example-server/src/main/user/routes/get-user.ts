@@ -6,6 +6,7 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zSelectUser } from '../user.schema'
 import { findUserById } from '../user.service'
+import { passwordRemoved } from '../user.util'
 
 export const getUserRoute = createRoute({
     path: '/v1/user/:id',
@@ -34,5 +35,8 @@ export const getUserHandler: AppRouteHandler<typeof getUserRoute> = async (
         )
     }
 
-    return c.json({ data: user, message: 'User found', success: true }, OK)
+    return c.json(
+        { data: passwordRemoved(user), message: 'User found', success: true },
+        OK,
+    )
 }

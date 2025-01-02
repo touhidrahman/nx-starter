@@ -1,22 +1,23 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import {
+    BAD_REQUEST,
     CREATED,
     INTERNAL_SERVER_ERROR,
-    BAD_REQUEST,
     NOT_FOUND,
 } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
+import { db } from '../../../core/db/db'
+import { usersGroupsTable } from '../../../core/db/schema'
+import { isGroupOwner } from '../../../core/middlewares/is-group-owner.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
+import { findUserByEmail } from '../../auth/auth.service'
+import { USER_ROLE_MEMBER, zSelectUser } from '../../user/user.schema'
 import { isParticipant } from '../group.service'
-import { ROLE_MEMBER, zSelectUser } from '../../user/user.schema'
-import { findAuthUserByEmail } from '../../auth/auth.service'
-import { createUser } from '../../user/user.service'
-import { isGroupOwner } from '../../../core/middlewares/is-group-owner.middleware'
 
-export const addAuthUserToGroupRoute = createRoute({
+export const addUserToGroupRoute = createRoute({
     path: '/v1/groups/:id/add-user',
     method: 'post',
     tags: ['Group'],
@@ -31,23 +32,23 @@ export const addAuthUserToGroupRoute = createRoute({
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
 })
-export const addAuthUserToGroupHandler: AppRouteHandler<
-    typeof addAuthUserToGroupRoute
+export const addUserToGroupHandler: AppRouteHandler<
+    typeof addUserToGroupRoute
 > = async (c) => {
     const id = c.req.param('id')
     const { email } = c.req.valid('json')
 
     try {
-        const authUser = await findAuthUserByEmail(email.toLowerCase())
+        const user = await findUserByEmail(email.toLowerCase())
 
-        if (!authUser) {
+        if (!user) {
             return c.json(
                 { data: {}, success: false, message: 'User not found' },
                 NOT_FOUND,
             )
         }
 
-        const exists = await isParticipant(authUser.id, id)
+        const exists = await isParticipant(user.id, id)
         if (exists) {
             return c.json(
                 {
@@ -59,17 +60,15 @@ export const addAuthUserToGroupHandler: AppRouteHandler<
             )
         }
 
-        const [result] = await createUser({
-            authUserId: authUser.id,
+        // add user to group
+        await db.insert(usersGroupsTable).values({
+            userId: user.id,
             groupId: id,
-            role: ROLE_MEMBER,
-            firstName: authUser.firstName,
-            lastName: authUser.lastName,
-            email: authUser.email,
+            role: USER_ROLE_MEMBER,
         })
 
         return c.json(
-            { data: result, success: true, message: 'User added to group' },
+            { data: user, success: true, message: 'User added to group' },
             CREATED,
         )
     } catch (error) {

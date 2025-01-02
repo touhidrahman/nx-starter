@@ -1,10 +1,10 @@
 import { Context, Next } from 'hono'
 import { isOwner, isParticipant } from '../../main/group/group.service'
-import { ROLE_OWNER } from '../../main/user/user.schema'
+import { USER_ROLE_ADMIN } from '../../main/user/user.schema'
 
 export const isGroupOwner = async (ctx: Context, next: Next) => {
     const payload = await ctx.get('jwtPayload')
-    if (!payload?.groupId || payload.role !== ROLE_OWNER)
+    if (!payload?.groupId || payload.role !== USER_ROLE_ADMIN)
         return ctx.json(
             { error: 'Unauthorized', message: 'Not a group owner' },
             403,

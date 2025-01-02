@@ -1,68 +1,47 @@
 import dayjs from 'dayjs'
 import { and, count, eq } from 'drizzle-orm'
 import { db } from '../../core/db/db'
-import { authUsersTable, usersTable } from '../../core/db/schema'
+import { usersGroupsTable, usersTable } from '../../core/db/schema'
 
-export async function updateLastLogin(authUserId: string) {
+export async function updateLastLogin(userId: string) {
     await db
-        .update(authUsersTable)
+        .update(usersTable)
         .set({ lastLogin: dayjs().toDate() })
-        .where(eq(authUsersTable.id, authUserId))
+        .where(eq(usersTable.id, userId))
 }
 
-export async function isFirstAuthUser() {
-    const userCount = await db.select({ value: count() }).from(authUsersTable)
+export async function isFirstUser() {
+    const userCount = await db.select({ value: count() }).from(usersTable)
 
     return userCount?.[0]?.value === 0
 }
 
-export async function findAuthUserById(id: string) {
+export async function findUserByEmail(email: string) {
     const results = await db
         .select()
-        .from(authUsersTable)
-        .where(eq(authUsersTable.id, id))
+        .from(usersTable)
+        .where(eq(usersTable.email, email))
         .limit(1)
 
     return results?.[0] ?? null
-}
-
-export async function findAuthUserByUserId(userId: string) {
-    const results = await db
-        .select()
-        .from(authUsersTable)
-        .innerJoin(usersTable, eq(authUsersTable.id, usersTable.authUserId))
-        .where(eq(usersTable.id, userId))
-        .limit(1)
-
-    return results?.[0] ?? null
-}
-
-export async function findAuthUserByEmail(email: string) {
-    const results = await db
-        .select()
-        .from(authUsersTable)
-        .where(eq(authUsersTable.email, email))
-        .limit(1)
-
-    return results?.[0] ?? null
-}
-
-export async function countAuthUserByEmail(email: string) {
-    const userCount = await db
-        .select({ value: count() })
-        .from(authUsersTable)
-        .where(eq(authUsersTable.email, email))
-
-    return userCount?.[0]?.value ?? 0
 }
 
 export async function setDefaultGroupId(
-    authUserId: string,
+    userId: string,
     groupId: string | null,
 ) {
     return db
-        .update(authUsersTable)
+        .update(usersTable)
         .set({ defaultGroupId: groupId })
-        .where(eq(authUsersTable.id, authUserId))
+        .where(eq(usersTable.id, userId))
         .returning()
+}
+
+export async function getRoleByUserAndGroup(userId: string, groupId: string) {
+    return db.query.usersGroupsTable.findFirst({
+        where: and(
+            eq(usersGroupsTable.userId, userId),
+            eq(usersGroupsTable.groupId, groupId),
+        ),
+    })
 }

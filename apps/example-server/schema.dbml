@@ -1,3 +1,16 @@
+enum fileType {
+  image
+  document
+  video
+  audio
+}
+
+enum groupLevel {
+  trial
+  basic
+  premium
+}
+
 enum groupStatus {
   active
   inactive
@@ -33,270 +46,310 @@ enum taskStatus {
   overdue
 }
 
-enum userType {
+enum userLevel {
   user
   moderator
   admin
 }
 
+enum userRole {
+  admin
+  manager
+  member
+}
+
+enum userStatus {
+  active
+  inactive
+  banned
+}
+
 table application_areas {
-  id serial [pk, not null, increment]
+  id text [pk, not null]
   area text [not null]
   description text
 }
 
 table appointments {
-  id serial [pk, not null, increment]
-  date timestamp [not null]
-  vendor_user_id integer [not null]
-  client_user_id integer [not null]
-  start_timestamp timestamp [not null]
-  end_timestamp timestamp [not null]
+  id text [pk, not null]
+  date "timestamp with time zone" [not null]
+  vendor_user_id text [not null]
+  client_user_id text [not null]
+  start_timestamp "timestamp with time zone" [not null]
+  end_timestamp "timestamp with time zone" [not null]
   description text
   notes_for_vendor text
   notes_for_client text
-  group_id integer [not null]
-  created_at timestamp [not null, default: `now()`]
-  updated_at timestamp [not null]
+  group_id text [not null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null]
 }
 
 table billing {
-  id serial [pk, not null, increment]
+  id text [pk, not null]
   address text [not null]
-  created_at timestamp [not null, default: `now()`]
-  updated_at timestamp [not null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null]
 }
 
 table cases {
-  id serial [pk, not null, increment]
+  id text [pk, not null]
   number text [not null]
   name text [not null]
   defendant text [not null]
   plaintiff_name text [not null]
-  plaintiff_group_id integer [not null]
-  group_id integer [not null]
+  plaintiff_group_id text [not null]
+  group_id text [not null]
   court text [not null]
-  created_at timestamp [not null, default: `now()`]
-  updated_at timestamp [not null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null]
 }
 
 table courts {
-  id serial [pk, not null, increment]
+  id text [pk, not null]
 }
 
 table document_sharing {
-  id serial [pk, not null, increment]
-  sender_group_id integer [not null]
-  receiver_group_id integer [not null]
-  document_id integer [not null]
-  sender_user_id integer [not null]
-  receiver_user_id integer [not null]
-  expiry_date timestamp [not null]
+  id text [pk, not null]
+  sender_group_id text [not null]
+  receiver_group_id text [not null]
+  document_id text [not null]
+  sender_user_id text [not null]
+  receiver_user_id text
+  expiry_date "timestamp with time zone" [not null]
 }
 
 table documents {
-  id serial [pk, not null, increment]
+  id text [pk, not null]
   filename text [not null]
   url text [not null]
+  extension text [not null]
   mimetype text [not null]
+  type fileType [not null]
   size integer [not null]
-  linked_entity text [not null]
-  linked_id integer [not null]
+  folder text
   description text
-  group_id integer [not null]
+  group_id text [not null]
+  user_id text
+  entity_id text
+  entity_name text
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null]
 }
 
 table events {
-  id serial [pk, not null, increment]
-  date timestamp [not null]
-  user_id integer [not null]
-  start_timestamp timestamp [not null]
-  end_timestamp timestamp [not null]
+  id text [pk, not null]
+  date "timestamp with time zone" [not null]
+  user_id text [not null]
+  start_timestamp "timestamp with time zone" [not null]
+  end_timestamp "timestamp with time zone" [not null]
   description text
   show_me_as show_me_as [not null]
   whole_day boolean [not null]
-  group_id integer [not null]
+  group_id text [not null]
   status status [not null]
-  case_id integer [not null]
-  created_at timestamp [not null, default: `now()`]
-  updated_at timestamp [not null]
+  case_id text [not null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null]
 }
 
 table groups {
-  id serial [pk, not null, increment]
+  id text [pk, not null]
   type groupType [not null, default: 'client']
-  status groupStatus [not null, default: 'inactive']
+  status groupStatus [not null, default: 'pending']
   name text [not null]
   email text
   phone text
   address text
   city text
+  state text
   country text
   post_code text
+  owner_id text [not null]
   is_verified boolean [not null, default: false]
-  verified_on timestamp
-  created_at timestamp [not null, default: `now()`]
-  updated_at timestamp [not null]
+  verified_on "timestamp with time zone"
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null]
 }
 
-table groups_to_users {
-  user_id integer [not null]
-  group_id integer [not null]
-  role_id integer
-  is_default boolean [not null, default: false]
-  is_owner boolean [not null, default: false]
+table invites {
+  id text [pk, not null]
+  email text [not null]
+  group_id text [not null]
+  role userRole [not null, default: 'member']
+  invited_by text [not null]
+  invited_on "timestamp with time zone" [not null, default: `now()`]
+  accepted_on "timestamp with time zone"
+  status text [not null, default: 'pending']
+}
+
+table invoice_items {
+  id text [pk, not null]
+  invoice_id text [not null]
+  service_code text [not null]
+  service_rendered text [not null]
+  unit_price numeric [not null]
+  qty integer [not null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null]
+}
+
+table invoices {
+  id text [pk, not null]
+  invoice_code text [not null, unique]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  due_date "timestamp with time zone" [not null]
+  status invoiceStatus [not null, default: 'unpaid']
+  total_due_amount numeric [not null]
+  remaining_due_amount numeric [not null]
+  updated_at "timestamp with time zone" [not null]
+}
+
+table messages {
+  id text [pk, not null]
+  vendor_user_id text [not null]
+  client_user_id text [not null]
+  readable_by_vendor_group boolean [not null, default: false]
+  readable_by_client_group boolean [not null, default: false]
+  date "timestamp with time zone" [not null]
+  reply_by_date date
+  message text [not null]
+}
+
+table payments {
+  id text [pk, not null]
+  invoice_id text [not null]
+  amount_paid integer [not null]
+  date "timestamp with time zone" [not null]
+  is_fully_paid boolean [not null, default: false]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null]
+}
+
+table permissions {
+  group_id text [not null]
+  role userRole [not null]
+  area text [not null]
+  access integer [not null, default: 1]
+
+  indexes {
+    (group_id, role, area) [pk]
+  }
+}
+
+table storage {
+  id text [pk, not null]
+  filename text
+  url text
+  type fileType [default: 'document']
+  extension text
+  size integer [default: 0]
+  uploaded_by text
+  entity_id text
+  entity_name text
+  expiry_date timestamp
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null]
+}
+
+table subscriptions {
+  id text [pk, not null]
+  group_id text [not null]
+  plan_id text [not null]
+  start_date "timestamp with time zone" [not null]
+  end_date "timestamp with time zone" [not null]
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null]
+}
+
+table tasks {
+  id text [pk, not null]
+  group_id text [not null]
+  todo text [not null]
+  assigned_user_id text
+  assigned_role userRole
+  due_date "timestamp with time zone" [not null]
+  status taskStatus [not null, default: 'pending']
+  note text
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null]
+}
+
+table users_groups {
+  user_id text [not null]
+  group_id text [not null]
+  role userRole [not null]
 
   indexes {
     (user_id, group_id) [pk]
   }
 }
 
-table invoice_items {
-  id serial [pk, not null, increment]
-  invoice_id integer [not null]
-  service_code text [not null]
-  service_rendered text [not null]
-  unit_price integer [not null]
-  qty integer [not null]
-  created_at timestamp [not null, default: `now()`]
-  updated_at timestamp [not null]
-}
-
-table invoices {
-  id serial [pk, not null, increment]
-  invoice_code text [not null, unique]
-  created_at timestamp [not null, default: `now()`]
-  due_date timestamp [not null]
-  status invoiceStatus [not null, default: 'unpaid']
-  total_due_amount integer [not null]
-  remaining_due_amount integer [not null]
-  updated_at timestamp [not null]
-}
-
-table messages {
-  id serial [pk, not null, increment]
-  vendor_user_id integer [not null]
-  client_user_id integer [not null]
-  readable_by_vendor_group boolean [not null]
-  readable_by_client_group boolean [not null]
-  date timestamp [not null]
-  reply_by_date timestamp
-  message text [not null]
-}
-
-table payments {
-  id serial [pk, not null, increment]
-  invoice_id integer [not null]
-  amount_paid integer [not null]
-  date timestamp [not null]
-  is_fully_paid boolean [not null, default: false]
-  created_at timestamp [not null, default: `now()`]
-  updated_at timestamp [not null]
-}
-
-table permissions {
-  group_id integer [not null]
-  role_id integer [not null]
-  area text [not null]
-  access integer [not null, default: 1]
-
-  indexes {
-    (group_id, role_id, area) [pk]
-  }
-}
-
-table profile {
-  user_id integer [pk, not null]
-  cover_photo text
-  address text
-  phone text
-  email text
-  url text
-  bio text
-}
-
-table roles {
-  id serial [pk, not null, increment]
-  group_id integer [not null]
-  name text [not null]
-}
-
-table storage {
-  id serial [pk, not null, increment]
-}
-
-table subscriptions {
-  id serial [pk, not null, increment]
-  group_id integer [not null]
-  plan_id text [not null]
-  start_date timestamp [not null]
-  end_date timestamp [not null]
-  created_at timestamp [not null, default: `now()`]
-  updated_at timestamp [not null]
-}
-
-table tasks {
-  id serial [pk, not null, increment]
-  group_id integer [not null]
-  todo text [not null]
-  assigned_user_id integer [not null]
-  assigned_role_id integer
-  due_date timestamp [not null]
-  status taskStatus [not null, default: 'pending']
-  note text
-  created_at timestamp [not null, default: `now()`]
-  updated_at timestamp [not null]
-}
-
 table users {
-  id serial [pk, not null, increment]
+  id text [pk, not null]
   first_name text [not null]
   last_name text [not null]
-  email text [not null, unique]
+  cover_photo text
+  profile_photo text
+  email text [not null]
   password text [not null]
-  last_login timestamp
-  type userType [not null, default: 'user']
+  phone text
+  address text
+  city text
+  state text
+  country text
+  post_code text
+  url text
+  bio text
+  last_login "timestamp with time zone"
+  level userLevel [not null, default: 'user']
+  status userStatus [not null, default: 'active']
   is_verified boolean [not null, default: false]
-  created_at timestamp [not null, default: `now()`]
-  updated_at timestamp [not null]
+  default_group_id text
+  created_at "timestamp with time zone" [not null, default: `now()`]
+  updated_at "timestamp with time zone" [not null]
+
+  indexes {
+    email [name: 'emailUniqueIndex', unique]
+  }
 }
 
 ref: appointments.client_user_id - users.id
 
-ref: appointments.group_id - groups.id
+ref: appointments.group_id > groups.id
 
-ref: cases.group_id - groups.id
+ref: cases.group_id > groups.id
 
-ref: document_sharing.receiver_group_id - groups.id
+ref: document_sharing.receiver_group_id > groups.id
 
 ref: document_sharing.document_id - documents.id
 
 ref: document_sharing.receiver_user_id - users.id
 
-ref: documents.group_id - groups.id
+ref: documents.group_id > groups.id
+
+ref: documents.user_id > users.id
 
 ref: events.user_id - users.id
 
-ref: events.group_id - groups.id
+ref: events.group_id > groups.id
 
 ref: events.case_id > cases.id
 
+ref: groups.owner_id - users.id
+
+ref: invites.group_id > groups.id
+
+ref: invites.invited_by > users.id
+
 ref: invoice_items.invoice_id > invoices.id
 
-ref: messages.client_user_id > users.id
+ref: messages.client_user_id - users.id
 
 ref: payments.invoice_id > invoices.id
 
-ref: profile.user_id - users.id
+ref: subscriptions.group_id > groups.id
 
-ref: subscriptions.group_id - groups.id
-
-ref: tasks.group_id - groups.id
+ref: tasks.group_id > groups.id
 
 ref: tasks.assigned_user_id - users.id
-
-ref: tasks.assigned_role_id - roles.id
-
-ref: groups_to_users.group_id > groups.id
-
-ref: groups_to_users.user_id > users.id

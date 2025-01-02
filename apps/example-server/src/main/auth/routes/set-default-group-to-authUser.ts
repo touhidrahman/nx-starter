@@ -1,10 +1,11 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import { NOT_FOUND, OK } from 'stoker/http-status-codes'
+import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty, zId } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
-import { zAuthUserSelect } from '../auth.schema'
+import { zSelectUser } from '../../user/user.schema'
 import { setDefaultGroupId } from '../auth.service'
 
 export const setDefaulGroupRoute = createRoute({
@@ -14,31 +15,37 @@ export const setDefaulGroupRoute = createRoute({
     middleware: [checkToken] as const,
     request: {
         params: zId,
+        body: jsonContent(
+            z.object({
+                groupId: z.string(),
+            }),
+            'Set default group id to user',
+        ),
     },
     responses: {
-        [OK]: ApiResponse(z.array(zAuthUserSelect), 'Auth user detail'),
-        [NOT_FOUND]: ApiResponse(zEmpty, ' not found!'),
+        [OK]: ApiResponse(zSelectUser, 'User detail'),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'User not found!'),
     },
 })
 
 export const setDefaultGroupHandler: AppRouteHandler<
     typeof setDefaulGroupRoute
 > = async (c) => {
-    const authUserId = c.req.param('id')
-    const { groupId } = await c.get('jwtPayload')
+    const userId = c.req.param('id')
+    const { groupId } = await c.req.valid('json')
 
-    const defaultAuthUser = await setDefaultGroupId(authUserId, groupId)
+    const [user] = await setDefaultGroupId(userId, groupId)
 
-    if (!defaultAuthUser) {
+    if (!user) {
         return c.json(
-            { data: {}, message: 'something went wrong', success: false },
+            { data: {}, message: 'Something went wrong', success: false },
             NOT_FOUND,
         )
     }
 
     return c.json(
         {
-            data: defaultAuthUser,
+            data: { ...user, password: '' },
             message: 'Set default auth user',
             success: true,
         },

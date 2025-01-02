@@ -4,6 +4,7 @@ export type GroupInput = {
     address: string
     phone: string
     city: string
+    state: string
     country: string
     postCode: string
 }

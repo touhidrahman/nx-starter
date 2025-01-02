@@ -1,1 +1,0 @@
-ALTER TABLE "groups" ALTER COLUMN "owner_id" DROP NOT NULL;

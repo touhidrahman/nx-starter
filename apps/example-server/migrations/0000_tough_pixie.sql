@@ -7,7 +7,7 @@ CREATE TYPE "public"."show_me_as" AS ENUM('Busy', 'Available');--> statement-bre
 CREATE TYPE "public"."status" AS ENUM('Active', 'Disabled');--> statement-breakpoint
 CREATE TYPE "public"."taskStatus" AS ENUM('pending', 'in_progress', 'completed', 'overdue');--> statement-breakpoint
 CREATE TYPE "public"."userLevel" AS ENUM('user', 'moderator', 'admin');--> statement-breakpoint
-CREATE TYPE "public"."userRole" AS ENUM('owner', 'manager', 'member');--> statement-breakpoint
+CREATE TYPE "public"."userRole" AS ENUM('admin', 'manager', 'member');--> statement-breakpoint
 CREATE TYPE "public"."userStatus" AS ENUM('active', 'inactive', 'banned');--> statement-breakpoint
 CREATE TABLE "application_areas" (
 	"id" text PRIMARY KEY NOT NULL,
@@ -26,22 +26,6 @@ CREATE TABLE "appointments" (
 	"notes_for_vendor" text,
 	"notes_for_client" text,
 	"group_id" text NOT NULL,
-	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"updated_at" timestamp with time zone NOT NULL
-);
---> statement-breakpoint
-CREATE TABLE "auth_users" (
-	"id" text PRIMARY KEY NOT NULL,
-	"first_name" text NOT NULL,
-	"last_name" text NOT NULL,
-	"email" text NOT NULL,
-	"password" text NOT NULL,
-	"phone" text,
-	"last_login" timestamp with time zone,
-	"level" "userLevel" DEFAULT 'user' NOT NULL,
-	"status" "userStatus" DEFAULT 'active' NOT NULL,
-	"is_verified" boolean DEFAULT false NOT NULL,
-	"default_group_id" text,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone NOT NULL
 );
@@ -123,6 +107,7 @@ CREATE TABLE "groups" (
 	"phone" text,
 	"address" text,
 	"city" text,
+	"state" text,
 	"country" text,
 	"post_code" text,
 	"owner_id" text NOT NULL,
@@ -234,26 +219,28 @@ CREATE TABLE "tasks" (
 );
 --> statement-breakpoint
 CREATE TABLE "users" (
-	"id" text NOT NULL,
+	"id" text PRIMARY KEY NOT NULL,
 	"first_name" text NOT NULL,
 	"last_name" text NOT NULL,
-	"email" text,
-	"phone" text,
 	"cover_photo" text,
 	"profile_photo" text,
+	"email" text NOT NULL,
+	"password" text NOT NULL,
+	"phone" text,
 	"address" text,
 	"city" text,
+	"state" text,
 	"country" text,
 	"post_code" text,
 	"url" text,
 	"bio" text,
-	"role" "userRole" DEFAULT 'member' NOT NULL,
-	"auth_user_id" text NOT NULL,
-	"group_id" text,
+	"last_login" timestamp with time zone,
+	"level" "userLevel" DEFAULT 'user' NOT NULL,
+	"status" "userStatus" DEFAULT 'active' NOT NULL,
+	"is_verified" boolean DEFAULT false NOT NULL,
+	"default_group_id" text,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
-	"updated_at" timestamp with time zone NOT NULL,
-	CONSTRAINT "users_group_id_auth_user_id_pk" PRIMARY KEY("group_id","auth_user_id"),
-	CONSTRAINT "users_id_unique" UNIQUE("id")
+	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 ALTER TABLE "appointments" ADD CONSTRAINT "appointments_vendor_user_id_users_id_fk" FOREIGN KEY ("vendor_user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
@@ -281,6 +268,4 @@ ALTER TABLE "permissions" ADD CONSTRAINT "permissions_group_id_groups_id_fk" FOR
 ALTER TABLE "subscriptions" ADD CONSTRAINT "subscriptions_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "tasks" ADD CONSTRAINT "tasks_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "tasks" ADD CONSTRAINT "tasks_assigned_user_id_users_id_fk" FOREIGN KEY ("assigned_user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "users" ADD CONSTRAINT "users_auth_user_id_auth_users_id_fk" FOREIGN KEY ("auth_user_id") REFERENCES "public"."auth_users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "users" ADD CONSTRAINT "users_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-CREATE UNIQUE INDEX "emailUniqueIndex" ON "auth_users" USING btree (lower("email"));
+CREATE UNIQUE INDEX "emailUniqueIndex" ON "users" USING btree (lower("email"));
