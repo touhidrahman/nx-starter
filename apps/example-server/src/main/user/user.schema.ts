@@ -34,8 +34,9 @@ export const zSearchUser = zSelectUser
     })
     .partial()
 
-export const [ROLE_OWNER, ROLE_MANAGER, ROLE_MEMBER] = userRoleEnum.enumValues
-export const [LEVEL_USER, LEVEL_MODERATOR, LEVEL_ADMIN] =
+export const [USER_ROLE_ADMIN, USER_ROLE_MANAGER, USER_ROLE_MEMBER] =
+    userRoleEnum.enumValues
+export const [USER_LEVEL_USER, USER_LEVEL_MODERATOR, USER_LEVEL_ADMIN] =
     userLevelEnum.enumValues
 export const [USER_STATUS_ACTIVE, USER_STATUS_INACTIVE, USER_STATUS_BANNED] =
     userStatusEnum.enumValues

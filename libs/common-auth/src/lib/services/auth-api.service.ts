@@ -116,18 +116,7 @@ export class AuthApiService<TUser> {
         )
     }
 
-    // TODO: implement
-    setDefaultGroupToAuthUser(
-        userId: string,
-        groupId: string,
-    ): Observable<ApiResponse<boolean>> {
-        return this.http.post<ApiResponse<boolean>>(
-            `${this.authApiUrl}/set-default-group`,
-            { userId, groupId },
-        )
-    }
-
-    createGroupAndProfile(
+    createGroup(
         input: Partial<GroupInput>,
         type: 'client' | 'vendor',
     ): Observable<ApiResponse<Group>> {

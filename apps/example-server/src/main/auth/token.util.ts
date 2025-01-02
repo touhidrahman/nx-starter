@@ -47,10 +47,10 @@ export async function createAccessToken(
     return await sign(tokenPayload, env.ACCESS_TOKEN_SECRET)
 }
 
-export async function createRefreshToken(authUser: User, groupId?: string) {
+export async function createRefreshToken(user: User, groupId?: string) {
     const tokenPayload: RefreshTokenPayload = {
-        email: authUser.email,
-        sub: authUser.id,
+        email: user.email,
+        sub: user.id,
         exp: dayjs().add(7, 'day').valueOf(),
         groupId: groupId ?? '',
     }

@@ -38,10 +38,7 @@ export class PageCreateProfileFormComponent {
         console.log('form value', this.groupFormService.getValue())
 
         this.authApiService
-            .createGroupAndProfile(
-                this.groupFormService.getValue(),
-                this.profileType,
-            )
+            .createGroup(this.groupFormService.getValue(), this.profileType)
             .subscribe({
                 next: (res) => {
                     console.log('TCL: ~ res ', res)

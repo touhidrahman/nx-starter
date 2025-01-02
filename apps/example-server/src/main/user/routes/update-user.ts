@@ -7,6 +7,7 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zSelectUser, zUpdateUser } from '../user.schema'
 import { updateUser } from '../user.service'
+import { passwordRemoved } from '../user.util'
 
 export const updateUserRoute = createRoute({
     path: '/v1/user/:id',
@@ -19,10 +20,7 @@ export const updateUserRoute = createRoute({
     },
     responses: {
         [OK]: ApiResponse(zSelectUser, 'Updated'),
-        [NOT_FOUND]: ApiResponse(
-            zEmpty,
-            'User not found',
-        ),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'User not found'),
     },
 })
 
@@ -40,7 +38,11 @@ export const updateUserHandler: AppRouteHandler<
         )
     }
     return c.json(
-        { data: updatedUser, message: 'User updated', success: true },
+        {
+            data: passwordRemoved(updatedUser),
+            message: 'User updated',
+            success: true,
+        },
         OK,
     )
 }

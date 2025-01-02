@@ -12,6 +12,7 @@ import {
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zSearchUser, zSelectUser } from '../user.schema'
+import { passwordRemoved } from '../user.util'
 
 export const getUsersRoute = createRoute({
     path: '/v1/user',
@@ -47,7 +48,6 @@ export const getUsersHandler: AppRouteHandler<typeof getUsersRoute> = async (
         conditions.push(
             eq(groupsTable.type, query.groupType as 'client' | 'vendor'),
         )
-    // Filter by userType from authUserTable
 
     query?.status &&
         conditions.push(
@@ -100,12 +100,13 @@ export const getUsersHandler: AppRouteHandler<typeof getUsersRoute> = async (
         .limit(limit)
         .offset(offset)
 
-    const serializedUsers = users.map((user) => ({
-        ...user,
-        password: '',
-        status: user.status ?? undefined,
-        updatedAt: user.updatedAt.toISOString(),
-    }))
+    const serializedUsers = users
+        .map((user) => passwordRemoved(user))
+        .map((user) => ({
+            ...user,
+            status: user.status ?? undefined,
+            updatedAt: user.updatedAt.toISOString(),
+        }))
 
     return c.json(
         { data: serializedUsers, message: 'List of users', success: true },

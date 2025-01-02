@@ -81,8 +81,8 @@ export class AuthStateService extends SimpleStore<AuthState> {
         return this.getState().level === UserLevel.Admin
     }
 
-    isOwner(): boolean {
-        return this.getState().role === UserRole.Owner
+    isAdmin(): boolean {
+        return this.getState().role === UserRole.Admin
     }
 
     canAccess(key: UserPermissionKeys | '') {
@@ -138,7 +138,6 @@ export class AuthStateService extends SimpleStore<AuthState> {
 
     refreshAccessToken() {
         const refreshToken = this.tokenStorageService.getRefreshToken()
-        console.log('TCL: | refreshAccessToken | refreshToken:', refreshToken)
 
         return this.authApiService.refreshAccessToken(refreshToken ?? '').pipe(
             map(({ data }) => {

@@ -17,7 +17,7 @@ import { buildSuccessEmailTemplate } from '../../email/templates/success-templat
 import { zInsertGroup, zSelectGroup } from '../../group/group.schema'
 import { findUserById } from '../../user/user.service'
 import { checkToken } from '../auth.middleware'
-import { ROLE_OWNER } from '../../user/user.schema'
+import { USER_ROLE_ADMIN } from '../../user/user.schema'
 
 export const createProfileRoute = createRoute({
     path: '/v1/create-profile/:type',
@@ -66,7 +66,7 @@ export const createProfileHandler: AppRouteHandler<
         return c.json(
             {
                 success: false,
-                message: `You already have a ${type} profile`,
+                message: `You already have a ${type} organization which you own. Cannot create another one.`,
                 data: {},
             },
             BAD_REQUEST,
@@ -89,7 +89,7 @@ export const createProfileHandler: AppRouteHandler<
 
     await db
         .insert(usersGroupsTable)
-        .values({ groupId: group.id, userId: user.id, role: ROLE_OWNER })
+        .values({ groupId: group.id, userId: user.id, role: USER_ROLE_ADMIN })
         .returning()
 
     // update user with default group id
