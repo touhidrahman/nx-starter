@@ -79,7 +79,8 @@ export const createProfileHandler: AppRouteHandler<
         .values({
             ...body,
             ownerId: user.id,
-            name: body.name ??
+            name:
+                body.name ??
                 `${user.firstName} ${user.lastName}'s Organization`,
             type,
             email: body.email ?? user.email,

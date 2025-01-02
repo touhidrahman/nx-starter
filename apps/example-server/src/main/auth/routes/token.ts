@@ -8,7 +8,11 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { findGroupById } from '../../group/group.service'
 import { LEVEL_ADMIN, LEVEL_MODERATOR } from '../../user/user.schema'
-import { findUserByEmail, getRoleByUserAndGroup, updateLastLogin } from '../auth.service'
+import {
+    findUserByEmail,
+    getRoleByUserAndGroup,
+    updateLastLogin,
+} from '../auth.service'
 import {
     createAccessToken,
     createRefreshToken,

@@ -6,7 +6,6 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zInsertInvite, zSelectInvite } from '../../invite/invite.schema'
 import { createInvite } from '../../invite/invite.service'
-import { z } from 'zod'
 
 export const inviteUserRoute = createRoute({
     path: '/v1/invite',

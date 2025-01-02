@@ -15,9 +15,12 @@ import { groupsTable, usersGroupsTable } from '../../../core/db/schema'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { LEVEL_ADMIN, LEVEL_MODERATOR } from '../../user/user.schema'
-import { } from '../../user/user.service'
 import { zLogin } from '../auth.schema'
-import { findUserByEmail, getRoleByUserAndGroup, updateLastLogin } from '../auth.service'
+import {
+    findUserByEmail,
+    getRoleByUserAndGroup,
+    updateLastLogin,
+} from '../auth.service'
 import { createAccessToken, createRefreshToken } from '../token.util'
 
 const tags = ['Auth']

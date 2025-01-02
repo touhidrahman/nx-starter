@@ -21,7 +21,6 @@ export const updateUserRoute = createRoute({
         [OK]: ApiResponse(zSelectUser, 'Updated'),
         [NOT_FOUND]: ApiResponse(
             zEmpty,
-
             'User not found',
         ),
     },

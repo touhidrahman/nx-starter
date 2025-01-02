@@ -1,5 +1,6 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import {
+    groupTypeEnum,
     userLevelEnum,
     userRoleEnum,
     usersTable,
@@ -26,6 +27,10 @@ export const zSearchUser = zSelectUser
     .extend({
         page: z.number().int().positive().optional(),
         size: z.number().int().positive().optional(),
+        status: z.enum(userStatusEnum.enumValues).optional(),
+        groupType: z.enum(groupTypeEnum.enumValues).optional(),
+        level: z.enum(userLevelEnum.enumValues).optional(),
+        search: z.string().optional(),
     })
     .partial()
 
