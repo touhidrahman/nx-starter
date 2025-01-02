@@ -6,7 +6,6 @@ import {
     ZodObject,
     ZodOptional,
     ZodString,
-    ZodUndefined,
 } from 'zod'
 export type ZodSchema = z.AnyZodObject | z.ZodArray<z.AnyZodObject>
 

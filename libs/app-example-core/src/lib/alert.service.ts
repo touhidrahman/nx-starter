@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core'
 import { MessageService } from 'primeng/api'
-import { toast, NgxSonnerToaster } from 'ngx-sonner'
+import { toast } from 'ngx-sonner'
 
 @Injectable({
     providedIn: 'root',

@@ -31,7 +31,7 @@ export const zResetPassword = z.object({
 })
 
 export const zInsertAuthUser = createInsertSchema(authUsersTable, {
-    email: (schema) => schema.email.email(),
+    email: (schema) => schema.email(),
 })
 
 export const zUpdateAuthUser = zInsertAuthUser.omit({

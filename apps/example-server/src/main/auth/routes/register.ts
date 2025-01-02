@@ -13,6 +13,8 @@ import env from '../../../env'
 import { zRegister } from '../auth.schema'
 import { countAuthUserByEmail, isFirstAuthUser } from '../auth.service'
 import { createVerficationToken } from '../token.util'
+import { logger, pinoLogger } from 'hono-pino'
+import pino from 'pino'
 
 const tags = ['Auth']
 
@@ -72,7 +74,10 @@ export const registerHandler: AppRouteHandler<typeof registerRoute> = async (
             unit: 'day',
             value: 7,
         })
-        console.log('TCL: | verificationToken:', token)
+
+        if (env.NODE_ENV !== 'production') {
+            console.log('TCL: | verificationToken:', token)
+        }
 
         const welcomeEmail = buildWelcomeEmailTemplate({
             firstName: createdAuthUser.firstName,

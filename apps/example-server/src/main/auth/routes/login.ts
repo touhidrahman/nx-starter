@@ -24,6 +24,8 @@ import {
     OK,
     PRECONDITION_REQUIRED,
 } from 'stoker/http-status-codes'
+import { customLogger } from '../../../core/middlewares/pino-logger.middleware'
+import pino from 'pino'
 
 const tags = ['Auth']
 
@@ -163,6 +165,24 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
             where: eq(usersTable.authUserId, authUser.id),
             with: { group: true },
         })
+
+        if (usersWithGroups.length === 0) {
+            const accessToken = await createAccessToken(authUser)
+            const refreshToken = await createRefreshToken(authUser)
+
+            return c.json(
+                {
+                    message: 'No group found. User logged in without any group',
+                    data: {
+                        accessToken,
+                        refreshToken,
+                        lastLogin: now.toISOString(),
+                    },
+                    success: false,
+                },
+                OK,
+            )
+        }
 
         return c.json(
             {

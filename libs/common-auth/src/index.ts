@@ -10,6 +10,7 @@ export * from './lib/models/login-input'
 export * from './lib/models/login-response'
 export * from './lib/models/signup-input'
 export * from './lib/models/forgot-password-verification-token.model'
+export * from './lib/models/group'
 
 export * from './lib/interceptors/auth-header.interceptor'
 

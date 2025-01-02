@@ -9,13 +9,13 @@ CREATE TYPE "public"."taskStatus" AS ENUM('pending', 'in_progress', 'completed',
 CREATE TYPE "public"."userLevel" AS ENUM('user', 'moderator', 'admin');--> statement-breakpoint
 CREATE TYPE "public"."userRole" AS ENUM('owner', 'manager', 'member');--> statement-breakpoint
 CREATE TYPE "public"."userStatus" AS ENUM('active', 'inactive', 'banned');--> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "application_areas" (
+CREATE TABLE "application_areas" (
 	"id" text PRIMARY KEY NOT NULL,
 	"area" text NOT NULL,
 	"description" text
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "appointments" (
+CREATE TABLE "appointments" (
 	"id" text PRIMARY KEY NOT NULL,
 	"date" timestamp with time zone NOT NULL,
 	"vendor_user_id" text NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE IF NOT EXISTS "appointments" (
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "auth_users" (
+CREATE TABLE "auth_users" (
 	"id" text PRIMARY KEY NOT NULL,
 	"first_name" text NOT NULL,
 	"last_name" text NOT NULL,
@@ -46,14 +46,14 @@ CREATE TABLE IF NOT EXISTS "auth_users" (
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "billing" (
+CREATE TABLE "billing" (
 	"id" text PRIMARY KEY NOT NULL,
 	"address" text NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "cases" (
+CREATE TABLE "cases" (
 	"id" text PRIMARY KEY NOT NULL,
 	"number" text NOT NULL,
 	"name" text NOT NULL,
@@ -66,11 +66,11 @@ CREATE TABLE IF NOT EXISTS "cases" (
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "courts" (
+CREATE TABLE "courts" (
 	"id" text PRIMARY KEY NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "document_sharing" (
+CREATE TABLE "document_sharing" (
 	"id" text PRIMARY KEY NOT NULL,
 	"sender_group_id" text NOT NULL,
 	"receiver_group_id" text NOT NULL,
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS "document_sharing" (
 	"expiry_date" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "documents" (
+CREATE TABLE "documents" (
 	"id" text PRIMARY KEY NOT NULL,
 	"filename" text NOT NULL,
 	"url" text NOT NULL,
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS "documents" (
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "events" (
+CREATE TABLE "events" (
 	"id" text PRIMARY KEY NOT NULL,
 	"date" timestamp with time zone NOT NULL,
 	"user_id" text NOT NULL,
@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS "events" (
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "groups" (
+CREATE TABLE "groups" (
 	"id" text PRIMARY KEY NOT NULL,
 	"type" "groupType" DEFAULT 'client' NOT NULL,
 	"status" "groupStatus" DEFAULT 'pending' NOT NULL,
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS "groups" (
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "invites" (
+CREATE TABLE "invites" (
 	"id" text PRIMARY KEY NOT NULL,
 	"email" text NOT NULL,
 	"group_id" text NOT NULL,
@@ -143,7 +143,7 @@ CREATE TABLE IF NOT EXISTS "invites" (
 	"status" text DEFAULT 'pending' NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "invoice_items" (
+CREATE TABLE "invoice_items" (
 	"id" text PRIMARY KEY NOT NULL,
 	"invoice_id" text NOT NULL,
 	"service_code" text NOT NULL,
@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS "invoice_items" (
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "invoices" (
+CREATE TABLE "invoices" (
 	"id" text PRIMARY KEY NOT NULL,
 	"invoice_code" text NOT NULL,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
@@ -166,7 +166,7 @@ CREATE TABLE IF NOT EXISTS "invoices" (
 	CONSTRAINT "invoices_invoice_code_unique" UNIQUE("invoice_code")
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "messages" (
+CREATE TABLE "messages" (
 	"id" text PRIMARY KEY NOT NULL,
 	"vendor_user_id" text NOT NULL,
 	"client_user_id" text NOT NULL,
@@ -177,7 +177,7 @@ CREATE TABLE IF NOT EXISTS "messages" (
 	"message" text NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "payments" (
+CREATE TABLE "payments" (
 	"id" text PRIMARY KEY NOT NULL,
 	"invoice_id" text NOT NULL,
 	"amount_paid" integer NOT NULL,
@@ -187,7 +187,7 @@ CREATE TABLE IF NOT EXISTS "payments" (
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "permissions" (
+CREATE TABLE "permissions" (
 	"group_id" text NOT NULL,
 	"role" "userRole" NOT NULL,
 	"area" text NOT NULL,
@@ -195,7 +195,7 @@ CREATE TABLE IF NOT EXISTS "permissions" (
 	CONSTRAINT "permissions_group_id_role_area_pk" PRIMARY KEY("group_id","role","area")
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "storage" (
+CREATE TABLE "storage" (
 	"id" text PRIMARY KEY NOT NULL,
 	"filename" text,
 	"url" text,
@@ -210,7 +210,7 @@ CREATE TABLE IF NOT EXISTS "storage" (
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "subscriptions" (
+CREATE TABLE "subscriptions" (
 	"id" text PRIMARY KEY NOT NULL,
 	"group_id" text NOT NULL,
 	"plan_id" text NOT NULL,
@@ -220,7 +220,7 @@ CREATE TABLE IF NOT EXISTS "subscriptions" (
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "tasks" (
+CREATE TABLE "tasks" (
 	"id" text PRIMARY KEY NOT NULL,
 	"group_id" text NOT NULL,
 	"todo" text NOT NULL,
@@ -233,7 +233,7 @@ CREATE TABLE IF NOT EXISTS "tasks" (
 	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
-CREATE TABLE IF NOT EXISTS "users" (
+CREATE TABLE "users" (
 	"id" text NOT NULL,
 	"first_name" text NOT NULL,
 	"last_name" text NOT NULL,
@@ -256,166 +256,31 @@ CREATE TABLE IF NOT EXISTS "users" (
 	CONSTRAINT "users_id_unique" UNIQUE("id")
 );
 --> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "appointments" ADD CONSTRAINT "appointments_vendor_user_id_users_id_fk" FOREIGN KEY ("vendor_user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "appointments" ADD CONSTRAINT "appointments_client_user_id_users_id_fk" FOREIGN KEY ("client_user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "appointments" ADD CONSTRAINT "appointments_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "cases" ADD CONSTRAINT "cases_plaintiff_group_id_groups_id_fk" FOREIGN KEY ("plaintiff_group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "cases" ADD CONSTRAINT "cases_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "document_sharing" ADD CONSTRAINT "document_sharing_sender_group_id_groups_id_fk" FOREIGN KEY ("sender_group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "document_sharing" ADD CONSTRAINT "document_sharing_receiver_group_id_groups_id_fk" FOREIGN KEY ("receiver_group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "document_sharing" ADD CONSTRAINT "document_sharing_document_id_documents_id_fk" FOREIGN KEY ("document_id") REFERENCES "public"."documents"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "document_sharing" ADD CONSTRAINT "document_sharing_sender_user_id_users_id_fk" FOREIGN KEY ("sender_user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "document_sharing" ADD CONSTRAINT "document_sharing_receiver_user_id_users_id_fk" FOREIGN KEY ("receiver_user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "documents" ADD CONSTRAINT "documents_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "documents" ADD CONSTRAINT "documents_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "events" ADD CONSTRAINT "events_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "events" ADD CONSTRAINT "events_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "events" ADD CONSTRAINT "events_case_id_cases_id_fk" FOREIGN KEY ("case_id") REFERENCES "public"."cases"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "invites" ADD CONSTRAINT "invites_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "invites" ADD CONSTRAINT "invites_invited_by_users_id_fk" FOREIGN KEY ("invited_by") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "invoice_items" ADD CONSTRAINT "invoice_items_invoice_id_invoices_id_fk" FOREIGN KEY ("invoice_id") REFERENCES "public"."invoices"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "messages" ADD CONSTRAINT "messages_vendor_user_id_users_id_fk" FOREIGN KEY ("vendor_user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "messages" ADD CONSTRAINT "messages_client_user_id_users_id_fk" FOREIGN KEY ("client_user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "payments" ADD CONSTRAINT "payments_invoice_id_invoices_id_fk" FOREIGN KEY ("invoice_id") REFERENCES "public"."invoices"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "permissions" ADD CONSTRAINT "permissions_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "subscriptions" ADD CONSTRAINT "subscriptions_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "tasks" ADD CONSTRAINT "tasks_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "tasks" ADD CONSTRAINT "tasks_assigned_user_id_users_id_fk" FOREIGN KEY ("assigned_user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "users" ADD CONSTRAINT "users_auth_user_id_auth_users_id_fk" FOREIGN KEY ("auth_user_id") REFERENCES "public"."auth_users"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-DO $$ BEGIN
- ALTER TABLE "users" ADD CONSTRAINT "users_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;
-EXCEPTION
- WHEN duplicate_object THEN null;
-END $$;
---> statement-breakpoint
-CREATE UNIQUE INDEX IF NOT EXISTS "emailUniqueIndex" ON "auth_users" USING btree (lower("email"));
+ALTER TABLE "appointments" ADD CONSTRAINT "appointments_vendor_user_id_users_id_fk" FOREIGN KEY ("vendor_user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "appointments" ADD CONSTRAINT "appointments_client_user_id_users_id_fk" FOREIGN KEY ("client_user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "appointments" ADD CONSTRAINT "appointments_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "cases" ADD CONSTRAINT "cases_plaintiff_group_id_groups_id_fk" FOREIGN KEY ("plaintiff_group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "cases" ADD CONSTRAINT "cases_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "document_sharing" ADD CONSTRAINT "document_sharing_sender_group_id_groups_id_fk" FOREIGN KEY ("sender_group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "document_sharing" ADD CONSTRAINT "document_sharing_receiver_group_id_groups_id_fk" FOREIGN KEY ("receiver_group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "document_sharing" ADD CONSTRAINT "document_sharing_document_id_documents_id_fk" FOREIGN KEY ("document_id") REFERENCES "public"."documents"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "document_sharing" ADD CONSTRAINT "document_sharing_sender_user_id_users_id_fk" FOREIGN KEY ("sender_user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "document_sharing" ADD CONSTRAINT "document_sharing_receiver_user_id_users_id_fk" FOREIGN KEY ("receiver_user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "documents" ADD CONSTRAINT "documents_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "documents" ADD CONSTRAINT "documents_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "events" ADD CONSTRAINT "events_user_id_users_id_fk" FOREIGN KEY ("user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "events" ADD CONSTRAINT "events_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "events" ADD CONSTRAINT "events_case_id_cases_id_fk" FOREIGN KEY ("case_id") REFERENCES "public"."cases"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "invites" ADD CONSTRAINT "invites_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "invites" ADD CONSTRAINT "invites_invited_by_users_id_fk" FOREIGN KEY ("invited_by") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "invoice_items" ADD CONSTRAINT "invoice_items_invoice_id_invoices_id_fk" FOREIGN KEY ("invoice_id") REFERENCES "public"."invoices"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "messages" ADD CONSTRAINT "messages_vendor_user_id_users_id_fk" FOREIGN KEY ("vendor_user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "messages" ADD CONSTRAINT "messages_client_user_id_users_id_fk" FOREIGN KEY ("client_user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "payments" ADD CONSTRAINT "payments_invoice_id_invoices_id_fk" FOREIGN KEY ("invoice_id") REFERENCES "public"."invoices"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "permissions" ADD CONSTRAINT "permissions_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "subscriptions" ADD CONSTRAINT "subscriptions_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "tasks" ADD CONSTRAINT "tasks_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "tasks" ADD CONSTRAINT "tasks_assigned_user_id_users_id_fk" FOREIGN KEY ("assigned_user_id") REFERENCES "public"."users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "users" ADD CONSTRAINT "users_auth_user_id_auth_users_id_fk" FOREIGN KEY ("auth_user_id") REFERENCES "public"."auth_users"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "users" ADD CONSTRAINT "users_group_id_groups_id_fk" FOREIGN KEY ("group_id") REFERENCES "public"."groups"("id") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+CREATE UNIQUE INDEX "emailUniqueIndex" ON "auth_users" USING btree (lower("email"));

@@ -13,9 +13,14 @@ import {
 } from 'drizzle-orm/pg-core'
 import { generateId } from './id.util'
 import { lower } from './orm.util'
-
+/**
+ * userLevelEnum is an enum for user levels in the system , applies to auth_users table only
+ */
 export const userLevelEnum = pgEnum('userLevel', ['user', 'moderator', 'admin'])
-export const userRoleEnum = pgEnum('userRole', ['owner', 'manager', 'member'])
+/**
+ * userRoleEnum is an enum for user roles in the application, applies to  users table only, owner for one group
+ */
+export const userRoleEnum = pgEnum('userRole', ['admin', 'manager', 'member'])
 export const userStatusEnum = pgEnum('userStatus', [
     'active',
     'inactive',
@@ -52,11 +57,7 @@ export const authUsersTable = pgTable(
             .notNull()
             .$onUpdate(() => new Date()),
     },
-    (table) => ({
-        emailUniqueIndex: uniqueIndex('emailUniqueIndex').on(
-            lower(table.email),
-        ),
-    }),
+    (table) => [uniqueIndex('emailUniqueIndex').on(lower(table.email))],
 )
 
 /**
@@ -90,13 +91,11 @@ export const usersTable = pgTable(
             .notNull()
             .$onUpdate(() => new Date()),
     },
-    (table) => {
-        return {
-            pk: primaryKey({
-                columns: [table.groupId, table.authUserId],
-            }),
-        }
-    },
+    (table) => [
+        primaryKey({
+            columns: [table.groupId, table.authUserId],
+        }),
+    ],
 )
 
 export const usersRelations = relations(usersTable, ({ one, many }) => ({
@@ -114,6 +113,7 @@ export const usersRelations = relations(usersTable, ({ one, many }) => ({
 
 const authUsersRelations = relations(authUsersTable, ({ many }) => ({
     users: many(usersTable),
+    groups: many(groupsTable),
 }))
 
 export const groupTypeEnum = pgEnum('groupType', ['client', 'vendor'])
@@ -212,13 +212,11 @@ export const permissionsTable = pgTable(
         area: text('area').notNull(),
         access: integer('access').notNull().default(1), // refer to README.md for access levels
     },
-    (table) => {
-        return {
-            pk: primaryKey({
-                columns: [table.groupId, table.role, table.area],
-            }),
-        }
-    },
+    (table) => [
+        primaryKey({
+            columns: [table.groupId, table.role, table.area],
+        }),
+    ],
 )
 
 // to keep a list of areas/resources/entities in the application to attach permissions to. Usually the table names

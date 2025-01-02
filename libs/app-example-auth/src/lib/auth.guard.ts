@@ -10,7 +10,7 @@ import { AuthStateService } from './auth-state.service'
 export function authGuardFn({
     redirectTo,
 }: {
-    redirectTo: any[]
+    redirectTo: string[]
 }): CanActivateFn {
     return (_route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
         return inject(AuthStateService).isLoggedIn()

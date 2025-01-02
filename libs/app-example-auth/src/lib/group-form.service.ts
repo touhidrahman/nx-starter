@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { GroupInput } from '@myorg/common-auth'
 
 @Injectable()
 export class GroupFormService {
@@ -22,7 +23,7 @@ export class GroupFormService {
         return this.form.get(control)
     }
 
-    getValue() {
-        return this.form.value
+    getValue(): GroupInput {
+        return this.form.value as GroupInput
     }
 }
