@@ -1,14 +1,14 @@
 import { db } from '../../core/db/db'
 import { and, eq, count, getTableColumns } from 'drizzle-orm'
-import { authUsersTable } from '../../core/db/schema'
+import { usersTable } from '../../core/db/schema'
 import { sql } from 'drizzle-orm'
 
 export async function getAdminUsers(page?: number, pageSize?: number) {
     const query = db
         .select({
-            ...getTableColumns(authUsersTable),
+            ...getTableColumns(usersTable),
         })
-        .from(authUsersTable)
+        .from(usersTable)
 
     if (page && pageSize) {
         const offset = (page - 1) * pageSize
@@ -16,7 +16,7 @@ export async function getAdminUsers(page?: number, pageSize?: number) {
         // Total count of admin users
         const totalUsersResult = await db
             .select({ count: sql`COUNT(*)` })
-            .from(authUsersTable)
+            .from(usersTable)
 
         const totalUsers = Number(totalUsersResult[0]?.count) || 0
 
@@ -55,12 +55,12 @@ export async function getAdminUsers(page?: number, pageSize?: number) {
 export async function approveAdminUser(userId: string) {
     try {
         const result = await db
-            .update(authUsersTable)
+            .update(usersTable)
             .set({ verified: true })
             .where(
                 and(
-                    eq(authUsersTable.id, userId),
-                    eq(authUsersTable.level, 'admin'),
+                    eq(usersTable.id, userId),
+                    eq(usersTable.level, 'admin'),
                 ),
             )
             .returning()
@@ -82,9 +82,9 @@ export async function approveAdminUser(userId: string) {
 export async function makeUserAdmin(userId: string) {
     try {
         const result = await db
-            .update(authUsersTable)
+            .update(usersTable)
             .set({ level: 'admin' })
-            .where(eq(authUsersTable.id, userId))
+            .where(eq(usersTable.id, userId))
             .returning()
 
         if (result.length === 0) {
@@ -101,8 +101,8 @@ export async function makeUserAdmin(userId: string) {
 export async function adminUserExists(userId: string) {
     const userCount = await db
         .select({ value: count() })
-        .from(authUsersTable)
-        .where(eq(authUsersTable.id, userId))
+        .from(usersTable)
+        .where(eq(usersTable.id, userId))
 
     return userCount?.[0]?.value === 1
 }
@@ -111,10 +111,10 @@ export async function adminUserExists(userId: string) {
 export async function getAdminUserById(userId: string) {
     const user = await db
         .select({
-            ...getTableColumns(authUsersTable),
+            ...getTableColumns(usersTable),
         })
-        .from(authUsersTable)
-        .where(eq(authUsersTable.id, userId))
+        .from(usersTable)
+        .where(eq(usersTable.id, userId))
         .limit(1)
 
     return user[0] || null

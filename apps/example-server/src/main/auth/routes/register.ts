@@ -4,7 +4,7 @@ import { CONFLICT, CREATED } from 'stoker/http-status-codes'
 import { jsonContentRequired } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { db } from '../../../core/db/db'
-import { authUsersTable } from '../../../core/db/schema'
+import { usersTable } from '../../../core/db/schema'
 import { sendEmailUsingResend } from '../../../core/email/email.service'
 import { buildWelcomeEmailTemplate } from '../../email/templates/welcome'
 import { zEmpty } from '../../../core/models/common.schema'
@@ -55,7 +55,7 @@ export const registerHandler: AppRouteHandler<typeof registerRoute> = async (
 
     // Insert new user
     const [createdAuthUser] = await db
-        .insert(authUsersTable)
+        .insert(usersTable)
         .values({
             email,
             password: hash,

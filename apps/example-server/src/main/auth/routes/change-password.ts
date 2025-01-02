@@ -5,7 +5,7 @@ import { BAD_REQUEST, OK, UNAUTHORIZED } from 'stoker/http-status-codes'
 import { jsonContentRequired } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { db } from '../../../core/db/db'
-import { authUsersTable } from '../../../core/db/schema'
+import { usersTable } from '../../../core/db/schema'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zChangePassword } from '../auth.schema'
@@ -70,9 +70,9 @@ export const changePasswordHandler: AppRouteHandler<
     // Hash the new password and update the database
     const hashedPassword = await argon2.hash(password)
     await db
-        .update(authUsersTable)
+        .update(usersTable)
         .set({ password: hashedPassword })
-        .where(eq(authUsersTable.id, userId))
+        .where(eq(usersTable.id, userId))
 
     const passwordChangeTemplate = buildpasswordChangeSuccessfulEmailTemplate({
         email: user.email,

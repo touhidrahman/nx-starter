@@ -9,7 +9,7 @@ import {
     getTableColumns,
 } from 'drizzle-orm'
 import { db } from '../../core/db/db'
-import { authUsersTable, groupsTable, usersTable } from '../../core/db/schema'
+import { groupsTable, usersTable } from '../../core/db/schema'
 import { GroupDto } from './group.schema'
 
 // Retrieve the default group for a specific authenticated user.
@@ -18,10 +18,10 @@ export const getDefaultGroup = async (authUserId: string) => {
         .select()
         .from(groupsTable)
         .innerJoin(
-            authUsersTable,
-            eq(groupsTable.id, authUsersTable.defaultGroupId),
+            usersTable,
+            eq(groupsTable.id, usersTable.defaultGroupId),
         )
-        .where(and(eq(authUsersTable.id, authUserId)))
+        .where(and(eq(usersTable.id, authUserId)))
         .limit(1)
 
     return results?.[0] ?? null

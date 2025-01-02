@@ -6,7 +6,7 @@ import { jsonContentRequired } from 'stoker/openapi/helpers'
 import { z } from 'zod'
 import { AppRouteHandler } from '../../../core/core.type'
 import { db } from '../../../core/db/db'
-import { authUsersTable } from '../../../core/db/schema'
+import { usersTable } from '../../../core/db/schema'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zResetPassword } from '../auth.schema'
@@ -50,9 +50,9 @@ export const resetPasswordHandler: AppRouteHandler<
     if (user) {
         const hashedPassword = await argon2.hash(password)
         await db
-            .update(authUsersTable)
+            .update(usersTable)
             .set({ password: hashedPassword })
-            .where(eq(authUsersTable.id, user.id))
+            .where(eq(usersTable.id, user.id))
 
         const passwordResetSuccessfulTemplate =
             buildpasswordResetSuccessfulEmailTemplate({ email: email })

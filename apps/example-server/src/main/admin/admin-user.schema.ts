@@ -1,17 +1,17 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
-import { authUsersTable, userLevelEnum } from '../../core/db/schema'
+import { usersTable, userLevelEnum } from '../../core/db/schema'
 import { z } from 'zod'
 
-export type AdminUserDto = typeof authUsersTable.$inferInsert
-export type AdminUser = typeof authUsersTable.$inferSelect
+export type AdminUserDto = typeof usersTable.$inferInsert
+export type AdminUser = typeof usersTable.$inferSelect
 
-export const zInsertAdminUser = createInsertSchema(authUsersTable).extend({
+export const zInsertAdminUser = createInsertSchema(usersTable).extend({
     level: z.literal(
         userLevelEnum.enumValues.find((level) => level === 'admin'),
     ),
 })
-export const zSelectAdminUser = createSelectSchema(authUsersTable)
-export const zUpdateAdminUser = createInsertSchema(authUsersTable).partial()
+export const zSelectAdminUser = createSelectSchema(usersTable)
+export const zUpdateAdminUser = createInsertSchema(usersTable).partial()
 
 export const zSearchAdminUser = zSelectAdminUser
     .pick({

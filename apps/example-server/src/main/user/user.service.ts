@@ -1,13 +1,13 @@
 import { and, count, eq } from 'drizzle-orm'
 import { db } from '../../core/db/db'
-import { authUsersTable, usersTable } from '../../core/db/schema'
+import { usersTable } from '../../core/db/schema'
 import { UserDto } from './user.schema'
 
 export async function findUsersByAuthUserId(authUserId: string) {
     const results = await db
         .select()
         .from(usersTable)
-        .where(eq(authUsersTable.id, authUserId))
+        .where(eq(usersTable.id, authUserId))
 
     return results
 }

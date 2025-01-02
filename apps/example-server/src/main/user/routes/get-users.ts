@@ -7,7 +7,6 @@ import { db } from '../../../core/db/db'
 import {
     usersTable,
     groupsTable,
-    authUsersTable,
     userStatusEnum,
     userLevelEnum,
     groupTypeEnum,
@@ -73,14 +72,14 @@ export const getUsersHandler: AppRouteHandler<typeof getUsersRoute> = async (
     query?.status &&
         conditions.push(
             eq(
-                authUsersTable.status,
+                usersTable.status,
                 query.status as 'active' | 'inactive' | 'banned',
             ),
         )
     query?.authUserType &&
         conditions.push(
             eq(
-                authUsersTable.level,
+                usersTable.level,
                 query.authUserType as 'user' | 'moderator' | 'admin',
             ),
         )
@@ -103,13 +102,13 @@ export const getUsersHandler: AppRouteHandler<typeof getUsersRoute> = async (
     const users = await db
         .select({
             ...getTableColumns(usersTable),
-            status: authUsersTable.status,
-            authUserType: authUsersTable.level,
+            status: usersTable.status,
+            authUserType: usersTable.level,
             groupType: groupsTable.type,
         })
         .from(usersTable)
         .leftJoin(groupsTable, eq(usersTable.groupId, groupsTable.id))
-        .leftJoin(authUsersTable, eq(usersTable.authUserId, authUsersTable.id))
+        .leftJoin(usersTable, eq(usersTable.authUserId, usersTable.id))
         .where(
             conditions.length
                 ? sql`${conditions.reduce(

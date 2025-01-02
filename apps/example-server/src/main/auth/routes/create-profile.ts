@@ -7,7 +7,7 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { AppRouteHandler } from '../../../core/core.type'
 import { db } from '../../../core/db/db'
 import {
-    authUsersTable,
+    usersTable,
     groupsTable,
     usersTable,
 } from '../../../core/db/schema'
@@ -108,9 +108,9 @@ export const createProfileHandler: AppRouteHandler<
 
     // update auth user with default group id
     await db
-        .update(authUsersTable)
+        .update(usersTable)
         .set({ defaultGroupId: group.id })
-        .where(eq(authUsersTable.id, authUserId))
+        .where(eq(usersTable.id, authUserId))
         .returning()
 
     const createProfileSuccess = buildSuccessEmailTemplate({
