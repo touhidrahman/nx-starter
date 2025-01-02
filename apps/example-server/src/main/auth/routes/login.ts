@@ -14,7 +14,7 @@ import { db } from '../../../core/db/db'
 import { groupsTable, usersGroupsTable } from '../../../core/db/schema'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { LEVEL_ADMIN, LEVEL_MODERATOR } from '../../user/user.schema'
+import { USER_LEVEL_ADMIN, USER_LEVEL_MODERATOR } from '../../user/user.schema'
 import { zLogin } from '../auth.schema'
 import {
     findUserByEmail,
@@ -80,7 +80,7 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
 
     // if previledged user, do not check for groups and just return access token
     // TODO: fix as any
-    if ([LEVEL_ADMIN, LEVEL_MODERATOR].includes(user.level as any)) {
+    if ([USER_LEVEL_ADMIN, USER_LEVEL_MODERATOR].includes(user.level as any)) {
         const accessToken = await createAccessToken(user, 'admin')
         const refreshToken = await createRefreshToken(user)
 

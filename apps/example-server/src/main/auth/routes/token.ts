@@ -7,7 +7,7 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { findGroupById } from '../../group/group.service'
-import { LEVEL_ADMIN, LEVEL_MODERATOR } from '../../user/user.schema'
+import { USER_LEVEL_ADMIN, USER_LEVEL_MODERATOR } from '../../user/user.schema'
 import {
     findUserByEmail,
     getRoleByUserAndGroup,
@@ -70,7 +70,7 @@ export const getTokenRouteHandler: AppRouteHandler<
 
     // if previledged user, do not check for groups and just return access token
     // TODO: fix as any
-    if ([LEVEL_ADMIN, LEVEL_MODERATOR].includes(user.level as any)) {
+    if ([USER_LEVEL_ADMIN, USER_LEVEL_MODERATOR].includes(user.level as any)) {
         const accessToken = await createAccessToken(user, 'admin')
         return c.json(
             {

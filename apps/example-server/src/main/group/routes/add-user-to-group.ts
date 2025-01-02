@@ -14,7 +14,7 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { findUserByEmail } from '../../auth/auth.service'
-import { ROLE_MEMBER, zSelectUser } from '../../user/user.schema'
+import { USER_ROLE_MEMBER, zSelectUser } from '../../user/user.schema'
 import { isParticipant } from '../group.service'
 
 export const addUserToGroupRoute = createRoute({
@@ -64,7 +64,7 @@ export const addUserToGroupHandler: AppRouteHandler<
         await db.insert(usersGroupsTable).values({
             userId: user.id,
             groupId: id,
-            role: ROLE_MEMBER,
+            role: USER_ROLE_MEMBER,
         })
 
         return c.json(
