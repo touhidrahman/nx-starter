@@ -1,23 +1,17 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import {
     CREATED,
-    INTERNAL_SERVER_ERROR,
-    BAD_REQUEST,
-    NOT_FOUND,
+    INTERNAL_SERVER_ERROR
 } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
+import { db } from '../../../core/db/db'
+import { usersGroupsTable } from '../../../core/db/schema'
+import { isGroupOwner } from '../../../core/middlewares/is-group-owner.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zUpdateUserRole } from '../group.schema'
-import {
-    findUserByUserIdAndGroupId,
-    updateUser,
-    userExists,
-} from '../../user/user.service'
-import { isGroupOwner } from '../../../core/middlewares/is-group-owner.middleware'
-import { zSelectUser } from '../../user/user.schema'
 
 export const updateUserRoleRoute = createRoute({
     path: '/v1/groups/:id/update-user-role',
@@ -29,42 +23,29 @@ export const updateUserRoleRoute = createRoute({
         body: jsonContent(zUpdateUserRole, 'User ID and Role'),
     },
     responses: {
-        [CREATED]: ApiResponse(zSelectUser, 'User Role updated successfully'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'User not found'),
-        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid group data'),
+        [CREATED]: ApiResponse(zEmpty, 'User Role updated successfully'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
 })
 export const updateUserRoleHandler: AppRouteHandler<
     typeof updateUserRoleRoute
 > = async (c) => {
-    const id = c.req.param('id')
+    const { id: groupId } = c.req.param()
     const { userId, role } = c.req.valid('json')
 
     try {
-        const exists = await userExists(userId)
-        if (!exists) {
-            return c.json(
-                { message: 'User not found', data: {}, success: false },
-                NOT_FOUND,
-            )
-        }
-        const user = await findUserByUserIdAndGroupId(userId, id)
-        if (!user) {
-            return c.json(
-                {
-                    data: {},
-                    success: false,
-                    message: 'User does not belong to group',
-                },
-                BAD_REQUEST,
-            )
-        }
-
-        const [result] = await updateUser(user.id, { role: role as any })
+        await db.insert(usersGroupsTable)
+            .values({
+                groupId,
+                userId,
+                role: role as any,
+            }).onConflictDoUpdate({
+                target: [usersGroupsTable.groupId, usersGroupsTable.userId],
+                set: { role: role as any },
+            }).returning()
 
         return c.json(
-            { data: result, message: 'User role updated', success: true },
+            { data: {}, message: 'User role updated', success: true },
             CREATED,
         )
     } catch (error) {

@@ -1,24 +1,23 @@
 import { createRoute, z } from '@hono/zod-openapi'
 import {
+    BAD_REQUEST,
     CREATED,
     INTERNAL_SERVER_ERROR,
-    BAD_REQUEST,
     NOT_FOUND,
 } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
+import { db } from '../../../core/db/db'
+import { usersGroupsTable } from '../../../core/db/schema'
+import { isGroupOwner } from '../../../core/middlewares/is-group-owner.middleware'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
-import { isParticipant } from '../group.service'
-import { ROLE_MEMBER, zSelectUser } from '../../user/user.schema'
-import { createUser } from '../../user/user.service'
-import { isGroupOwner } from '../../../core/middlewares/is-group-owner.middleware'
 import { findUserByEmail } from '../../auth/auth.service'
-import { db } from '../../../core/db/db'
-import { usersGroupsTable } from '../../../core/db/schema'
+import { ROLE_MEMBER, zSelectUser } from '../../user/user.schema'
+import { isParticipant } from '../group.service'
 
-export const addAuthUserToGroupRoute = createRoute({
+export const addUserToGroupRoute = createRoute({
     path: '/v1/groups/:id/add-user',
     method: 'post',
     tags: ['Group'],
@@ -33,8 +32,8 @@ export const addAuthUserToGroupRoute = createRoute({
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
 })
-export const addAuthUserToGroupHandler: AppRouteHandler<
-    typeof addAuthUserToGroupRoute
+export const addUserToGroupHandler: AppRouteHandler<
+    typeof addUserToGroupRoute
 > = async (c) => {
     const id = c.req.param('id')
     const { email } = c.req.valid('json')

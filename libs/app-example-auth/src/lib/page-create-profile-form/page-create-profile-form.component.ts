@@ -44,7 +44,7 @@ export class PageCreateProfileFormComponent {
             )
             .subscribe({
                 next: (res) => {
-                    console.log('TCL: ~ res ', res);
+                    console.log('TCL: ~ res ', res)
                     this.isLoading = false
                     this.router.navigate(['/profile-created'])
                 },

@@ -15,7 +15,7 @@ import { groupsTable, usersGroupsTable } from '../../../core/db/schema'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { LEVEL_ADMIN, LEVEL_MODERATOR } from '../../user/user.schema'
-import { } from '../../user/user.service'
+import {} from '../../user/user.service'
 import { zLogin } from '../auth.schema'
 import { findUserByEmail, updateLastLogin } from '../auth.service'
 import { createAccessToken, createRefreshToken } from '../token.util'
@@ -95,7 +95,6 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
         )
     }
 
-
     // if query param has group id, get the user profile belonging to that group
     let chosenGroupId = groupId || user.defaultGroupId
 
@@ -122,7 +121,8 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
         } else {
             return c.json(
                 {
-                    message: 'No group selected. Please select a group to continue',
+                    message:
+                        'No group selected. Please select a group to continue',
                     data: {
                         availableGroups: records.map((u) => u.groupId), // TODO: send groups actually
                     },
@@ -137,7 +137,10 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
         where: eq(groupsTable.id, chosenGroupId),
     })
     const role = await db.query.usersGroupsTable.findFirst({
-        where: and(eq(usersGroupsTable.userId, user.id), eq(usersGroupsTable.groupId, chosenGroupId)),
+        where: and(
+            eq(usersGroupsTable.userId, user.id),
+            eq(usersGroupsTable.groupId, chosenGroupId),
+        ),
     })
     const accessToken = await createAccessToken(
         user,

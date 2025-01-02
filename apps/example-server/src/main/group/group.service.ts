@@ -17,10 +17,7 @@ export const getDefaultGroup = async (userId: string) => {
     const results = await db
         .select()
         .from(groupsTable)
-        .innerJoin(
-            usersTable,
-            eq(groupsTable.id, usersTable.defaultGroupId),
-        )
+        .innerJoin(usersTable, eq(groupsTable.id, usersTable.defaultGroupId))
         .where(and(eq(usersTable.id, userId)))
         .limit(1)
 
@@ -128,7 +125,12 @@ export const isParticipant = async (userId: string, groupId: string) => {
     const results = await db
         .select({ count: count() })
         .from(usersGroupsTable)
-        .where(and(eq(usersGroupsTable.groupId, groupId), eq(usersGroupsTable.userId, userId)))
+        .where(
+            and(
+                eq(usersGroupsTable.groupId, groupId),
+                eq(usersGroupsTable.userId, userId),
+            ),
+        )
 
     return results?.[0].count === 1
 }

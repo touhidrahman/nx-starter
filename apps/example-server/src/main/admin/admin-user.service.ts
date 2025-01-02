@@ -58,10 +58,7 @@ export async function approveAdminUser(userId: string) {
             .update(usersTable)
             .set({ verified: true })
             .where(
-                and(
-                    eq(usersTable.id, userId),
-                    eq(usersTable.level, 'admin'),
-                ),
+                and(eq(usersTable.id, userId), eq(usersTable.level, 'admin')),
             )
             .returning()
 

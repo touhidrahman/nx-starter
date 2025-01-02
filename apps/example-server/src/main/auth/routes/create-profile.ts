@@ -58,12 +58,7 @@ export const createProfileHandler: AppRouteHandler<
     const [ownedGroupByType] = await db
         .select()
         .from(groupsTable)
-        .where(
-            and(
-                eq(groupsTable.ownerId, userId),
-                eq(groupsTable.type, type),
-            ),
-        )
+        .where(and(eq(groupsTable.ownerId, userId), eq(groupsTable.type, type)))
         .limit(1)
 
     if (ownedGroupByType) {
@@ -76,7 +71,6 @@ export const createProfileHandler: AppRouteHandler<
             BAD_REQUEST,
         )
     }
-
 
     // create a group
     const [group] = await db

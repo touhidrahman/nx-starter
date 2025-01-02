@@ -15,9 +15,12 @@ export const setDefaulGroupRoute = createRoute({
     middleware: [checkToken] as const,
     request: {
         params: zId,
-        body: jsonContent(z.object({
-            groupId: z.string(),
-        }), 'Set default group id to user'),
+        body: jsonContent(
+            z.object({
+                groupId: z.string(),
+            }),
+            'Set default group id to user',
+        ),
     },
     responses: {
         [OK]: ApiResponse(zSelectUser, 'User detail'),
@@ -42,7 +45,7 @@ export const setDefaultGroupHandler: AppRouteHandler<
 
     return c.json(
         {
-            data: ({ ...user, password: '' }),
+            data: { ...user, password: '' },
             message: 'Set default auth user',
             success: true,
         },
