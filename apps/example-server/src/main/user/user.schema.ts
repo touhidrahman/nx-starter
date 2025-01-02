@@ -19,12 +19,9 @@ export const zSearchUser = zSelectUser
         email: true,
         firstName: true,
         lastName: true,
-        groupId: true,
-        authUserId: true,
         city: true,
         country: true,
         postCode: true,
-        role: true,
     })
     .extend({
         page: z.number().int().positive().optional(),

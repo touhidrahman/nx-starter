@@ -41,8 +41,3 @@ export const zUpdateAuthUser = zInsertAuthUser.omit({
     level: true,
     verified: true,
 })
-
-export type AuthUserDto = typeof usersTable.$inferInsert
-export type AuthUser = typeof usersTable.$inferSelect
-
-export const zAuthUserSelect = createSelectSchema(usersTable)

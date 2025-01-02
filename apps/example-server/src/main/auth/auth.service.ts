@@ -3,14 +3,14 @@ import { and, count, eq } from 'drizzle-orm'
 import { db } from '../../core/db/db'
 import { usersTable } from '../../core/db/schema'
 
-export async function updateLastLogin(authUserId: string) {
+export async function updateLastLogin(userId: string) {
     await db
         .update(usersTable)
         .set({ lastLogin: dayjs().toDate() })
-        .where(eq(usersTable.id, authUserId))
+        .where(eq(usersTable.id, userId))
 }
 
-export async function isFirstAuthUser() {
+export async function isFirstUser() {
     const userCount = await db.select({ value: count() }).from(usersTable)
 
     return userCount?.[0]?.value === 0
@@ -26,18 +26,7 @@ export async function findAuthUserById(id: string) {
     return results?.[0] ?? null
 }
 
-export async function findAuthUserByUserId(userId: string) {
-    const results = await db
-        .select()
-        .from(usersTable)
-        .innerJoin(usersTable, eq(usersTable.id, usersTable.authUserId))
-        .where(eq(usersTable.id, userId))
-        .limit(1)
-
-    return results?.[0] ?? null
-}
-
-export async function findAuthUserByEmail(email: string) {
+export async function findUserByEmail(email: string) {
     const results = await db
         .select()
         .from(usersTable)
@@ -45,24 +34,15 @@ export async function findAuthUserByEmail(email: string) {
         .limit(1)
 
     return results?.[0] ?? null
-}
-
-export async function countAuthUserByEmail(email: string) {
-    const userCount = await db
-        .select({ value: count() })
-        .from(usersTable)
-        .where(eq(usersTable.email, email))
-
-    return userCount?.[0]?.value ?? 0
 }
 
 export async function setDefaultGroupId(
-    authUserId: string,
+    userId: string,
     groupId: string | null,
 ) {
     return db
         .update(usersTable)
         .set({ defaultGroupId: groupId })
-        .where(eq(usersTable.id, authUserId))
+        .where(eq(usersTable.id, userId))
         .returning()
 }

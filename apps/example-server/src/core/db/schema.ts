@@ -68,8 +68,15 @@ export const usersTable = pgTable(
     (table) => [uniqueIndex('emailUniqueIndex').on(lower(table.email))],
 )
 
+export const usersGroupsTable = pgTable('users_groups', {
+    userId: text('user_id').notNull().references(() => usersTable.id),
+    groupId: text('group_id').notNull().references(() => groupsTable.id),
+    role: userRoleEnum('role').notNull(), // Role of the user in the group
+}, (table) => [
+    primaryKey({ columns: [table.userId, table.groupId] }) // A user can only be in a group once
+])
+
 export const usersRelations = relations(usersTable, ({ one, many }) => ({
-    group: many(groupsTable),
     invites: many(invitesTable),
     documents: many(documentsTable),
 }))
@@ -129,7 +136,6 @@ export const groupsRelations = relations(groupsTable, ({ one, many }) => ({
     permissions: many(permissionsTable),
     subscriptions: many(subscriptionsTable),
     tasks: many(tasksTable),
-    users: many(usersTable),
 }))
 
 export const invitesTable = pgTable('invites', {

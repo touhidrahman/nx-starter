@@ -12,9 +12,11 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { isParticipant } from '../group.service'
 import { ROLE_MEMBER, zSelectUser } from '../../user/user.schema'
-import { findAuthUserByEmail } from '../../auth/auth.service'
 import { createUser } from '../../user/user.service'
 import { isGroupOwner } from '../../../core/middlewares/is-group-owner.middleware'
+import { findUserByEmail } from '../../auth/auth.service'
+import { db } from '../../../core/db/db'
+import { usersGroupsTable } from '../../../core/db/schema'
 
 export const addAuthUserToGroupRoute = createRoute({
     path: '/v1/groups/:id/add-user',
@@ -38,16 +40,16 @@ export const addAuthUserToGroupHandler: AppRouteHandler<
     const { email } = c.req.valid('json')
 
     try {
-        const authUser = await findAuthUserByEmail(email.toLowerCase())
+        const user = await findUserByEmail(email.toLowerCase())
 
-        if (!authUser) {
+        if (!user) {
             return c.json(
                 { data: {}, success: false, message: 'User not found' },
                 NOT_FOUND,
             )
         }
 
-        const exists = await isParticipant(authUser.id, id)
+        const exists = await isParticipant(user.id, id)
         if (exists) {
             return c.json(
                 {
@@ -59,17 +61,15 @@ export const addAuthUserToGroupHandler: AppRouteHandler<
             )
         }
 
-        const [result] = await createUser({
-            authUserId: authUser.id,
+        // add user to group
+        await db.insert(usersGroupsTable).values({
+            userId: user.id,
             groupId: id,
             role: ROLE_MEMBER,
-            firstName: authUser.firstName,
-            lastName: authUser.lastName,
-            email: authUser.email,
         })
 
         return c.json(
-            { data: result, success: true, message: 'User added to group' },
+            { data: user, success: true, message: 'User added to group' },
             CREATED,
         )
     } catch (error) {

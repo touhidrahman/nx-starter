@@ -54,13 +54,9 @@ export const getUsersHandler: AppRouteHandler<typeof getUsersRoute> = async (
     query?.firstName &&
         conditions.push(eq(usersTable.firstName, query.firstName))
     query?.lastName && conditions.push(eq(usersTable.lastName, query.lastName))
-    query?.groupId && conditions.push(eq(usersTable.groupId, query.groupId))
-    query?.authUserId &&
-        conditions.push(eq(usersTable.authUserId, query.authUserId))
     query?.city && conditions.push(eq(usersTable.city, query.city))
     query?.country && conditions.push(eq(usersTable.country, query.country))
     query?.postCode && conditions.push(eq(usersTable.postCode, query.postCode))
-    query?.role && conditions.push(eq(usersTable.role, query.role))
 
     // Filters from groupsTable
     query?.groupType &&
@@ -108,7 +104,7 @@ export const getUsersHandler: AppRouteHandler<typeof getUsersRoute> = async (
         })
         .from(usersTable)
         .leftJoin(groupsTable, eq(usersTable.groupId, groupsTable.id))
-        .leftJoin(usersTable, eq(usersTable.authUserId, usersTable.id))
+        .leftJoin(usersTable, eq(usersTable.userId, usersTable.id))
         .where(
             conditions.length
                 ? sql`${conditions.reduce(

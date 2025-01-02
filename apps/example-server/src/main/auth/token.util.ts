@@ -4,43 +4,40 @@ import { randomBytes } from 'node:crypto'
 import env from '../../env'
 import { GroupDto } from '../group/group.schema'
 import { User } from '../user/user.schema'
-import { AuthUser } from './auth.schema'
 
 export type AccessTokenPayload = {
-    userId: string
     firstName: string
     lastName: string
     email: string
     level: 'admin' | 'moderator' | 'user' | ''
-    role: 'owner' | 'manager' | 'member' | ''
+    role: 'admin' | 'manager' | 'member' | ''
     groupId: string | ''
     groupType: 'client' | 'vendor' | ''
-    sub: string // authUserId
+    sub: string // userId
     exp: number
 }
 
 export type RefreshTokenPayload = {
     email: string
-    sub: string // authUserId
+    sub: string // userId
     exp: number
     groupId: string
 }
 
 export async function createAccessToken(
-    authUser: AuthUser,
-    user?: User,
+    user: User,
+    role: 'admin' | 'manager' | 'member',
     group?: GroupDto,
 ) {
     const tokenPayload: AccessTokenPayload = {
-        userId: user?.id ?? '',
-        firstName: user?.firstName ?? authUser.firstName,
-        lastName: user?.lastName ?? authUser.lastName,
-        email: authUser.email,
-        level: authUser.level,
-        role: user?.role as any,
-        groupId: user?.groupId ?? '',
+        firstName: user?.firstName ?? '',
+        lastName: user?.lastName ?? '',
+        email: user.email,
+        level: user.level,
+        role: role,
+        groupId: group?.id ?? '',
         groupType: group?.type ?? '',
-        sub: authUser.id,
+        sub: user.id,
         exp:
             env.NODE_ENV !== 'production'
                 ? dayjs().add(1, 'day').valueOf()
@@ -50,7 +47,7 @@ export async function createAccessToken(
     return await sign(tokenPayload, env.ACCESS_TOKEN_SECRET)
 }
 
-export async function createRefreshToken(authUser: AuthUser, groupId?: string) {
+export async function createRefreshToken(authUser: User, groupId?: string) {
     const tokenPayload: RefreshTokenPayload = {
         email: authUser.email,
         sub: authUser.id,
@@ -78,7 +75,7 @@ export async function decodeRefreshToken(
 
 export async function decodeVerificationToken(
     token: string,
-): Promise<{ email: string; authUserId: string } | null> {
+): Promise<{ email: string; userId: string } | null> {
     const verificationToken = token.split('&')
     const { email, sub, exp } = await verify(
         verificationToken[1],
@@ -86,7 +83,7 @@ export async function decodeVerificationToken(
     )
 
     if (exp && exp < dayjs().valueOf()) return null
-    return { email: email as string, authUserId: sub as string }
+    return { email: email as string, userId: sub as string }
 }
 
 export async function createVerficationToken(

@@ -40,7 +40,7 @@ export const resetPasswordHandler: AppRouteHandler<
     const user = await findAuthUserByEmail(email)
     const decoded = await decodeVerificationToken(token)
 
-    if (!decoded || !user || user.id !== decoded.authUserId) {
+    if (!decoded || !user || user.id !== decoded.userId) {
         return c.json(
             { message: 'Invalid token', data: {}, success: false },
             BAD_REQUEST,

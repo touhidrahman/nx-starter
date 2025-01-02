@@ -1,21 +1,22 @@
 import { createRoute, z } from '@hono/zod-openapi'
-import { checkToken } from '../auth.middleware'
+import { and, eq } from 'drizzle-orm'
+import { BAD_REQUEST, CREATED } from 'stoker/http-status-codes'
 import { jsonContent } from 'stoker/openapi/helpers'
-import { zInsertGroup, zSelectGroup } from '../../group/group.schema'
-import { BAD_REQUEST, CREATED, OK } from 'stoker/http-status-codes'
-import { ApiResponse } from '../../../core/utils/api-response.util'
 import { AppRouteHandler } from '../../../core/core.type'
 import { db } from '../../../core/db/db'
 import {
-    usersTable,
     groupsTable,
+    usersGroupsTable,
     usersTable,
 } from '../../../core/db/schema'
-import { and, eq } from 'drizzle-orm'
-import { zEmpty } from '../../../core/models/common.schema'
-import { buildSuccessEmailTemplate } from '../../email/templates/success-template'
 import { sendEmailUsingResend } from '../../../core/email/email.service'
+import { zEmpty } from '../../../core/models/common.schema'
+import { ApiResponse } from '../../../core/utils/api-response.util'
 import env from '../../../env'
+import { buildSuccessEmailTemplate } from '../../email/templates/success-template'
+import { zInsertGroup, zSelectGroup } from '../../group/group.schema'
+import { findUserById } from '../../user/user.service'
+import { checkToken } from '../auth.middleware'
 
 export const createProfileRoute = createRoute({
     path: '/v1/create-profile/:type',
@@ -41,50 +42,41 @@ export const createProfileHandler: AppRouteHandler<
     typeof createProfileRoute
 > = async (c) => {
     const body = c.req.valid('json')
-    const { sub: authUserId } = await c.get('jwtPayload')
+    const { sub: userId } = await c.get('jwtPayload')
     const { type } = c.req.valid('param')
 
-    const [userAsOwner] = await db
+    const user = await findUserById(userId)
+
+    if (!user) {
+        return c.json(
+            { success: false, message: 'User not found', data: {} },
+            BAD_REQUEST,
+        )
+    }
+
+    // check if already a owner of a group
+    const [ownedGroupByType] = await db
         .select()
-        .from(usersTable)
+        .from(groupsTable)
         .where(
             and(
-                eq(usersTable.authUserId, authUserId),
+                eq(groupsTable.ownerId, userId),
                 eq(groupsTable.type, type),
             ),
         )
         .limit(1)
 
-    // check if already a owner of a group
-    const existingVendor = await db
-        .select()
-        .from(groupsTable)
-        .where(eq(groupsTable.ownerId, authUserId))
-        .limit(1)
-
-    if (existingVendor.length > 0) {
+    if (ownedGroupByType) {
         return c.json(
             {
                 success: false,
-                message: `${type} profile already exists`,
+                message: `You already have a ${type} profile`,
                 data: {},
             },
             BAD_REQUEST,
         )
     }
 
-    // create user profile
-    const [user] = await db
-        .insert(usersTable)
-        .values({
-            authUserId,
-            role: 'owner',
-            firstName: authUser.firstName,
-            lastName: authUser.lastName,
-            email: authUser.email,
-            phone: authUser.phone,
-        })
-        .returning()
 
     // create a group
     const [group] = await db
@@ -94,34 +86,33 @@ export const createProfileHandler: AppRouteHandler<
             ownerId: user.id,
             name:
                 body.name ??
-                `${authUser.firstName} ${authUser.lastName}'s Organization`,
+                `${user.firstName} ${user.lastName}'s Organization`,
             type,
-            email: body.email ?? authUser.email,
+            email: body.email ?? user.email,
         })
         .returning()
 
     await db
-        .update(usersTable)
-        .set({ groupId: group.id })
-        .where(eq(usersTable.id, user.id))
+        .insert(usersGroupsTable)
+        .values({ groupId: group.id, userId: user.id, role: 'admin' })
         .returning()
 
-    // update auth user with default group id
+    // update user with default group id
     await db
         .update(usersTable)
         .set({ defaultGroupId: group.id })
-        .where(eq(usersTable.id, authUserId))
+        .where(eq(usersTable.id, userId))
         .returning()
 
     const createProfileSuccess = buildSuccessEmailTemplate({
-        recipientName: `${authUser.firstName} ${authUser.lastName}`,
+        recipientName: `${user.firstName} ${user.lastName}`,
         profileType: group.type,
         dashboardUrl: `${env.FRONTEND_URL}/dashboard`,
         organizationName: group.name,
     })
 
     const { data, error } = await sendEmailUsingResend(
-        [authUser.email ?? ''],
+        [user.email ?? ''],
         'Profile created successfully.',
         createProfileSuccess,
     )

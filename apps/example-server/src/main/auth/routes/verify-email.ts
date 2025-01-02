@@ -43,7 +43,7 @@ export const verifyEmailHandler: AppRouteHandler<
             .set({ verified: true })
             .where(
                 and(
-                    eq(usersTable.id, decoded.authUserId),
+                    eq(usersTable.id, decoded.userId),
                     eq(usersTable.email, decoded.email),
                 ),
             )
