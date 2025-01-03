@@ -1,6 +1,6 @@
 {
     "extends": "./tsconfig.json",
-    "include": ["src/**/*.ts"],
+    "include": ["src/**/*.ts", "../../libs/app-example-api-services/src/lib/appointment-api.service.ts"],
     "compilerOptions": {
         "types": ["jest", "node"]
     }
