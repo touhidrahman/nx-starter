@@ -58,13 +58,9 @@ export class UserListStateService extends SimpleStore<UserListState> {
     }
 
     private loadUsers() {
-        const organizationId = this.authStateService.getUser()?.organizationId
-        if (!organizationId) return
-
         this.setState({ loading: true })
         this.userApiService
             .find({
-                organizationId: this.authStateService.getUser()?.organizationId,
             })
             .subscribe({
                 next: ({ data: users }) => {

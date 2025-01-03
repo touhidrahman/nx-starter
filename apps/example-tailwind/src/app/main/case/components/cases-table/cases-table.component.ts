@@ -1,10 +1,10 @@
 import { Component, inject, input, model, output } from '@angular/core'
 import { PrimeModules } from '@myorg/prime-modules'
 import { Router, RouterLink } from '@angular/router'
-import { CasesStateService } from '../../states/cases-state.service'
 import { AsyncPipe } from '@angular/common'
-import { Case } from '../../models/case.model'
-import { CaseFormService } from '../../services/case-form.service'
+import { Case } from '@myorg/app-example-models'
+import { CaseFormService } from '@myorg/app-example-forms'
+import { CasesStateService } from '@myorg/app-example-states'
 
 @Component({
     selector: 'app-cases-table',

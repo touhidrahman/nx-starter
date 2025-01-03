@@ -3,11 +3,11 @@ import { CommonModule } from '@angular/common'
 import { DropdownModule } from 'primeng/dropdown'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
-import { CasesStateService } from '../../features/case/states/cases-state.service'
-import { CasesTableComponent } from '../../features/case/components/cases-table/cases-table.component'
-import { CaseFormService } from '../../features/case/services/case-form.service'
+import { CasesTableComponent } from '../../main/case/components/cases-table/cases-table.component'
 import { PrimeModules } from '@myorg/prime-modules'
 import { FilterComponent } from '../../main/dashboard/components/filter/filter.component'
+import { CaseFormService } from '@myorg/app-example-forms'
+import { CasesStateService } from '@myorg/app-example-states'
 
 @Component({
     selector: 'app-page-cases',

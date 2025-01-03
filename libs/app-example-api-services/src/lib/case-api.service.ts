@@ -1,23 +1,28 @@
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { inject, Inject, Injectable } from '@angular/core'
-import { AUTH_API_URL, SignupInput } from '@myorg/common-auth'
-import { environment } from '../../../../environment/environment'
+import { APP_EXAMPLE_ENVIRONMENT, AppExampleEnvironment } from '@myorg/app-example-core'
+import { Case } from '@myorg/app-example-models'
 import { ApiResponse } from '@myorg/common-models'
 import { Observable } from 'rxjs'
-import { Case } from '../models/case.model'
 
 @Injectable({
     providedIn: 'root',
 })
-export class CasesApiService {
+export class CaseApiService {
     http = inject(HttpClient)
-    apiUrl = environment.apiUrl
+    apiUrl = this.env.apiUrl
+
+    constructor(
+        @Inject(APP_EXAMPLE_ENVIRONMENT)
+        private env: AppExampleEnvironment,
+    ) {
+    }
 
     getAllCases(filterOptions: {
-        search: any
-        size: any
+        search: string
+        size: number
         orderBy: any
-        page: any
+        page: number
     }): Observable<ApiResponse<Case[]>> {
         let params = new HttpParams({})
 
