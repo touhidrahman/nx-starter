@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { ButtonModule } from 'primeng/button'
 import { FormsModule } from '@angular/forms'
@@ -41,6 +41,7 @@ export interface PaginatorState {
     ],
     templateUrl: './page-lawyers.component.html',
     styleUrl: './page-lawyers.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageLawyersComponent implements OnInit {
     experience = [
