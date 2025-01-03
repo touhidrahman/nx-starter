@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http'
 import { Inject, inject, Injectable } from '@angular/core'
-import { APP_EXAMPLE_ENVIRONMENT, AppExampleEnvironment } from '@myorg/app-example-core'
+import {
+    APP_EXAMPLE_ENVIRONMENT,
+    AppExampleEnvironment,
+} from '@myorg/app-example-core'
 import { Area } from '@myorg/app-example-models'
 import { ApiResponse } from '@myorg/common-models'
 import { ApiService } from '@myorg/common-services'

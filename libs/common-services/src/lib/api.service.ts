@@ -9,10 +9,7 @@ export class ApiService<T, DtoT> implements AbstractApiService<T> {
     protected apiUrl: string
     protected http: HttpClient
 
-    constructor(
-        http: HttpClient,
-        apiUrl: string,
-    ) {
+    constructor(http: HttpClient, apiUrl: string) {
         this.http = http
         this.apiUrl = apiUrl
     }

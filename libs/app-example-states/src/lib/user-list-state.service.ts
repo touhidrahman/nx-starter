@@ -59,18 +59,15 @@ export class UserListStateService extends SimpleStore<UserListState> {
 
     private loadUsers() {
         this.setState({ loading: true })
-        this.userApiService
-            .find({
-            })
-            .subscribe({
-                next: ({ data: users }) => {
-                    this.setState({
-                        users: users,
-                        loadedUsers: users,
-                        loading: false,
-                    })
-                },
-            })
+        this.userApiService.find({}).subscribe({
+            next: ({ data: users }) => {
+                this.setState({
+                    users: users,
+                    loadedUsers: users,
+                    loading: false,
+                })
+            },
+        })
     }
 
     private continueFilteringUsers() {

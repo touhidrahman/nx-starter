@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http'
 import { Inject, Injectable, inject } from '@angular/core'
 import { Params } from '@angular/router'
-import { APP_EXAMPLE_ENVIRONMENT, AppExampleEnvironment } from '@myorg/app-example-core'
+import {
+    APP_EXAMPLE_ENVIRONMENT,
+    AppExampleEnvironment,
+} from '@myorg/app-example-core'
 import { GroupDto } from '@myorg/app-example-models'
 import { ApiResponse } from '@myorg/common-models'
 import { Observable } from 'rxjs'
@@ -14,8 +17,7 @@ export class GroupApiService {
     constructor(
         @Inject(APP_EXAMPLE_ENVIRONMENT)
         private env: AppExampleEnvironment,
-    ) {
-    }
+    ) {}
 
     getAllGroups(params: Params = {}): Observable<ApiResponse<GroupDto[]>> {
         return this.http.get<ApiResponse<GroupDto[]>>(`${this.baseUrl}`, params)

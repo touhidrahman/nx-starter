@@ -1,6 +1,9 @@
 import { Inject, inject, Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { APP_EXAMPLE_ENVIRONMENT, AppExampleEnvironment } from '@myorg/app-example-core'
+import {
+    APP_EXAMPLE_ENVIRONMENT,
+    AppExampleEnvironment,
+} from '@myorg/app-example-core'
 
 @Injectable({
     providedIn: 'root',
@@ -12,8 +15,7 @@ export class AppointmentApiService {
     constructor(
         @Inject(APP_EXAMPLE_ENVIRONMENT)
         private env: AppExampleEnvironment,
-    ) {
-    }
+    ) {}
 
     getAll() {
         return this.http.get(`${this.apiUrl}/appointments`)

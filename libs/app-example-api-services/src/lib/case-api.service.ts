@@ -1,6 +1,9 @@
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { inject, Inject, Injectable } from '@angular/core'
-import { APP_EXAMPLE_ENVIRONMENT, AppExampleEnvironment } from '@myorg/app-example-core'
+import {
+    APP_EXAMPLE_ENVIRONMENT,
+    AppExampleEnvironment,
+} from '@myorg/app-example-core'
 import { Case } from '@myorg/app-example-models'
 import { ApiResponse } from '@myorg/common-models'
 import { Observable } from 'rxjs'
@@ -15,8 +18,7 @@ export class CaseApiService {
     constructor(
         @Inject(APP_EXAMPLE_ENVIRONMENT)
         private env: AppExampleEnvironment,
-    ) {
-    }
+    ) {}
 
     getAllCases(filterOptions: {
         search: string
