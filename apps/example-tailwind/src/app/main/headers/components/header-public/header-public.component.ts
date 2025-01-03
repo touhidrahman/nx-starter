@@ -1,13 +1,17 @@
-import { Component, HostListener } from '@angular/core'
+import { Component, HostListener, inject } from '@angular/core'
 import { RouterModule } from '@angular/router'
+import { AvatarModule } from 'primeng/avatar';
+import { AuthStateService } from '@myorg/app-example-auth';
 
 @Component({
     selector: 'app-header-public',
-    imports: [RouterModule],
+    imports: [RouterModule, AvatarModule],
     templateUrl: './header-public.component.html',
     styleUrl: './header-public.component.scss',
 })
 export class HeaderPublicComponent {
+    authStateService = inject(AuthStateService)
+    @HostListener('window:scroll', [])
     isScrolled = false
 
     toggleMobileMenu(mobilenav: HTMLDivElement) {
@@ -15,7 +19,6 @@ export class HeaderPublicComponent {
         mobilenav.classList.toggle('right-0')
     }
 
-    @HostListener('window:scroll', [])
     onWindowScroll() {
         const scrollPosition =
             window.pageYOffset ||

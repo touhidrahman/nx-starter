@@ -106,9 +106,14 @@
             pButton
             pRipple
             (click)="register()"
-            label="Sign Up"
-            [disabled]="signUpForm.invalid"
+            [disabled]="signUpForm.invalid || isLoading()"
             icon="pi pi-user"
-            class="w-full bg-emerald-700"></button>
+            class="w-full bg-emerald-700">
+         @if(isLoading()){
+            loading...
+         }@else {
+            Sign Up
+         }
+        </button>
     </div>
 </div>

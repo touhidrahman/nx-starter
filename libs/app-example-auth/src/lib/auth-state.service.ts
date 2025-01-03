@@ -60,6 +60,9 @@ export class AuthStateService extends SimpleStore<AuthState> {
     getUserId(): string | null {
         return this.getState().userId
     }
+    getUserEmail(): string | null {
+        return this.getState().email
+    }
 
     getUserRole(): UserRole | null {
         return this.getState().role
