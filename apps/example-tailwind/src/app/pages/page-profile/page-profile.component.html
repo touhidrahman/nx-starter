@@ -1,15 +1,13 @@
 <div class="p-5">
     <div class="flex gap-6 pb-10">
-        <div class="">
-            <div>
-                <div
-                    class="ml-2 h-28 w-28 rounded-full border-2 border-white shadow-lg">
-                    <p-avatar
-                        image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
-                        class="!h-full !w-full !p-1"
-                        size="xlarge"
-                        shape="circle" />
-                </div>
+        <div>
+            <div
+                class="ml-2 h-28 w-28 rounded-full border-2 border-white shadow-lg">
+                <p-avatar
+                    image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+                    class="!h-full !w-full !p-1"
+                    size="xlarge"
+                    shape="circle" />
             </div>
             <div class="ml-9 mt-3">
                 <i
@@ -29,11 +27,9 @@
             <div class="mb-5">
                 <div>
                     <p-card class="!relative !rounded-sm">
-                        <div class="">
-                            <h1 class="mb-3 text-lg font-bold">
-                                Personal Information
-                            </h1>
-                        </div>
+                        <h1 class="mb-3 text-lg font-bold">
+                            Personal Information
+                        </h1>
                         <button
                             class="absolute right-5 top-7 w-16 rounded-full border bg-[#f8f8f8] px-3 text-sm font-thin"
                             (click)="enablePersonalInfoEdit()"
@@ -167,13 +163,11 @@
                     </p-card>
                 </div>
             </div>
-
-            <div class="">
+            <div>
                 <div>
                     <p-card class="!relative !rounded-sm">
-                        <div class="">
-                            <h1 class="mb-3 text-lg font-bold">Address</h1>
-                        </div>
+                        <h1 class="mb-3 text-lg font-bold">Address</h1>
+
                         <button
                             class="absolute right-5 top-7 w-16 rounded-full border bg-[#f8f8f8] px-3 text-sm font-thin"
                             (click)="enableAddressEdit()"
@@ -335,51 +329,50 @@
                                     placeholder="Current Password"
                                     type="password"
                                     formControlName="currentPassword" />
-                                <div
-                                    *ngIf="
-                                        changePasswordFormService.form.get(
-                                            'currentPassword'
-                                        )!.touched &&
-                                        changePasswordFormService.form.get(
-                                            'currentPassword'
-                                        )!.dirty &&
-                                        changePasswordFormService.form.get(
-                                            'currentPassword'
-                                        )!.errors as errors
-                                    "
-                                    class="mt-4 w-full whitespace-pre-wrap text-sm text-red-500 md:w-96">
-                                    <ng-container *ngIf="errors['required']"
-                                        >current password is
-                                        required.</ng-container
-                                    >
-                                    <ng-container
-                                        *ngIf="
-                                            errors['minlength'] &&
-                                            !errors['required']
-                                        "
-                                        >currentPassword must be at least 8
-                                        characters long.</ng-container
-                                    >
-                                    <ng-container
-                                        *ngIf="
-                                            errors['maxlength'] &&
-                                            !errors['required']
-                                        "
-                                        >Password cannot be more than 32
-                                        characters long.</ng-container
-                                    >
-                                    <ng-container
-                                        *ngIf="
-                                            errors['pattern'] &&
-                                            !errors['required'] &&
-                                            !errors['minlength'] &&
-                                            !errors['maxlength']
-                                        "
-                                        >Password must contain at least one
-                                        uppercase letter, one lowercase letter,
-                                        and one number.</ng-container
-                                    >
-                                </div>
+                                @if (
+                                    changePasswordFormService.form.get(
+                                        'currentPassword'
+                                    )?.touched &&
+                                    changePasswordFormService.form.get(
+                                        'currentPassword'
+                                    )?.dirty &&
+                                    changePasswordFormService.form.get(
+                                        'currentPassword'
+                                    )?.errors
+                                ) {
+                                    <div
+                                        class="w-full whitespace-pre-wrap pr-9 pt-2 text-sm text-red-500 md:pr-5">
+                                        @if (
+                                            changePasswordFormService.form.get(
+                                                'currentPassword'
+                                            )?.errors?.['required']
+                                        ) {
+                                            current password is required.
+                                        } @else if (
+                                            changePasswordFormService.form.get(
+                                                'currentPassword'
+                                            )?.errors?.['minlength']
+                                        ) {
+                                            currentPassword must be at least 8
+                                            characters long.
+                                        } @else if (
+                                            changePasswordFormService.form.get(
+                                                'currentPassword'
+                                            )?.errors?.['maxlength']
+                                        ) {
+                                            Password cannot be more than 32
+                                            characters long.
+                                        } @else if (
+                                            changePasswordFormService.form.get(
+                                                'currentPassword'
+                                            )?.errors?.['pattern']
+                                        ) {
+                                            Password must contain at least one
+                                            uppercase letter, one lowercase
+                                            letter, and one number.
+                                        }
+                                    </div>
+                                }
                             </div>
                             <div class="mb-2">
                                 <label
@@ -392,50 +385,50 @@
                                     placeholder="Password"
                                     type="password"
                                     formControlName="password" />
-                                <div
-                                    *ngIf="
-                                        changePasswordFormService.form.get(
-                                            'password'
-                                        )!.touched &&
-                                        changePasswordFormService.form.get(
-                                            'password'
-                                        )!.dirty &&
-                                        changePasswordFormService.form.get(
-                                            'password'
-                                        )!.errors as errors
-                                    "
-                                    class="mt-4 w-full whitespace-pre-wrap text-sm text-red-500">
-                                    <ng-container *ngIf="errors['required']"
-                                        >Password is required.</ng-container
-                                    >
-                                    <ng-container
-                                        *ngIf="
-                                            errors['minlength'] &&
-                                            !errors['required']
-                                        "
-                                        >Password must be at least 8 characters
-                                        long.</ng-container
-                                    >
-                                    <ng-container
-                                        *ngIf="
-                                            errors['maxlength'] &&
-                                            !errors['required']
-                                        "
-                                        >Password cannot be more than 32
-                                        characters long.</ng-container
-                                    >
-                                    <ng-container
-                                        *ngIf="
-                                            errors['pattern'] &&
-                                            !errors['required'] &&
-                                            !errors['minlength'] &&
-                                            !errors['maxlength']
-                                        "
-                                        >Password must contain at least one
-                                        uppercase letter, one lowercase letter,
-                                        and one number.</ng-container
-                                    >
-                                </div>
+                                @if (
+                                    changePasswordFormService.form.get(
+                                        'password'
+                                    )?.touched &&
+                                    changePasswordFormService.form.get(
+                                        'password'
+                                    )?.dirty &&
+                                    changePasswordFormService.form.get(
+                                        'password'
+                                    )?.errors
+                                ) {
+                                    <div
+                                        class="mt-4 w-full whitespace-pre-wrap text-sm text-red-500">
+                                        @if (
+                                            changePasswordFormService.form.get(
+                                                'password'
+                                            )?.errors?.['required']
+                                        ) {
+                                            Password is required.
+                                        } @else if (
+                                            changePasswordFormService.form.get(
+                                                'password'
+                                            )?.errors?.['minlength']
+                                        ) {
+                                            Password must be at least 8
+                                            characters long.
+                                        } @else if (
+                                            changePasswordFormService.form.get(
+                                                'password'
+                                            )?.errors?.['maxlength']
+                                        ) {
+                                            Password cannot be more than 32
+                                            characters long.
+                                        } @else if (
+                                            changePasswordFormService.form.get(
+                                                'password'
+                                            )?.errors?.['pattern']
+                                        ) {
+                                            Password must contain at least one
+                                            uppercase letter, one lowercase
+                                            letter, and one number.
+                                        }
+                                    </div>
+                                }
                             </div>
 
                             <div class="mb-4">
@@ -449,31 +442,32 @@
                                     placeholder="Confirm Password"
                                     type="password"
                                     formControlName="passwordConfirmation" />
-                                <div
-                                    *ngIf="
-                                        changePasswordFormService.form.get(
-                                            'passwordConfirmation'
-                                        )!.invalid &&
-                                        changePasswordFormService.form.get(
-                                            'passwordConfirmation'
-                                        )!.touched &&
-                                        changePasswordFormService.form.get(
-                                            'passwordConfirmation'
-                                        )!.dirty
-                                    "
-                                    class="text-sm text-red-500">
-                                    Password confirmation is required
+                                @if (
+                                    changePasswordFormService.form.get(
+                                        'passwordConfirmation'
+                                    )?.invalid &&
+                                    changePasswordFormService.form.get(
+                                        'passwordConfirmation'
+                                    )?.touched &&
+                                    changePasswordFormService.form.get(
+                                        'passwordConfirmation'
+                                    )?.dirty
+                                ) {
+                                    <div class="text-sm text-red-500">
+                                        Password confirmation is required
+                                    </div>
+                                }
+                            </div>
+                            @if (
+                                changePasswordFormService.form.hasError(
+                                    'passwordNotMatched'
+                                )
+                            ) {
+                                <div class="mb-4 text-sm text-red-500">
+                                    Passwords do not match.
                                 </div>
-                            </div>
-                            <div
-                                *ngIf="
-                                    changePasswordFormService.form.hasError(
-                                        'passwordNotMatched'
-                                    )
-                                "
-                                class="mb-4 text-sm text-red-500">
-                                Passwords do not match.
-                            </div>
+                            }
+
                             <div class="flex items-center justify-end">
                                 <div>
                                     <a href="" class="text-sm underline"

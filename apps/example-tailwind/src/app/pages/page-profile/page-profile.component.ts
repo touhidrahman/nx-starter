@@ -8,12 +8,7 @@ import { CardModule } from 'primeng/card'
 import { InputTextModule } from 'primeng/inputtext'
 import { ButtonModule } from 'primeng/button'
 import { CalendarModule } from 'primeng/calendar'
-import {
-    ReactiveFormsModule,
-    FormGroup,
-    FormControl,
-    FormsModule,
-} from '@angular/forms'
+import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 
 import { ChangeDetectionStrategy, inject, OnInit } from '@angular/core'
 import { AlertService } from '@myorg/app-example-core'
@@ -61,9 +56,6 @@ export class PageProfileComponent implements OnInit {
     private alertService = inject(AlertService)
     readonly changePasswordFormService = inject(ChangePasswordFormService)
 
-    formGroupInformation!: FormGroup
-    formGroupAddress!: FormGroup
-
     userId = 0
 
     isPersonalInfoDisabled = true
@@ -84,46 +76,6 @@ export class PageProfileComponent implements OnInit {
         taxId: 'a-123',
     }
 
-    enablePersonalInfoEdit() {
-        this.isPersonalInfoDisabled = false
-    }
-    cancelPersonalInfoEdit() {
-        this.isPersonalInfoDisabled = true
-        this.user = { ...this.originalUserData }
-    }
-
-    //!to do : form type will be change later
-    onSubmitUserPersonalInfo(form: any) {
-        console.log(form.value)
-
-        this.isPersonalInfoDisabled = true
-        this.originalUserData = { ...form.value }
-        console.log('Updated User Data:', this.user)
-    }
-
-    enableAddressEdit() {
-        this.isAddressDisabled = false
-    }
-
-    cancelAddressEdit() {
-        this.isAddressDisabled = true
-        this.user = { ...this.originalUserData }
-    }
-
-    //!to do : form type will be change later
-    onSubmitUserAddress(form: any) {
-        console.log(form.value)
-
-        this.isAddressDisabled = true
-        this.originalUserData = { ...form.value }
-        console.log('Updated User Data:', this.user)
-    }
-
-    getUser() {
-        const user = localStorage.getItem('user')
-        return user ? JSON.parse(user) : null
-    }
-
     constructor() {
         this.originalUserData = { ...this.user }
     }
@@ -131,10 +83,6 @@ export class PageProfileComponent implements OnInit {
     ngOnInit(): void {
         const user = this.getUser()
         this.userId = user.id
-
-        this.formGroupInformation = new FormGroup({
-            text: new FormControl<string | null>(null),
-        })
     }
 
     onSubmit() {
@@ -163,5 +111,39 @@ export class PageProfileComponent implements OnInit {
                     this.alertService.error('password change failed')
                 },
             })
+    }
+
+    enablePersonalInfoEdit() {
+        this.isPersonalInfoDisabled = false
+    }
+    cancelPersonalInfoEdit() {
+        this.isPersonalInfoDisabled = true
+        this.user = { ...this.originalUserData }
+    }
+
+    //!to do : form type will be change later
+    onSubmitUserPersonalInfo(form: any) {
+        this.isPersonalInfoDisabled = true
+        this.originalUserData = { ...form.value }
+    }
+
+    enableAddressEdit() {
+        this.isAddressDisabled = false
+    }
+
+    cancelAddressEdit() {
+        this.isAddressDisabled = true
+        this.user = { ...this.originalUserData }
+    }
+
+    //!to do : form type will be change later
+    onSubmitUserAddress(form: any) {
+        this.isAddressDisabled = true
+        this.originalUserData = { ...form.value }
+    }
+
+    getUser() {
+        const user = localStorage.getItem('user')
+        return user ? JSON.parse(user) : null
     }
 }
