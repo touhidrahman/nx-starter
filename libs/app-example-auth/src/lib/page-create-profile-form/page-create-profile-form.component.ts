@@ -4,11 +4,10 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { AuthApiService } from '@myorg/common-auth'
 import { AuthStateService } from '../auth-state.service'
 import { GroupFormService } from '../group-form.service'
-import { JsonPipe } from '@angular/common'
 
 @Component({
     selector: 'myorg-page-create-profile-form',
-    imports: [ReactiveFormsModule, JsonPipe],
+    imports: [ReactiveFormsModule],
     templateUrl: './page-create-profile-form.component.html',
     styleUrl: './page-create-profile-form.component.css',
     providers: [GroupFormService],

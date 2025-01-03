@@ -15,7 +15,12 @@ export const isAdmin = async (ctx: Context, next: Next) => {
 }
 
 export const isLevel =
-    (type: typeof USER_LEVEL_ADMIN | typeof USER_LEVEL_MODERATOR | typeof USER_LEVEL_USER) =>
+    (
+        type:
+            | typeof USER_LEVEL_ADMIN
+            | typeof USER_LEVEL_MODERATOR
+            | typeof USER_LEVEL_USER,
+    ) =>
     async (ctx: Context, next: Next) => {
         const payload = ctx.get('jwtPayload')
         if (payload.type !== type) {

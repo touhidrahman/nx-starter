@@ -107,10 +107,7 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
         })
 
         if (records.length === 0) {
-            const accessToken = await createAccessToken(
-                user,
-                'admin',
-            )
+            const accessToken = await createAccessToken(user, 'admin')
             const refreshToken = await createRefreshToken(user, '')
 
             return c.json(

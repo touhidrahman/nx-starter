@@ -1,13 +1,13 @@
 import { Injectable, inject } from '@angular/core'
 import { SimpleStore } from '@myorg/store'
-import { CasesApiService } from '../services/cases-api.service'
 import { AlertService } from '@myorg/app-example-core'
 import { combineLatest, debounceTime, switchMap, tap } from 'rxjs'
-import { Case } from '../models/case.model'
+import { Case } from '@myorg/app-example-models'
+import { CaseApiService } from '@myorg/app-example-api-services'
 
 export type CasesState = {
     loading: boolean
-    cases: any[]
+    cases: Case[]
     searchTerm: string
     page: number
     size: number
@@ -31,7 +31,7 @@ const initialState: CasesState = {
     providedIn: 'root',
 })
 export class CasesStateService extends SimpleStore<CasesState> {
-    casesApiService = inject(CasesApiService)
+    casesApiService = inject(CaseApiService)
     alertService = inject(AlertService)
 
     constructor() {
@@ -70,15 +70,16 @@ export class CasesStateService extends SimpleStore<CasesState> {
             })
     }
 
-    saveCase(data: Case) {
+    saveCase(input: Case) {
         const { cases } = this.getState()
         this.setState({ loading: true })
-        this.casesApiService.createCase(data).subscribe({
-            next: (value) => {
+        this.casesApiService.createCase(input).subscribe({
+            next: ({ data }) => {
+                if (!data) return
                 this.alertService.success('Case created successfully')
                 this.setState({
                     loading: false,
-                    cases: [...cases, value.data],
+                    cases: [...cases, data],
                 })
             },
             error: (err) => {
@@ -92,7 +93,7 @@ export class CasesStateService extends SimpleStore<CasesState> {
         this.setState({ loading: true })
         this.casesApiService.updateCase(id, data).subscribe({
             next: (value) => {
-                console.log(value.data)
+                if (!value.data) return
                 this.alertService.success('Case updated successfully')
                 this.setState({
                     loading: false,

@@ -3,14 +3,14 @@ import { Params } from '@angular/router'
 import { Observable } from 'rxjs'
 import { AbstractApiService } from './abstract-api.service'
 import { ApiResponse } from '@myorg/common-models'
+import { inject } from '@angular/core'
 
 export class ApiService<T, DtoT> implements AbstractApiService<T> {
     protected apiUrl: string
+    protected http: HttpClient
 
-    constructor(
-        protected http: HttpClient,
-        apiUrl: string,
-    ) {
+    constructor(http: HttpClient, apiUrl: string) {
+        this.http = http
         this.apiUrl = apiUrl
     }
 
