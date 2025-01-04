@@ -22,14 +22,16 @@
 
     <div>
         <div class="rounded-md">
-            @if (store.loading()) {
+            @if (organizationStateService.select('loading') | async) {
                 <div class="text-center">
                     <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
                 </div>
             } @else {
-                @if (store.organizations().length > 0) {
+                @let organizations =
+                    organizationStateService.select('organizations') | async;
+                @if (organizations) {
                     <app-organization-table
-                        [organizations]="store.organizations()"
+                        [organizations]="organizations!"
                         [(visible)]="visible"
                         [(editMode)]="editMode"></app-organization-table>
                 } @else {

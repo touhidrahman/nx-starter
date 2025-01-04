@@ -1,7 +1,5 @@
-import { Usage } from './organization.model'
-
 export interface PlanDto {
-    allowedUsage: Usage
+    allowedUsage: string
     cost: number
     name: string
     stripeId: string

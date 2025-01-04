@@ -3,7 +3,8 @@ import { FormsModule } from '@angular/forms'
 import { OrganizationTableComponent } from '../../features/organizaiton/components/organization-table/organization-table.component'
 import { FilterComponent } from '../../main/dashboard/components/filter/filter.component'
 import { PrimeModules } from '@myorg/prime-modules'
-import { OrganizationsStore } from '../../features/organizaiton/state/organization.state'
+import { OrganizationStateService } from '@myorg/app-example-states'
+import { AsyncPipe } from '@angular/common'
 
 @Component({
     selector: 'app-page-organization',
@@ -12,19 +13,21 @@ import { OrganizationsStore } from '../../features/organizaiton/state/organizati
         OrganizationTableComponent,
         FilterComponent,
         PrimeModules,
+        AsyncPipe,
     ],
     templateUrl: './page-organization.component.html',
     styleUrl: './page-organization.component.css',
+    providers: [OrganizationStateService],
 })
 export class PageOrganizationComponent {
-    store = inject(OrganizationsStore)
+    organizationStateService = inject(OrganizationStateService)
     Options = [{ name: 'Low' }, { name: 'High' }]
     status = ['Pending', 'Accepted', 'Rejected']
     selected = ''
     visible = signal(false)
     editMode = signal(false)
 
-    organizations = [
+    organizationss = [
         {
             name: 'A ',
             email: 'a@example.com',

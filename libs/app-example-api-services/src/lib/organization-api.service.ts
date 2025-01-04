@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core'
-import { environment } from '../../../../environment/environment'
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { ApiResponse } from '@myorg/common-models'
-import { Organization } from '../models/organization'
+import { Organization } from '@myorg/app-example-models'
+import { environment } from '../../../../apps/example-tailwind/src/environment/environment'
 
 @Injectable({
     providedIn: 'root',

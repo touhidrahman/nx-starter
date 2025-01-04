@@ -1,9 +1,8 @@
 import { Component, inject, input, model } from '@angular/core'
 import { PrimeModules } from '@myorg/prime-modules'
-import { OrganizationsStore } from '../../state/organization.state'
-import { Organization } from '../../models/organization'
 import { RouterLink } from '@angular/router'
 import { NgClass, NgStyle } from '@angular/common'
+import { Organization } from '@myorg/app-example-models'
 
 @Component({
     selector: 'app-organization-table',
@@ -12,7 +11,6 @@ import { NgClass, NgStyle } from '@angular/common'
     styleUrl: './organization-table.component.css',
 })
 export class OrganizationTableComponent {
-    store = inject(OrganizationsStore)
     organizations = input<Organization[]>([])
 
     editMode = model(false)
