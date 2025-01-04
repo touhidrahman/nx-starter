@@ -1,6 +1,4 @@
 import { Component, input, signal } from '@angular/core'
-import { Button } from 'primeng/button'
-import { Select } from 'primeng/select'
 import { PrimeModules } from '@myorg/prime-modules'
 import { FormsModule } from '@angular/forms'
 
@@ -15,4 +13,9 @@ export class FilterComponent {
     status = input<string[]>([])
     Options = input<{ name: string }[]>([])
     selected = input('')
+
+    onChangeType(event: HTMLSelectElement) {
+        //TODO: Implement this method
+        console.log(event)
+    }
 }

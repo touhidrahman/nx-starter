@@ -1,0 +1,51 @@
+<div class="flex items-center justify-start gap-3">
+    <div>
+        <p-button
+            label="Filters"
+            styleClass="bg-green3"
+            icon="pi pi-filter"
+            iconPos="left"
+            (click)="showFilter.set(!showFilter())"></p-button>
+    </div>
+
+    @if (showFilter()) {
+        <div
+            class="flex items-center justify-start gap-2 rounded-md bg-gray-200 p-1 px-3">
+            <p-select
+                [options]="status()"
+                [(ngModel)]="selected"
+                (ngModelChange)="onChangeStatus($event)"
+                size="small"
+                styleClass="rounded-full w-32 uppercase"
+                placeholder="Status" />
+            <p-select
+                [options]="type()"
+                [(ngModel)]="selected"
+                styleClass="rounded-full w-32 uppercase"
+                (ngModelChange)="onChangeType($event)"
+                size="small"
+                placeholder="Type" />
+
+            @let sortDir = this.organizationStateService.getState().orderBy;
+
+            <p-button
+                icon="pi {{
+                    sortDir === 'asc'
+                        ? 'pi-sort-amount-down'
+                        : 'pi-sort-amount-up'
+                }}"
+                severity="secondary"
+                size="small"
+                rounded="true"
+                (click)="sort()" />
+
+            <p-button
+                icon="pi pi-times"
+                severity="secondary"
+                size="small"
+                rounded="true"
+                label="Reset"
+                (click)="resetFilter()" />
+        </div>
+    }
+</div>

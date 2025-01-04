@@ -36,10 +36,10 @@ export class OrganizationApiService {
                 params = params.set('orderBy', filterOptions.orderBy)
             }
             if (filterOptions.status !== undefined) {
-                params = params.set('orderBy', filterOptions.status)
+                params = params.set('status', filterOptions.status)
             }
             if (filterOptions.type !== undefined) {
-                params = params.set('orderBy', filterOptions.type)
+                params = params.set('type', filterOptions.type)
             }
         }
         return this.http.get<ApiResponse<Organization[]>>(

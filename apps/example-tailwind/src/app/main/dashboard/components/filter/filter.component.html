@@ -21,7 +21,7 @@
                 [options]="Options()"
                 [(ngModel)]="selected"
                 styleClass="rounded-full w-32"
-                optionLabel="name"
+                (ngModelChange)="onChangeType($event)"
                 size="small"
                 placeholder="Sorting" />
         </div>
