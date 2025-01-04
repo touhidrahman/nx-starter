@@ -93,7 +93,7 @@ export const appRoutes: Route[] = [
             import('./pages/page-lawyers/page-lawyers.component').then(
                 (m) => m.PageLawyersComponent,
             ),
-        resolve: { layout: setLayout(PageLayout.PublicSecondary) },
+        resolve: { layout: setLayout(PageLayout.Public) },
     },
     {
         path: 'blogs',
@@ -101,7 +101,7 @@ export const appRoutes: Route[] = [
             import('./pages/page-blogs/page-blogs.component').then(
                 (m) => m.PageBlogsComponent,
             ),
-        resolve: { layout: setLayout(PageLayout.PublicSecondary) },
+        resolve: { layout: setLayout(PageLayout.Public) },
     },
     {
         path: 'news',
@@ -109,7 +109,7 @@ export const appRoutes: Route[] = [
             import('./pages/page-news/page-news.component').then(
                 (m) => m.PageNewsComponent,
             ),
-        resolve: { layout: setLayout(PageLayout.PublicSecondary) },
+        resolve: { layout: setLayout(PageLayout.Public) },
     },
     {
         path: 'dashboard/chat',
