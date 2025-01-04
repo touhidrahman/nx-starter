@@ -6,7 +6,6 @@
         [first]="0"
         [rows]="state?.size"
         (onPage)="pageChange($event)"
-        [showCurrentPageReport]="true"
         [tableStyle]="{ 'min-width': '50rem' }"
         [globalFilterFields]="['name', 'defendant', 'court', 'status']"
         [rowsPerPageOptions]="[5, 10, 20]">
@@ -27,20 +26,21 @@
                 <td>{{ case.court }}</td>
                 <td class="flex items-center justify-start gap-3">
                     <p-button
-                        severity="secondary"
+                        severity="info"
                         icon="pi pi-eye"
-                        [outlined]="true"
+                        size="small"
                         [raised]="true"
                         [routerLink]="['/dashboard/case', case.id]" />
                     <p-button
+                        styleClass="bg-green"
                         icon="pi pi-pen-to-square"
-                        [outlined]="true"
+                        size="small"
                         [raised]="true"
                         (click)="onEdit(case)" />
                     <p-button
-                        severity="danger"
+                        severity="warn"
                         icon="pi pi-trash"
-                        [outlined]="true"
+                        size="small"
                         [raised]="true"
                         (click)="deleteCase(case.id)" />
                 </td>

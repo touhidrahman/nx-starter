@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core'
+import { Component, inject } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { AuthApiService } from '@myorg/common-auth'
@@ -19,22 +19,36 @@ export class PageCreateProfileFormComponent {
     authStateService = inject(AuthStateService)
     groupFormService = inject(GroupFormService)
 
+    error = ''
+
+    isLoading = false
+
     profileType = this.activatedRoute.snapshot.params['profileType'] as
         | 'client'
         | 'vendor'
 
     submit() {
+        this.isLoading = true
         if (this.groupFormService.form.invalid) {
+            this.isLoading = false
             return
         }
-        console.log(this.groupFormService.getValue())
+
+        console.log('form value', this.groupFormService.getValue())
+
         this.authApiService
-            .createGroupAndProfile(
-                this.groupFormService.getValue(),
-                this.profileType,
-            )
-            .subscribe((res) => {
-                this.router.navigate(['/profile-created'])
+            .createGroup(this.groupFormService.getValue(), this.profileType)
+            .subscribe({
+                next: (res) => {
+                    console.log('TCL: ~ res ', res)
+                    this.isLoading = false
+                    this.router.navigate(['/profile-created'])
+                },
+                error: (error) => {
+                    this.isLoading = false
+                    this.error = error.error.message
+                    console.log(error.error.message)
+                },
             })
     }
 }

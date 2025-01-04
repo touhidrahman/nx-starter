@@ -14,8 +14,15 @@ import {
 import { generateId } from './id.util'
 import { lower } from './orm.util'
 
+/**
+ * userLevelEnum is an enum for user levels in the system , applies to auth_users table only
+ */
 export const userLevelEnum = pgEnum('userLevel', ['user', 'moderator', 'admin'])
-export const userRoleEnum = pgEnum('userRole', ['owner', 'manager', 'member'])
+
+/**
+ * userRoleEnum is an enum for user roles in the application, applies to  users table only, owner for one group
+ */
+export const userRoleEnum = pgEnum('userRole', ['admin', 'manager', 'member'])
 export const userStatusEnum = pgEnum('userStatus', [
     'active',
     'inactive',
@@ -28,18 +35,24 @@ export const fileTypeEnum = pgEnum('fileType', [
     'audio',
 ])
 
-/**
- * AuthUsers Table is used for logging in and authentication in the system
- */
-export const authUsersTable = pgTable(
-    'auth_users',
+export const usersTable = pgTable(
+    'users',
     {
         id: text('id').primaryKey().$defaultFn(generateId),
         firstName: text('first_name').notNull(),
         lastName: text('last_name').notNull(),
+        coverPhoto: text('cover_photo'),
+        profilePhoto: text('profile_photo'),
         email: text('email').notNull(),
         password: text('password').notNull(),
         phone: text('phone'),
+        address: text('address'),
+        city: text('city'),
+        state: text('state'),
+        country: text('country'),
+        postCode: text('post_code'),
+        url: text('url'),
+        bio: text('bio'),
         lastLogin: timestamp('last_login', { withTimezone: true }),
         level: userLevelEnum('level').notNull().default('user'),
         status: userStatusEnum('status').notNull().default('active'),
@@ -52,68 +65,28 @@ export const authUsersTable = pgTable(
             .notNull()
             .$onUpdate(() => new Date()),
     },
-    (table) => ({
-        emailUniqueIndex: uniqueIndex('emailUniqueIndex').on(
-            lower(table.email),
-        ),
-    }),
+    (table) => [uniqueIndex('emailUniqueIndex').on(lower(table.email))],
 )
 
-/**
- * Users Table is used for Vendor & Client Users which are linked to AuthUsers
- */
-export const usersTable = pgTable(
-    'users',
+export const usersGroupsTable = pgTable(
+    'users_groups',
     {
-        id: text('id').unique().notNull().$defaultFn(generateId), // not primary key
-        firstName: text('first_name').notNull(),
-        lastName: text('last_name').notNull(),
-        email: text('email'),
-        phone: text('phone'),
-        coverPhoto: text('cover_photo'),
-        profilePhoto: text('profile_photo'),
-        address: text('address'),
-        city: text('city'),
-        country: text('country'),
-        postCode: text('post_code'),
-        url: text('url'),
-        bio: text('bio'),
-        role: userRoleEnum('role').notNull().default('member'),
-        authUserId: text('auth_user_id')
-            .references(() => authUsersTable.id)
-            .notNull(),
-        groupId: text('group_id').references(() => groupsTable.id),
-        createdAt: timestamp('created_at', { withTimezone: true })
+        userId: text('user_id')
             .notNull()
-            .defaultNow(),
-        updatedAt: timestamp('updated_at', { withTimezone: true })
+            .references(() => usersTable.id),
+        groupId: text('group_id')
             .notNull()
-            .$onUpdate(() => new Date()),
+            .references(() => groupsTable.id),
+        role: userRoleEnum('role').notNull(), // Role of the user in the group
     },
-    (table) => {
-        return {
-            pk: primaryKey({
-                columns: [table.groupId, table.authUserId],
-            }),
-        }
-    },
+    (table) => [
+        primaryKey({ columns: [table.userId, table.groupId] }), // A user can only be in a group once
+    ],
 )
 
 export const usersRelations = relations(usersTable, ({ one, many }) => ({
-    authUser: one(authUsersTable, {
-        fields: [usersTable.authUserId],
-        references: [authUsersTable.id],
-    }),
-    group: one(groupsTable, {
-        fields: [usersTable.groupId],
-        references: [groupsTable.id],
-    }),
     invites: many(invitesTable),
     documents: many(documentsTable),
-}))
-
-const authUsersRelations = relations(authUsersTable, ({ many }) => ({
-    users: many(usersTable),
 }))
 
 export const groupTypeEnum = pgEnum('groupType', ['client', 'vendor'])
@@ -137,6 +110,7 @@ export const groupsTable = pgTable('groups', {
     phone: text('phone'),
     address: text('address'),
     city: text('city'),
+    state: text('state'),
     country: text('country'),
     postCode: text('post_code'),
     ownerId: text('owner_id').notNull(),
@@ -156,7 +130,6 @@ export const groupsRelations = relations(groupsTable, ({ one, many }) => ({
         references: [usersTable.id],
     }),
     appointments: many(appointmentsTable),
-    authUsers: many(authUsersTable),
     billing: one(billingTable),
     cases: many(casesTable),
     courts: many(courtsTable),
@@ -171,7 +144,6 @@ export const groupsRelations = relations(groupsTable, ({ one, many }) => ({
     permissions: many(permissionsTable),
     subscriptions: many(subscriptionsTable),
     tasks: many(tasksTable),
-    users: many(usersTable),
 }))
 
 export const invitesTable = pgTable('invites', {
@@ -212,13 +184,11 @@ export const permissionsTable = pgTable(
         area: text('area').notNull(),
         access: integer('access').notNull().default(1), // refer to README.md for access levels
     },
-    (table) => {
-        return {
-            pk: primaryKey({
-                columns: [table.groupId, table.role, table.area],
-            }),
-        }
-    },
+    (table) => [
+        primaryKey({
+            columns: [table.groupId, table.role, table.area],
+        }),
+    ],
 )
 
 // to keep a list of areas/resources/entities in the application to attach permissions to. Usually the table names

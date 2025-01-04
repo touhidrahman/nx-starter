@@ -1,13 +1,12 @@
-import { createRoute, OpenAPIHono, RouteHandler, z } from '@hono/zod-openapi'
+import { createRoute } from '@hono/zod-openapi'
 import { NOT_FOUND, OK } from 'stoker/http-status-codes'
-import { AppBindings, AppRouteHandler } from '../../../core/core.type'
+import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zSelectUser } from '../user.schema'
-import { findUserByAuthUserIdAndGroupId } from '../user.service'
-import { Context } from 'hono'
-import { getUserRoute } from './get-user'
+import { findUserById } from '../user.service'
+import { passwordRemoved } from '../user.util'
 
 export const getMeRoute = createRoute({
     path: '/v1/me',
@@ -22,10 +21,7 @@ export const getMeRoute = createRoute({
 
 export const getMeHandler: AppRouteHandler<typeof getMeRoute> = async (c) => {
     const payload = c.get('jwtPayload')
-    const user = await findUserByAuthUserIdAndGroupId(
-        payload.sub,
-        payload.groupId,
-    )
+    const user = await findUserById(payload.sub)
     if (!user) {
         return c.json(
             { data: {}, success: false, message: 'User not found' },
@@ -33,5 +29,8 @@ export const getMeHandler: AppRouteHandler<typeof getMeRoute> = async (c) => {
         )
     }
 
-    return c.json({ data: user, success: true, message: 'User found' }, OK)
+    return c.json(
+        { data: passwordRemoved(user), success: true, message: 'User found' },
+        OK,
+    )
 }

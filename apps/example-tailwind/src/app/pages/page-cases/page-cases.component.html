@@ -1,5 +1,5 @@
 <section>
-    <h1 class="text-2xl font-bold">Cases</h1>
+    <h1 class="text-4xl font-bold">Cases</h1>
     <div class="my-5 flex items-center justify-between">
         <app-filter [status]="status" [Options]="Options"></app-filter>
         <div class="flex items-center justify-end gap-3">
@@ -10,10 +10,13 @@
                     size="small"
                     (input)="onSearch($event)" />
 
-                <p-button icon="pi pi-search" styleClass="bg-green" />
+                <p-button
+                    icon="pi pi-search"
+                    size="large"
+                    styleClass="bg-green" />
             </div>
             <p-button
-                styleClass="bg-green"
+                styleClass="bg-green py-2"
                 size="small"
                 (onClick)="openCreateCaseModal()">
                 <i class="pi pi-plus"></i> Create Case</p-button

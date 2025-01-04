@@ -4,14 +4,14 @@ import { CONFLICT, CREATED } from 'stoker/http-status-codes'
 import { jsonContentRequired } from 'stoker/openapi/helpers'
 import { AppRouteHandler } from '../../../core/core.type'
 import { db } from '../../../core/db/db'
-import { authUsersTable } from '../../../core/db/schema'
+import { usersTable } from '../../../core/db/schema'
 import { sendEmailUsingResend } from '../../../core/email/email.service'
-import { buildWelcomeEmailTemplate } from '../../email/templates/welcome'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import env from '../../../env'
+import { buildWelcomeEmailTemplate } from '../../email/templates/welcome'
 import { zRegister } from '../auth.schema'
-import { countAuthUserByEmail, isFirstAuthUser } from '../auth.service'
+import { findUserByEmail, isFirstUser } from '../auth.service'
 import { createVerficationToken } from '../token.util'
 
 const tags = ['Auth']
@@ -39,9 +39,9 @@ export const registerHandler: AppRouteHandler<typeof registerRoute> = async (
     const hash = await argon2.hash(password)
 
     // some checks
-    const exists = await countAuthUserByEmail(email)
+    const exists = await findUserByEmail(email)
 
-    if (exists > 0) {
+    if (exists) {
         return c.json(
             { message: 'Email already exists', data: {}, success: false },
             CONFLICT,
@@ -49,42 +49,45 @@ export const registerHandler: AppRouteHandler<typeof registerRoute> = async (
     }
 
     // is auth table empty?
-    const isFirstUser = await isFirstAuthUser()
+    const isFirst = await isFirstUser()
 
     // Insert new user
-    const [createdAuthUser] = await db
-        .insert(authUsersTable)
+    const [createdUser] = await db
+        .insert(usersTable)
         .values({
             email,
             password: hash,
             firstName,
             lastName,
-            level: isFirstUser ? 'admin' : level,
-            verified: isFirstUser, // First user is auto-verified
+            level: isFirst ? 'admin' : level,
+            verified: isFirst, // First user is auto-verified
         })
         .returning()
 
-    const userId = createdAuthUser.id
+    const userId = createdUser.id
 
     // Generate verification token
-    if (!isFirstUser) {
+    if (!isFirst) {
         const token = await createVerficationToken(email, userId.toString(), {
             unit: 'day',
             value: 7,
         })
-        console.log('TCL: | verificationToken:', token)
+
+        if (env.NODE_ENV !== 'production') {
+            console.log('TCL: | verificationToken:', token)
+        }
 
         const welcomeEmail = buildWelcomeEmailTemplate({
-            firstName: createdAuthUser.firstName,
-            lastName: createdAuthUser.lastName,
+            firstName: createdUser.firstName,
+            lastName: createdUser.lastName,
             email:
                 env.NODE_ENV !== 'production'
                     ? env.EMAIL_TEST_EMAIL
-                    : createdAuthUser.email,
+                    : createdUser.email,
             verificationUrl: `${env.FRONTEND_URL}/account-verify/${token}`,
         })
         const { data, error } = await sendEmailUsingResend(
-            [createdAuthUser.email],
+            [createdUser.email],
             'Please verify your email',
             welcomeEmail,
         )

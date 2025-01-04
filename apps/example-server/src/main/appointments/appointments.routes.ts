@@ -2,11 +2,11 @@ import { createRouter } from '../../core/create-app'
 import {
     createAppointmentHandler,
     createAppointmentRoute,
-} from './routes/create-appointments'
+} from './routes/create-appointment'
 import {
     deleteAppointmentHandler,
     deleteAppointmentRoute,
-} from './routes/delete-appointments'
+} from './routes/delete-appointment'
 import {
     getAppointmentHandler,
     getAppointmentRoute,
@@ -18,7 +18,7 @@ import {
 import {
     updateAppointmentHandler,
     updateAppointmentRoute,
-} from './routes/update-appointments'
+} from './routes/update-appointment'
 
 export const appointmentsV1Routes = createRouter()
     .openapi(createAppointmentRoute, createAppointmentHandler)

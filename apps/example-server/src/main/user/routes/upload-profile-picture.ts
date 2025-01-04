@@ -12,6 +12,7 @@ import { uploadToS3AndGetUrl } from '../../../core/third-party/s3.service'
 import { jsonContent } from 'stoker/openapi/helpers'
 import { zProfilePicture, zSelectUser } from '../user.schema'
 import { zEmpty } from '../../../core/models/common.schema'
+import { passwordRemoved } from '../user.util'
 
 export const updateUserProfilePictureRoute = createRoute({
     path: '/v1/user/upload-profile-picture',
@@ -87,7 +88,7 @@ export const updateUserProfilePictureHandler: AppRouteHandler<
 
         return c.json(
             {
-                data: updatedUser,
+                data: passwordRemoved(updatedUser),
                 message: 'Profile photo uploaded successfully',
                 success: true,
             },

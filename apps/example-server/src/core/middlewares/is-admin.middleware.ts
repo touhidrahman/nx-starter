@@ -1,13 +1,13 @@
 import { Context, Next } from 'hono'
 import {
-    LEVEL_ADMIN,
-    LEVEL_MODERATOR,
-    LEVEL_USER,
+    USER_LEVEL_ADMIN,
+    USER_LEVEL_MODERATOR,
+    USER_LEVEL_USER,
 } from '../../main/user/user.schema'
 
 export const isAdmin = async (ctx: Context, next: Next) => {
     const payload = ctx.get('jwtPayload')
-    if (payload.level !== LEVEL_ADMIN) {
+    if (payload.level !== USER_LEVEL_ADMIN) {
         return ctx.json({ error: 'Unauthorized', message: 'Not an admin' }, 403)
     }
 
@@ -15,7 +15,12 @@ export const isAdmin = async (ctx: Context, next: Next) => {
 }
 
 export const isLevel =
-    (type: typeof LEVEL_ADMIN | typeof LEVEL_MODERATOR | typeof LEVEL_USER) =>
+    (
+        type:
+            | typeof USER_LEVEL_ADMIN
+            | typeof USER_LEVEL_MODERATOR
+            | typeof USER_LEVEL_USER,
+    ) =>
     async (ctx: Context, next: Next) => {
         const payload = ctx.get('jwtPayload')
         if (payload.type !== type) {

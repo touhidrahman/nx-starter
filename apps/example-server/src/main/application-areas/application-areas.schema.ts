@@ -9,14 +9,11 @@ export const zInsertApplicationArea = createInsertSchema(
     applicationAreasTable,
     {
         area: (schema) =>
-            schema.area
+            schema
                 .min(1, 'Area is required')
                 .max(100, 'Area must be less than 100 characters'),
         description: (schema) =>
-            schema.description.max(
-                255,
-                'Description must be less than 255 characters',
-            ),
+            schema.max(255, 'Description must be less than 255 characters'),
     },
 )
 

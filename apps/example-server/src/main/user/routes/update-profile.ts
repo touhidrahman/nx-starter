@@ -7,6 +7,7 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zSelectUser, zUpdateProfile } from '../user.schema'
 import { updateProfile } from '../user.service'
+import { passwordRemoved } from '../user.util'
 
 export const updateUserProfileRoute = createRoute({
     path: '/v1/user/profile',
@@ -41,7 +42,7 @@ export const updateUserProfileHandler: AppRouteHandler<
         )
     }
 
-    // Call the service to update user
+    // Call the services to update user
     const [updatedUser] = await updateProfile(userId, body, {
         restrictFields: ['email', 'password'],
     })
@@ -57,7 +58,7 @@ export const updateUserProfileHandler: AppRouteHandler<
         {
             success: true,
             message: 'Profile updated successfully',
-            data: updatedUser,
+            data: passwordRemoved(updatedUser),
         },
         OK,
     )

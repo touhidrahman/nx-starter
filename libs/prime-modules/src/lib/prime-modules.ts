@@ -10,7 +10,6 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup'
 import { ContextMenuModule } from 'primeng/contextmenu'
 import { Dialog } from 'primeng/dialog'
 import { DividerModule } from 'primeng/divider'
-import { DynamicDialog } from 'primeng/dynamicdialog'
 import { FloatLabel } from 'primeng/floatlabel'
 import { IconField } from 'primeng/iconfield'
 import { IftaLabelModule } from 'primeng/iftalabel'
@@ -48,11 +47,11 @@ export const PrimeModules = [
     Checkbox,
     ConfirmDialogModule,
     ConfirmPopupModule,
+    ConfirmPopupModule,
     ContextMenuModule,
     Dialog,
     DividerModule,
     DropdownModule,
-    DynamicDialog,
     FileUpload,
     FloatLabel,
     IconField,

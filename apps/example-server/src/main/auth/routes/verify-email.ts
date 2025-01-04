@@ -1,14 +1,13 @@
 import { createRoute } from '@hono/zod-openapi'
 import { and, eq } from 'drizzle-orm'
-import * as HttpStatusCodes from 'stoker/http-status-codes'
+import { BAD_REQUEST, OK } from 'stoker/http-status-codes'
 import { z } from 'zod'
 import { AppRouteHandler } from '../../../core/core.type'
 import { db } from '../../../core/db/db'
-import { authUsersTable } from '../../../core/db/schema'
+import { usersTable } from '../../../core/db/schema'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { decodeVerificationToken } from '../token.util'
-import { BAD_REQUEST, OK } from 'stoker/http-status-codes'
 
 const tags = ['Auth']
 
@@ -39,12 +38,12 @@ export const verifyEmailHandler: AppRouteHandler<
 
     try {
         const [user] = await db
-            .update(authUsersTable)
+            .update(usersTable)
             .set({ verified: true })
             .where(
                 and(
-                    eq(authUsersTable.id, decoded.authUserId),
-                    eq(authUsersTable.email, decoded.email),
+                    eq(usersTable.id, decoded.userId),
+                    eq(usersTable.email, decoded.email),
                 ),
             )
             .returning()

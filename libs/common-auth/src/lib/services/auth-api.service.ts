@@ -5,7 +5,7 @@ import { Observable } from 'rxjs'
 import { AUTH_API_URL } from '../auth-api-url.injector'
 import { LoginResponse } from '../models/login-response'
 import { SignupInput } from '../models/signup-input'
-import { GroupInput } from '../models/group'
+import { Group, GroupInput } from '../models/group'
 
 @Injectable({
     providedIn: 'root',
@@ -116,22 +116,11 @@ export class AuthApiService<TUser> {
         )
     }
 
-    // TODO: implement
-    setDefaultGroupToAuthUser(
-        userId: string,
-        groupId: string,
-    ): Observable<ApiResponse<boolean>> {
-        return this.http.post<ApiResponse<boolean>>(
-            `${this.authApiUrl}/set-default-group`,
-            { userId, groupId },
-        )
-    }
-
-    createGroupAndProfile(
+    createGroup(
         input: Partial<GroupInput>,
         type: 'client' | 'vendor',
-    ): Observable<ApiResponse<{}>> {
-        return this.http.post<ApiResponse<{}>>(
+    ): Observable<ApiResponse<Group>> {
+        return this.http.post<ApiResponse<Group>>(
             `${this.authApiUrl}/create-profile/${type}`,
             input,
         )

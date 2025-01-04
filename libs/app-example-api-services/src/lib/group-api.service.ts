@@ -1,14 +1,23 @@
 import { HttpClient } from '@angular/common/http'
-import { Injectable, inject } from '@angular/core'
+import { Inject, Injectable, inject } from '@angular/core'
 import { Params } from '@angular/router'
+import {
+    APP_EXAMPLE_ENVIRONMENT,
+    AppExampleEnvironment,
+} from '@myorg/app-example-core'
 import { GroupDto } from '@myorg/app-example-models'
 import { ApiResponse } from '@myorg/common-models'
 import { Observable } from 'rxjs'
 
 @Injectable({ providedIn: 'root' })
 export class GroupApiService {
-    private baseUrl = 'http://localhost:3000/v1/groups'
     private http = inject(HttpClient)
+    private baseUrl = `${this.env.apiUrl}/v1/groups`
+
+    constructor(
+        @Inject(APP_EXAMPLE_ENVIRONMENT)
+        private env: AppExampleEnvironment,
+    ) {}
 
     getAllGroups(params: Params = {}): Observable<ApiResponse<GroupDto[]>> {
         return this.http.get<ApiResponse<GroupDto[]>>(`${this.baseUrl}`, params)

@@ -1,61 +1,74 @@
-import { Component, signal } from '@angular/core'
+import { Component, inject, signal } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router'
+import { Button } from 'primeng/button'
+import { Dialog } from 'primeng/dialog'
+import { FileUpload } from 'primeng/fileupload'
+import { FilterComponent } from '../../../main/dashboard/components/filter/filter.component'
+import { InputText } from 'primeng/inputtext'
+import { OrganizationTableComponent } from '../../../features/organizaiton/components/organization-table/organization-table.component'
+import { ProgressSpinner } from 'primeng/progressspinner'
+import { OrganizationsStore } from '../../../features/organizaiton/state/organization.state'
 
 @Component({
     selector: 'app-page-lawyer-organization',
-    imports: [CommonModule, RouterModule],
+    imports: [
+        CommonModule,
+        RouterModule,
+        Button,
+        Dialog,
+        FileUpload,
+        FilterComponent,
+        InputText,
+        OrganizationTableComponent,
+        ProgressSpinner,
+    ],
     templateUrl: './page-lawyer-organization.component.html',
     styleUrl: './page-lawyer-organization.component.scss',
 })
 export class PageLawyerOrganizationComponent {
-    tableTitles: string[] = [
-        'Name',
-        'Position/Role',
-        'Email',
-        'Phone',
-        'Address',
-        'Specialization',
-        'Years of Experience',
-        'Action',
-    ]
+    store = inject(OrganizationsStore)
+    Options = [{ name: 'Low' }, { name: 'High' }]
+    status = ['Pending', 'Accepted', 'Rejected']
+    selected = ''
+    visible = signal(false)
+    editMode = signal(false)
 
-    tableContent = [
+    organizations = [
         {
-            name: 'Ariful Hoque',
-            positionRole: 'Senior Partner',
-            email: 'ariful@gmail.com',
-            phone: '+8801100000000',
-            address: 'F-86, Mohakhali',
-            specialization: 'Corporate Law',
-            yearsOfExperience: 15,
+            name: 'A ',
+            email: 'a@example.com',
+            address: 'abc',
+            workHour: 5,
+            totalMembers: 5,
         },
         {
-            name: 'Ariful Hoque',
-            positionRole: 'Associate',
-            email: 'ariful@gmail.com',
-            phone: '+8801100000000',
-            address: 'F-86, Mohakhali',
-            specialization: 'Family Law',
-            yearsOfExperience: 15,
+            name: 'A ',
+            email: 'a@example.com',
+            address: 'abc',
+            workHour: 5,
+            totalMembers: 5,
         },
         {
-            name: 'Ariful Hoque',
-            positionRole: 'Office Manager',
-            email: 'ariful@gmail.com',
-            phone: '+8801100000000',
-            address: 'F-86, Mohakhali',
-            specialization: 'Office Management',
-            yearsOfExperience: 15,
+            name: 'A ',
+            email: 'a@example.com',
+            address: 'abc',
+            workHour: 5,
+            totalMembers: 5,
         },
     ]
 
-    showInviteMemberPopUp = signal(false)
-
-    OpenInviteMemberPopUp() {
-        this.showInviteMemberPopUp.set(true)
+    openCreateOrganizationModal() {
+        this.editMode.set(false)
+        this.visible.set(true)
     }
-    hideInviteMemberPopUp() {
-        this.showInviteMemberPopUp.set(false)
+
+    cancel() {
+        this.editMode.set(false)
+        this.visible.set(false)
+    }
+
+    onSave() {
+        console.log('saving organization')
     }
 }

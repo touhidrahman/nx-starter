@@ -1,28 +1,31 @@
 import { createRouter } from '../../core/create-app'
-import { getGroupsHandler, getGroupsRoute } from './routes/get-groups'
-import { createGroupRoute, createGroupHandler } from './routes/create-group'
-import { getGroupByIdHandler, getGroupByIDRoute } from './routes/get-groupById'
 import {
-    updateGroupByIdRoute,
-    updateGroupHandler,
-} from './routes/update-groupById'
+    addUserToGroupHandler,
+    addUserToGroupRoute,
+} from './routes/add-user-to-group'
+import { createGroupHandler, createGroupRoute } from './routes/create-group'
 import {
     deleteGroupByIdRoute,
     deleteGroupHandler,
-} from './routes/delete-groupById'
+} from './routes/delete-group-by-Id'
 import {
-    addAuthUserToGroupHandler,
-    addAuthUserToGroupRoute,
-} from './routes/add-auth-userToGroup'
-import {
-    updateUserRoleHandler,
-    updateUserRoleRoute,
-} from './routes/update-user-role'
+    getGroupByIdHandler,
+    getGroupByIDRoute,
+} from './routes/get-group-by-id'
+import { getGroupsHandler, getGroupsRoute } from './routes/get-groups'
+import { leaveGroupHandler, leaveGroupRoute } from './routes/leave-group'
 import {
     removeUserFromGroupHandler,
     removeUserFromGroupRoute,
 } from './routes/remove-user-from-group'
-import { leaveGroupHandler, leaveGroupRoute } from './routes/leave-group'
+import {
+    updateGroupByIdRoute,
+    updateGroupHandler,
+} from './routes/update-group-by-id'
+import {
+    updateUserRoleHandler,
+    updateUserRoleRoute,
+} from './routes/update-user-role'
 
 export const groupsV1Route = createRouter()
     .openapi(getGroupsRoute, getGroupsHandler)
@@ -30,7 +33,7 @@ export const groupsV1Route = createRouter()
     .openapi(getGroupByIDRoute, getGroupByIdHandler)
     .openapi(updateGroupByIdRoute, updateGroupHandler)
     .openapi(deleteGroupByIdRoute, deleteGroupHandler)
-    .openapi(addAuthUserToGroupRoute, addAuthUserToGroupHandler)
+    .openapi(addUserToGroupRoute, addUserToGroupHandler)
     .openapi(updateUserRoleRoute, updateUserRoleHandler)
     .openapi(removeUserFromGroupRoute, removeUserFromGroupHandler)
     .openapi(leaveGroupRoute, leaveGroupHandler)

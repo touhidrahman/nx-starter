@@ -8,7 +8,7 @@ import { findCourtById } from '../courts.service'
 import { zSelectCourt } from '../courts.schema'
 
 export const getCourtRoute = createRoute({
-    path: '/v1/court/:id',
+    path: '/v1/courts/:id',
     method: 'get',
     tags: ['Court'],
     middleware: [checkToken] as const,

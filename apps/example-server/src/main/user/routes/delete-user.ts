@@ -36,6 +36,6 @@ export const deleteUserHandler: AppRouteHandler<
 
     return c.json(
         { data: user, success: true, message: 'User deleted' },
-        NO_CONTENT,
+        NOT_FOUND,
     )
 }

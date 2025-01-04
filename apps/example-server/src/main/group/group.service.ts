@@ -9,19 +9,16 @@ import {
     getTableColumns,
 } from 'drizzle-orm'
 import { db } from '../../core/db/db'
-import { authUsersTable, groupsTable, usersTable } from '../../core/db/schema'
+import { groupsTable, usersGroupsTable, usersTable } from '../../core/db/schema'
 import { GroupDto } from './group.schema'
 
 // Retrieve the default group for a specific authenticated user.
-export const getDefaultGroup = async (authUserId: string) => {
+export const getDefaultGroup = async (userId: string) => {
     const results = await db
         .select()
         .from(groupsTable)
-        .innerJoin(
-            authUsersTable,
-            eq(groupsTable.id, authUsersTable.defaultGroupId),
-        )
-        .where(and(eq(authUsersTable.id, authUserId)))
+        .innerJoin(usersTable, eq(groupsTable.id, usersTable.defaultGroupId))
+        .where(and(eq(usersTable.id, userId)))
         .limit(1)
 
     return results?.[0] ?? null
@@ -111,16 +108,6 @@ export const findGroupById = async (id: string) => {
     return results?.[0] ?? null
 }
 
-// Retrieve all groups associated with a specific authenticated user.
-export const findGroupsByAuthUserId = async (authUserId: string) => {
-    const result = await db.query.usersTable.findMany({
-        where: eq(usersTable.authUserId, authUserId),
-        with: { group: true },
-    })
-
-    return result.map((u) => u.group)
-}
-
 // Check if a user is the owner of a group.
 export const isOwner = async (userId: string, groupId: string) => {
     const results = await db
@@ -137,8 +124,13 @@ export const isOwner = async (userId: string, groupId: string) => {
 export const isParticipant = async (userId: string, groupId: string) => {
     const results = await db
         .select({ count: count() })
-        .from(usersTable)
-        .where(and(eq(usersTable.groupId, groupId), eq(usersTable.id, userId)))
+        .from(usersGroupsTable)
+        .where(
+            and(
+                eq(usersGroupsTable.groupId, groupId),
+                eq(usersGroupsTable.userId, userId),
+            ),
+        )
 
     return results?.[0].count === 1
 }

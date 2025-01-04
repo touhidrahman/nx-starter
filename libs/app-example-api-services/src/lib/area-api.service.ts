@@ -1,18 +1,26 @@
 import { HttpClient } from '@angular/common/http'
-import { inject, Injectable } from '@angular/core'
+import { Inject, inject, Injectable } from '@angular/core'
+import {
+    APP_EXAMPLE_ENVIRONMENT,
+    AppExampleEnvironment,
+} from '@myorg/app-example-core'
 import { Area } from '@myorg/app-example-models'
 import { ApiResponse } from '@myorg/common-models'
-
+import { ApiService } from '@myorg/common-services'
 import { Observable } from 'rxjs'
 
 @Injectable({
     providedIn: 'root',
 })
-export class AreaApiService {
-    private baseUrl = 'http://localhost:3000/v1/application-areas'
-    private http = inject(HttpClient)
+export class AreaApiService extends ApiService<Area, Area> {
+    constructor(
+        @Inject(APP_EXAMPLE_ENVIRONMENT)
+        private env: AppExampleEnvironment,
+    ) {
+        super(inject(HttpClient), `${env.apiUrl}/v1/application-areas`)
+    }
 
     createApplicationArea(data: Area): Observable<ApiResponse<Area[]>> {
-        return this.http.post<ApiResponse<Area[]>>(`${this.baseUrl}`, data)
+        return this.http.post<ApiResponse<Area[]>>(`${this.apiUrl}`, data)
     }
 }

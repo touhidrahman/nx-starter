@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common'
 import { DropdownModule } from 'primeng/dropdown'
 import { FormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
+import { TableModule } from 'primeng/table'
 interface Case {
     name: string
     phone: string
@@ -15,7 +16,13 @@ interface Case {
 
 @Component({
     selector: 'app-page-clients',
-    imports: [CommonModule, DropdownModule, FormsModule, RouterModule],
+    imports: [
+        CommonModule,
+        DropdownModule,
+        FormsModule,
+        RouterModule,
+        TableModule,
+    ],
     templateUrl: './page-clients.component.html',
     styleUrl: './page-clients.component.scss',
 })
@@ -76,6 +83,19 @@ export class PageClientsComponent {
         }
 
         return '#989898'
+    }
+
+    popUpState = {
+        visiblity: false,
+        createMode: false,
+    }
+
+    showEditPopUp() {
+        this.popUpState.visiblity = true
+        this.popUpState.createMode = false
+    }
+    hidePopUp() {
+        this.popUpState.visiblity = false
     }
 
     Options = [{ name: 'Low' }, { name: 'High' }]

@@ -12,6 +12,9 @@ export function customLogger() {
             },
             env.NODE_ENV === 'production' ? undefined : pretty(),
         ),
-        http: { reqId: () => crypto.randomUUID() },
+        http:
+            env.NODE_ENV === 'development'
+                ? false
+                : { reqId: () => crypto.randomUUID() },
     })
 }

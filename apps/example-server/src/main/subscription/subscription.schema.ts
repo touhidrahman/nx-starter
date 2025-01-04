@@ -5,7 +5,7 @@ export type InsertSubscription = typeof subscriptionsTable.$inferInsert
 export type SelectSubscription = typeof subscriptionsTable.$inferSelect
 
 export const zInsertSubscription = createInsertSchema(subscriptionsTable, {
-    planId: (schema) => schema.planId.min(1), //
+    planId: (schema) => schema.min(1), //
 }).omit({
     createdAt: true,
     updatedAt: true,

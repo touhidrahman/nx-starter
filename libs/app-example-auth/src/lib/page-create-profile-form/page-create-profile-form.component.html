@@ -85,8 +85,13 @@
         <button
             type="submit"
             (click)="submit()"
+            [disabled]="isLoading || groupFormService.form.invalid"
             class="bg-green focus:ring-green3 mt-6 w-full rounded-lg px-4 py-2 font-semibold text-white transition duration-200 hover:bg-emerald-700 focus:ring">
-            Create My Organization
+            @if (isLoading) {
+                loading ...
+            } @else {
+                Create My Organization
+            }
         </button>
     </form>
 </div>

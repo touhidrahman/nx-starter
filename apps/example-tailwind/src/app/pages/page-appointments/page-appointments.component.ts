@@ -3,10 +3,17 @@ import { CommonModule } from '@angular/common'
 import { DropdownModule } from 'primeng/dropdown'
 import { FormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
+import { TableModule } from 'primeng/table'
 
 @Component({
     selector: 'app-page-appointments',
-    imports: [CommonModule, DropdownModule, FormsModule, RouterModule],
+    imports: [
+        CommonModule,
+        DropdownModule,
+        FormsModule,
+        RouterModule,
+        TableModule,
+    ],
     templateUrl: './page-appointments.component.html',
     styleUrl: './page-appointments.component.scss',
 })

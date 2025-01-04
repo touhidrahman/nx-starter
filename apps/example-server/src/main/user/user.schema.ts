@@ -1,5 +1,6 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
 import {
+    groupTypeEnum,
     userLevelEnum,
     userRoleEnum,
     usersTable,
@@ -19,21 +20,23 @@ export const zSearchUser = zSelectUser
         email: true,
         firstName: true,
         lastName: true,
-        groupId: true,
-        authUserId: true,
         city: true,
         country: true,
         postCode: true,
-        role: true,
     })
     .extend({
         page: z.number().int().positive().optional(),
         size: z.number().int().positive().optional(),
+        status: z.enum(userStatusEnum.enumValues).optional(),
+        groupType: z.enum(groupTypeEnum.enumValues).optional(),
+        level: z.enum(userLevelEnum.enumValues).optional(),
+        search: z.string().optional(),
     })
     .partial()
 
-export const [ROLE_OWNER, ROLE_MANAGER, ROLE_MEMBER] = userRoleEnum.enumValues
-export const [LEVEL_USER, LEVEL_MODERATOR, LEVEL_ADMIN] =
+export const [USER_ROLE_ADMIN, USER_ROLE_MANAGER, USER_ROLE_MEMBER] =
+    userRoleEnum.enumValues
+export const [USER_LEVEL_USER, USER_LEVEL_MODERATOR, USER_LEVEL_ADMIN] =
     userLevelEnum.enumValues
 export const [USER_STATUS_ACTIVE, USER_STATUS_INACTIVE, USER_STATUS_BANNED] =
     userStatusEnum.enumValues

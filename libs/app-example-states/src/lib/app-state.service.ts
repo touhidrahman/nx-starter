@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core'
 import { UserApiService } from '@myorg/app-example-api-services'
-// eslint-disable-next-line @nx/enforce-module-boundaries
 import { AuthStateService } from '@myorg/app-example-auth'
 import { Organization } from '@myorg/app-example-models'
 import { SimpleStore } from '@myorg/store'
-import { BehaviorSubject, filter } from 'rxjs'
+import { BehaviorSubject } from 'rxjs'
 
 export interface AppState {
     currency: 'USD' | 'BDT'
@@ -35,7 +34,6 @@ export class AppStateService extends SimpleStore<AppState> {
         private userApiService: UserApiService,
     ) {
         super(initialState)
-        this.loadOrganizationAfterLogin()
     }
 
     get loading(): boolean {
@@ -52,20 +50,5 @@ export class AppStateService extends SimpleStore<AppState> {
 
     setLoading(loading: boolean): void {
         this.loadingSubject.next(loading)
-    }
-
-    private loadOrganizationAfterLogin() {
-        this.authStateService
-            .select('user')
-            .pipe(filter((user) => Boolean(user)))
-            .subscribe({
-                next: (user) => {
-                    this.setState({
-                        organization: user?.organization,
-                        currency: user?.preferredCurrency,
-                        language: user?.preferredLanguage,
-                    })
-                },
-            })
     }
 }

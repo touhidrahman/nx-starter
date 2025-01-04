@@ -1,33 +1,28 @@
-import { Component, inject } from '@angular/core'
+import { Component, inject, OnInit } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'
-import { AuthStateService } from '@myorg/app-example-auth'
-import { AlertService } from '@myorg/app-example-core'
+import { AuthStateService } from '../auth-state.service'
 import { UserLevel } from '@myorg/app-example-models'
 import { LoginFormService } from '@myorg/common-auth'
 import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
-    selector: 'app-page-login',
+    selector: 'myorg-page-login',
     imports: [...PrimeModules, ReactiveFormsModule, RouterModule],
     templateUrl: './page-login.component.html',
     styleUrl: './page-login.component.scss',
     providers: [LoginFormService],
 })
-export class PageLoginComponent {
+export class PageLoginComponent implements OnInit {
     private authStateService = inject(AuthStateService)
+    private activatedRoute = inject(ActivatedRoute)
+    private router = inject(Router)
     private returnUrl = ''
 
     loginFormService = inject(LoginFormService)
 
     loading = false
     errors: string[] = []
-
-    constructor(
-        private activatedRoute: ActivatedRoute,
-        private router: Router,
-        private alertService: AlertService,
-    ) {}
 
     ngOnInit(): void {
         this.returnUrl =
