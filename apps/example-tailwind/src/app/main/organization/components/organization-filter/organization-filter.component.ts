@@ -17,13 +17,11 @@ export class OrganizationFilterComponent {
     selected = signal('')
 
     onChangeType(event: string) {
-        console.log(event)
         this.organizationStateService.setState({
             type: event,
         })
     }
     onChangeStatus(event: string) {
-        console.log(event)
         this.organizationStateService.setState({
             status: event,
         })

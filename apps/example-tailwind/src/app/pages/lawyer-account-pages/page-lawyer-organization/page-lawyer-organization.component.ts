@@ -1,31 +1,18 @@
-import { Component, inject, signal } from '@angular/core'
-import { CommonModule } from '@angular/common'
-import { RouterModule } from '@angular/router'
-import { Button } from 'primeng/button'
-import { Dialog } from 'primeng/dialog'
-import { FileUpload } from 'primeng/fileupload'
-import { FilterComponent } from '../../../main/dashboard/components/filter/filter.component'
-import { InputText } from 'primeng/inputtext'
-import { ProgressSpinner } from 'primeng/progressspinner'
+import { Component, signal } from '@angular/core'
+import { OrganizationFilterComponent } from '../../../main/organization/components/organization-filter/organization-filter.component'
+import { PrimeModules } from '@myorg/prime-modules'
+import { OrganizationStateService } from '@myorg/app-example-states'
 
 @Component({
     selector: 'app-page-lawyer-organization',
-    imports: [
-        CommonModule,
-        RouterModule,
-        Button,
-        Dialog,
-        FileUpload,
-        FilterComponent,
-        InputText,
-        ProgressSpinner,
-    ],
+    imports: [PrimeModules, OrganizationFilterComponent],
     templateUrl: './page-lawyer-organization.component.html',
     styleUrl: './page-lawyer-organization.component.scss',
+    providers: [OrganizationStateService],
 })
 export class PageLawyerOrganizationComponent {
-    Options = [{ name: 'Low' }, { name: 'High' }]
-    status = ['Pending', 'Accepted', 'Rejected']
+    status = ['active', 'inactive', 'pending']
+    type = ['vendor', 'client']
     selected = ''
     visible = signal(false)
     editMode = signal(false)

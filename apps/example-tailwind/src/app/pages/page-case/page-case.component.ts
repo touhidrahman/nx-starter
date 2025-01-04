@@ -1,6 +1,5 @@
 import { Component, OnInit, inject, input, signal } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { ActivatedRoute } from '@angular/router'
 import { AlertService } from '@myorg/app-example-core'
 import { CaseApiService } from '@myorg/app-example-api-services'
 import { Case } from '@myorg/app-example-models'
@@ -20,6 +19,7 @@ export class PageCaseComponent implements OnInit {
     ngOnInit() {
         this.casesApiService.getCase(this.id() ?? '').subscribe({
             next: (value) => {
+                console.log(value)
                 this.casedata.set(value.data)
                 console.log(value)
             },

@@ -5,9 +5,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
 import { CasesTableComponent } from '../../main/case/components/cases-table/cases-table.component'
 import { PrimeModules } from '@myorg/prime-modules'
-import { FilterComponent } from '../../main/dashboard/components/filter/filter.component'
 import { CaseFormService } from '@myorg/app-example-forms'
 import { CasesStateService } from '@myorg/app-example-states'
+import { AuthStateService } from '@myorg/app-example-auth'
+import { CaseFilterComponent } from '../../main/case/components/case-filter/case-filter.component'
 
 @Component({
     selector: 'app-page-cases',
@@ -19,7 +20,7 @@ import { CasesStateService } from '@myorg/app-example-states'
         CasesTableComponent,
         ReactiveFormsModule,
         PrimeModules,
-        FilterComponent,
+        CaseFilterComponent,
     ],
     templateUrl: './page-cases.component.html',
     styleUrl: './page-cases.component.scss',
@@ -28,10 +29,8 @@ import { CasesStateService } from '@myorg/app-example-states'
 export class PageCasesComponent {
     casesStateService = inject(CasesStateService)
     caseFormService = inject(CaseFormService)
+    authStateService = inject(AuthStateService)
 
-    Options = [{ name: 'Low' }, { name: 'High' }]
-    status = ['Pending', 'Accepted', 'Rejected']
-    selected = ''
     visible = signal(false)
     editMode = signal(false)
 
@@ -55,22 +54,23 @@ export class PageCasesComponent {
     onSave() {
         if (!this.editMode()) {
             this.create()
+        } else {
+            this.update()
         }
-        this.update()
     }
 
     create() {
         if (this.caseFormService.form.invalid) {
             return
         }
+        const groupId = this.authStateService.getGroupId()
         const formData = this.caseFormService.getValue()
-        const data = { ...formData, groupId: '1', plaintiffGroupId: '1' } //TODO: need to fix groupId and PlaintiffGroupId
-        console.log('saving Case', data)
+        const data = { ...formData, groupId, plaintiffGroupId: groupId } //TODO: need to fix groupId and
+        // PlaintiffGroupId
         this.casesStateService.saveCase(data)
         this.cancel()
     }
     update() {
-        console.log('updating')
         const { selectedCase } = this.casesStateService.getState()
         const formData = this.caseFormService.getValue()
         this.casesStateService.updateCase(selectedCase?.id ?? '', formData)
