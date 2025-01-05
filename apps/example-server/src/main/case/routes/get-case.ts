@@ -8,7 +8,7 @@ import { zSelectCase } from '../case.schema'
 import { findCaseById } from '../case.service'
 
 export const getCaseRoute = createRoute({
-    path: '/v1/case/:id',
+    path: '/v1/cases/:id',
     method: 'get',
     tags: ['Case'],
     middleware: [checkToken] as const,

@@ -10,7 +10,7 @@ export const zInsertGroup = createInsertSchema(groupsTable, {
     verifiedOn: z.coerce.date().optional(),
     ownerId: z.string().optional(),
 })
-export const zSelectGroup = createSelectSchema(groupsTable)
+export const zSelectGroup = createSelectSchema(groupsTable).partial()
 export const zUpdateGroup = zInsertGroup.omit({
     // public facing API cannot update these fields
     verified: true,

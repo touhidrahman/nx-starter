@@ -14,10 +14,11 @@ export class OrganizationFormService {
             status: ['', [Validators.required]],
             phone: ['', [Validators.required]],
             address: ['', [Validators.required]],
+            state: ['', [Validators.required]],
             city: ['', [Validators.required]],
             country: ['', [Validators.required]],
             postCode: ['', [Validators.required]],
-            verfied: ['', [Validators.required]],
+            verfied: [false, [Validators.required]],
         })
     }
 

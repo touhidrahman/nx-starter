@@ -17,7 +17,10 @@ export const getGroupsRoute = createRoute({
             size: z.string().optional(),
             page: z.string().optional(),
             status: z.enum(['active', 'inactive', 'pending']).optional(),
-            type: z.enum(['client', 'vendor']).optional(),
+            type: z
+                .enum(['client', 'vendor'])
+                .transform((val) => val.toLowerCase())
+                .optional(),
         }),
     },
     responses: {
@@ -32,7 +35,6 @@ export const getGroupsHandler: AppRouteHandler<typeof getGroupsRoute> = async (
 
     const pageNumber = Number(page)
     const limitNumber = Number(size)
-
     const validStatus: 'active' | 'inactive' | 'pending' = status as
         | 'active'
         | 'inactive'

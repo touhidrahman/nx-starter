@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core'
-import { environment } from '../../../../environment/environment'
 import { HttpClient, HttpParams } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { ApiResponse } from '@myorg/common-models'
-import { Organization } from '../models/organization'
+import { Organization } from '@myorg/app-example-models'
+import { environment } from '../../../../apps/example-tailwind/src/environment/environment'
 
 @Injectable({
     providedIn: 'root',
@@ -36,10 +36,10 @@ export class OrganizationApiService {
                 params = params.set('orderBy', filterOptions.orderBy)
             }
             if (filterOptions.status !== undefined) {
-                params = params.set('orderBy', filterOptions.status)
+                params = params.set('status', filterOptions.status)
             }
             if (filterOptions.type !== undefined) {
-                params = params.set('orderBy', filterOptions.type)
+                params = params.set('type', filterOptions.type)
             }
         }
         return this.http.get<ApiResponse<Organization[]>>(
