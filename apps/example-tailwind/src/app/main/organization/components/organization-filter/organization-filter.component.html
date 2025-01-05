@@ -26,8 +26,8 @@
                 size="small"
                 placeholder="Type" />
 
-            @let sortDir = this.organizationStateService.getState().orderBy;
-
+            @let sortDir =
+                this.organizationStateService.select('orderBy') | async;
             <p-button
                 icon="pi {{
                     sortDir === 'asc'

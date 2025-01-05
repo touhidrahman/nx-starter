@@ -18,14 +18,11 @@ export class PageCaseComponent implements OnInit {
 
     ngOnInit() {
         this.casesApiService.getCase(this.id() ?? '').subscribe({
-            next: (value) => {
-                console.log(value)
-                this.casedata.set(value.data)
-                console.log(value)
+            next: ({ data }) => {
+                data && this.casedata.set(data)
             },
             error: (err) => {
                 this.alertService.error(err.error.message)
-                console.log(err)
             },
         })
     }

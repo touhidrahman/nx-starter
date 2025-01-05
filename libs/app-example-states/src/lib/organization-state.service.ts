@@ -81,7 +81,6 @@ export class OrganizationStateService extends SimpleStore<OrganizationListState>
                     })
                 },
                 error: (err) => {
-                    console.log(err)
                     this.setState({ loading: false })
                     this.alertService.error(err.error.message)
                 },
@@ -100,7 +99,6 @@ export class OrganizationStateService extends SimpleStore<OrganizationListState>
                 })
             },
             error: (err) => {
-                console.log(err.error)
                 this.alertService.warn(err.error.message)
             },
         })

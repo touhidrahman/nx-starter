@@ -60,7 +60,6 @@ export class CasesStateService extends SimpleStore<CasesState> {
             )
             .subscribe({
                 next: (value) => {
-                    console.log(value)
                     this.setState({ loading: false, cases: value.data })
                 },
                 error: (err) => {
@@ -120,7 +119,6 @@ export class CasesStateService extends SimpleStore<CasesState> {
                 })
             },
             error: (err) => {
-                console.log(err.error)
                 this.alertService.warn(err.error.message)
             },
         })

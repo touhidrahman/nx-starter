@@ -47,8 +47,8 @@ export class CaseApiService {
         })
     }
 
-    getCase(id: string): Observable<ApiResponse<any>> {
-        return this.http.get<ApiResponse<any>>(`${this.apiUrl}/cases/${id}`)
+    getCase(id: string): Observable<ApiResponse<Case>> {
+        return this.http.get<ApiResponse<Case>>(`${this.apiUrl}/cases/${id}`)
     }
 
     createCase(data: Case): Observable<ApiResponse<Case>> {

@@ -2,10 +2,11 @@ import { Component, inject, input, signal } from '@angular/core'
 import { OrganizationStateService } from '@myorg/app-example-states'
 import { FormsModule } from '@angular/forms'
 import { PrimeModules } from '@myorg/prime-modules'
+import { AsyncPipe } from '@angular/common'
 
 @Component({
     selector: 'app-organization-filter',
-    imports: [FormsModule, PrimeModules],
+    imports: [FormsModule, PrimeModules, AsyncPipe],
     templateUrl: './organization-filter.component.html',
     styleUrl: './organization-filter.component.css',
 })
