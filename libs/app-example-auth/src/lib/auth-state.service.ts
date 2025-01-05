@@ -132,11 +132,11 @@ export class AuthStateService extends SimpleStore<AuthState> {
         return this.authApiService.login(username, password).pipe(
             map(({ data }) => {
                 if (data) {
-                    this.setStateAfterLogin(data.accessToken, data.refreshToken);
+                    this.setStateAfterLogin(data.accessToken, data.refreshToken)
                 }
-                return data;
+                return data
             }),
-        );
+        )
     }
 
     register(signupInput: SignupInput) {

@@ -7,7 +7,7 @@ import { UIstate } from './ui-state-interface'
 export class HeaderUtilService {
     showFallbackText(event: Event, uiState: UIstate) {
         uiState.imageLoaded = false
-            ; (event.target as HTMLElement).style.display = 'none'
+        ;(event.target as HTMLElement).style.display = 'none'
     }
 
     toggleMoreOptions(

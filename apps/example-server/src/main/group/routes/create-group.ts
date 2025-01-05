@@ -26,10 +26,12 @@ export const createGroupRoute = createRoute({
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
 })
-export const createGroupHandler: AppRouteHandler<typeof createGroupRoute> = async (c) => {
+export const createGroupHandler: AppRouteHandler<
+    typeof createGroupRoute
+> = async (c) => {
     const body = c.req.valid('json') as GroupDto
     const { userId, groupId } = await c.get('jwtPayload')
-    console.log(c);
+    console.log(c)
     try {
         // check if group already created where he is a owner
         const hasOwnedGroup = await isOwner(userId, groupId)

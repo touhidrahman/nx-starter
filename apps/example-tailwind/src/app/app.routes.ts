@@ -50,7 +50,6 @@ const authRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Center) },
     },
     {
-
         path: 'create-profile',
         // canMatch: [userLevelGuard],
         loadComponent: () =>
@@ -60,11 +59,12 @@ const authRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Center) },
     },
     {
-        path: "organization-list",
+        path: 'organization-list',
         loadComponent: () =>
-            import('./pages/page-organization-list/page-organization-list.component').then(c => c.PageOrganizationListComponent),
+            import(
+                './pages/page-organization-list/page-organization-list.component'
+            ).then((c) => c.PageOrganizationListComponent),
         resolve: { layout: setLayout(PageLayout.Center) },
-
     },
     {
         path: 'create-profile/:profileType',

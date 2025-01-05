@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { Router, RouterModule } from '@angular/router'
-import { AuthStateService } from '../auth-state.service';
+import { AuthStateService } from '../auth-state.service'
 import { RegisterFormService } from '@myorg/common-auth'
 import { PrimeModules } from '@myorg/prime-modules'
 
@@ -16,7 +16,6 @@ export class PageSignUpComponent {
     private authStateService = inject(AuthStateService)
     private registerFormService = inject(RegisterFormService)
     private router = inject(Router)
-
 
     errors = signal<string[]>([])
     isLoading = signal(false)
@@ -36,7 +35,6 @@ export class PageSignUpComponent {
 
         this.authStateService.register(signupInput).subscribe({
             next: () => {
-
                 this.isLoading.set(false)
                 this.router.navigate(['/account-created'])
             },

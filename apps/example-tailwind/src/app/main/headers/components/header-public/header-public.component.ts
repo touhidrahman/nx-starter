@@ -1,7 +1,7 @@
 import { Component, HostListener, inject } from '@angular/core'
 import { RouterModule } from '@angular/router'
-import { AvatarModule } from 'primeng/avatar';
-import { AuthStateService } from '@myorg/app-example-auth';
+import { AvatarModule } from 'primeng/avatar'
+import { AuthStateService } from '@myorg/app-example-auth'
 
 @Component({
     selector: 'app-header-public',

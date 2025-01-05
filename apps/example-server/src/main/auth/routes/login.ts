@@ -76,7 +76,7 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
         )
     }
 
-    if (await (!user.verified)) {
+    if (await !user.verified) {
         return c.json(
             { message: 'Please verify your account', data: {}, success: false },
             BAD_REQUEST,

@@ -109,11 +109,11 @@
             [disabled]="signUpForm.invalid || isLoading()"
             icon="pi pi-user"
             class="w-full bg-emerald-700">
-         @if(isLoading()){
-            loading...
-         }@else {
-            Sign Up
-         }
+            @if (isLoading()) {
+                loading...
+            } @else {
+                Sign Up
+            }
         </button>
     </div>
 </div>
