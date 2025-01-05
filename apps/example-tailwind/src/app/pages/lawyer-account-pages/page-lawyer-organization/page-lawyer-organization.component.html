@@ -68,8 +68,9 @@
         </div>
     </div>
     <div class="mb-3 mt-24 flex items-center justify-between">
-        <app-filter [status]="status" [Options]="Options"></app-filter>
-
+        <app-organization-filter
+            [status]="status"
+            [type]="type"></app-organization-filter>
         <div class="flex items-center justify-end gap-3">
             <div class="flex items-center justify-start gap-2">
                 <input type="text" pInputText size="small" />
@@ -89,16 +90,16 @@
 
     <div>
         <div class="rounded-md">
-            @if (store.loading()) {
+            @if (true) {
                 <div class="text-center">
                     <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
                 </div>
             } @else {
-                @if (store.organizations().length > 0) {
-                    <app-organization-table
-                        [organizations]="store.organizations()"
-                        [(visible)]="visible"
-                        [(editMode)]="editMode"></app-organization-table>
+                @if (organizations.length > 0) {
+                    <!--                    <app-organization-table-->
+                    <!--                        [organizations]="organizations"-->
+                    <!--                        [(visible)]="visible"-->
+                    <!--                        [(editMode)]="editMode"></app-organization-table>-->
                 } @else {
                     <div class="mt-6 text-center">No organizations found!</div>
                 }

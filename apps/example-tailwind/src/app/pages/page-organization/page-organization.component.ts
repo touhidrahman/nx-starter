@@ -1,52 +1,40 @@
 import { Component, inject, signal } from '@angular/core'
-import { FormsModule } from '@angular/forms'
-import { OrganizationTableComponent } from '../../features/organizaiton/components/organization-table/organization-table.component'
-import { FilterComponent } from '../../main/dashboard/components/filter/filter.component'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { PrimeModules } from '@myorg/prime-modules'
-import { OrganizationsStore } from '../../features/organizaiton/state/organization.state'
+import { OrganizationStateService } from '@myorg/app-example-states'
+import { AsyncPipe } from '@angular/common'
+import { OrganizationTableComponent } from '../../main/organization/components/organization-table/organization-table.component'
+import { OrganizationFormService } from '@myorg/app-example-forms'
+import { OrganizationFilterComponent } from '../../main/organization/components/organization-filter/organization-filter.component'
 
 @Component({
     selector: 'app-page-organization',
     imports: [
         FormsModule,
-        OrganizationTableComponent,
-        FilterComponent,
         PrimeModules,
+        AsyncPipe,
+        OrganizationTableComponent,
+        ReactiveFormsModule,
+        OrganizationFilterComponent,
     ],
     templateUrl: './page-organization.component.html',
     styleUrl: './page-organization.component.css',
+    providers: [OrganizationStateService, OrganizationFormService],
 })
 export class PageOrganizationComponent {
-    store = inject(OrganizationsStore)
-    Options = [{ name: 'Low' }, { name: 'High' }]
-    status = ['Pending', 'Accepted', 'Rejected']
+    organizationStateService = inject(OrganizationStateService)
+    organizationFormService = inject(OrganizationFormService)
+    type = ['vendor', 'client']
+    status = ['active', 'inactive', 'pending']
     selected = ''
     visible = signal(false)
     editMode = signal(false)
 
-    organizations = [
-        {
-            name: 'A ',
-            email: 'a@example.com',
-            address: 'abc',
-            workHour: 5,
-            totalMembers: 5,
-        },
-        {
-            name: 'A ',
-            email: 'a@example.com',
-            address: 'abc',
-            workHour: 5,
-            totalMembers: 5,
-        },
-        {
-            name: 'A ',
-            email: 'a@example.com',
-            address: 'abc',
-            workHour: 5,
-            totalMembers: 5,
-        },
-    ]
+    onSearch(value: Event) {
+        this.organizationStateService.setState({
+            query: (value.target as HTMLInputElement).value,
+        })
+    }
 
     openCreateOrganizationModal() {
         this.editMode.set(false)
@@ -59,6 +47,16 @@ export class PageOrganizationComponent {
     }
 
     onSave() {
-        console.log('saving organization')
+        if (!this.editMode()) {
+            return
+        }
+        this.updateOrganization()
+    }
+
+    updateOrganization() {
+        const { selectedOrganization } =
+            this.organizationStateService.getState()
+        const formData = this.organizationFormService.getValue()
+        console.log('updating organization', selectedOrganization, formData)
     }
 }

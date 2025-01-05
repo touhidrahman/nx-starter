@@ -1,8 +1,6 @@
 :host {
     display: block;
-}
-.gradient-border {
-    box-shadow: 1px 1px 5px 0px #00000040;
+    background-color: #fffff3;
 }
 .gradient-border:hover {
     background: linear-gradient(180deg, #09d836 0%, #33af4e 50%, #666666 100%);
