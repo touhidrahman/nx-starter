@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core'
 import { Router } from '@angular/router'
 import { JwtHelperService } from '@auth0/angular-jwt'
 import {
+    GroupType,
     User,
     UserLevel,
     UserPermissionKeys,
@@ -21,6 +22,7 @@ export interface AuthState {
     refreshToken: string
     userId: string | null
     groupId: string | null
+    groupType: GroupType | null
     firstName: string | null
     lastName: string | null
     email: string | null
@@ -35,6 +37,7 @@ export const initialAuthState: AuthState = {
     refreshToken: '',
     userId: null,
     groupId: null,
+    groupType: null,
     firstName: null,
     lastName: null,
     email: null,
@@ -67,7 +70,9 @@ export class AuthStateService extends SimpleStore<AuthState> {
     getUserRole(): UserRole | null {
         return this.getState().role
     }
-
+    getUserLevel(): UserLevel | null {
+        return this.getState().level
+    }
     getLoginStatus(): boolean {
         return this.getState().isLoggedIn
     }
@@ -195,6 +200,7 @@ export class AuthStateService extends SimpleStore<AuthState> {
             isLoggedIn: true,
             userId: decoded.sub,
             groupId: decoded.groupId,
+            groupType: decoded.groupType,
             firstName: decoded.firstName,
             lastName: decoded.lastName,
             email: decoded.email,

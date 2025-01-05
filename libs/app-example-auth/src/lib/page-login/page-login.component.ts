@@ -56,11 +56,19 @@ export class PageLoginComponent implements OnInit {
     }
 
     private redirectAfterLogin(): void {
-        const { groupId, role, level } = this.authStateService.getState()
+
+        const { groupId, level } = this.authStateService.getState()
         if (!groupId && level !== UserLevel.Admin) {
             this.router.navigateByUrl('/create-profile')
             return
         }
+
+        if (groupId && level === UserLevel.User) {
+            this.router.navigateByUrl('/organization-list')
+            console.log('after login');
+            return
+        }
+
         this.router.navigateByUrl(this.returnUrl)
     }
 }

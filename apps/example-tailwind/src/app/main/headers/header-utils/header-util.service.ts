@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { UIstate } from './uiState-inteface'
+import { UIstate } from './ui-state-interface'
 
 @Injectable({
     providedIn: 'root',
@@ -7,7 +7,7 @@ import { UIstate } from './uiState-inteface'
 export class HeaderUtilService {
     showFallbackText(event: Event, uiState: UIstate) {
         uiState.imageLoaded = false
-        ;(event.target as HTMLElement).style.display = 'none'
+            ; (event.target as HTMLElement).style.display = 'none'
     }
 
     toggleMoreOptions(
@@ -19,6 +19,7 @@ export class HeaderUtilService {
         chevron.classList.toggle('rotate-90')
     }
 
+    // ! need to fix here
     toggleProfileMenu(e: Event, uiState: UIstate) {
         const targetElement = e.target as HTMLElement
         if (targetElement.closest('#profileButton')) {

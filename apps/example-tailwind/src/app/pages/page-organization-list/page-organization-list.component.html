@@ -1,0 +1,32 @@
+<!-- !to do fix and design and code -->
+<p-card [style]="{ width: '25rem', overflow: 'hidden' }">
+    <ng-template #title>{{ authStateService.getGroupId() }}</ng-template>
+    <ng-template #subtitle>
+        {{ authStateService.getState().groupType }}
+    </ng-template>
+
+    <ng-template #footer>
+        <div class="mt-1 flex gap-4">
+            <p-button
+                label="Login Group"
+                severity="secondary"
+                class="w-full"
+                [outlined]="true"
+                styleClass="w-full" />
+            @if (authStateService.getState().groupType === groupType.client) {
+                <p-button
+                    label="Create Vendor"
+                    class="w-full"
+                    styleClass="w-full"
+                    [routerLink]="['/create-profile/vendor']" />
+            } @else {
+                <p-button
+                    label="Create Client"
+                    class="w-full"
+                    styleClass="w-full"
+                    [routerLink]="['/create-profile/client']"
+                     />
+            }
+        </div>
+    </ng-template>
+</p-card>
