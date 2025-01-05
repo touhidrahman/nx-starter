@@ -6,6 +6,8 @@ import { AsyncPipe } from '@angular/common'
 import { OrganizationTableComponent } from '../../main/organization/components/organization-table/organization-table.component'
 import { OrganizationFormService } from '@myorg/app-example-forms'
 import { OrganizationFilterComponent } from '../../main/organization/components/organization-filter/organization-filter.component'
+import { OrganizationTypeEnum } from '../../../../../../libs/app-example-models/src/lib/organization-type.enum'
+import { OrganizationStatusEnum } from '../../../../../../libs/app-example-models/src/lib/organization-status.enum'
 
 @Component({
     selector: 'app-page-organization',
@@ -24,8 +26,8 @@ import { OrganizationFilterComponent } from '../../main/organization/components/
 export class PageOrganizationComponent {
     organizationStateService = inject(OrganizationStateService)
     organizationFormService = inject(OrganizationFormService)
-    type = ['vendor', 'client']
-    status = ['active', 'inactive', 'pending']
+    type = Object.values(OrganizationTypeEnum)
+    status = Object.values(OrganizationStatusEnum)
     selected = ''
     visible = signal(false)
     editMode = signal(false)
