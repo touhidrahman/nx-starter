@@ -1,4 +1,4 @@
-import { Route } from '@angular/router'
+import type { Route } from '@angular/router'
 import { authGuardFn } from '@myorg/app-example-auth'
 import { PageLayout, setLayout } from '@myorg/page-layouts'
 
@@ -33,7 +33,7 @@ const authRoutes: Route[] = [
             import('@myorg/app-example-auth').then(
                 (m) => m.PageAccountCreatedComponent,
             ),
-        resolve: { layout: setLayout(PageLayout.Center) },
+        resolve: { layout: setLayout(PageLayout.Cta) },
     },
     {
         path: 'account-verify/:token',
@@ -41,7 +41,7 @@ const authRoutes: Route[] = [
             import('@myorg/app-example-auth').then(
                 (m) => m.PageAccountVerifyComponent,
             ),
-        resolve: { layout: setLayout(PageLayout.Center) },
+        resolve: { layout: setLayout(PageLayout.Cta) },
     },
     {
         path: 'login',

@@ -1,25 +1,19 @@
-<div class="w-full max-w-sm rounded-lg bg-white p-6 text-center shadow-lg">
-    <div class="mb-6 flex justify-center">
-        <svg
-            width="80"
-            height="80"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg">
-            <rect width="24" height="24" rx="12" fill="#4CAF50" />
-            <path
-                d="M10 14.17L7.83 12L6.41 13.41L10 17L18 9L16.59 7.59L10 14.17Z"
-                fill="white" />
-        </svg>
-    </div>
-    <h2 class="mb-6 text-2xl font-bold">Registration Successful</h2>
-    <p class="mb-6 text-gray-700">
-        Thank you for registering! Your account has been successfully created.
-    </p>
-    <p class="mb-6 text-gray-700">Please check email to verify your account.</p>
-    <a
+<div class="mt-20 flex flex-col items-center justify-center">
+    <img class="h-56 w-56" src="/assets/images/success.png" alt="" />
+    <h2 class="text-green text-3xl font-semibold">Registration Successful</h2>
+    <p class="mb-2 text-2xl text-gray-700">Thank you for registering!</p>
+
+    <p-button
         [routerLink]="['/login']"
-        class="bg-primary-500 text-primary-50 hover:bg-primary-400 rounded px-4 py-2 font-bold"
-        >Go to Login</a
-    >
+        label="Login Now"
+        class="mt-2"
+        size="small" />
+
+    <div
+        class="bg-greenSecondary mt-12 flex items-center gap-2 rounded-3xl border-2 border-gray-200 px-4 py-2 shadow-md">
+        <i class="pi pi-exclamation-circle" style="color: chocolate"></i>
+        <p class="text-lg text-gray-700">
+            Please check email to verify your account
+        </p>
+    </div>
 </div>
