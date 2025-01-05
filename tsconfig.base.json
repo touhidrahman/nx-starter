@@ -20,6 +20,9 @@
                 "libs/app-example-api-services/src/index.ts"
             ],
             "@myorg/app-example-auth": ["libs/app-example-auth/src/index.ts"],
+            "@myorg/app-example-common": [
+                "libs/app-example-common/src/index.ts"
+            ],
             "@myorg/app-example-core": ["libs/app-example-core/src/index.ts"],
             "@myorg/app-example-forms": ["libs/app-example-forms/src/index.ts"],
             "@myorg/app-example-models": [

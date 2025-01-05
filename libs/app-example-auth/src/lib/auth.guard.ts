@@ -7,11 +7,7 @@ import {
 } from '@angular/router'
 import { AuthStateService } from './auth-state.service'
 
-export function authGuardFn({
-    redirectTo,
-}: {
-    redirectTo: string[]
-}): CanActivateFn {
+export function authGuardFn({ redirectTo }: { redirectTo: string[] }): CanActivateFn {
     return (_route: ActivatedRouteSnapshot, state: RouterStateSnapshot) => {
         return inject(AuthStateService).isLoggedIn()
             ? true
@@ -19,4 +15,8 @@ export function authGuardFn({
                   queryParams: { returnUrl: state.url },
               })
     }
+}
+
+export function ExistGroups(redirectTo: string[]): CanActivateFn {
+    return authGuardFn({ redirectTo })
 }

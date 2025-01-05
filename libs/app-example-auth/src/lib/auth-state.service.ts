@@ -114,14 +114,24 @@ export class AuthStateService extends SimpleStore<AuthState> {
         return false
     }
 
+    // login(username: string, password: string) {
+    //     return this.authApiService.login(username, password).pipe(
+    //         map(({ data }) => {
+    //             data && this.setStateAfterLogin(data.accessToken, data.refreshToken)
+    //             return data
+    //         }),
+    //     )
+    // }
+
     login(username: string, password: string) {
         return this.authApiService.login(username, password).pipe(
             map(({ data }) => {
-                data &&
-                    this.setStateAfterLogin(data.accessToken, data.refreshToken)
-                return data
+                if (data) {
+                    this.setStateAfterLogin(data.accessToken, data.refreshToken);
+                }
+                return data;
             }),
-        )
+        );
     }
 
     register(signupInput: SignupInput) {
@@ -139,13 +149,32 @@ export class AuthStateService extends SimpleStore<AuthState> {
         this.setStateAfterLogin(accessToken, refreshToken)
     }
 
+    // refreshAccessToken() {
+    //     const refreshToken = this.tokenStorageService.getRefreshToken()
+
+    //     return this.authApiService.refreshAccessToken(refreshToken ?? '').pipe(
+    //         map(({ data }) => {
+    //             data &&
+    //                 this.setStateAfterLogin(data.accessToken, data.refreshToken)
+    //             return data
+    //         }),
+    //         catchError((err) => {
+    //             console.error(err)
+    //             // this.logout()
+    //             return of(null)
+    //         }),
+    //     )
+    // }
+
     refreshAccessToken() {
         const refreshToken = this.tokenStorageService.getRefreshToken()
 
         return this.authApiService.refreshAccessToken(refreshToken ?? '').pipe(
             map(({ data }) => {
-                data &&
+                if (data) {
                     this.setStateAfterLogin(data.accessToken, data.refreshToken)
+                }
+
                 return data
             }),
             catchError((err) => {
