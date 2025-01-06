@@ -64,7 +64,6 @@ export class PageLoginComponent implements OnInit {
 
         if (groupId && level === UserLevel.User) {
             this.router.navigateByUrl('/organization-list')
-            console.log('after login')
             return
         }
 
