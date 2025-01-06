@@ -13,6 +13,7 @@ import {
 } from 'drizzle-orm/pg-core'
 import { generateId } from './id.util'
 import { lower } from './orm.util'
+import { number } from 'zod'
 
 /**
  * userLevelEnum is an enum for user levels in the system , applies to auth_users table only
@@ -34,6 +35,7 @@ export const fileTypeEnum = pgEnum('fileType', [
     'video',
     'audio',
 ])
+
 
 export const usersTable = pgTable(
     'users',
@@ -446,6 +448,30 @@ export const eventsRelations = relations(eventsTable, ({ one }) => ({
         references: [casesTable.id],
     }),
 }))
+
+//lawyer table
+export const lawyerLevelEnum = pgEnum('lawyerLevel', ['senior', 'junior'])
+
+export const lawyerTable = pgTable('lawyers', {
+    id: text('id').primaryKey().$defaultFn(generateId),
+    name: text('name').notNull(),
+    instituteName: text('institute_name').notNull(),
+    expertLevel: lawyerLevelEnum('expert_level').notNull().default('junior'),
+    lawyerType: text('layer_type').notNull(),
+    experience: text('experience_year').notNull(),
+    phoneNumber: text('phone_number').notNull(),
+    email: text('email').notNull(),
+    profileImage: text('profile_image'),
+    description: text('description'),
+    verified: boolean('is_verified').notNull().default(false),
+    verifiedOn: timestamp('verified_on', { withTimezone: true }),
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
+        .notNull()
+        .$onUpdate(() => new Date()),
+})
 
 // Cases Table
 export const casesTable = pgTable('cases', {

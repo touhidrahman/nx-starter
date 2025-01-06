@@ -8,15 +8,12 @@ export function userLevelGuardFn(allowedLevels: UserLevel[]): CanMatchFn {
     return (route, segments) => {
         const authStateService = inject(AuthStateService)
         const router = inject(Router)
-
         const userLevel = authStateService.getUserLevel()
-        const groupId = authStateService.getGroupId()
 
-        if (allowedLevels.include(userLevel)) {
+        if (userLevel !== null && allowedLevels.includes(userLevel)) {
             return true
         }
 
-        // Deny access and redirect
         const currentUrl = segments.map((segment) => segment.path).join('/')
         return router.createUrlTree(['/access-denied'], {
             queryParams: { returnUrl: currentUrl },

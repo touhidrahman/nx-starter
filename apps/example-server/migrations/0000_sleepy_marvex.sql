@@ -3,6 +3,7 @@ CREATE TYPE "public"."groupLevel" AS ENUM('trial', 'basic', 'premium');--> state
 CREATE TYPE "public"."groupStatus" AS ENUM('active', 'inactive', 'pending');--> statement-breakpoint
 CREATE TYPE "public"."groupType" AS ENUM('client', 'vendor');--> statement-breakpoint
 CREATE TYPE "public"."invoiceStatus" AS ENUM('unpaid', 'partially_paid', 'fully_paid', 'canceled');--> statement-breakpoint
+CREATE TYPE "public"."lawyerLevel" AS ENUM('senior', 'junior');--> statement-breakpoint
 CREATE TYPE "public"."show_me_as" AS ENUM('Busy', 'Available');--> statement-breakpoint
 CREATE TYPE "public"."status" AS ENUM('Active', 'Disabled');--> statement-breakpoint
 CREATE TYPE "public"."taskStatus" AS ENUM('pending', 'in_progress', 'completed', 'overdue');--> statement-breakpoint
@@ -149,6 +150,23 @@ CREATE TABLE "invoices" (
 	"remaining_due_amount" numeric NOT NULL,
 	"updated_at" timestamp with time zone NOT NULL,
 	CONSTRAINT "invoices_invoice_code_unique" UNIQUE("invoice_code")
+);
+--> statement-breakpoint
+CREATE TABLE "lawyers" (
+	"id" text PRIMARY KEY NOT NULL,
+	"name" text NOT NULL,
+	"institute_name" text NOT NULL,
+	"expert_level" "lawyerLevel" DEFAULT 'junior' NOT NULL,
+	"layer_type" text NOT NULL,
+	"experience_year" text NOT NULL,
+	"phone_number" text NOT NULL,
+	"email" text NOT NULL,
+	"profile_image" text,
+	"description" text,
+	"is_verified" boolean DEFAULT false NOT NULL,
+	"verified_on" timestamp with time zone,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "messages" (

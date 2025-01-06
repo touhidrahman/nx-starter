@@ -12,6 +12,7 @@ import { documentSharingV1Route } from './main/documents-sharing/documents-shari
 import { documentV1Route } from './main/documents/documents.routes'
 import { eventV1Route } from './main/events/events.routes'
 import { groupsV1Route } from './main/group/group.routes'
+import { lawyerV1Routes } from './main/lawyer/lawyer.routes'
 import { messagesV1Route } from './main/messages/messages.routes'
 import { permissionsV1Route } from './main/permissions/permissions.routes'
 import { storageV1Routes } from './main/storage/storage.routes'
@@ -35,6 +36,7 @@ const routes = [
     eventV1Route,
     generalRoutes,
     groupsV1Route,
+    lawyerV1Routes,
     messagesV1Route,
     permissionsV1Route,
     storageV1Routes,
