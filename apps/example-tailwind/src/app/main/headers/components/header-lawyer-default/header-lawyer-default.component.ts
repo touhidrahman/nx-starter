@@ -9,7 +9,7 @@ import {
 } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { HeaderUtilService } from '../../header-utils/header-util.service'
-import { UIstate } from '../../header-utils/uiState-inteface'
+import { UIstate } from '../../header-utils/ui-state-interface'
 
 @Component({
     selector: 'app-header-lawyer-default',

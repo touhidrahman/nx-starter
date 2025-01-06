@@ -76,6 +76,13 @@ export const loginHandler: AppRouteHandler<typeof loginRoute> = async (c) => {
         )
     }
 
+    if (!user.verified) {
+        return c.json(
+            { message: 'Please verify your account', data: {}, success: false },
+            BAD_REQUEST,
+        )
+    }
+
     await updateLastLogin(user.id)
 
     // if previledged user, do not check for groups and just return access token

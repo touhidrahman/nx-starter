@@ -1,4 +1,4 @@
-<div
+<nav
     class="text-grayShade sticky top-0 z-[100] w-full overflow-x-clip transition-all duration-300"
     [class]="isScrolled ? 'bg-white shadow-md' : ''">
     <div class="mx-4 flex items-center justify-between py-2 md:mx-16">
@@ -32,17 +32,34 @@
                 >
             </div>
         </div>
+        @let user = authStateService.select('userId') | async;
         <div class="hidden space-x-5 md:block">
-            <button
-                class="bg-lightGreen btn-shadow rounded-md px-4 py-1 text-sm"
-                routerLink="/signup">
-                Sign Up
-            </button>
-            <button
-                class="bg-green btn-shadow rounded-md px-4 py-1 text-sm text-white"
-                routerLink="/login">
-                Sign In
-            </button>
+            @if (user) {
+                <p-avatar
+                    label="{{ authStateService.getUserEmail()?.slice(0, 1) }}"
+                    styleClass="mr-2"
+                    [style]="{
+                        'background-color': '#dee9fc',
+                        color: '#1a2551',
+                    }"
+                    shape="circle" />
+                <button
+                    (click)="authStateService.logout()"
+                    class="bg-green btn-shadow rounded-md px-4 py-1 text-sm text-white">
+                    Logout
+                </button>
+            } @else {
+                <button
+                    class="bg-lightGreen btn-shadow rounded-md px-4 py-1 text-sm"
+                    routerLink="/signup">
+                    Sign Up
+                </button>
+                <button
+                    class="bg-green btn-shadow rounded-md px-4 py-1 text-sm text-white"
+                    routerLink="/login">
+                    Sign In
+                </button>
+            }
         </div>
 
         <div class="block md:hidden">
@@ -84,4 +101,4 @@
             </button>
         </div>
     </div>
-</div>
+</nav>

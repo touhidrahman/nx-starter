@@ -130,6 +130,7 @@
         "@types/pg": "^8.11.10",
         "@types/qs": "^6.9.17",
         "@typescript-eslint/utils": "8.19.0",
+        "angular-eslint": "^19.0.2",
         "autoprefixer": "^10.4.20",
         "cypress": "13.13.0",
         "drizzle-dbml-generator": "^0.10.0",
