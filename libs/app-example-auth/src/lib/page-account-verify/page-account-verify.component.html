@@ -1,26 +1,12 @@
-<div class="w-full max-w-sm rounded-lg bg-white p-6 text-center shadow-lg">
-    <div class="mb-6 flex justify-center">
+<div class="mt-20 flex flex-col items-center justify-center">
+    <div class="mb-4 flex justify-center">
         @if (verified) {
-            <svg
-                width="80"
-                height="80"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <rect width="24" height="24" rx="12" fill="#4CAF50" />
-                <path
-                    d="M10 14.17L7.83 12L6.41 13.41L10 17L18 9L16.59 7.59L10 14.17Z"
-                    fill="white" />
-            </svg>
+            <img
+                class="h-56 w-56"
+                src="/assets/images/successfull.png"
+                alt="" />
         } @else {
-            <svg
-                width="80"
-                height="80"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 512 512">
-                <path
-                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM175 175c9.4-9.4 24.6-9.4 33.9 0l47 47 47-47c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9l-47 47 47 47c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0l-47-47-47 47c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l47-47-47-47c-9.4-9.4-9.4-24.6 0-33.9z" />
-            </svg>
+            <img class="h-56 w-56" src="/assets/images/unsuccess.png" alt="" />
         }
     </div>
     <h2 class="mb-6 text-2xl font-bold">
@@ -33,9 +19,9 @@
             Sorry! Couldn't verify account. Your token is expired!.
         }
     </p>
-    <a
+    <p-button
         [routerLink]="['/login']"
-        class="bg-success text-success-foreground rounded px-4 py-2 hover:bg-green-400"
-        >Go to Login</a
-    >
+        label="Login Now"
+        class="mt-2"
+        size="small" />
 </div>
