@@ -1,11 +1,11 @@
 import { Component, HostListener, inject } from '@angular/core'
 import { RouterModule } from '@angular/router'
-import { AvatarModule } from 'primeng/avatar'
 import { AuthStateService } from '@myorg/app-example-auth'
+import { PrimeModules } from '@myorg/prime-modules'
 
 @Component({
     selector: 'app-header-public',
-    imports: [RouterModule, AvatarModule],
+    imports: [RouterModule, PrimeModules],
     templateUrl: './header-public.component.html',
     styleUrl: './header-public.component.scss',
 })
