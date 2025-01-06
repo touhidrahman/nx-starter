@@ -15,12 +15,7 @@ export function userLevelGuardFn(allowedLevels: UserLevel[]): CanMatchFn {
         // Allow access if:
         // 1. User is Admin/Moderator and has a groupId, OR
         // 2. User is User and has no groupId
-        if (
-            ((userLevel === UserLevel.Admin || userLevel === UserLevel.Moderator) &&
-                groupId) ||
-            (userLevel === UserLevel.User && groupId === '')
-        ) {
-            console.log('Access granted')
+        if (allowedLevels.include(userLevel)) {
             return true
         }
 
