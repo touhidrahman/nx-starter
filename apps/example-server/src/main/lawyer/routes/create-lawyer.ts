@@ -28,7 +28,7 @@ export const createLawyerRoute = createRoute({
 export const createLawyerHandler: AppRouteHandler<typeof createLawyerRoute> = async (c) => {
     const body = c.req.valid('json') as InsertLawyer
     try {
-const [existingLawyer] = await findLawyerById(body.email)
+        const existingLawyer = await findLawyerById(body.email)
 
 if (existingLawyer) {
     return c.json(
