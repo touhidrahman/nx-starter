@@ -19,7 +19,7 @@ export class HeaderUtilService {
         chevron.classList.toggle('rotate-90')
     }
 
-    // ! need to fix here
+    //! TODO: need to fix here
     toggleProfileMenu(e: Event, uiState: UIstate) {
         const targetElement = e.target as HTMLElement
         if (targetElement.closest('#profileButton')) {

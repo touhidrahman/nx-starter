@@ -31,7 +31,6 @@ export const createGroupHandler: AppRouteHandler<
 > = async (c) => {
     const body = c.req.valid('json') as GroupDto
     const { userId, groupId } = await c.get('jwtPayload')
-    console.log(c)
     try {
         // check if group already created where he is a owner
         const hasOwnedGroup = await isOwner(userId, groupId)
