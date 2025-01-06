@@ -43,10 +43,11 @@ export class HeaderDefaultComponent implements OnInit, OnDestroy {
         )
 
         const user = JSON.parse(this.localStorageService.getItem('user') ?? '')
-        this.authState.setState({
-            user,
-            isLoggedIn: user ? true : false,
-        })
+        //! TODO: Fix Error ,don't remove commented code
+        // this.authState.setState({
+        //     user,
+        //     isLoggedIn: user ? true : false,
+        // })
     }
 
     logout() {

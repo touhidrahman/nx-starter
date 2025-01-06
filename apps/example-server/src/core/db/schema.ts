@@ -3,6 +3,7 @@ import {
     boolean,
     date,
     decimal,
+    doublePrecision,
     integer,
     pgEnum,
     pgTable,
@@ -13,7 +14,6 @@ import {
 } from 'drizzle-orm/pg-core'
 import { generateId } from './id.util'
 import { lower } from './orm.util'
-import { number } from 'zod'
 
 /**
  * userLevelEnum is an enum for user levels in the system , applies to auth_users table only
@@ -450,21 +450,32 @@ export const eventsRelations = relations(eventsTable, ({ one }) => ({
 }))
 
 //lawyer table
-export const lawyerLevelEnum = pgEnum('lawyerLevel', ['senior', 'junior'])
+
 
 export const lawyerTable = pgTable('lawyers', {
     id: text('id').primaryKey().$defaultFn(generateId),
     name: text('name').notNull(),
     instituteName: text('institute_name').notNull(),
-    expertLevel: lawyerLevelEnum('expert_level').notNull().default('junior'),
-    lawyerType: text('layer_type').notNull(),
-    experience: text('experience_year').notNull(),
-    phoneNumber: text('phone_number').notNull(),
-    email: text('email').notNull(),
-    profileImage: text('profile_image'),
+    practiceStartYear: integer('practice_start_year'),
+    lawyerType: text('lawyer_type').notNull(),
+    phoneNumber: text('phone_number'),
+    email: text('email'),
+    profileImageUrl: text('profile_image_url'),
+    coverImageUrl: text('cover_image_url'),
     description: text('description'),
-    verified: boolean('is_verified').notNull().default(false),
-    verifiedOn: timestamp('verified_on', { withTimezone: true }),
+    rating: doublePrecision('rating').default(0.0),
+    address: text('address'),
+    city: text('city'),
+    district: text('district'),
+    postCode: text('post_code'),
+    website: text('website'),
+    businessHours: text('business_hours'),
+    sponsored: boolean('sponsored').default(false),
+    sponsoredUntil: date('sponsored_until'),
+    interestedArea: text('interested_area'),
+    institutionId: text('institution_id'),
+    latitude: doublePrecision('latitude'),
+    longitude: doublePrecision('longitude'),
     createdAt: timestamp('created_at', { withTimezone: true })
         .notNull()
         .defaultNow(),
@@ -472,6 +483,8 @@ export const lawyerTable = pgTable('lawyers', {
         .notNull()
         .$onUpdate(() => new Date()),
 })
+
+
 
 // Cases Table
 export const casesTable = pgTable('cases', {

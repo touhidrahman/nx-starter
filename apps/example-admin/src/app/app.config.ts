@@ -56,15 +56,15 @@ export const appConfig: ApplicationConfig = {
             withInterceptorsFromDi(),
         ),
         importProvidersFrom(BrowserModule),
-        provideAppInitializer(() => {
-            const initializerFn = appInitializerFactory(
-                inject(AuthStateService),
-                inject(AuthApiService),
-                inject(TokenStorageService),
-                inject(LocalStorageService),
-            )
-            return initializerFn()
-        }),
+        // provideAppInitializer(() => {
+        //     const initializerFn = appInitializerFactory(
+        //         inject(AuthStateService),
+        //         inject(AuthApiService),
+        //         inject(TokenStorageService),
+        //         inject(LocalStorageService),
+        //     )
+        //     return initializerFn()
+        // }),
         {
             provide: DATE_PIPE_DEFAULT_OPTIONS,
             useValue: { timezone: 'UTC', dateFormat: 'shortDate' },

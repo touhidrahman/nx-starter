@@ -4,7 +4,7 @@ import {
     APP_EXAMPLE_ENVIRONMENT,
     AppExampleEnvironment,
 } from '@myorg/app-example-core'
-import { Case, Lawyer, LawyerDto } from '@myorg/app-example-models'
+import { Lawyer, LawyerDto } from '@myorg/app-example-models'
 import { ApiResponse, OrderBy } from '@myorg/common-models'
 import { Observable } from 'rxjs'
 

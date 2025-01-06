@@ -111,6 +111,14 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
+        path: 'lawyer-registration',
+        loadComponent: () =>
+            import('./pages/page-lawyer-registration/page-lawyer-registration.component').then(
+                (c) => c.PageLawyerRegistrationComponent
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
         path: 'lawyer-list',
         loadComponent: () =>
             import('./pages/page-lawyer-list/page-lawyer-list.component').then(
