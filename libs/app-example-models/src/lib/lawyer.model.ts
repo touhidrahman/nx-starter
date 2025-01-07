@@ -1,4 +1,3 @@
-
 export interface LawyerDto {
     name: string
     instituteName: string

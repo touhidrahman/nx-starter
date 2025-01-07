@@ -13,7 +13,6 @@ import { checkToken } from '../../auth/auth.middleware'
 import { zSelectLawyer, zUpdateLawyer } from '../lawyer.schema'
 import { findLawyerById, updateLawyer } from '../lawyer.service'
 
-
 export const updateLawyerRoute = createRoute({
     path: '/v1/Lawyer/:id',
     method: 'put',
@@ -31,7 +30,9 @@ export const updateLawyerRoute = createRoute({
     },
 })
 
-export const updateLawyerHandler: AppRouteHandler<typeof updateLawyerRoute> = async (c) => {
+export const updateLawyerHandler: AppRouteHandler<
+    typeof updateLawyerRoute
+> = async (c) => {
     const LawyerId = c.req.param('id')
     const body = c.req.valid('json')
 

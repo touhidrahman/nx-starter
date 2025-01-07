@@ -1,12 +1,11 @@
-import { createRoute, z } from "@hono/zod-openapi";
-import { checkToken } from "../../auth/auth.middleware";
-import { ApiResponse } from "../../../core/utils/api-response.util";
-import { NOT_FOUND, OK } from "stoker/http-status-codes";
-import { zSelectLawyer } from "../lawyer.schema";
-import { zEmpty } from "../../../core/models/common.schema";
-import { AppRouteHandler } from "../../../core/core.type";
-import { findLawyerById } from "../lawyer.service";
-
+import { createRoute, z } from '@hono/zod-openapi'
+import { checkToken } from '../../auth/auth.middleware'
+import { ApiResponse } from '../../../core/utils/api-response.util'
+import { NOT_FOUND, OK } from 'stoker/http-status-codes'
+import { zSelectLawyer } from '../lawyer.schema'
+import { zEmpty } from '../../../core/models/common.schema'
+import { AppRouteHandler } from '../../../core/core.type'
+import { findLawyerById } from '../lawyer.service'
 
 export const getLawyerRoute = createRoute({
     path: '/v1/lawyer/:id',
@@ -35,5 +34,8 @@ export const getLawyerHandler: AppRouteHandler<typeof getLawyerRoute> = async (
         )
     }
 
-    return c.json({ data: caseItem, message: 'Lawyer found', success: true }, OK)
+    return c.json(
+        { data: caseItem, message: 'Lawyer found', success: true },
+        OK,
+    )
 }

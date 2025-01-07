@@ -1,13 +1,12 @@
-import { and, eq, getTableColumns, ilike, sql, SQL } from "drizzle-orm"
-import { lawyerTable } from "../../core/db/schema"
-import { db } from "../../core/db/db"
-import { InsertLawyer } from "./lawyer.schema"
-
+import { and, eq, getTableColumns, ilike, sql, SQL } from 'drizzle-orm'
+import { lawyerTable } from '../../core/db/schema'
+import { db } from '../../core/db/db'
+import { InsertLawyer } from './lawyer.schema'
 
 export const getAllLawyer = async (params: {
-    search: string,
-    page: number,
-    size: number,
+    search: string
+    page: number
+    size: number
     orderBy?: string
 }) => {
     const { search, page, size, orderBy } = params
@@ -17,7 +16,7 @@ export const getAllLawyer = async (params: {
     if (search) {
         const searchTerm = `%${search}%`
         conditions.push(
-            sql`(${ilike(lawyerTable.email, searchTerm)} OR ${ilike(lawyerTable.phoneNumber, searchTerm)} )`
+            sql`(${ilike(lawyerTable.email, searchTerm)} OR ${ilike(lawyerTable.phoneNumber, searchTerm)} )`,
         )
     }
 
@@ -65,7 +64,6 @@ export const getAllLawyer = async (params: {
             totalPages: Math.ceil(totalCount / size),
         },
     }
-
 }
 
 // find specific lawyer by id
@@ -78,10 +76,16 @@ export const findLawyerById = async (id: string) =>
 export const createLawyer = async (lawyerItem: InsertLawyer) =>
     await db.insert(lawyerTable).values(lawyerItem).returning()
 
-
 // Update an existing lawyer by ID.
-export const updateLawyer = async (id: string, caseItem: Partial<InsertLawyer>) =>
-    db.update(lawyerTable).set(caseItem).where(eq(lawyerTable.id, id)).returning()
+export const updateLawyer = async (
+    id: string,
+    caseItem: Partial<InsertLawyer>,
+) =>
+    db
+        .update(lawyerTable)
+        .set(caseItem)
+        .where(eq(lawyerTable.id, id))
+        .returning()
 
 // Remove a lawyer by ID.
 export const deleteLawyer = async (id: string) =>

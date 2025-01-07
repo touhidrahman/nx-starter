@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core'
+import {
+    ChangeDetectionStrategy,
+    Component,
+    inject,
+    OnInit,
+} from '@angular/core'
 import { AsyncPipe, CommonModule } from '@angular/common'
 import { ButtonModule } from 'primeng/button'
 import { FormsModule } from '@angular/forms'
@@ -41,7 +46,7 @@ export interface PaginatorState {
         TagModule,
         PaginatorModule,
         AsyncPipe,
-        LawyerCardComponent
+        LawyerCardComponent,
     ],
     templateUrl: './page-lawyers.component.html',
     styleUrl: './page-lawyers.component.scss',
@@ -224,15 +229,14 @@ export class PageLawyersComponent implements OnInit {
         this.onLoadLawyer()
     }
 
-
     onLoadLawyer() {
         this.lawyerStateService.select('lawyers').subscribe({
             next: (res) => {
-                console.log(res);
+                console.log(res)
             },
             error: (err) => {
-                console.log('error', err);
-            }
+                console.log('error', err)
+            },
         })
     }
 

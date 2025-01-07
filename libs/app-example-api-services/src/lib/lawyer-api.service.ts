@@ -18,14 +18,13 @@ export class LawyerApiService {
     constructor(
         @Inject(APP_EXAMPLE_ENVIRONMENT)
         private env: AppExampleEnvironment,
-    ) { }
+    ) {}
 
     getAllLawyers(filterOptions: {
         search: string
         size: number
         page: number
         orderBy: OrderBy
-
     }): Observable<ApiResponse<Lawyer[]>> {
         let params = new HttpParams({})
 
@@ -53,11 +52,15 @@ export class LawyerApiService {
     }
 
     createLawyer(data: LawyerDto): Observable<ApiResponse<Lawyer>> {
-        return this.http.post<ApiResponse<Lawyer>>(`${this.apiUrl}/v1/lawyer`, data)
+        return this.http.post<ApiResponse<Lawyer>>(
+            `${this.apiUrl}/v1/lawyer`,
+            data,
+        )
     }
 
     updateLawyer(id: string, data: Lawyer): Observable<ApiResponse<Lawyer>> {
-        return this.http.put<ApiResponse<Lawyer>>(`${this.apiUrl}/v1/lawyer/${id}`,
+        return this.http.put<ApiResponse<Lawyer>>(
+            `${this.apiUrl}/v1/lawyer/${id}`,
             data,
         )
     }
@@ -65,5 +68,4 @@ export class LawyerApiService {
     deleteLawyer(id: string): Observable<ApiResponse<string>> {
         return this.http.delete<ApiResponse<string>>(`${this.apiUrl}/v1/${id}`)
     }
-
 }

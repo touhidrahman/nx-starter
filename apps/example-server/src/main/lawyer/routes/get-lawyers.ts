@@ -5,7 +5,6 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zSelectLawyer } from '../lawyer.schema'
 import { getAllLawyer } from '../lawyer.service'
 
-
 export const getLawyersRoute = createRoute({
     path: '/v1/lawyers',
     method: 'get',
@@ -14,8 +13,8 @@ export const getLawyersRoute = createRoute({
     request: {
         query: zSelectLawyer.extend({
             search: z.string().optional(),
-            page: z.string().optional(),
-            size: z.string().optional(),
+            page: z.coerce.number().optional(),
+            size: z.coerce.number().optional(),
             orderBy: z.string().optional(),
         }),
     },
@@ -24,12 +23,13 @@ export const getLawyersRoute = createRoute({
     },
 })
 
-export const getLawyersHandler: AppRouteHandler<typeof getLawyersRoute> = async (c) => {
+export const getLawyersHandler: AppRouteHandler<
+    typeof getLawyersRoute
+> = async (c) => {
     const { search, page, size, orderBy } = c.req.query()
 
     const pageNumber = Number(page)
     const limitNumber = Number(size)
-
 
     const { data, meta } = await getAllLawyer({
         search,

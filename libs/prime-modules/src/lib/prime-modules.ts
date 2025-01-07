@@ -31,14 +31,13 @@ import { Textarea } from 'primeng/textarea'
 import { ToastModule } from 'primeng/toast'
 import { Toolbar } from 'primeng/toolbar'
 import { Tooltip } from 'primeng/tooltip'
-import { Tag } from 'primeng/tag';
+import { Tag } from 'primeng/tag'
 import { Tree } from 'primeng/tree'
 import { TreeSelect } from 'primeng/treeselect'
 import { FileUpload } from 'primeng/fileupload'
 import { DropdownModule } from 'primeng/dropdown'
 import { RadioButton } from 'primeng/radiobutton'
 import { ProgressSpinnerModule } from 'primeng/progressspinner'
-
 
 export const PrimeModules = [
     AutoComplete,

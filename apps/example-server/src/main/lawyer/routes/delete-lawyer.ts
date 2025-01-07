@@ -6,7 +6,6 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { deleteLawyer, findLawyerById } from '../lawyer.service'
 
-
 export const deleteLawyerRoute = createRoute({
     path: '/v1/lawyer/:id',
     method: 'delete',
@@ -22,7 +21,9 @@ export const deleteLawyerRoute = createRoute({
     },
 })
 
-export const deleteLawyerHandler: AppRouteHandler<typeof deleteLawyerRoute> = async (c) => {
+export const deleteLawyerHandler: AppRouteHandler<
+    typeof deleteLawyerRoute
+> = async (c) => {
     const lawyerId = c.req.param('id')
 
     try {
@@ -36,7 +37,11 @@ export const deleteLawyerHandler: AppRouteHandler<typeof deleteLawyerRoute> = as
 
         await deleteLawyer(lawyerId)
         return c.json(
-            { data: { lawyerId }, message: 'Lawyer deleted successfully', success: true },
+            {
+                data: { lawyerId },
+                message: 'Lawyer deleted successfully',
+                success: true,
+            },
             OK,
         )
     } catch (error) {

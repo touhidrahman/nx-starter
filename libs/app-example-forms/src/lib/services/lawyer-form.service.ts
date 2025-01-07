@@ -1,6 +1,5 @@
-import { Injectable } from "@angular/core";
-import { FormGroup, NonNullableFormBuilder, Validators } from "@angular/forms";
-
+import { Injectable } from '@angular/core'
+import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms'
 
 @Injectable()
 export class LawyerFormService {
@@ -31,7 +30,6 @@ export class LawyerFormService {
             coverImageUrl: [''],
             sponsoredUntil: [null],
             sponsored: [false],
-
         })
     }
 
@@ -42,5 +40,4 @@ export class LawyerFormService {
     getValue() {
         return this.form.getRawValue()
     }
-
 }

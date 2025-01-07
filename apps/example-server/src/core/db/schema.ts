@@ -36,7 +36,6 @@ export const fileTypeEnum = pgEnum('fileType', [
     'audio',
 ])
 
-
 export const usersTable = pgTable(
     'users',
     {
@@ -451,7 +450,6 @@ export const eventsRelations = relations(eventsTable, ({ one }) => ({
 
 //lawyer table
 
-
 export const lawyerTable = pgTable('lawyers', {
     id: text('id').primaryKey().$defaultFn(generateId),
     name: text('name').notNull(),
@@ -483,8 +481,6 @@ export const lawyerTable = pgTable('lawyers', {
         .notNull()
         .$onUpdate(() => new Date()),
 })
-
-
 
 // Cases Table
 export const casesTable = pgTable('cases', {
