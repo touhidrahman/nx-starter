@@ -31,6 +31,7 @@ import { Textarea } from 'primeng/textarea'
 import { ToastModule } from 'primeng/toast'
 import { Toolbar } from 'primeng/toolbar'
 import { Tooltip } from 'primeng/tooltip'
+import { Tag } from 'primeng/tag';
 import { Tree } from 'primeng/tree'
 import { TreeSelect } from 'primeng/treeselect'
 import { FileUpload } from 'primeng/fileupload'
@@ -72,6 +73,7 @@ export const PrimeModules = [
     SharedModule,
     SplitButton,
     Splitter,
+    Tag,
     TableModule,
     Textarea,
     ToastModule,

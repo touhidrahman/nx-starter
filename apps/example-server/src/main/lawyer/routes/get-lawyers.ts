@@ -2,7 +2,6 @@ import { createRoute, z } from '@hono/zod-openapi'
 import { OK } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { checkToken } from '../../auth/auth.middleware'
 import { zSelectLawyer } from '../lawyer.schema'
 import { getAllLawyer } from '../lawyer.service'
 
@@ -11,7 +10,7 @@ export const getLawyersRoute = createRoute({
     path: '/v1/lawyers',
     method: 'get',
     tags: ['Lawyer'],
-    // middleware: [checkToken] as const,
+
     request: {
         query: zSelectLawyer.extend({
             search: z.string().optional(),

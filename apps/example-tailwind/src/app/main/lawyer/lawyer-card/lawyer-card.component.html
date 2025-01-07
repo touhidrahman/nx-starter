@@ -1,0 +1,48 @@
+<p-card
+    class="gradient-border rounded-2xl bg-transparent p-0.5 transition-all duration-300 ease-linear">
+    <div class="relative h-full w-full rounded-2xl bg-white">
+        <div class="flex items-start justify-start gap-2">
+            <p-avatar
+                [image]="lawyer().profileImageUrl"
+                size="large"
+                shape="circle"
+                class="h-16 w-16 flex-shrink-0 rounded-full object-cover"></p-avatar>
+
+            <div class="inline-block">
+                <h3 class="text-2xl font-semibold text-black">
+                    {{ lawyer().name }}
+                </h3>
+                <p
+                    class="text-gray59 mt-2 flex items-center gap-2 text-sm md:mt-0">
+                    <span class="pi pi-verified"></span>
+                    {{ lawyer().businessHours }}
+                </p>
+                <p class="text-gray59 flex items-center gap-2 text-sm">
+                    <span class="pi pi-graduation-cap"></span>
+                    {{ lawyer().instituteName }}
+                </p>
+                <p class="text-gray59 flex items-center gap-2 text-sm">
+                    <span class="pi pi-phone"></span>
+
+                    {{ lawyer().email }}
+                </p>
+                <p class="text-gray59 flex items-center gap-2 text-sm">
+                    <span class="pi pi-envelope p"></span>
+
+                    {{ lawyer().phoneNumber }}
+                </p>
+                <hr class="border-grayc5 my-2.5 w-4/5 border-t" />
+                <p class="whitespace-pre-wrap text-sm font-medium">
+                    {{ lawyer().description.slice(0, 100) }}
+                </p>
+            </div>
+        </div>
+        <div class="absolute right-4 top-0">
+            <p-tag
+                severity="info"
+                value="{{ lawyer().practiceStartYear }} {{
+                    lawyer().lawyerType
+                }}" />
+        </div>
+    </div>
+</p-card>

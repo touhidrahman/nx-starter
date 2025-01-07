@@ -18,7 +18,6 @@
                 severity="success" />
 
             <div class="gap-3 md:flex md:items-center md:justify-center">
-                <!--  ---------------->
                 <div class="card mt-2 flex justify-center md:mt-0">
                     <p-select
                         [options]="districts"
@@ -28,8 +27,7 @@
                         filterBy="name"
                         [showClear]="true"
                         placeholder="Sort by district"
-                        class="text-primary-gray w-full rounded-xl px-3 text-lg shadow-sm md:w-56"
-                        (click)="getDistrict()">
+                        class="text-primary-gray w-full rounded-xl px-3 text-lg shadow-sm md:w-56">
                         <ng-template #selectedItem let-selectedOption>
                             <div class="flex items-center gap-2">
                                 <div>{{ selectedOption.name }}</div>
@@ -57,8 +55,7 @@
                             'cursor-not-allowed opacity-50': !selectedDistrict,
                         }"
                         [disabled]="!selectedDistrict"
-                        class="border-graybc text-primary-gray w-full rounded-xl border px-3 text-lg md:w-56"
-                        (click)="getThana()">
+                        class="border-graybc text-primary-gray w-full rounded-xl border px-3 text-lg md:w-56">
                         <ng-template #selectedItem let-selectedOption>
                             <div class="flex items-center gap-2">
                                 <div>{{ selectedOption.thana[0] }}</div>
@@ -72,9 +69,7 @@
                             </div>
                         </ng-template>
                     </p-select>
-                    <!-- <button (click)="submit()">Submit</button> -->
                 </div>
-                <!-- ------------------- -->
             </div>
         </div>
 
@@ -94,60 +89,19 @@
         </div>
     </div>
 
+    @let lawyers = lawyerStateService.select('lawyers') | async;
+    @let loading = lawyerStateService.select('loading') | async;
     <div class="grid gap-3 py-6 md:grid-cols-2 lg:grid-cols-12">
-        @for (i of displayedLawyers; track $index) {
-            <p-card
-                class="gradient-border col-span-4 rounded-2xl bg-transparent p-0.5 transition-all duration-300 ease-linear">
-                <div class="relative h-full w-full rounded-2xl bg-white">
-                    <div class="flex items-start justify-start gap-2">
-                        <p-avatar
-                            [image]="i.img"
-                            size="large"
-                            shape="circle"
-                            class="h-16 w-28 rounded-full object-cover"></p-avatar>
-
-                        <span class="inline-block">
-                            <h3 class="text-2xl font-semibold text-black">
-                                {{ i.name }}
-                            </h3>
-                            <p class="text-gray59 text-sm">
-                                {{ i.title }}
-                            </p>
-                            <p
-                                class="text-gray59 mt-2 flex items-center gap-2 text-sm md:mt-0">
-                                <span class="pi pi-verified"></span>
-                                {{ i.specialization }}
-                            </p>
-                            <p
-                                class="text-gray59 flex items-center gap-2 text-sm">
-                                <span class="pi pi-graduation-cap"></span>
-                                {{ i.education }}
-                            </p>
-                            <p
-                                class="text-gray59 flex items-center gap-2 text-sm">
-                                <span class="pi pi-phone"></span>
-
-                                {{ i.contact }}
-                            </p>
-                            <p
-                                class="text-gray59 flex items-center gap-2 text-sm">
-                                <span class="pi pi-envelope p"></span>
-
-                                {{ i.contact }}
-                            </p>
-                            <hr class="border-grayc5 my-2.5 w-4/5 border-t" />
-                            <p class="whitespace-pre-wrap text-sm font-medium">
-                                {{ i.description }}
-                            </p>
-                        </span>
-                    </div>
-                    <div
-                        class="text-gray43 absolute right-4 top-0 hidden items-center justify-center rounded-2xl px-3 py-0.5 text-xs md:flex"
-                        [ngStyle]="{ background: i.bg }">
-                        <span>{{ i.content }}</span>
-                    </div>
+        @if (loading) {
+            <span>Loading...</span>
+        } @else {
+            @for (lawyer of lawyers; track $index) {
+                <div class="col-span-4">
+                    <app-lawyer-card [lawyer]="lawyer" />
                 </div>
-            </p-card>
+            } @empty {
+                <span>No Lawyer</span>
+            }
         }
     </div>
 

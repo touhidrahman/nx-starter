@@ -23,8 +23,9 @@ export class LawyerApiService {
     getAllLawyers(filterOptions: {
         search: string
         size: number
-        orderBy: OrderBy
         page: number
+        orderBy: OrderBy
+
     }): Observable<ApiResponse<Lawyer[]>> {
         let params = new HttpParams({})
 
@@ -42,17 +43,27 @@ export class LawyerApiService {
                 params = params.set('orderBy', filterOptions.orderBy)
             }
         }
-        return this.http.get<ApiResponse<Lawyer[]>>(`${this.apiUrl}/v1/lawyers`, {
+        return this.http.get<ApiResponse<Lawyer[]>>(`${this.apiUrl}/lawyers`, {
             params,
         })
     }
 
     getLawyer(id: string): Observable<ApiResponse<Lawyer>> {
-        return this.http.get<ApiResponse<Lawyer>>(`${this.apiUrl}/v1/lawyer/${id}`)
+        return this.http.get<ApiResponse<Lawyer>>(`${this.apiUrl}/lawyer/${id}`)
     }
 
     createLawyer(data: LawyerDto): Observable<ApiResponse<Lawyer>> {
         return this.http.post<ApiResponse<Lawyer>>(`${this.apiUrl}/v1/lawyer`, data)
+    }
+
+    updateLawyer(id: string, data: Lawyer): Observable<ApiResponse<Lawyer>> {
+        return this.http.put<ApiResponse<Lawyer>>(`${this.apiUrl}/v1/lawyer/${id}`,
+            data,
+        )
+    }
+
+    deleteLawyer(id: string): Observable<ApiResponse<string>> {
+        return this.http.delete<ApiResponse<string>>(`${this.apiUrl}/v1/${id}`)
     }
 
 }

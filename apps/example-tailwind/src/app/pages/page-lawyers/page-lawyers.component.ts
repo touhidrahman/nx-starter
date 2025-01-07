@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core'
-import { CommonModule } from '@angular/common'
+import { ChangeDetectionStrategy, Component, inject, OnInit } from '@angular/core'
+import { AsyncPipe, CommonModule } from '@angular/common'
 import { ButtonModule } from 'primeng/button'
 import { FormsModule } from '@angular/forms'
 import { SelectModule } from 'primeng/select'
@@ -7,6 +7,8 @@ import { AvatarModule } from 'primeng/avatar'
 import { CardModule } from 'primeng/card'
 import { TagModule } from 'primeng/tag'
 import { PaginatorModule } from 'primeng/paginator'
+import { LawyerStateService } from '@myorg/app-example-states'
+import { LawyerCardComponent } from '../../main/lawyer/lawyer-card/lawyer-card.component'
 
 interface Lawyer {
     img: string
@@ -38,9 +40,12 @@ export interface PaginatorState {
         AvatarModule,
         TagModule,
         PaginatorModule,
+        AsyncPipe,
+        LawyerCardComponent
     ],
     templateUrl: './page-lawyers.component.html',
     styleUrl: './page-lawyers.component.scss',
+    providers: [LawyerStateService],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PageLawyersComponent implements OnInit {
@@ -192,6 +197,10 @@ export class PageLawyersComponent implements OnInit {
         },
     ]
 
+    lawyers = []
+
+    lawyerStateService = inject(LawyerStateService)
+
     districts: { name: string; thana: string[] }[] | undefined
 
     selectedDistrict!: { name: string; thana: string[] }
@@ -203,6 +212,7 @@ export class PageLawyersComponent implements OnInit {
     rowsPerPage = 9
 
     ngOnInit() {
+        this.lawyerStateService.init()
         this.districts = [
             { name: 'Dhaka', thana: ['uttara', 'mirpur'] },
             { name: 'Kishoreganj', thana: ['kishoregang', 'tarail'] },
@@ -211,18 +221,19 @@ export class PageLawyersComponent implements OnInit {
 
         this.totalRecords = this.experience.length
         this.updatePageData(0, this.rowsPerPage)
+        this.onLoadLawyer()
     }
 
-    getDistrict() {
-        if (this.selectedDistrict) {
-            console.log('Selected District:', this.selectedDistrict)
-        } else {
-            console.log('No District selected')
-        }
-    }
 
-    getThana() {
-        console.log('thana data')
+    onLoadLawyer() {
+        this.lawyerStateService.select('lawyers').subscribe({
+            next: (res) => {
+                console.log(res);
+            },
+            error: (err) => {
+                console.log('error', err);
+            }
+        })
     }
 
     onSearch() {
@@ -251,8 +262,6 @@ export class PageLawyersComponent implements OnInit {
 
     //! To do - fix event type properly later
     onPageChange(event: Partial<PaginatorState>) {
-        console.log(event)
-
         const startIndex = event.first as number
         const endIndex = startIndex + (event as PaginatorState)?.rows
         this.updatePageData(startIndex, endIndex)

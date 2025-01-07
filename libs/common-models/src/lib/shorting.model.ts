@@ -1,1 +1,4 @@
-export type OrderBy = 'desc' | 'asc'
+export enum OrderBy {
+    Asc = 'asc',
+    Desc = 'desc',
+}
