@@ -12,8 +12,8 @@ import { Observable } from 'rxjs'
     providedIn: 'root',
 })
 export class LawyerApiService {
-    http = inject(HttpClient)
-    apiUrl = this.env.apiUrl
+    private http = inject(HttpClient)
+    private apiUrl = this.env.apiUrl
 
     constructor(
         @Inject(APP_EXAMPLE_ENVIRONMENT)
@@ -42,17 +42,17 @@ export class LawyerApiService {
                 params = params.set('orderBy', filterOptions.orderBy)
             }
         }
-        return this.http.get<ApiResponse<Lawyer[]>>(`${this.apiUrl}/lawyers`, {
+        return this.http.get<ApiResponse<Lawyer[]>>(`${this.apiUrl}/v1/lawyers`, {
             params,
         })
     }
 
     getLawyer(id: string): Observable<ApiResponse<Lawyer>> {
-        return this.http.get<ApiResponse<Lawyer>>(`${this.apiUrl}/lawyer/${id}`)
+        return this.http.get<ApiResponse<Lawyer>>(`${this.apiUrl}/v1/lawyer/${id}`)
     }
 
-    createCase(data: LawyerDto): Observable<ApiResponse<Lawyer>> {
-        return this.http.post<ApiResponse<Lawyer>>(`${this.apiUrl}/lawyer`, data)
+    createLawyer(data: LawyerDto): Observable<ApiResponse<Lawyer>> {
+        return this.http.post<ApiResponse<Lawyer>>(`${this.apiUrl}/v1/lawyer`, data)
     }
 
 }

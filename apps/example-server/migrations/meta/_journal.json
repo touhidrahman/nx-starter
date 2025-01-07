@@ -15,6 +15,20 @@
       "when": 1736183596902,
       "tag": "0001_breezy_prism",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1736251028398,
+      "tag": "0002_massive_ares",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1736253624224,
+      "tag": "0003_left_bromley",
+      "breakpoints": true
     }
   ]
 }

@@ -471,11 +471,11 @@ export const lawyerTable = pgTable('lawyers', {
     website: text('website'),
     businessHours: text('business_hours'),
     sponsored: boolean('sponsored').default(false),
-    sponsoredUntil: date('sponsored_until'),
+    sponsoredUntil: text('sponsored_until'),
     interestedArea: text('interested_area'),
     institutionId: text('institution_id'),
-    latitude: doublePrecision('latitude'),
-    longitude: doublePrecision('longitude'),
+    latitude: text('latitude'),
+    longitude: text('longitude'),
     createdAt: timestamp('created_at', { withTimezone: true })
         .notNull()
         .defaultNow(),

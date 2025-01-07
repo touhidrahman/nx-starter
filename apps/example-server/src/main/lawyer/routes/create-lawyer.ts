@@ -13,7 +13,7 @@ export const createLawyerRoute = createRoute({
     path: '/v1/lawyer',
     method: 'post',
     tags: ['Lawyer'],
-    middleware: [checkToken] as const,
+    // middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertLawyer, 'Lawyer details'),
     },
