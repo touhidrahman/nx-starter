@@ -16,7 +16,8 @@ import { findLawyerById, updateLawyer } from '../lawyer.service'
 export const updateLawyerRoute = createRoute({
     path: '/v1/Lawyer/:id',
     method: 'put',
-    tags: ['Lawyer'],
+    tags: ['Lawyers'],
+    //! TODO : [checkToken, checkLevel([UserLevel.Admin, UserLevel.Moderator])] as const
     middleware: [checkToken] as const,
     request: {
         params: z.object({ id: z.string() }),

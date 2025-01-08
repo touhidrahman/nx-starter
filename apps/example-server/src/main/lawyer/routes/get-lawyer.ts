@@ -25,17 +25,14 @@ export const getLawyerHandler: AppRouteHandler<typeof getLawyerRoute> = async (
     c,
 ) => {
     const lawyerId = c.req.param('id')
-    const caseItem = await findLawyerById(lawyerId)
+    const lawyer = await findLawyerById(lawyerId)
 
-    if (!caseItem) {
+    if (!lawyer) {
         return c.json(
             { data: {}, message: 'Lawyer not found', success: false },
             NOT_FOUND,
         )
     }
 
-    return c.json(
-        { data: caseItem, message: 'Lawyer found', success: true },
-        OK,
-    )
+    return c.json({ data: lawyer, message: 'Lawyer found', success: true }, OK)
 }

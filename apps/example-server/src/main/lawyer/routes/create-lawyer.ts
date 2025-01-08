@@ -16,6 +16,7 @@ export const createLawyerRoute = createRoute({
     path: '/v1/lawyer',
     method: 'post',
     tags: ['Lawyer'],
+    //! TODO: [checkToken, checkLevel([UserLevel.Admin, UserLevel.Moderator])] as const
     // middleware: [checkToken] as const,
     request: {
         body: jsonContent(zInsertLawyer, 'Lawyer details'),
@@ -38,7 +39,7 @@ export const createLawyerHandler: AppRouteHandler<
             return c.json(
                 {
                     data: {},
-                    message: `Case already exists with case number: ${body.email}`,
+                    message: `Lawyer already exists with lawyer : ${body.email}`,
                     success: false,
                 },
                 BAD_REQUEST,
@@ -48,7 +49,7 @@ export const createLawyerHandler: AppRouteHandler<
         return c.json(
             {
                 data: newLawyer,
-                message: 'Case created successfully',
+                message: 'Lawyer created successfully',
                 success: true,
             },
             CREATED,

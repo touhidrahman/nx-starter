@@ -3,7 +3,7 @@ import { lawyerTable } from '../../core/db/schema'
 import { db } from '../../core/db/db'
 import { InsertLawyer } from './lawyer.schema'
 
-export const getAllLawyer = async (params: {
+export const getAllLawyers = async (params: {
     search: string
     page: number
     size: number

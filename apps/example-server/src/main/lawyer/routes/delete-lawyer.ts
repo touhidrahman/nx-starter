@@ -7,7 +7,7 @@ import { checkToken } from '../../auth/auth.middleware'
 import { deleteLawyer, findLawyerById } from '../lawyer.service'
 
 export const deleteLawyerRoute = createRoute({
-    path: '/v1/lawyer/:id',
+    path: '/v1/lawyers/:id',
     method: 'delete',
     tags: ['Lawyer'],
     middleware: [checkToken] as const,

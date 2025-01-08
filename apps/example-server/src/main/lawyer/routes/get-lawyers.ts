@@ -3,7 +3,7 @@ import { OK } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zSelectLawyer } from '../lawyer.schema'
-import { getAllLawyer } from '../lawyer.service'
+import { getAllLawyers } from '../lawyer.service'
 
 export const getLawyersRoute = createRoute({
     path: '/v1/lawyers',
@@ -11,7 +11,7 @@ export const getLawyersRoute = createRoute({
     tags: ['Lawyer'],
 
     request: {
-        query: zSelectLawyer.extend({
+        query: z.object({
             search: z.string().optional(),
             page: z.coerce.number().optional(),
             size: z.coerce.number().optional(),
@@ -31,7 +31,7 @@ export const getLawyersHandler: AppRouteHandler<
     const pageNumber = Number(page)
     const limitNumber = Number(size)
 
-    const { data, meta } = await getAllLawyer({
+    const { data, meta } = await getAllLawyers({
         search,
         page: pageNumber,
         size: limitNumber,
