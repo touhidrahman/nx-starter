@@ -9,7 +9,6 @@ export const getLawyersRoute = createRoute({
     path: '/v1/lawyers',
     method: 'get',
     tags: ['Lawyer'],
-
     request: {
         query: z.object({
             search: z.string().optional(),

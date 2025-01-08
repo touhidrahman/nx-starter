@@ -12,13 +12,14 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { zSelectLawyer, zUpdateLawyer } from '../lawyer.schema'
 import { findLawyerById, updateLawyer } from '../lawyer.service'
+import { UserLevel } from '../../../../../../libs/app-example-models/src'
+import { checkLevel } from '../../../core/middlewares/user-level.middleware'
 
 export const updateLawyerRoute = createRoute({
-    path: '/v1/Lawyer/:id',
+    path: '/v1/Lawyers/:id',
     method: 'put',
-    tags: ['Lawyers'],
-    //! TODO : [checkToken, checkLevel([UserLevel.Admin, UserLevel.Moderator])] as const
-    middleware: [checkToken] as const,
+    tags: ['Lawyer'],
+    middleware: [checkToken, checkLevel([UserLevel.Admin, UserLevel.Moderator])] as const,
     request: {
         params: z.object({ id: z.string() }),
         body: jsonContent(zUpdateLawyer, 'Lawyer update details'),

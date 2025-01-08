@@ -11,13 +11,14 @@ import { ApiResponse } from '../../../core/utils/api-response.util'
 import { zEmpty } from '../../../core/models/common.schema'
 import { createLawyer, findLawyerById } from '../lawyer.service'
 import { AppRouteHandler } from '../../../core/core.type'
+import { UserLevel } from '../../../../../../libs/app-example-models/src'
+import { checkLevel } from '../../../core/middlewares/user-level.middleware'
 
 export const createLawyerRoute = createRoute({
     path: '/v1/lawyer',
     method: 'post',
     tags: ['Lawyer'],
-    //! TODO: [checkToken, checkLevel([UserLevel.Admin, UserLevel.Moderator])] as const
-    // middleware: [checkToken] as const,
+    middleware: [checkToken, checkLevel([UserLevel.Admin, UserLevel.Moderator])] as const,
     request: {
         body: jsonContent(zInsertLawyer, 'Lawyer details'),
     },
