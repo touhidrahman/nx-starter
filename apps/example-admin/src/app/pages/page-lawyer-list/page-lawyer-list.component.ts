@@ -1,68 +1,36 @@
-import { Component, signal } from '@angular/core'
+import { Component } from '@angular/core'
 import { Button } from 'primeng/button'
-
-import { Dialog } from 'primeng/dialog'
-import { FloatLabel } from 'primeng/floatlabel'
 import { InputText } from 'primeng/inputtext'
-import { RadioButton } from 'primeng/radiobutton'
 import { Select } from 'primeng/select'
 import { FormsModule } from '@angular/forms'
-import { LawyerListTableComponent } from '../../features/lawyer-list/components/lawyer-list-table/lawyer-list-table.component'
+import { RouterModule } from '@angular/router'
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog'
+import { AddLawyerDialogComponent } from '../../main/lawyer/components/add-lawyer-dialog/add-lawyer-dialog.component'
 
 @Component({
     selector: 'app-page-lawyer-list',
-    imports: [
-        Button,
-        LawyerListTableComponent,
-        Dialog,
-        FloatLabel,
-        InputText,
-        RadioButton,
-        Select,
-        FormsModule,
-    ],
+    imports: [Button, InputText, Select, FormsModule, RouterModule],
     templateUrl: './page-lawyer-list.component.html',
     styleUrl: './page-lawyer-list.component.css',
+    providers: [DialogService],
 })
 export class PageLawyerListComponent {
-    status = ['Ordered', 'Unpaid', 'Paid', 'Confirmed', 'Cancelled']
-    selected = ''
-    visible = signal(false)
-    editMode = signal(false)
+    constructor(public dialogService: DialogService) {}
 
-    lawyers = [
-        {
-            firstName: 'AAA ',
-            lastName: 'BBB ',
-            email: 'a@example.com',
-            phone: 'abc',
-            role: 'user',
-            signUpDate: 'date',
-        },
-        {
-            firstName: 'AAA ',
-            lastName: 'BBB ',
-            email: 'a@example.com',
-            phone: 'abc',
-            role: 'user',
-            signUpDate: 'date',
-        },
-        {
-            firstName: 'AAA ',
-            lastName: 'BBB ',
-            email: 'a@example.com',
-            phone: 'abc',
-            role: 'user',
-            signUpDate: 'date',
-        },
-    ]
+    ref: DynamicDialogRef | undefined
 
-    cancel() {
-        this.editMode.set(false)
-        this.visible.set(false)
-    }
-
-    onSave() {
-        console.log('saving organization')
+    openDialog() {
+        this.ref = this.dialogService.open(AddLawyerDialogComponent, {
+            header: 'Add new Lawyer',
+            width: '70vw',
+            modal: true,
+            dismissableMask: false,
+            closable: true,
+            contentStyle: { overflow: 'auto' },
+            breakpoints: {
+                '960px': '75vw',
+                '640px': '90vw',
+            },
+        })
     }
 }

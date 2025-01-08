@@ -34,7 +34,7 @@ export class PageAreaManagementComponent implements OnInit {
     dropDownOptions: object[] = []
 
     user = {
-        type: UserRole.Owner, // Default value (optional)
+        type: UserRole.Admin, //! TODO: Default value (optional), set value
     }
 
     loading = true

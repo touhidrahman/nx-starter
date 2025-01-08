@@ -1,15 +1,15 @@
 import { LabelValuePair } from '@myorg/common-models'
 
 export enum UserRole {
-    Member = 'Member',
-    Manager = 'Manager',
-    Admin = 'Admin',
+    Member = 'member',
+    Manager = 'manager',
+    Admin = 'admin',
 }
 
 export enum UserLevel {
-    Admin = 'Admin',
-    Moderator = 'Moderator',
-    User = 'User',
+    Admin = 'admin',
+    Moderator = 'moderator',
+    User = 'user',
 }
 
 export const USER_ROLES: LabelValuePair<UserRole>[] = [

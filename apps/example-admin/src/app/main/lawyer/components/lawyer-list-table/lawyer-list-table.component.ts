@@ -11,7 +11,7 @@ export class LawyerListTableComponent {
     lawyers = input<any>([])
 
     editMode = model(false)
-    visible = model(false)
+    visible = model(true)
 
     onEdit() {
         this.visible.set(!this.visible())

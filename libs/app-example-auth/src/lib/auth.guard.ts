@@ -7,7 +7,7 @@ import {
 } from '@angular/router'
 import { AuthStateService } from './auth-state.service'
 
-export function authGuardFn({
+export function authGuard({
     redirectTo,
 }: {
     redirectTo: string[]

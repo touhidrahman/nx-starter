@@ -35,7 +35,6 @@ interface User {
     imports: [
         CommonModule,
         RouterModule,
-        RouterLinkActive,
         AvatarModule,
         CardModule,
         ReactiveFormsModule,

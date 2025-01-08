@@ -1,0 +1,153 @@
+<form [formGroup]="lawyerFormService.form">
+    <div class="grid grid-cols-12 gap-6">
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label for="name">Name</label>
+                <input pInputText formControlName="name" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label for="email">Email</label>
+                <input pInputText formControlName="email" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label for="email">Phone Number</label>
+                <input pInputText formControlName="phoneNumber" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label for="email">Institute Name</label>
+                <input pInputText formControlName="instituteName" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-12">
+            <div class="flex flex-col gap-2">
+                <label for="email">Lawyer Type</label>
+                <input pInputText formControlName="lawyerType" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-4">
+            <div class="flex flex-col gap-2">
+                <label for="email">Practice start year</label>
+                <input
+                    type="number"
+                    pInputText
+                    formControlName="practiceStartYear" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-4">
+            <div class="flex flex-col gap-2">
+                <label for="email">Rating</label>
+                <input type="number" pInputText formControlName="rating" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-4">
+            <div class="flex flex-col gap-2">
+                <label for="email">Website</label>
+                <input pInputText formControlName="website" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label for="email">Business Hours</label>
+                <input pInputText formControlName="businessHours" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label for="email">Institution ID</label>
+                <input pInputText formControlName="institutionId" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label for="email">Latitude</label>
+                <input pInputText formControlName="latitude" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label for="longitude">Longitude</label>
+                <input pInputText formControlName="longitude" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-12">
+            <div class="flex flex-col gap-2">
+                <label for="address">Address</label>
+                <input pInputText formControlName="address" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-4">
+            <div class="flex flex-col gap-2">
+                <label for="city">City</label>
+                <input pInputText formControlName="city" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-4">
+            <div class="flex flex-col gap-2">
+                <label for="district">District</label>
+                <input pInputText formControlName="district" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-4">
+            <div class="flex flex-col gap-2">
+                <label for="postCode">Post code</label>
+                <input pInputText formControlName="postCode" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-12">
+            <div class="flex flex-col gap-2">
+                <label for="interestedArea">Interested area</label>
+                <input pInputText formControlName="interestedArea" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-12">
+            <div class="flex flex-col gap-2">
+                <label for="description">Description</label>
+                <input pInputText formControlName="description" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label for="profileImageUrl">Profile image</label>
+                <input pInputText formControlName="profileImageUrl" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex flex-col gap-2">
+                <label for="coverImageUrl">Cover image</label>
+                <input pInputText formControlName="coverImageUrl" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-12">
+            <div class="flex flex-col gap-2">
+                <label for="sponsoredUntil">Sponsored Until</label>
+                <input pInputText formControlName="sponsoredUntil" />
+            </div>
+        </div>
+        <div class="col-span-12 md:col-span-6">
+            <div class="flex items-center gap-1">
+                <p-checkbox
+                    formControlName="sponsored"
+                    [value]="true"
+                    inputId="ny" />
+                <label for="ny" class="ml-2 mt-1"
+                    >Sponsored, Experienced lawyer specializing in corporate
+                    law</label
+                >
+            </div>
+        </div>
+    </div>
+    <div class="mt-3">
+        <p-button
+            [loading]="isLoading()"
+            [disabled]="isLoading() || lawyerFormService.form.invalid"
+            label="Submit"
+            (onClick)="onSubmit($event)" />
+        <p-button label="Cancel" (onClick)="closeModal()" />
+    </div>
+</form>

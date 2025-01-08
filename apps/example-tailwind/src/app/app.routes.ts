@@ -1,5 +1,5 @@
 import { Route } from '@angular/router'
-import { authGuardFn } from '@myorg/app-example-auth'
+import { authGuard, userLevelGuardFn } from '@myorg/app-example-auth'
 import { PageLayout, setLayout } from '@myorg/page-layouts'
 
 const authRoutes: Route[] = [
@@ -33,7 +33,7 @@ const authRoutes: Route[] = [
             import('@myorg/app-example-auth').then(
                 (m) => m.PageAccountCreatedComponent,
             ),
-        resolve: { layout: setLayout(PageLayout.Center) },
+        resolve: { layout: setLayout(PageLayout.Cta) },
     },
     {
         path: 'account-verify/:token',
@@ -41,7 +41,7 @@ const authRoutes: Route[] = [
             import('@myorg/app-example-auth').then(
                 (m) => m.PageAccountVerifyComponent,
             ),
-        resolve: { layout: setLayout(PageLayout.Center) },
+        resolve: { layout: setLayout(PageLayout.Cta) },
     },
     {
         path: 'login',
@@ -51,6 +51,7 @@ const authRoutes: Route[] = [
     },
     {
         path: 'create-profile',
+        // canMatch: [userLevelGuard],
         loadComponent: () =>
             import('./pages/page-select-role/page-select-role.component').then(
                 (m) => m.PageSelectRoleComponent,
@@ -58,8 +59,15 @@ const authRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Center) },
     },
     {
+        path: 'organization-list',
+        loadComponent: () =>
+            import(
+                './pages/page-organization-list/page-organization-list.component'
+            ).then((c) => c.PageOrganizationListComponent),
+        resolve: { layout: setLayout(PageLayout.Center) },
+    },
+    {
         path: 'create-profile/:profileType',
-        canActivate: [authGuardFn],
         loadComponent: () =>
             import('@myorg/app-example-auth').then(
                 (m) => m.PageCreateProfileFormComponent,

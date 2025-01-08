@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { UIstate } from './uiState-inteface'
+import { UIstate } from './ui-state-interface'
 
 @Injectable({
     providedIn: 'root',
@@ -19,6 +19,7 @@ export class HeaderUtilService {
         chevron.classList.toggle('rotate-90')
     }
 
+    //! TODO: need to fix here
     toggleProfileMenu(e: Event, uiState: UIstate) {
         const targetElement = e.target as HTMLElement
         if (targetElement.closest('#profileButton')) {

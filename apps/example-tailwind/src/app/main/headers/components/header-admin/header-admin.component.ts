@@ -1,7 +1,7 @@
 import { Component, inject, OnDestroy, OnInit, Renderer2 } from '@angular/core'
 import { RouterModule } from '@angular/router'
 import { HeaderUtilService } from '../../header-utils/header-util.service'
-import { UIstate } from '../../header-utils/uiState-inteface'
+import { UIstate } from '../../header-utils/ui-state-interface'
 
 @Component({
     selector: 'app-header-admin',

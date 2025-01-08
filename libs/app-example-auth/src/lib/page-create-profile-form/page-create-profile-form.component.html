@@ -3,6 +3,12 @@
         Create Your Organization
     </h2>
 
+    @if (error.length) {
+        <div class="mb-2 rounded border-2 border-red-700 bg-red-200 p-4">
+            <div class="text-sm text-red-700">{{ error }}</div>
+        </div>
+    }
+
     <form [formGroup]="groupFormService.form">
         <div class="mb-4">
             <label class="mb-2 block text-sm font-medium text-gray-700"

@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core'
 import { Router } from '@angular/router'
 import { JwtHelperService } from '@auth0/angular-jwt'
 import {
+    GroupType,
     User,
     UserLevel,
     UserPermissionKeys,
@@ -21,6 +22,7 @@ export interface AuthState {
     refreshToken: string
     userId: string | null
     groupId: string | null
+    groupType: GroupType | null
     firstName: string | null
     lastName: string | null
     email: string | null
@@ -35,6 +37,7 @@ export const initialAuthState: AuthState = {
     refreshToken: '',
     userId: null,
     groupId: null,
+    groupType: null,
     firstName: null,
     lastName: null,
     email: null,
@@ -60,11 +63,16 @@ export class AuthStateService extends SimpleStore<AuthState> {
     getUserId(): string | null {
         return this.getState().userId
     }
+    getUserEmail(): string | null {
+        return this.getState().email
+    }
 
     getUserRole(): UserRole | null {
         return this.getState().role
     }
-
+    getUserLevel(): UserLevel | null {
+        return this.getState().level
+    }
     getLoginStatus(): boolean {
         return this.getState().isLoggedIn
     }
@@ -114,8 +122,9 @@ export class AuthStateService extends SimpleStore<AuthState> {
     login(username: string, password: string) {
         return this.authApiService.login(username, password).pipe(
             map(({ data }) => {
-                data &&
+                if (data) {
                     this.setStateAfterLogin(data.accessToken, data.refreshToken)
+                }
                 return data
             }),
         )
@@ -141,12 +150,13 @@ export class AuthStateService extends SimpleStore<AuthState> {
 
         return this.authApiService.refreshAccessToken(refreshToken ?? '').pipe(
             map(({ data }) => {
-                data &&
+                if (data) {
                     this.setStateAfterLogin(data.accessToken, data.refreshToken)
+                }
+
                 return data
             }),
             catchError((err) => {
-                console.error(err)
                 // this.logout()
                 return of(null)
             }),
@@ -163,6 +173,7 @@ export class AuthStateService extends SimpleStore<AuthState> {
             isLoggedIn: true,
             userId: decoded.sub,
             groupId: decoded.groupId,
+            groupType: decoded.groupType,
             firstName: decoded.firstName,
             lastName: decoded.lastName,
             email: decoded.email,
