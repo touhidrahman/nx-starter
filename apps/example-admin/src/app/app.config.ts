@@ -57,13 +57,11 @@ export const appConfig: ApplicationConfig = {
         ),
         importProvidersFrom(BrowserModule),
         provideAppInitializer(() => {
-            const initializerFn = appInitializerFactory(
-                inject(AuthStateService),
-                inject(AuthApiService),
-                inject(TokenStorageService),
-                inject(LocalStorageService),
-            )
-            return initializerFn()
+            //! TODO: fix
+            // const authStateService = inject(AuthStateService)
+            // const authApiService = inject(AuthApiService)
+            // const tokenStorageService = inject(TokenStorageService)
+            // const localStorageService = inject(LocalStorageService)
         }),
         {
             provide: DATE_PIPE_DEFAULT_OPTIONS,

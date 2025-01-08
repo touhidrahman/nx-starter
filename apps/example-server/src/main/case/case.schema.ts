@@ -1,5 +1,4 @@
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod'
-import { z } from 'zod'
 import { casesTable } from '../../core/db/schema'
 
 export type InsertCase = typeof casesTable.$inferInsert

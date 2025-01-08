@@ -3,6 +3,7 @@ import {
     boolean,
     date,
     decimal,
+    doublePrecision,
     integer,
     pgEnum,
     pgTable,
@@ -446,6 +447,40 @@ export const eventsRelations = relations(eventsTable, ({ one }) => ({
         references: [casesTable.id],
     }),
 }))
+
+//lawyer table
+
+export const lawyerTable = pgTable('lawyers', {
+    id: text('id').primaryKey().$defaultFn(generateId),
+    name: text('name').notNull(),
+    instituteName: text('institute_name').notNull(),
+    practiceStartYear: integer('practice_start_year'),
+    lawyerType: text('lawyer_type').notNull(),
+    phoneNumber: text('phone_number'),
+    email: text('email'),
+    profileImageUrl: text('profile_image_url'),
+    coverImageUrl: text('cover_image_url'),
+    description: text('description'),
+    rating: doublePrecision('rating').default(0.0),
+    address: text('address'),
+    city: text('city'),
+    district: text('district'),
+    postCode: text('post_code'),
+    website: text('website'),
+    businessHours: text('business_hours'),
+    sponsored: boolean('sponsored').default(false),
+    sponsoredUntil: text('sponsored_until'),
+    interestedArea: text('interested_area'),
+    institutionId: text('institution_id'),
+    latitude: text('latitude'),
+    longitude: text('longitude'),
+    createdAt: timestamp('created_at', { withTimezone: true })
+        .notNull()
+        .defaultNow(),
+    updatedAt: timestamp('updated_at', { withTimezone: true })
+        .notNull()
+        .$onUpdate(() => new Date()),
+})
 
 // Cases Table
 export const casesTable = pgTable('cases', {
