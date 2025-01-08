@@ -316,6 +316,26 @@ export const invoiceItemsRelations = relations(
     }),
 )
 
+//section: Price plan
+
+export const pricingPlanTable = pgTable('plan', {
+    id: text('id').primaryKey().$defaultFn(generateId),
+    name: text('name').notNull(),
+    description: text('description'),
+    monthlyPrice: decimal('monthly_price', { precision: 10, scale: 2 }).notNull(),
+    yearlyPrice: decimal('yearly_price', { precision: 10, scale: 2 }),
+    discountPrice: decimal('discount_price', { precision: 5, scale: 2 }),
+    currency: text('currency').default('BDT'),
+    isActive: boolean('is_active').default(true),
+    features: text('features').array(),
+    tier: text('tier'),
+    trialPeriodDays: integer('trial_period_days'),
+    renewalType: text('renewal_type').default('auto'),
+    createdAt: timestamp('created_at').defaultNow(),
+    updatedAt: timestamp('updated_at').defaultNow().$onUpdate(() => new Date()),
+
+})
+
 // section: subscriptions, billing
 
 export const billingTable = pgTable('billing', {
@@ -334,9 +354,10 @@ export const subscriptionsTable = pgTable('subscriptions', {
     groupId: text('group_id')
         .references(() => groupsTable.id)
         .notNull(),
-    planId: text('plan_id').notNull(),
+    planId: text('plan_id').references(() => pricingPlanTable.id).notNull(),
     startDate: timestamp('start_date', { withTimezone: true }).notNull(),
     endDate: timestamp('end_date', { withTimezone: true }).notNull(),
+    paymentMethod: text('payment_method'),
     createdAt: timestamp('created_at', { withTimezone: true })
         .notNull()
         .defaultNow(),
@@ -351,6 +372,10 @@ export const subscriptionsRelations = relations(
         group: one(groupsTable, {
             fields: [subscriptionsTable.groupId],
             references: [groupsTable.id],
+        }),
+        plan: one(pricingPlanTable, {
+            fields: [subscriptionsTable.planId],
+            references: [pricingPlanTable.id],
         }),
     }),
 )

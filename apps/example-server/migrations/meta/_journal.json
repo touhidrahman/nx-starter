@@ -1,34 +1,48 @@
 {
-    "version": "7",
-    "dialect": "postgresql",
-    "entries": [
-        {
-            "idx": 0,
-            "version": "7",
-            "when": 1736183273091,
-            "tag": "0000_dapper_zarek",
-            "breakpoints": true
-        },
-        {
-            "idx": 1,
-            "version": "7",
-            "when": 1736183596902,
-            "tag": "0001_breezy_prism",
-            "breakpoints": true
-        },
-        {
-            "idx": 2,
-            "version": "7",
-            "when": 1736251028398,
-            "tag": "0002_massive_ares",
-            "breakpoints": true
-        },
-        {
-            "idx": 3,
-            "version": "7",
-            "when": 1736253624224,
-            "tag": "0003_left_bromley",
-            "breakpoints": true
-        }
-    ]
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1736183273091,
+      "tag": "0000_dapper_zarek",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1736183596902,
+      "tag": "0001_breezy_prism",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1736251028398,
+      "tag": "0002_massive_ares",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1736253624224,
+      "tag": "0003_left_bromley",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1736346479880,
+      "tag": "0004_windy_tinkerer",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1736347173508,
+      "tag": "0005_volatile_komodo",
+      "breakpoints": true
+    }
+  ]
 }
