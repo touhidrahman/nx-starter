@@ -1,1 +1,0 @@
-ALTER TABLE "lawyers" ALTER COLUMN "sponsored_until" SET DATA TYPE text;
