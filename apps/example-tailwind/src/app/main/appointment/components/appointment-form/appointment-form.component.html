@@ -1,0 +1,92 @@
+<div>
+    <form [formGroup]="this.appointmentFormService.form">
+        <div class="flex items-center justify-start gap-5">
+            <div class="mb-4 flex w-full flex-col items-start justify-start">
+                <label class="mb-2 font-semibold">Date</label>
+                <p-datepicker class="w-full flex-auto" formControlName="date" />
+            </div>
+            <div class="mb-4 flex w-full flex-col items-start justify-start">
+                <label class="mb-2 font-semibold">Group Id</label>
+                <input
+                    pInputText
+                    class="w-full flex-auto"
+                    autocomplete="off"
+                    formControlName="groupId" />
+            </div>
+        </div>
+        <div class="flex items-center justify-start gap-5">
+            <div class="mb-4 flex w-full flex-col items-start justify-start">
+                <label class="mb-2 font-semibold">Vendor</label>
+                <input
+                    pInputText
+                    class="w-full flex-auto"
+                    autocomplete="off"
+                    formControlName="vendorUserId" />
+            </div>
+            <div class="flex w-full items-center justify-start gap-5">
+                <div
+                    class="mb-4 flex w-full flex-col items-start justify-start">
+                    <label class="mb-2 font-semibold">Client</label>
+                    <input
+                        pInputText
+                        class="w-full flex-auto"
+                        autocomplete="off"
+                        formControlName="clientUserId" />
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-start gap-5">
+            <div class="mb-4 flex w-full flex-col items-start justify-start">
+                <label class="mb-2 font-semibold">Start Time</label>
+                <p-datepicker
+                    class="w-full flex-auto"
+                    formControlName="startTimestamp" />
+            </div>
+
+            <div class="mb-4 flex w-full flex-col items-start justify-start">
+                <label class="mb-2 font-semibold">End Time</label>
+                <p-datepicker
+                    class="w-full flex-auto"
+                    formControlName="endTimestamp" />
+            </div>
+        </div>
+
+        <div class="flex items-center justify-start gap-5">
+            <div class="mb-4 flex w-full flex-col items-start justify-start">
+                <label class="mb-2 font-semibold">Note for Vendor</label>
+                <input
+                    pInputText
+                    class="w-full flex-auto"
+                    autocomplete="off"
+                    formControlName="notesForVendor" />
+            </div>
+            <div class="mb-4 flex w-full flex-col items-start justify-start">
+                <label class="mb-2 font-semibold">Note for Client</label>
+                <input
+                    pInputText
+                    class="w-full flex-auto"
+                    autocomplete="off"
+                    formControlName="notesForClient" />
+            </div>
+        </div>
+
+        <div class="flex items-center justify-start gap-5">
+            <div class="mb-4 flex w-full flex-col items-start justify-start">
+                <label class="mb-2 font-semibold">Description</label>
+                <textarea
+                    class="w-full flex-auto"
+                    pTextarea
+                    [autoResize]="true"
+                    formControlName="description"></textarea>
+            </div>
+        </div>
+        <div class="mt-5 flex gap-5">
+            <p-button
+                styleClass="bg-green3 px-12"
+                (click)="save()"
+                label="Save"
+                severity="success" />
+        </div>
+    </form>
+</div>

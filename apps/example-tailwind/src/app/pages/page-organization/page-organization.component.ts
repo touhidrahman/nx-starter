@@ -6,8 +6,10 @@ import { AsyncPipe } from '@angular/common'
 import { OrganizationTableComponent } from '../../main/organization/components/organization-table/organization-table.component'
 import { OrganizationFormService } from '@myorg/app-example-forms'
 import { OrganizationFilterComponent } from '../../main/organization/components/organization-filter/organization-filter.component'
-import { OrganizationTypeEnum } from '../../../../../../libs/app-example-models/src/lib/organization-type.enum'
-import { OrganizationStatusEnum } from '../../../../../../libs/app-example-models/src/lib/organization-status.enum'
+import {
+    OrganizationStatusEnum,
+    OrganizationTypeEnum,
+} from '@myorg/app-example-models'
 
 @Component({
     selector: 'app-page-organization',

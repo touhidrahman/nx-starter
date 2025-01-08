@@ -1,9 +1,16 @@
-import { Component } from '@angular/core'
+import { Component, inject, OnDestroy, signal } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { DropdownModule } from 'primeng/dropdown'
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
-import { TableModule } from 'primeng/table'
+import { OrganizationFormService } from '@myorg/app-example-forms'
+import { PrimeModules } from '@myorg/prime-modules'
+import { AppointmentFilterComponent } from '../../main/appointment/components/appointment-filter/appointment-filter.component'
+import { AppointmentStateService } from '../../../../../../libs/app-example-states/src/lib/appointment-state.service'
+import { AppointmentTableComponent } from '../../main/appointment/components/appointment-table/appointment-table.component'
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog'
+import { AlertService } from '@myorg/app-example-core'
+import { AppointmentFormComponent } from '../../main/appointment/components/appointment-form/appointment-form.component'
 
 @Component({
     selector: 'app-page-appointments',
@@ -12,88 +19,66 @@ import { TableModule } from 'primeng/table'
         DropdownModule,
         FormsModule,
         RouterModule,
-        TableModule,
+        PrimeModules,
+        ReactiveFormsModule,
+        AppointmentFilterComponent,
+        AppointmentTableComponent,
     ],
     templateUrl: './page-appointments.component.html',
     styleUrl: './page-appointments.component.scss',
+    providers: [
+        AppointmentStateService,
+        OrganizationFormService,
+        DialogService,
+    ],
 })
-export class PageAppointmentsComponent {
-    showFilter = true
+export class PageAppointmentsComponent implements OnDestroy {
+    appointmentStateService = inject(AppointmentStateService)
+    organizationFormService = inject(OrganizationFormService)
+    alertService = inject(AlertService)
+    dialogService = inject(DialogService)
+    editMode = signal(false)
 
-    toggleFilter() {
-        this.showFilter = !this.showFilter
+    ref: DynamicDialogRef | undefined
+
+    show() {
+        this.ref = this.dialogService.open(AppointmentFormComponent, {
+            header: this.editMode()
+                ? 'Update Appointment'
+                : 'Create Appointment',
+            closable: true,
+            data: { name: 'hmmurad' },
+            position: 'top',
+            width: '50vw',
+        })
+
+        this.ref.onClose.subscribe((data) => {
+            console.log(data)
+        })
     }
 
-    users = [
-        {
-            Date: '10/12/2024',
-            ClientName: 'Ariful Hoque',
-            CaseSubject: 'Contract Review',
-            Location: 'F-86, Mohakhali',
-            Contact: '+880110000000',
-            Status: 'Open',
-            Type: 'In-person',
-        },
-        {
-            Date: '10/12/2024',
-            ClientName: 'Ariful Hoque',
-            CaseSubject: 'Contract Review',
-            Location: 'F-86, Mohakhali',
-            Contact: '+880110000000',
-            Status: 'Pending',
-            Type: 'In-person',
-        },
-        {
-            Date: '10/12/2024',
-            ClientName: 'Ariful Hoque',
-            CaseSubject: 'Contract Review',
-            Location: 'Google Meet',
-            Contact: '+880110000000',
-            Status: 'Closed',
-            Type: 'Virtual',
-        },
-    ]
+    onSearch(value: Event) {
+        this.appointmentStateService.setState({
+            search: (value.target as HTMLInputElement).value,
+        })
+    }
 
-    tableTitles: string[] = [
-        'Date',
-        'Client Name',
-        'Case/Subject',
-        'Location',
-        'Contact',
-        'Status',
-        'Type',
-        'Action',
-    ]
-
-    setColor(value: string) {
-        if (value === 'open') {
-            return '#0b9c2b'
+    onSave() {
+        if (!this.editMode()) {
+            return
         }
-        if (value === 'pending') {
-            return '#9c0b0b'
+        this.updateAppointment()
+    }
+
+    updateAppointment() {
+        const { selectedAppointment } = this.appointmentStateService.getState()
+        const formData = this.organizationFormService.getValue()
+        console.log('updating organization', selectedAppointment, formData)
+    }
+
+    ngOnDestroy() {
+        if (this.ref) {
+            this.ref.close()
         }
-
-        return '#989898'
-    }
-
-    Options = [{ name: 'Low' }, { name: 'High' }]
-    selectedOption: undefined
-
-    popUpState = {
-        visiblity: false,
-        createMode: false,
-    }
-
-    showCreatePopUp() {
-        this.popUpState.visiblity = true
-        this.popUpState.createMode = true
-    }
-
-    showEditPopUp() {
-        this.popUpState.visiblity = true
-        this.popUpState.createMode = false
-    }
-    hidePopUp() {
-        this.popUpState.visiblity = false
     }
 }

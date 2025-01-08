@@ -12,7 +12,7 @@ export const getGroupsRoute = createRoute({
     method: 'get',
     middleware: [checkToken] as const,
     request: {
-        query: zSelectGroup.extend({
+        query: z.object({
             search: z.string().optional(),
             size: z.string().optional(),
             page: z.string().optional(),

@@ -12,30 +12,48 @@ export const getAppointmentsRoute = createRoute({
     method: 'get',
     tags: ['Appointment'],
     middleware: [checkToken] as const,
-    request: {},
+    request: {
+        query: z.object({
+            search: z.string().optional(),
+            page: z.string().optional(),
+            size: z.string().optional(),
+            orderBy: z.string().optional(),
+        }),
+    },
     responses: {
         [OK]: ApiResponse(z.array(zSelectAppointment), 'List of Appointments'),
-        [BAD_REQUEST]: ApiResponse(zEmpty, 'Group ID is required'),
+        // [BAD_REQUEST]: ApiResponse(zEmpty, 'Something error occurred'),
     },
 })
 
 export const getAppointmentsHandler: AppRouteHandler<
     typeof getAppointmentsRoute
 > = async (c) => {
-    const payload = await c.get('jwtPayload')
-    const groupId = payload?.groupId
+    const { groupId } = await c.get('jwtPayload')
+    const { search, page, size, orderBy } = c.req.query()
 
-    if (!groupId) {
-        return c.json(
-            { success: true, message: 'Group ID is required', data: {} },
-            BAD_REQUEST,
-        )
-    }
+    const pageNumber = Number(page)
+    const limitNumber = Number(size)
 
-    const appointments = await findAppointmentsByGroupId(groupId)
+    const { data, meta } = await findAppointmentsByGroupId({
+        groupId,
+        search,
+        page: pageNumber,
+        size: limitNumber,
+        orderBy,
+    })
 
     return c.json(
-        { data: appointments, message: 'List of Appointments', success: true },
+        {
+            data: data,
+            pagination: {
+                page: meta.page,
+                size: meta.size,
+                total: meta.totalCount,
+            },
+            message: 'Appointment list',
+            success: true,
+        },
         OK,
     )
 }

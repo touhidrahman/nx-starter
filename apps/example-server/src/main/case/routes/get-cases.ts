@@ -12,7 +12,7 @@ export const getCasesRoute = createRoute({
     tags: ['Case'],
     middleware: [checkToken] as const,
     request: {
-        query: zSelectCase.extend({
+        query: z.object({
             search: z.string().optional(),
             page: z.string().optional(),
             size: z.string().optional(),

@@ -1,9 +1,12 @@
 import { Inject, inject, Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import {
     APP_EXAMPLE_ENVIRONMENT,
     AppExampleEnvironment,
 } from '@myorg/app-example-core'
+import { Observable } from 'rxjs'
+import { ApiResponse } from '@myorg/common-models'
+import { Appointment } from '@myorg/app-example-models'
 
 @Injectable({
     providedIn: 'root',
@@ -17,23 +20,60 @@ export class AppointmentApiService {
         private env: AppExampleEnvironment,
     ) {}
 
-    getAll() {
-        return this.http.get(`${this.apiUrl}/appointments`)
+    getAll(filterOptions: {
+        search: string
+        size: number
+        orderBy: any
+        page: number
+    }): Observable<ApiResponse<Appointment[]>> {
+        let params = new HttpParams({})
+
+        if (params) {
+            if (filterOptions.search) {
+                params = params.set('search', filterOptions.search)
+            }
+            if (filterOptions.page !== undefined) {
+                params = params.set('page', filterOptions.page)
+            }
+            if (filterOptions.size !== undefined) {
+                params = params.set('size', filterOptions.size)
+            }
+            if (filterOptions.orderBy !== undefined) {
+                params = params.set('orderBy', filterOptions.orderBy)
+            }
+        }
+        return this.http.get<ApiResponse<Appointment[]>>(
+            `${this.apiUrl}/appointments`,
+            { params },
+        )
     }
 
-    getAppointment(id: string) {
-        return this.http.get(`${this.apiUrl}/appointments/${id}`)
+    getAppointment(id: string): Observable<ApiResponse<Appointment>> {
+        return this.http.get<ApiResponse<Appointment>>(
+            `${this.apiUrl}/appointments/${id}`,
+        )
     }
 
-    createAppointment(data: any) {
-        return this.http.post(`${this.apiUrl}/appointments`, data)
+    createAppointment(data: Appointment): Observable<ApiResponse<Appointment>> {
+        return this.http.post<ApiResponse<Appointment>>(
+            `${this.apiUrl}/appointments`,
+            data,
+        )
     }
 
-    updateAppointment(id: string, data: any) {
-        return this.http.put(`${this.apiUrl}/appointments/${id}`, data)
+    updateAppointment(
+        id: string,
+        data: Partial<Appointment>,
+    ): Observable<ApiResponse<Appointment>> {
+        return this.http.put<ApiResponse<Appointment>>(
+            `${this.apiUrl}/appointments/${id}`,
+            data,
+        )
     }
 
-    deleteAppointment(id: string) {
-        return this.http.delete(`${this.apiUrl}/appointments/${id}`)
+    deleteAppointment(id: string): Observable<ApiResponse<Appointment>> {
+        return this.http.delete<ApiResponse<Appointment>>(
+            `${this.apiUrl}/appointments/${id}`,
+        )
     }
 }

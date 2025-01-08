@@ -1,11 +1,11 @@
 import { inject, Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { environment } from '../../../../environment/environment'
+import { environment } from '../../../../apps/example-tailwind/src/environment/environment'
 
 @Injectable({
     providedIn: 'root',
 })
-export class TaskService {
+export class TaskApiService {
     http = inject(HttpClient)
     apiUrl = environment.apiUrl
 
