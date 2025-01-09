@@ -55,14 +55,6 @@ export class AddLawyerDialogComponent implements OnDestroy {
         })
     }
 
-    closeModal() {
-        console.log('close')
-        if (this.ref) {
-            this.ref.close()
-            this.ref.destroy()
-        }
-    }
-
     ngOnDestroy() {
         if (this.ref) {
             this.ref.close()
