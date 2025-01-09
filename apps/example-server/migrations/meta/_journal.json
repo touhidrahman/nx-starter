@@ -43,6 +43,13 @@
       "when": 1736347173508,
       "tag": "0005_volatile_komodo",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1736397899211,
+      "tag": "0006_majestic_xavin",
+      "breakpoints": true
     }
   ]
 }

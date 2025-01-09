@@ -317,7 +317,10 @@ export const invoiceItemsRelations = relations(
 )
 
 //section: Price plan
-
+export const planRenewalTypeEnum = pgEnum('planRenewal', [
+    'auto',
+    'manually',
+])
 export const pricingPlanTable = pgTable('plan', {
     id: text('id').primaryKey().$defaultFn(generateId),
     name: text('name').notNull(),
@@ -358,6 +361,7 @@ export const subscriptionsTable = pgTable('subscriptions', {
     startDate: timestamp('start_date', { withTimezone: true }).notNull(),
     endDate: timestamp('end_date', { withTimezone: true }).notNull(),
     paymentMethod: text('payment_method'),
+    transactionId: text('transaction_id'),
     createdAt: timestamp('created_at', { withTimezone: true })
         .notNull()
         .defaultNow(),
