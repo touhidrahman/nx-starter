@@ -1,23 +1,23 @@
 import { Component, inject, input, model } from '@angular/core'
 import { AsyncPipe } from '@angular/common'
-import { RouterLink } from '@angular/router'
 import { PrimeModules } from '@myorg/prime-modules'
-import { AppointmentStateService } from '../../../../../../../../libs/app-example-states/src/lib/appointment-state.service'
 import { Appointment } from '@myorg/app-example-models'
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog'
 import { AppointmentCardComponent } from '../appointment-card/appointment-card.component'
-import { Footer } from 'primeng/api'
 import { AppointmentFormComponent } from '../appointment-form/appointment-form.component'
+import { AppointmentListStateService } from '@myorg/app-example-states'
+import { AppointmentApiService } from '@myorg/app-example-api-services'
 
 @Component({
     selector: 'app-appointment-table',
-    imports: [PrimeModules, RouterLink, AsyncPipe],
+    imports: [PrimeModules, AsyncPipe],
     templateUrl: './appointment-table.component.html',
     styleUrl: './appointment-table.component.scss',
-    providers: [AppointmentStateService],
+    providers: [AppointmentListStateService],
 })
 export class AppointmentTableComponent {
-    appointmentStateService = inject(AppointmentStateService)
+    appointmentListStateService = inject(AppointmentListStateService)
+    appointmentApiService = inject(AppointmentApiService)
     appointments = input<Appointment[]>([])
     editMode = model(false)
     dialogService = inject(DialogService)
@@ -33,16 +33,20 @@ export class AppointmentTableComponent {
     }
     onEdit(data: Appointment) {
         this.editRef = this.dialogService.open(AppointmentFormComponent, {
+            header: 'Update Appointment',
             data,
             closable: true,
+            position: 'top',
+            width: '50vw',
         })
 
         this.editRef.onClose.subscribe((data) => {
             console.log('data')
+            //TODO: Fix it later (Murad, 10 Jan 25)
         })
     }
 
     delete(id: string) {
-        //TODO
+        this.appointmentApiService.deleteAppointment(id)
     }
 }

@@ -11,7 +11,7 @@
     @if (showFilter()) {
         <div
             class="flex items-center justify-start gap-2 rounded-md bg-gray-200 p-1 px-3">
-            @let sortDir = this.appointmentStateService.getState().orderBy;
+            @let sortDir = appointmentListStateService.getState().orderBy;
 
             <p-button
                 icon="pi {{

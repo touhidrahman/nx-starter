@@ -15,8 +15,8 @@ export const getAppointmentsRoute = createRoute({
     request: {
         query: z.object({
             search: z.string().optional(),
-            page: z.string().optional(),
-            size: z.string().optional(),
+            page: z.coerce.number().optional(),
+            size: z.coerce.number().optional(),
             orderBy: z.string().optional(),
         }),
     },

@@ -4,45 +4,34 @@ import { Appointment } from '@myorg/app-example-models'
 import { combineLatest, debounceTime, switchMap, tap } from 'rxjs'
 import { AppointmentApiService } from '@myorg/app-example-api-services'
 import { AlertService } from '@myorg/app-example-core'
+import { AppointmentEditFormService } from '@myorg/app-example-forms'
 
-interface AppointmentState {
+interface AppointmentListState {
     appointments: Appointment[]
     selectedAppointment: Appointment | null
     loading: boolean
     search: string
     page: number
+    orderBy: 'asc' | 'desc'
     size: number
     total: number
 }
 
-const initialState: AppointmentState = {
-    appointments: [
-        {
-            vendorUserId: '23rf2',
-            clientUserId: '3232',
-            date: '23232',
-            description: 'hello',
-            endTimestamp: '2323232',
-            notesForClient: 'sfsd',
-            notesForVendor: 'sjkjjjjjj',
-            createdAt: '2323',
-            startTimestamp: '3432232',
-            groupId: '2323',
-            updatedAt: '232332',
-            id: '1',
-        },
-    ],
+const initialState: AppointmentListState = {
+    appointments: [],
     selectedAppointment: null,
     loading: false,
     search: '',
     page: 1,
     size: 10,
     total: 0,
+    orderBy: 'desc'
 }
 
 @Injectable()
-export class AppointmentStateService extends SimpleStore<any> {
+export class AppointmentListStateService extends SimpleStore<AppointmentListState> {
     appointmentApiService = inject(AppointmentApiService)
+    appointmentEditFormService = inject(AppointmentEditFormService)
     alertService = inject(AlertService)
 
     constructor() {
@@ -79,7 +68,6 @@ export class AppointmentStateService extends SimpleStore<any> {
                         loading: false,
                         appointments: data,
                         page: meta?.page,
-                        size: meta?.size,
                         total: meta?.total,
                     })
                 },
@@ -88,5 +76,25 @@ export class AppointmentStateService extends SimpleStore<any> {
                     this.alertService.error(err.error.message)
                 },
             })
+    }
+
+    saveAppointment() {
+        this.setState({loading : true})
+        const {appointments} = this.getState()
+        this.appointmentEditFormService.save$().subscribe({
+            next: (value) => {
+                this.setState({
+                    appointments: [...appointments, value],
+                    loading: false
+                })
+                this.alertService.success('Appointment created successfully')
+            },
+            error: (err) => {
+                this.setState({
+                    loading: false
+                })
+                this.alertService.error(err.error.message)
+            },
+        })
     }
 }

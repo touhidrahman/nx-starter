@@ -1,11 +1,7 @@
-import { Component, inject, input, signal } from '@angular/core'
-import { CommonModule } from '@angular/common'
-import { Button } from 'primeng/button'
-import { CasesStateService } from '@myorg/app-example-states'
-import { AppointmentStateService } from '../../../../../../../../libs/app-example-states/src/lib/appointment-state.service'
-import { Select } from 'primeng/select'
+import { Component, inject, signal } from '@angular/core'
 import { PrimeModules } from '@myorg/prime-modules'
 import { FormsModule } from '@angular/forms'
+import { AppointmentListStateService } from '@myorg/app-example-states'
 
 @Component({
     selector: 'app-appointment-filter',
@@ -14,20 +10,20 @@ import { FormsModule } from '@angular/forms'
     styleUrl: './appointment-filter.component.scss',
 })
 export class AppointmentFilterComponent {
-    appointmentStateService = inject(AppointmentStateService)
+    appointmentListStateService = inject(AppointmentListStateService)
     showFilter = signal(false)
     selected = signal('')
 
     resetFilter() {
-        this.appointmentStateService.setState({
+        this.appointmentListStateService.setState({
             orderBy: 'desc',
         })
         this.selected.set('')
     }
 
     sort() {
-        const { orderBy } = this.appointmentStateService.getState()
-        this.appointmentStateService.setState({
+        const { orderBy } = this.appointmentListStateService.getState()
+        this.appointmentListStateService.setState({
             orderBy: orderBy === 'asc' ? 'desc' : 'asc',
         })
     }

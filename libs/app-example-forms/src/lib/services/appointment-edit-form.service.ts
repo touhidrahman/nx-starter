@@ -1,10 +1,20 @@
-import { inject, Injectable } from '@angular/core'
+import { Injectable } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { AbstractFormService } from '@myorg/common-services'
+import { Appointment } from '@myorg/app-example-models'
+import { AppointmentApiService } from '@myorg/app-example-api-services'
 
 @Injectable()
-export class CreateAppointmentFormService {
-    private fb = inject(FormBuilder)
-    form: FormGroup = this.buildForm()
+export class AppointmentEditFormService extends AbstractFormService<Appointment> {
+    override form: FormGroup
+
+    constructor(
+        protected override fb: FormBuilder,
+        protected appointmentApiService: AppointmentApiService,
+    ) {
+        super(fb, appointmentApiService)
+        this.form = this.buildForm()
+    }
 
     buildForm(): FormGroup {
         return this.fb.nonNullable.group({

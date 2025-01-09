@@ -25,13 +25,13 @@
 
     <div>
         <div class="rounded-md">
-            @if (appointmentStateService.select('loading') | async) {
+            @if (appointmentListStateService.select('loading') | async) {
                 <div class="text-center">
                     <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
                 </div>
             } @else {
                 @let appointments =
-                    appointmentStateService.select('appointments') | async;
+                    appointmentListStateService.select('appointments') | async;
                 @if (appointments !== null && appointments.length > 0) {
                     <app-appointment-table
                         [appointments]="appointments"

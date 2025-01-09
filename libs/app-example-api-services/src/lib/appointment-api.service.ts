@@ -1,4 +1,4 @@
-import { Inject, inject, Injectable } from '@angular/core'
+import { Inject, Injectable } from '@angular/core'
 import { HttpClient, HttpParams } from '@angular/common/http'
 import {
     APP_EXAMPLE_ENVIRONMENT,
@@ -6,19 +6,23 @@ import {
 } from '@myorg/app-example-core'
 import { Observable } from 'rxjs'
 import { ApiResponse } from '@myorg/common-models'
-import { Appointment } from '@myorg/app-example-models'
+import { Appointment, AppointmentDto } from '@myorg/app-example-models'
+import { ApiService } from '@myorg/common-services'
 
 @Injectable({
     providedIn: 'root',
 })
-export class AppointmentApiService {
-    private http = inject(HttpClient)
-    private apiUrl = this.env.apiUrl
-
+export class AppointmentApiService extends ApiService<
+    Appointment,
+    AppointmentDto
+> {
     constructor(
+        protected override http: HttpClient,
         @Inject(APP_EXAMPLE_ENVIRONMENT)
         private env: AppExampleEnvironment,
-    ) {}
+    ) {
+        super(http, `${env.apiUrl}/appointments`)
+    }
 
     getAll(filterOptions: {
         search: string
@@ -42,38 +46,25 @@ export class AppointmentApiService {
                 params = params.set('orderBy', filterOptions.orderBy)
             }
         }
-        return this.http.get<ApiResponse<Appointment[]>>(
-            `${this.apiUrl}/appointments`,
-            { params },
-        )
+        return this.find(params)
     }
 
     getAppointment(id: string): Observable<ApiResponse<Appointment>> {
-        return this.http.get<ApiResponse<Appointment>>(
-            `${this.apiUrl}/appointments/${id}`,
-        )
+        return this.findById(id)
     }
 
     createAppointment(data: Appointment): Observable<ApiResponse<Appointment>> {
-        return this.http.post<ApiResponse<Appointment>>(
-            `${this.apiUrl}/appointments`,
-            data,
-        )
+        return this.create(data)
     }
 
     updateAppointment(
         id: string,
         data: Partial<Appointment>,
     ): Observable<ApiResponse<Appointment>> {
-        return this.http.put<ApiResponse<Appointment>>(
-            `${this.apiUrl}/appointments/${id}`,
-            data,
-        )
+        return this.update(id, data)
     }
 
-    deleteAppointment(id: string): Observable<ApiResponse<Appointment>> {
-        return this.http.delete<ApiResponse<Appointment>>(
-            `${this.apiUrl}/appointments/${id}`,
-        )
+    deleteAppointment(id: string): Observable<ApiResponse<unknown>> {
+        return this.delete(id)
     }
 }

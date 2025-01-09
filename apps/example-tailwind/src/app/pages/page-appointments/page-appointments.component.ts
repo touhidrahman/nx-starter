@@ -3,14 +3,13 @@ import { CommonModule } from '@angular/common'
 import { DropdownModule } from 'primeng/dropdown'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
-import { OrganizationFormService } from '@myorg/app-example-forms'
 import { PrimeModules } from '@myorg/prime-modules'
 import { AppointmentFilterComponent } from '../../main/appointment/components/appointment-filter/appointment-filter.component'
-import { AppointmentStateService } from '../../../../../../libs/app-example-states/src/lib/appointment-state.service'
 import { AppointmentTableComponent } from '../../main/appointment/components/appointment-table/appointment-table.component'
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog'
-import { AlertService } from '@myorg/app-example-core'
 import { AppointmentFormComponent } from '../../main/appointment/components/appointment-form/appointment-form.component'
+import { AppointmentListStateService } from '@myorg/app-example-states'
+import { AppointmentEditFormService } from '@myorg/app-example-forms'
 
 @Component({
     selector: 'app-page-appointments',
@@ -27,15 +26,13 @@ import { AppointmentFormComponent } from '../../main/appointment/components/appo
     templateUrl: './page-appointments.component.html',
     styleUrl: './page-appointments.component.scss',
     providers: [
-        AppointmentStateService,
-        OrganizationFormService,
+        AppointmentListStateService,
         DialogService,
+        AppointmentEditFormService,
     ],
 })
 export class PageAppointmentsComponent implements OnDestroy {
-    appointmentStateService = inject(AppointmentStateService)
-    organizationFormService = inject(OrganizationFormService)
-    alertService = inject(AlertService)
+    appointmentListStateService = inject(AppointmentListStateService)
     dialogService = inject(DialogService)
     editMode = signal(false)
 
@@ -43,37 +40,17 @@ export class PageAppointmentsComponent implements OnDestroy {
 
     show() {
         this.ref = this.dialogService.open(AppointmentFormComponent, {
-            header: this.editMode()
-                ? 'Update Appointment'
-                : 'Create Appointment',
-            closable: true,
-            data: { name: 'hmmurad' },
-            position: 'top',
+            header: 'Create Appointment',
             width: '50vw',
-        })
-
-        this.ref.onClose.subscribe((data) => {
-            console.log(data)
+            closable: true,
+            position: 'top',
         })
     }
 
     onSearch(value: Event) {
-        this.appointmentStateService.setState({
+        this.appointmentListStateService.setState({
             search: (value.target as HTMLInputElement).value,
         })
-    }
-
-    onSave() {
-        if (!this.editMode()) {
-            return
-        }
-        this.updateAppointment()
-    }
-
-    updateAppointment() {
-        const { selectedAppointment } = this.appointmentStateService.getState()
-        const formData = this.organizationFormService.getValue()
-        console.log('updating organization', selectedAppointment, formData)
     }
 
     ngOnDestroy() {
