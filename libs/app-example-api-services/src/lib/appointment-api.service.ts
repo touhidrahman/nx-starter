@@ -48,23 +48,4 @@ export class AppointmentApiService extends ApiService<
         }
         return this.find(params)
     }
-
-    getAppointment(id: string): Observable<ApiResponse<Appointment>> {
-        return this.findById(id)
-    }
-
-    createAppointment(data: Appointment): Observable<ApiResponse<Appointment>> {
-        return this.create(data)
-    }
-
-    updateAppointment(
-        id: string,
-        data: Partial<Appointment>,
-    ): Observable<ApiResponse<Appointment>> {
-        return this.update(id, data)
-    }
-
-    deleteAppointment(id: string): Observable<ApiResponse<unknown>> {
-        return this.delete(id)
-    }
 }

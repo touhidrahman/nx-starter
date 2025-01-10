@@ -4,7 +4,6 @@ import { Appointment } from '@myorg/app-example-models'
 import { combineLatest, debounceTime, switchMap, tap } from 'rxjs'
 import { AppointmentApiService } from '@myorg/app-example-api-services'
 import { AlertService } from '@myorg/app-example-core'
-import { AppointmentEditFormService } from '@myorg/app-example-forms'
 
 interface AppointmentListState {
     appointments: Appointment[]
@@ -25,13 +24,12 @@ const initialState: AppointmentListState = {
     page: 1,
     size: 10,
     total: 0,
-    orderBy: 'desc'
+    orderBy: 'desc',
 }
 
 @Injectable()
 export class AppointmentListStateService extends SimpleStore<AppointmentListState> {
     appointmentApiService = inject(AppointmentApiService)
-    appointmentEditFormService = inject(AppointmentEditFormService)
     alertService = inject(AlertService)
 
     constructor() {
@@ -76,25 +74,5 @@ export class AppointmentListStateService extends SimpleStore<AppointmentListStat
                     this.alertService.error(err.error.message)
                 },
             })
-    }
-
-    saveAppointment() {
-        this.setState({loading : true})
-        const {appointments} = this.getState()
-        this.appointmentEditFormService.save$().subscribe({
-            next: (value) => {
-                this.setState({
-                    appointments: [...appointments, value],
-                    loading: false
-                })
-                this.alertService.success('Appointment created successfully')
-            },
-            error: (err) => {
-                this.setState({
-                    loading: false
-                })
-                this.alertService.error(err.error.message)
-            },
-        })
     }
 }
