@@ -10,51 +10,46 @@ import { AppRouteHandler } from '../../../core/core.type'
 import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
-import { zSelectLawyer, zUpdateLawyer } from '../lawyer.schema'
-import { findLawyerById, updateLawyer } from '../lawyer.service'
-import {
-    USER_LEVEL_ADMIN,
-    USER_LEVEL_MODERATOR,
-} from '../../user/user.schema'
+import { UserLevel } from '../../../../../../libs/app-example-models/src'
 import { checkLevel } from '../../../core/middlewares/user-level.middleware'
+import { zSelectPlan, zUpdatePlan } from '../plan.schema'
+import { findPlanById, updatePlan } from '../plan.service'
 
-export const updateLawyerRoute = createRoute({
-    path: '/v1/Lawyers/:id',
+export const updatePlanRoute = createRoute({
+    path: '/v1/plans/:id',
     method: 'put',
-    tags: ['Lawyer'],
-    middleware: [checkToken, checkLevel([USER_LEVEL_ADMIN, USER_LEVEL_MODERATOR])] as const,
+    tags: ['Plan'],
+    middleware: [checkToken, checkLevel([UserLevel.Admin, UserLevel.Moderator])] as const,
     request: {
         params: z.object({ id: z.string() }),
-        body: jsonContent(zUpdateLawyer, 'Lawyer update details'),
+        body: jsonContent(zUpdatePlan, 'plan update details'),
     },
     responses: {
-        [OK]: ApiResponse(zSelectLawyer, 'Lawyer updated successfully'),
-        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid Lawyer data'),
-        [NOT_FOUND]: ApiResponse(zEmpty, 'Lawyer not found'),
+        [OK]: ApiResponse(zSelectPlan, 'plan updated successfully'),
+        [BAD_REQUEST]: ApiResponse(zEmpty, 'Invalid plan data'),
+        [NOT_FOUND]: ApiResponse(zEmpty, 'plan not found'),
         [INTERNAL_SERVER_ERROR]: ApiResponse(zEmpty, 'Internal server error'),
     },
 })
 
-export const updateLawyerHandler: AppRouteHandler<
-    typeof updateLawyerRoute
-> = async (c) => {
-    const LawyerId = c.req.param('id')
+export const updatePlanHandler: AppRouteHandler<typeof updatePlanRoute> = async (c) => {
+    const planId = c.req.param('id')
     const body = c.req.valid('json')
 
     try {
-        const existingLawyer = await findLawyerById(LawyerId)
-        if (!existingLawyer) {
+        const existingPlan = await findPlanById(planId)
+        if (!existingPlan) {
             return c.json(
                 { data: {}, message: 'Item not found', success: false },
                 NOT_FOUND,
             )
         }
 
-        const [updatedLawyer] = await updateLawyer(LawyerId, body)
+        const [updatedPlan] = await updatePlan(planId, body)
         return c.json(
             {
-                data: updatedLawyer,
-                message: 'Lawyer updated successfully',
+                data: updatedPlan,
+                message: 'plan updated successfully',
                 success: true,
             },
             OK,
@@ -72,7 +67,7 @@ export const updateLawyerHandler: AppRouteHandler<
             )
         }
         console.error(
-            'Error updating Lawyer:',
+            'Error updating plan:',
             error instanceof Error ? error.message : 'Unknown error',
         )
         if (error instanceof Error) console.error(error.stack)

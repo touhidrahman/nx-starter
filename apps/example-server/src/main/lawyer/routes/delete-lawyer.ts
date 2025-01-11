@@ -5,12 +5,17 @@ import { zEmpty } from '../../../core/models/common.schema'
 import { ApiResponse } from '../../../core/utils/api-response.util'
 import { checkToken } from '../../auth/auth.middleware'
 import { deleteLawyer, findLawyerById } from '../lawyer.service'
+import {
+    USER_LEVEL_ADMIN,
+    USER_LEVEL_MODERATOR,
+} from '../../user/user.schema'
+import { checkLevel } from '../../../core/middlewares/user-level.middleware'
 
 export const deleteLawyerRoute = createRoute({
     path: '/v1/lawyers/:id',
     method: 'delete',
     tags: ['Lawyer'],
-    middleware: [checkToken] as const,
+    middleware: [checkToken, checkLevel([USER_LEVEL_ADMIN, USER_LEVEL_MODERATOR])] as const,
     request: {
         params: z.object({ id: z.string() }),
     },

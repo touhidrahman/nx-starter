@@ -1,12 +1,23 @@
+export enum PlanRenewalType {
+    Auto = 'auto',
+    Manually = 'manually',
+}
+
 export interface PlanDto {
-    allowedUsage: string
-    cost: number
-    name: string
-    stripeId: string
+    name: string;
+    description?: string;
+    monthlyPrice: number;
+    yearlyPrice?: number;
+    discountPrice?: number;
+    isActive: boolean;
+    features?: string[];
+    tier?: string;
+    trialPeriodDays?: number;
+    renewalType: string;
 }
 
 export interface Plan extends PlanDto {
-    id: string
-    createdAt: Date
-    updatedAt: Date
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
 }

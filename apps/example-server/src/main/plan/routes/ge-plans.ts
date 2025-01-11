@@ -2,15 +2,14 @@ import { createRoute, z } from '@hono/zod-openapi'
 import { OK } from 'stoker/http-status-codes'
 import { AppRouteHandler } from '../../../core/core.type'
 import { ApiResponse } from '../../../core/utils/api-response.util'
-import { zSelectLawyer } from '../lawyer.schema'
-import { getAllLawyers } from '../lawyer.service'
+import { zSelectPlan } from '../plan.schema'
+import { getAllPlans } from '../plan.service'
 
-export const getLawyersRoute = createRoute({
-    path: '/v1/lawyers',
+
+export const getPlansRoute = createRoute({
+    path: '/v1/plans',
     method: 'get',
-    tags: ['Lawyer'],
-    //! TODO: don't active
-    // middleware: [checkToken, checkLevel([USER_LEVEL_ADMIN, USER_LEVEL_MODERATOR])] as const,
+    tags: ['Plan'],
     request: {
         query: z.object({
             search: z.string().optional(),
@@ -20,19 +19,17 @@ export const getLawyersRoute = createRoute({
         }),
     },
     responses: {
-        [OK]: ApiResponse(z.array(zSelectLawyer), 'List of Lawyers'),
+        [OK]: ApiResponse(z.array(zSelectPlan), 'List of Plans'),
     },
 })
 
-export const getLawyersHandler: AppRouteHandler<
-    typeof getLawyersRoute
-> = async (c) => {
+export const getPlansHandler: AppRouteHandler<typeof getPlansRoute> = async (c) => {
     const { search, page, size, orderBy } = c.req.query()
 
     const pageNumber = Number(page)
     const limitNumber = Number(size)
 
-    const { data, meta } = await getAllLawyers({
+    const { data, meta } = await getAllPlans({
         search,
         page: pageNumber,
         size: limitNumber,
@@ -47,7 +44,7 @@ export const getLawyersHandler: AppRouteHandler<
                 size: meta.size,
                 total: meta.totalCount,
             },
-            message: 'Lawyer list',
+            message: 'Plan list',
             success: true,
         },
         OK,
