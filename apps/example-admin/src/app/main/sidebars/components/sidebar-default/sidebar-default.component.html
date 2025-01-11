@@ -97,6 +97,17 @@
         </li>
         <li>
             <a
+                [routerLink]="['/plan-list']"
+                routerLinkActive="bg-green-800 hover:bg-green-700 "
+                class="flex items-center gap-4 rounded-sm px-4 py-2 font-medium text-black hover:bg-green-100">
+                <i class="pi pi-dollar !text-2xl"></i>
+                <span class="font-medium" *ngIf="!isCollapsed"
+                    >Plan List</span
+                >
+            </a>
+        </li>
+        <li>
+            <a
                 [routerLink]="['/blogs']"
                 routerLinkActive="bg-green-800 hover:bg-green-700 "
                 class="flex items-center gap-4 rounded-sm px-4 py-2 font-medium text-black hover:bg-green-100">

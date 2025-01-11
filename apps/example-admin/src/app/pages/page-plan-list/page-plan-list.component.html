@@ -1,0 +1,40 @@
+<section>
+    <div class="flex justify-between">
+        <h1 class="text-2xl font-bold">Plan List</h1>
+        <p-button
+            label="Add Plan"
+            icon="pi pi-plus"
+            iconPos="left"
+            (onClick)="openDialog()"></p-button>
+    </div>
+    <div class="my-5 flex items-center justify-between">
+        <div class="flex items-center justify-start gap-3">
+            <div>
+                <p-button
+                    label="Filters"
+                    icon="pi pi-filter"
+                    iconPos="left"></p-button>
+            </div>
+            <div
+                class="flex items-center justify-start gap-2 rounded-md bg-gray-200 p-1 px-3">
+                <p-select
+                    size="small"
+                    styleClass="{'border-radius': '24px'}"
+                    placeholder="Select a Status"
+                    class="w-full md:w-56" />
+                <p-select
+                    size="small"
+                    placeholder="Sorting"
+                    class="w-full md:w-56" />
+            </div>
+        </div>
+        <div class="flex items-center justify-end gap-3">
+            <div class="flex items-center justify-start gap-2">
+                <input type="text" pInputText size="small" />
+                <p-button icon="pi pi-search" size="large" />
+            </div>
+        </div>
+    </div>
+</section>
+
+

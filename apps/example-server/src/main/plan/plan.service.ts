@@ -1,9 +1,9 @@
 import { and, eq, getTableColumns, ilike, sql, SQL } from 'drizzle-orm'
-import { lawyerTable } from '../../core/db/schema'
+import { pricingPlanTable } from '../../core/db/schema'
 import { db } from '../../core/db/db'
-import { InsertLawyer } from './lawyer.schema'
+import { InsertPlan } from './plan.schema'
 
-export const getAllLawyers = async (params: {
+export const getAllPlans = async (params: {
     search: string
     page: number
     size: number
@@ -16,7 +16,7 @@ export const getAllLawyers = async (params: {
     if (search) {
         const searchTerm = `%${search}%`
         conditions.push(
-            sql`(${ilike(lawyerTable.email, searchTerm)} OR ${ilike(lawyerTable.phoneNumber, searchTerm)} )`,
+            sql`(${ilike(pricingPlanTable.name, searchTerm)} OR ${ilike(pricingPlanTable.tier, searchTerm)} )`,
         )
     }
 
@@ -25,9 +25,9 @@ export const getAllLawyers = async (params: {
 
     const query = db
         .select({
-            ...getTableColumns(lawyerTable),
+            ...getTableColumns(pricingPlanTable),
         })
-        .from(lawyerTable)
+        .from(pricingPlanTable)
         .limit(size)
         .offset(offset)
 
@@ -37,7 +37,7 @@ export const getAllLawyers = async (params: {
 
     if (orderBy) {
         const direction = orderBy.toLowerCase() === 'desc' ? 'DESC' : 'ASC'
-        query.orderBy(sql`${lawyerTable.createdAt} ${sql.raw(direction)}`)
+        query.orderBy(sql`${pricingPlanTable.createdAt} ${sql.raw(direction)}`)
     }
 
     const results = await query
@@ -46,7 +46,7 @@ export const getAllLawyers = async (params: {
         .select({
             count: sql<number>`count(*)`,
         })
-        .from(lawyerTable)
+        .from(pricingPlanTable)
 
     if (whereClause) {
         totalCountQuery.where(whereClause)
@@ -66,27 +66,24 @@ export const getAllLawyers = async (params: {
     }
 }
 
-// find specific lawyer by id
-export const findLawyerById = async (id: string) =>
-    db.query.lawyerTable.findFirst({
-        where: eq(lawyerTable.id, id),
+// find specific plan by id
+export const findPlanById = async (id: string) =>
+    db.query.pricingPlanTable.findFirst({
+        where: eq(pricingPlanTable.id, id),
     })
 
-// Insert a new lawyer.
-export const createLawyer = async (lawyerItem: InsertLawyer) =>
-    await db.insert(lawyerTable).values(lawyerItem).returning()
+// Insert a new plan.
+export const createPlan = async (planItem: InsertPlan) =>
+    await db.insert(pricingPlanTable).values(planItem).returning()
 
-// Update an existing lawyer by ID.
-export const updateLawyer = async (
-    id: string,
-    lawyerItem: Partial<InsertLawyer>,
-) =>
+// Update an existing plan by ID.
+export const updatePlan = async (id: string, planItem: Partial<InsertPlan>) =>
     db
-        .update(lawyerTable)
-        .set(lawyerItem)
-        .where(eq(lawyerTable.id, id))
+        .update(pricingPlanTable)
+        .set(planItem)
+        .where(eq(pricingPlanTable.id, id))
         .returning()
 
-// Remove a lawyer by ID.
-export const deleteLawyer = async (id: string) =>
-    db.delete(lawyerTable).where(eq(lawyerTable.id, id)).returning()
+// Remove a plan by ID.
+export const deletePlan = async (id: string) =>
+    db.delete(pricingPlanTable).where(eq(pricingPlanTable.id, id)).returning()

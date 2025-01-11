@@ -119,6 +119,14 @@ export const appRoutes: Route[] = [
         resolve: { layout: setLayout(PageLayout.Default) },
     },
     {
+        path: 'plan-list',
+        loadComponent: () =>
+            import('./pages/page-plan-list/page-plan-list.component').then(
+                (c) => c.PagePlanListComponent,
+            ),
+        resolve: { layout: setLayout(PageLayout.Default) },
+    },
+    {
         path: 'blogs',
         loadComponent: () =>
             import('./pages/page-blog/page-blog.component').then(
