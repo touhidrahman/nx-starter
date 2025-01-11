@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core'
-import { environment } from '../../../../environment/environment'
+import { environment } from '../../../../apps/example-tailwind/src/environment/environment'
 import { HttpClient } from '@angular/common/http'
 
 @Injectable()
-export class EventService {
+export class EventApiService {
     http = inject(HttpClient)
     apiUrl = environment.apiUrl
 

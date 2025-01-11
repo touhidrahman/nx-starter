@@ -38,6 +38,8 @@ import { FileUpload } from 'primeng/fileupload'
 import { DropdownModule } from 'primeng/dropdown'
 import { RadioButton } from 'primeng/radiobutton'
 import { ProgressSpinnerModule } from 'primeng/progressspinner'
+import { DynamicDialogModule } from 'primeng/dynamicdialog'
+import { DatePickerModule } from 'primeng/datepicker'
 
 export const PrimeModules = [
     AutoComplete,
@@ -50,9 +52,11 @@ export const PrimeModules = [
     ConfirmPopupModule,
     ConfirmPopupModule,
     ContextMenuModule,
+    DatePickerModule,
     Dialog,
     DividerModule,
     DropdownModule,
+    DynamicDialogModule,
     FileUpload,
     FloatLabel,
     IconField,

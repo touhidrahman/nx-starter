@@ -1,297 +1,45 @@
-<div class="overflow-hidden">
-    <h1 class="text-4xl font-semibold">Appointments</h1>
-    <!-- filter row -->
-    <div class="mt-4 flex items-center justify-between">
-        <div class="flex items-center justify-center gap-4">
-            <button
-                (click)="toggleFilter()"
-                class="text-gray3a bg-lightGreen flex items-center justify-center gap-1.5 rounded-xl p-2.5 text-2xl font-normal shadow-md shadow-black/20 lg:px-5 lg:py-2.5">
-                <span
-                    class="pi pi-filter-slash !text-xl !font-extrabold"></span>
-                <span class="text-gray3a hidden text-2xl font-normal lg:inline"
-                    >Filters</span
-                >
-            </button>
-
-            <div
-                class="flex items-center justify-center gap-3 rounded-xl bg-white px-5 py-3 shadow-md shadow-black/20 lg:px-8 lg:py-5">
-                <button
-                    class="border-graybc text-primary-gray flex items-center justify-center gap-1.5 rounded-xl border px-3 text-lg">
-                    Confirmed
-                    <span
-                        class="pi pi-sort-down-fill !text-xs !text-[#696969]"></span>
-                </button>
-                <button
-                    class="border-graybc text-primary-gray flex items-center justify-center gap-1.5 rounded-xl border px-3 text-lg">
-                    Sorting
-                    <span
-                        class="pi pi-sort-down-fill !text-xs !text-[#696969]"></span>
-                </button>
-            </div>
-        </div>
-
-        <div class="flex items-center justify-center gap-4">
-            <div class="flex items-center justify-center gap-2.5">
+<section>
+    <h2 class="text-4xl font-bold leading-10">Appointments</h2>
+    <div class="my-5 mb-3 flex items-center justify-between">
+        <app-appointment-filter></app-appointment-filter>
+        <div class="flex items-center justify-end gap-3">
+            <div class="flex items-center justify-start gap-2">
                 <input
-                    class="hidden h-11 w-56 rounded-xl bg-white px-3 shadow-md shadow-black/20 lg:inline-block"
                     type="text"
-                    placeholder="Search" />
-
-                <div
-                    class="bg-lightGreen flex items-center justify-center rounded-xl p-3 shadow-md shadow-black/20">
-                    <span class="pi pi-search !text-[1.2rem] !font-bold"></span>
-                </div>
+                    pInputText
+                    size="small"
+                    (input)="onSearch($event)" />
+                <p-button
+                    styleClass="bg-green"
+                    size="large"
+                    icon="pi pi-search" />
             </div>
-
-            <button
-                (click)="showCreatePopUp()"
-                class="bg-green flex items-center justify-center gap-1.5 rounded-xl p-3 text-2xl font-medium text-white lg:px-5 lg:py-2.5">
-                <span class="pi pi-plus !text-[1.1rem] !font-bold"></span>
-                <span
-                    class="hidden whitespace-nowrap text-2xl font-medium text-white lg:inline"
-                    >Create Appointment</span
-                >
-            </button>
+            <p-button
+                size="small"
+                styleClass="bg-green py-2"
+                (onClick)="show('create')">
+                <i class="pi pi-plus"></i> Create</p-button
+            >
         </div>
     </div>
 
-    <!-- filter options row -->
-    <div
-        *ngIf="showFilter"
-        class="mt-4 rounded-lg border bg-white p-4 shadow-sm">
-        <div class="flex gap-6">
-            <div class="flex items-center">
-                <h1 class="mr-2 font-bold">Status:</h1>
-                <!-- toggle btn -->
-                <label for="toggle" class="flex cursor-pointer items-center">
-                    <div class="relative">
-                        <input type="checkbox" id="toggle" class="sr-only" />
-                        <div
-                            class="block h-7 w-12 rounded-full bg-gray-600"></div>
-                        <div
-                            class="dot absolute left-1 top-1 h-5 w-5 rounded-full bg-white transition"></div>
-                    </div>
-                    &nbsp; Active
-                </label>
-            </div>
-            <div>
-                <div class="flex items-center gap-2">
-                    <h1 class="mr-2 font-bold">Priority:</h1>
-                    <p-dropdown
-                        [(ngModel)]="selectedOption"
-                        [options]="Options"
-                        optionLabel="name"
-                        placeholder="Select an Option"
-                        class="w-56 bg-slate-100" />
+    <div>
+        <div class="rounded-md">
+            @if (appointmentListStateService.select('loading') | async) {
+                <div class="text-center">
+                    <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- <div class="table-shadow my-3 h-screen rounded-lg bg-white">
-        <table class="w-full rounded-lg">
-            <thead
-                class="border-green rounded-t-lg border-b bg-gray-50 dark:bg-gray-700">
-                <tr class="rounded-t-lg">
-                    @for (tableTitle of tableTitles; track $index) {
-                        <th
-                            class="whitespace-nowrap px-3 py-4 text-left text-xl font-medium">
-                            {{ tableTitle }}
-                        </th>
-                    }
-                </tr>
-            </thead>
-            <tbody
-                class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-800">
-                @for (user of users; track user) {
-                    <tr class="cursor-pointer">
-                        <td
-                            class="text-primary-gray whitespace-nowrap px-3 py-4 text-left text-xl font-medium dark:text-white">
-                            {{ user.Date }}
-                        </td>
-                        <td
-                            class="text-primary-gray whitespace-nowrap px-3 py-4 text-left text-xl font-medium dark:text-white">
-                            {{ user.ClientName }}
-                        </td>
-                        <td
-                            class="text-primary-gray whitespace-nowrap px-3 py-4 text-left text-xl font-medium dark:text-white">
-                            {{ user.CaseSubject }}
-                        </td>
-                        <td
-                            class="text-primary-gray whitespace-nowrap px-3 py-4 text-left text-xl font-medium dark:text-white">
-                            {{ user.Location }}
-                        </td>
-                        <td
-                            class="text-primary-gray whitespace-nowrap px-3 py-4 text-left text-xl font-medium dark:text-white">
-                            {{ user.Contact }}
-                        </td>
-                        <td
-                            class="whitespace-nowrap px-3 py-4 text-left text-xl font-medium dark:text-white"
-                            [ngStyle]="{
-                                color: setColor(user.Status.toLowerCase()),
-                            }">
-                            {{ user.Status }}
-                        </td>
-                        <td
-                            class="text-primary-gray whitespace-nowrap px-3 py-4 text-left text-xl font-medium dark:text-white">
-                            {{ user.Type }}
-                        </td>
-                        <td
-                            class="text-primary-gray flex items-center justify-center gap-3.5 whitespace-nowrap px-3 py-4 text-xl font-medium dark:text-white">
-                            <button (click)="showEditPopUp()">
-                                <svg
-                                    width="20"
-                                    height="21"
-                                    viewBox="0 0 20 21"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M18.04 11.13C18.18 11.13 18.31 11.19 18.42 11.3L19.7 12.58C19.92 12.79 19.92 13.14 19.7 13.35L18.7 14.35L16.65 12.3L17.65 11.3C17.76 11.19 17.9 11.13 18.04 11.13ZM16.07 12.88L18.12 14.93L12.06 21H10V18.94L16.07 12.88ZM8 18L6 20H2C0.9 20 0 19.1 0 18V4C0 2.9 0.9 2 2 2H6.18C6.6 0.84 7.7 0 9 0C10.3 0 11.4 0.84 11.82 2H16C17.1 2 18 2.9 18 4V8L16 10V4H14V6H4V4H2V18H8ZM9 2C8.45 2 8 2.45 8 3C8 3.55 8.45 4 9 4C9.55 4 10 3.55 10 3C10 2.45 9.55 2 9 2Z"
-                                        fill="#434343" />
-                                </svg>
-                            </button>
-                            <button>
-                                <svg
-                                    width="16"
-                                    height="18"
-                                    viewBox="0 0 16 18"
-                                    fill="none"
-                                    xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M5 0V1H0V3H1V16C1 16.5304 1.21071 17.0391 1.58579 17.4142C1.96086 17.7893 2.46957 18 3 18H13C13.5304 18 14.0391 17.7893 14.4142 17.4142C14.7893 17.0391 15 16.5304 15 16V3H16V1H11V0H5ZM3 3H13V16H3V3ZM5 5V14H7V5H5ZM9 5V14H11V5H9Z"
-                                        fill="#434343" />
-                                </svg>
-                            </button>
-                        </td>
-                    </tr>
+            } @else {
+                @let appointments =
+                    appointmentListStateService.select('appointments') | async;
+                @if (appointments !== null && appointments.length > 0) {
+                    <app-appointment-table
+                        [appointments]="appointments"
+                        [(editMode)]="editMode"></app-appointment-table>
+                } @else {
+                    <div class="mt-6 text-center">No appointments found!</div>
                 }
-            </tbody>
-        </table>
-    </div> -->
-
-    <div class="my-10 rounded-xl bg-white p-4">
-        <div class="card">
-            <p-table [value]="users" [tableStyle]="{ 'min-width': '50rem' }">
-                <ng-template #header>
-                    <tr>
-                        <th>Date</th>
-                        <th>Client Name</th>
-                        <th>Case/Subject</th>
-                        <th>Location</th>
-                        <th>Contact</th>
-                        <th>Status</th>
-                        <th>Type</th>
-                        <th>Action</th>
-                    </tr>
-                </ng-template>
-                <ng-template #body let-user>
-                    <tr>
-                        <td>{{ user.Date }}</td>
-                        <td>{{ user.ClientName }}</td>
-                        <td>{{ user.CaseSubject }}</td>
-                        <td>{{ user.Location }}</td>
-                        <td>{{ user.Contact }}</td>
-                        <td
-                            [ngClass]="{
-                                'text-green15b': user.Status === 'Open',
-                                'text-red-500': user.Status === 'Pending',
-                                'text-gray-500':
-                                    user.Status !== 'Open' &&
-                                    user.Status !== 'Pending',
-                            }">
-                            {{ user.Status }}
-                        </td>
-                        <td>{{ user.Type }}</td>
-                        <td class="">
-                            <button (click)="showEditPopUp()" class="mr-3">
-                                <span class="pi pi-file-edit"></span>
-                            </button>
-                            <button>
-                                <span class="pi pi-trash"></span>
-                            </button>
-                        </td>
-                    </tr>
-                </ng-template>
-            </p-table>
+            }
         </div>
     </div>
-</div>
-
-<!-- pop up -->
-@if (popUpState.visiblity) {
-    <div class="absolute left-0 top-0 z-50 h-full w-full overflow-x-hidden">
-        <div class="h-full w-full bg-[#ffffff80] blur-3xl"></div>
-
-        <div
-            class="border-grayf1 absolute left-1/2 top-1/2 mx-auto w-4/5 -translate-x-1/2 -translate-y-1/2 rounded-xl border-2 bg-white py-5">
-            <div class="flex items-center justify-between px-8">
-                <h2 class="text-gray3a text-4xl font-semibold">
-                    {{
-                        popUpState.createMode
-                            ? 'Create Appointment'
-                            : 'Edit Appointment'
-                    }}
-                </h2>
-                <span (click)="hidePopUp()">
-                    <span class="pi pi-times"></span>
-                </span>
-            </div>
-
-            <form class="px-12 pt-4">
-                <label class="label" for="ClientName"> Client Name</label>
-                <input type="text" name="" id="ClientName" class="input" />
-
-                <label class="label" for="Case/Subject"> Case/Subject</label>
-                <input type="text" name="" id="Case/Subject" class="input" />
-
-                <div class="grid grid-cols-2 gap-5">
-                    <div class="col-span-1">
-                        <label class="label" for="Date">Date</label>
-                        <input type="text" name="" id="Date" class="input" />
-                    </div>
-
-                    <div class="col-span-1">
-                        <label class="label" for="Type"> Type</label>
-                        <input type="text" name="" id="Type" class="input" />
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-3 gap-5">
-                    <div class="grid-cols-1">
-                        <label class="label" for="Status"> Status</label>
-                        <input type="text" name="" id="Status" class="input" />
-                    </div>
-
-                    <div class="grid-cols-1">
-                        <label class="label" for="Location">Location</label>
-                        <input
-                            type="text"
-                            name=""
-                            id="Location"
-                            class="input" />
-                    </div>
-                </div>
-
-                <label class="label" for="notes">Notes</label>
-                <textarea
-                    name=""
-                    id="notes"
-                    class="border-grayD block h-28 w-full resize-none rounded-lg border"></textarea>
-
-                <div class="block space-x-5 pb-7 pt-5 text-right">
-                    <button
-                        (click)="hidePopUp()"
-                        class="bg-lightGreen btn-shadow rounded-md px-4 py-1 text-sm"
-                        type="button">
-                        Cancel
-                    </button>
-                    <button
-                        class="bg-green btn-shadow rounded-md px-4 py-1 text-sm text-white"
-                        type="submit">
-                        {{ popUpState.createMode ? 'Save' : 'Update' }}
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-}
+</section>

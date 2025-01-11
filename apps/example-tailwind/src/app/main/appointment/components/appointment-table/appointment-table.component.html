@@ -1,0 +1,43 @@
+<div class="card">
+    @let state = appointmentListStateService.selectAll() | async;
+    <p-table
+        [value]="appointments()"
+        [paginator]="true"
+        [first]="0"
+        [rows]="state?.size"
+        [tableStyle]="{ 'min-width': '50rem' }"
+        [globalFilterFields]="['name', 'defendant', 'court', 'status']"
+        [rowsPerPageOptions]="[5, 10, 20]">
+        <ng-template #header>
+            <tr>
+                <th style="width: 15%">Group ID</th>
+                <th style="width: 15%">Actions</th>
+            </tr>
+        </ng-template>
+        <ng-template #body let-data>
+            <tr>
+                <td>{{ data.groupId }}</td>
+                <td class="flex items-center justify-start gap-3">
+                    <p-button
+                        severity="info"
+                        icon="pi pi-eye"
+                        size="small"
+                        [raised]="true"
+                        (click)="show()" />
+                    <p-button
+                        styleClass="bg-green"
+                        icon="pi pi-pen-to-square"
+                        size="small"
+                        [raised]="true"
+                        (click)="onEdit('edit', data)" />
+                    <p-button
+                        severity="warn"
+                        icon="pi pi-trash"
+                        size="small"
+                        [raised]="true"
+                        (click)="delete(data.id)" />
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

@@ -1,15 +1,77 @@
-import { and, count, eq } from 'drizzle-orm'
+import { and, count, eq, getTableColumns, ilike, sql, SQL } from 'drizzle-orm'
 import { db } from '../../core/db/db'
 import { appointmentsTable } from '../../core/db/schema'
 import { InsertAppointment } from './appointments.schema'
 
 // Retrieve all appointments by group ID, limiting results to 100.
-export const findAppointmentsByGroupId = async (groupId: string) =>
-    db
-        .select()
+export const findAppointmentsByGroupId = async (params: {
+    groupId: string
+    search: string
+    page: number
+    size: number
+    orderBy?: string
+}) => {
+    const { groupId, search, page, size, orderBy } = params
+
+    const conditions: SQL<unknown>[] = []
+
+    if (groupId) {
+        conditions.push(eq(appointmentsTable.groupId, groupId))
+    }
+
+    if (search) {
+        const searchTerm = `%${search}%`
+        conditions.push(
+            sql`(${ilike(appointmentsTable.description, searchTerm)} OR ${ilike(appointmentsTable.notesForVendor, searchTerm)})`,
+        )
+    }
+
+    const whereClause = conditions.length > 0 ? and(...conditions) : undefined
+
+    const offset = (page - 1) * size
+
+    const query = db
+        .select({
+            ...getTableColumns(appointmentsTable),
+        })
         .from(appointmentsTable)
-        .where(eq(appointmentsTable.groupId, groupId))
-        .limit(100)
+        .limit(size)
+        .offset(offset)
+
+    if (whereClause) {
+        query.where(whereClause)
+    }
+
+    if (orderBy) {
+        const direction = orderBy.toLowerCase() === 'desc' ? 'DESC' : 'ASC'
+        query.orderBy(sql`${appointmentsTable.createdAt} ${sql.raw(direction)}`)
+    }
+
+    const results = await query
+
+    const totalCountQuery = db
+        .select({
+            count: sql`count(*)`.as<number>(),
+        })
+        .from(appointmentsTable)
+
+    if (whereClause) {
+        totalCountQuery.where(whereClause)
+    }
+
+    const totalCountResult = await totalCountQuery
+    const totalCount = totalCountResult[0]?.count || 0
+
+    return {
+        data: results,
+        meta: {
+            page,
+            size,
+            totalCount,
+            totalPages: Math.ceil(totalCount / size),
+        },
+    }
+}
 
 // Retrieve a specific appointment by ID.
 export const findAppointmentById = async (id: string) =>

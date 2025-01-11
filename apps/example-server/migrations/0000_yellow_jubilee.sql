@@ -151,6 +151,34 @@ CREATE TABLE "invoices" (
 	CONSTRAINT "invoices_invoice_code_unique" UNIQUE("invoice_code")
 );
 --> statement-breakpoint
+CREATE TABLE "lawyers" (
+	"id" text PRIMARY KEY NOT NULL,
+	"name" text NOT NULL,
+	"institute_name" text NOT NULL,
+	"practice_start_year" integer,
+	"lawyer_type" text NOT NULL,
+	"phone_number" text,
+	"email" text,
+	"profile_image_url" text,
+	"cover_image_url" text,
+	"description" text,
+	"rating" double precision DEFAULT 0,
+	"address" text,
+	"city" text,
+	"district" text,
+	"post_code" text,
+	"website" text,
+	"business_hours" text,
+	"sponsored" boolean DEFAULT false,
+	"sponsored_until" text,
+	"interested_area" text,
+	"institution_id" text,
+	"latitude" text,
+	"longitude" text,
+	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
+	"updated_at" timestamp with time zone NOT NULL
+);
+--> statement-breakpoint
 CREATE TABLE "messages" (
 	"id" text PRIMARY KEY NOT NULL,
 	"vendor_user_id" text NOT NULL,

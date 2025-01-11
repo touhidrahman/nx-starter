@@ -1,18 +1,17 @@
-import { Component } from '@angular/core'
+import { Component, inject, signal } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { DropdownModule } from 'primeng/dropdown'
-import { FormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
-import { TableModule } from 'primeng/table'
-interface Case {
-    name: string
-    phone: string
-    email: string
-    location: string
-    date: string
-    status: string
-    caseType: string
-}
+import { OrganizationStateService } from '@myorg/app-example-states'
+import { OrganizationFormService } from '@myorg/app-example-forms'
+import {
+    OrganizationStatusEnum,
+    OrganizationTypeEnum,
+} from '@myorg/app-example-models'
+import { ClientFilterComponent } from '../../main/client/components/client-filter.component'
+import { PrimeModules } from '@myorg/prime-modules'
+import { ClientTableComponent } from '../../main/client/components/client-table.component'
 
 @Component({
     selector: 'app-page-clients',
@@ -21,83 +20,51 @@ interface Case {
         DropdownModule,
         FormsModule,
         RouterModule,
-        TableModule,
+        PrimeModules,
+        ReactiveFormsModule,
+        ClientFilterComponent,
+        ClientTableComponent,
     ],
     templateUrl: './page-clients.component.html',
     styleUrl: './page-clients.component.scss',
+    providers: [OrganizationStateService, OrganizationFormService],
 })
 export class PageClientsComponent {
-    showFilter = true
+    organizationStateService = inject(OrganizationStateService)
+    organizationFormService = inject(OrganizationFormService)
+    type = Object.values(OrganizationTypeEnum)
+    status = Object.values(OrganizationStatusEnum)
+    selected = ''
+    visible = signal(false)
+    editMode = signal(false)
 
-    toggleFilter() {
-        this.showFilter = !this.showFilter
+    onSearch(value: Event) {
+        this.organizationStateService.setState({
+            query: (value.target as HTMLInputElement).value,
+        })
     }
 
-    users: Case[] = [
-        {
-            name: 'Ariful Hoque',
-            phone: '+88016 000 0000',
-            email: 'ariful@gmail.com',
-            location: 'Chittagong',
-            date: '10/12/2024',
-            status: 'Pending',
-            caseType: 'Personal Injury',
-        },
-        {
-            name: 'Ariful Hoque',
-            phone: '+88016 000 0000',
-            email: 'ariful@gmail.com',
-            location: 'Chittagong',
-            date: '10/12/2024',
-            status: 'Open',
-            caseType: 'Personal Injury',
-        },
-        {
-            name: 'Ariful Hoque',
-            phone: '+88016 000 0000',
-            email: 'ariful@gmail.com',
-            location: 'Chittagong',
-            date: '10/12/2024',
-            status: 'Closed',
-            caseType: 'Personal Injury',
-        },
-    ]
+    openCreateOrganizationModal() {
+        this.editMode.set(false)
+        this.visible.set(true)
+    }
 
-    tableTitles: string[] = [
-        'Case Name',
-        'Contact',
-        'Email',
-        'Address',
-        'Date Opened',
-        'Case Status',
-        'Case Type',
-        'Action',
-    ]
+    cancel() {
+        this.editMode.set(false)
+        this.visible.set(false)
+    }
 
-    setColor(value: string) {
-        if (value === 'open') {
-            return '#0b9c2b'
+    onSave() {
+        if (!this.editMode()) {
+            return
         }
-        if (value === 'pending') {
-            return '#9c0b0b'
-        }
-
-        return '#989898'
+        this.updateOrganization()
     }
 
-    popUpState = {
-        visiblity: false,
-        createMode: false,
+    updateOrganization() {
+        const { selectedOrganization } =
+            this.organizationStateService.getState()
+        const formData = this.organizationFormService.getValue()
+        console.log('updating organization', selectedOrganization, formData)
     }
-
-    showEditPopUp() {
-        this.popUpState.visiblity = true
-        this.popUpState.createMode = false
-    }
-    hidePopUp() {
-        this.popUpState.visiblity = false
-    }
-
-    Options = [{ name: 'Low' }, { name: 'High' }]
-    selectedOption: undefined
 }
